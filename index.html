@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4F46E5">
+    <title>רשימת קניות משפחתית</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3pwFMmo4mMjxgzUz5oPynt0D68Yy3Iz0",
+            authDomain: "shooping-list-d846b.firebaseapp.com",
+            projectId: "shooping-list-d846b",
+            storageBucket: "shooping-list-d846b.firebasestorage.app",
+            messagingSenderId: "1099114666122",
+            appId: "1:1099114666122:web:5c704bf2da52aa3ca63573"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        window.db = getFirestore(app);
+        window.firestore = { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy };
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const CATEGORIES = {
+            fruits: 'פירות וירקות', dairy: 'חלבי', desserts: 'מעדני חלב',
+            meat: 'בשר ודגים', deli: 'מעדנייה', bakery: 'לחם ומאפים',
+            cereals: 'דגנים וקורנפלקס', canned: 'שימורים ומזון יבש',
+            spices: 'תבלינים ובישול', coffee: 'קפה ותה', drinks: 'משקאות',
+            snacks: 'חטיפים וממתקים', frozen: 'קפואים', health: 'דיאטה וחלבון',
+            hygiene: 'היגיינה ורחצה', cleaning: 'ניקיון', candles: 'נרות ושמן', other: 'אחר'
+        };
+
+        const FAMILY_MEMBERS = [
+            { id: 'member1', name: 'אבא', color: 'bg-blue-100 text-blue-800 border-blue-300' },
+            { id: 'member2', name: 'אמא', color: 'bg-pink-100 text-pink-800 border-pink-300' },
+            { id: 'member3', name: 'עמית', color: 'bg-green-100 text-green-800 border-green-300' },
+            { id: 'member4', name: 'רוני', color: 'bg-yellow-100 text-yellow-800 border-yellow-300' },
+            { id: 'member5', name: 'נועה', color: 'bg-purple-100 text-purple-800 border-purple-300' },
+            { id: 'member6', name: 'מאור', color: 'bg-orange-100 text-orange-800 border-orange-300' }
+        ];
+
+        const PRODUCTS = [
+            { name: 'חלב', category: 'dairy' }, { name: 'לבן', category: 'dairy' },
+            { name: 'גבינה צהובה', category: 'dairy' }, { name: 'ביצים', category: 'dairy' },
+            { name: 'עגבניות', category: 'fruits' }, { name: 'מלפפונים', category: 'fruits' },
+            { name: 'בצל', category: 'fruits' }, { name: 'תפוחי אדמה', category: 'fruits' },
+            { name: 'בננות', category: 'fruits' }, { name: 'תפוחים', category: 'fruits' },
+            { name: 'לחם', category: 'bakery' }, { name: 'חלה', category: 'bakery' },
+            { name: 'עוף שלם', category: 'meat' }, { name: 'בשר טחון', category: 'meat' },
+            { name: 'מילקי', category: 'desserts' }, { name: 'יוגורט', category: 'dairy' },
+            { name: 'אורז', category: 'canned' }, { name: 'פסטה', category: 'canned' },
+            { name: 'שמן זית', category: 'canned' }, { name: 'קפה', category: 'coffee' },
+            { name: 'תה', category: 'coffee' }, { name: 'סוכר', category: 'spices' },
+            { name: 'מלח', category: 'spices' }, { name: 'קורנפלקס', category: 'cereals' },
+            { name: 'במבה', category: 'snacks' }, { name: 'ביסלי', category: 'snacks' },
+            { name: 'גלידה', category: 'frozen' }, { name: 'נייר טואלט', category: 'cleaning' },
+            { name: 'סבון כלים', category: 'cleaning' }, { name: 'שמפו', category: 'hygiene' }
+        ];
+
+        function LoginScreen({ onLogin }) {
+            const [customName, setCustomName] = useState('');
+            const [showCustomInput, setShowCustomInput] = useState(false);
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
+                        <div className="text-center mb-8">
+                            <div className="text-6xl mb-4">🛒</div>
+                            <h1 className="text-3xl font-bold text-gray-800 mb-2">רשימת קניות משפחתית</h1>
+                            <p className="text-gray-600">בחר את השם שלך</p>
+                            <div className="mt-2 px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
+                                <p className="text-sm text-green-800">✨ מסונכרן בזמן אמת!</p>
+                            </div>
+                        </div>
+                        <div className="space-y-3 mb-6">
+                            {FAMILY_MEMBERS.map(member => (
+                                <button key={member.id} onClick={() => onLogin(member)}
+                                    className={`w-full p-4 rounded-lg border-2 ${member.color} hover:shadow-lg transition-all font-semibold text-lg`}>
+                                    {member.name}
+                                </button>
+                            ))}
+                        </div>
+                        {showCustomInput ? (
+                            <div className="flex gap-2">
+                                <input type="text" value={customName} onChange={e => setCustomName(e.target.value)}
+                                    placeholder="הכנס שם..." className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg"
+                                    onKeyPress={e => e.key === 'Enter' && customName.trim() && onLogin({ id: 'custom_' + Date.now(), name: customName.trim(), color: 'bg-gray-100 text-gray-800 border-gray-300' })} />
+                                <button onClick={() => customName.trim() && onLogin({ id: 'custom_' + Date.now(), name: customName.trim(), color: 'bg-gray-100 text-gray-800 border-gray-300' })}
+                                    className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold">
+                                    כניסה
+                                </button>
+                            </div>
+                        ) : (
+                            <button onClick={() => setShowCustomInput(true)}
+                                className="w-full p-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-indigo-400">
+                                + שם אחר
+                            </button>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        function ShoppingList() {
+            const [currentUser, setCurrentUser] = useState(null);
+            const [items, setItems] = useState([]);
+            const [showAddProduct, setShowAddProduct] = useState(false);
+            const [selectedCategory, setSelectedCategory] = useState('all');
+            const [newProductName, setNewProductName] = useState('');
+            const [newProductCategory, setNewProductCategory] = useState('other');
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                const savedUser = localStorage.getItem('current-user');
+                if (savedUser) setCurrentUser(JSON.parse(savedUser));
+
+                // Real-time listener for Firestore
+                if (window.db && window.firestore) {
+                    const q = window.firestore.query(
+                        window.firestore.collection(window.db, 'shopping-items'),
+                        window.firestore.orderBy('createdAt', 'desc')
+                    );
+                    
+                    const unsubscribe = window.firestore.onSnapshot(q, (snapshot) => {
+                        const itemsData = [];
+                        snapshot.forEach((doc) => {
+                            itemsData.push({ id: doc.id, ...doc.data() });
+                        });
+                        setItems(itemsData);
+                        setLoading(false);
+                    });
+
+                    return () => unsubscribe();
+                }
+            }, []);
+
+            const handleLogin = user => {
+                localStorage.setItem('current-user', JSON.stringify(user));
+                setCurrentUser(user);
+            };
+
+            const handleLogout = () => {
+                localStorage.removeItem('current-user');
+                setCurrentUser(null);
+            };
+
+            const addProduct = async (product) => {
+                const existing = items.find(item => item.name === product.name && !item.purchased);
+                if (existing) {
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'shopping-items', existing.id),
+                        { quantity: existing.quantity + 1 }
+                    );
+                } else {
+                    await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                        name: product.name,
+                        category: product.category,
+                        quantity: 1,
+                        purchased: false,
+                        addedBy: currentUser.name,
+                        addedByColor: currentUser.color,
+                        createdAt: new Date()
+                    });
+                }
+            };
+
+            const addCustomProduct = async () => {
+                if (newProductName.trim()) {
+                    await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                        name: newProductName.trim(),
+                        category: newProductCategory,
+                        quantity: 1,
+                        purchased: false,
+                        addedBy: currentUser.name,
+                        addedByColor: currentUser.color,
+                        createdAt: new Date()
+                    });
+                    setNewProductName('');
+                    setShowAddProduct(false);
+                }
+            };
+
+            const updateQuantity = async (id, newQuantity) => {
+                if (newQuantity < 1) {
+                    await window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', id));
+                } else {
+                    await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
+                        quantity: newQuantity
+                    });
+                }
+            };
+
+            const togglePurchased = async (id, currentStatus) => {
+                await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
+                    purchased: !currentStatus
+                });
+            };
+
+            const clearPurchased = async () => {
+                const purchasedItems = items.filter(item => item.purchased);
+                for (const item of purchasedItems) {
+                    await window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', item.id));
+                }
+            };
+
+            if (loading && !currentUser) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+                        <div className="text-xl text-gray-600">טוען...</div>
+                    </div>
+                );
+            }
+
+            if (!currentUser) return <LoginScreen onLogin={handleLogin} />;
+
+            const filteredItems = selectedCategory === 'all' ? items : items.filter(item => item.category === selectedCategory);
+            const groupedItems = filteredItems.reduce((acc, item) => {
+                if (!acc[item.category]) acc[item.category] = [];
+                acc[item.category].push(item);
+                return acc;
+            }, {});
+            const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+            const purchasedItems = items.filter(item => item.purchased).reduce((sum, item) => sum + item.quantity, 0);
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-4xl">🛒</span>
+                                    <div>
+                                        <h1 className="text-3xl font-bold text-gray-800">רשימת קניות</h1>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <span className="text-sm text-gray-600">מחובר:</span>
+                                            <span className={`px-3 py-1 rounded-full text-sm font-semibold border ${currentUser.color}`}>
+                                                {currentUser.name}
+                                            </span>
+                                            <button onClick={handleLogout} className="text-gray-500 hover:text-red-600 text-sm">
+                                                החלף
+                                            </button>
+                                            <span className="text-xs text-green-600 animate-pulse">● מסונכרן</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="text-left">
+                                    <div className="text-sm text-gray-600">סה״כ</div>
+                                    <div className="text-2xl font-bold text-indigo-600">{totalItems}</div>
+                                </div>
+                            </div>
+                            {totalItems > 0 && (
+                                <div className="bg-indigo-50 rounded-lg p-4">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-sm text-gray-700">התקדמות</span>
+                                        <span className="text-sm font-semibold text-indigo-700">{purchasedItems} / {totalItems}</span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-3">
+                                        <div className="bg-indigo-600 h-3 rounded-full transition-all" 
+                                            style={{ width: `${totalItems > 0 ? (purchasedItems / totalItems) * 100 : 0}%` }} />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="bg-white rounded-2xl shadow-lg p-4 mb-6">
+                            <div className="flex gap-2 overflow-x-auto pb-2">
+                                <button onClick={() => setSelectedCategory('all')}
+                                    className={`px-4 py-2 rounded-lg whitespace-nowrap ${selectedCategory === 'all' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700'}`}>
+                                    הכל
+                                </button>
+                                {Object.entries(CATEGORIES).map(([key, label]) => (
+                                    <button key={key} onClick={() => setSelectedCategory(key)}
+                                        className={`px-4 py-2 rounded-lg whitespace-nowrap ${selectedCategory === key ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700'}`}>
+                                        {label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                            <h2 className="text-xl font-bold text-gray-800 mb-4">הוספת מוצרים</h2>
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
+                                {PRODUCTS.filter(p => selectedCategory === 'all' || p.category === selectedCategory).map((product, idx) => (
+                                    <button key={idx} onClick={() => addProduct(product)}
+                                        className="bg-gradient-to-br from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 p-3 rounded-lg text-gray-800 font-medium text-sm border border-indigo-200">
+                                        + {product.name}
+                                    </button>
+                                ))}
+                            </div>
+                            {showAddProduct ? (
+                                <div className="bg-gray-50 p-4 rounded-lg border-2 border-indigo-200">
+                                    <div className="flex flex-col gap-3">
+                                        <input type="text" value={newProductName} onChange={e => setNewProductName(e.target.value)}
+                                            placeholder="שם המוצר" className="px-4 py-2 border rounded-lg"
+                                            onKeyPress={e => e.key === 'Enter' && addCustomProduct()} />
+                                        <select value={newProductCategory} onChange={e => setNewProductCategory(e.target.value)}
+                                            className="px-4 py-2 border rounded-lg">
+                                            {Object.entries(CATEGORIES).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
+                                        </select>
+                                        <div className="flex gap-2">
+                                            <button onClick={addCustomProduct} className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg">הוסף</button>
+                                            <button onClick={() => { setShowAddProduct(false); setNewProductName(''); }}
+                                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">ביטול</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <button onClick={() => setShowAddProduct(true)}
+                                    className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-lg font-medium">
+                                    + הוסף מוצר משלך
+                                </button>
+                            )}
+                        </div>
+
+                        {items.length > 0 && (
+                            <div className="bg-white rounded-2xl shadow-lg p-6">
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-xl font-bold text-gray-800">הרשימה שלנו</h2>
+                                    {purchasedItems > 0 && (
+                                        <button onClick={clearPurchased}
+                                            className="text-sm text-red-600 hover:text-red-700 font-medium">נקה שנקנו</button>
+                                    )}
+                                </div>
+                                {Object.entries(groupedItems).map(([category, categoryItems]) => (
+                                    <div key={category} className="mb-6">
+                                        <h3 className="text-lg font-bold text-indigo-700 mb-3 pb-2 border-b-2 border-indigo-200">
+                                            {CATEGORIES[category]}
+                                        </h3>
+                                        {categoryItems.map(item => (
+                                            <div key={item.id} className={`flex items-center gap-3 p-3 rounded-lg mb-2 ${item.purchased ? 'bg-green-50 border-2 border-green-200' : 'bg-gray-50 border-2 border-gray-200'}`}>
+                                                <button onClick={() => togglePurchased(item.id, item.purchased)}
+                                                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${item.purchased ? 'bg-green-500 border-green-500' : 'border-gray-300'}`}>
+                                                    {item.purchased && <span className="text-white text-xs">✓</span>}
+                                                </button>
+                                                <div className="flex-1">
+                                                    <span className={`font-medium ${item.purchased ? 'text-gray-500 line-through' : 'text-gray-800'}`}>
+                                                        {item.name}
+                                                    </span>
+                                                    {item.addedBy && (
+                                                        <span className={`text-xs px-2 py-0.5 rounded-full border inline-block ml-2 ${item.addedByColor}`}>
+                                                            {item.addedBy}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                                        className="w-8 h-8 bg-gray-200 rounded-lg font-bold">-</button>
+                                                    <span className="w-12 text-center font-bold text-indigo-600">{item.quantity}</span>
+                                                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                                        className="w-8 h-8 bg-indigo-100 rounded-lg font-bold">+</button>
+                                                </div>
+                                                <button onClick={() => window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', item.id))}
+                                                    className="w-8 h-8 bg-red-100 rounded-lg text-red-600">🗑</button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<ShoppingList />, document.getElementById('root'));
+    </script>
+</body>
+</html>
