@@ -1,2 +1,0 @@
-# shooping-list
-Shopping List
