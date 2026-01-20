@@ -1,0 +1,948 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="he" dir="rtl"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="theme-color" content="#4F46E5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="description" content="רשימת קניות משפחתית - נהל את רשימת הקניות של המשפחה בקלות"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="manifest" href="manifest.json"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="apple-touch-icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;rect width='100' height='100' fill='%234F46E5'/&gt;&lt;text x='50' y='70' font-size='60' text-anchor='middle' fill='white'&gt;🛒&lt;/text&gt;&lt;/svg&gt;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;רשימת קניות משפחתית&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media (display-mode: standalone) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>-webkit-user-select: none;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>-webkit-touch-callout: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="root"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/babel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const { useState, useEffect } = React;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Lucide icons as SVG components</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const Plus = () =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;line x1="12" y1="5" x2="12" y2="19"&gt;&lt;/line&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;line x1="5" y1="12" x2="19" y2="12"&gt;&lt;/line&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const Trash2 = () =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;polyline points="3 6 5 6 21 6"&gt;&lt;/polyline&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"&gt;&lt;/path&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;line x1="10" y1="11" x2="10" y2="17"&gt;&lt;/line&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;line x1="14" y1="11" x2="14" y2="17"&gt;&lt;/line&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const Check = () =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;polyline points="20 6 9 17 4 12"&gt;&lt;/polyline&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ShoppingCart = ({ className = "" }) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg className={className} width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;circle cx="9" cy="21" r="1"&gt;&lt;/circle&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;circle cx="20" cy="21" r="1"&gt;&lt;/circle&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"&gt;&lt;/path&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const User = ({ className = "" }) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"&gt;&lt;/path&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;circle cx="12" cy="7" r="4"&gt;&lt;/circle&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const LogOut = ({ className = "" }) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg className={className} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"&gt;&lt;/path&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;polyline points="16 17 21 12 16 7"&gt;&lt;/polyline&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;line x1="21" y1="12" x2="9" y2="12"&gt;&lt;/line&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const CATEGORIES = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>fruits: 'פירות וירקות',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>dairy: 'חלבי',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>desserts: 'מעדני חלב',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>meat: 'בשר ודגים',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>deli: 'מעדנייה',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bakery: 'לחם ומאפים',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cereals: 'דגנים וקורנפלקס',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>canned: 'שימורים ומזון יבש',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>spices: 'תבלינים ובישול',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>coffee: 'קפה ותה',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>drinks: 'משקאות',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>snacks: 'חטיפים וממתקים',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>frozen: 'קפואים',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>health: 'דיאטה וחלבון',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>hygiene: 'היגיינה ורחצה',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cleaning: 'ניקיון',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>candles: 'נרות ושמן',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>other: 'אחר'</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const FAMILY_MEMBERS = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 'member1', name: 'אבא', color: 'bg-blue-100 text-blue-800 border-blue-300' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 'member2', name: 'אמא', color: 'bg-pink-100 text-pink-800 border-pink-300' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 'member3', name: 'עמית', color: 'bg-green-100 text-green-800 border-green-300' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 'member4', name: 'רוני', color: 'bg-yellow-100 text-yellow-800 border-yellow-300' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 'member5', name: 'נועה', color: 'bg-purple-100 text-purple-800 border-purple-300' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 'member6', name: 'מאור', color: 'bg-orange-100 text-orange-800 border-orange-300' }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const PRODUCTS = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חלב', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'לבן', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גבינה צהובה', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קוטג׳', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גבינה בולגרית', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'צפתית', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גבינת שמנת', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פרמזן', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מוצרלה', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ביצים', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חמאה', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמנת מתוקה', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמנת חמוצה', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'יוגורט', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'יוגורט יווני', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'יוגורט אורגני', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'יוגורט לילדים', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גבינת עזים', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גבינת רוקפור', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קשקבל', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גאודה', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חלומי', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פילדלפיה', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'לאבנה', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גבינת תפוח', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חמאה בצל', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חמאה שום', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מרגרינה', category: 'dairy' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'עגבניות', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מלפפונים', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בצל', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שום', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פלפל אדום', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פלפל ירוק', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חסה', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'כרוב', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גזר', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סלק', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תפוחי אדמה', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בטטה', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קישוא', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חציל', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ברוקולי', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'כרובית', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תרד', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמיר', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'טרגון', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ראשד', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ריחן', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נענע', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'רוקט', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פטרוזיליה', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'כוסברה', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סלרי', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שומר', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'לימון', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ליים', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בננות', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תפוחים', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תפוזים', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אבטיח', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מלון', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ענבים', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אגס', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שזיפים', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אפרסקים', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נקטרינות', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קלמנטינות', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קיווי', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'רימונים', category: 'fruits' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'לחם', category: 'bakery' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חלה', category: 'bakery' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'עוגיות', category: 'bakery' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פיתות', category: 'bakery' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'לחמניות', category: 'bakery' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'עוף שלם', category: 'meat' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חזה עוף', category: 'meat' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'כרעיים עוף', category: 'meat' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'כנפיים עוף', category: 'meat' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'עוף טחון', category: 'meat' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בשר טחון', category: 'meat' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אנטריקוט', category: 'meat' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פילה עוף', category: 'meat' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'דגים', category: 'meat' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שניצל', category: 'meat' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מילקי', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'דנונה', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'יופלה', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'דניאלה', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מעדן וניל', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מעדן שוקולד', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מעדן קרמל', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מעדן ביסקוויטים', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מעדן לוטוס', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שוקו יטבתה', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פודינג', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מעדן יוגורט', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מעדן תות', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מעדן בננה', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מוס שוקולד', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מוס וניל', category: 'desserts' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נקניקיות', category: 'deli' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סלמי', category: 'deli' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פסטרמה', category: 'deli' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קבנוס', category: 'deli' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נקניק מעושן', category: 'deli' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אורז', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פסטה', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קוסקוס', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קטניות', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'רוטב עגבניות', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'טונה', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תירס', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פתיתי תירס', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קורנפלקס', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גרנולה', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מוזלי', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שיבולת שועל', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פצפוצי אורז', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קוואקר', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'דגני בוקר', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פתיתי שוקולד', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פתיתי דבש', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מיני וויטס', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פרוסטיז', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'כריות שוקולד', category: 'cereals' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמן זית', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמן קנולה', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמן חמניות', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמן תירס', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמן זית כתית מעולה', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמן זית פומייס', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חומץ בלסמי', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חומץ יין אדום', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חומץ יין לבן', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חומץ תפוחים', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מיץ לימון', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חומוס טחון', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'טחינה גולמית', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'טחינה מעורבת', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ממרח שום', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'זיתים', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מלפפון חמוץ', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פלפל חריף', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ריבה', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'דבש', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בוטנים', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שומשום', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פרג', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חיטה', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בורגול', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קינואה', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נודלס', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אטריות סיניות', category: 'canned' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מלח', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סוכר', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סוכר חום', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סוכר דמררה', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סוכר גולדן', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קוביות סוכר', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פלפל שחור', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פפריקה', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'כורכום', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'כמון', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קינמון', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אבקת שום', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אבקת בצל', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אורגנו', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בזיליקום', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'זעתר', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חוואיג׳', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תבלין לעוף', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תבלין לדגים', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קארי', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קמח לבן', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קמח מלא', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמרים', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אבקת אפייה', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סודה לשתייה', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'וניל', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שוקולד צ׳יפס', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אגוזים', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שקדים', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אגוזי מלך', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קשיו', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'צימוקים', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תמרים', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'עדשים', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חומוס יבש', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פול', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שעועית לבנה', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שעועית אדומה', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'כוסמת', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בורגול דק', category: 'spices' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפה נמס', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפה טורקי', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפה נספרסו', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפסולות קפה', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפה שחור טחון', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפה נטול קפאין', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תה שחור', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תה ירוק', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תה צמחים', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תה נענע', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תה לואיזה', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תה ליפטון', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תה וויסוצקי', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפה עלית', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפסולות נספרסו', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפסולות דולצ׳ה גוסטו', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפסולות לנדוור', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפסולות טאסימו', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חלב מרוכז', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סוכר לקפה', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ממתיק סוכרלוז', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ממתיק סטיביה', category: 'coffee' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מים מינרלים', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קולה', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ספרייט', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מיץ', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קפה', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תה', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פריגת', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אייס קפה', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נביעות', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תפוזינה', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'לימונדה', category: 'drinks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'במבה', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ביסלי', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'דוריטוס', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'טורטייה', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פופקורן', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שוקולד פרה', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שוקולד מילקי', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שוקולד חלב', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שוקולד מריר', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נוטלה', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ממרח שוקולד', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חטיף אנרגיה', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ביסקוויטים', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קליק', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תפוצ׳יפס', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ווופלים', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'וופלי', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'עוגת דבש', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מרשמלו', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סוכריות', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מסטיק', category: 'snacks' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גלידה', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ירקות קפואים', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שניצל קפוא', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פיצה קפואה', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בצק עלים קפוא', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בצק פילו קפוא', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בצק פיצה קפוא', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בצק ג׳חנון קפוא', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בצק מלוואח קפוא', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בצק סמבוסק קפוא', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'בצק בורקס קפוא', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קוביות בצק קפוא', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פירות קפואים', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תותים קפואים', category: 'frozen' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'יוגורט יווני 0%', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'יוגורט חלבון', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קוטג׳ 5%', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קוטג׳ 3%', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'גבינת קוטג׳ 0%', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חלב סויה', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חלב שקדים', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חלב דל שומן', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שייק חלבון', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פרוטאין בר', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אבקת חלבון', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'לחם מלא', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פיתה מלאה', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קרקר דגנים', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חטיף חלבון', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'טונה במים', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חזה עוף מעושן', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ביו יוגורט', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פרוביוטיקה', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חלב סרה', category: 'health' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נייר טואלט', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מגבות נייר', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סבון כלים', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אבקת כביסה', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מרכך כביסה', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אקונומיקה', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סיף', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מנקה רצפות', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מנקה חלונות', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מנקה אמבטיה', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אבקת ניקוי', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ספוגים למטבח', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שקיות אשפה', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נוזל כלים', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'טבליות למדיח', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מלח למדיח', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נוזל שטיפה למדיח', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'אבקת סודה', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חומץ לניקוי', category: 'cleaning' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סבון ידיים', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מגבונים לחים', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מברשת שיניים', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'משחת שיניים', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מי פה', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'חוט דנטלי', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמפו', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מרכך שיער', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמפו לילדים', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סבון גוף', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ג׳ל רחצה', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מסכה לשיער', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קרם גילוח', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'סכיני גילוח', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'דאודורנט', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קרם פנים', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קרם ידיים', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'קרם גוף', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מברשת שיער', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ג׳ל לשיער', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'ספריי לשיער', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תחבושות', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'פלסטרים', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'צמר גפן', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מקלוני אוזניים', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'טמפונים', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'מגני תחתון', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תחתוני נייר', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'תחתוני חד פעמי', category: 'hygiene' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נרות שבת', category: 'candles' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נרות חנוכה', category: 'candles' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נר נשמה 24 שעות', category: 'candles' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נר נשמה 7 ימים', category: 'candles' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'נר הבדלה', category: 'candles' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמן לנר', category: 'candles' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'שמן פרפין', category: 'candles' }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Simple localStorage-based storage</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const storage = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>get: (key) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const data = localStorage.getItem(key);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>return data ? { value: data } : null;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} catch {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>return null;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>set: (key, value) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>localStorage.setItem(key, value);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>return { value };</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} catch {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>return null;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function LoginScreen({ onLogin }) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [customName, setCustomName] = useState('');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [showCustomInput, setShowCustomInput] = useState(false);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const handleMemberClick = (member) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>onLogin(member);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const handleCustomLogin = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (customName.trim()) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const customMember = {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>id: 'custom_' + Date.now(),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>name: customName.trim(),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>color: 'bg-gray-100 text-gray-800 border-gray-300'</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>onLogin(customMember);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4" dir="rtl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="text-center mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;ShoppingCart className="w-16 h-16 text-indigo-600 mx-auto mb-4" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h1 className="text-3xl font-bold text-gray-800 mb-2"&gt;רשימת קניות משפחתית&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p className="text-gray-600"&gt;בחר את השם שלך להתחלה&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="space-y-3 mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{FAMILY_MEMBERS.map((member) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>key={member.id}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>onClick={() =&gt; handleMemberClick(member)}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>className={`w-full p-4 rounded-lg border-2 ${member.color} hover:shadow-lg transition-all font-semibold text-lg flex items-center justify-center gap-2`}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;User /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>{member.name}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{showCustomInput ? (</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="flex gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>type="text"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>value={customName}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>onChange={(e) =&gt; setCustomName(e.target.value)}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>placeholder="הכנס שם..."</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>onKeyPress={(e) =&gt; e.key === 'Enter' &amp;&amp; handleCustomLogin()}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>onClick={handleCustomLogin}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold"</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">                                    </span>כניסה</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>) : (</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>onClick={() =&gt; setShowCustomInput(true)}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>className="w-full p-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-indigo-400 hover:text-indigo-600 transition-all"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">                                </span>+ שם אחר</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function ShoppingList() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [currentUser, setCurrentUser] = useState(null);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [items, setItems] = useState([]);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [showAddProduct, setShowAddProduct] = useState(false);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [selectedCategory, setSelectedCategory] = useState('all');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [newProductName, setNewProductName] = useState('');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [newProductCategory, setNewProductCategory] = useState('other');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [loading, setLoading] = useState(true);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>useEffect(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>loadUser();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>loadItems();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, []);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const loadUser = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const result = storage.get('current-user');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (result &amp;&amp; result.value) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>setCurrentUser(JSON.parse(result.value));</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>console.log('No user saved');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} finally {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>setLoading(false);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const loadItems = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const result = storage.get('shopping-list');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (result &amp;&amp; result.value) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>setItems(JSON.parse(result.value));</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>console.log('טוען רשימה חדשה');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const handleLogin = (user) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>storage.set('current-user', JSON.stringify(user));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setCurrentUser(user);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const handleLogout = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>storage.set('current-user', null);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setCurrentUser(null);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const saveItems = (newItems) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>storage.set('shopping-list', JSON.stringify(newItems));</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>setItems(newItems);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>console.error('שגיאה בשמירה:', error);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const addProduct = (product) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const existing = items.find(item =&gt; item.name === product.name);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (existing) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>updateQuantity(existing.id, existing.quantity + 1);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const newItem = {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>id: Date.now(),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>name: product.name,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>category: product.category,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>quantity: 1,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>purchased: false,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>addedBy: currentUser.name,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>addedByColor: currentUser.color</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>saveItems([...items, newItem]);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const addCustomProduct = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (newProductName.trim()) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const newItem = {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>id: Date.now(),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>name: newProductName.trim(),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>category: newProductCategory,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>quantity: 1,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>purchased: false,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>addedBy: currentUser.name,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>addedByColor: currentUser.color</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>saveItems([...items, newItem]);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>setNewProductName('');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>setShowAddProduct(false);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const removeItem = (id) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>saveItems(items.filter(item =&gt; item.id !== id));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const updateQuantity = (id, newQuantity) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (newQuantity &lt; 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>removeItem(id);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>saveItems(items.map(item =&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>item.id === id ? { ...item, quantity: newQuantity } : item</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const togglePurchased = (id) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>saveItems(items.map(item =&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>item.id === id ? { ...item, purchased: !item.purchased } : item</p>
+<p class="p1"><span class="Apple-converted-space">                </span>));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const clearPurchased = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>saveItems(items.filter(item =&gt; !item.purchased));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const filteredItems = selectedCategory === 'all'<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>? items<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>: items.filter(item =&gt; item.category === selectedCategory);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const groupedItems = filteredItems.reduce((acc, item) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (!acc[item.category]) acc[item.category] = [];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>acc[item.category].push(item);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return acc;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, {});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const totalItems = items.reduce((sum, item) =&gt; sum + item.quantity, 0);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const purchasedItems = items.filter(item =&gt; item.purchased).reduce((sum, item) =&gt; sum + item.quantity, 0);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (loading) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="text-xl text-gray-600"&gt;טוען...&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!currentUser) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return &lt;LoginScreen onLogin={handleLogin} /&gt;;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4" dir="rtl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="max-w-4xl mx-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="bg-white rounded-2xl shadow-lg p-6 mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="flex items-center justify-between mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="flex items-center gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;ShoppingCart className="w-8 h-8 text-indigo-600" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;h1 className="text-3xl font-bold text-gray-800"&gt;רשימת קניות משפחתית&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex items-center gap-2 mt-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;span className="text-sm text-gray-600"&gt;מחובר כ:&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;span className={`px-3 py-1 rounded-full text-sm font-semibold border ${currentUser.color}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>{currentUser.name}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>onClick={handleLogout}</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>className="text-gray-500 hover:text-red-600 transition-colors"</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>title="החלף משתמש"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;LogOut /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="text-left"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="text-sm text-gray-600"&gt;סה״כ מוצרים&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="text-2xl font-bold text-indigo-600"&gt;{totalItems}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                            </span></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{totalItems &gt; 0 &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="bg-indigo-50 rounded-lg p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="flex justify-between items-center mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span className="text-sm text-gray-700"&gt;התקדמות&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span className="text-sm font-semibold text-indigo-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>{purchasedItems} / {totalItems}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="w-full bg-gray-200 rounded-full h-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>className="bg-indigo-600 h-3 rounded-full transition-all duration-300"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>style={{ width: `${totalItems &gt; 0 ? (purchasedItems / totalItems) * 100 : 0}%` }}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="bg-white rounded-2xl shadow-lg p-4 mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="flex gap-2 overflow-x-auto pb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>onClick={() =&gt; setSelectedCategory('all')}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all ${</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>selectedCategory === 'all'</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>? 'bg-indigo-600 text-white'</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>: 'bg-gray-100 text-gray-700 hover:bg-gray-200'</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>}`}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">                                    </span>הכל</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>{Object.entries(CATEGORIES).map(([key, label]) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>key={key}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onClick={() =&gt; setSelectedCategory(key)}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all ${</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>selectedCategory === key</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>? 'bg-indigo-600 text-white'</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>: 'bg-gray-100 text-gray-700 hover:bg-gray-200'</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>}`}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>{label}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="bg-white rounded-2xl shadow-lg p-6 mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h2 className="text-xl font-bold text-gray-800 mb-4"&gt;הוספת מוצרים&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                            </span></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>{PRODUCTS.filter(p =&gt; selectedCategory === 'all' || p.category === selectedCategory)</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>.map((product, idx) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>key={idx}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onClick={() =&gt; addProduct(product)}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="bg-gradient-to-br from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 p-3 rounded-lg transition-all text-gray-800 font-medium text-sm border border-indigo-200"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>+ {product.name}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{showAddProduct ? (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="bg-gray-50 p-4 rounded-lg border-2 border-indigo-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="flex flex-col gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>type="text"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>value={newProductName}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>onChange={(e) =&gt; setNewProductName(e.target.value)}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>placeholder="שם המוצר"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>onKeyPress={(e) =&gt; e.key === 'Enter' &amp;&amp; addCustomProduct()}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;select</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>value={newProductCategory}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>onChange={(e) =&gt; setNewProductCategory(e.target.value)}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>{Object.entries(CATEGORIES).map(([key, label]) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;option key={key} value={key}&gt;{label}&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>onClick={addCustomProduct}</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">                                                </span>הוסף</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>onClick={() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>setShowAddProduct(false);</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>setNewProductName('');</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>}}</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">                                                </span>ביטול</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>) : (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>onClick={() =&gt; setShowAddProduct(true)}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-all font-medium flex items-center justify-center gap-2"</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;Plus /&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">                                    </span>הוסף מוצר משלך</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{items.length &gt; 0 &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="bg-white rounded-2xl shadow-lg p-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="flex justify-between items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h2 className="text-xl font-bold text-gray-800"&gt;הרשימה שלי&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>{purchasedItems &gt; 0 &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>onClick={clearPurchased}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>className="text-sm text-red-600 hover:text-red-700 font-medium"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&gt;</p>
+<p dir="rtl" class="p1"><span class="Apple-converted-space">                                            </span>נקה מוצרים שנקנו</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>{Object.entries(groupedItems).map(([category, categoryItems]) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div key={category} className="mb-6 last:mb-0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;h3 className="text-lg font-bold text-indigo-700 mb-3 pb-2 border-b-2 border-indigo-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>{CATEGORIES[category]}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="space-y-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>{categoryItems.map((item) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>key={item.id}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>className={`flex items-center gap-3 p-3 rounded-lg transition-all ${</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>item.purchased</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>? 'bg-green-50 border-2 border-green-200'</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>: 'bg-gray-50 border-2 border-gray-200 hover:border-indigo-200'</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>}`}</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>onClick={() =&gt; togglePurchased(item.id)}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0 ${</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>item.purchased</p>
+<p class="p1"><span class="Apple-converted-space">                                                                </span>? 'bg-green-500 border-green-500'</p>
+<p class="p1"><span class="Apple-converted-space">                                                                </span>: 'border-gray-300 hover:border-indigo-500'</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>}`}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>{item.purchased &amp;&amp; &lt;Check /&gt;}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="flex-1 min-w-0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span className={`font-medium block ${</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>item.purchased ? 'text-gray-500 line-through' : 'text-gray-800'</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>{item.name}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>{item.addedBy &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>&lt;span className={`text-xs px-2 py-0.5 rounded-full border inline-block mt-1 ${item.addedByColor || 'bg-gray-100 text-gray-700 border-gray-300'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                                </span>{item.addedBy}</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="flex items-center gap-2 flex-shrink-0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>onClick={() =&gt; updateQuantity(item.id, item.quantity - 1)}</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>className="w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-lg flex items-center justify-center font-bold text-gray-700"</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>-</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span className="w-12 text-center font-bold text-indigo-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>{item.quantity}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>onClick={() =&gt; updateQuantity(item.id, item.quantity + 1)}</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>className="w-8 h-8 bg-indigo-100 hover:bg-indigo-200 rounded-lg flex items-center justify-center font-bold text-indigo-700"</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>+</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>onClick={() =&gt; removeItem(item.id)}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>className="w-8 h-8 bg-red-100 hover:bg-red-200 rounded-lg flex items-center justify-center text-red-600 transition-colors flex-shrink-0"</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;Trash2 /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{items.length === 0 &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="bg-white rounded-2xl shadow-lg p-12 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 className="text-xl font-semibold text-gray-600 mb-2"&gt;הרשימה ריקה&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p className="text-gray-500"&gt;התחל להוסיף מוצרים לרשימת הקניות&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>ReactDOM.render(&lt;ShoppingList /&gt;, document.getElementById('root'));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Register Service Worker for PWA</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if ('serviceWorker' in navigator) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>window.addEventListener('load', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>navigator.serviceWorker.register('/service-worker.js')</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>.then(reg =&gt; console.log('Service Worker registered'))</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>.catch(err =&gt; console.log('Service Worker registration failed:', err));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
