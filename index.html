@@ -15,10 +15,9 @@
         }
     </script>
     
-    <!-- Firebase -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, setDoc, getDoc, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         
         const firebaseConfig = {
             apiKey: "AIzaSyD3pwFMmo4mMjxgzUz5oPynt0D68Yy3Iz0",
@@ -31,13 +30,13 @@
         
         const app = initializeApp(firebaseConfig);
         window.db = getFirestore(app);
-        window.firestore = { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, setDoc, getDoc, getDocs };
+        window.firestore = { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs };
     </script>
 </head>
 <body>
     <div id="root"></div>
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect } = React;
 
         const CATEGORIES = {
             fruits: { name: 'פירות וירקות', icon: '🥬' },
@@ -71,427 +70,54 @@
             { id: 'member6', name: 'מאור', color: 'bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-900 dark:text-orange-200' }
         ];
 
-        const PRODUCTS = [
-            // Dairy - חלבי (הרבה יותר מוצרים)
-            { name: 'חלב', category: 'dairy' },
-            { name: 'חלב 3%', category: 'dairy' },
-            { name: 'חלב 1%', category: 'dairy' },
-            { name: 'חלב דל שומן', category: 'dairy' },
-            { name: 'לבן', category: 'dairy' },
-            { name: 'גבינה צהובה', category: 'dairy' },
-            { name: 'גבינה צהובה עמק', category: 'dairy' },
-            { name: 'גבינה צהובה גלבוע', category: 'dairy' },
-            { name: 'קוטג׳', category: 'dairy' },
-            { name: 'קוטג׳ 5%', category: 'dairy' },
-            { name: 'קוטג׳ 3%', category: 'dairy' },
-            { name: 'גבינה בולגרית', category: 'dairy' },
-            { name: 'צפתית', category: 'dairy' },
-            { name: 'גבינת שמנת', category: 'dairy' },
-            { name: 'פרמזן', category: 'dairy' },
-            { name: 'מוצרלה', category: 'dairy' },
-            { name: 'ביצים', category: 'dairy' },
-            { name: 'ביצים אורגניות', category: 'dairy' },
-            { name: 'ביצים חופשיות', category: 'dairy' },
-            { name: 'חמאה', category: 'dairy' },
-            { name: 'שמנת מתוקה', category: 'dairy' },
-            { name: 'שמנת חמוצה', category: 'dairy' },
-            { name: 'יוגורט', category: 'dairy' },
-            { name: 'יוגורט יווני', category: 'dairy' },
-            { name: 'יוגורט תנובה', category: 'dairy' },
-            { name: 'יוגורט שטראוס', category: 'dairy' },
-            { name: 'גבינה לבנה', category: 'dairy' },
-            { name: 'יוגורט אורגני', category: 'dairy' },
-            { name: 'יוגורט לילדים', category: 'dairy' },
-            { name: 'גבינת עזים', category: 'dairy' },
-            { name: 'גבינת רוקפור', category: 'dairy' },
-            { name: 'קשקבל', category: 'dairy' },
-            { name: 'גאודה', category: 'dairy' },
-            { name: 'חלומי', category: 'dairy' },
-            { name: 'פילדלפיה', category: 'dairy' },
-            { name: 'לאבנה', category: 'dairy' },
-            { name: 'גבינת תפוח', category: 'dairy' },
-            { name: 'חמאה בצל', category: 'dairy' },
-            { name: 'חמאה שום', category: 'dairy' },
-            { name: 'מרגרינה', category: 'dairy' },
+        const PRODUCTS = {
+            dairy: ['חלב', 'חלב 3%', 'חלב 1%', 'לבן', 'גבינה צהובה', 'גבינה צהובה עמק', 'קוטג׳', 'קוטג׳ 5%', 'קוטג׳ 3%', 'גבינה בולגרית', 'צפתית', 'גבינת שמנת', 'פרמזן', 'מוצרלה', 'ביצים', 'ביצים אורגניות', 'חמאה', 'שמנת מתוקה', 'שמנת חמוצה', 'יוגורט', 'יוגורט יווני', 'גבינה לבנה', 'יוגורט לילדים', 'גבינת עזים', 'קשקבל', 'גאודה', 'חלומי', 'פילדלפיה', 'לאבנה', 'מרגרינה'],
             
-            // Cereals - דגנים וקורנפלקס (מורחב!)
-            { name: 'קורנפלקס קלאסי', category: 'cereals' },
-            { name: 'קורנפלקס דבש', category: 'cereals' },
-            { name: 'קורנפלקס שוקולד', category: 'cereals' },
-            { name: 'קורנפלקס כריות', category: 'cereals' },
-            { name: 'קורנפלקס כריות שוקולד', category: 'cereals' },
-            { name: 'קורנפלקס כריות דבש', category: 'cereals' },
-            { name: 'טריקס', category: 'cereals' },
-            { name: 'פתיתי תירס', category: 'cereals' },
-            { name: 'פתיתי שוקולד', category: 'cereals' },
-            { name: 'פתיתי דבש', category: 'cereals' },
-            { name: 'גרנולה', category: 'cereals' },
-            { name: 'מוזלי', category: 'cereals' },
-            { name: 'שיבולת שועל', category: 'cereals' },
-            { name: 'פצפוצי אורז', category: 'cereals' },
-            { name: 'קוואקר', category: 'cereals' },
-            { name: 'דגני בוקר', category: 'cereals' },
-            { name: 'מיני וויטס', category: 'cereals' },
-            { name: 'פרוסטיז', category: 'cereals' },
-            { name: 'כריות שוקולד', category: 'cereals' },
-            { name: 'צ\'ריוס', category: 'cereals' },
-            { name: 'לאקי צ\'ארמס', category: 'cereals' },
-            { name: 'קפטן קראנץ\'', category: 'cereals' },
+            fruits: ['עגבניות', 'עגבניות שרי', 'מלפפונים', 'בצל', 'בצל ירוק', 'שום', 'פלפל אדום', 'פלפל ירוק', 'פלפל צהוב', 'חסה', 'חסה אייסברג', 'כרוב', 'כרוב סגול', 'גזר', 'גזר בייבי', 'סלק', 'תפוחי אדמה', 'בטטה', 'קישוא', 'חציל', 'ברוקולי', 'כרובית', 'תרד', 'שמיר', 'טרגון', 'ראשה', 'ריחן', 'נענע', 'רוקט', 'פטרוזיליה', 'כוסברה', 'סלרי', 'שומר', 'לימון', 'ליים', 'בננות', 'תפוחים', 'תפוחים ירוקים', 'תפוזים', 'אבטיח', 'מלון', 'ענבים', 'אגס', 'שזיפים', 'אפרסקים', 'נקטרינות', 'קלמנטינות', 'קיווי', 'רימונים', 'מנגו', 'אננס', 'אבוקדו', 'תותים'],
             
-            // Fruits & Vegetables - פירות וירקות (מורחב!)
-            { name: 'עגבניות', category: 'fruits' },
-            { name: 'עגבניות שרי', category: 'fruits' },
-            { name: 'מלפפונים', category: 'fruits' },
-            { name: 'מלפפון חמוץ', category: 'fruits' },
-            { name: 'בצל', category: 'fruits' },
-            { name: 'בצל ירוק', category: 'fruits' },
-            { name: 'שום', category: 'fruits' },
-            { name: 'פלפל אדום', category: 'fruits' },
-            { name: 'פלפל ירוק', category: 'fruits' },
-            { name: 'פלפל צהוב', category: 'fruits' },
-            { name: 'חסה', category: 'fruits' },
-            { name: 'חסה אייסברג', category: 'fruits' },
-            { name: 'כרוב', category: 'fruits' },
-            { name: 'כרוב סגול', category: 'fruits' },
-            { name: 'גזר', category: 'fruits' },
-            { name: 'גזר בייבי', category: 'fruits' },
-            { name: 'סלק', category: 'fruits' },
-            { name: 'תפוחי אדמה', category: 'fruits' },
-            { name: 'בטטה', category: 'fruits' },
-            { name: 'קישוא', category: 'fruits' },
-            { name: 'חציל', category: 'fruits' },
-            { name: 'ברוקולי', category: 'fruits' },
-            { name: 'כרובית', category: 'fruits' },
-            { name: 'תרד', category: 'fruits' },
-            { name: 'שמיר', category: 'fruits' },
-            { name: 'טרגון', category: 'fruits' },
-            { name: 'ראשה', category: 'fruits' },
-            { name: 'ריחן', category: 'fruits' },
-            { name: 'נענע', category: 'fruits' },
-            { name: 'רוקט', category: 'fruits' },
-            { name: 'פטרוזיליה', category: 'fruits' },
-            { name: 'כוסברה', category: 'fruits' },
-            { name: 'סלרי', category: 'fruits' },
-            { name: 'שומר', category: 'fruits' },
-            { name: 'לימון', category: 'fruits' },
-            { name: 'ליים', category: 'fruits' },
-            { name: 'בננות', category: 'fruits' },
-            { name: 'תפוחים', category: 'fruits' },
-            { name: 'תפוחים ירוקים', category: 'fruits' },
-            { name: 'תפוזים', category: 'fruits' },
-            { name: 'אבטיח', category: 'fruits' },
-            { name: 'מלון', category: 'fruits' },
-            { name: 'ענבים', category: 'fruits' },
-            { name: 'אגס', category: 'fruits' },
-            { name: 'שזיפים', category: 'fruits' },
-            { name: 'אפרסקים', category: 'fruits' },
-            { name: 'נקטרינות', category: 'fruits' },
-            { name: 'קלמנטינות', category: 'fruits' },
-            { name: 'קיווי', category: 'fruits' },
-            { name: 'רימונים', category: 'fruits' },
-            { name: 'מנגו', category: 'fruits' },
-            { name: 'אננס', category: 'fruits' },
-            { name: 'אבוקדו', category: 'fruits' },
-            { name: 'תותים', category: 'fruits' },
+            bakery: ['לחם', 'לחם מלא', 'לחם שיפון', 'חלה', 'חלה מלאה', 'עוגיות', 'פיתות', 'פיתות מלאות', 'לחמניות', 'בגט', 'צ׳בטה'],
             
-            // Baby & Kids - תינוקות וילדים (חדש!)
-            { name: 'חיתולים', category: 'baby' },
-            { name: 'מגבונים לחים לתינוקות', category: 'baby' },
-            { name: 'שמפו לתינוקות', category: 'baby' },
-            { name: 'סבון לתינוקות', category: 'baby' },
-            { name: 'קרם החתלה', category: 'baby' },
-            { name: 'אבקת חלב תחליף', category: 'baby' },
-            { name: 'מזון לתינוקות', category: 'baby' },
-            { name: 'חטיפים לילדים', category: 'baby' },
-            { name: 'מוצצים', category: 'baby' },
-            { name: 'בקבוקים', category: 'baby' },
+            meat: ['עוף שלם', 'חזה עוף', 'כרעיים עוף', 'כנפיים עוף', 'עוף טחון', 'בשר טחון', 'אנטריקוט', 'פילה עוף', 'דגים', 'סלמון', 'פילה דג', 'שניצל', 'קבב', 'המבורגר'],
             
-            // Pets - חיות מחמד (חדש!)
-            { name: 'מזון לכלבים', category: 'pets' },
-            { name: 'מזון לחתולים', category: 'pets' },
-            { name: 'חול לחתולים', category: 'pets' },
-            { name: 'חטיפים לכלבים', category: 'pets' },
-            { name: 'חטיפים לחתולים', category: 'pets' },
+            desserts: ['מילקי', 'דנונה', 'יופלה', 'דניאלה', 'מעדן וניל', 'מעדן שוקולד', 'מעדן קרמל', 'מעדן ביסקוויטים', 'מעדן לוטוס', 'שוקו יטבתה', 'פודינג', 'מעדן יוגורט', 'מעדן תות', 'מעדן בננה', 'מוס שוקולד', 'מוס וניל'],
             
-            // Bakery - לחם ומאפים (מורחב!)
-            { name: 'לחם', category: 'bakery' },
-            { name: 'לחם מלא', category: 'bakery' },
-            { name: 'לחם שיפון', category: 'bakery' },
-            { name: 'לחם כוסמין', category: 'bakery' },
-            { name: 'חלה', category: 'bakery' },
-            { name: 'חלה מלאה', category: 'bakery' },
-            { name: 'עוגיות', category: 'bakery' },
-            { name: 'פיתות', category: 'bakery' },
-            { name: 'פיתות מלאות', category: 'bakery' },
-            { name: 'לחמניות', category: 'bakery' },
-            { name: 'בגט', category: 'bakery' },
-            { name: 'צ\'בטה', category: 'bakery' },
+            deli: ['נקניקיות', 'סלמי', 'פסטרמה', 'קבנוס', 'נקניק מעושן'],
             
-            // Meat - בשר ודגים (מורחב!)
-            { name: 'עוף שלם', category: 'meat' },
-            { name: 'חזה עוף', category: 'meat' },
-            { name: 'כרעיים עוף', category: 'meat' },
-            { name: 'כנפיים עוף', category: 'meat' },
-            { name: 'עוף טחון', category: 'meat' },
-            { name: 'בשר טחון', category: 'meat' },
-            { name: 'אנטריקוט', category: 'meat' },
-            { name: 'פילה עוף', category: 'meat' },
-            { name: 'דגים', category: 'meat' },
-            { name: 'סלמון', category: 'meat' },
-            { name: 'פילה דג', category: 'meat' },
-            { name: 'שניצל', category: 'meat' },
-            { name: 'קבב', category: 'meat' },
-            { name: 'המבורגר', category: 'meat' },
+            canned: ['אורז', 'אורז בסמטי', 'אורז יסמין', 'פסטה', 'פסטה פנה', 'פסטה ספגטי', 'קוסקוס', 'קטניות', 'רוטב עגבניות', 'טונה', 'תירס', 'שמן זית', 'שמן קנולה', 'שמן חמניות', 'שמן זית כתית מעולה', 'חומץ בלסמי', 'חומץ יין', 'חומץ תפוחים', 'מיץ לימון', 'חומוס טחון', 'טחינה גולמית', 'טחינה מעורבת', 'ממרח שום', 'זיתים', 'זיתים שחורים', 'זיתים ירוקים', 'מלפפון חמוץ', 'פלפל חריף', 'ריבה', 'דבש', 'בוטנים', 'שומשום', 'נודלס', 'אטריות סיניות'],
             
-            // Desserts - מעדני חלב (מלא!)
-            { name: 'מילקי', category: 'desserts' },
-            { name: 'דנונה', category: 'desserts' },
-            { name: 'יופלה', category: 'desserts' },
-            { name: 'דניאלה', category: 'desserts' },
-            { name: 'מעדן וניל', category: 'desserts' },
-            { name: 'מעדן שוקולד', category: 'desserts' },
-            { name: 'מעדן קרמל', category: 'desserts' },
-            { name: 'מעדן ביסקוויטים', category: 'desserts' },
-            { name: 'מעדן לוטוס', category: 'desserts' },
-            { name: 'שוקו יטבתה', category: 'desserts' },
-            { name: 'פודינג', category: 'desserts' },
-            { name: 'מעדן יוגורט', category: 'desserts' },
-            { name: 'מעדן תות', category: 'desserts' },
-            { name: 'מעדן בננה', category: 'desserts' },
-            { name: 'מוס שוקולד', category: 'desserts' },
-            { name: 'מוס וניל', category: 'desserts' },
+            cereals: ['קורנפלקס קלאסי', 'קורנפלקס דבש', 'קורנפלקס שוקולד', 'קורנפלקס כריות', 'קורנפלקס כריות שוקולד', 'קורנפלקס כריות דבש', 'טריקס', 'פתיתי תירס', 'פתיתי שוקולד', 'פתיתי דבש', 'גרנולה', 'מוזלי', 'שיבולת שועל', 'פצפוצי אורז', 'קוואקר', 'דגני בוקר', 'מיני וויטס', 'פרוסטיז', 'כריות שוקולד', 'צ\'ריוס', 'לאקי צ\'ארמס', 'קפטן קראנץ\''],
             
-            // Deli - מעדניה
-            { name: 'נקניקיות', category: 'deli' },
-            { name: 'סלמי', category: 'deli' },
-            { name: 'פסטרמה', category: 'deli' },
-            { name: 'קבנוס', category: 'deli' },
-            { name: 'נקניק מעושן', category: 'deli' },
+            spices: ['מלח', 'סוכר', 'סוכר חום', 'סוכר המרה', 'סוכר גולן', 'פלפל שחור', 'פפריקה', 'כורכום', 'כמון', 'קינמון', 'אבקת שום', 'אבקת בצל', 'אורגנו', 'בזיליקום', 'זעתר', 'חוואייג׳', 'תבלין לעוף', 'תבלין לדגים', 'קארי', 'קמח לבן', 'קמח מלא', 'שמרים', 'אבקת אפייה', 'סודה לשתייה', 'וניל', 'שוקולד צ׳יפס', 'אגוזים', 'שקדים', 'אגוזי מלך', 'קשיו', 'צימוקים', 'תמרים', 'עדשים', 'חומוס יבש', 'פול', 'שעועית לבנה', 'שעועית אדומה', 'כוסמת'],
             
-            // Canned & Dry - שימורים ומזון יבש (המון!)
-            { name: 'אורז', category: 'canned' },
-            { name: 'אורז בסמטי', category: 'canned' },
-            { name: 'אורז יסמין', category: 'canned' },
-            { name: 'פסטה', category: 'canned' },
-            { name: 'פסטה פנה', category: 'canned' },
-            { name: 'פסטה ספגטי', category: 'canned' },
-            { name: 'קוסקוס', category: 'canned' },
-            { name: 'קטניות', category: 'canned' },
-            { name: 'רוטב עגבניות', category: 'canned' },
-            { name: 'טונה', category: 'canned' },
-            { name: 'תירס', category: 'canned' },
-            { name: 'שמן זית', category: 'canned' },
-            { name: 'שמן קנולה', category: 'canned' },
-            { name: 'שמן חמניות', category: 'canned' },
-            { name: 'שמן תירס', category: 'canned' },
-            { name: 'שמן זית כתית מעולה', category: 'canned' },
-            { name: 'חומץ בלסמי', category: 'canned' },
-            { name: 'חומץ יין', category: 'canned' },
-            { name: 'חומץ תפוחים', category: 'canned' },
-            { name: 'מיץ לימון', category: 'canned' },
-            { name: 'חומוס טחון', category: 'canned' },
-            { name: 'טחינה גולמית', category: 'canned' },
-            { name: 'טחינה מעורבת', category: 'canned' },
-            { name: 'ממרח שום', category: 'canned' },
-            { name: 'זיתים', category: 'canned' },
-            { name: 'זיתים שחורים', category: 'canned' },
-            { name: 'זיתים ירוקים', category: 'canned' },
-            { name: 'מלפפון חמוץ', category: 'canned' },
-            { name: 'פלפל חריף', category: 'canned' },
-            { name: 'ריבה', category: 'canned' },
-            { name: 'דבש', category: 'canned' },
-            { name: 'בוטנים', category: 'canned' },
-            { name: 'שומשום', category: 'canned' },
-            { name: 'נודלס', category: 'canned' },
-            { name: 'אטריות סיניות', category: 'canned' },
+            coffee: ['קפה נמס', 'קפה טורקי', 'קפה נספרסו', 'קפסולות קפה', 'קפה שחור טחון', 'קפה עלית', 'קפסולות נספרסו', 'קפסולות דולצ\'ה גוסטו', 'תה שחור', 'תה ירוק', 'תה צמחים', 'תה נענע', 'תה לואיזה', 'תה ליפטון', 'תה ויסוצקי', 'חלב מרוכז', 'ממתיק סוכרלוז', 'ממתיק סטיביה'],
             
-            // Spices - תבלינים ובישול (המון!)
-            { name: 'מלח', category: 'spices' },
-            { name: 'סוכר', category: 'spices' },
-            { name: 'סוכר חום', category: 'spices' },
-            { name: 'סוכר המרה', category: 'spices' },
-            { name: 'פלפל שחור', category: 'spices' },
-            { name: 'פפריקה', category: 'spices' },
-            { name: 'כורכום', category: 'spices' },
-            { name: 'כמון', category: 'spices' },
-            { name: 'קינמון', category: 'spices' },
-            { name: 'אבקת שום', category: 'spices' },
-            { name: 'אבקת בצל', category: 'spices' },
-            { name: 'אורגנו', category: 'spices' },
-            { name: 'בזיליקום', category: 'spices' },
-            { name: 'זעתר', category: 'spices' },
-            { name: 'חוואייג׳', category: 'spices' },
-            { name: 'תבלין לעוף', category: 'spices' },
-            { name: 'תבלין לדגים', category: 'spices' },
-            { name: 'קארי', category: 'spices' },
-            { name: 'קמח לבן', category: 'spices' },
-            { name: 'קמח מלא', category: 'spices' },
-            { name: 'שמרים', category: 'spices' },
-            { name: 'אבקת אפייה', category: 'spices' },
-            { name: 'סודה לשתייה', category: 'spices' },
-            { name: 'וניל', category: 'spices' },
-            { name: 'שוקולד צ׳יפס', category: 'spices' },
-            { name: 'אגוזים', category: 'spices' },
-            { name: 'שקדים', category: 'spices' },
-            { name: 'אגוזי מלך', category: 'spices' },
-            { name: 'קשיו', category: 'spices' },
-            { name: 'צימוקים', category: 'spices' },
-            { name: 'תמרים', category: 'spices' },
-            { name: 'עדשים', category: 'spices' },
-            { name: 'חומוס יבש', category: 'spices' },
-            { name: 'פול', category: 'spices' },
-            { name: 'שעועית לבנה', category: 'spices' },
-            { name: 'שעועית אדומה', category: 'spices' },
+            drinks: ['מים מינרלים', 'קולה', 'קולה זירו', 'ספרייט', 'מיץ', 'מיץ תפוזים', 'פריגת', 'אייס קפה', 'נביעות', 'תפוזינה', 'לימונדה'],
             
-            // Coffee & Tea - קפה ותה (מלא!)
-            { name: 'קפה נמס', category: 'coffee' },
-            { name: 'קפה טורקי', category: 'coffee' },
-            { name: 'קפה נספרסו', category: 'coffee' },
-            { name: 'קפסולות קפה', category: 'coffee' },
-            { name: 'קפה שחור טחון', category: 'coffee' },
-            { name: 'קפה עלית', category: 'coffee' },
-            { name: 'קפסולות נספרסו', category: 'coffee' },
-            { name: 'קפסולות דולצ׳ה גוסטו', category: 'coffee' },
-            { name: 'תה שחור', category: 'coffee' },
-            { name: 'תה ירוק', category: 'coffee' },
-            { name: 'תה צמחים', category: 'coffee' },
-            { name: 'תה נענע', category: 'coffee' },
-            { name: 'תה לואיזה', category: 'coffee' },
-            { name: 'תה ליפטון', category: 'coffee' },
-            { name: 'תה ויסוצקי', category: 'coffee' },
-            { name: 'חלב מרוכז', category: 'coffee' },
-            { name: 'ממתיק סוכרלוז', category: 'coffee' },
-            { name: 'ממתיק סטיביה', category: 'coffee' },
+            snacks: ['במבה', 'ביסלי', 'דוריטוס', 'טורטייה', 'פופקורן', 'שוקולד פרה', 'שוקולד מילקי', 'שוקולד חלב', 'שוקולד מריר', 'נוטלה', 'ממרח שוקולד', 'חטיף אנרגיה', 'ביסקוויטים', 'קליק', 'תפוצ\'יפס', 'וופלים', 'עוגת דבש', 'מרשמלו', 'סוכריות', 'מסטיק'],
             
-            // Drinks - משקאות
-            { name: 'מים מינרלים', category: 'drinks' },
-            { name: 'קולה', category: 'drinks' },
-            { name: 'קולה זירו', category: 'drinks' },
-            { name: 'ספרייט', category: 'drinks' },
-            { name: 'מיץ', category: 'drinks' },
-            { name: 'מיץ תפוזים', category: 'drinks' },
-            { name: 'פריגת', category: 'drinks' },
-            { name: 'אייס קפה', category: 'drinks' },
-            { name: 'נביעות', category: 'drinks' },
-            { name: 'תפוזינה', category: 'drinks' },
-            { name: 'לימונדה', category: 'drinks' },
+            frozen: ['גלידה', 'גלידה וניל', 'גלידה שוקולד', 'ירקות קפואים', 'שניצל קפוא', 'פיצה קפואה', 'בצק עלים קפוא', 'בצק פילו קפוא', 'בצק פיצה קפוא', 'בצק ג\'חנון קפוא', 'בצק מלווח קפוא', 'פירות קפואים', 'תותים קפואים'],
             
-            // Snacks - חטיפים וממתקים (המון!)
-            { name: 'במבה', category: 'snacks' },
-            { name: 'ביסלי', category: 'snacks' },
-            { name: 'דוריטוס', category: 'snacks' },
-            { name: 'טורטייה', category: 'snacks' },
-            { name: 'פופקורן', category: 'snacks' },
-            { name: 'שוקולד פרה', category: 'snacks' },
-            { name: 'שוקולד מילקי', category: 'snacks' },
-            { name: 'שוקולד חלב', category: 'snacks' },
-            { name: 'שוקולד מריר', category: 'snacks' },
-            { name: 'נוטלה', category: 'snacks' },
-            { name: 'ממרח שוקולד', category: 'snacks' },
-            { name: 'חטיף אנרגיה', category: 'snacks' },
-            { name: 'ביסקוויטים', category: 'snacks' },
-            { name: 'קליק', category: 'snacks' },
-            { name: 'תפוצ׳יפס', category: 'snacks' },
-            { name: 'וופלים', category: 'snacks' },
-            { name: 'עוגת דבש', category: 'snacks' },
-            { name: 'מרשמלו', category: 'snacks' },
-            { name: 'סוכריות', category: 'snacks' },
-            { name: 'מסטיק', category: 'snacks' },
+            health: ['יוגורט יווני 0%', 'יוגורט חלבון', 'קוטג\' 5%', 'קוטג\' 3%', 'חלב סויה', 'חלב שקדים', 'שייק חלבון', 'פרוטאין בר', 'אבקת חלבון', 'לחם מלא', 'פיתה מלאה', 'קרקר דגנים', 'טונה במים', 'חזה עוף מעושן'],
             
-            // Frozen - קפואים
-            { name: 'גלידה', category: 'frozen' },
-            { name: 'גלידה וניל', category: 'frozen' },
-            { name: 'גלידה שוקולד', category: 'frozen' },
-            { name: 'ירקות קפואים', category: 'frozen' },
-            { name: 'שניצל קפוא', category: 'frozen' },
-            { name: 'פיצה קפואה', category: 'frozen' },
-            { name: 'בצק עלים קפוא', category: 'frozen' },
-            { name: 'בצק פילו קפוא', category: 'frozen' },
-            { name: 'בצק פיצה קפוא', category: 'frozen' },
-            { name: 'בצק ג׳חנון קפוא', category: 'frozen' },
-            { name: 'בצק מלווח קפוא', category: 'frozen' },
-            { name: 'פירות קפואים', category: 'frozen' },
-            { name: 'תותים קפואים', category: 'frozen' },
+            cleaning: ['ניר טואלט', 'מגבות ניר', 'סבון כלים', 'אבקת כביסה', 'מרכך כביסה', 'אקונומיקה', 'סיף', 'מנקה רצפות', 'מנקה חלונות', 'מנקה אמבטיה', 'אבקת ניקוי', 'ספוגים למטבח', 'שקיות אשפה', 'נוזל כלים', 'טבליות למדיח', 'מלח למדיח', 'נוזל שטיפה למדיח'],
             
-            // Health - דיאטה וחלבון
-            { name: 'יוגורט יווני 0%', category: 'health' },
-            { name: 'יוגורט חלבון', category: 'health' },
-            { name: 'קוטג׳ 5%', category: 'health' },
-            { name: 'קוטג׳ 3%', category: 'health' },
-            { name: 'חלב סויה', category: 'health' },
-            { name: 'חלב שקדים', category: 'health' },
-            { name: 'שייק חלבון', category: 'health' },
-            { name: 'פרוטאין בר', category: 'health' },
-            { name: 'אבקת חלבון', category: 'health' },
-            { name: 'לחם מלא', category: 'health' },
-            { name: 'פיתה מלאה', category: 'health' },
-            { name: 'קרקר דגנים', category: 'health' },
-            { name: 'טונה במים', category: 'health' },
-            { name: 'חזה עוף מעושן', category: 'health' },
+            hygiene: ['סבון ידיים', 'מגבונים לחים', 'מברשת שיניים', 'משחת שיניים', 'מי פה', 'חוט דנטלי', 'שמפו', 'מרכך שיער', 'סבון גוף', 'ג\'ל רחצה', 'מסכה לשיער', 'קרם גילוח', 'סכיני גילוח', 'דאודורנט', 'קרם פנים', 'קרם ידיים', 'קרם גוף', 'תחבושות', 'פלסטריה', 'טמפונים', 'מגני תחתון'],
             
-            // Cleaning - ניקיון (מלא!)
-            { name: 'ניר טואלט', category: 'cleaning' },
-            { name: 'מגבות ניר', category: 'cleaning' },
-            { name: 'סבון כלים', category: 'cleaning' },
-            { name: 'אבקת כביסה', category: 'cleaning' },
-            { name: 'מרכך כביסה', category: 'cleaning' },
-            { name: 'אקונומיקה', category: 'cleaning' },
-            { name: 'סיף', category: 'cleaning' },
-            { name: 'מנקה רצפות', category: 'cleaning' },
-            { name: 'מנקה חלונות', category: 'cleaning' },
-            { name: 'מנקה אמבטיה', category: 'cleaning' },
-            { name: 'אבקת ניקוי', category: 'cleaning' },
-            { name: 'ספוגים למטבח', category: 'cleaning' },
-            { name: 'שקיות אשפה', category: 'cleaning' },
-            { name: 'נוזל כלים', category: 'cleaning' },
-            { name: 'טבליות למדיח', category: 'cleaning' },
-            { name: 'מלח למדיח', category: 'cleaning' },
-            { name: 'נוזל שטיפה למדיח', category: 'cleaning' },
+            candles: ['נרות שבת', 'נרות חנוכה', 'נר נשמה 24 שעות', 'נר נשמה 7 ימים', 'נר הבדלה', 'שמן לנר'],
             
-            // Hygiene - היגיינה ורחצה (המון!)
-            { name: 'סבון ידיים', category: 'hygiene' },
-            { name: 'מגבונים לחים', category: 'hygiene' },
-            { name: 'מברשת שיניים', category: 'hygiene' },
-            { name: 'משחת שיניים', category: 'hygiene' },
-            { name: 'מי פה', category: 'hygiene' },
-            { name: 'חוט דנטלי', category: 'hygiene' },
-            { name: 'שמפו', category: 'hygiene' },
-            { name: 'מרכך שיער', category: 'hygiene' },
-            { name: 'סבון גוף', category: 'hygiene' },
-            { name: 'ג׳ל רחצה', category: 'hygiene' },
-            { name: 'מסכה לשיער', category: 'hygiene' },
-            { name: 'קרם גילוח', category: 'hygiene' },
-            { name: 'סכיני גילוח', category: 'hygiene' },
-            { name: 'דאודורנט', category: 'hygiene' },
-            { name: 'קרם פנים', category: 'hygiene' },
-            { name: 'קרם ידיים', category: 'hygiene' },
-            { name: 'קרם גוף', category: 'hygiene' },
-            { name: 'תחבושות', category: 'hygiene' },
-            { name: 'פלסטריה', category: 'hygiene' },
-            { name: 'טמפונים', category: 'hygiene' },
-            { name: 'מגני תחתון', category: 'hygiene' },
+            baby: ['חיתולים', 'מגבונים לתינוקות', 'שמפו לתינוקות', 'סבון לתינוקות', 'קרם החתלה', 'אבקת חלב תחליף', 'מזון לתינוקות'],
             
-            // Candles - נרות ושמן
-            { name: 'נרות שבת', category: 'candles' },
-            { name: 'נרות חנוכה', category: 'candles' },
-            { name: 'נר נשמה 24 שעות', category: 'candles' },
-            { name: 'נר נשמה 7 ימים', category: 'candles' },
-            { name: 'נר הבדלה', category: 'candles' },
-            { name: 'שמן לנר', category: 'candles' }
-        ];
+            pets: ['מזון לכלבים', 'מזון לחתולים', 'חול לחתולים', 'חטיפים לכלבים', 'חטיפים לחתולים']
+        };
 
         function LoginScreen({ onLogin }) {
-            const [customName, setCustomName] = useState('');
-            const [showCustomInput, setShowCustomInput] = useState(false);
             const [darkMode, setDarkMode] = useState(false);
 
             useEffect(() => {
                 const saved = localStorage.getItem('darkMode');
-                if (saved) {
-                    setDarkMode(saved === 'true');
-                    if (saved === 'true') {
-                        document.documentElement.classList.add('dark');
-                    }
+                if (saved === 'true') {
+                    setDarkMode(true);
+                    document.documentElement.classList.add('dark');
                 }
             }, []);
 
@@ -499,11 +125,7 @@
                 const newMode = !darkMode;
                 setDarkMode(newMode);
                 localStorage.setItem('darkMode', newMode);
-                if (newMode) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
+                document.documentElement.classList.toggle('dark');
             };
 
             return (
@@ -516,11 +138,8 @@
                             <div className="text-6xl mb-4">🛒</div>
                             <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">רשימת קניות Pro</h1>
                             <p className="text-gray-600 dark:text-gray-300">בחר את השם שלך</p>
-                            <div className="mt-2 px-4 py-2 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-lg">
-                                <p className="text-sm text-green-800 dark:text-green-300">✨ מסונכרן בזמן אמת!</p>
-                            </div>
                         </div>
-                        <div className="space-y-3 mb-6">
+                        <div className="space-y-3">
                             {FAMILY_MEMBERS.map(member => (
                                 <button key={member.id} onClick={() => onLogin(member)}
                                     className={`w-full p-4 rounded-lg border-2 ${member.color} hover:shadow-lg transition-all font-semibold text-lg`}>
@@ -528,22 +147,6 @@
                                 </button>
                             ))}
                         </div>
-                        {showCustomInput ? (
-                            <div className="flex gap-2">
-                                <input type="text" value={customName} onChange={e => setCustomName(e.target.value)}
-                                    placeholder="הכנס שם..." className="flex-1 px-4 py-2 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg"
-                                    onKeyPress={e => e.key === 'Enter' && customName.trim() && onLogin({ id: 'custom_' + Date.now(), name: customName.trim(), color: 'bg-gray-100 text-gray-800 border-gray-300 dark:bg-gray-700 dark:text-gray-200' })} />
-                                <button onClick={() => customName.trim() && onLogin({ id: 'custom_' + Date.now(), name: customName.trim(), color: 'bg-gray-100 text-gray-800 border-gray-300' })}
-                                    className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold">
-                                    כניסה
-                                </button>
-                            </div>
-                        ) : (
-                            <button onClick={() => setShowCustomInput(true)}
-                                className="w-full p-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 hover:border-indigo-400">
-                                + שם אחר
-                            </button>
-                        )}
                     </div>
                 </div>
             );
@@ -552,21 +155,14 @@
         function ShoppingList() {
             const [currentUser, setCurrentUser] = useState(null);
             const [items, setItems] = useState([]);
-            const [showAddProduct, setShowAddProduct] = useState(false);
-            const [selectedCategory, setSelectedCategory] = useState(null); // null = show categories, 'category-name' = show products
-            const [newProductName, setNewProductName] = useState('');
-            const [newProductCategory, setNewProductCategory] = useState('other');
+            const [selectedCategory, setSelectedCategory] = useState(null);
+            const [searchTerm, setSearchTerm] = useState('');
             const [loading, setLoading] = useState(true);
             const [darkMode, setDarkMode] = useState(false);
-            const [searchTerm, setSearchTerm] = useState('');
-            const [filterBy, setFilterBy] = useState('all');
-            const [sortBy, setSortBy] = useState('date');
-            const [showStats, setShowStats] = useState(false);
-            const [showHistory, setShowHistory] = useState(false);
-            const [history, setHistory] = useState([]);
             const [showFinishShopping, setShowFinishShopping] = useState(false);
+            const [showHistory, setShowHistory] = useState(false);
             const [totalAmount, setTotalAmount] = useState('');
-            const [notification, setNotification] = useState(null);
+            const [history, setHistory] = useState([]);
 
             useEffect(() => {
                 const savedUser = localStorage.getItem('current-user');
@@ -579,7 +175,6 @@
                 }
 
                 if (window.db && window.firestore) {
-                    // Listen to shopping items
                     const q = window.firestore.query(
                         window.firestore.collection(window.db, 'shopping-items'),
                         window.firestore.orderBy('createdAt', 'desc')
@@ -590,21 +185,11 @@
                         snapshot.forEach((doc) => {
                             itemsData.push({ id: doc.id, ...doc.data() });
                         });
-                        
-                        if (items.length > 0 && itemsData.length > items.length) {
-                            const newItem = itemsData[0];
-                            if (newItem.addedBy !== currentUser?.name) {
-                                showNotification(`${newItem.addedBy} הוסיף: ${newItem.name}`);
-                            }
-                        }
-                        
                         setItems(itemsData);
                         setLoading(false);
                     });
 
-                    // Load history
                     loadHistory();
-
                     return () => unsubscribe();
                 }
             }, []);
@@ -622,11 +207,6 @@
                 setHistory(historyData);
             };
 
-            const showNotification = (message) => {
-                setNotification(message);
-                setTimeout(() => setNotification(null), 3000);
-            };
-
             const handleLogin = user => {
                 localStorage.setItem('current-user', JSON.stringify(user));
                 setCurrentUser(user);
@@ -641,15 +221,11 @@
                 const newMode = !darkMode;
                 setDarkMode(newMode);
                 localStorage.setItem('darkMode', newMode);
-                if (newMode) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
+                document.documentElement.classList.toggle('dark');
             };
 
             const addProduct = async (product) => {
-                const existing = items.find(item => item.name === product.name && !item.purchased);
+                const existing = items.find(item => item.name === product && !item.purchased);
                 if (existing) {
                     await window.firestore.updateDoc(
                         window.firestore.doc(window.db, 'shopping-items', existing.id),
@@ -657,8 +233,8 @@
                     );
                 } else {
                     await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
-                        name: product.name,
-                        category: product.category,
+                        name: product,
+                        category: selectedCategory,
                         quantity: 1,
                         purchased: false,
                         addedBy: currentUser.name,
@@ -668,20 +244,10 @@
                 }
             };
 
-            const addCustomProduct = async () => {
-                if (newProductName.trim()) {
-                    await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
-                        name: newProductName.trim(),
-                        category: selectedCategory || 'other',
-                        quantity: 1,
-                        purchased: false,
-                        addedBy: currentUser.name,
-                        addedByColor: currentUser.color,
-                        createdAt: new Date()
-                    });
-                    setNewProductName('');
-                    setShowAddProduct(false);
-                }
+            const togglePurchased = async (id, currentStatus) => {
+                await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
+                    purchased: !currentStatus
+                });
             };
 
             const updateQuantity = async (id, newQuantity) => {
@@ -692,12 +258,6 @@
                         quantity: newQuantity
                     });
                 }
-            };
-
-            const togglePurchased = async (id, currentStatus) => {
-                await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
-                    purchased: !currentStatus
-                });
             };
 
             const finishShopping = async () => {
@@ -712,7 +272,6 @@
                     return;
                 }
 
-                // Save to history
                 await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-history'), {
                     items: purchasedItems,
                     totalAmount: parseFloat(totalAmount),
@@ -720,41 +279,29 @@
                     completedBy: currentUser.name
                 });
 
-                // Delete purchased items
                 for (const item of purchasedItems) {
                     await window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', item.id));
                 }
 
                 setShowFinishShopping(false);
                 setTotalAmount('');
-                showNotification(`קנייה בסך ₪${totalAmount} נשמרה בהצלחה!`);
                 loadHistory();
-            };
-
-            const clearPurchased = async () => {
-                if (!confirm('האם אתה בטוח שברצונך למחוק את כל המוצרים שנקנו?')) return;
-                const purchasedItems = items.filter(item => item.purchased);
-                for (const item of purchasedItems) {
-                    await window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', item.id));
-                }
-                showNotification('המוצרים שנקנו נמחקו!');
             };
 
             const exportToWhatsApp = () => {
                 const unpurchased = items.filter(item => !item.purchased);
                 let text = '🛒 רשימת קניות:\n\n';
-                Object.entries(CATEGORIES).forEach(([key, label]) => {
+                Object.entries(CATEGORIES).forEach(([key, cat]) => {
                     const categoryItems = unpurchased.filter(item => item.category === key);
                     if (categoryItems.length > 0) {
-                        text += `📦 ${label}:\n`;
+                        text += `${cat.icon} ${cat.name}:\n`;
                         categoryItems.forEach(item => {
                             text += `  ✓ ${item.name} (${item.quantity})\n`;
                         });
                         text += '\n';
                     }
                 });
-                const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-                window.open(url, '_blank');
+                window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
             };
 
             if (loading && !currentUser) {
@@ -767,18 +314,10 @@
 
             if (!currentUser) return <LoginScreen onLogin={handleLogin} />;
 
-            let filteredItems = items.filter(item => {
+            const filteredItems = items.filter(item => {
                 if (searchTerm && !item.name.includes(searchTerm)) return false;
-                if (filterBy === 'purchased' && !item.purchased) return false;
-                if (filterBy === 'unpurchased' && item.purchased) return false;
                 return true;
             });
-
-            if (sortBy === 'name') {
-                filteredItems.sort((a, b) => a.name.localeCompare(b.name));
-            } else if (sortBy === 'quantity') {
-                filteredItems.sort((a, b) => b.quantity - a.quantity);
-            }
 
             const groupedItems = filteredItems.reduce((acc, item) => {
                 if (!acc[item.category]) acc[item.category] = [];
@@ -787,33 +326,17 @@
             }, {});
 
             const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-            const purchasedItems = items.filter(item => item.purchased).reduce((sum, item) => sum + item.quantity, 0);
-
-            const topProducts = [...items].sort((a, b) => b.quantity - a.quantity).slice(0, 5);
-            const categoryStats = Object.entries(CATEGORIES).map(([key, category]) => ({
-                category: category.name,
-                count: items.filter(item => item.category === key).length
-            })).filter(c => c.count > 0).sort((a, b) => b.count - a.count);
+            const purchasedCount = items.filter(item => item.purchased).reduce((sum, item) => sum + item.quantity, 0);
 
             return (
                 <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950 p-4">
-                    {notification && (
-                        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-bounce">
-                            {notification}
-                        </div>
-                    )}
                     
-                    {/* Finish Shopping Modal */}
                     {showFinishShopping && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                             <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full">
                                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">סיום קנייה</h2>
-                                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                                    נקנו {purchasedItems} פריטים
-                                </p>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    מה היה הסכום הכולל?
-                                </label>
+                                <p className="text-gray-600 dark:text-gray-300 mb-4">נקנו {purchasedCount} פריטים</p>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">מה היה הסכום הכולל?</label>
                                 <input 
                                     type="number" 
                                     value={totalAmount} 
@@ -825,7 +348,7 @@
                                 <div className="flex gap-2">
                                     <button onClick={finishShopping} 
                                         className="flex-1 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
-                                        ✓ סיים וזשמור
+                                        ✓ סיים ושמור
                                     </button>
                                     <button onClick={() => { setShowFinishShopping(false); setTotalAmount(''); }}
                                         className="px-6 py-3 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg">
@@ -836,29 +359,26 @@
                         </div>
                     )}
 
-                    {/* History Modal */}
                     {showHistory && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
                             <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                                 <div className="flex justify-between items-center mb-4">
                                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white">היסטוריית קניות</h2>
                                     <button onClick={() => setShowHistory(false)} 
-                                        className="text-gray-500 hover:text-gray-700 text-2xl">×</button>
+                                        className="text-gray-500 hover:text-gray-700 text-3xl">×</button>
                                 </div>
                                 {history.length === 0 ? (
                                     <p className="text-gray-600 dark:text-gray-400 text-center py-8">אין היסטוריה עדיין</p>
                                 ) : (
                                     <div className="space-y-4">
-                                        {history.map((record, idx) => (
+                                        {history.map((record) => (
                                             <div key={record.id} className="border-2 border-gray-200 dark:border-gray-600 rounded-lg p-4">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <div>
                                                         <div className="text-sm text-gray-600 dark:text-gray-400">
                                                             {record.completedAt?.toDate?.()?.toLocaleDateString('he-IL') || 'תאריך לא ידוע'}
                                                         </div>
-                                                        <div className="text-xs text-gray-500 dark:text-gray-500">
-                                                            ע"י {record.completedBy}
-                                                        </div>
+                                                        <div className="text-xs text-gray-500">ע"י {record.completedBy}</div>
                                                     </div>
                                                     <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                                                         ₪{record.totalAmount}
@@ -867,195 +387,109 @@
                                                 <div className="text-sm text-gray-700 dark:text-gray-300">
                                                     {record.items.length} פריטים
                                                 </div>
-                                                <details className="mt-2">
-                                                    <summary className="cursor-pointer text-sm text-indigo-600 dark:text-indigo-400">
-                                                        הצג פירוט
-                                                    </summary>
-                                                    <ul className="mt-2 text-sm space-y-1">
-                                                        {record.items.map((item, i) => (
-                                                            <li key={i} className="text-gray-600 dark:text-gray-400">
-                                                                • {item.name} ({item.quantity})
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </details>
                                             </div>
                                         ))}
+                                        <div className="bg-indigo-50 dark:bg-indigo-900/30 p-4 rounded-lg">
+                                            <div className="flex justify-between text-gray-700 dark:text-gray-300">
+                                                <span>סה"כ קניות:</span>
+                                                <span className="font-bold">{history.length}</span>
+                                            </div>
+                                            <div className="flex justify-between text-gray-700 dark:text-gray-300 mt-2">
+                                                <span>סה"כ הוצאות:</span>
+                                                <span className="font-bold text-green-600">
+                                                    ₪{history.reduce((sum, h) => sum + h.totalAmount, 0).toFixed(2)}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
-                                <div className="mt-6">
-                                    <div className="text-lg font-bold text-gray-800 dark:text-white mb-2">
-                                        סיכום כללי
-                                    </div>
-                                    <div className="bg-indigo-50 dark:bg-indigo-900/30 p-4 rounded-lg">
-                                        <div className="flex justify-between text-gray-700 dark:text-gray-300">
-                                            <span>סה"כ קניות:</span>
-                                            <span className="font-bold">{history.length}</span>
-                                        </div>
-                                        <div className="flex justify-between text-gray-700 dark:text-gray-300 mt-2">
-                                            <span>סה"כ הוצאות:</span>
-                                            <span className="font-bold text-green-600 dark:text-green-400">
-                                                ₪{history.reduce((sum, h) => sum + h.totalAmount, 0).toFixed(2)}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     )}
                     
                     <div className="max-w-4xl mx-auto">
-                        {/* Header */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-3">
                                     <span className="text-4xl">🛒</span>
                                     <div>
                                         <h1 className="text-3xl font-bold text-gray-800 dark:text-white">רשימת קניות Pro</h1>
-                                        <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                            <span className="text-sm text-gray-600 dark:text-gray-400">מחובר:</span>
+                                        <div className="flex items-center gap-2 mt-1">
                                             <span className={`px-3 py-1 rounded-full text-sm font-semibold border ${currentUser.color}`}>
                                                 {currentUser.name}
                                             </span>
-                                            <button onClick={handleLogout} className="text-gray-500 hover:text-red-600 text-sm">
-                                                החלף
-                                            </button>
-                                            <button onClick={toggleDarkMode} className="text-2xl">
-                                                {darkMode ? '☀️' : '🌙'}
-                                            </button>
-                                            <span className="text-xs text-green-600 dark:text-green-400 animate-pulse">● מסונכרן</span>
+                                            <button onClick={handleLogout} className="text-gray-500 hover:text-red-600 text-sm">החלף</button>
+                                            <button onClick={toggleDarkMode} className="text-2xl">{darkMode ? '☀️' : '🌙'}</button>
                                         </div>
                                     </div>
                                 </div>
                                 <button 
-                                    onClick={() => document.getElementById('shopping-list-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                                    className="flex flex-col items-center gap-1 px-4 py-2 bg-indigo-100 dark:bg-indigo-900 hover:bg-indigo-200 dark:hover:bg-indigo-800 rounded-lg transition-all cursor-pointer"
-                                >
-                                    <div className="text-sm text-gray-600 dark:text-gray-300">סה״כ</div>
-                                    <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{totalItems}</div>
-                                    <div className="text-xs text-indigo-600 dark:text-indigo-400">👇 לרשימה</div>
+                                    onClick={() => document.getElementById('shopping-list-section')?.scrollIntoView({ behavior: 'smooth' })}
+                                    className="flex flex-col items-center gap-1 px-4 py-2 bg-indigo-100 dark:bg-indigo-900 rounded-lg hover:bg-indigo-200">
+                                    <div className="text-sm">סה״כ</div>
+                                    <div className="text-2xl font-bold text-indigo-600">{totalItems}</div>
+                                    <div className="text-xs">👇</div>
                                 </button>
                             </div>
 
                             {totalItems > 0 && (
                                 <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-lg p-4 mb-4">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="text-sm text-gray-700 dark:text-gray-300">התקדמות</span>
-                                        <span className="text-sm font-semibold text-indigo-700 dark:text-indigo-400">{purchasedItems} / {totalItems}</span>
+                                    <div className="flex justify-between mb-2 text-sm">
+                                        <span>התקדמות</span>
+                                        <span className="font-semibold">{purchasedCount} / {totalItems}</span>
                                     </div>
-                                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-                                        <div className="bg-indigo-600 dark:bg-indigo-500 h-3 rounded-full transition-all" 
-                                            style={{ width: `${totalItems > 0 ? (purchasedItems / totalItems) * 100 : 0}%` }} />
+                                    <div className="w-full bg-gray-200 rounded-full h-3">
+                                        <div className="bg-indigo-600 h-3 rounded-full transition-all" 
+                                            style={{ width: `${totalItems > 0 ? (purchasedCount / totalItems) * 100 : 0}%` }} />
                                     </div>
                                 </div>
                             )}
 
-                            {/* Quick Actions */}
                             <div className="grid grid-cols-2 gap-3">
-                                <button onClick={() => purchasedItems > 0 ? setShowFinishShopping(true) : alert('אין מוצרים שנקנו עדיין')}
-                                    className="bg-green-50 dark:bg-green-900/30 p-4 rounded-lg border-2 border-green-200 dark:border-green-700 hover:shadow-md transition-all">
-                                    <div className="text-sm text-gray-600 dark:text-gray-400">סיים קנייה</div>
-                                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">✓</div>
-                                    {purchasedItems > 0 && (
-                                        <div className="text-xs text-gray-500 dark:text-gray-500">{purchasedItems} פריטים</div>
-                                    )}
+                                <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : alert('אין מוצרים שנקנו')}
+                                    className="bg-green-50 dark:bg-green-900/30 p-4 rounded-lg border-2 border-green-200 dark:border-green-700">
+                                    <div className="text-sm">סיים קנייה</div>
+                                    <div className="text-2xl">✓</div>
+                                    {purchasedCount > 0 && <div className="text-xs">{purchasedCount} פריטים</div>}
                                 </button>
                                 <button onClick={() => setShowHistory(true)}
-                                    className="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-lg border-2 border-purple-200 dark:border-purple-700 hover:shadow-md transition-all">
-                                    <div className="text-sm text-gray-600 dark:text-gray-400">היסטוריה</div>
-                                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">📊</div>
-                                    <div className="text-xs text-gray-500 dark:text-gray-500">{history.length} קניות</div>
+                                    className="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-lg border-2 border-purple-200 dark:border-purple-700">
+                                    <div className="text-sm">היסטוריה</div>
+                                    <div className="text-2xl">📊</div>
+                                    <div className="text-xs">{history.length} קניות</div>
                                 </button>
                             </div>
 
-                            {showStats && (
-                                <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                    <h3 className="font-bold text-lg mb-3 text-gray-800 dark:text-white">סטטיסטיקות נוכחיות</h3>
-                                    <div className="space-y-3">
-                                        <div>
-                                            <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">מוצרים מובילים:</div>
-                                            {topProducts.length > 0 ? topProducts.slice(0, 3).map((item, idx) => (
-                                                <div key={idx} className="text-sm flex justify-between py-1">
-                                                    <span className="text-gray-700 dark:text-gray-300">{idx + 1}. {item.name}</span>
-                                                    <span className="font-bold text-indigo-600 dark:text-indigo-400">x{item.quantity}</span>
-                                                </div>
-                                            )) : (
-                                                <div className="text-sm text-gray-500 dark:text-gray-500">אין מוצרים עדיין</div>
-                                            )}
-                                        </div>
-                                        <div>
-                                            <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">קטגוריות פופולריות:</div>
-                                            {categoryStats.length > 0 ? categoryStats.slice(0, 3).map((cat, idx) => (
-                                                <div key={idx} className="text-sm flex justify-between py-1">
-                                                    <span className="text-gray-700 dark:text-gray-300">{cat.category}</span>
-                                                    <span className="font-bold text-purple-600 dark:text-purple-400">{cat.count}</span>
-                                                </div>
-                                            )) : (
-                                                <div className="text-sm text-gray-500 dark:text-gray-500">אין קטגוריות עדיין</div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="mt-4">
-                                <button onClick={() => setShowStats(!showStats)}
-                                    className="w-full bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg border-2 border-blue-200 dark:border-blue-700 hover:shadow-md transition-all text-blue-600 dark:text-blue-400 font-semibold">
-                                    {showStats ? '▲ הסתר סטטיסטיקות' : '▼ הצג סטטיסטיקות'}
-                                </button>
-                            </div>
-
-                            {purchasedItems > 0 && (
-                                <div className="mt-4 flex gap-2">
+                            {purchasedCount > 0 && (
+                                <div className="mt-4">
                                     <button onClick={exportToWhatsApp} 
-                                        className="flex-1 bg-green-500 text-white px-4 py-3 rounded-lg hover:bg-green-600 flex items-center justify-center gap-2 font-semibold">
+                                        className="w-full bg-green-500 text-white px-4 py-3 rounded-lg">
                                         📱 שתף ב-WhatsApp
                                     </button>
-                                    <button onClick={clearPurchased}
-                                        className="px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 font-semibold">
-                                        🗑️ נקה
-                                    </button>
                                 </div>
                             )}
                         </div>
 
-                        {/* Search & Filter */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 mb-6">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
-                                    placeholder="🔍 חפש מוצר..." 
-                                    className="px-4 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                                <select value={filterBy} onChange={e => setFilterBy(e.target.value)}
-                                    className="px-4 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                    <option value="all">הכל</option>
-                                    <option value="unpurchased">לא נקנו</option>
-                                    <option value="purchased">נקנו</option>
-                                </select>
-                                <select value={sortBy} onChange={e => setSortBy(e.target.value)}
-                                    className="px-4 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                    <option value="date">מיון: תאריך</option>
-                                    <option value="name">מיון: שם</option>
-                                    <option value="quantity">מיון: כמות</option>
-                                </select>
-                            </div>
+                            <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
+                                placeholder="🔍 חפש מוצר..." 
+                                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white" />
                         </div>
 
-                        {/* Categories or Products */}
                         {!selectedCategory ? (
-                            /* Show Categories Grid */
                             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
-                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">בחר קטגוריה</h2>
+                                <h2 className="text-2xl font-bold text-center mb-6 dark:text-white">בחר קטגוריה</h2>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                    {Object.entries(CATEGORIES).map(([key, category]) => {
+                                    {Object.entries(CATEGORIES).map(([key, cat]) => {
                                         const count = items.filter(item => item.category === key).length;
                                         return (
                                             <button 
                                                 key={key} 
                                                 onClick={() => setSelectedCategory(key)}
-                                                className="relative bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 hover:from-indigo-100 hover:to-blue-100 dark:hover:from-indigo-900/50 dark:hover:to-blue-900/50 p-6 rounded-2xl border-2 border-indigo-200 dark:border-indigo-700 hover:shadow-lg transition-all group"
+                                                className="relative bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 p-6 rounded-2xl border-2 border-indigo-200 dark:border-indigo-700 hover:shadow-lg transition-all group"
                                             >
-                                                <div className="text-5xl mb-3 group-hover:scale-110 transition-transform">{category.icon}</div>
-                                                <div className="text-sm font-bold text-gray-800 dark:text-white mb-1">{category.name}</div>
+                                                <div className="text-5xl mb-3 group-hover:scale-110 transition-transform">{cat.icon}</div>
+                                                <div className="text-sm font-bold dark:text-white">{cat.name}</div>
                                                 {count > 0 && (
                                                     <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
                                                         {count}
@@ -1067,95 +501,32 @@
                                 </div>
                             </div>
                         ) : (
-                            /* Show Products for Selected Category */
                             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
-                                <div className="flex items-center justify-between mb-6">
-                                    <button 
-                                        onClick={() => setSelectedCategory(null)}
-                                        className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-semibold"
-                                    >
-                                        ← חזור לקטגוריות
-                                    </button>
-                                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-3">
+                                <div className="flex justify-between items-center mb-6">
+                                    <button onClick={() => setSelectedCategory(null)}
+                                        className="text-indigo-600 dark:text-indigo-400 font-semibold">← חזור</button>
+                                    <h2 className="text-2xl font-bold flex items-center gap-2 dark:text-white">
                                         <span className="text-4xl">{CATEGORIES[selectedCategory].icon}</span>
                                         {CATEGORIES[selectedCategory].name}
                                     </h2>
-                                    <div className="w-24"></div>
+                                    <div className="w-20"></div>
                                 </div>
                                 
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
-                                    {PRODUCTS.filter(p => p.category === selectedCategory).map((product, idx) => (
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                    {PRODUCTS[selectedCategory]?.map((product, idx) => (
                                         <button key={idx} onClick={() => addProduct(product)}
-                                            className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 hover:from-green-100 hover:to-emerald-100 dark:hover:from-green-900/50 dark:hover:to-emerald-900/50 p-4 rounded-xl text-gray-800 dark:text-white font-medium text-sm border-2 border-green-200 dark:border-green-700 hover:shadow-md transition-all">
+                                            className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 p-4 rounded-xl font-medium text-sm border-2 border-green-200 dark:border-green-700 hover:shadow-md transition-all dark:text-white">
                                             <div className="text-2xl mb-2">➕</div>
-                                            {product.name}
+                                            {product}
                                         </button>
                                     ))}
                                 </div>
-                                
-                                {showAddProduct ? (
-                                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border-2 border-indigo-200 dark:border-indigo-700">
-                                        <div className="flex flex-col gap-3">
-                                            <input type="text" value={newProductName} onChange={e => setNewProductName(e.target.value)}
-                                                placeholder="שם המוצר" className="px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white"
-                                                onKeyPress={e => e.key === 'Enter' && addCustomProduct()} />
-                                            <div className="flex gap-2">
-                                                <button onClick={addCustomProduct} className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">הוסף</button>
-                                                <button onClick={() => { setShowAddProduct(false); setNewProductName(''); }}
-                                                    className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg">ביטול</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <button onClick={() => setShowAddProduct(true)}
-                                        className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:from-indigo-700 hover:to-blue-700">
-                                        + הוסף מוצר משלך
-                                    </button>
-                                )}
                             </div>
                         )}
 
-                        {/* Shopping List */}
                         {filteredItems.length > 0 && (
                             <div id="shopping-list-section" className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-                                <div className="flex justify-between items-center mb-4">
-                                    <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-                                        הרשימה שלנו ({filteredItems.length})
-                                    </h2>
-                                </div>
-                                {Object.entries(groupedItems).map(([category, categoryItems]) => (
-                                    <div key={category} className="mb-6">
-                                        <h3 className="text-lg font-bold text-indigo-700 dark:text-indigo-400 mb-3 pb-2 border-b-2 border-indigo-200 dark:border-indigo-700 flex items-center gap-2">
-                                            <span className="text-2xl">{CATEGORIES[category]?.icon}</span>
-                                            {CATEGORIES[category]?.name} ({categoryItems.length})
-                                        </h3>
-                                        {categoryItems.map(item => (
-                                            <div key={item.id} className={`flex items-center gap-3 p-3 rounded-lg mb-2 ${item.purchased ? 'bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-700' : 'bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600'}`}>
-                                                <button onClick={() => togglePurchased(item.id, item.purchased)}
-                                                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${item.purchased ? 'bg-green-500 border-green-500' : 'border-gray-300 dark:border-gray-500'}`}>
-                                                    {item.purchased && <span className="text-white text-xs">✓</span>}
-                                                </button>
-                                                <div className="flex-1">
-                                                    <span className={`font-medium ${item.purchased ? 'text-gray-500 dark:text-gray-400 line-through' : 'text-gray-800 dark:text-white'}`}>
-                                                        {item.name}
-                                                    </span>
-                                                    {item.addedBy && (
-                                                        <span className={`text-xs px-2 py-0.5 rounded-full border inline-block ml-2 ${item.addedByColor}`}>
-                                                            {item.addedBy}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                        className="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-lg font-bold hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
-                        {/* Shopping List */}
-                        {filteredItems.length > 0 && (
-                            <div id="shopping-list-section" className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-                                <div className="flex justify-between items-center mb-4">
-                                    <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-                                        הרשימה שלנו ({filteredItems.length})
-                                    </h2>
-                                </div>
+                                <h2 className="text-xl font-bold mb-4 dark:text-white">הרשימה שלנו ({filteredItems.length})</h2>
                                 {Object.entries(groupedItems).map(([category, categoryItems]) => (
                                     <div key={category} className="mb-6">
                                         <h3 className="text-lg font-bold text-indigo-700 dark:text-indigo-400 mb-3 pb-2 border-b-2 border-indigo-200 dark:border-indigo-700 flex items-center gap-2">
@@ -1173,32 +544,24 @@
                                                         {item.name}
                                                     </span>
                                                     {item.addedBy && (
-                                                        <span className={`text-xs px-2 py-0.5 rounded-full border inline-block ml-2 ${item.addedByColor}`}>
+                                                        <span className={`text-xs px-2 py-0.5 rounded-full border ml-2 ${item.addedByColor}`}>
                                                             {item.addedBy}
                                                         </span>
                                                     )}
                                                 </div>
                                                 <div className="flex items-center gap-2 flex-shrink-0">
                                                     <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                        className="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-lg font-bold hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
+                                                        className="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-lg font-bold">-</button>
                                                     <span className="w-12 text-center font-bold text-indigo-600 dark:text-indigo-400">{item.quantity}</span>
                                                     <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                        className="w-8 h-8 bg-indigo-100 dark:bg-indigo-900 rounded-lg font-bold hover:bg-indigo-200 dark:hover:bg-indigo-800">+</button>
+                                                        className="w-8 h-8 bg-indigo-100 dark:bg-indigo-900 rounded-lg font-bold">+</button>
                                                 </div>
                                                 <button onClick={() => window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', item.id))}
-                                                    className="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800 flex-shrink-0">🗑</button>
+                                                    className="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-lg text-red-600 dark:text-red-400 flex-shrink-0">🗑</button>
                                             </div>
                                         ))}
                                     </div>
                                 ))}
-                            </div>
-                        )}
-
-                        {filteredItems.length === 0 && !loading && (
-                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-12 text-center">
-                                <div className="text-6xl mb-4">📝</div>
-                                <p className="text-xl text-gray-600 dark:text-gray-400">הרשימה ריקה</p>
-                                <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">התחל להוסיף מוצרים!</p>
                             </div>
                         )}
                     </div>
