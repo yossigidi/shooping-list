@@ -790,8 +790,8 @@
             const purchasedItems = items.filter(item => item.purchased).reduce((sum, item) => sum + item.quantity, 0);
 
             const topProducts = [...items].sort((a, b) => b.quantity - a.quantity).slice(0, 5);
-            const categoryStats = Object.entries(CATEGORIES).map(([key, label]) => ({
-                category: label,
+            const categoryStats = Object.entries(CATEGORIES).map(([key, category]) => ({
+                category: category.name,
                 count: items.filter(item => item.category === key).length
             })).filter(c => c.count > 0).sort((a, b) => b.count - a.count);
 
@@ -952,58 +952,68 @@
 
                             {/* Quick Actions */}
                             <div className="grid grid-cols-2 gap-3">
+                                <button onClick={() => purchasedItems > 0 ? setShowFinishShopping(true) : alert('אין מוצרים שנקנו עדיין')}
+                                    className="bg-green-50 dark:bg-green-900/30 p-4 rounded-lg border-2 border-green-200 dark:border-green-700 hover:shadow-md transition-all">
+                                    <div className="text-sm text-gray-600 dark:text-gray-400">סיים קנייה</div>
+                                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">✓</div>
+                                    {purchasedItems > 0 && (
+                                        <div className="text-xs text-gray-500 dark:text-gray-500">{purchasedItems} פריטים</div>
+                                    )}
+                                </button>
                                 <button onClick={() => setShowHistory(true)}
                                     className="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-lg border-2 border-purple-200 dark:border-purple-700 hover:shadow-md transition-all">
-                                    <div className="text-sm text-gray-600 dark:text-gray-400">היסטוריית קניות</div>
+                                    <div className="text-sm text-gray-600 dark:text-gray-400">היסטוריה</div>
                                     <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">📊</div>
                                     <div className="text-xs text-gray-500 dark:text-gray-500">{history.length} קניות</div>
-                                </button>
-                                <button onClick={() => setShowStats(!showStats)}
-                                    className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg border-2 border-blue-200 dark:border-blue-700 hover:shadow-md transition-all">
-                                    <div className="text-sm text-gray-600 dark:text-gray-400">סטטיסטיקות</div>
-                                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">📈</div>
                                 </button>
                             </div>
 
                             {showStats && (
                                 <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                    <h3 className="font-bold text-lg mb-3 text-gray-800 dark:text-white">סטטיסטיקות</h3>
+                                    <h3 className="font-bold text-lg mb-3 text-gray-800 dark:text-white">סטטיסטיקות נוכחיות</h3>
                                     <div className="space-y-3">
                                         <div>
                                             <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">מוצרים מובילים:</div>
-                                            {topProducts.slice(0, 3).map((item, idx) => (
+                                            {topProducts.length > 0 ? topProducts.slice(0, 3).map((item, idx) => (
                                                 <div key={idx} className="text-sm flex justify-between py-1">
                                                     <span className="text-gray-700 dark:text-gray-300">{idx + 1}. {item.name}</span>
                                                     <span className="font-bold text-indigo-600 dark:text-indigo-400">x{item.quantity}</span>
                                                 </div>
-                                            ))}
+                                            )) : (
+                                                <div className="text-sm text-gray-500 dark:text-gray-500">אין מוצרים עדיין</div>
+                                            )}
                                         </div>
                                         <div>
                                             <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">קטגוריות פופולריות:</div>
-                                            {categoryStats.slice(0, 3).map((cat, idx) => (
+                                            {categoryStats.length > 0 ? categoryStats.slice(0, 3).map((cat, idx) => (
                                                 <div key={idx} className="text-sm flex justify-between py-1">
                                                     <span className="text-gray-700 dark:text-gray-300">{cat.category}</span>
                                                     <span className="font-bold text-purple-600 dark:text-purple-400">{cat.count}</span>
                                                 </div>
-                                            ))}
+                                            )) : (
+                                                <div className="text-sm text-gray-500 dark:text-gray-500">אין קטגוריות עדיין</div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                             )}
 
+                            <div className="mt-4">
+                                <button onClick={() => setShowStats(!showStats)}
+                                    className="w-full bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg border-2 border-blue-200 dark:border-blue-700 hover:shadow-md transition-all text-blue-600 dark:text-blue-400 font-semibold">
+                                    {showStats ? '▲ הסתר סטטיסטיקות' : '▼ הצג סטטיסטיקות'}
+                                </button>
+                            </div>
+
                             {purchasedItems > 0 && (
                                 <div className="mt-4 flex gap-2">
-                                    <button onClick={() => setShowFinishShopping(true)}
-                                        className="flex-1 bg-green-500 text-white px-4 py-3 rounded-lg hover:bg-green-600 font-semibold">
-                                        ✓ סיים קנייה
-                                    </button>
                                     <button onClick={exportToWhatsApp} 
-                                        className="flex-1 bg-green-500 text-white px-4 py-3 rounded-lg hover:bg-green-600 flex items-center justify-center gap-2">
-                                        📱 שתף
+                                        className="flex-1 bg-green-500 text-white px-4 py-3 rounded-lg hover:bg-green-600 flex items-center justify-center gap-2 font-semibold">
+                                        📱 שתף ב-WhatsApp
                                     </button>
                                     <button onClick={clearPurchased}
-                                        className="px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                                        🗑️
+                                        className="px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 font-semibold">
+                                        🗑️ נקה
                                     </button>
                                 </div>
                             )}
