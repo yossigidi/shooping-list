@@ -40,26 +40,26 @@
         const { useState, useEffect, useRef } = React;
 
         const CATEGORIES = {
-            fruits: 'פירות וירקות',
-            dairy: 'חלבי',
-            desserts: 'מעדני חלב',
-            meat: 'בשר ודגים',
-            deli: 'מעדניה',
-            bakery: 'לחם ומאפים',
-            cereals: 'דגנים וקורנפלקס',
-            canned: 'שימורים ומזון יבש',
-            spices: 'תבלינים ובישול',
-            coffee: 'קפה ותה',
-            drinks: 'משקאות',
-            snacks: 'חטיפים וממתקים',
-            frozen: 'קפואים',
-            health: 'דיאטה וחלבון',
-            hygiene: 'היגיינה ורחצה',
-            cleaning: 'ניקיון',
-            candles: 'נרות ושמן',
-            baby: 'תינוקות וילדים',
-            pets: 'חיות מחמד',
-            other: 'אחר'
+            fruits: { name: 'פירות וירקות', icon: '🥬' },
+            dairy: { name: 'חלבי', icon: '🥛' },
+            desserts: { name: 'מעדני חלב', icon: '🍮' },
+            meat: { name: 'בשר ודגים', icon: '🍗' },
+            deli: { name: 'מעדניה', icon: '🥓' },
+            bakery: { name: 'לחם ומאפים', icon: '🍞' },
+            cereals: { name: 'דגנים וקורנפלקס', icon: '🥣' },
+            canned: { name: 'שימורים ומזון יבש', icon: '🥫' },
+            spices: { name: 'תבלינים ובישול', icon: '🧂' },
+            coffee: { name: 'קפה ותה', icon: '☕' },
+            drinks: { name: 'משקאות', icon: '🥤' },
+            snacks: { name: 'חטיפים וממתקים', icon: '🍿' },
+            frozen: { name: 'קפואים', icon: '🧊' },
+            health: { name: 'דיאטה וחלבון', icon: '💪' },
+            hygiene: { name: 'היגיינה ורחצה', icon: '🧴' },
+            cleaning: { name: 'ניקיון', icon: '🧹' },
+            candles: { name: 'נרות ושמן', icon: '🕯️' },
+            baby: { name: 'תינוקות וילדים', icon: '👶' },
+            pets: { name: 'חיות מחמד', icon: '🐾' },
+            other: { name: 'אחר', icon: '📦' }
         };
 
         const FAMILY_MEMBERS = [
@@ -553,7 +553,7 @@
             const [currentUser, setCurrentUser] = useState(null);
             const [items, setItems] = useState([]);
             const [showAddProduct, setShowAddProduct] = useState(false);
-            const [selectedCategory, setSelectedCategory] = useState('all');
+            const [selectedCategory, setSelectedCategory] = useState(null); // null = show categories, 'category-name' = show products
             const [newProductName, setNewProductName] = useState('');
             const [newProductCategory, setNewProductCategory] = useState('other');
             const [loading, setLoading] = useState(true);
@@ -672,7 +672,7 @@
                 if (newProductName.trim()) {
                     await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                         name: newProductName.trim(),
-                        category: newProductCategory,
+                        category: selectedCategory || 'other',
                         quantity: 1,
                         purchased: false,
                         addedBy: currentUser.name,
@@ -771,7 +771,6 @@
                 if (searchTerm && !item.name.includes(searchTerm)) return false;
                 if (filterBy === 'purchased' && !item.purchased) return false;
                 if (filterBy === 'unpurchased' && item.purchased) return false;
-                if (selectedCategory !== 'all' && item.category !== selectedCategory) return false;
                 return true;
             });
 
@@ -1012,7 +1011,7 @@
 
                         {/* Search & Filter */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 mb-6">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                 <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
                                     placeholder="🔍 חפש מוצר..." 
                                     className="px-4 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
@@ -1029,60 +1028,82 @@
                                     <option value="quantity">מיון: כמות</option>
                                 </select>
                             </div>
-                            
-                            <div className="flex gap-2 overflow-x-auto pb-2">
-                                <button onClick={() => setSelectedCategory('all')}
-                                    className={`px-4 py-2 rounded-lg whitespace-nowrap ${selectedCategory === 'all' ? 'bg-indigo-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>
-                                    הכל ({items.length})
-                                </button>
-                                {Object.entries(CATEGORIES).map(([key, label]) => {
-                                    const count = items.filter(item => item.category === key).length;
-                                    if (count === 0) return null;
-                                    return (
-                                        <button key={key} onClick={() => setSelectedCategory(key)}
-                                            className={`px-4 py-2 rounded-lg whitespace-nowrap ${selectedCategory === key ? 'bg-indigo-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>
-                                            {label} ({count})
-                                        </button>
-                                    );
-                                })}
-                            </div>
                         </div>
 
-                        {/* Add Products */}
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
-                            <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">הוספת מוצרים</h2>
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
-                                {PRODUCTS.filter(p => selectedCategory === 'all' || p.category === selectedCategory).slice(0, 16).map((product, idx) => (
-                                    <button key={idx} onClick={() => addProduct(product)}
-                                        className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 hover:from-indigo-100 hover:to-blue-100 dark:hover:from-indigo-900/50 dark:hover:to-blue-900/50 p-3 rounded-lg text-gray-800 dark:text-white font-medium text-sm border border-indigo-200 dark:border-indigo-700">
-                                        + {product.name}
-                                    </button>
-                                ))}
+                        {/* Categories or Products */}
+                        {!selectedCategory ? (
+                            /* Show Categories Grid */
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
+                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">בחר קטגוריה</h2>
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                    {Object.entries(CATEGORIES).map(([key, category]) => {
+                                        const count = items.filter(item => item.category === key).length;
+                                        return (
+                                            <button 
+                                                key={key} 
+                                                onClick={() => setSelectedCategory(key)}
+                                                className="relative bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 hover:from-indigo-100 hover:to-blue-100 dark:hover:from-indigo-900/50 dark:hover:to-blue-900/50 p-6 rounded-2xl border-2 border-indigo-200 dark:border-indigo-700 hover:shadow-lg transition-all group"
+                                            >
+                                                <div className="text-5xl mb-3 group-hover:scale-110 transition-transform">{category.icon}</div>
+                                                <div className="text-sm font-bold text-gray-800 dark:text-white mb-1">{category.name}</div>
+                                                {count > 0 && (
+                                                    <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                                                        {count}
+                                                    </div>
+                                                )}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
                             </div>
-                            {showAddProduct ? (
-                                <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border-2 border-indigo-200 dark:border-indigo-700">
-                                    <div className="flex flex-col gap-3">
-                                        <input type="text" value={newProductName} onChange={e => setNewProductName(e.target.value)}
-                                            placeholder="שם המוצר" className="px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white"
-                                            onKeyPress={e => e.key === 'Enter' && addCustomProduct()} />
-                                        <select value={newProductCategory} onChange={e => setNewProductCategory(e.target.value)}
-                                            className="px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white">
-                                            {Object.entries(CATEGORIES).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
-                                        </select>
-                                        <div className="flex gap-2">
-                                            <button onClick={addCustomProduct} className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">הוסף</button>
-                                            <button onClick={() => { setShowAddProduct(false); setNewProductName(''); }}
-                                                className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg">ביטול</button>
+                        ) : (
+                            /* Show Products for Selected Category */
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
+                                <div className="flex items-center justify-between mb-6">
+                                    <button 
+                                        onClick={() => setSelectedCategory(null)}
+                                        className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-semibold"
+                                    >
+                                        ← חזור לקטגוריות
+                                    </button>
+                                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-3">
+                                        <span className="text-4xl">{CATEGORIES[selectedCategory].icon}</span>
+                                        {CATEGORIES[selectedCategory].name}
+                                    </h2>
+                                    <div className="w-24"></div>
+                                </div>
+                                
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
+                                    {PRODUCTS.filter(p => p.category === selectedCategory).map((product, idx) => (
+                                        <button key={idx} onClick={() => addProduct(product)}
+                                            className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 hover:from-green-100 hover:to-emerald-100 dark:hover:from-green-900/50 dark:hover:to-emerald-900/50 p-4 rounded-xl text-gray-800 dark:text-white font-medium text-sm border-2 border-green-200 dark:border-green-700 hover:shadow-md transition-all">
+                                            <div className="text-2xl mb-2">➕</div>
+                                            {product.name}
+                                        </button>
+                                    ))}
+                                </div>
+                                
+                                {showAddProduct ? (
+                                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border-2 border-indigo-200 dark:border-indigo-700">
+                                        <div className="flex flex-col gap-3">
+                                            <input type="text" value={newProductName} onChange={e => setNewProductName(e.target.value)}
+                                                placeholder="שם המוצר" className="px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                                                onKeyPress={e => e.key === 'Enter' && addCustomProduct()} />
+                                            <div className="flex gap-2">
+                                                <button onClick={addCustomProduct} className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">הוסף</button>
+                                                <button onClick={() => { setShowAddProduct(false); setNewProductName(''); }}
+                                                    className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg">ביטול</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ) : (
-                                <button onClick={() => setShowAddProduct(true)}
-                                    className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:from-indigo-700 hover:to-blue-700">
-                                    + הוסף מוצר משלך
-                                </button>
-                            )}
-                        </div>
+                                ) : (
+                                    <button onClick={() => setShowAddProduct(true)}
+                                        className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:from-indigo-700 hover:to-blue-700">
+                                        + הוסף מוצר משלך
+                                    </button>
+                                )}
+                            </div>
+                        )}
 
                         {/* Shopping List */}
                         {filteredItems.length > 0 && (
@@ -1094,8 +1115,9 @@
                                 </div>
                                 {Object.entries(groupedItems).map(([category, categoryItems]) => (
                                     <div key={category} className="mb-6">
-                                        <h3 className="text-lg font-bold text-indigo-700 dark:text-indigo-400 mb-3 pb-2 border-b-2 border-indigo-200 dark:border-indigo-700">
-                                            {CATEGORIES[category]} ({categoryItems.length})
+                                        <h3 className="text-lg font-bold text-indigo-700 dark:text-indigo-400 mb-3 pb-2 border-b-2 border-indigo-200 dark:border-indigo-700 flex items-center gap-2">
+                                            <span className="text-2xl">{CATEGORIES[category]?.icon}</span>
+                                            {CATEGORIES[category]?.name} ({categoryItems.length})
                                         </h3>
                                         {categoryItems.map(item => (
                                             <div key={item.id} className={`flex items-center gap-3 p-3 rounded-lg mb-2 ${item.purchased ? 'bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-700' : 'bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600'}`}>
