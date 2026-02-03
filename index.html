@@ -13,6 +13,7 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
     <script>tailwind.config = { darkMode: 'class' }</script>
     <style>
         * { font-family: 'Heebo', sans-serif; }
@@ -1587,6 +1588,15 @@
             const [newRecipeName, setNewRecipeName] = useState('');
             const [newRecipeIngredients, setNewRecipeIngredients] = useState('');
             const [addingRecipeItems, setAddingRecipeItems] = useState(null);
+            // Recipe scanning states
+            const [showRecipeScan, setShowRecipeScan] = useState(false);
+            const [scanningRecipe, setScanningRecipe] = useState(false);
+            const [scanProgress, setScanProgress] = useState(0);
+            const [scannedText, setScannedText] = useState('');
+            const [scannedIngredients, setScannedIngredients] = useState([]);
+            const [scannedRecipeName, setScannedRecipeName] = useState('');
+            const recipeVideoRef = React.useRef(null);
+            const recipeCanvasRef = React.useRef(null);
             // Voice recognition states
             const [isListening, setIsListening] = useState(false);
             const [voiceSupported, setVoiceSupported] = useState(false);
@@ -1894,6 +1904,163 @@
 
                 return () => unsubscribe();
             }, [family]);
+
+            // Recipe scanning functions
+            const startRecipeScan = async () => {
+                setShowRecipeScan(true);
+                setScanningRecipe(false);
+                setScanProgress(0);
+                setScannedText('');
+                setScannedIngredients([]);
+                setScannedRecipeName('מתכון סרוק');
+
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'environment', width: { ideal: 1920 }, height: { ideal: 1080 } }
+                    });
+                    if (recipeVideoRef.current) {
+                        recipeVideoRef.current.srcObject = stream;
+                    }
+                } catch (error) {
+                    console.error('Camera error:', error);
+                    alert('לא ניתן לגשת למצלמה');
+                    setShowRecipeScan(false);
+                }
+            };
+
+            const captureAndScanRecipe = async () => {
+                if (!recipeVideoRef.current || !recipeCanvasRef.current) return;
+
+                const video = recipeVideoRef.current;
+                const canvas = recipeCanvasRef.current;
+
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0);
+
+                // Stop camera
+                if (video.srcObject) {
+                    video.srcObject.getTracks().forEach(track => track.stop());
+                }
+
+                setScanningRecipe(true);
+                setScanProgress(5);
+
+                try {
+                    if (typeof Tesseract === 'undefined') {
+                        throw new Error('OCR library not loaded');
+                    }
+
+                    const imageData = canvas.toDataURL('image/jpeg', 0.95);
+
+                    const result = await Tesseract.recognize(
+                        imageData,
+                        'heb+eng',
+                        {
+                            logger: info => {
+                                if (info.status === 'recognizing text') {
+                                    setScanProgress(Math.round(info.progress * 90) + 5);
+                                }
+                            }
+                        }
+                    );
+
+                    setScanProgress(95);
+                    const text = result.data.text;
+                    setScannedText(text);
+
+                    const parsedIngredients = parseIngredientsFromText(text);
+                    setScannedIngredients(parsedIngredients);
+                    setScanProgress(100);
+
+                } catch (error) {
+                    console.error('OCR error:', error);
+                    alert('שגיאה בזיהוי טקסט: ' + error.message);
+                } finally {
+                    setScanningRecipe(false);
+                }
+            };
+
+            const parseIngredientsFromText = (text) => {
+                const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 1);
+                const ingredients = [];
+                const skipWords = ['הוראות', 'הכנה', 'אופן', 'שלב', 'step', 'instructions', 'method'];
+
+                for (const line of lines) {
+                    if (skipWords.some(word => line.toLowerCase().includes(word))) continue;
+                    if (/^\d+\.$/.test(line)) continue;
+
+                    const match = line.match(/^(\d+\.?\d*)?\s*(.+)$/);
+                    if (match) {
+                        const quantity = parseInt(match[1]) || 1;
+                        let name = (match[2] || match[1] || '').trim();
+
+                        if (name && name.length > 1 && name.length < 40) {
+                            // Try to match with known products
+                            for (const [cat, products] of Object.entries(PRODUCTS)) {
+                                const found = products.find(p => p.includes(name) || name.includes(p));
+                                if (found) { name = found; break; }
+                            }
+
+                            ingredients.push({ name, quantity, original: line, selected: true });
+                        }
+                    }
+                }
+                return ingredients;
+            };
+
+            const cancelRecipeScan = () => {
+                if (recipeVideoRef.current && recipeVideoRef.current.srcObject) {
+                    recipeVideoRef.current.srcObject.getTracks().forEach(track => track.stop());
+                }
+                setShowRecipeScan(false);
+                setScannedIngredients([]);
+            };
+
+            const toggleScannedIngredient = (index) => {
+                setScannedIngredients(prev => prev.map((ing, i) => i === index ? { ...ing, selected: !ing.selected } : ing));
+            };
+
+            const addScannedToCart = async () => {
+                const selected = scannedIngredients.filter(ing => ing.selected);
+                if (selected.length === 0) { alert('נא לבחור לפחות מרכיב אחד'); return; }
+
+                setScanningRecipe(true);
+                try {
+                    for (const ingredient of selected) {
+                        let category = 'other';
+                        for (const [cat, products] of Object.entries(PRODUCTS)) {
+                            if (products.some(p => p.includes(ingredient.name) || ingredient.name.includes(p))) {
+                                category = cat; break;
+                            }
+                        }
+
+                        await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                            name: ingredient.name,
+                            category: category,
+                            quantity: ingredient.quantity,
+                            purchased: false,
+                            familyId: family.id,
+                            listId: currentList.id,
+                            addedBy: user.displayName || user.email,
+                            addedByUid: user.uid,
+                            note: '📷 נסרק ממתכון',
+                            createdAt: new Date()
+                        });
+                    }
+
+                    await logActivity('scanned_recipe_added', { count: selected.length });
+                    setShowRecipeScan(false);
+                    setShowRecipes(false);
+                    setScannedIngredients([]);
+                } catch (error) {
+                    console.error('Error adding items:', error);
+                    alert('שגיאה בהוספת המרכיבים');
+                } finally {
+                    setScanningRecipe(false);
+                }
+            };
 
             // Save new recipe
             const saveRecipe = async () => {
@@ -2676,7 +2843,8 @@
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <button onClick={() => setShowAddRecipe(true)} className="px-3 py-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-colors text-sm font-medium">+ מתכון חדש</button>
+                                        <button onClick={startRecipeScan} className="px-3 py-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-colors text-sm font-medium">📷 סרוק</button>
+                                        <button onClick={() => setShowAddRecipe(true)} className="px-3 py-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-colors text-sm font-medium">+ ידני</button>
                                         <button onClick={() => setShowRecipes(false)} className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">✕</button>
                                     </div>
                                 </div>
@@ -2768,6 +2936,79 @@
                                     )}
                                 </div>
                             </div>
+                        </div>
+                    )}
+
+                    {/* Recipe Scan Modal */}
+                    {showRecipeScan && (
+                        <div className="fixed inset-0 bg-black z-[60] flex flex-col">
+                            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-500 to-amber-500">
+                                <button onClick={cancelRecipeScan} className="text-white px-4 py-2">ביטול</button>
+                                <h2 className="text-white font-bold">📷 סריקת מתכון</h2>
+                                <div className="w-16"></div>
+                            </div>
+
+                            {scannedIngredients.length === 0 ? (
+                                <>
+                                    <div className="flex-1 flex items-center justify-center bg-black relative">
+                                        <video ref={recipeVideoRef} autoPlay playsInline className="max-w-full max-h-full" />
+                                        {scanningRecipe && (
+                                            <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center">
+                                                <div className="text-5xl mb-4 animate-pulse">🔍</div>
+                                                <p className="text-white text-lg mb-4">מזהה מרכיבים...</p>
+                                                <div className="w-64 h-3 bg-white/20 rounded-full overflow-hidden">
+                                                    <div className="h-full bg-gradient-to-r from-orange-500 to-amber-500 rounded-full transition-all" style={{ width: `${scanProgress}%` }} />
+                                                </div>
+                                                <p className="text-white/70 text-sm mt-2">{scanProgress}%</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="p-6 bg-black flex flex-col items-center gap-3">
+                                        <p className="text-white/70 text-sm text-center">כוון את המצלמה אל רשימת המרכיבים</p>
+                                        <button onClick={captureAndScanRecipe} disabled={scanningRecipe}
+                                            className="w-20 h-20 rounded-full bg-white border-4 border-orange-400 flex items-center justify-center disabled:opacity-50">
+                                            <div className="w-16 h-16 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center text-white text-2xl">
+                                                {scanningRecipe ? '⏳' : '📷'}
+                                            </div>
+                                        </button>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="flex-1 bg-white dark:bg-gray-900 overflow-y-auto p-4">
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">מרכיבים שזוהו ({scannedIngredients.filter(i => i.selected).length}/{scannedIngredients.length})</label>
+                                            <div className="space-y-2">
+                                                {scannedIngredients.map((ing, idx) => (
+                                                    <div key={idx} onClick={() => toggleScannedIngredient(idx)}
+                                                        className={`p-3 rounded-xl border-2 cursor-pointer transition-all ${ing.selected ? 'border-orange-400 bg-orange-50 dark:bg-orange-900/30' : 'border-gray-200 dark:border-gray-700 opacity-50'}`}>
+                                                        <div className="flex items-center gap-3">
+                                                            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${ing.selected ? 'border-orange-500 bg-orange-500' : 'border-gray-300'}`}>
+                                                                {ing.selected && <span className="text-white text-sm">✓</span>}
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <p className="font-medium text-gray-800 dark:text-white">{ing.name}</p>
+                                                                {ing.quantity > 1 && <p className="text-xs text-gray-500">כמות: {ing.quantity}</p>}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 space-y-2">
+                                        <button onClick={addScannedToCart} disabled={scanningRecipe || scannedIngredients.filter(i => i.selected).length === 0}
+                                            className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold disabled:opacity-50">
+                                            {scanningRecipe ? '⏳ מוסיף...' : '🛒 הוסף לעגלה'}
+                                        </button>
+                                        <button onClick={() => { setScannedIngredients([]); startRecipeScan(); }}
+                                            className="w-full py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl">
+                                            📷 צלם שוב
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+                            <canvas ref={recipeCanvasRef} className="hidden" />
                         </div>
                     )}
 
