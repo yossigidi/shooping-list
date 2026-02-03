@@ -35,6 +35,58 @@
         .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
         .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); border-radius: 3px; }
         .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.5); }
+
+        /* Swipe gesture styles */
+        .swipe-container { position: relative; overflow: hidden; touch-action: pan-y pinch-zoom; }
+        .swipe-background { position: absolute; top: 0; bottom: 0; width: 100%; display: flex; align-items: center; padding: 0 20px; border-radius: 0.75rem; }
+        .swipe-bg-right { right: 0; justify-content: flex-start; background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .swipe-bg-left { left: 0; justify-content: flex-end; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .swipe-content { position: relative; z-index: 2; background: inherit; transition: transform 0.1s ease-out; }
+        .swipe-content.swiping { transition: none; }
+        .swipe-content.returning { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .swipe-content.completing { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .swipe-icon { color: white; font-size: 1.5rem; font-weight: bold; opacity: 0; transform: scale(0.5); transition: all 0.2s ease; }
+        .swipe-icon.visible { opacity: 1; transform: scale(1); }
+
+        /* Dopamine checkmark animation */
+        @keyframes checkBounce {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.4); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes checkPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        @keyframes confettiBurst {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        @keyframes slideOutRight {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+        @keyframes slideOutLeft {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(-100%); opacity: 0; }
+        }
+        @keyframes successGlow {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        @keyframes particleFly {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx, 50px), var(--ty, -50px)) scale(0); opacity: 0; }
+        }
+        .check-animate { animation: checkBounce 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .check-pop { animation: checkPop 0.2s ease; }
+        .success-glow { animation: successGlow 0.6s ease; }
+        .slide-out-right { animation: slideOutRight 0.3s ease forwards; }
+        .slide-out-left { animation: slideOutLeft 0.3s ease forwards; }
+        .confetti-particle { position: absolute; pointer-events: none; animation: particleFly 0.6s ease-out forwards; }
     </style>
 
     <script type="module">
@@ -1351,6 +1403,139 @@
             pets: ['מזון לכלבים', 'מזון יבש לכלבים', 'מזון רטוב לכלבים', 'מזון לכלבים בוגרים', 'מזון לגורים', 'מזון לחתולים', 'מזון יבש לחתולים', 'מזון רטוב לחתולים', 'מזון לחתולים בוגרים', 'מזון לגורי חתולים', 'חול לחתולים', 'חול מתגבש', 'חול סיליקה', 'חטיפים לכלבים', 'חטיפים לחתולים', 'עצמות לכעיסה', 'דנטסטיקס', 'צעצועים לכלבים', 'צעצועים לחתולים', 'מיטה לכלב', 'מיטה לחתול', 'קערת אוכל', 'קערת מים', 'רצועה לכלב', 'קולר', 'מסרק לכלב', 'שמפו לכלבים', 'שקיות קקי', 'משטח אימון', 'מזון לדגים', 'מזון לציפורים', 'מזון לאוגרים']
         };
 
+        // Confetti burst effect component
+        function ConfettiBurst({ x, y, onComplete }) {
+            const [particles, setParticles] = useState([]);
+
+            useEffect(() => {
+                const colors = ['#10b981', '#34d399', '#6ee7b7', '#fbbf24', '#f472b6', '#818cf8'];
+                const newParticles = [];
+                for (let i = 0; i < 12; i++) {
+                    const angle = (i / 12) * 360;
+                    const velocity = 60 + Math.random() * 40;
+                    const size = 4 + Math.random() * 4;
+                    newParticles.push({
+                        id: i,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        angle,
+                        velocity,
+                        size,
+                        x: Math.cos(angle * Math.PI / 180) * velocity,
+                        y: Math.sin(angle * Math.PI / 180) * velocity
+                    });
+                }
+                setParticles(newParticles);
+                const timer = setTimeout(() => onComplete?.(), 600);
+                return () => clearTimeout(timer);
+            }, []);
+
+            return (
+                <div style={{ position: 'absolute', left: x, top: y, pointerEvents: 'none', zIndex: 50 }}>
+                    {particles.map(p => (
+                        <div
+                            key={p.id}
+                            className="confetti-particle"
+                            style={{
+                                width: p.size,
+                                height: p.size,
+                                borderRadius: '50%',
+                                backgroundColor: p.color,
+                                '--tx': `${p.x}px`,
+                                '--ty': `${p.y}px`,
+                                animation: `particleFly 0.6s ease-out forwards`
+                            }}
+                        />
+                    ))}
+                </div>
+            );
+        }
+
+        // Swipeable Item Component
+        function SwipeableItem({ children, onSwipeRight, onSwipeLeft, className, purchased }) {
+            const [touchStart, setTouchStart] = useState(null);
+            const [touchDelta, setTouchDelta] = useState(0);
+            const [isSwiping, setIsSwiping] = useState(false);
+            const [completing, setCompleting] = useState(null); // 'right' or 'left'
+            const THRESHOLD = 80;
+
+            const handleTouchStart = (e) => {
+                setTouchStart(e.touches[0].clientX);
+                setIsSwiping(true);
+            };
+
+            const handleTouchMove = (e) => {
+                if (touchStart === null) return;
+                const delta = e.touches[0].clientX - touchStart;
+                // RTL: negative delta = swiping right visually, positive = swiping left
+                setTouchDelta(delta);
+            };
+
+            const handleTouchEnd = () => {
+                if (Math.abs(touchDelta) > THRESHOLD) {
+                    // RTL adjustment: negative delta means swiping toward the left side of screen (which is "right" in RTL)
+                    if (touchDelta < -THRESHOLD) {
+                        // Swiped left on screen = "right" action in RTL = bought
+                        setCompleting('right');
+                        setTimeout(() => {
+                            onSwipeRight?.();
+                            setCompleting(null);
+                            setTouchDelta(0);
+                        }, 300);
+                    } else if (touchDelta > THRESHOLD) {
+                        // Swiped right on screen = "left" action in RTL = postpone
+                        setCompleting('left');
+                        setTimeout(() => {
+                            onSwipeLeft?.();
+                            setCompleting(null);
+                            setTouchDelta(0);
+                        }, 300);
+                    }
+                } else {
+                    setTouchDelta(0);
+                }
+                setTouchStart(null);
+                setIsSwiping(false);
+            };
+
+            const showRightIndicator = touchDelta < -30;
+            const showLeftIndicator = touchDelta > 30;
+            const rightProgress = Math.min(Math.abs(Math.min(touchDelta, 0)) / THRESHOLD, 1);
+            const leftProgress = Math.min(Math.max(touchDelta, 0) / THRESHOLD, 1);
+
+            return (
+                <div className={`swipe-container ${className || ''}`}>
+                    {/* Right swipe background (bought - green) */}
+                    <div
+                        className="swipe-bg-right swipe-background"
+                        style={{ opacity: rightProgress * 0.9 }}
+                    >
+                        <span className={`swipe-icon ${showRightIndicator ? 'visible' : ''}`}>
+                            ✓ נקנה
+                        </span>
+                    </div>
+                    {/* Left swipe background (postpone - orange) */}
+                    <div
+                        className="swipe-bg-left swipe-background"
+                        style={{ opacity: leftProgress * 0.9 }}
+                    >
+                        <span className={`swipe-icon ${showLeftIndicator ? 'visible' : ''}`}>
+                            אח״כ ⏭
+                        </span>
+                    </div>
+                    {/* Content */}
+                    <div
+                        className={`swipe-content ${isSwiping ? 'swiping' : ''} ${completing === 'right' ? 'slide-out-right' : ''} ${completing === 'left' ? 'slide-out-left' : ''}`}
+                        style={{ transform: completing ? undefined : `translateX(${touchDelta}px)` }}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                    >
+                        {children}
+                    </div>
+                </div>
+            );
+        }
+
         function ShoppingList() {
             const { user } = useAuth();
             const { family, lists, currentList, setCurrentList, logActivity } = useFamily();
@@ -1368,6 +1553,16 @@
             const [showCreateList, setShowCreateList] = useState(false);
             const [showActivityFeed, setShowActivityFeed] = useState(false);
             const [editingNote, setEditingNote] = useState(null);
+            const [confetti, setConfetti] = useState(null);
+            const [animatingItems, setAnimatingItems] = useState(new Set());
+            // Chat & Photo states
+            const [showChat, setShowChat] = useState(false);
+            const [chatMessages, setChatMessages] = useState([]);
+            const [chatInput, setChatInput] = useState('');
+            const [showCamera, setShowCamera] = useState(false);
+            const [capturedPhoto, setCapturedPhoto] = useState(null);
+            const videoRef = React.useRef(null);
+            const canvasRef = React.useRef(null);
 
             useEffect(() => {
                 const savedDark = localStorage.getItem('darkMode') === 'true';
@@ -1438,6 +1633,113 @@
                 } catch (error) {
                     console.error('שגיאה בטעינת היסטוריה:', error);
                 }
+            };
+
+            // Load chat messages
+            useEffect(() => {
+                if (!family) {
+                    setChatMessages([]);
+                    return;
+                }
+
+                const q = window.firestore.query(
+                    window.firestore.collection(window.db, 'family-chat'),
+                    window.firestore.where('familyId', '==', family.id)
+                );
+
+                const unsubscribe = window.firestore.onSnapshot(q, (snapshot) => {
+                    const messages = [];
+                    snapshot.forEach((doc) => {
+                        messages.push({ id: doc.id, ...doc.data() });
+                    });
+                    messages.sort((a, b) => {
+                        const dateA = a.createdAt?.toDate?.() || new Date(0);
+                        const dateB = b.createdAt?.toDate?.() || new Date(0);
+                        return dateA - dateB;
+                    });
+                    setChatMessages(messages);
+                });
+
+                return () => unsubscribe();
+            }, [family]);
+
+            // Send chat message
+            const sendChatMessage = async (text, photoUrl = null) => {
+                if (!text.trim() && !photoUrl) return;
+                try {
+                    await window.firestore.addDoc(window.firestore.collection(window.db, 'family-chat'), {
+                        text: text.trim(),
+                        photoUrl: photoUrl,
+                        senderName: user.displayName || user.email,
+                        senderUid: user.uid,
+                        familyId: family.id,
+                        createdAt: window.firestore.serverTimestamp()
+                    });
+                    setChatInput('');
+                    setCapturedPhoto(null);
+                } catch (error) {
+                    console.error('שגיאה בשליחת הודעה:', error);
+                }
+            };
+
+            // Camera functions
+            const startCamera = async () => {
+                setShowCamera(true);
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'environment' }
+                    });
+                    if (videoRef.current) {
+                        videoRef.current.srcObject = stream;
+                    }
+                } catch (error) {
+                    console.error('שגיאה בפתיחת מצלמה:', error);
+                    alert('לא ניתן לגשת למצלמה');
+                    setShowCamera(false);
+                }
+            };
+
+            const capturePhoto = () => {
+                if (videoRef.current && canvasRef.current) {
+                    const canvas = canvasRef.current;
+                    const video = videoRef.current;
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0);
+                    const photoData = canvas.toDataURL('image/jpeg', 0.8);
+                    setCapturedPhoto(photoData);
+                    stopCamera();
+                }
+            };
+
+            const stopCamera = () => {
+                if (videoRef.current && videoRef.current.srcObject) {
+                    const tracks = videoRef.current.srcObject.getTracks();
+                    tracks.forEach(track => track.stop());
+                }
+                setShowCamera(false);
+            };
+
+            // Enhanced toggle purchased with animation
+            const togglePurchasedWithAnimation = async (id, currentStatus, event) => {
+                if (!currentStatus) {
+                    // Adding to purchased - show confetti!
+                    const rect = event?.currentTarget?.getBoundingClientRect();
+                    if (rect) {
+                        setConfetti({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+                        setTimeout(() => setConfetti(null), 600);
+                    }
+                    setAnimatingItems(prev => new Set([...prev, id]));
+                    setTimeout(() => {
+                        setAnimatingItems(prev => {
+                            const newSet = new Set(prev);
+                            newSet.delete(id);
+                            return newSet;
+                        });
+                    }, 400);
+                }
+                await togglePurchased(id, currentStatus);
             };
 
             const handleLogout = async () => {
@@ -1538,6 +1840,22 @@
                     }
                 } catch (error) {
                     console.error('שגיאה במחיקת מוצר:', error);
+                }
+            };
+
+            // Postpone item - moves it to the end of the list
+            const postponeItem = async (id) => {
+                try {
+                    const item = items.find(i => i.id === id);
+                    await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
+                        postponedAt: new Date(),
+                        postponedBy: user.displayName || user.email
+                    });
+                    if (item) {
+                        await logActivity('item_postponed', { itemName: item.name });
+                    }
+                } catch (error) {
+                    console.error('שגיאה בדחיית מוצר:', error);
                 }
             };
 
@@ -1763,6 +2081,105 @@
                     {showActivityFeed && <ActivityFeedModal onClose={() => setShowActivityFeed(false)} />}
                     {editingNote && <ItemNoteModal item={editingNote} onClose={() => setEditingNote(null)} onSave={(note) => updateItemNote(editingNote.id, note)} />}
 
+                    {/* Confetti Effect */}
+                    {confetti && <ConfettiBurst x={confetti.x} y={confetti.y} onComplete={() => setConfetti(null)} />}
+
+                    {/* Family Chat Modal */}
+                    {showChat && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                            <div className="glass rounded-3xl w-full max-w-lg h-[80vh] max-h-[600px] shadow-2xl flex flex-col overflow-hidden">
+                                {/* Chat Header */}
+                                <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-t-3xl">
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-2xl">💬</span>
+                                        <div>
+                                            <h2 className="font-bold">צ'אט משפחתי</h2>
+                                            <p className="text-xs opacity-80">{family?.name}</p>
+                                        </div>
+                                    </div>
+                                    <button onClick={() => setShowChat(false)} className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">✕</button>
+                                </div>
+
+                                {/* Chat Messages */}
+                                <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin">
+                                    {chatMessages.length === 0 ? (
+                                        <div className="text-center py-12">
+                                            <div className="text-5xl mb-3">💬</div>
+                                            <p className="text-gray-500 dark:text-gray-400">אין הודעות עדיין</p>
+                                            <p className="text-sm text-gray-400 dark:text-gray-500">התחל שיחה עם המשפחה!</p>
+                                        </div>
+                                    ) : (
+                                        chatMessages.map(msg => {
+                                            const isMe = msg.senderUid === user.uid;
+                                            return (
+                                                <div key={msg.id} className={`flex ${isMe ? 'justify-start' : 'justify-end'}`}>
+                                                    <div className={`max-w-[80%] rounded-2xl p-3 ${isMe ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-br-sm' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-sm'}`}>
+                                                        {!isMe && <p className="text-xs font-bold mb-1 opacity-70">{msg.senderName}</p>}
+                                                        {msg.photoUrl && (
+                                                            <img src={msg.photoUrl} alt="תמונה" className="rounded-lg mb-2 max-w-full cursor-pointer hover:opacity-90" onClick={() => window.open(msg.photoUrl, '_blank')} />
+                                                        )}
+                                                        {msg.text && <p className="text-sm">{msg.text}</p>}
+                                                        <p className={`text-xs mt-1 ${isMe ? 'opacity-70' : 'text-gray-400'}`}>
+                                                            {msg.createdAt?.toDate?.().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }) || ''}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })
+                                    )}
+                                </div>
+
+                                {/* Photo Preview */}
+                                {capturedPhoto && (
+                                    <div className="px-4 py-2 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+                                        <div className="relative inline-block">
+                                            <img src={capturedPhoto} alt="תצוגה מקדימה" className="h-20 rounded-lg" />
+                                            <button onClick={() => setCapturedPhoto(null)} className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs flex items-center justify-center">✕</button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Chat Input */}
+                                <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50">
+                                    <div className="flex items-center gap-2">
+                                        <button onClick={startCamera} className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform" title="צלם תמונה">📷</button>
+                                        <input
+                                            type="text"
+                                            value={chatInput}
+                                            onChange={e => setChatInput(e.target.value)}
+                                            onKeyPress={e => e.key === 'Enter' && sendChatMessage(chatInput, capturedPhoto)}
+                                            placeholder="הקלד הודעה..."
+                                            className="flex-1 px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white/80 dark:bg-gray-700/80 dark:text-white focus:border-blue-400 transition-all"
+                                        />
+                                        <button onClick={() => sendChatMessage(chatInput, capturedPhoto)} className="w-10 h-10 btn-gradient rounded-xl flex items-center justify-center text-white hover:scale-110 transition-transform">
+                                            <span className="rotate-180">➤</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Camera Modal */}
+                    {showCamera && (
+                        <div className="fixed inset-0 bg-black z-[60] flex flex-col">
+                            <div className="flex items-center justify-between p-4 bg-black/50">
+                                <button onClick={stopCamera} className="text-white text-lg px-4 py-2">ביטול</button>
+                                <h2 className="text-white font-bold">צלם מוצר</h2>
+                                <div className="w-16"></div>
+                            </div>
+                            <div className="flex-1 flex items-center justify-center bg-black">
+                                <video ref={videoRef} autoPlay playsInline className="max-w-full max-h-full" />
+                            </div>
+                            <div className="p-6 bg-black/50 flex justify-center">
+                                <button onClick={capturePhoto} className="w-20 h-20 rounded-full bg-white border-4 border-gray-300 hover:scale-105 transition-transform flex items-center justify-center">
+                                    <div className="w-16 h-16 rounded-full bg-white border-2 border-gray-400"></div>
+                                </button>
+                            </div>
+                            <canvas ref={canvasRef} className="hidden" />
+                        </div>
+                    )}
+
                     <div className="max-w-4xl mx-auto">
                         <div className="glass rounded-3xl shadow-xl p-6 mb-6 relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
@@ -1784,6 +2201,12 @@
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
+                                    <button onClick={() => setShowChat(true)} className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform relative" title="צ'אט משפחתי">
+                                        💬
+                                        {chatMessages.length > 0 && (
+                                            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+                                        )}
+                                    </button>
                                     <button onClick={() => setShowActivityFeed(true)} className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform" title="פעילות">📊</button>
                                     <button onClick={toggleDarkMode} className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-lg hover:scale-110 transition-transform">{darkMode ? '☀️' : '🌙'}</button>
                                     <button onClick={handleLogout} className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform text-red-600 dark:text-red-400" title="התנתק">🚪</button>
@@ -2000,46 +2423,59 @@
                                             <span className="text-xs bg-indigo-100 dark:bg-indigo-900/50 px-2 py-1 rounded-full">{categoryItems.length}</span>
                                         </h3>
                                         {categoryItems.map(item => (
-                                            <div key={item.id} className={`p-4 rounded-xl mb-3 transition-all duration-300 card-hover ${item.purchased ? 'bg-gradient-to-r from-green-100/80 to-emerald-100/80 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-300 dark:border-green-700' : 'bg-white/60 dark:bg-gray-700/60 border-2 border-gray-200/50 dark:border-gray-600/50 hover:border-indigo-300'}`}>
-                                                <div className="flex items-center gap-3">
-                                                    <button onClick={() => togglePurchased(item.id, item.purchased)}
-                                                        className={`w-7 h-7 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-300 ${item.purchased ? 'bg-gradient-to-r from-green-500 to-emerald-500 border-green-500 scale-110 shadow-lg' : 'border-gray-300 dark:border-gray-500 hover:border-green-400 hover:scale-110'}`}>
-                                                        {item.purchased && <span className="text-white text-sm font-bold">✓</span>}
-                                                    </button>
-                                                    <div className="flex-1 min-w-0">
-                                                        <span className={`font-medium text-lg ${item.purchased ? 'text-gray-400 dark:text-gray-500 line-through' : 'text-gray-800 dark:text-white'}`}>
-                                                            {item.name}
-                                                        </span>
-                                                        <div className="flex items-center gap-2 mt-1">
-                                                            <span className="text-xs text-gray-500 dark:text-gray-400">
-                                                                👤 {item.addedBy}
+                                            <SwipeableItem
+                                                key={item.id}
+                                                className="mb-3"
+                                                purchased={item.purchased}
+                                                onSwipeRight={() => !item.purchased && togglePurchasedWithAnimation(item.id, item.purchased)}
+                                                onSwipeLeft={() => !item.purchased && postponeItem(item.id)}
+                                            >
+                                                <div className={`p-4 rounded-xl transition-all duration-300 ${animatingItems.has(item.id) ? 'success-glow' : ''} ${item.purchased ? 'bg-gradient-to-r from-green-100/80 to-emerald-100/80 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-300 dark:border-green-700' : 'bg-white/60 dark:bg-gray-700/60 border-2 border-gray-200/50 dark:border-gray-600/50'}`}>
+                                                    <div className="flex items-center gap-3">
+                                                        <button onClick={(e) => togglePurchasedWithAnimation(item.id, item.purchased, e)}
+                                                            className={`w-7 h-7 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-300 ${item.purchased ? 'bg-gradient-to-r from-green-500 to-emerald-500 border-green-500 scale-110 shadow-lg' : 'border-gray-300 dark:border-gray-500 hover:border-green-400 hover:scale-110'}`}>
+                                                            {item.purchased && <span className={`text-white text-sm font-bold ${animatingItems.has(item.id) ? 'check-animate' : ''}`}>✓</span>}
+                                                        </button>
+                                                        <div className="flex-1 min-w-0">
+                                                            <span className={`font-medium text-lg ${item.purchased ? 'text-gray-400 dark:text-gray-500 line-through' : 'text-gray-800 dark:text-white'}`}>
+                                                                {item.name}
                                                             </span>
-                                                            {item.note && (
-                                                                <span className="text-xs bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full">
-                                                                    📝 {item.note.length > 15 ? item.note.substring(0, 15) + '...' : item.note}
+                                                            <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                                    👤 {item.addedBy}
                                                                 </span>
-                                                            )}
-                                                            {item.purchased && item.purchasedBy && (
-                                                                <span className="text-xs text-green-600 dark:text-green-400">
-                                                                    ✓ נקנה ע״י {item.purchasedBy}
-                                                                </span>
-                                                            )}
+                                                                {item.note && (
+                                                                    <span className="text-xs bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full">
+                                                                        📝 {item.note.length > 15 ? item.note.substring(0, 15) + '...' : item.note}
+                                                                    </span>
+                                                                )}
+                                                                {item.purchased && item.purchasedBy && (
+                                                                    <span className="text-xs text-green-600 dark:text-green-400">
+                                                                        ✓ נקנה ע״י {item.purchasedBy}
+                                                                    </span>
+                                                                )}
+                                                                {item.postponedBy && !item.purchased && (
+                                                                    <span className="text-xs text-orange-600 dark:text-orange-400">
+                                                                        ⏭ נדחה
+                                                                    </span>
+                                                                )}
+                                                            </div>
                                                         </div>
+                                                        <div className="flex items-center gap-2 flex-shrink-0">
+                                                            <button onClick={() => setEditingNote(item)}
+                                                                className={`w-9 h-9 rounded-xl font-bold hover:scale-110 transition-all shadow-sm ${item.note ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-600' : 'bg-gray-100 dark:bg-gray-600 text-gray-500'}`}
+                                                                title="הוסף הערה">📝</button>
+                                                            <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                                                className="w-9 h-9 bg-gray-100 dark:bg-gray-600 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-500 hover:scale-110 transition-all shadow-sm">-</button>
+                                                            <span className="w-12 text-center font-bold text-lg text-gradient">{item.quantity}</span>
+                                                            <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                                                className="w-9 h-9 btn-gradient text-white rounded-xl font-bold hover:scale-110 transition-all shadow-md">+</button>
+                                                        </div>
+                                                        <button onClick={() => setShowDeleteConfirm(item.id)}
+                                                            className="w-9 h-9 bg-red-100 dark:bg-red-900/50 rounded-xl text-red-500 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800 hover:scale-110 flex-shrink-0 transition-all shadow-sm">🗑</button>
                                                     </div>
-                                                    <div className="flex items-center gap-2 flex-shrink-0">
-                                                        <button onClick={() => setEditingNote(item)}
-                                                            className={`w-9 h-9 rounded-xl font-bold hover:scale-110 transition-all shadow-sm ${item.note ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-600' : 'bg-gray-100 dark:bg-gray-600 text-gray-500'}`}
-                                                            title="הוסף הערה">📝</button>
-                                                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                            className="w-9 h-9 bg-gray-100 dark:bg-gray-600 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-500 hover:scale-110 transition-all shadow-sm">-</button>
-                                                        <span className="w-12 text-center font-bold text-lg text-gradient">{item.quantity}</span>
-                                                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                            className="w-9 h-9 btn-gradient text-white rounded-xl font-bold hover:scale-110 transition-all shadow-md">+</button>
-                                                    </div>
-                                                    <button onClick={() => setShowDeleteConfirm(item.id)}
-                                                        className="w-9 h-9 bg-red-100 dark:bg-red-900/50 rounded-xl text-red-500 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800 hover:scale-110 flex-shrink-0 transition-all shadow-sm">🗑</button>
                                                 </div>
-                                            </div>
+                                            </SwipeableItem>
                                         ))}
                                     </div>
                                 ))}
