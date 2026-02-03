@@ -519,8 +519,7 @@
 
                 const q = window.firestore.query(
                     window.firestore.collection(window.db, 'shopping-items'),
-                    window.firestore.where('userId', '==', user.uid),
-                    window.firestore.orderBy('createdAt', 'desc')
+                    window.firestore.where('userId', '==', user.uid)
                 );
 
                 const unsubscribe = window.firestore.onSnapshot(
@@ -530,14 +529,17 @@
                         snapshot.forEach((doc) => {
                             itemsData.push({ id: doc.id, ...doc.data() });
                         });
+                        // Sort client-side (newest first)
+                        itemsData.sort((a, b) => {
+                            const dateA = a.createdAt?.toDate?.() || new Date(0);
+                            const dateB = b.createdAt?.toDate?.() || new Date(0);
+                            return dateB - dateA;
+                        });
                         setItems(itemsData);
                         setLoading(false);
                     },
                     (error) => {
                         console.error('שגיאה בטעינת נתונים:', error);
-                        if (error.code === 'failed-precondition') {
-                            alert('נדרש ליצור אינדקס ב-Firebase. בדוק את הקונסול לפרטים.');
-                        }
                         setLoading(false);
                     }
                 );
@@ -551,13 +553,18 @@
                 try {
                     const historyQuery = window.firestore.query(
                         window.firestore.collection(window.db, 'shopping-history'),
-                        window.firestore.where('userId', '==', user.uid),
-                        window.firestore.orderBy('completedAt', 'desc')
+                        window.firestore.where('userId', '==', user.uid)
                     );
                     const snapshot = await window.firestore.getDocs(historyQuery);
                     const historyData = [];
                     snapshot.forEach(doc => {
                         historyData.push({ id: doc.id, ...doc.data() });
+                    });
+                    // Sort client-side (newest first)
+                    historyData.sort((a, b) => {
+                        const dateA = a.completedAt?.toDate?.() || new Date(0);
+                        const dateB = b.completedAt?.toDate?.() || new Date(0);
+                        return dateB - dateA;
                     });
                     setHistory(historyData);
                 } catch (error) {
