@@ -1590,10 +1590,60 @@
             // Voice recognition states
             const [isListening, setIsListening] = useState(false);
             const [voiceSupported, setVoiceSupported] = useState(false);
+            const [voiceLang, setVoiceLang] = useState(localStorage.getItem('voiceLang') || 'he-IL');
+
+            // English to Hebrew grocery translations
+            const ENGLISH_TO_HEBREW = {
+                // Dairy
+                'milk': 'חלב', 'eggs': 'ביצים', 'egg': 'ביצים', 'cheese': 'גבינה', 'butter': 'חמאה',
+                'yogurt': 'יוגורט', 'cream': 'שמנת', 'cottage': 'קוטג\'', 'cream cheese': 'גבינת שמנת',
+                'sour cream': 'שמנת חמוצה', 'whipped cream': 'קצפת',
+                // Bread & Bakery
+                'bread': 'לחם', 'pita': 'פיתה', 'challah': 'חלה', 'bagel': 'בייגל', 'croissant': 'קרואסון',
+                'toast': 'לחם טוסט', 'rolls': 'לחמניות', 'baguette': 'באגט',
+                // Fruits
+                'apple': 'תפוח', 'apples': 'תפוחים', 'banana': 'בננה', 'bananas': 'בננות',
+                'orange': 'תפוז', 'oranges': 'תפוזים', 'lemon': 'לימון', 'lemons': 'לימונים',
+                'grapes': 'ענבים', 'strawberry': 'תות', 'strawberries': 'תותים',
+                'watermelon': 'אבטיח', 'melon': 'מלון', 'mango': 'מנגו', 'peach': 'אפרסק',
+                'pear': 'אגס', 'plum': 'שזיף', 'cherry': 'דובדבן', 'cherries': 'דובדבנים',
+                'avocado': 'אבוקדו', 'pomegranate': 'רימון', 'kiwi': 'קיווי', 'pineapple': 'אננס',
+                // Vegetables
+                'tomato': 'עגבניה', 'tomatoes': 'עגבניות', 'cucumber': 'מלפפון', 'cucumbers': 'מלפפונים',
+                'onion': 'בצל', 'onions': 'בצל', 'garlic': 'שום', 'potato': 'תפוח אדמה', 'potatoes': 'תפוחי אדמה',
+                'carrot': 'גזר', 'carrots': 'גזר', 'pepper': 'פלפל', 'peppers': 'פלפלים',
+                'lettuce': 'חסה', 'cabbage': 'כרוב', 'broccoli': 'ברוקולי', 'cauliflower': 'כרובית',
+                'spinach': 'תרד', 'celery': 'סלרי', 'corn': 'תירס', 'mushroom': 'פטריות', 'mushrooms': 'פטריות',
+                'zucchini': 'קישוא', 'eggplant': 'חציל', 'beet': 'סלק', 'radish': 'צנון',
+                // Meat & Fish
+                'chicken': 'עוף', 'beef': 'בקר', 'meat': 'בשר', 'fish': 'דג', 'salmon': 'סלמון',
+                'tuna': 'טונה', 'turkey': 'הודו', 'schnitzel': 'שניצל', 'steak': 'סטייק',
+                'ground beef': 'בשר טחון', 'sausage': 'נקניק', 'hot dog': 'נקניקייה',
+                // Pantry
+                'rice': 'אורז', 'pasta': 'פסטה', 'noodles': 'אטריות', 'flour': 'קמח',
+                'sugar': 'סוכר', 'salt': 'מלח', 'oil': 'שמן', 'olive oil': 'שמן זית',
+                'vinegar': 'חומץ', 'sauce': 'רוטב', 'ketchup': 'קטשופ', 'mayonnaise': 'מיונז',
+                'mustard': 'חרדל', 'honey': 'דבש', 'jam': 'ריבה', 'peanut butter': 'חמאת בוטנים',
+                'coffee': 'קפה', 'tea': 'תה', 'juice': 'מיץ', 'water': 'מים', 'soda': 'סודה',
+                'cereal': 'דגני בוקר', 'oatmeal': 'שיבולת שועל', 'crackers': 'קרקרים',
+                'chips': 'צ\'יפס', 'cookies': 'עוגיות', 'chocolate': 'שוקולד', 'candy': 'ממתקים',
+                'nuts': 'אגוזים', 'almonds': 'שקדים', 'walnuts': 'אגוזי מלך',
+                // Frozen
+                'ice cream': 'גלידה', 'frozen vegetables': 'ירקות קפואים', 'pizza': 'פיצה',
+                // Cleaning
+                'soap': 'סבון', 'shampoo': 'שמפו', 'toilet paper': 'נייר טואלט',
+                'tissues': 'טישו', 'detergent': 'אבקת כביסה', 'dish soap': 'סבון כלים',
+                'trash bags': 'שקיות אשפה', 'paper towels': 'מגבות נייר',
+                // Baby
+                'diapers': 'חיתולים', 'baby food': 'מזון לתינוקות', 'formula': 'תרכובת מזון',
+                'wipes': 'מגבונים',
+                // Other common
+                'hummus': 'חומוס', 'tahini': 'טחינה', 'falafel': 'פלאפל', 'shawarma': 'שווארמה'
+            };
             const [voiceTranscript, setVoiceTranscript] = useState('');
             const recognitionRef = React.useRef(null);
 
-            // Check voice support on mount
+            // Check voice support and setup recognition
             useEffect(() => {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 if (SpeechRecognition) {
@@ -1601,7 +1651,7 @@
                     const recognition = new SpeechRecognition();
                     recognition.continuous = false;
                     recognition.interimResults = true;
-                    recognition.lang = 'he-IL'; // Hebrew
+                    recognition.lang = voiceLang;
 
                     recognition.onresult = (event) => {
                         const transcript = Array.from(event.results)
@@ -1611,7 +1661,7 @@
 
                         // If final result, process it
                         if (event.results[0].isFinal) {
-                            processVoiceCommand(transcript);
+                            processVoiceCommand(transcript, voiceLang);
                         }
                     };
 
@@ -1629,7 +1679,34 @@
 
                     recognitionRef.current = recognition;
                 }
-            }, []);
+            }, [voiceLang]);
+
+            // Toggle voice language
+            const toggleVoiceLang = () => {
+                const newLang = voiceLang === 'he-IL' ? 'en-US' : 'he-IL';
+                setVoiceLang(newLang);
+                localStorage.setItem('voiceLang', newLang);
+            };
+
+            // Translate English to Hebrew
+            const translateToHebrew = (text) => {
+                const lowerText = text.toLowerCase().trim();
+                // Direct match
+                if (ENGLISH_TO_HEBREW[lowerText]) {
+                    return ENGLISH_TO_HEBREW[lowerText];
+                }
+                // Try without 's' for plurals
+                if (lowerText.endsWith('s') && ENGLISH_TO_HEBREW[lowerText.slice(0, -1)]) {
+                    return ENGLISH_TO_HEBREW[lowerText.slice(0, -1)];
+                }
+                // Try partial match
+                for (const [eng, heb] of Object.entries(ENGLISH_TO_HEBREW)) {
+                    if (lowerText.includes(eng) || eng.includes(lowerText)) {
+                        return heb;
+                    }
+                }
+                return text; // Return original if no translation found
+            };
 
             useEffect(() => {
                 const savedDark = localStorage.getItem('darkMode') === 'true';
@@ -1890,20 +1967,38 @@
                 }
             };
 
-            const processVoiceCommand = async (transcript) => {
+            const processVoiceCommand = async (transcript, lang = 'he-IL') => {
                 const text = transcript.trim().toLowerCase();
                 if (!text) return;
 
-                // Parse multiple items separated by "ו" (and), commas, or common separators
-                const itemPatterns = text
-                    .replace(/תוסיף|הוסף|צריך|צריכה|קנה|קני|תקנה|תקני|אני רוצה|אני צריך|אני צריכה/g, '')
-                    .split(/\s*(?:,|ו(?:גם)?|וגם)\s*/)
-                    .map(item => item.trim())
-                    .filter(item => item.length > 1);
+                const isEnglish = lang === 'en-US';
+                let itemPatterns;
+
+                if (isEnglish) {
+                    // Parse English - remove common phrases and split by "and", commas
+                    itemPatterns = text
+                        .replace(/add|buy|get|i need|i want|we need|please|some|the|a |an /gi, '')
+                        .split(/\s*(?:,|and|&)\s*/)
+                        .map(item => item.trim())
+                        .filter(item => item.length > 1)
+                        .map(item => translateToHebrew(item)); // Translate each item
+                } else {
+                    // Parse Hebrew - remove common phrases and split by "ו" (and), commas
+                    itemPatterns = text
+                        .replace(/תוסיף|הוסף|צריך|צריכה|קנה|קני|תקנה|תקני|אני רוצה|אני צריך|אני צריכה/g, '')
+                        .split(/\s*(?:,|ו(?:גם)?|וגם)\s*/)
+                        .map(item => item.trim())
+                        .filter(item => item.length > 1);
+                }
 
                 if (itemPatterns.length === 0) {
                     // Try as single item
-                    const singleItem = text.replace(/תוסיף|הוסף|צריך|צריכה|קנה|קני|תקנה|תקני|אני רוצה|אני צריך|אני צריכה/g, '').trim();
+                    let singleItem;
+                    if (isEnglish) {
+                        singleItem = translateToHebrew(text.replace(/add|buy|get|i need|i want|we need|please|some|the|a |an /gi, '').trim());
+                    } else {
+                        singleItem = text.replace(/תוסיף|הוסף|צריך|צריכה|קנה|קני|תקנה|תקני|אני רוצה|אני צריך|אני צריכה/g, '').trim();
+                    }
                     if (singleItem.length > 1) {
                         itemPatterns.push(singleItem);
                     }
@@ -2733,13 +2828,22 @@
                                     )}
                                 </div>
                                 {voiceSupported && (
-                                    <button
-                                        onClick={isListening ? stopListening : startListening}
-                                        className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl transition-all shadow-lg ${isListening ? 'bg-red-500 text-white animate-pulse scale-110' : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:scale-110'}`}
-                                        title={isListening ? 'לחץ לעצירה' : 'הוסף בקול'}
-                                    >
-                                        {isListening ? '⏹️' : '🎤'}
-                                    </button>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={toggleVoiceLang}
+                                            className={`w-14 h-14 rounded-2xl flex items-center justify-center text-sm font-bold transition-all shadow-lg ${voiceLang === 'en-US' ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' : 'bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900/50 dark:to-cyan-900/50 text-blue-700 dark:text-blue-300'}`}
+                                            title={voiceLang === 'he-IL' ? 'Switch to English' : 'החלף לעברית'}
+                                        >
+                                            {voiceLang === 'en-US' ? '🇺🇸' : '🇮🇱'}
+                                        </button>
+                                        <button
+                                            onClick={isListening ? stopListening : startListening}
+                                            className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl transition-all shadow-lg ${isListening ? 'bg-red-500 text-white animate-pulse scale-110' : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:scale-110'}`}
+                                            title={isListening ? 'לחץ לעצירה' : 'הוסף בקול'}
+                                        >
+                                            {isListening ? '⏹️' : '🎤'}
+                                        </button>
+                                    </div>
                                 )}
                             </div>
                             {isListening && (
@@ -2753,14 +2857,20 @@
                                                 <span className="sound-wave"></span>
                                                 <span className="sound-wave"></span>
                                             </div>
-                                            <span className="font-bold">מקשיב...</span>
+                                            <span className="font-bold">{voiceLang === 'en-US' ? 'Listening...' : 'מקשיב...'}</span>
+                                            <span className="text-xs px-2 py-0.5 bg-white/50 dark:bg-gray-800/50 rounded-full">{voiceLang === 'en-US' ? '🇺🇸 EN → HE' : '🇮🇱 עברית'}</span>
                                         </div>
-                                        <span className="text-sm text-purple-500 dark:text-purple-400">אמור: "חלב, ביצים ולחם"</span>
+                                        <span className="text-sm text-purple-500 dark:text-purple-400">
+                                            {voiceLang === 'en-US' ? 'Say: "milk, eggs and bread"' : 'אמור: "חלב, ביצים ולחם"'}
+                                        </span>
                                     </div>
                                     {voiceTranscript && (
                                         <div className="mt-3 p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg">
-                                            <span className="text-xs text-gray-500 dark:text-gray-400">מזהה: </span>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">{voiceLang === 'en-US' ? 'Heard: ' : 'מזהה: '}</span>
                                             <span className="text-lg font-bold text-purple-800 dark:text-purple-200">{voiceTranscript}</span>
+                                            {voiceLang === 'en-US' && (
+                                                <span className="text-xs text-green-600 dark:text-green-400 mr-2">→ יתורגם לעברית</span>
+                                            )}
                                         </div>
                                     )}
                                 </div>
