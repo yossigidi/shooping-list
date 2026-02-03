@@ -39,7 +39,7 @@
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, where, serverTimestamp, arrayUnion, arrayRemove, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import {
             getAuth,
             createUserWithEmailAndPassword,
@@ -62,7 +62,7 @@
         const app = initializeApp(firebaseConfig);
         window.db = getFirestore(app);
         window.auth = getAuth(app);
-        window.firestore = { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, where };
+        window.firestore = { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, where, serverTimestamp, arrayUnion, arrayRemove, getDoc, setDoc };
         window.firebaseAuth = {
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword,
@@ -99,6 +99,835 @@
 
         function useAuth() {
             return useContext(AuthContext);
+        }
+
+        // Family Context
+        const FamilyContext = createContext(null);
+
+        function FamilyProvider({ children }) {
+            const { user } = useAuth();
+            const [family, setFamily] = useState(null);
+            const [lists, setLists] = useState([]);
+            const [currentList, setCurrentList] = useState(null);
+            const [loading, setLoading] = useState(true);
+            const [activities, setActivities] = useState([]);
+
+            // Generate random 6-character code
+            const generateCode = () => {
+                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+                let code = '';
+                for (let i = 0; i < 6; i++) {
+                    code += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return code;
+            };
+
+            // Find user's family
+            useEffect(() => {
+                if (!user) {
+                    setFamily(null);
+                    setLists([]);
+                    setCurrentList(null);
+                    setLoading(false);
+                    return;
+                }
+
+                setLoading(true);
+
+                // Query families where user is a member
+                const q = window.firestore.query(
+                    window.firestore.collection(window.db, 'families')
+                );
+
+                const unsubscribe = window.firestore.onSnapshot(q, async (snapshot) => {
+                    let userFamily = null;
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const isMember = data.members?.some(m => m.userId === user.uid);
+                        if (isMember) {
+                            userFamily = { id: doc.id, ...data };
+                        }
+                    });
+
+                    setFamily(userFamily);
+                    setLoading(false);
+                });
+
+                return () => unsubscribe();
+            }, [user]);
+
+            // Load lists when family changes
+            useEffect(() => {
+                if (!family) {
+                    setLists([]);
+                    setCurrentList(null);
+                    return;
+                }
+
+                const q = window.firestore.query(
+                    window.firestore.collection(window.db, 'lists'),
+                    window.firestore.where('familyId', '==', family.id)
+                );
+
+                const unsubscribe = window.firestore.onSnapshot(q, (snapshot) => {
+                    const listsData = [];
+                    snapshot.forEach((doc) => {
+                        listsData.push({ id: doc.id, ...doc.data() });
+                    });
+                    listsData.sort((a, b) => (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0));
+                    setLists(listsData);
+
+                    // Set current list to default or first
+                    if (!currentList || !listsData.find(l => l.id === currentList.id)) {
+                        const defaultList = listsData.find(l => l.isDefault) || listsData[0];
+                        setCurrentList(defaultList);
+                    }
+                });
+
+                return () => unsubscribe();
+            }, [family]);
+
+            // Load activities
+            useEffect(() => {
+                if (!family) {
+                    setActivities([]);
+                    return;
+                }
+
+                const q = window.firestore.query(
+                    window.firestore.collection(window.db, 'activity'),
+                    window.firestore.where('familyId', '==', family.id)
+                );
+
+                const unsubscribe = window.firestore.onSnapshot(q, (snapshot) => {
+                    const activitiesData = [];
+                    snapshot.forEach((doc) => {
+                        activitiesData.push({ id: doc.id, ...doc.data() });
+                    });
+                    activitiesData.sort((a, b) => {
+                        const dateA = a.timestamp?.toDate?.() || new Date(0);
+                        const dateB = b.timestamp?.toDate?.() || new Date(0);
+                        return dateB - dateA;
+                    });
+                    setActivities(activitiesData.slice(0, 50));
+                });
+
+                return () => unsubscribe();
+            }, [family]);
+
+            // Create a new family
+            const createFamily = async (familyName) => {
+                if (!user) return null;
+
+                const code = generateCode();
+                const newFamily = {
+                    name: familyName,
+                    code: code,
+                    adminId: user.uid,
+                    members: [{
+                        userId: user.uid,
+                        email: user.email,
+                        displayName: user.displayName || user.email,
+                        joinedAt: new Date(),
+                        role: 'admin'
+                    }],
+                    createdAt: new Date()
+                };
+
+                const familyRef = await window.firestore.addDoc(
+                    window.firestore.collection(window.db, 'families'),
+                    newFamily
+                );
+
+                // Create default list
+                await window.firestore.addDoc(
+                    window.firestore.collection(window.db, 'lists'),
+                    {
+                        familyId: familyRef.id,
+                        name: 'רשימת קניות',
+                        icon: '🛒',
+                        createdBy: user.uid,
+                        createdAt: new Date(),
+                        isDefault: true
+                    }
+                );
+
+                // Log activity
+                await logActivity('member_joined', { memberName: user.displayName || user.email }, familyRef.id);
+
+                return { id: familyRef.id, ...newFamily };
+            };
+
+            // Join existing family
+            const joinFamily = async (code) => {
+                if (!user) return { success: false, error: 'לא מחובר' };
+
+                const q = window.firestore.query(
+                    window.firestore.collection(window.db, 'families'),
+                    window.firestore.where('code', '==', code.toUpperCase())
+                );
+
+                const snapshot = await window.firestore.getDocs(q);
+
+                if (snapshot.empty) {
+                    return { success: false, error: 'קוד לא נמצא' };
+                }
+
+                const familyDoc = snapshot.docs[0];
+                const familyData = familyDoc.data();
+
+                // Check if already a member
+                if (familyData.members?.some(m => m.userId === user.uid)) {
+                    return { success: false, error: 'כבר חבר במשפחה זו' };
+                }
+
+                // Add user to family
+                const newMember = {
+                    userId: user.uid,
+                    email: user.email,
+                    displayName: user.displayName || user.email,
+                    joinedAt: new Date(),
+                    role: 'member'
+                };
+
+                await window.firestore.updateDoc(
+                    window.firestore.doc(window.db, 'families', familyDoc.id),
+                    { members: window.firestore.arrayUnion(newMember) }
+                );
+
+                // Log activity
+                await logActivity('member_joined', { memberName: user.displayName || user.email }, familyDoc.id);
+
+                return { success: true };
+            };
+
+            // Leave family
+            const leaveFamily = async () => {
+                if (!family || !user) return;
+
+                const memberToRemove = family.members.find(m => m.userId === user.uid);
+                if (!memberToRemove) return;
+
+                // If admin and only member, delete family
+                if (family.adminId === user.uid && family.members.length === 1) {
+                    // Delete all lists
+                    const listsSnapshot = await window.firestore.getDocs(
+                        window.firestore.query(
+                            window.firestore.collection(window.db, 'lists'),
+                            window.firestore.where('familyId', '==', family.id)
+                        )
+                    );
+                    for (const doc of listsSnapshot.docs) {
+                        await window.firestore.deleteDoc(doc.ref);
+                    }
+                    // Delete family
+                    await window.firestore.deleteDoc(
+                        window.firestore.doc(window.db, 'families', family.id)
+                    );
+                } else {
+                    // Remove member
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'families', family.id),
+                        { members: window.firestore.arrayRemove(memberToRemove) }
+                    );
+                }
+            };
+
+            // Remove member (admin only)
+            const removeMember = async (memberUserId) => {
+                if (!family || family.adminId !== user.uid) return;
+                if (memberUserId === user.uid) return; // Can't remove self
+
+                const memberToRemove = family.members.find(m => m.userId === memberUserId);
+                if (!memberToRemove) return;
+
+                await window.firestore.updateDoc(
+                    window.firestore.doc(window.db, 'families', family.id),
+                    { members: window.firestore.arrayRemove(memberToRemove) }
+                );
+            };
+
+            // Create new list
+            const createList = async (name, icon = '📝') => {
+                if (!family) return;
+
+                await window.firestore.addDoc(
+                    window.firestore.collection(window.db, 'lists'),
+                    {
+                        familyId: family.id,
+                        name: name,
+                        icon: icon,
+                        createdBy: user.uid,
+                        createdAt: new Date(),
+                        isDefault: false
+                    }
+                );
+
+                await logActivity('list_created', { listName: name });
+            };
+
+            // Delete list
+            const deleteList = async (listId) => {
+                if (!family) return;
+                const list = lists.find(l => l.id === listId);
+                if (!list || list.isDefault) return; // Can't delete default list
+
+                await window.firestore.deleteDoc(
+                    window.firestore.doc(window.db, 'lists', listId)
+                );
+            };
+
+            // Log activity
+            const logActivity = async (type, details = {}, overrideFamilyId = null) => {
+                if (!user) return;
+                const fid = overrideFamilyId || family?.id;
+                if (!fid) return;
+
+                await window.firestore.addDoc(
+                    window.firestore.collection(window.db, 'activity'),
+                    {
+                        familyId: fid,
+                        listId: currentList?.id || null,
+                        type: type,
+                        userId: user.uid,
+                        userName: user.displayName || user.email,
+                        timestamp: new Date(),
+                        ...details
+                    }
+                );
+            };
+
+            const value = {
+                family,
+                lists,
+                currentList,
+                setCurrentList,
+                activities,
+                loading,
+                createFamily,
+                joinFamily,
+                leaveFamily,
+                removeMember,
+                createList,
+                deleteList,
+                logActivity,
+                isAdmin: family?.adminId === user?.uid
+            };
+
+            return <FamilyContext.Provider value={value}>{children}</FamilyContext.Provider>;
+        }
+
+        function useFamily() {
+            return useContext(FamilyContext);
+        }
+
+        // No Family Screen
+        function NoFamilyScreen() {
+            const [mode, setMode] = useState('choose'); // choose, create, join
+            const [familyName, setFamilyName] = useState('');
+            const [joinCode, setJoinCode] = useState('');
+            const [error, setError] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [createdCode, setCreatedCode] = useState('');
+            const { createFamily, joinFamily } = useFamily();
+            const { user } = useAuth();
+            const [darkMode, setDarkMode] = useState(false);
+
+            useEffect(() => {
+                const savedDark = localStorage.getItem('darkMode') === 'true';
+                if (savedDark) {
+                    setDarkMode(true);
+                    document.documentElement.classList.add('dark');
+                }
+            }, []);
+
+            const handleCreate = async (e) => {
+                e.preventDefault();
+                if (!familyName.trim()) {
+                    setError('נא להזין שם למשפחה');
+                    return;
+                }
+                setLoading(true);
+                setError('');
+                try {
+                    const newFamily = await createFamily(familyName.trim());
+                    setCreatedCode(newFamily.code);
+                    setMode('created');
+                } catch (err) {
+                    setError('שגיאה ביצירת משפחה');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const handleJoin = async (e) => {
+                e.preventDefault();
+                if (!joinCode.trim() || joinCode.trim().length !== 6) {
+                    setError('נא להזין קוד בן 6 תווים');
+                    return;
+                }
+                setLoading(true);
+                setError('');
+                try {
+                    const result = await joinFamily(joinCode.trim());
+                    if (!result.success) {
+                        setError(result.error);
+                    }
+                } catch (err) {
+                    setError('שגיאה בהצטרפות');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const handleLogout = async () => {
+                await window.firebaseAuth.signOut(window.auth);
+            };
+
+            const toggleDarkMode = () => {
+                const newMode = !darkMode;
+                setDarkMode(newMode);
+                localStorage.setItem('darkMode', String(newMode));
+                document.documentElement.classList.toggle('dark');
+            };
+
+            return (
+                <div className="min-h-screen gradient-bg flex items-center justify-center p-4">
+                    <div className="glass rounded-3xl shadow-2xl p-8 max-w-md w-full relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+
+                        <button onClick={toggleDarkMode} className="absolute top-6 left-6 p-2.5 rounded-xl bg-white/50 dark:bg-gray-700/50 text-2xl hover:scale-110 transition-all">
+                            {darkMode ? '☀️' : '🌙'}
+                        </button>
+
+                        <button onClick={handleLogout} className="absolute top-6 right-6 p-2.5 rounded-xl bg-red-100 dark:bg-red-900/50 text-sm text-red-600 dark:text-red-400 hover:scale-105 transition-all">
+                            התנתק
+                        </button>
+
+                        <div className="text-center mb-8 pt-8">
+                            <div className="text-7xl mb-4 float">👨‍👩‍👧‍👦</div>
+                            <h1 className="text-2xl font-bold text-gradient mb-2">ברוך הבא, {user?.displayName || 'משתמש'}!</h1>
+                            <p className="text-gray-500 dark:text-gray-400 text-sm">צור משפחה חדשה או הצטרף למשפחה קיימת</p>
+                        </div>
+
+                        {mode === 'choose' && (
+                            <div className="space-y-4">
+                                <button onClick={() => setMode('create')} className="w-full btn-gradient text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-3">
+                                    <span className="text-2xl">🏠</span>
+                                    צור משפחה חדשה
+                                </button>
+                                <button onClick={() => setMode('join')} className="w-full glass border-2 border-indigo-300 dark:border-indigo-600 py-4 rounded-xl font-semibold hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all flex items-center justify-center gap-3 text-gray-700 dark:text-gray-200">
+                                    <span className="text-2xl">🔗</span>
+                                    הצטרף למשפחה קיימת
+                                </button>
+                            </div>
+                        )}
+
+                        {mode === 'create' && (
+                            <form onSubmit={handleCreate} className="space-y-4">
+                                <h2 className="text-xl font-bold text-center text-gray-800 dark:text-white mb-4">יצירת משפחה</h2>
+
+                                {error && (
+                                    <div className="bg-red-100 dark:bg-red-900/30 border-2 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
+                                        {error}
+                                    </div>
+                                )}
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">שם המשפחה</label>
+                                    <input
+                                        type="text"
+                                        value={familyName}
+                                        onChange={e => setFamilyName(e.target.value)}
+                                        placeholder="לדוגמה: משפחת כהן"
+                                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-indigo-500"
+                                        required
+                                    />
+                                </div>
+
+                                <button type="submit" disabled={loading} className="w-full btn-gradient text-white py-3 rounded-xl font-semibold disabled:opacity-50">
+                                    {loading ? 'יוצר...' : 'צור משפחה'}
+                                </button>
+
+                                <button type="button" onClick={() => { setMode('choose'); setError(''); }} className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline">
+                                    חזור
+                                </button>
+                            </form>
+                        )}
+
+                        {mode === 'join' && (
+                            <form onSubmit={handleJoin} className="space-y-4">
+                                <h2 className="text-xl font-bold text-center text-gray-800 dark:text-white mb-4">הצטרפות למשפחה</h2>
+
+                                {error && (
+                                    <div className="bg-red-100 dark:bg-red-900/30 border-2 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
+                                        {error}
+                                    </div>
+                                )}
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">קוד משפחה</label>
+                                    <input
+                                        type="text"
+                                        value={joinCode}
+                                        onChange={e => setJoinCode(e.target.value.toUpperCase())}
+                                        placeholder="ABC123"
+                                        maxLength={6}
+                                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-indigo-500 text-center text-2xl tracking-widest font-mono"
+                                        dir="ltr"
+                                        required
+                                    />
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 text-center">קבל את הקוד ממנהל המשפחה</p>
+                                </div>
+
+                                <button type="submit" disabled={loading} className="w-full btn-gradient text-white py-3 rounded-xl font-semibold disabled:opacity-50">
+                                    {loading ? 'מצטרף...' : 'הצטרף'}
+                                </button>
+
+                                <button type="button" onClick={() => { setMode('choose'); setError(''); }} className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline">
+                                    חזור
+                                </button>
+                            </form>
+                        )}
+
+                        {mode === 'created' && (
+                            <div className="text-center space-y-4">
+                                <div className="text-6xl mb-4">🎉</div>
+                                <h2 className="text-xl font-bold text-gradient">המשפחה נוצרה!</h2>
+                                <p className="text-gray-600 dark:text-gray-400">שתף את הקוד הזה עם בני המשפחה:</p>
+                                <div className="bg-indigo-100 dark:bg-indigo-900/50 px-6 py-4 rounded-xl">
+                                    <div className="text-3xl font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-widest">{createdCode}</div>
+                                </div>
+                                <button
+                                    onClick={() => navigator.clipboard.writeText(createdCode)}
+                                    className="text-indigo-600 dark:text-indigo-400 text-sm hover:underline flex items-center justify-center gap-2 mx-auto"
+                                >
+                                    📋 העתק קוד
+                                </button>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">הדף יתרענן אוטומטית...</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Family Settings Modal
+        function FamilySettingsModal({ onClose }) {
+            const { family, leaveFamily, removeMember, isAdmin } = useFamily();
+            const { user } = useAuth();
+            const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+            const [copied, setCopied] = useState(false);
+
+            const copyCode = () => {
+                navigator.clipboard.writeText(family.code);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            };
+
+            const handleLeave = async () => {
+                await leaveFamily();
+                onClose();
+            };
+
+            return (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-2xl font-bold flex items-center gap-3">
+                                <span className="text-3xl">👨‍👩‍👧‍👦</span>
+                                <span className="text-gradient">{family.name}</span>
+                            </h2>
+                            <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 hover:rotate-90 transition-all">×</button>
+                        </div>
+
+                        {/* Share Code */}
+                        <div className="glass rounded-xl p-4 mb-6">
+                            <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-2">קוד הזמנה</h3>
+                            <div className="flex items-center gap-3">
+                                <div className="flex-1 bg-indigo-100 dark:bg-indigo-900/50 px-4 py-3 rounded-lg text-center">
+                                    <span className="text-2xl font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-widest">{family.code}</span>
+                                </div>
+                                <button onClick={copyCode} className="btn-gradient text-white px-4 py-3 rounded-lg hover:scale-105 transition-all">
+                                    {copied ? '✓' : '📋'}
+                                </button>
+                            </div>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">שתף את הקוד עם בני משפחה להצטרפות</p>
+                        </div>
+
+                        {/* Members List */}
+                        <div className="mb-6">
+                            <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3">חברי המשפחה ({family.members?.length})</h3>
+                            <div className="space-y-2">
+                                {family.members?.map((member, idx) => (
+                                    <div key={idx} className="glass rounded-lg p-3 flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                                                {member.displayName?.charAt(0)?.toUpperCase() || '?'}
+                                            </div>
+                                            <div>
+                                                <div className="font-medium dark:text-white">{member.displayName}</div>
+                                                <div className="text-xs text-gray-500 dark:text-gray-400">{member.role === 'admin' ? '👑 מנהל' : 'חבר'}</div>
+                                            </div>
+                                        </div>
+                                        {isAdmin && member.userId !== user.uid && (
+                                            <button
+                                                onClick={() => removeMember(member.userId)}
+                                                className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
+                                                title="הסר חבר"
+                                            >
+                                                🗑
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Leave Family */}
+                        {!showLeaveConfirm ? (
+                            <button
+                                onClick={() => setShowLeaveConfirm(true)}
+                                className="w-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 py-3 rounded-xl font-semibold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+                            >
+                                {isAdmin && family.members?.length === 1 ? '🗑 מחק משפחה' : '🚪 עזוב משפחה'}
+                            </button>
+                        ) : (
+                            <div className="glass rounded-xl p-4 border-2 border-red-300 dark:border-red-700">
+                                <p className="text-center text-red-600 dark:text-red-400 mb-4 font-medium">
+                                    {isAdmin && family.members?.length === 1
+                                        ? 'המשפחה תימחק לצמיתות. להמשיך?'
+                                        : 'בטוח שברצונך לעזוב?'}
+                                </p>
+                                <div className="flex gap-2">
+                                    <button onClick={handleLeave} className="flex-1 bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600">
+                                        כן, {isAdmin && family.members?.length === 1 ? 'מחק' : 'עזוב'}
+                                    </button>
+                                    <button onClick={() => setShowLeaveConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">
+                                        ביטול
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Create List Modal
+        function CreateListModal({ onClose }) {
+            const { createList } = useFamily();
+            const [name, setName] = useState('');
+            const [icon, setIcon] = useState('📝');
+            const [loading, setLoading] = useState(false);
+
+            const icons = ['📝', '🛒', '🎉', '🏠', '💊', '🐾', '👶', '🍽️', '🧹', '✈️'];
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                if (!name.trim()) return;
+                setLoading(true);
+                await createList(name.trim(), icon);
+                onClose();
+            };
+
+            return (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+                        <div className="text-5xl text-center mb-4">📋</div>
+                        <h2 className="text-xl font-bold text-center text-gradient mb-6">רשימה חדשה</h2>
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">שם הרשימה</label>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                    placeholder="לדוגמה: קניות לשבת"
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-indigo-500"
+                                    autoFocus
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">אייקון</label>
+                                <div className="flex flex-wrap gap-2">
+                                    {icons.map(i => (
+                                        <button
+                                            key={i}
+                                            type="button"
+                                            onClick={() => setIcon(i)}
+                                            className={`text-2xl p-2 rounded-lg transition-all ${icon === i ? 'bg-indigo-100 dark:bg-indigo-900/50 scale-110' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                                        >
+                                            {i}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="flex gap-3 pt-2">
+                                <button type="submit" disabled={loading} className="flex-1 btn-gradient text-white py-3 rounded-xl font-semibold disabled:opacity-50">
+                                    {loading ? 'יוצר...' : 'צור רשימה'}
+                                </button>
+                                <button type="button" onClick={onClose} className="px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    ביטול
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        // Activity Feed Modal
+        function ActivityFeedModal({ onClose }) {
+            const { activities, currentList, lists } = useFamily();
+            const [filterList, setFilterList] = useState('all');
+
+            const getActivityText = (activity) => {
+                switch (activity.type) {
+                    case 'item_added':
+                        return `הוסיף "${activity.itemName}"`;
+                    case 'item_purchased':
+                        return `סימן כנקנה "${activity.itemName}"`;
+                    case 'item_deleted':
+                        return `מחק "${activity.itemName}"`;
+                    case 'quantity_changed':
+                        return `שינה כמות של "${activity.itemName}"`;
+                    case 'member_joined':
+                        return `${activity.memberName || activity.userName} הצטרף למשפחה`;
+                    case 'list_created':
+                        return `יצר רשימה "${activity.listName}"`;
+                    case 'note_added':
+                        return `הוסיף הערה ל"${activity.itemName}"`;
+                    default:
+                        return activity.type;
+                }
+            };
+
+            const getActivityIcon = (type) => {
+                switch (type) {
+                    case 'item_added': return '➕';
+                    case 'item_purchased': return '✅';
+                    case 'item_deleted': return '🗑️';
+                    case 'quantity_changed': return '🔢';
+                    case 'member_joined': return '👋';
+                    case 'list_created': return '📋';
+                    case 'note_added': return '📝';
+                    default: return '📌';
+                }
+            };
+
+            const getRelativeTime = (date) => {
+                if (!date) return '';
+                const now = new Date();
+                const d = date.toDate ? date.toDate() : date;
+                const diff = Math.floor((now - d) / 1000);
+
+                if (diff < 60) return 'עכשיו';
+                if (diff < 3600) return `לפני ${Math.floor(diff / 60)} דקות`;
+                if (diff < 86400) return `לפני ${Math.floor(diff / 3600)} שעות`;
+                if (diff < 604800) return `לפני ${Math.floor(diff / 86400)} ימים`;
+                return d.toLocaleDateString('he-IL');
+            };
+
+            const filteredActivities = filterList === 'all'
+                ? activities
+                : activities.filter(a => a.listId === filterList);
+
+            return (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="glass rounded-3xl p-8 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-hidden flex flex-col">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-2xl font-bold flex items-center gap-3">
+                                <span className="text-3xl">📊</span>
+                                <span className="text-gradient">פעילות אחרונה</span>
+                            </h2>
+                            <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 hover:rotate-90 transition-all">×</button>
+                        </div>
+
+                        {lists.length > 1 && (
+                            <div className="mb-4">
+                                <select
+                                    value={filterList}
+                                    onChange={e => setFilterList(e.target.value)}
+                                    className="w-full px-4 py-2 glass rounded-xl border-2 border-gray-200 dark:border-gray-600 dark:text-white"
+                                >
+                                    <option value="all">כל הרשימות</option>
+                                    {lists.map(list => (
+                                        <option key={list.id} value={list.id}>{list.icon} {list.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+
+                        <div className="flex-1 overflow-y-auto space-y-3 scrollbar-thin">
+                            {filteredActivities.length === 0 ? (
+                                <div className="text-center py-12">
+                                    <div className="text-6xl mb-4 float">📭</div>
+                                    <p className="text-gray-500 dark:text-gray-400">אין פעילות עדיין</p>
+                                </div>
+                            ) : (
+                                filteredActivities.map(activity => (
+                                    <div key={activity.id} className="glass rounded-xl p-4 flex items-start gap-3">
+                                        <div className="text-2xl">{getActivityIcon(activity.type)}</div>
+                                        <div className="flex-1">
+                                            <div className="text-sm dark:text-white">
+                                                <span className="font-bold text-indigo-600 dark:text-indigo-400">{activity.userName}</span>
+                                                {' '}{getActivityText(activity)}
+                                            </div>
+                                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                {getRelativeTime(activity.timestamp)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Item Note Modal
+        function ItemNoteModal({ item, onClose, onSave }) {
+            const [note, setNote] = useState(item.note || '');
+            const [loading, setLoading] = useState(false);
+
+            const handleSave = async () => {
+                setLoading(true);
+                await onSave(note);
+                onClose();
+            };
+
+            return (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+                        <div className="text-5xl text-center mb-4">📝</div>
+                        <h2 className="text-xl font-bold text-center text-gradient mb-2">הערה למוצר</h2>
+                        <p className="text-center text-gray-500 dark:text-gray-400 mb-4">{item.name}</p>
+
+                        <textarea
+                            value={note}
+                            onChange={e => setNote(e.target.value)}
+                            placeholder="לדוגמה: מותג אסם, מהמדף העליון..."
+                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-indigo-500 resize-none h-24 mb-4"
+                            autoFocus
+                        />
+
+                        <div className="flex gap-3">
+                            <button onClick={handleSave} disabled={loading} className="flex-1 btn-gradient text-white py-3 rounded-xl font-semibold disabled:opacity-50">
+                                {loading ? 'שומר...' : 'שמור'}
+                            </button>
+                            <button onClick={onClose} className="px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700">
+                                ביטול
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
         }
 
         // Error message helper
@@ -524,6 +1353,7 @@
 
         function ShoppingList() {
             const { user } = useAuth();
+            const { family, lists, currentList, setCurrentList, logActivity } = useFamily();
             const [items, setItems] = useState([]);
             const [selectedCategory, setSelectedCategory] = useState(null);
             const [searchTerm, setSearchTerm] = useState('');
@@ -534,6 +1364,10 @@
             const [totalAmount, setTotalAmount] = useState('');
             const [history, setHistory] = useState([]);
             const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
+            const [showFamilySettings, setShowFamilySettings] = useState(false);
+            const [showCreateList, setShowCreateList] = useState(false);
+            const [showActivityFeed, setShowActivityFeed] = useState(false);
+            const [editingNote, setEditingNote] = useState(null);
 
             useEffect(() => {
                 const savedDark = localStorage.getItem('darkMode') === 'true';
@@ -544,11 +1378,16 @@
             }, []);
 
             useEffect(() => {
-                if (!user) return;
+                if (!family || !currentList) {
+                    setItems([]);
+                    setLoading(false);
+                    return;
+                }
 
                 const q = window.firestore.query(
                     window.firestore.collection(window.db, 'shopping-items'),
-                    window.firestore.where('userId', '==', user.uid)
+                    window.firestore.where('familyId', '==', family.id),
+                    window.firestore.where('listId', '==', currentList.id)
                 );
 
                 const unsubscribe = window.firestore.onSnapshot(
@@ -575,14 +1414,14 @@
 
                 loadHistory();
                 return () => unsubscribe();
-            }, [user]);
+            }, [family, currentList]);
 
             const loadHistory = async () => {
-                if (!user) return;
+                if (!family) return;
                 try {
                     const historyQuery = window.firestore.query(
                         window.firestore.collection(window.db, 'shopping-history'),
-                        window.firestore.where('userId', '==', user.uid)
+                        window.firestore.where('familyId', '==', family.id)
                     );
                     const snapshot = await window.firestore.getDocs(historyQuery);
                     const historyData = [];
@@ -624,18 +1463,27 @@
                     if (existing) {
                         await window.firestore.updateDoc(
                             window.firestore.doc(window.db, 'shopping-items', existing.id),
-                            { quantity: existing.quantity + 1 }
+                            {
+                                quantity: existing.quantity + 1,
+                                updatedAt: new Date(),
+                                updatedBy: user.displayName || user.email
+                            }
                         );
+                        await logActivity('quantity_changed', { itemName: product });
                     } else {
                         await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                             name: product,
                             category: category,
                             quantity: 1,
                             purchased: false,
-                            userId: user.uid,
+                            familyId: family.id,
+                            listId: currentList.id,
                             addedBy: user.displayName || user.email,
+                            addedByUid: user.uid,
+                            note: '',
                             createdAt: new Date()
                         });
+                        await logActivity('item_added', { itemName: product });
                     }
                     setSearchTerm('');
                 } catch (error) {
@@ -646,9 +1494,15 @@
 
             const togglePurchased = async (id, currentStatus) => {
                 try {
+                    const item = items.find(i => i.id === id);
                     await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
-                        purchased: !currentStatus
+                        purchased: !currentStatus,
+                        purchasedBy: !currentStatus ? (user.displayName || user.email) : null,
+                        purchasedAt: !currentStatus ? new Date() : null
                     });
+                    if (!currentStatus && item) {
+                        await logActivity('item_purchased', { itemName: item.name });
+                    }
                 } catch (error) {
                     console.error('שגיאה בעדכון מוצר:', error);
                 }
@@ -659,9 +1513,15 @@
                     if (newQuantity < 1) {
                         setShowDeleteConfirm(id);
                     } else {
+                        const item = items.find(i => i.id === id);
                         await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
-                            quantity: newQuantity
+                            quantity: newQuantity,
+                            updatedAt: new Date(),
+                            updatedBy: user.displayName || user.email
                         });
+                        if (item) {
+                            await logActivity('quantity_changed', { itemName: item.name });
+                        }
                     }
                 } catch (error) {
                     console.error('שגיאה בעדכון כמות:', error);
@@ -670,10 +1530,30 @@
 
             const deleteItem = async (id) => {
                 try {
+                    const item = items.find(i => i.id === id);
                     await window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', id));
                     setShowDeleteConfirm(null);
+                    if (item) {
+                        await logActivity('item_deleted', { itemName: item.name });
+                    }
                 } catch (error) {
                     console.error('שגיאה במחיקת מוצר:', error);
+                }
+            };
+
+            const updateItemNote = async (itemId, note) => {
+                try {
+                    const item = items.find(i => i.id === itemId);
+                    await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', itemId), {
+                        note: note,
+                        updatedAt: new Date(),
+                        updatedBy: user.displayName || user.email
+                    });
+                    if (item && note) {
+                        await logActivity('note_added', { itemName: item.name });
+                    }
+                } catch (error) {
+                    console.error('שגיאה בעדכון הערה:', error);
                 }
             };
 
@@ -695,7 +1575,9 @@
                         totalAmount: parseFloat(totalAmount),
                         completedAt: new Date(),
                         completedBy: user.displayName || user.email,
-                        userId: user.uid
+                        completedByUid: user.uid,
+                        familyId: family.id,
+                        listId: currentList.id
                     });
 
                     for (const item of purchasedItems) {
@@ -876,6 +1758,11 @@
                         </div>
                     )}
 
+                    {showFamilySettings && <FamilySettingsModal onClose={() => setShowFamilySettings(false)} />}
+                    {showCreateList && <CreateListModal onClose={() => setShowCreateList(false)} />}
+                    {showActivityFeed && <ActivityFeedModal onClose={() => setShowActivityFeed(false)} />}
+                    {editingNote && <ItemNoteModal item={editingNote} onClose={() => setEditingNote(null)} onSave={(note) => updateItemNote(editingNote.id, note)} />}
+
                     <div className="max-w-4xl mx-auto">
                         <div className="glass rounded-3xl shadow-xl p-6 mb-6 relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
@@ -887,19 +1774,57 @@
                                     <div>
                                         <h1 className="text-2xl font-bold text-gradient">ShopSmart</h1>
                                         <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                            <span className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300">
+                                            <button onClick={() => setShowFamilySettings(true)} className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300 hover:scale-105 transition-transform cursor-pointer">
+                                                👨‍👩‍👧‍👦 {family?.name}
+                                            </button>
+                                            <span className="px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
                                                 👤 {user.displayName || user.email}
                                             </span>
-                                            <button onClick={handleLogout} className="text-gray-400 hover:text-red-500 text-sm transition-colors">התנתק</button>
-                                            <button onClick={toggleDarkMode} className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-lg hover:scale-110 transition-transform">{darkMode ? '☀️' : '🌙'}</button>
                                         </div>
                                     </div>
                                 </div>
+                                <div className="flex items-center gap-2">
+                                    <button onClick={() => setShowActivityFeed(true)} className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform" title="פעילות">📊</button>
+                                    <button onClick={toggleDarkMode} className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-lg hover:scale-110 transition-transform">{darkMode ? '☀️' : '🌙'}</button>
+                                    <button onClick={handleLogout} className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform text-red-600 dark:text-red-400" title="התנתק">🚪</button>
+                                </div>
+                            </div>
+
+                            {/* List Selector */}
+                            <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-2 scrollbar-thin">
+                                {lists.map(list => (
+                                    <button
+                                        key={list.id}
+                                        onClick={() => setCurrentList(list)}
+                                        className={`flex items-center gap-2 px-4 py-2 rounded-xl whitespace-nowrap transition-all ${
+                                            currentList?.id === list.id
+                                                ? 'btn-gradient text-white shadow-lg'
+                                                : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200'
+                                        }`}
+                                    >
+                                        <span>{list.icon}</span>
+                                        <span className="font-medium">{list.name}</span>
+                                        {list.isDefault && <span className="text-xs">⭐</span>}
+                                    </button>
+                                ))}
+                                <button
+                                    onClick={() => setShowCreateList(true)}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-all whitespace-nowrap"
+                                >
+                                    <span>➕</span>
+                                    <span className="font-medium">רשימה חדשה</span>
+                                </button>
+                            </div>
+
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="text-sm text-gray-500 dark:text-gray-400">
+                                    {currentList?.icon} {currentList?.name}
+                                </div>
                                 <button
                                     onClick={() => document.getElementById('shopping-list-section')?.scrollIntoView({ behavior: 'smooth' })}
-                                    className="flex flex-col items-center gap-1 px-5 py-3 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-2xl hover:shadow-lg transition-all card-hover border border-indigo-200/50 dark:border-indigo-700/50">
-                                    <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">סה״כ פריטים</div>
-                                    <div className="text-3xl font-bold text-gradient">{totalItems}</div>
+                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl hover:shadow-lg transition-all border border-indigo-200/50 dark:border-indigo-700/50">
+                                    <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">פריטים</span>
+                                    <span className="text-xl font-bold text-gradient">{totalItems}</span>
                                 </button>
                             </div>
 
@@ -1075,25 +2000,45 @@
                                             <span className="text-xs bg-indigo-100 dark:bg-indigo-900/50 px-2 py-1 rounded-full">{categoryItems.length}</span>
                                         </h3>
                                         {categoryItems.map(item => (
-                                            <div key={item.id} className={`flex items-center gap-3 p-4 rounded-xl mb-3 transition-all duration-300 card-hover ${item.purchased ? 'bg-gradient-to-r from-green-100/80 to-emerald-100/80 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-300 dark:border-green-700' : 'bg-white/60 dark:bg-gray-700/60 border-2 border-gray-200/50 dark:border-gray-600/50 hover:border-indigo-300'}`}>
-                                                <button onClick={() => togglePurchased(item.id, item.purchased)}
-                                                    className={`w-7 h-7 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-300 ${item.purchased ? 'bg-gradient-to-r from-green-500 to-emerald-500 border-green-500 scale-110 shadow-lg' : 'border-gray-300 dark:border-gray-500 hover:border-green-400 hover:scale-110'}`}>
-                                                    {item.purchased && <span className="text-white text-sm font-bold">✓</span>}
-                                                </button>
-                                                <div className="flex-1 min-w-0">
-                                                    <span className={`font-medium text-lg ${item.purchased ? 'text-gray-400 dark:text-gray-500 line-through' : 'text-gray-800 dark:text-white'}`}>
-                                                        {item.name}
-                                                    </span>
+                                            <div key={item.id} className={`p-4 rounded-xl mb-3 transition-all duration-300 card-hover ${item.purchased ? 'bg-gradient-to-r from-green-100/80 to-emerald-100/80 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-300 dark:border-green-700' : 'bg-white/60 dark:bg-gray-700/60 border-2 border-gray-200/50 dark:border-gray-600/50 hover:border-indigo-300'}`}>
+                                                <div className="flex items-center gap-3">
+                                                    <button onClick={() => togglePurchased(item.id, item.purchased)}
+                                                        className={`w-7 h-7 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-300 ${item.purchased ? 'bg-gradient-to-r from-green-500 to-emerald-500 border-green-500 scale-110 shadow-lg' : 'border-gray-300 dark:border-gray-500 hover:border-green-400 hover:scale-110'}`}>
+                                                        {item.purchased && <span className="text-white text-sm font-bold">✓</span>}
+                                                    </button>
+                                                    <div className="flex-1 min-w-0">
+                                                        <span className={`font-medium text-lg ${item.purchased ? 'text-gray-400 dark:text-gray-500 line-through' : 'text-gray-800 dark:text-white'}`}>
+                                                            {item.name}
+                                                        </span>
+                                                        <div className="flex items-center gap-2 mt-1">
+                                                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                                👤 {item.addedBy}
+                                                            </span>
+                                                            {item.note && (
+                                                                <span className="text-xs bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full">
+                                                                    📝 {item.note.length > 15 ? item.note.substring(0, 15) + '...' : item.note}
+                                                                </span>
+                                                            )}
+                                                            {item.purchased && item.purchasedBy && (
+                                                                <span className="text-xs text-green-600 dark:text-green-400">
+                                                                    ✓ נקנה ע״י {item.purchasedBy}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 flex-shrink-0">
+                                                        <button onClick={() => setEditingNote(item)}
+                                                            className={`w-9 h-9 rounded-xl font-bold hover:scale-110 transition-all shadow-sm ${item.note ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-600' : 'bg-gray-100 dark:bg-gray-600 text-gray-500'}`}
+                                                            title="הוסף הערה">📝</button>
+                                                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                                            className="w-9 h-9 bg-gray-100 dark:bg-gray-600 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-500 hover:scale-110 transition-all shadow-sm">-</button>
+                                                        <span className="w-12 text-center font-bold text-lg text-gradient">{item.quantity}</span>
+                                                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                                            className="w-9 h-9 btn-gradient text-white rounded-xl font-bold hover:scale-110 transition-all shadow-md">+</button>
+                                                    </div>
+                                                    <button onClick={() => setShowDeleteConfirm(item.id)}
+                                                        className="w-9 h-9 bg-red-100 dark:bg-red-900/50 rounded-xl text-red-500 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800 hover:scale-110 flex-shrink-0 transition-all shadow-sm">🗑</button>
                                                 </div>
-                                                <div className="flex items-center gap-2 flex-shrink-0">
-                                                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                        className="w-9 h-9 bg-gray-100 dark:bg-gray-600 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-500 hover:scale-110 transition-all shadow-sm">-</button>
-                                                    <span className="w-12 text-center font-bold text-lg text-gradient">{item.quantity}</span>
-                                                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                        className="w-9 h-9 btn-gradient text-white rounded-xl font-bold hover:scale-110 transition-all shadow-md">+</button>
-                                                </div>
-                                                <button onClick={() => setShowDeleteConfirm(item.id)}
-                                                    className="w-9 h-9 bg-red-100 dark:bg-red-900/50 rounded-xl text-red-500 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800 hover:scale-110 flex-shrink-0 transition-all shadow-sm">🗑</button>
                                             </div>
                                         ))}
                                     </div>
@@ -1111,6 +2056,31 @@
                     </div>
                 </div>
             );
+        }
+
+        // Main App Content (inside FamilyProvider)
+        function AppContent() {
+            const { family, loading: familyLoading } = useFamily();
+
+            if (familyLoading) {
+                return (
+                    <div className="min-h-screen gradient-bg flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="text-6xl mb-4 float">👨‍👩‍👧‍👦</div>
+                            <div className="text-xl text-white font-medium">טוען משפחה...</div>
+                            <div className="mt-4 w-32 h-1 bg-white/20 rounded-full overflow-hidden mx-auto">
+                                <div className="h-full w-1/2 progress-animate rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (!family) {
+                return <NoFamilyScreen />;
+            }
+
+            return <ShoppingList />;
         }
 
         // Main App Component
@@ -1135,7 +2105,11 @@
                 return <AuthScreen />;
             }
 
-            return <ShoppingList />;
+            return (
+                <FamilyProvider>
+                    <AppContent />
+                </FamilyProvider>
+            );
         }
 
         ReactDOM.render(
