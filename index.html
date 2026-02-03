@@ -87,6 +87,23 @@
         .slide-out-right { animation: slideOutRight 0.3s ease forwards; }
         .slide-out-left { animation: slideOutLeft 0.3s ease forwards; }
         .confetti-particle { position: absolute; pointer-events: none; animation: particleFly 0.6s ease-out forwards; }
+
+        /* Voice recognition styles */
+        @keyframes voicePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(168, 85, 247, 0); }
+        }
+        .voice-listening { animation: voicePulse 1.5s ease-in-out infinite; }
+        @keyframes soundWave {
+            0% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
+            100% { transform: scaleY(0.3); }
+        }
+        .sound-wave { display: inline-block; width: 3px; height: 20px; background: currentColor; margin: 0 1px; border-radius: 3px; animation: soundWave 0.5s ease-in-out infinite; }
+        .sound-wave:nth-child(2) { animation-delay: 0.1s; }
+        .sound-wave:nth-child(3) { animation-delay: 0.2s; }
+        .sound-wave:nth-child(4) { animation-delay: 0.3s; }
+        .sound-wave:nth-child(5) { animation-delay: 0.4s; }
     </style>
 
     <script type="module">
@@ -1570,6 +1587,49 @@
             const [newRecipeName, setNewRecipeName] = useState('');
             const [newRecipeIngredients, setNewRecipeIngredients] = useState('');
             const [addingRecipeItems, setAddingRecipeItems] = useState(null);
+            // Voice recognition states
+            const [isListening, setIsListening] = useState(false);
+            const [voiceSupported, setVoiceSupported] = useState(false);
+            const [voiceTranscript, setVoiceTranscript] = useState('');
+            const recognitionRef = React.useRef(null);
+
+            // Check voice support on mount
+            useEffect(() => {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (SpeechRecognition) {
+                    setVoiceSupported(true);
+                    const recognition = new SpeechRecognition();
+                    recognition.continuous = false;
+                    recognition.interimResults = true;
+                    recognition.lang = 'he-IL'; // Hebrew
+
+                    recognition.onresult = (event) => {
+                        const transcript = Array.from(event.results)
+                            .map(result => result[0].transcript)
+                            .join('');
+                        setVoiceTranscript(transcript);
+
+                        // If final result, process it
+                        if (event.results[0].isFinal) {
+                            processVoiceCommand(transcript);
+                        }
+                    };
+
+                    recognition.onend = () => {
+                        setIsListening(false);
+                    };
+
+                    recognition.onerror = (event) => {
+                        console.error('Voice recognition error:', event.error);
+                        setIsListening(false);
+                        if (event.error === 'not-allowed') {
+                            alert('נא לאפשר גישה למיקרופון כדי להשתמש בפקודות קוליות');
+                        }
+                    };
+
+                    recognitionRef.current = recognition;
+                }
+            }, []);
 
             useEffect(() => {
                 const savedDark = localStorage.getItem('darkMode') === 'true';
@@ -1807,6 +1867,108 @@
                 } finally {
                     setAddingRecipeItems(null);
                 }
+            };
+
+            // Voice recognition functions
+            const startListening = () => {
+                if (recognitionRef.current && !isListening) {
+                    setVoiceTranscript('');
+                    setIsListening(true);
+                    try {
+                        recognitionRef.current.start();
+                    } catch (e) {
+                        console.error('Failed to start recognition:', e);
+                        setIsListening(false);
+                    }
+                }
+            };
+
+            const stopListening = () => {
+                if (recognitionRef.current && isListening) {
+                    recognitionRef.current.stop();
+                    setIsListening(false);
+                }
+            };
+
+            const processVoiceCommand = async (transcript) => {
+                const text = transcript.trim().toLowerCase();
+                if (!text) return;
+
+                // Parse multiple items separated by "ו" (and), commas, or common separators
+                const itemPatterns = text
+                    .replace(/תוסיף|הוסף|צריך|צריכה|קנה|קני|תקנה|תקני|אני רוצה|אני צריך|אני צריכה/g, '')
+                    .split(/\s*(?:,|ו(?:גם)?|וגם)\s*/)
+                    .map(item => item.trim())
+                    .filter(item => item.length > 1);
+
+                if (itemPatterns.length === 0) {
+                    // Try as single item
+                    const singleItem = text.replace(/תוסיף|הוסף|צריך|צריכה|קנה|קני|תקנה|תקני|אני רוצה|אני צריך|אני צריכה/g, '').trim();
+                    if (singleItem.length > 1) {
+                        itemPatterns.push(singleItem);
+                    }
+                }
+
+                let addedCount = 0;
+                for (const itemText of itemPatterns) {
+                    // Try to find matching product in database
+                    let matchedProduct = null;
+                    let matchedCategory = 'other';
+
+                    for (const [cat, products] of Object.entries(PRODUCTS)) {
+                        const found = products.find(p =>
+                            p.includes(itemText) || itemText.includes(p) ||
+                            p.split(' ').some(word => itemText.includes(word) && word.length > 2)
+                        );
+                        if (found) {
+                            matchedProduct = found;
+                            matchedCategory = cat;
+                            break;
+                        }
+                    }
+
+                    const productName = matchedProduct || itemText;
+
+                    // Check if already in list
+                    const existing = items.find(item =>
+                        item.name === productName ||
+                        item.name.includes(itemText) ||
+                        itemText.includes(item.name)
+                    );
+
+                    try {
+                        if (existing && !existing.purchased) {
+                            await window.firestore.updateDoc(
+                                window.firestore.doc(window.db, 'shopping-items', existing.id),
+                                { quantity: existing.quantity + 1, updatedAt: new Date() }
+                            );
+                        } else {
+                            await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                                name: productName,
+                                category: matchedCategory,
+                                quantity: 1,
+                                purchased: false,
+                                familyId: family.id,
+                                listId: currentList.id,
+                                addedBy: user.displayName || user.email,
+                                addedByUid: user.uid,
+                                note: '🎤 נוסף בקול',
+                                createdAt: new Date()
+                            });
+                        }
+                        addedCount++;
+                    } catch (error) {
+                        console.error('Error adding voice item:', error);
+                    }
+                }
+
+                if (addedCount > 0) {
+                    await logActivity('voice_items_added', { count: addedCount, transcript: transcript });
+                    // Visual/audio feedback
+                    if (navigator.vibrate) navigator.vibrate(100);
+                }
+
+                setVoiceTranscript('');
             };
 
             // Send chat message
@@ -2558,17 +2720,51 @@
                         </div>
 
                         <div className="glass rounded-2xl shadow-xl p-4 mb-6 card-hover">
-                            <div className="relative">
-                                <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
-                                    placeholder="🔍 חפש מוצר להוספה..."
-                                    className="w-full px-5 py-4 pl-14 border-2 border-indigo-200 dark:border-indigo-600 rounded-2xl bg-white/50 dark:bg-gray-800/50 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 dark:focus:ring-indigo-900/30 transition-all text-lg font-medium placeholder:text-gray-400" />
-                                {searchTerm && (
-                                    <button onClick={() => setSearchTerm('')}
-                                        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-2xl hover:scale-125 hover:rotate-90 transition-all duration-300">
-                                        ✕
+                            <div className="flex gap-3">
+                                <div className="relative flex-1">
+                                    <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
+                                        placeholder="🔍 חפש מוצר להוספה..."
+                                        className="w-full px-5 py-4 pl-14 border-2 border-indigo-200 dark:border-indigo-600 rounded-2xl bg-white/50 dark:bg-gray-800/50 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 dark:focus:ring-indigo-900/30 transition-all text-lg font-medium placeholder:text-gray-400" />
+                                    {searchTerm && (
+                                        <button onClick={() => setSearchTerm('')}
+                                            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-2xl hover:scale-125 hover:rotate-90 transition-all duration-300">
+                                            ✕
+                                        </button>
+                                    )}
+                                </div>
+                                {voiceSupported && (
+                                    <button
+                                        onClick={isListening ? stopListening : startListening}
+                                        className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl transition-all shadow-lg ${isListening ? 'bg-red-500 text-white animate-pulse scale-110' : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:scale-110'}`}
+                                        title={isListening ? 'לחץ לעצירה' : 'הוסף בקול'}
+                                    >
+                                        {isListening ? '⏹️' : '🎤'}
                                     </button>
                                 )}
                             </div>
+                            {isListening && (
+                                <div className="mt-3 p-4 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl border-2 border-purple-300 dark:border-purple-700">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3 text-purple-700 dark:text-purple-300">
+                                            <div className="flex items-center h-6">
+                                                <span className="sound-wave"></span>
+                                                <span className="sound-wave"></span>
+                                                <span className="sound-wave"></span>
+                                                <span className="sound-wave"></span>
+                                                <span className="sound-wave"></span>
+                                            </div>
+                                            <span className="font-bold">מקשיב...</span>
+                                        </div>
+                                        <span className="text-sm text-purple-500 dark:text-purple-400">אמור: "חלב, ביצים ולחם"</span>
+                                    </div>
+                                    {voiceTranscript && (
+                                        <div className="mt-3 p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg">
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">מזהה: </span>
+                                            <span className="text-lg font-bold text-purple-800 dark:text-purple-200">{voiceTranscript}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
                         {searchTerm && (
