@@ -1563,6 +1563,13 @@
             const [capturedPhoto, setCapturedPhoto] = useState(null);
             const videoRef = React.useRef(null);
             const canvasRef = React.useRef(null);
+            // Recipe states
+            const [showRecipes, setShowRecipes] = useState(false);
+            const [recipes, setRecipes] = useState([]);
+            const [showAddRecipe, setShowAddRecipe] = useState(false);
+            const [newRecipeName, setNewRecipeName] = useState('');
+            const [newRecipeIngredients, setNewRecipeIngredients] = useState('');
+            const [addingRecipeItems, setAddingRecipeItems] = useState(null);
 
             useEffect(() => {
                 const savedDark = localStorage.getItem('darkMode') === 'true';
@@ -1662,6 +1669,145 @@
 
                 return () => unsubscribe();
             }, [family]);
+
+            // Load recipes
+            useEffect(() => {
+                if (!family) {
+                    setRecipes([]);
+                    return;
+                }
+
+                const q = window.firestore.query(
+                    window.firestore.collection(window.db, 'recipes'),
+                    window.firestore.where('familyId', '==', family.id)
+                );
+
+                const unsubscribe = window.firestore.onSnapshot(q, (snapshot) => {
+                    const recipesData = [];
+                    snapshot.forEach((doc) => {
+                        recipesData.push({ id: doc.id, ...doc.data() });
+                    });
+                    recipesData.sort((a, b) => {
+                        const dateA = a.createdAt?.toDate?.() || new Date(0);
+                        const dateB = b.createdAt?.toDate?.() || new Date(0);
+                        return dateB - dateA;
+                    });
+                    setRecipes(recipesData);
+                });
+
+                return () => unsubscribe();
+            }, [family]);
+
+            // Save new recipe
+            const saveRecipe = async () => {
+                if (!newRecipeName.trim() || !newRecipeIngredients.trim()) {
+                    alert('נא למלא שם מתכון ורשימת מרכיבים');
+                    return;
+                }
+
+                // Parse ingredients - split by newlines or commas
+                const ingredients = newRecipeIngredients
+                    .split(/[\n,]/)
+                    .map(i => i.trim())
+                    .filter(i => i.length > 0)
+                    .map(i => {
+                        // Try to parse quantity and item name
+                        // Patterns like: "2 כוסות קמח", "קמח 2 כוסות", "חלב", "3 ביצים"
+                        const match = i.match(/^(\d+\.?\d*)\s*(.+)$/) || i.match(/^(.+?)\s+(\d+\.?\d*).*$/);
+                        if (match) {
+                            const num = parseFloat(match[1]) || parseFloat(match[2]);
+                            const name = match[2] || match[1];
+                            if (!isNaN(num)) {
+                                return { name: name.replace(/^\d+\.?\d*\s*/, '').trim(), quantity: Math.ceil(num) || 1 };
+                            }
+                        }
+                        return { name: i, quantity: 1 };
+                    });
+
+                try {
+                    await window.firestore.addDoc(window.firestore.collection(window.db, 'recipes'), {
+                        name: newRecipeName.trim(),
+                        ingredients: ingredients,
+                        rawIngredients: newRecipeIngredients.trim(),
+                        familyId: family.id,
+                        createdBy: user.displayName || user.email,
+                        createdByUid: user.uid,
+                        createdAt: window.firestore.serverTimestamp()
+                    });
+                    setNewRecipeName('');
+                    setNewRecipeIngredients('');
+                    setShowAddRecipe(false);
+                    await logActivity('recipe_added', { recipeName: newRecipeName.trim() });
+                } catch (error) {
+                    console.error('שגיאה בשמירת מתכון:', error);
+                    alert('שגיאה בשמירת המתכון');
+                }
+            };
+
+            // Delete recipe
+            const deleteRecipe = async (recipeId, recipeName) => {
+                if (!confirm(`למחוק את המתכון "${recipeName}"?`)) return;
+                try {
+                    await window.firestore.deleteDoc(window.firestore.doc(window.db, 'recipes', recipeId));
+                } catch (error) {
+                    console.error('שגיאה במחיקת מתכון:', error);
+                }
+            };
+
+            // Add all recipe ingredients to shopping list
+            const addRecipeToCart = async (recipe) => {
+                setAddingRecipeItems(recipe.id);
+                try {
+                    for (const ingredient of recipe.ingredients) {
+                        // Check if item already exists in current list
+                        const existing = items.find(item =>
+                            item.name.includes(ingredient.name) || ingredient.name.includes(item.name)
+                        );
+
+                        if (existing && !existing.purchased) {
+                            // Update quantity
+                            await window.firestore.updateDoc(
+                                window.firestore.doc(window.db, 'shopping-items', existing.id),
+                                {
+                                    quantity: existing.quantity + ingredient.quantity,
+                                    updatedAt: new Date(),
+                                    updatedBy: user.displayName || user.email
+                                }
+                            );
+                        } else {
+                            // Find matching category from products
+                            let category = 'other';
+                            for (const [cat, products] of Object.entries(PRODUCTS)) {
+                                if (products.some(p => p.includes(ingredient.name) || ingredient.name.includes(p))) {
+                                    category = cat;
+                                    break;
+                                }
+                            }
+
+                            // Add new item
+                            await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                                name: ingredient.name,
+                                category: category,
+                                quantity: ingredient.quantity,
+                                purchased: false,
+                                familyId: family.id,
+                                listId: currentList.id,
+                                addedBy: user.displayName || user.email,
+                                addedByUid: user.uid,
+                                note: `מתכון: ${recipe.name}`,
+                                createdAt: new Date()
+                            });
+                        }
+                    }
+                    await logActivity('recipe_added_to_cart', { recipeName: recipe.name, itemCount: recipe.ingredients.length });
+                    setShowRecipes(false);
+                } catch (error) {
+                    console.error('שגיאה בהוספת מרכיבי מתכון:', error);
+                    alert('שגיאה בהוספת המרכיבים');
+                } finally {
+                    setAddingRecipeItems(null);
+                }
+            };
 
             // Send chat message
             const sendChatMessage = async (text, photoUrl = null) => {
@@ -2160,6 +2306,115 @@
                         </div>
                     )}
 
+                    {/* Recipes Modal */}
+                    {showRecipes && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                            <div className="glass rounded-3xl w-full max-w-2xl max-h-[85vh] shadow-2xl flex flex-col overflow-hidden">
+                                {/* Header */}
+                                <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-t-3xl">
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-2xl">🍳</span>
+                                        <div>
+                                            <h2 className="font-bold text-lg">מתכונים</h2>
+                                            <p className="text-xs opacity-80">הוסף מרכיבים לעגלה בלחיצה</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <button onClick={() => setShowAddRecipe(true)} className="px-3 py-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-colors text-sm font-medium">+ מתכון חדש</button>
+                                        <button onClick={() => setShowRecipes(false)} className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">✕</button>
+                                    </div>
+                                </div>
+
+                                {/* Add Recipe Form */}
+                                {showAddRecipe && (
+                                    <div className="p-4 bg-orange-50 dark:bg-orange-900/20 border-b border-orange-200 dark:border-orange-800">
+                                        <div className="mb-3">
+                                            <input
+                                                type="text"
+                                                value={newRecipeName}
+                                                onChange={e => setNewRecipeName(e.target.value)}
+                                                placeholder="שם המתכון (למשל: עוגת שוקולד)"
+                                                className="w-full px-4 py-3 border-2 border-orange-200 dark:border-orange-700 rounded-xl bg-white dark:bg-gray-800 dark:text-white focus:border-orange-400 transition-all"
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <textarea
+                                                value={newRecipeIngredients}
+                                                onChange={e => setNewRecipeIngredients(e.target.value)}
+                                                placeholder="רשימת מרכיבים (כל מרכיב בשורה חדשה)&#10;לדוגמה:&#10;2 כוסות קמח&#10;3 ביצים&#10;כוס סוכר&#10;חלב"
+                                                rows={5}
+                                                className="w-full px-4 py-3 border-2 border-orange-200 dark:border-orange-700 rounded-xl bg-white dark:bg-gray-800 dark:text-white focus:border-orange-400 transition-all resize-none"
+                                            />
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button onClick={saveRecipe} className="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-xl hover:shadow-lg transition-all font-medium">
+                                                💾 שמור מתכון
+                                            </button>
+                                            <button onClick={() => { setShowAddRecipe(false); setNewRecipeName(''); setNewRecipeIngredients(''); }} className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
+                                                ביטול
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Recipes List */}
+                                <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin">
+                                    {recipes.length === 0 ? (
+                                        <div className="text-center py-12">
+                                            <div className="text-6xl mb-4">🍳</div>
+                                            <p className="text-gray-500 dark:text-gray-400 text-lg">אין מתכונים שמורים</p>
+                                            <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">הוסף מתכון ותוכל להוסיף את כל המרכיבים בלחיצה אחת!</p>
+                                            <button onClick={() => setShowAddRecipe(true)} className="mt-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-6 py-2 rounded-xl hover:shadow-lg transition-all font-medium">
+                                                + הוסף מתכון ראשון
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        recipes.map(recipe => (
+                                            <div key={recipe.id} className="bg-white dark:bg-gray-800 rounded-2xl p-4 border-2 border-orange-100 dark:border-orange-900/50 hover:border-orange-300 dark:hover:border-orange-700 transition-all">
+                                                <div className="flex items-start justify-between mb-3">
+                                                    <div>
+                                                        <h3 className="font-bold text-lg text-gray-800 dark:text-white flex items-center gap-2">
+                                                            🍽️ {recipe.name}
+                                                        </h3>
+                                                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                                                            {recipe.ingredients?.length || 0} מרכיבים • נוסף ע״י {recipe.createdBy}
+                                                        </p>
+                                                    </div>
+                                                    <button onClick={() => deleteRecipe(recipe.id, recipe.name)} className="text-gray-400 hover:text-red-500 transition-colors p-1">🗑️</button>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1.5 mb-3">
+                                                    {recipe.ingredients?.slice(0, 8).map((ing, idx) => (
+                                                        <span key={idx} className="text-xs bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 px-2 py-1 rounded-full">
+                                                            {ing.quantity > 1 ? `${ing.quantity}× ` : ''}{ing.name}
+                                                        </span>
+                                                    ))}
+                                                    {recipe.ingredients?.length > 8 && (
+                                                        <span className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 px-2 py-1 rounded-full">
+                                                            +{recipe.ingredients.length - 8} עוד
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <button
+                                                    onClick={() => addRecipeToCart(recipe)}
+                                                    disabled={addingRecipeItems === recipe.id}
+                                                    className={`w-full py-3 rounded-xl font-bold transition-all ${addingRecipeItems === recipe.id ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 cursor-wait' : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:shadow-lg hover:scale-[1.02]'}`}
+                                                >
+                                                    {addingRecipeItems === recipe.id ? (
+                                                        <span className="flex items-center justify-center gap-2">
+                                                            <span className="animate-spin">⏳</span> מוסיף מרכיבים...
+                                                        </span>
+                                                    ) : (
+                                                        <span>🛒 הוסף הכל לעגלה</span>
+                                                    )}
+                                                </button>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Camera Modal */}
                     {showCamera && (
                         <div className="fixed inset-0 bg-black z-[60] flex flex-col">
@@ -2288,14 +2543,18 @@
                                 </button>
                             </div>
 
-                            {items.filter(item => !item.purchased).length > 0 && (
-                                <div className="mt-4">
+                            <div className="mt-4 flex gap-3">
+                                <button onClick={() => setShowRecipes(true)}
+                                    className="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-3 rounded-lg hover:from-orange-600 hover:to-amber-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-105">
+                                    🍳 מתכונים
+                                </button>
+                                {items.filter(item => !item.purchased).length > 0 && (
                                     <button onClick={exportToWhatsApp}
-                                        className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-3 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-105">
-                                        📱 שתף רשימה ב-WhatsApp
+                                        className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-3 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-105">
+                                        📱 WhatsApp
                                     </button>
-                                </div>
-                            )}
+                                )}
+                            </div>
                         </div>
 
                         <div className="glass rounded-2xl shadow-xl p-4 mb-6 card-hover">
