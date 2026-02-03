@@ -1643,43 +1643,103 @@
             const [voiceTranscript, setVoiceTranscript] = useState('');
             const recognitionRef = React.useRef(null);
 
+            // Voice status for debugging
+            const [voiceStatus, setVoiceStatus] = useState('');
+            const voiceTimeoutRef = React.useRef(null);
+
             // Check voice support and setup recognition
             useEffect(() => {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 if (SpeechRecognition) {
                     setVoiceSupported(true);
-                    const recognition = new SpeechRecognition();
-                    recognition.continuous = false;
-                    recognition.interimResults = true;
-                    recognition.lang = voiceLang;
-
-                    recognition.onresult = (event) => {
-                        const transcript = Array.from(event.results)
-                            .map(result => result[0].transcript)
-                            .join('');
-                        setVoiceTranscript(transcript);
-
-                        // If final result, process it
-                        if (event.results[0].isFinal) {
-                            processVoiceCommand(transcript, voiceLang);
-                        }
-                    };
-
-                    recognition.onend = () => {
-                        setIsListening(false);
-                    };
-
-                    recognition.onerror = (event) => {
-                        console.error('Voice recognition error:', event.error);
-                        setIsListening(false);
-                        if (event.error === 'not-allowed') {
-                            alert('נא לאפשר גישה למיקרופון כדי להשתמש בפקודות קוליות');
-                        }
-                    };
-
-                    recognitionRef.current = recognition;
+                } else {
+                    setVoiceStatus('הדפדפן לא תומך בזיהוי קול');
                 }
-            }, [voiceLang]);
+            }, []);
+
+            // Create recognition when starting to listen
+            const createRecognition = () => {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) return null;
+
+                const recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = true;
+                recognition.lang = voiceLang;
+                recognition.maxAlternatives = 1;
+
+                recognition.onstart = () => {
+                    setVoiceStatus(voiceLang === 'en-US' ? 'Listening... speak now' : 'מאזין... דבר עכשיו');
+                };
+
+                recognition.onaudiostart = () => {
+                    setVoiceStatus(voiceLang === 'en-US' ? 'Hearing audio...' : 'קולט שמע...');
+                };
+
+                recognition.onspeechstart = () => {
+                    setVoiceStatus(voiceLang === 'en-US' ? 'Detecting speech...' : 'מזהה דיבור...');
+                };
+
+                recognition.onresult = (event) => {
+                    // Clear timeout since we got a result
+                    if (voiceTimeoutRef.current) {
+                        clearTimeout(voiceTimeoutRef.current);
+                    }
+
+                    const transcript = Array.from(event.results)
+                        .map(result => result[0].transcript)
+                        .join('');
+                    setVoiceTranscript(transcript);
+                    setVoiceStatus(voiceLang === 'en-US' ? 'Got it!' : 'קיבלתי!');
+
+                    // If final result, process it
+                    if (event.results[0].isFinal) {
+                        processVoiceCommand(transcript, voiceLang);
+                        setIsListening(false);
+                    }
+                };
+
+                recognition.onend = () => {
+                    if (voiceTimeoutRef.current) {
+                        clearTimeout(voiceTimeoutRef.current);
+                    }
+                    setIsListening(false);
+                    if (!voiceTranscript) {
+                        setVoiceStatus(voiceLang === 'en-US' ? 'No speech detected. Try again.' : 'לא זוהה דיבור. נסה שוב.');
+                    }
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('Voice recognition error:', event.error);
+                    if (voiceTimeoutRef.current) {
+                        clearTimeout(voiceTimeoutRef.current);
+                    }
+                    setIsListening(false);
+
+                    switch(event.error) {
+                        case 'not-allowed':
+                            setVoiceStatus('נא לאפשר גישה למיקרופון בהגדרות הדפדפן');
+                            alert('נא לאפשר גישה למיקרופון. לחץ על סמל המנעול בשורת הכתובת ואפשר מיקרופון.');
+                            break;
+                        case 'no-speech':
+                            setVoiceStatus(voiceLang === 'en-US' ? 'No speech detected. Tap mic to try again.' : 'לא נשמע דיבור. לחץ שוב על המיקרופון.');
+                            break;
+                        case 'audio-capture':
+                            setVoiceStatus('לא נמצא מיקרופון. בדוק את החיבור.');
+                            break;
+                        case 'network':
+                            setVoiceStatus('בעיית רשת. בדוק את החיבור לאינטרנט.');
+                            break;
+                        case 'aborted':
+                            setVoiceStatus(voiceLang === 'en-US' ? 'Cancelled' : 'בוטל');
+                            break;
+                        default:
+                            setVoiceStatus(`שגיאה: ${event.error}`);
+                    }
+                };
+
+                return recognition;
+            };
 
             // Toggle voice language
             const toggleVoiceLang = () => {
@@ -1948,23 +2008,62 @@
 
             // Voice recognition functions
             const startListening = () => {
-                if (recognitionRef.current && !isListening) {
-                    setVoiceTranscript('');
-                    setIsListening(true);
-                    try {
-                        recognitionRef.current.start();
-                    } catch (e) {
-                        console.error('Failed to start recognition:', e);
-                        setIsListening(false);
-                    }
+                if (isListening) return;
+
+                // Stop any existing recognition
+                if (recognitionRef.current) {
+                    try { recognitionRef.current.abort(); } catch(e) {}
+                }
+
+                // Clear previous timeout
+                if (voiceTimeoutRef.current) {
+                    clearTimeout(voiceTimeoutRef.current);
+                }
+
+                setVoiceTranscript('');
+                setVoiceStatus(voiceLang === 'en-US' ? 'Starting...' : 'מתחיל...');
+                setIsListening(true);
+
+                // Create fresh recognition instance
+                const recognition = createRecognition();
+                if (!recognition) {
+                    setIsListening(false);
+                    setVoiceStatus('הדפדפן לא תומך בזיהוי קול');
+                    return;
+                }
+
+                recognitionRef.current = recognition;
+
+                try {
+                    recognition.start();
+
+                    // Auto-stop after 10 seconds if no result
+                    voiceTimeoutRef.current = setTimeout(() => {
+                        if (isListening) {
+                            setVoiceStatus(voiceLang === 'en-US' ? 'Timeout - try again' : 'זמן ההאזנה נגמר - נסה שוב');
+                            try { recognition.stop(); } catch(e) {}
+                            setIsListening(false);
+                        }
+                    }, 10000);
+
+                } catch (e) {
+                    console.error('Failed to start recognition:', e);
+                    setIsListening(false);
+                    setVoiceStatus('שגיאה בהפעלת זיהוי קול: ' + e.message);
                 }
             };
 
             const stopListening = () => {
-                if (recognitionRef.current && isListening) {
-                    recognitionRef.current.stop();
-                    setIsListening(false);
+                if (voiceTimeoutRef.current) {
+                    clearTimeout(voiceTimeoutRef.current);
                 }
+                if (recognitionRef.current) {
+                    try {
+                        recognitionRef.current.stop();
+                    } catch(e) {}
+                }
+                setIsListening(false);
+                setVoiceStatus(voiceLang === 'en-US' ? 'Stopped' : 'הופסק');
             };
 
             const processVoiceCommand = async (transcript, lang = 'he-IL') => {
@@ -2846,27 +2945,38 @@
                                     </div>
                                 )}
                             </div>
-                            {isListening && (
-                                <div className="mt-3 p-4 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl border-2 border-purple-300 dark:border-purple-700">
-                                    <div className="flex items-center justify-between">
+                            {(isListening || voiceStatus) && (
+                                <div className={`mt-3 p-4 rounded-xl border-2 ${isListening ? 'bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 border-purple-300 dark:border-purple-700' : 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600'}`}>
+                                    <div className="flex items-center justify-between flex-wrap gap-2">
                                         <div className="flex items-center gap-3 text-purple-700 dark:text-purple-300">
-                                            <div className="flex items-center h-6">
-                                                <span className="sound-wave"></span>
-                                                <span className="sound-wave"></span>
-                                                <span className="sound-wave"></span>
-                                                <span className="sound-wave"></span>
-                                                <span className="sound-wave"></span>
-                                            </div>
-                                            <span className="font-bold">{voiceLang === 'en-US' ? 'Listening...' : 'מקשיב...'}</span>
-                                            <span className="text-xs px-2 py-0.5 bg-white/50 dark:bg-gray-800/50 rounded-full">{voiceLang === 'en-US' ? '🇺🇸 EN → HE' : '🇮🇱 עברית'}</span>
+                                            {isListening ? (
+                                                <>
+                                                    <div className="flex items-center h-6">
+                                                        <span className="sound-wave"></span>
+                                                        <span className="sound-wave"></span>
+                                                        <span className="sound-wave"></span>
+                                                        <span className="sound-wave"></span>
+                                                        <span className="sound-wave"></span>
+                                                    </div>
+                                                    <span className="font-bold">{voiceStatus || (voiceLang === 'en-US' ? 'Listening...' : 'מקשיב...')}</span>
+                                                </>
+                                            ) : (
+                                                <span className="text-gray-600 dark:text-gray-400">{voiceStatus}</span>
+                                            )}
+                                            <span className="text-xs px-2 py-0.5 bg-white/50 dark:bg-gray-800/50 rounded-full">{voiceLang === 'en-US' ? '🇺🇸 EN' : '🇮🇱 HE'}</span>
                                         </div>
-                                        <span className="text-sm text-purple-500 dark:text-purple-400">
-                                            {voiceLang === 'en-US' ? 'Say: "milk, eggs and bread"' : 'אמור: "חלב, ביצים ולחם"'}
-                                        </span>
+                                        {isListening && (
+                                            <span className="text-sm text-purple-500 dark:text-purple-400">
+                                                {voiceLang === 'en-US' ? 'Say: "milk, eggs and bread"' : 'אמור: "חלב, ביצים ולחם"'}
+                                            </span>
+                                        )}
+                                        {!isListening && voiceStatus && (
+                                            <button onClick={() => setVoiceStatus('')} className="text-xs text-gray-400 hover:text-gray-600">✕ סגור</button>
+                                        )}
                                     </div>
                                     {voiceTranscript && (
                                         <div className="mt-3 p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg">
-                                            <span className="text-xs text-gray-500 dark:text-gray-400">{voiceLang === 'en-US' ? 'Heard: ' : 'מזהה: '}</span>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">{voiceLang === 'en-US' ? 'Heard: ' : 'זוהה: '}</span>
                                             <span className="text-lg font-bold text-purple-800 dark:text-purple-200">{voiceTranscript}</span>
                                             {voiceLang === 'en-US' && (
                                                 <span className="text-xs text-green-600 dark:text-green-400 mr-2">→ יתורגם לעברית</span>
