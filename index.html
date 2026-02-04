@@ -1682,6 +1682,10 @@
             const [priceCompareResults, setPriceCompareResults] = useState(null);
             const priceVideoRef = React.useRef(null);
             const priceCanvasRef = React.useRef(null);
+            // AI Assistant
+            const [showAIAssistant, setShowAIAssistant] = useState(false);
+            const [aiSuggestions, setAiSuggestions] = useState([]);
+            const [aiThinking, setAiThinking] = useState(false);
 
             // English to Hebrew grocery translations
             const ENGLISH_TO_HEBREW = {
@@ -1756,11 +1760,26 @@
                 const recognition = new SpeechRecognition();
                 recognition.continuous = false;
                 recognition.interimResults = true;
-                recognition.lang = voiceLang;
-                recognition.maxAlternatives = 1;
+                recognition.maxAlternatives = 3; // More alternatives for better Hebrew recognition
+
+                // Check if iOS Safari - Hebrew support is limited
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+                if (isIOS && isSafari && voiceLang === 'he-IL') {
+                    // iOS Safari has limited Hebrew support, try a workaround
+                    recognition.lang = 'he'; // Try shorter code
+                } else {
+                    recognition.lang = voiceLang;
+                }
 
                 recognition.onstart = () => {
-                    setVoiceStatus(voiceLang === 'en-US' ? 'Listening... speak now' : 'מאזין... דבר עכשיו');
+                    const isIOSSafari = isIOS && isSafari;
+                    if (isIOSSafari && voiceLang === 'he-IL') {
+                        setVoiceStatus('מאזין... (ב-iPhone נסה לדבר באנגלית)');
+                    } else {
+                        setVoiceStatus(voiceLang === 'en-US' ? 'Listening... speak now' : 'מאזין... דבר עכשיו');
+                    }
                 };
 
                 recognition.onaudiostart = () => {
@@ -1796,7 +1815,13 @@
                     }
                     setIsListening(false);
                     if (!voiceTranscript) {
-                        setVoiceStatus(voiceLang === 'en-US' ? 'No speech detected. Try again.' : 'לא זוהה דיבור. נסה שוב.');
+                        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                        if (isIOS && isSafari && voiceLang === 'he-IL') {
+                            setVoiceStatus('עברית לא נתמכת באייפון. נסה באנגלית או הקלד ידנית 🇺🇸');
+                        } else {
+                            setVoiceStatus(voiceLang === 'en-US' ? 'No speech detected. Try again.' : 'לא זוהה דיבור. נסה שוב.');
+                        }
                     }
                 };
 
@@ -2182,6 +2207,147 @@
                 })).filter(h => h.products.length > 0);
             };
 
+            // AI Assistant - Smart Shopping Suggestions
+            const generateAISuggestions = () => {
+                setAiThinking(true);
+                setAiSuggestions([]);
+
+                // Simulate AI thinking delay
+                setTimeout(() => {
+                    const suggestions = [];
+                    const currentItems = items.map(i => i.name.toLowerCase());
+                    const currentCategories = [...new Set(items.map(i => i.category))];
+
+                    // 1. Suggest complementary items based on what's in cart
+                    const complementaryRules = {
+                        'פסטה': ['רוטב עגבניות', 'גבינה צהובה', 'שמן זית'],
+                        'בשר טחון': ['בצל', 'שום', 'ביצים', 'פירורי לחם'],
+                        'חזה עוף': ['לימון', 'שום', 'שמן זית', 'תבלינים'],
+                        'לחם': ['חמאה', 'ריבה', 'גבינה צהובה'],
+                        'ביצים': ['חלב', 'גבינה צהובה', 'ירקות'],
+                        'סלט': ['שמן זית', 'לימון', 'עגבניות', 'מלפפונים'],
+                        'אורז': ['רוטב סויה', 'ירקות מוקפצים', 'עוף'],
+                        'קפה': ['חלב', 'סוכר', 'עוגיות'],
+                        'תה': ['דבש', 'לימון', 'עוגיות'],
+                        'שניצל': ['תפוחי אדמה', 'סלט', 'לימון'],
+                        'המבורגר': ['לחמניות', 'קטשופ', 'חרדל', 'חסה', 'עגבניות'],
+                        'פיצה': ['גבינה צהובה', 'רוטב עגבניות', 'זיתים', 'פטריות']
+                    };
+
+                    items.forEach(item => {
+                        const itemLower = item.name.toLowerCase();
+                        Object.keys(complementaryRules).forEach(key => {
+                            if (itemLower.includes(key)) {
+                                complementaryRules[key].forEach(suggestion => {
+                                    if (!currentItems.some(ci => ci.includes(suggestion.toLowerCase())) &&
+                                        !suggestions.some(s => s.name === suggestion)) {
+                                        suggestions.push({
+                                            type: 'complementary',
+                                            name: suggestion,
+                                            reason: `משלים ל${item.name}`,
+                                            icon: '🧩'
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    // 2. Suggest basics if missing
+                    const basicItems = ['חלב', 'לחם', 'ביצים', 'חמאה', 'גבינה צהובה'];
+                    basicItems.forEach(basic => {
+                        if (!currentItems.some(ci => ci.includes(basic.toLowerCase()))) {
+                            if (Math.random() > 0.5) { // Don't suggest all basics
+                                suggestions.push({
+                                    type: 'basic',
+                                    name: basic,
+                                    reason: 'מוצר בסיסי שכדאי שיהיה בבית',
+                                    icon: '🏠'
+                                });
+                            }
+                        }
+                    });
+
+                    // 3. Suggest based on day of week
+                    const dayOfWeek = new Date().getDay();
+                    if (dayOfWeek === 4 || dayOfWeek === 5) { // Thursday or Friday - Shabbat prep
+                        const shabbatItems = ['חלה', 'יין', 'נרות שבת', 'עוף', 'תפוחי אדמה'];
+                        shabbatItems.forEach(item => {
+                            if (!currentItems.some(ci => ci.includes(item.toLowerCase()))) {
+                                suggestions.push({
+                                    type: 'shabbat',
+                                    name: item,
+                                    reason: 'לקראת שבת',
+                                    icon: '🕯️'
+                                });
+                            }
+                        });
+                    }
+
+                    // 4. Suggest based on weather/season (simple logic)
+                    const month = new Date().getMonth();
+                    if (month >= 5 && month <= 8) { // Summer
+                        const summerItems = ['מים', 'אבטיח', 'גלידה', 'מיץ'];
+                        summerItems.forEach(item => {
+                            if (!currentItems.some(ci => ci.includes(item.toLowerCase())) && Math.random() > 0.6) {
+                                suggestions.push({
+                                    type: 'seasonal',
+                                    name: item,
+                                    reason: 'מתאים לקיץ',
+                                    icon: '☀️'
+                                });
+                            }
+                        });
+                    } else if (month >= 11 || month <= 2) { // Winter
+                        const winterItems = ['מרק', 'תה', 'דבש', 'שוקו'];
+                        winterItems.forEach(item => {
+                            if (!currentItems.some(ci => ci.includes(item.toLowerCase())) && Math.random() > 0.6) {
+                                suggestions.push({
+                                    type: 'seasonal',
+                                    name: item,
+                                    reason: 'מתאים לחורף',
+                                    icon: '❄️'
+                                });
+                            }
+                        });
+                    }
+
+                    // 5. Recipe suggestion based on items
+                    if (currentItems.some(ci => ci.includes('פסטה')) &&
+                        currentItems.some(ci => ci.includes('רוטב') || ci.includes('עגבני'))) {
+                        suggestions.unshift({
+                            type: 'recipe',
+                            name: '🍝 אפשר להכין פסטה ברוטב עגבניות!',
+                            reason: 'כל המרכיבים ברשימה',
+                            icon: '👨‍🍳',
+                            isRecipe: true
+                        });
+                    }
+
+                    if (currentItems.some(ci => ci.includes('ביצ')) &&
+                        currentItems.some(ci => ci.includes('גבינ'))) {
+                        suggestions.unshift({
+                            type: 'recipe',
+                            name: '🍳 אפשר להכין חביתה עם גבינה!',
+                            reason: 'כל המרכיבים ברשימה',
+                            icon: '👨‍🍳',
+                            isRecipe: true
+                        });
+                    }
+
+                    // Limit suggestions
+                    setAiSuggestions(suggestions.slice(0, 8));
+                    setAiThinking(false);
+                }, 1500);
+            };
+
+            // Add AI suggestion to cart
+            const addAISuggestion = async (suggestion) => {
+                if (suggestion.isRecipe) return;
+                await addProduct(suggestion.name);
+                setAiSuggestions(prev => prev.filter(s => s.name !== suggestion.name));
+            };
+
             // Load saved data on mount
             React.useEffect(() => {
                 const savedListsData = localStorage.getItem(`savedLists_${family?.id}`);
@@ -2373,6 +2539,34 @@
                     console.error('Notification error:', error);
                 }
             };
+
+            // Mark messages as read when chat is opened
+            const markMessagesAsRead = async () => {
+                if (!family || !user || !showChat) return;
+
+                const unreadMessages = chatMessages.filter(msg =>
+                    msg.senderUid !== user.uid &&
+                    (!msg.readBy || !msg.readBy.includes(user.uid))
+                );
+
+                for (const msg of unreadMessages) {
+                    try {
+                        await window.firestore.updateDoc(
+                            window.firestore.doc(window.db, 'family-chat', msg.id),
+                            { readBy: window.firestore.arrayUnion(user.uid) }
+                        );
+                    } catch (e) {
+                        console.error('Error marking message as read:', e);
+                    }
+                }
+            };
+
+            // Mark messages as read when chat opens
+            useEffect(() => {
+                if (showChat && chatMessages.length > 0) {
+                    markMessagesAsRead();
+                }
+            }, [showChat, chatMessages.length]);
 
             // Load chat messages
             useEffect(() => {
@@ -3832,6 +4026,95 @@ END:VCALENDAR`;
                         </div>
                     )}
 
+                    {/* AI Assistant Modal */}
+                    {showAIAssistant && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                            <div className="glass rounded-3xl p-6 max-w-lg w-full shadow-2xl max-h-[85vh] overflow-y-auto">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-bold flex items-center gap-3 text-gradient">
+                                        <span className="text-3xl">🤖</span>
+                                        עוזר קניות חכם
+                                    </h2>
+                                    <button onClick={() => setShowAIAssistant(false)} className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">✕</button>
+                                </div>
+
+                                {aiThinking ? (
+                                    <div className="text-center py-12">
+                                        <div className="text-6xl mb-4 animate-bounce">🤔</div>
+                                        <p className="text-lg text-gray-600 dark:text-gray-300 font-medium">AI חושב...</p>
+                                        <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">מנתח את הרשימה ומכין הצעות</p>
+                                        <div className="mt-4 flex justify-center gap-1">
+                                            <div className="w-2 h-2 bg-violet-500 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                                            <div className="w-2 h-2 bg-violet-500 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                                            <div className="w-2 h-2 bg-violet-500 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                                        </div>
+                                    </div>
+                                ) : aiSuggestions.length === 0 ? (
+                                    <div className="text-center py-12">
+                                        <div className="text-6xl mb-4">🎉</div>
+                                        <p className="text-lg text-gray-600 dark:text-gray-300 font-medium">הרשימה שלך נראית מושלמת!</p>
+                                        <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">אין לי הצעות נוספות כרגע</p>
+                                        <button
+                                            onClick={generateAISuggestions}
+                                            className="mt-6 px-6 py-3 bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 rounded-xl font-medium hover:bg-violet-200 transition-all"
+                                        >
+                                            🔄 נסה שוב
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-3">
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                                            בהתבסס על הרשימה שלך, הנה כמה הצעות:
+                                        </p>
+                                        {aiSuggestions.map((suggestion, idx) => (
+                                            <div
+                                                key={idx}
+                                                className={`p-4 rounded-xl border-2 transition-all ${
+                                                    suggestion.isRecipe
+                                                        ? 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-amber-300 dark:border-amber-700'
+                                                        : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-violet-400 dark:hover:border-violet-500'
+                                                }`}
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-3">
+                                                        <span className="text-2xl">{suggestion.icon}</span>
+                                                        <div>
+                                                            <p className="font-bold text-gray-800 dark:text-white">{suggestion.name}</p>
+                                                            <p className="text-xs text-gray-500 dark:text-gray-400">{suggestion.reason}</p>
+                                                        </div>
+                                                    </div>
+                                                    {!suggestion.isRecipe && (
+                                                        <button
+                                                            onClick={() => addAISuggestion(suggestion)}
+                                                            className="px-4 py-2 bg-violet-500 text-white rounded-xl text-sm font-medium hover:bg-violet-600 transition-all"
+                                                        >
+                                                            ➕ הוסף
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                        <div className="flex gap-3 mt-6">
+                                            <button
+                                                onClick={generateAISuggestions}
+                                                className="flex-1 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
+                                            >
+                                                🔄 הצעות חדשות
+                                            </button>
+                                            <button
+                                                onClick={() => setShowAIAssistant(false)}
+                                                className="flex-1 py-3 btn-gradient text-white rounded-xl font-medium"
+                                            >
+                                                ✓ סיימתי
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
                     {/* Price Comparison Scanner Modal */}
                     {showPriceScanner && (
                         <div className="fixed inset-0 bg-black/95 flex flex-col z-50">
@@ -4648,9 +4931,16 @@ END:VCALENDAR`;
                                                                 <img src={msg.photoUrl} alt="תמונה" className="rounded-xl mb-2 max-w-full cursor-pointer hover:opacity-90 shadow-sm" onClick={() => window.open(msg.photoUrl, '_blank')} />
                                                             )}
                                                             {msg.text && <p className="text-sm leading-relaxed">{msg.text}</p>}
-                                                            <p className={`text-xs mt-1.5 ${isMe ? 'text-indigo-200' : 'text-gray-400'}`}>
-                                                                {msg.createdAt?.toDate?.().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }) || ''}
-                                                            </p>
+                                                            <div className={`flex items-center gap-1 mt-1.5 ${isMe ? 'justify-start' : 'justify-end'}`}>
+                                                                <p className={`text-xs ${isMe ? 'text-indigo-200' : 'text-gray-400'}`}>
+                                                                    {msg.createdAt?.toDate?.().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }) || ''}
+                                                                </p>
+                                                                {isMe && (
+                                                                    <span className={`text-xs ${msg.readBy && msg.readBy.length > 0 ? 'text-cyan-300' : 'text-indigo-300'}`}>
+                                                                        {msg.readBy && msg.readBy.length > 0 ? '✓✓' : '✓'}
+                                                                    </span>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     {!isMe && (
@@ -5027,6 +5317,16 @@ END:VCALENDAR`;
                                     <span className="text-xs font-medium">מחירים</span>
                                 </button>
                             </div>
+
+                            {/* AI Assistant Button */}
+                            <button
+                                onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
+                                className="w-full mb-4 flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                            >
+                                <span className="text-2xl">🤖</span>
+                                <span>עוזר קניות חכם - הצעות AI</span>
+                                <span className="text-lg">✨</span>
+                            </button>
 
                             {/* Holiday Recommendations Banner */}
                             {getHolidayRecommendations().length > 0 && (
@@ -5455,18 +5755,45 @@ END:VCALENDAR`;
                             )}
                         </div>
 
-                        {/* Voice listening indicator */}
+                        {/* Voice listening indicator - Enhanced */}
                         {isListening && (
-                            <div className="max-w-2xl mx-auto mt-2 flex items-center justify-center gap-2 text-purple-600 dark:text-purple-400 expand-in">
-                                <div className="flex items-center h-4">
-                                    <span className="sound-wave"></span>
-                                    <span className="sound-wave"></span>
-                                    <span className="sound-wave"></span>
+                            <div className="max-w-2xl mx-auto mt-2 expand-in">
+                                <div className="bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/50 dark:to-indigo-900/50 rounded-xl p-4 border-2 border-purple-300 dark:border-purple-700">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex items-center h-4">
+                                                <span className="sound-wave"></span>
+                                                <span className="sound-wave"></span>
+                                                <span className="sound-wave"></span>
+                                            </div>
+                                            <span className="text-sm font-bold text-purple-700 dark:text-purple-300">
+                                                {voiceStatus || (voiceLang === 'en-US' ? 'Listening...' : 'מקשיב...')}
+                                            </span>
+                                        </div>
+                                        <button onClick={toggleVoiceLang} className="text-xs px-3 py-1 bg-white dark:bg-gray-800 rounded-full shadow-sm font-medium">
+                                            {voiceLang === 'en-US' ? '🇺🇸 English' : '🇮🇱 עברית'}
+                                        </button>
+                                    </div>
+                                    {voiceTranscript && (
+                                        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 mt-2">
+                                            <p className="text-gray-600 dark:text-gray-300 text-sm">
+                                                <span className="text-purple-500">שמעתי:</span> {voiceTranscript}
+                                            </p>
+                                        </div>
+                                    )}
+                                    <p className="text-xs text-purple-500 dark:text-purple-400 mt-2 text-center">
+                                        💡 טיפ: דבר ברור ואמור "הוסף חלב וביצים"
+                                    </p>
                                 </div>
-                                <span className="text-sm font-medium">{voiceLang === 'en-US' ? 'Listening...' : 'מקשיב...'}</span>
-                                <button onClick={toggleVoiceLang} className="text-xs px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 rounded-full">
-                                    {voiceLang === 'en-US' ? '🇺🇸' : '🇮🇱'}
-                                </button>
+                            </div>
+                        )}
+
+                        {/* Voice status message (when not listening) */}
+                        {!isListening && voiceStatus && voiceStatus !== 'מתחיל...' && (
+                            <div className="max-w-2xl mx-auto mt-2 text-center">
+                                <p className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-lg py-2 px-4 inline-block">
+                                    {voiceStatus}
+                                </p>
                             </div>
                         )}
 
