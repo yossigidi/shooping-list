@@ -1271,23 +1271,25 @@
             other: { name: 'אחר', icon: '📦', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג', 'גרם'] }
         };
 
-        // Israeli holidays for calendar reminders
+        // Israeli holidays for calendar reminders (2025-2026 dates)
         const ISRAELI_HOLIDAYS = [
-            { name: 'ראש השנה', icon: '🍎', date: 'תשרי', reminder: 'זמן לקנות דבש, תפוחים, רימונים ודגים', type: 'jewish' },
-            { name: 'יום כיפור', icon: '🕯️', date: 'תשרי', reminder: 'זמן להכין אוכל לפני ואחרי הצום', type: 'jewish' },
-            { name: 'סוכות', icon: '🌿', date: 'תשרי', reminder: 'זמן לקנות ארבעת המינים ואוכל לחג', type: 'jewish' },
-            { name: 'שמחת תורה', icon: '📜', date: 'תשרי', reminder: 'זמן להכין כיבוד וממתקים', type: 'jewish' },
-            { name: 'חנוכה', icon: '🕎', date: 'כסלו', reminder: 'זמן לקנות שמן, נרות, סופגניות ולביבות', type: 'jewish' },
-            { name: 'ט"ו בשבט', icon: '🌳', date: 'שבט', reminder: 'זמן לקנות פירות יבשים ופירות הארץ', type: 'jewish' },
-            { name: 'פורים', icon: '🎭', date: 'אדר', reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
-            { name: 'פסח', icon: '🍷', date: 'ניסן', reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' },
-            { name: 'יום הזיכרון', icon: '🕯️', date: 'אייר', reminder: 'יום זיכרון לחללי צה"ל', type: 'national' },
-            { name: 'יום העצמאות', icon: '🇮🇱', date: 'אייר', reminder: 'זמן לקנות בשר, נקניקיות וציוד למנגל!', type: 'national' },
-            { name: 'ל"ג בעומר', icon: '🔥', date: 'אייר', reminder: 'זמן לקנות בשר ונקניקיות למדורה', type: 'jewish' },
-            { name: 'יום ירושלים', icon: '🏛️', date: 'אייר', reminder: 'יום ירושלים', type: 'national' },
-            { name: 'שבועות', icon: '🧀', date: 'סיון', reminder: 'זמן לקנות מוצרי חלב ועוגות גבינה', type: 'jewish' },
-            { name: 'ראש השנה האזרחית', icon: '🎉', date: '1 בינואר', reminder: 'שנה אזרחית חדשה!', type: 'civil' },
-            { name: 'סילבסטר', icon: '🥂', date: '31 בדצמבר', reminder: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה', type: 'civil' }
+            { name: 'פורים', icon: '🎭', date: '14.03.2025', dateObj: new Date('2025-03-14'), reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
+            { name: 'פסח', icon: '🍷', date: '13-19.04.2025', dateObj: new Date('2025-04-13'), reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' },
+            { name: 'יום הזיכרון', icon: '🕯️', date: '30.04.2025', dateObj: new Date('2025-04-30'), reminder: 'יום זיכרון לחללי צה"ל', type: 'national' },
+            { name: 'יום העצמאות', icon: '🇮🇱', date: '01.05.2025', dateObj: new Date('2025-05-01'), reminder: 'זמן לקנות בשר, נקניקיות וציוד למנגל!', type: 'national' },
+            { name: 'ל"ג בעומר', icon: '🔥', date: '16.05.2025', dateObj: new Date('2025-05-16'), reminder: 'זמן לקנות בשר ונקניקיות למדורה', type: 'jewish' },
+            { name: 'יום ירושלים', icon: '🏛️', date: '02.06.2025', dateObj: new Date('2025-06-02'), reminder: 'יום ירושלים', type: 'national' },
+            { name: 'שבועות', icon: '🧀', date: '02-03.06.2025', dateObj: new Date('2025-06-02'), reminder: 'זמן לקנות מוצרי חלב ועוגות גבינה', type: 'jewish' },
+            { name: 'ראש השנה', icon: '🍎', date: '23-24.09.2025', dateObj: new Date('2025-09-23'), reminder: 'זמן לקנות דבש, תפוחים, רימונים ודגים', type: 'jewish' },
+            { name: 'יום כיפור', icon: '🕯️', date: '02.10.2025', dateObj: new Date('2025-10-02'), reminder: 'זמן להכין אוכל לפני ואחרי הצום', type: 'jewish' },
+            { name: 'סוכות', icon: '🌿', date: '07-13.10.2025', dateObj: new Date('2025-10-07'), reminder: 'זמן לקנות ארבעת המינים ואוכל לחג', type: 'jewish' },
+            { name: 'שמחת תורה', icon: '📜', date: '15.10.2025', dateObj: new Date('2025-10-15'), reminder: 'זמן להכין כיבוד וממתקים', type: 'jewish' },
+            { name: 'חנוכה', icon: '🕎', date: '15-22.12.2025', dateObj: new Date('2025-12-15'), reminder: 'זמן לקנות שמן, נרות, סופגניות ולביבות', type: 'jewish' },
+            { name: 'סילבסטר', icon: '🥂', date: '31.12.2025', dateObj: new Date('2025-12-31'), reminder: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה', type: 'civil' },
+            { name: 'ראש השנה האזרחית', icon: '🎉', date: '01.01.2026', dateObj: new Date('2026-01-01'), reminder: 'שנה אזרחית חדשה!', type: 'civil' },
+            { name: 'ט"ו בשבט', icon: '🌳', date: '04.02.2026', dateObj: new Date('2026-02-04'), reminder: 'זמן לקנות פירות יבשים ופירות הארץ', type: 'jewish' },
+            { name: 'פורים', icon: '🎭', date: '03.03.2026', dateObj: new Date('2026-03-03'), reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
+            { name: 'פסח', icon: '🍷', date: '02-08.04.2026', dateObj: new Date('2026-04-02'), reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' }
         ];
 
         const PRODUCTS = {
@@ -3356,45 +3358,76 @@
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-2xl font-bold flex items-center gap-3">
                                         <span className="text-3xl">📅</span>
-                                        <span className="text-gradient">חגים ותזכורות</span>
+                                        <span className="text-gradient">לוח חגים 2025-2026</span>
                                     </h2>
                                     <button onClick={() => setShowCalendar(false)}
                                         className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 dark:hover:text-red-400 text-2xl hover:scale-110 hover:rotate-90 transition-all">×</button>
                                 </div>
 
                                 <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
-                                    תזכורות לקניות לפני חגים:
+                                    תזכורות לקניות לפני חגים (ממוין לפי תאריך):
                                 </p>
 
                                 <div className="space-y-3">
-                                    {ISRAELI_HOLIDAYS.map((holiday, idx) => (
-                                        <div key={idx} className={`rounded-xl p-4 border ${
-                                            holiday.type === 'national' ? 'bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border-blue-200/50 dark:border-blue-700/50' :
-                                            holiday.type === 'civil' ? 'bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20 border-pink-200/50 dark:border-pink-700/50' :
-                                            'bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border-indigo-200/50 dark:border-indigo-700/50'
-                                        }`}>
-                                            <div className="flex items-center gap-3 mb-2">
-                                                <span className="text-2xl">{holiday.icon}</span>
-                                                <div>
-                                                    <h3 className="font-bold text-gray-800 dark:text-gray-200">{holiday.name}</h3>
-                                                    <p className="text-xs text-gray-500 dark:text-gray-400">{holiday.date}</p>
+                                    {ISRAELI_HOLIDAYS
+                                        .filter(h => h.dateObj >= new Date(new Date().setHours(0,0,0,0)))
+                                        .sort((a, b) => a.dateObj - b.dateObj)
+                                        .map((holiday, idx) => {
+                                            const today = new Date();
+                                            today.setHours(0,0,0,0);
+                                            const daysUntil = Math.ceil((holiday.dateObj - today) / (1000 * 60 * 60 * 24));
+                                            const isUpcoming = daysUntil <= 14;
+                                            const isThisWeek = daysUntil <= 7;
+
+                                            return (
+                                                <div key={idx} className={`rounded-xl p-4 border transition-all ${
+                                                    isThisWeek ? 'ring-2 ring-red-400 animate-pulse' :
+                                                    isUpcoming ? 'ring-2 ring-amber-400' : ''
+                                                } ${
+                                                    holiday.type === 'national' ? 'bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border-blue-200/50 dark:border-blue-700/50' :
+                                                    holiday.type === 'civil' ? 'bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20 border-pink-200/50 dark:border-pink-700/50' :
+                                                    'bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border-indigo-200/50 dark:border-indigo-700/50'
+                                                }`}>
+                                                    <div className="flex items-center gap-3 mb-2">
+                                                        <span className="text-2xl">{holiday.icon}</span>
+                                                        <div className="flex-1">
+                                                            <h3 className="font-bold text-gray-800 dark:text-gray-200">{holiday.name}</h3>
+                                                            <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400">{holiday.date}</p>
+                                                        </div>
+                                                        <div className="text-left">
+                                                            {isThisWeek ? (
+                                                                <span className="text-xs bg-red-500 text-white px-2 py-1 rounded-full font-bold animate-bounce">
+                                                                    {daysUntil === 0 ? 'היום!' : daysUntil === 1 ? 'מחר!' : `עוד ${daysUntil} ימים!`}
+                                                                </span>
+                                                            ) : isUpcoming ? (
+                                                                <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded-full font-bold">
+                                                                    עוד {daysUntil} ימים
+                                                                </span>
+                                                            ) : (
+                                                                <span className="text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-full">
+                                                                    עוד {daysUntil} ימים
+                                                                </span>
+                                                            )}
+                                                            {holiday.type === 'national' && (
+                                                                <div className="mt-1">
+                                                                    <span className="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full">🇮🇱 לאומי</span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400 mr-9">{holiday.reminder}</p>
                                                 </div>
-                                                {holiday.type === 'national' && (
-                                                    <span className="mr-auto text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full">לאומי</span>
-                                                )}
-                                            </div>
-                                            <p className="text-sm text-gray-600 dark:text-gray-400 mr-9">{holiday.reminder}</p>
-                                        </div>
-                                    ))}
+                                            );
+                                        })}
                                 </div>
 
-                                <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+                                <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
                                     <div className="flex items-start gap-2">
                                         <span className="text-xl">💡</span>
                                         <div>
-                                            <div className="font-bold text-blue-800 dark:text-blue-200 text-sm">טיפ!</div>
-                                            <div className="text-xs text-blue-600 dark:text-blue-400">
-                                                תזכורות יופיעו אוטומטית שבוע לפני כל חג
+                                            <div className="font-bold text-green-800 dark:text-green-200 text-sm">טיפ לקניות!</div>
+                                            <div className="text-xs text-green-600 dark:text-green-400">
+                                                מומלץ לקנות שבוע לפני החג כדי להימנע מעומסים בחנויות
                                             </div>
                                         </div>
                                     </div>
