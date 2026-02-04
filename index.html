@@ -2876,27 +2876,39 @@
             };
 
             // Recipe scanning functions
-            const startRecipeScan = async () => {
-                setShowRecipeScan(true);
+            const startRecipeScan = () => {
                 setScanningRecipe(false);
                 setScanProgress(0);
                 setScannedText('');
                 setScannedIngredients([]);
                 setScannedRecipeName('מתכון סרוק');
-
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: 'environment', width: { ideal: 1920 }, height: { ideal: 1080 } }
-                    });
-                    if (recipeVideoRef.current) {
-                        recipeVideoRef.current.srcObject = stream;
-                    }
-                } catch (error) {
-                    console.error('Camera error:', error);
-                    alert('לא ניתן לגשת למצלמה');
-                    setShowRecipeScan(false);
-                }
+                setShowRecipeScan(true);
             };
+
+            // Start camera when recipe scan modal opens
+            useEffect(() => {
+                if (!showRecipeScan || scannedIngredients.length > 0) return;
+
+                const startCamera = async () => {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({
+                            video: { facingMode: 'environment', width: { ideal: 1920 }, height: { ideal: 1080 } }
+                        });
+                        // Small delay to ensure video element is mounted
+                        setTimeout(() => {
+                            if (recipeVideoRef.current) {
+                                recipeVideoRef.current.srcObject = stream;
+                            }
+                        }, 100);
+                    } catch (error) {
+                        console.error('Camera error:', error);
+                        alert('לא ניתן לגשת למצלמה');
+                        setShowRecipeScan(false);
+                    }
+                };
+
+                startCamera();
+            }, [showRecipeScan, scannedIngredients.length]);
 
             const captureAndScanRecipe = async () => {
                 if (!recipeVideoRef.current || !recipeCanvasRef.current) return;
