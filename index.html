@@ -1992,6 +1992,22 @@
                 setScanningPrice(false);
             };
 
+            // Get product suggestions for price search
+            const getPriceSearchSuggestions = (searchText) => {
+                if (!searchText || searchText.length < 2) return [];
+                const text = searchText.toLowerCase();
+                const suggestions = [];
+                for (const [cat, products] of Object.entries(PRODUCTS)) {
+                    for (const product of products) {
+                        if (product.includes(searchText) || product.toLowerCase().includes(text)) {
+                            suggestions.push(product);
+                            if (suggestions.length >= 8) return suggestions;
+                        }
+                    }
+                }
+                return suggestions;
+            };
+
             const captureAndScanPrice = async () => {
                 if (!priceVideoRef.current || !priceCanvasRef.current) return;
 
@@ -2001,7 +2017,20 @@
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 const ctx = canvas.getContext('2d');
+
+                // Enhance image for better OCR
                 ctx.drawImage(video, 0, 0);
+                // Increase contrast
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    // Convert to grayscale and increase contrast
+                    const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                    const contrast = 1.5;
+                    const newVal = Math.min(255, Math.max(0, ((avg - 128) * contrast) + 128));
+                    data[i] = data[i + 1] = data[i + 2] = newVal > 128 ? 255 : 0; // Binarize
+                }
+                ctx.putImageData(imageData, 0, 0);
 
                 try {
                     const result = await Tesseract.recognize(canvas, 'heb+eng', {
@@ -2009,18 +2038,28 @@
                     });
 
                     const text = result.data.text.trim();
-                    // Extract product name - take first meaningful line
-                    const lines = text.split('\n').filter(l => l.trim().length > 2);
-                    const productName = lines[0]?.trim() || '';
+                    // Extract meaningful words (Hebrew or English, 2+ chars)
+                    const words = text.match(/[\u0590-\u05FFa-zA-Z]{2,}/g) || [];
+                    // Filter out common noise words
+                    const cleanWords = words.filter(w => w.length >= 2 && !['של', 'את', 'או', 'גם', 'עם'].includes(w));
 
-                    if (productName) {
-                        setScannedProductName(productName);
+                    if (cleanWords.length > 0) {
+                        // Try to find matching product in our database
+                        const combinedText = cleanWords.join(' ');
+                        const suggestions = getPriceSearchSuggestions(cleanWords[0]);
+
+                        if (suggestions.length > 0) {
+                            // Found a match in our database
+                            setScannedProductName(suggestions[0]);
+                        } else {
+                            // Use the first meaningful word/phrase
+                            setScannedProductName(cleanWords.slice(0, 3).join(' '));
+                        }
                     } else {
-                        alert('לא זוהה טקסט. נסה שוב עם תאורה טובה יותר.');
+                        setScannedProductName('');
                     }
                 } catch (err) {
                     console.error('OCR Error:', err);
-                    alert('שגיאה בזיהוי טקסט');
                 } finally {
                     setScanningPrice(false);
                 }
@@ -3706,124 +3745,135 @@ END:VCALENDAR`;
 
                     {/* Price Comparison Scanner Modal */}
                     {showPriceScanner && (
-                        <div className="fixed inset-0 bg-black/90 flex flex-col z-50">
+                        <div className="fixed inset-0 bg-black/95 flex flex-col z-50">
                             {/* Header */}
-                            <div className="p-4 flex items-center justify-between bg-black/50">
-                                <button onClick={stopPriceScanner} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl">✕</button>
-                                <h2 className="text-white font-bold text-lg">השוואת מחירים</h2>
+                            <div className="p-4 flex items-center justify-between">
+                                <button onClick={stopPriceScanner} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-xl hover:bg-white/20 transition-all">✕</button>
+                                <h2 className="text-white font-bold text-lg">🔍 השוואת מחירים</h2>
                                 <div className="w-10"></div>
                             </div>
 
-                            {/* Camera View or Results */}
-                            {!scannedProductName ? (
-                                <>
-                                    <div className="flex-1 relative">
-                                        <video ref={priceVideoRef} autoPlay playsInline className="w-full h-full object-cover" />
-                                        <canvas ref={priceCanvasRef} className="hidden" />
-                                        {/* Scanning overlay */}
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <div className="w-64 h-32 border-2 border-cyan-400 rounded-xl bg-cyan-400/10">
-                                                <div className="text-center text-white text-sm mt-2">מקם את שם המוצר כאן</div>
-                                            </div>
-                                        </div>
-                                        {scanningPrice && (
-                                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                                                <div className="text-center">
-                                                    <div className="text-4xl mb-2 animate-pulse">🔍</div>
-                                                    <div className="text-white font-medium">מזהה טקסט...</div>
-                                                </div>
-                                            </div>
-                                        )}
+                            <div className="flex-1 p-4 overflow-y-auto">
+                                {/* Search Input - Primary */}
+                                <div className="mb-4">
+                                    <label className="text-white text-sm mb-2 block">הקלד שם מוצר לחיפוש:</label>
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            value={scannedProductName}
+                                            onChange={e => { setScannedProductName(e.target.value); setPriceCompareResults(null); }}
+                                            placeholder="לדוגמה: חלב תנובה, קוטג׳, במבה..."
+                                            className="flex-1 px-4 py-3 rounded-xl bg-white text-gray-800 border-2 border-transparent focus:border-cyan-400 transition-all text-lg"
+                                            autoFocus
+                                        />
+                                        <button
+                                            onClick={() => searchPriceComparison(scannedProductName)}
+                                            disabled={!scannedProductName}
+                                            className="px-5 py-3 bg-cyan-500 text-white rounded-xl font-bold disabled:opacity-50 hover:bg-cyan-600 transition-all"
+                                        >
+                                            🔍
+                                        </button>
                                     </div>
-                                    <div className="p-4 bg-black/50">
+                                </div>
+
+                                {/* Autocomplete Suggestions */}
+                                {scannedProductName && !priceCompareResults && getPriceSearchSuggestions(scannedProductName).length > 0 && (
+                                    <div className="mb-4 bg-white/10 rounded-xl p-2">
+                                        <div className="text-gray-400 text-xs mb-2 px-2">הצעות:</div>
+                                        <div className="flex flex-wrap gap-2">
+                                            {getPriceSearchSuggestions(scannedProductName).map((suggestion, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => { setScannedProductName(suggestion); searchPriceComparison(suggestion); }}
+                                                    className="px-3 py-2 bg-white/20 text-white rounded-lg text-sm hover:bg-cyan-500 transition-all"
+                                                >
+                                                    {suggestion}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Quick Popular Products */}
+                                {!scannedProductName && !priceCompareResults && (
+                                    <div className="mb-4">
+                                        <div className="text-gray-400 text-sm mb-2">מוצרים פופולריים:</div>
+                                        <div className="flex flex-wrap gap-2">
+                                            {['חלב', 'ביצים', 'לחם', 'גבינה צהובה', 'שוקולד', 'קולה', 'במבה', 'שמן זית'].map((product, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => { setScannedProductName(product); searchPriceComparison(product); }}
+                                                    className="px-3 py-2 bg-white/10 text-white rounded-lg text-sm hover:bg-white/20 transition-all"
+                                                >
+                                                    {product}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Camera Scan - Secondary Option */}
+                                {!priceCompareResults && (
+                                    <div className="mb-4 p-4 bg-white/5 rounded-xl border border-white/10">
+                                        <div className="text-gray-400 text-sm mb-3 text-center">או צלם את שם המוצר:</div>
+                                        <div className="relative aspect-video bg-black rounded-xl overflow-hidden mb-3">
+                                            <video ref={priceVideoRef} autoPlay playsInline className="w-full h-full object-cover" />
+                                            <canvas ref={priceCanvasRef} className="hidden" />
+                                            {scanningPrice && (
+                                                <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
+                                                    <div className="text-center">
+                                                        <div className="text-3xl mb-2 animate-spin">⏳</div>
+                                                        <div className="text-white text-sm">מנתח תמונה...</div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                         <button
                                             onClick={captureAndScanPrice}
                                             disabled={scanningPrice}
-                                            className="w-full py-4 bg-cyan-500 text-white rounded-2xl font-bold text-lg disabled:opacity-50"
+                                            className="w-full py-3 bg-white/10 text-white rounded-xl font-medium disabled:opacity-50 hover:bg-white/20 transition-all"
                                         >
-                                            {scanningPrice ? 'מזהה...' : '📸 צלם וסרוק'}
+                                            {scanningPrice ? 'מנתח...' : '📸 צלם וזהה'}
                                         </button>
-                                        <p className="text-center text-gray-400 text-xs mt-2">או הקלד שם מוצר ידנית:</p>
-                                        <div className="flex gap-2 mt-2">
-                                            <input
-                                                type="text"
-                                                value={scannedProductName}
-                                                onChange={e => setScannedProductName(e.target.value)}
-                                                placeholder="שם המוצר..."
-                                                className="flex-1 px-4 py-3 rounded-xl bg-white/10 text-white border border-white/20 focus:border-cyan-400 transition-all"
-                                            />
-                                            <button
-                                                onClick={() => searchPriceComparison(scannedProductName)}
-                                                disabled={!scannedProductName}
-                                                className="px-6 py-3 bg-cyan-500 text-white rounded-xl font-medium disabled:opacity-50"
-                                            >
-                                                חפש
-                                            </button>
-                                        </div>
+                                        <p className="text-gray-500 text-xs text-center mt-2">* זיהוי טקסט עשוי להיות לא מדויק</p>
                                     </div>
-                                </>
-                            ) : (
-                                <div className="flex-1 p-4 overflow-y-auto">
-                                    {/* Scanned Product */}
-                                    <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 mb-4">
-                                        <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">מוצר שזוהה:</div>
-                                        <div className="flex items-center justify-between">
-                                            <input
-                                                type="text"
-                                                value={scannedProductName}
-                                                onChange={e => setScannedProductName(e.target.value)}
-                                                className="flex-1 text-xl font-bold text-gray-800 dark:text-white bg-transparent border-none focus:outline-none"
-                                            />
-                                            <button
-                                                onClick={() => searchPriceComparison(scannedProductName)}
-                                                className="px-4 py-2 bg-cyan-500 text-white rounded-lg text-sm font-medium"
-                                            >
-                                                חפש שוב
-                                            </button>
-                                        </div>
-                                    </div>
+                                )}
 
-                                    {/* Supermarket Links */}
+                                {/* Supermarket Links - Results */}
                                     {priceCompareResults ? (
                                         <div className="space-y-3">
-                                            <h3 className="text-white font-bold mb-3">חפש ב:</h3>
-                                            {priceCompareResults.map((site, idx) => (
-                                                <button
-                                                    key={idx}
-                                                    onClick={() => openPriceLink(site.url)}
-                                                    className={`w-full p-4 ${site.color} text-white rounded-xl font-bold text-lg flex items-center justify-between hover:opacity-90 transition-all`}
-                                                >
-                                                    <span>{site.name}</span>
-                                                    <span>🔗</span>
-                                                </button>
-                                            ))}
+                                {priceCompareResults && (
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <h3 className="text-white font-bold">תוצאות עבור: {scannedProductName}</h3>
                                             <button
-                                                onClick={() => {
-                                                    priceCompareResults.forEach(site => window.open(site.url, '_blank'));
-                                                }}
-                                                className="w-full p-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold text-lg mt-4"
+                                                onClick={() => { setPriceCompareResults(null); }}
+                                                className="text-cyan-400 text-sm hover:underline"
                                             >
-                                                🚀 פתח הכל בו-זמנית
+                                                חיפוש חדש
                                             </button>
                                         </div>
-                                    ) : (
+                                        {priceCompareResults.map((site, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => openPriceLink(site.url)}
+                                                className={`w-full p-4 ${site.color} text-white rounded-xl font-bold text-lg flex items-center justify-between hover:opacity-90 hover:scale-[1.02] transition-all`}
+                                            >
+                                                <span>{site.name}</span>
+                                                <span>🔗</span>
+                                            </button>
+                                        ))}
                                         <button
-                                            onClick={() => searchPriceComparison(scannedProductName)}
-                                            className="w-full py-4 bg-cyan-500 text-white rounded-2xl font-bold text-lg"
+                                            onClick={() => {
+                                                priceCompareResults.forEach(site => window.open(site.url, '_blank'));
+                                            }}
+                                            className="w-full p-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold text-lg mt-2 hover:opacity-90 transition-all"
                                         >
-                                            🔍 חפש בסופרמרקטים
+                                            🚀 פתח הכל בו-זמנית
                                         </button>
-                                    )}
-
-                                    {/* Scan Another */}
-                                    <button
-                                        onClick={() => { setScannedProductName(''); setPriceCompareResults(null); }}
-                                        className="w-full py-3 bg-white/10 text-white rounded-xl font-medium mt-4"
-                                    >
-                                        📸 סרוק מוצר אחר
-                                    </button>
-                                </div>
-                            )}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     )}
 
