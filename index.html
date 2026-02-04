@@ -1637,6 +1637,7 @@
             const [scannedRecipeName, setScannedRecipeName] = useState('');
             const recipeVideoRef = React.useRef(null);
             const recipeCanvasRef = React.useRef(null);
+            const recipeScanActiveRef = React.useRef(false);
             // Forgotten items tracking
             const [forgottenStats, setForgottenStats] = useState({});
             const [showForgottenStats, setShowForgottenStats] = useState(false);
@@ -2882,33 +2883,34 @@
                 setScannedText('');
                 setScannedIngredients([]);
                 setScannedRecipeName('מתכון סרוק');
+                recipeScanActiveRef.current = true;
                 setShowRecipeScan(true);
-            };
 
-            // Start camera when recipe scan modal opens
-            useEffect(() => {
-                if (!showRecipeScan || scannedIngredients.length > 0) return;
+                // Wait for modal to render, then start camera
+                setTimeout(async () => {
+                    if (!recipeScanActiveRef.current) return;
 
-                const startCamera = async () => {
                     try {
                         const stream = await navigator.mediaDevices.getUserMedia({
                             video: { facingMode: 'environment', width: { ideal: 1920 }, height: { ideal: 1080 } }
                         });
-                        // Small delay to ensure video element is mounted
+                        // Another small delay to ensure video element is fully mounted
                         setTimeout(() => {
-                            if (recipeVideoRef.current) {
+                            if (recipeVideoRef.current && recipeScanActiveRef.current) {
                                 recipeVideoRef.current.srcObject = stream;
+                            } else {
+                                // Stop stream if modal was closed
+                                stream.getTracks().forEach(track => track.stop());
                             }
-                        }, 100);
+                        }, 200);
                     } catch (error) {
                         console.error('Camera error:', error);
                         alert('לא ניתן לגשת למצלמה');
+                        recipeScanActiveRef.current = false;
                         setShowRecipeScan(false);
                     }
-                };
-
-                startCamera();
-            }, [showRecipeScan, scannedIngredients.length]);
+                }, 300);
+            };
 
             const captureAndScanRecipe = async () => {
                 if (!recipeVideoRef.current || !recipeCanvasRef.current) return;
@@ -2998,6 +3000,7 @@
             };
 
             const cancelRecipeScan = () => {
+                recipeScanActiveRef.current = false;
                 if (recipeVideoRef.current && recipeVideoRef.current.srcObject) {
                     const tracks = recipeVideoRef.current.srcObject.getTracks();
                     tracks.forEach(track => {
@@ -3043,6 +3046,7 @@
                     }
 
                     await logActivity('scanned_recipe_added', { count: selected.length });
+                    recipeScanActiveRef.current = false;
                     setShowRecipeScan(false);
                     setShowRecipes(false);
                     setScannedIngredients([]);
