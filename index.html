@@ -4844,30 +4844,30 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
-                            {/* Quick Actions Bar */}
-                            <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-2 scrollbar-thin">
+                            {/* Quick Actions Bar - 2x2 Grid */}
+                            <div className="grid grid-cols-2 gap-2 mb-4">
                                 <button
                                     onClick={() => setShowImportWhatsApp(true)}
-                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50 transition-all whitespace-nowrap text-sm font-medium"
+                                    className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50 transition-all text-sm font-medium"
                                 >
                                     <span>📱</span> יבוא מווטסאפ
                                 </button>
                                 <button
                                     onClick={() => setShowSavedLists(true)}
-                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all whitespace-nowrap text-sm font-medium"
+                                    className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all text-sm font-medium"
                                 >
-                                    <span>📋</span> רשימות שמורות
-                                    {savedLists.length > 0 && <span className="bg-purple-200 dark:bg-purple-800 px-1.5 py-0.5 rounded-full text-xs">{savedLists.length}</span>}
+                                    <span>📋</span> רשימות
+                                    {savedLists.length > 0 && <span className="bg-purple-200 dark:bg-purple-800 px-1.5 py-0.5 rounded-full text-xs mr-1">{savedLists.length}</span>}
                                 </button>
                                 <button
                                     onClick={saveListForReuse}
-                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-all whitespace-nowrap text-sm font-medium"
+                                    className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-all text-sm font-medium"
                                 >
                                     <span>💾</span> שמור רשימה
                                 </button>
                                 <button
                                     onClick={startPriceScanner}
-                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 transition-all whitespace-nowrap text-sm font-medium"
+                                    className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 transition-all text-sm font-medium"
                                 >
                                     <span>📸</span> השוואת מחירים
                                 </button>
