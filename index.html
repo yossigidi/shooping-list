@@ -5157,16 +5157,18 @@ END:VCALENDAR`;
 
                     {/* Recipe Scan Modal */}
                     {showRecipeScan && (
-                        <div className="fixed inset-0 bg-black z-[60] flex flex-col">
-                            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-500 to-amber-500">
-                                <button onClick={cancelRecipeScan} className="text-white px-4 py-2">ביטול</button>
+                        <div className="fixed inset-0 bg-black z-[60]" style={{ height: '100dvh' }}>
+                            {/* Header */}
+                            <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-4 bg-gradient-to-r from-orange-500 to-amber-500 z-10">
+                                <button onClick={cancelRecipeScan} className="text-white px-4 py-2 font-bold">ביטול</button>
                                 <h2 className="text-white font-bold">📷 סריקת מתכון</h2>
                                 <div className="w-16"></div>
                             </div>
 
                             {scannedIngredients.length === 0 ? (
                                 <>
-                                    <div style={{ height: 'calc(100vh - 260px)', minHeight: '200px' }} className="relative bg-black">
+                                    {/* Video area - positioned between header and buttons */}
+                                    <div className="absolute bg-black" style={{ top: '60px', left: 0, right: 0, bottom: '220px' }}>
                                         <video ref={recipeVideoRef} autoPlay playsInline className="w-full h-full object-cover" />
                                         {scanningRecipe && (
                                             <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center">
@@ -5179,7 +5181,8 @@ END:VCALENDAR`;
                                             </div>
                                         )}
                                     </div>
-                                    <div className="bg-black p-4 flex flex-col items-center gap-3" style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}>
+                                    {/* Buttons area - fixed at bottom */}
+                                    <div className="absolute left-0 right-0 bg-black p-4 flex flex-col items-center gap-3" style={{ bottom: 0, paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))' }}>
                                         <p className="text-white text-sm text-center font-medium">👆 כוון את המצלמה אל רשימת המרכיבים</p>
                                         <button onClick={captureAndScanRecipe} disabled={scanningRecipe}
                                             className="w-20 h-20 rounded-full bg-white border-4 border-orange-400 shadow-2xl flex items-center justify-center disabled:opacity-50 hover:scale-110 transition-all">
@@ -5195,7 +5198,8 @@ END:VCALENDAR`;
                                 </>
                             ) : (
                                 <>
-                                    <div className="flex-1 bg-white dark:bg-gray-900 overflow-y-auto p-4">
+                                    {/* Results list area */}
+                                    <div className="absolute bg-white dark:bg-gray-900 overflow-y-auto p-4" style={{ top: '60px', left: 0, right: 0, bottom: '140px' }}>
                                         <div className="mb-4">
                                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">מרכיבים שזוהו ({scannedIngredients.filter(i => i.selected).length}/{scannedIngredients.length})</label>
                                             <div className="space-y-2">
@@ -5216,7 +5220,8 @@ END:VCALENDAR`;
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 space-y-2" style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 1rem))' }}>
+                                    {/* Results buttons - fixed at bottom */}
+                                    <div className="absolute left-0 right-0 p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 space-y-2" style={{ bottom: 0, paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))' }}>
                                         <button onClick={addScannedToCart} disabled={scanningRecipe || scannedIngredients.filter(i => i.selected).length === 0}
                                             className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold disabled:opacity-50">
                                             {scanningRecipe ? '⏳ מוסיף...' : '🛒 הוסף לעגלה'}
