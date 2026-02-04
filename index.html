@@ -4850,13 +4850,13 @@ END:VCALENDAR`;
                                 </div>
                             </div>
 
-                            {/* List Selector */}
-                            <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-2 scrollbar-thin">
+                            {/* List Selector - Wrapping Grid */}
+                            <div className="flex flex-wrap gap-2 mb-4">
                                 {lists.map(list => (
                                     <button
                                         key={list.id}
                                         onClick={() => setCurrentList(list)}
-                                        className={`flex items-center gap-2 px-4 py-2 rounded-xl whitespace-nowrap transition-all ${
+                                        className={`flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all text-sm ${
                                             currentList?.id === list.id
                                                 ? 'btn-gradient text-white shadow-lg'
                                                 : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200'
@@ -4869,10 +4869,10 @@ END:VCALENDAR`;
                                 ))}
                                 <button
                                     onClick={() => setShowCreateList(true)}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-all whitespace-nowrap"
+                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-all text-sm"
                                 >
                                     <span>➕</span>
-                                    <span className="font-medium">רשימה חדשה</span>
+                                    <span className="font-medium">חדש</span>
                                 </button>
                             </div>
 
@@ -5371,16 +5371,16 @@ END:VCALENDAR`;
 
                         {/* Quick add suggestions when searching */}
                         {searchTerm && !isListening && (
-                            <div className="max-w-2xl mx-auto mt-2 flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
+                            <div className="max-w-2xl mx-auto mt-2 flex flex-wrap gap-1.5 pb-1">
                                 {Object.entries(PRODUCTS)
                                     .flatMap(([cat, prods]) => prods.map(p => ({ name: p, cat })))
                                     .filter(p => p.name.includes(searchTerm))
-                                    .slice(0, 5)
+                                    .slice(0, 6)
                                     .map((p, i) => (
                                         <button
                                             key={i}
                                             onClick={() => addProduct(p.name)}
-                                            className="flex-shrink-0 px-3 py-1.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg text-sm font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-all expand-in"
+                                            className="px-2.5 py-1.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-all expand-in"
                                         >
                                             {CATEGORIES[p.cat]?.icon} {p.name}
                                         </button>
@@ -5388,9 +5388,9 @@ END:VCALENDAR`;
                                 {searchTerm.length >= 2 && !Object.values(PRODUCTS).flat().some(p => p === searchTerm) && (
                                     <button
                                         onClick={() => addProduct(searchTerm)}
-                                        className="flex-shrink-0 px-3 py-1.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-all expand-in"
+                                        className="px-2.5 py-1.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded-lg text-xs font-medium hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-all expand-in"
                                     >
-                                        ➕ הוסף "{searchTerm}"
+                                        ➕ "{searchTerm}"
                                     </button>
                                 )}
                             </div>
