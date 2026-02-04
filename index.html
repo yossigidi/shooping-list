@@ -851,116 +851,6 @@
             );
         }
 
-        // Activity Feed Modal
-        function ActivityFeedModal({ onClose }) {
-            const { activities, currentList, lists } = useFamily();
-            const [filterList, setFilterList] = useState('all');
-
-            const getActivityText = (activity) => {
-                switch (activity.type) {
-                    case 'item_added':
-                        return `הוסיף "${activity.itemName}"`;
-                    case 'item_purchased':
-                        return `סימן כנקנה "${activity.itemName}"`;
-                    case 'item_deleted':
-                        return `מחק "${activity.itemName}"`;
-                    case 'quantity_changed':
-                        return `שינה כמות של "${activity.itemName}"`;
-                    case 'member_joined':
-                        return `${activity.memberName || activity.userName} הצטרף למשפחה`;
-                    case 'list_created':
-                        return `יצר רשימה "${activity.listName}"`;
-                    case 'note_added':
-                        return `הוסיף הערה ל"${activity.itemName}"`;
-                    default:
-                        return activity.type;
-                }
-            };
-
-            const getActivityIcon = (type) => {
-                switch (type) {
-                    case 'item_added': return '➕';
-                    case 'item_purchased': return '✅';
-                    case 'item_deleted': return '🗑️';
-                    case 'quantity_changed': return '🔢';
-                    case 'member_joined': return '👋';
-                    case 'list_created': return '📋';
-                    case 'note_added': return '📝';
-                    default: return '📌';
-                }
-            };
-
-            const getRelativeTime = (date) => {
-                if (!date) return '';
-                const now = new Date();
-                const d = date.toDate ? date.toDate() : date;
-                const diff = Math.floor((now - d) / 1000);
-
-                if (diff < 60) return 'עכשיו';
-                if (diff < 3600) return `לפני ${Math.floor(diff / 60)} דקות`;
-                if (diff < 86400) return `לפני ${Math.floor(diff / 3600)} שעות`;
-                if (diff < 604800) return `לפני ${Math.floor(diff / 86400)} ימים`;
-                return d.toLocaleDateString('he-IL');
-            };
-
-            const filteredActivities = filterList === 'all'
-                ? activities
-                : activities.filter(a => a.listId === filterList);
-
-            return (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="glass rounded-3xl p-8 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-hidden flex flex-col">
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-2xl font-bold flex items-center gap-3">
-                                <span className="text-3xl">📊</span>
-                                <span className="text-gradient">פעילות אחרונה</span>
-                            </h2>
-                            <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 hover:rotate-90 transition-all">×</button>
-                        </div>
-
-                        {lists.length > 1 && (
-                            <div className="mb-4">
-                                <select
-                                    value={filterList}
-                                    onChange={e => setFilterList(e.target.value)}
-                                    className="w-full px-4 py-2 glass rounded-xl border-2 border-gray-200 dark:border-gray-600 dark:text-white"
-                                >
-                                    <option value="all">כל הרשימות</option>
-                                    {lists.map(list => (
-                                        <option key={list.id} value={list.id}>{list.icon} {list.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        )}
-
-                        <div className="flex-1 overflow-y-auto space-y-3 scrollbar-thin">
-                            {filteredActivities.length === 0 ? (
-                                <div className="text-center py-12">
-                                    <div className="text-6xl mb-4 float">📭</div>
-                                    <p className="text-gray-500 dark:text-gray-400">אין פעילות עדיין</p>
-                                </div>
-                            ) : (
-                                filteredActivities.map(activity => (
-                                    <div key={activity.id} className="glass rounded-xl p-4 flex items-start gap-3">
-                                        <div className="text-2xl">{getActivityIcon(activity.type)}</div>
-                                        <div className="flex-1">
-                                            <div className="text-sm dark:text-white">
-                                                <span className="font-bold text-indigo-600 dark:text-indigo-400">{activity.userName}</span>
-                                                {' '}{getActivityText(activity)}
-                                            </div>
-                                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                {getRelativeTime(activity.timestamp)}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
-                            )}
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-
         // Item Note Modal
         function ItemNoteModal({ item, onClose, onSave }) {
             const [note, setNote] = useState(item.note || '');
@@ -1359,27 +1249,46 @@
         }
 
         const CATEGORIES = {
-            fruits: { name: 'פירות וירקות', icon: '🥬' },
-            dairy: { name: 'חלבי', icon: '🥛' },
-            desserts: { name: 'מעדני חלב', icon: '🍮' },
-            meat: { name: 'בשר ודגים', icon: '🍗' },
-            deli: { name: 'מעדניה', icon: '🥓' },
-            bakery: { name: 'לחם ומאפים', icon: '🍞' },
-            cereals: { name: 'דגנים וקורנפלקס', icon: '🥣' },
-            canned: { name: 'שימורים ומזון יבש', icon: '🥫' },
-            spices: { name: 'תבלינים ובישול', icon: '🧂' },
-            coffee: { name: 'קפה ותה', icon: '☕' },
-            drinks: { name: 'משקאות', icon: '🥤' },
-            snacks: { name: 'חטיפים וממתקים', icon: '🍿' },
-            frozen: { name: 'קפואים', icon: '🧊' },
-            health: { name: 'דיאטה וחלבון', icon: '💪' },
-            hygiene: { name: 'היגיינה ורחצה', icon: '🧴' },
-            cleaning: { name: 'ניקיון', icon: '🧹' },
-            candles: { name: 'נרות ושמן', icon: '🕯️' },
-            baby: { name: 'תינוקות וילדים', icon: '👶' },
-            pets: { name: 'חיות מחמד', icon: '🐾' },
-            other: { name: 'אחר', icon: '📦' }
+            fruits: { name: 'פירות וירקות', icon: '🥬', unit: 'ק"ג', unitOptions: ['ק"ג', 'יח\'', 'גרם'] },
+            dairy: { name: 'חלבי', icon: '🥛', unit: 'יח\'', unitOptions: ['יח\'', 'מ"ל', 'ליטר'] },
+            desserts: { name: 'מעדני חלב', icon: '🍮', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            meat: { name: 'בשר ודגים', icon: '🍗', unit: 'ק"ג', unitOptions: ['ק"ג', 'גרם', 'יח\''] },
+            deli: { name: 'מעדניה', icon: '🥓', unit: 'גרם', unitOptions: ['גרם', 'ק"ג', 'יח\''] },
+            bakery: { name: 'לחם ומאפים', icon: '🍞', unit: 'יח\'', unitOptions: ['יח\''] },
+            cereals: { name: 'דגנים וקורנפלקס', icon: '🥣', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            canned: { name: 'שימורים ומזון יבש', icon: '🥫', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            spices: { name: 'תבלינים ובישול', icon: '🧂', unit: 'גרם', unitOptions: ['גרם', 'יח\''] },
+            coffee: { name: 'קפה ותה', icon: '☕', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            drinks: { name: 'משקאות', icon: '🥤', unit: 'יח\'', unitOptions: ['יח\'', 'ליטר', 'מ"ל'] },
+            snacks: { name: 'חטיפים וממתקים', icon: '🍿', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            frozen: { name: 'קפואים', icon: '🧊', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג', 'גרם'] },
+            health: { name: 'דיאטה וחלבון', icon: '💪', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            hygiene: { name: 'היגיינה ורחצה', icon: '🧴', unit: 'יח\'', unitOptions: ['יח\''] },
+            cleaning: { name: 'ניקיון', icon: '🧹', unit: 'יח\'', unitOptions: ['יח\'', 'ליטר'] },
+            candles: { name: 'נרות ושמן', icon: '🕯️', unit: 'יח\'', unitOptions: ['יח\'', 'ליטר'] },
+            baby: { name: 'תינוקות וילדים', icon: '👶', unit: 'יח\'', unitOptions: ['יח\''] },
+            pets: { name: 'חיות מחמד', icon: '🐾', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג'] },
+            other: { name: 'אחר', icon: '📦', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג', 'גרם'] }
         };
+
+        // Israeli holidays for calendar reminders
+        const ISRAELI_HOLIDAYS = [
+            { name: 'ראש השנה', icon: '🍎', date: 'תשרי', reminder: 'זמן לקנות דבש, תפוחים, רימונים ודגים', type: 'jewish' },
+            { name: 'יום כיפור', icon: '🕯️', date: 'תשרי', reminder: 'זמן להכין אוכל לפני ואחרי הצום', type: 'jewish' },
+            { name: 'סוכות', icon: '🌿', date: 'תשרי', reminder: 'זמן לקנות ארבעת המינים ואוכל לחג', type: 'jewish' },
+            { name: 'שמחת תורה', icon: '📜', date: 'תשרי', reminder: 'זמן להכין כיבוד וממתקים', type: 'jewish' },
+            { name: 'חנוכה', icon: '🕎', date: 'כסלו', reminder: 'זמן לקנות שמן, נרות, סופגניות ולביבות', type: 'jewish' },
+            { name: 'ט"ו בשבט', icon: '🌳', date: 'שבט', reminder: 'זמן לקנות פירות יבשים ופירות הארץ', type: 'jewish' },
+            { name: 'פורים', icon: '🎭', date: 'אדר', reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
+            { name: 'פסח', icon: '🍷', date: 'ניסן', reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' },
+            { name: 'יום הזיכרון', icon: '🕯️', date: 'אייר', reminder: 'יום זיכרון לחללי צה"ל', type: 'national' },
+            { name: 'יום העצמאות', icon: '🇮🇱', date: 'אייר', reminder: 'זמן לקנות בשר, נקניקיות וציוד למנגל!', type: 'national' },
+            { name: 'ל"ג בעומר', icon: '🔥', date: 'אייר', reminder: 'זמן לקנות בשר ונקניקיות למדורה', type: 'jewish' },
+            { name: 'יום ירושלים', icon: '🏛️', date: 'אייר', reminder: 'יום ירושלים', type: 'national' },
+            { name: 'שבועות', icon: '🧀', date: 'סיון', reminder: 'זמן לקנות מוצרי חלב ועוגות גבינה', type: 'jewish' },
+            { name: 'ראש השנה האזרחית', icon: '🎉', date: '1 בינואר', reminder: 'שנה אזרחית חדשה!', type: 'civil' },
+            { name: 'סילבסטר', icon: '🥂', date: '31 בדצמבר', reminder: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה', type: 'civil' }
+        ];
 
         const PRODUCTS = {
             dairy: ['חלב', 'חלב 3%', 'חלב 1%', 'חלב דל שומן', 'חלב סויה', 'חלב שקדים', 'חלב קוקוס', 'חלב שיבולת שועל', 'לבן', 'לבן עז', 'גבינה צהובה', 'גבינה צהובה עמק', 'גבינה צהובה גלבוע', 'גבינה צהובה 9%', 'גבינה צהובה 22%', 'קוטג׳', 'קוטג׳ 5%', 'קוטג׳ 3%', 'קוטג׳ 0%', 'גבינה בולגרית', 'צפתית', 'גבינת שמנת', 'פרמזן', 'מוצרלה', 'מוצרלה טרייה', 'ביצים', 'ביצים L', 'ביצים XL', 'ביצים אורגניות', 'ביצים חופשיות', 'חמאה', 'חמאה מלוחה', 'שמנת מתוקה', 'שמנת חמוצה', 'שמנת לקצפת', 'יוגורט', 'יוגורט יווני', 'יוגורט יווני 0%', 'יוגורט תנובה', 'יוגורט שטראוס', 'יוגורט אקטיביה', 'גבינה לבנה', 'גבינה לבנה 5%', 'גבינה לבנה 9%', 'יוגורט אורגני', 'יוגורט לילדים', 'גבינת עזים', 'גבינת רוקפור', 'קשקבל', 'גאודה', 'אמנטל', 'ברי', 'קממבר', 'חלומי', 'פילדלפיה', 'לאבנה', 'ריקוטה', 'מסקרפונה', 'גבינת תפוח', 'חמאה בצל', 'חמאה שום', 'מרגרינה', 'טופו', 'טופו מוקשה'],
@@ -1565,11 +1474,13 @@
             const [showFinishShopping, setShowFinishShopping] = useState(false);
             const [showHistory, setShowHistory] = useState(false);
             const [totalAmount, setTotalAmount] = useState('');
+            const [receiptPhoto, setReceiptPhoto] = useState(null);
+            const [uploadingReceipt, setUploadingReceipt] = useState(false);
+            const receiptInputRef = React.useRef(null);
             const [history, setHistory] = useState([]);
             const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
             const [showFamilySettings, setShowFamilySettings] = useState(false);
             const [showCreateList, setShowCreateList] = useState(false);
-            const [showActivityFeed, setShowActivityFeed] = useState(false);
             const [editingNote, setEditingNote] = useState(null);
             const [confetti, setConfetti] = useState(null);
             const [animatingItems, setAnimatingItems] = useState(new Set());
@@ -1579,6 +1490,8 @@
             const [chatInput, setChatInput] = useState('');
             const [showCamera, setShowCamera] = useState(false);
             const [capturedPhoto, setCapturedPhoto] = useState(null);
+            const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+            const lastMessageIdRef = React.useRef(null);
             const videoRef = React.useRef(null);
             const canvasRef = React.useRef(null);
             // Recipe states
@@ -1597,6 +1510,21 @@
             const [scannedRecipeName, setScannedRecipeName] = useState('');
             const recipeVideoRef = React.useRef(null);
             const recipeCanvasRef = React.useRef(null);
+            // Forgotten items tracking
+            const [forgottenStats, setForgottenStats] = useState({});
+            const [showForgottenStats, setShowForgottenStats] = useState(false);
+            const [shoppingStreak, setShoppingStreak] = useState(0);
+            const [achievements, setAchievements] = useState([]);
+            // Regular items & Calendar
+            const [regularItems, setRegularItems] = useState([]);
+            const [showRegulars, setShowRegulars] = useState(false);
+            const [showCalendar, setShowCalendar] = useState(false);
+            const [upcomingHolidays, setUpcomingHolidays] = useState([]);
+            // Quantity selector
+            const [showQuantitySelector, setShowQuantitySelector] = useState(false);
+            const [selectedProduct, setSelectedProduct] = useState(null);
+            const [selectedQuantity, setSelectedQuantity] = useState(1);
+            const [selectedUnit, setSelectedUnit] = useState('יח\'');
             // Voice recognition states
             const [isListening, setIsListening] = useState(false);
             const [voiceSupported, setVoiceSupported] = useState(false);
@@ -1849,6 +1777,55 @@
                 }
             };
 
+            // Request notification permission
+            useEffect(() => {
+                const requestNotificationPermission = async () => {
+                    if ('Notification' in window) {
+                        if (Notification.permission === 'granted') {
+                            setNotificationsEnabled(true);
+                        } else if (Notification.permission !== 'denied') {
+                            const permission = await Notification.requestPermission();
+                            setNotificationsEnabled(permission === 'granted');
+                        }
+                    }
+                };
+                requestNotificationPermission();
+            }, []);
+
+            // Show chat notification
+            const showChatNotification = (message) => {
+                if (!notificationsEnabled || !('Notification' in window)) return;
+                if (Notification.permission !== 'granted') return;
+
+                // Don't show if chat is open and visible
+                if (showChat && document.visibilityState === 'visible') return;
+
+                const title = `💬 ${message.senderName || 'הודעה חדשה'}`;
+                const body = message.photoUrl ? '📷 שלח/ה תמונה' : message.text || 'הודעה חדשה';
+
+                try {
+                    const notification = new Notification(title, {
+                        body: body,
+                        icon: '🛒',
+                        badge: '🛒',
+                        tag: 'chat-message',
+                        renotify: true,
+                        vibrate: [200, 100, 200]
+                    });
+
+                    notification.onclick = () => {
+                        window.focus();
+                        setShowChat(true);
+                        notification.close();
+                    };
+
+                    // Auto close after 5 seconds
+                    setTimeout(() => notification.close(), 5000);
+                } catch (error) {
+                    console.error('Notification error:', error);
+                }
+            };
+
             // Load chat messages
             useEffect(() => {
                 if (!family) {
@@ -1871,11 +1848,24 @@
                         const dateB = b.createdAt?.toDate?.() || new Date(0);
                         return dateA - dateB;
                     });
+
+                    // Check for new messages from other users and send notification
+                    if (messages.length > 0 && user) {
+                        const latestMessage = messages[messages.length - 1];
+                        if (latestMessage.id !== lastMessageIdRef.current &&
+                            latestMessage.senderUid !== user.uid &&
+                            lastMessageIdRef.current !== null) {
+                            // New message from someone else
+                            showChatNotification(latestMessage);
+                        }
+                        lastMessageIdRef.current = latestMessage.id;
+                    }
+
                     setChatMessages(messages);
                 });
 
                 return () => unsubscribe();
-            }, [family]);
+            }, [family, user]);
 
             // Load recipes
             useEffect(() => {
@@ -1904,6 +1894,244 @@
 
                 return () => unsubscribe();
             }, [family]);
+
+            // Load forgotten stats
+            useEffect(() => {
+                if (!family) {
+                    setForgottenStats({});
+                    setShoppingStreak(0);
+                    setAchievements([]);
+                    return;
+                }
+
+                const monthKey = new Date().toISOString().slice(0, 7);
+                const docRef = window.firestore.doc(window.db, 'forgotten-stats', `${family.id}_${monthKey}`);
+
+                const unsubscribe = window.firestore.onSnapshot(docRef, (doc) => {
+                    if (doc.exists()) {
+                        setForgottenStats(doc.data().items || {});
+                    } else {
+                        setForgottenStats({});
+                    }
+                });
+
+                // Load streak data
+                loadShoppingStreak();
+
+                return () => unsubscribe();
+            }, [family]);
+
+            // Recalculate achievements when stats change
+            useEffect(() => {
+                const newAchievements = [];
+
+                // Only show achievements if we have some shopping history
+                const essentials = ['חלב', 'לחם', 'ביצים', 'גבינה', 'עגבניות', 'מלפפונים'];
+
+                // Check for items with zero forgets this month (only show top 3)
+                let perfectCount = 0;
+                essentials.forEach(item => {
+                    if ((!forgottenStats[item] || forgottenStats[item] === 0) && perfectCount < 3) {
+                        newAchievements.push({
+                            name: `${item} Master`,
+                            emoji: '🏆',
+                            description: `0 פעמים שכחת ${item} החודש`
+                        });
+                        perfectCount++;
+                    }
+                });
+
+                // Perfect week achievement
+                if (shoppingStreak >= 7) {
+                    newAchievements.push({
+                        name: 'שבוע מושלם',
+                        emoji: '⭐',
+                        description: `${shoppingStreak} קניות ברצף בלי לשכוח!`
+                    });
+                } else if (shoppingStreak >= 3) {
+                    newAchievements.push({
+                        name: 'על הדרך הנכונה',
+                        emoji: '🌟',
+                        description: `${shoppingStreak} קניות ברצף!`
+                    });
+                }
+
+                // Memory champion
+                if (Object.keys(forgottenStats).length === 0 || Object.values(forgottenStats).every(v => v === 0)) {
+                    newAchievements.push({
+                        name: 'אלוף הזיכרון',
+                        emoji: '🧠',
+                        description: 'לא שכחת כלום החודש!'
+                    });
+                }
+
+                setAchievements(newAchievements);
+            }, [forgottenStats, shoppingStreak]);
+
+            // Load regular items (items that appear frequently in shopping history)
+            useEffect(() => {
+                if (!family || history.length === 0) {
+                    setRegularItems([]);
+                    return;
+                }
+
+                // Count item frequency across all shopping history
+                const itemCounts = {};
+                history.forEach(record => {
+                    record.items?.forEach(item => {
+                        const name = item.name?.toLowerCase?.() || '';
+                        if (name) {
+                            itemCounts[name] = (itemCounts[name] || 0) + 1;
+                        }
+                    });
+                });
+
+                // Get items that appear in at least 3 shopping trips or 30% of trips
+                const minCount = Math.max(3, Math.floor(history.length * 0.3));
+                const regulars = Object.entries(itemCounts)
+                    .filter(([_, count]) => count >= minCount)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 20)
+                    .map(([name, count]) => ({ name, count }));
+
+                setRegularItems(regulars);
+            }, [family, history]);
+
+            // Calculate upcoming holidays (within next 14 days)
+            useEffect(() => {
+                // This is a simplified version - in production you'd use a proper Hebrew calendar library
+                const checkUpcomingHolidays = () => {
+                    const today = new Date();
+                    const twoWeeksFromNow = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
+
+                    // For demo purposes, we'll show random holiday reminders occasionally
+                    // In production, you'd integrate with a Hebrew calendar API
+                    const savedReminders = JSON.parse(localStorage.getItem('holidayReminders') || '[]');
+                    const lastCheck = localStorage.getItem('lastHolidayCheck');
+                    const now = Date.now();
+
+                    // Check once per day
+                    if (!lastCheck || now - parseInt(lastCheck) > 24 * 60 * 60 * 1000) {
+                        localStorage.setItem('lastHolidayCheck', now.toString());
+                        // In a real implementation, calculate actual Hebrew dates here
+                    }
+
+                    setUpcomingHolidays(savedReminders);
+                };
+
+                checkUpcomingHolidays();
+            }, []);
+
+            // Add regular items to cart
+            const addRegularItems = async () => {
+                const currentItemNames = items.map(i => i.name.toLowerCase());
+                const itemsToAdd = regularItems.filter(r => !currentItemNames.includes(r.name.toLowerCase()));
+
+                for (const item of itemsToAdd) {
+                    // Find category for the item
+                    let category = 'other';
+                    for (const [cat, products] of Object.entries(PRODUCTS)) {
+                        if (products.some(p => p.toLowerCase() === item.name.toLowerCase())) {
+                            category = cat;
+                            break;
+                        }
+                    }
+
+                    const unit = CATEGORIES[category]?.unit || 'יח\'';
+
+                    await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                        name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
+                        category,
+                        quantity: `1 ${unit}`,
+                        unit,
+                        purchased: false,
+                        addedBy: user.displayName || user.email,
+                        addedByUid: user.uid,
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                        familyId: family.id,
+                        listId: currentList.id,
+                        isRegular: true
+                    });
+                }
+
+                if (itemsToAdd.length > 0) {
+                    alert(`נוספו ${itemsToAdd.length} מוצרים קבועים לרשימה! 🎉`);
+                } else {
+                    alert('כל המוצרים הקבועים כבר נמצאים ברשימה');
+                }
+
+                setShowRegulars(false);
+            };
+
+            // Load shopping streak
+            const loadShoppingStreak = async () => {
+                if (!family) return;
+
+                try {
+                    const streakRef = window.firestore.doc(window.db, 'shopping-streaks', family.id);
+                    const streakDoc = await window.firestore.getDoc(streakRef);
+
+                    if (streakDoc.exists()) {
+                        const data = streakDoc.data();
+                        const lastDate = data.lastShoppingDate?.toDate?.() || new Date(0);
+                        const daysSinceLast = Math.floor((new Date() - lastDate) / (1000 * 60 * 60 * 24));
+
+                        // Reset streak if more than 2 days passed
+                        if (daysSinceLast > 2) {
+                            setShoppingStreak(0);
+                        } else {
+                            setShoppingStreak(data.streak || 0);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading streak:', error);
+                }
+            };
+
+            // Update streak on successful shopping
+            const updateShoppingStreak = async (hadForgottenItems) => {
+                if (!family) return;
+
+                try {
+                    const streakRef = window.firestore.doc(window.db, 'shopping-streaks', family.id);
+                    const streakDoc = await window.firestore.getDoc(streakRef);
+
+                    let newStreak = 1;
+                    if (streakDoc.exists() && !hadForgottenItems) {
+                        const data = streakDoc.data();
+                        const lastDate = data.lastShoppingDate?.toDate?.() || new Date(0);
+                        const daysSinceLast = Math.floor((new Date() - lastDate) / (1000 * 60 * 60 * 24));
+
+                        if (daysSinceLast <= 2) {
+                            newStreak = (data.streak || 0) + 1;
+                        }
+                    } else if (hadForgottenItems) {
+                        newStreak = 0;
+                    }
+
+                    await window.firestore.setDoc(streakRef, {
+                        familyId: family.id,
+                        streak: newStreak,
+                        lastShoppingDate: new Date(),
+                        updatedAt: new Date()
+                    });
+
+                    setShoppingStreak(newStreak);
+                } catch (error) {
+                    console.error('Error updating streak:', error);
+                }
+            };
+
+            // Get playful message for forgotten count
+            const getForgottenMessage = (count) => {
+                if (count === 0) return { emoji: '👌', text: 'מושלם!' };
+                if (count === 1) return { emoji: '😅', text: 'קרה פעם אחת' };
+                if (count === 2) return { emoji: '🙈', text: 'אופס, שוב?' };
+                if (count === 3) return { emoji: '😬', text: 'שלוש פעמים...' };
+                if (count >= 4) return { emoji: '🤦', text: 'בואו נשים תזכורת!' };
+                return { emoji: '📊', text: `${count} פעמים` };
+            };
 
             // Recipe scanning functions
             const startRecipeScan = async () => {
@@ -2390,6 +2618,56 @@
                 setShowCamera(false);
             };
 
+            // Handle receipt photo capture
+            const handleReceiptCapture = async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                setUploadingReceipt(true);
+                try {
+                    // Compress and convert to base64
+                    const reader = new FileReader();
+                    reader.onload = async (event) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            // Create canvas for compression
+                            const canvas = document.createElement('canvas');
+                            const maxSize = 800;
+                            let width = img.width;
+                            let height = img.height;
+
+                            // Scale down if too large
+                            if (width > height && width > maxSize) {
+                                height = (height * maxSize) / width;
+                                width = maxSize;
+                            } else if (height > maxSize) {
+                                width = (width * maxSize) / height;
+                                height = maxSize;
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            // Get compressed base64
+                            const compressedData = canvas.toDataURL('image/jpeg', 0.7);
+                            setReceiptPhoto(compressedData);
+                            setUploadingReceipt(false);
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } catch (error) {
+                    console.error('Error processing receipt:', error);
+                    setUploadingReceipt(false);
+                    alert('שגיאה בעיבוד התמונה');
+                }
+
+                // Clear the input
+                e.target.value = '';
+            };
+
             // Enhanced toggle purchased with animation
             const togglePurchasedWithAnimation = async (id, currentStatus, event) => {
                 if (!currentStatus) {
@@ -2426,16 +2704,46 @@
                 document.documentElement.classList.toggle('dark');
             };
 
-            const addProduct = async (product) => {
+            // Open quantity selector before adding product
+            const addProduct = (product) => {
+                const category = selectedCategory || Object.keys(PRODUCTS).find(cat => PRODUCTS[cat].includes(product)) || 'other';
+                const unit = CATEGORIES[category]?.unit || 'יח\'';
+                const unitOptions = CATEGORIES[category]?.unitOptions || ['יח\''];
+
+                setSelectedProduct({ name: product, category, unitOptions });
+                setSelectedQuantity(1);
+                setSelectedUnit(unit);
+                setShowQuantitySelector(true);
+            };
+
+            // Actually add product with selected quantity
+            const addProductWithQuantity = async () => {
+                if (!selectedProduct) return;
+
                 try {
-                    const category = selectedCategory || Object.keys(PRODUCTS).find(cat => PRODUCTS[cat].includes(product));
+                    const { name: product, category } = selectedProduct;
                     const existing = items.find(item => item.name === product && !item.purchased);
 
                     if (existing) {
+                        // Add to existing quantity
+                        let newQty;
+                        if (typeof existing.quantity === 'string') {
+                            const numMatch = existing.quantity.match(/^([\d.]+)/);
+                            if (numMatch) {
+                                const num = parseFloat(numMatch[1]) + selectedQuantity;
+                                newQty = `${num} ${selectedUnit}`;
+                            } else {
+                                newQty = `${selectedQuantity + 1} ${selectedUnit}`;
+                            }
+                        } else {
+                            newQty = `${(existing.quantity || 0) + selectedQuantity} ${selectedUnit}`;
+                        }
+
                         await window.firestore.updateDoc(
                             window.firestore.doc(window.db, 'shopping-items', existing.id),
                             {
-                                quantity: existing.quantity + 1,
+                                quantity: newQty,
+                                unit: selectedUnit,
                                 updatedAt: new Date(),
                                 updatedBy: user.displayName || user.email
                             }
@@ -2445,7 +2753,8 @@
                         await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                             name: product,
                             category: category,
-                            quantity: 1,
+                            quantity: `${selectedQuantity} ${selectedUnit}`,
+                            unit: selectedUnit,
                             purchased: false,
                             familyId: family.id,
                             listId: currentList.id,
@@ -2456,7 +2765,10 @@
                         });
                         await logActivity('item_added', { itemName: product });
                     }
+
                     setSearchTerm('');
+                    setShowQuantitySelector(false);
+                    setSelectedProduct(null);
                 } catch (error) {
                     console.error('שגיאה בהוספת מוצר:', error);
                     alert('שגיאה בהוספת המוצר. נסה שוב.');
@@ -2466,11 +2778,29 @@
             const togglePurchased = async (id, currentStatus) => {
                 try {
                     const item = items.find(i => i.id === id);
-                    await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
+
+                    // Conflict detection: Check if item was already marked by someone else
+                    const docRef = window.firestore.doc(window.db, 'shopping-items', id);
+                    const freshDoc = await window.firestore.getDoc(docRef);
+
+                    if (freshDoc.exists()) {
+                        const freshData = freshDoc.data();
+
+                        // If someone else already marked it as purchased
+                        if (!currentStatus && freshData.purchased && freshData.purchasedBy !== (user.displayName || user.email)) {
+                            // Auto-unified: item already purchased by someone else
+                            console.log(`Smart conflict resolved: ${item?.name} already marked by ${freshData.purchasedBy}`);
+                            return; // No need to update, already done
+                        }
+                    }
+
+                    await window.firestore.updateDoc(docRef, {
                         purchased: !currentStatus,
                         purchasedBy: !currentStatus ? (user.displayName || user.email) : null,
+                        purchasedByUid: !currentStatus ? user.uid : null,
                         purchasedAt: !currentStatus ? new Date() : null
                     });
+
                     if (!currentStatus && item) {
                         await logActivity('item_purchased', { itemName: item.name });
                     }
@@ -2506,6 +2836,10 @@
                     setShowDeleteConfirm(null);
                     if (item) {
                         await logActivity('item_deleted', { itemName: item.name });
+                        // Track as forgotten if wasn't purchased
+                        if (!item.purchased) {
+                            await trackForgottenItem(item.name);
+                        }
                     }
                 } catch (error) {
                     console.error('שגיאה במחיקת מוצר:', error);
@@ -2522,9 +2856,39 @@
                     });
                     if (item) {
                         await logActivity('item_postponed', { itemName: item.name });
+                        // Track as forgotten
+                        if (!item.purchased) {
+                            await trackForgottenItem(item.name);
+                        }
                     }
                 } catch (error) {
                     console.error('שגיאה בדחיית מוצר:', error);
+                }
+            };
+
+            // Track forgotten items
+            const trackForgottenItem = async (itemName) => {
+                try {
+                    const monthKey = new Date().toISOString().slice(0, 7); // YYYY-MM
+                    const docRef = window.firestore.doc(window.db, 'forgotten-stats', `${family.id}_${monthKey}`);
+                    const docSnap = await window.firestore.getDoc(docRef);
+
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        const items = data.items || {};
+                        items[itemName] = (items[itemName] || 0) + 1;
+                        await window.firestore.updateDoc(docRef, { items, updatedAt: new Date() });
+                    } else {
+                        await window.firestore.setDoc(docRef, {
+                            familyId: family.id,
+                            month: monthKey,
+                            items: { [itemName]: 1 },
+                            createdAt: new Date(),
+                            updatedAt: new Date()
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error tracking forgotten item:', error);
                 }
             };
 
@@ -2551,12 +2915,20 @@
                 }
 
                 const purchasedItems = items.filter(item => item.purchased);
+                const unpurchasedItems = items.filter(item => !item.purchased);
+
                 if (purchasedItems.length === 0) {
                     alert('לא נבחרו מוצרים שנקנו');
                     return;
                 }
 
                 try {
+                    // Track forgotten items (unpurchased items left behind)
+                    const hadForgottenItems = unpurchasedItems.length > 0;
+                    for (const item of unpurchasedItems) {
+                        await trackForgottenItem(item.name);
+                    }
+
                     await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-history'), {
                         items: purchasedItems,
                         totalAmount: parseFloat(totalAmount),
@@ -2564,16 +2936,29 @@
                         completedBy: user.displayName || user.email,
                         completedByUid: user.uid,
                         familyId: family.id,
-                        listId: currentList.id
+                        listId: currentList.id,
+                        forgottenCount: unpurchasedItems.length,
+                        receiptPhoto: receiptPhoto || null
                     });
 
                     for (const item of purchasedItems) {
                         await window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', item.id));
                     }
 
+                    // Update shopping streak
+                    await updateShoppingStreak(hadForgottenItems);
+
                     setShowFinishShopping(false);
                     setTotalAmount('');
+                    setReceiptPhoto(null);
                     loadHistory();
+
+                    // Show achievement celebration if perfect shopping
+                    if (!hadForgottenItems) {
+                        setTimeout(() => {
+                            alert('🎉 קנייה מושלמת! לא שכחת כלום!');
+                        }, 500);
+                    }
                 } catch (error) {
                     console.error('שגיאה בסיום קנייה:', error);
                     alert('שגיאה בשמירת הקנייה. נסה שוב.');
@@ -2645,7 +3030,7 @@
 
                     {showFinishShopping && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                            <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl">
+                            <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
                                 <div className="text-5xl text-center mb-4">✅</div>
                                 <h2 className="text-2xl font-bold text-center text-gradient mb-2">סיום קנייה</h2>
                                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">נקנו <span className="font-bold text-indigo-600">{purchasedCount}</span> פריטים</p>
@@ -2655,15 +3040,66 @@
                                     value={totalAmount}
                                     onChange={e => setTotalAmount(e.target.value)}
                                     placeholder="0"
-                                    className="w-full px-5 py-4 border-2 border-indigo-200 dark:border-indigo-600 rounded-xl bg-white/50 dark:bg-gray-700/50 dark:text-white text-xl mb-6 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
+                                    className="w-full px-5 py-4 border-2 border-indigo-200 dark:border-indigo-600 rounded-xl bg-white/50 dark:bg-gray-700/50 dark:text-white text-xl mb-4 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
                                     autoFocus
                                 />
+
+                                {/* Receipt Photo Section */}
+                                <div className="mb-6">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">צלם קבלה (אופציונלי)</label>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        capture="environment"
+                                        ref={receiptInputRef}
+                                        onChange={handleReceiptCapture}
+                                        className="hidden"
+                                    />
+                                    {!receiptPhoto ? (
+                                        <button
+                                            onClick={() => receiptInputRef.current?.click()}
+                                            disabled={uploadingReceipt}
+                                            className="w-full p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-indigo-500"
+                                        >
+                                            {uploadingReceipt ? (
+                                                <>
+                                                    <div className="animate-spin text-2xl">⏳</div>
+                                                    <span className="text-sm">מעלה...</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span className="text-3xl">🧾</span>
+                                                    <span className="text-sm">לחץ לצילום קבלה</span>
+                                                </>
+                                            )}
+                                        </button>
+                                    ) : (
+                                        <div className="relative">
+                                            <img
+                                                src={receiptPhoto}
+                                                alt="קבלה"
+                                                className="w-full h-32 object-cover rounded-xl border-2 border-green-300"
+                                            />
+                                            <button
+                                                onClick={() => setReceiptPhoto(null)}
+                                                className="absolute top-2 left-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg"
+                                            >
+                                                ✕
+                                            </button>
+                                            <div className="absolute bottom-2 right-2 bg-green-500 text-white px-2 py-1 rounded-lg text-xs flex items-center gap-1">
+                                                <span>✓</span> קבלה צורפה
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
                                 <div className="flex gap-3">
                                     <button onClick={finishShopping}
-                                        className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all">
+                                        disabled={uploadingReceipt}
+                                        className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed">
                                         ✓ סיים ושמור
                                     </button>
-                                    <button onClick={() => { setShowFinishShopping(false); setTotalAmount(''); }}
+                                    <button onClick={() => { setShowFinishShopping(false); setTotalAmount(''); setReceiptPhoto(null); }}
                                         className="px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105 transition-all">
                                         ביטול
                                     </button>
@@ -2713,6 +3149,17 @@
                                                 <div className="text-sm text-gray-700 dark:text-gray-300 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-lg p-3">
                                                     🛒 {record.items.length} פריטים • ממוצע: ₪{(record.totalAmount / record.items.length).toFixed(2)} לפריט
                                                 </div>
+                                                {record.receiptPhoto && (
+                                                    <div className="mt-3">
+                                                        <button
+                                                            onClick={() => window.open(record.receiptPhoto, '_blank')}
+                                                            className="flex items-center gap-2 text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
+                                                        >
+                                                            <span>🧾</span>
+                                                            <span>צפה בקבלה</span>
+                                                        </button>
+                                                    </div>
+                                                )}
                                             </div>
                                         ))}
                                         <div className="glass rounded-xl p-5 border-2 border-indigo-200/50 dark:border-indigo-700/50">
@@ -2745,10 +3192,306 @@
                         </div>
                     )}
 
+                    {/* Forgotten Stats Modal */}
+                    {showForgottenStats && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+                            <div className="glass rounded-3xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-bold flex items-center gap-3">
+                                        <span className="text-3xl">🧠</span>
+                                        <span className="text-gradient">מה שכחתי?</span>
+                                    </h2>
+                                    <button onClick={() => setShowForgottenStats(false)}
+                                        className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 dark:hover:text-red-400 text-2xl hover:scale-110 hover:rotate-90 transition-all">×</button>
+                                </div>
+
+                                {/* Shopping Streak */}
+                                <div className="bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-2xl p-4 mb-6 border border-orange-200 dark:border-orange-800">
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <div className="text-lg font-bold text-orange-800 dark:text-orange-200">🔥 רצף קניות</div>
+                                            <div className="text-sm text-orange-600 dark:text-orange-400">קניות בלי לשכוח דברים</div>
+                                        </div>
+                                        <div className="text-4xl font-bold text-orange-600 dark:text-orange-400">
+                                            {shoppingStreak}
+                                        </div>
+                                    </div>
+                                    {shoppingStreak >= 3 && (
+                                        <div className="mt-2 text-sm text-orange-700 dark:text-orange-300 animate-pulse">
+                                            ⭐ מדהים! {shoppingStreak} קניות ברצף!
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Achievements */}
+                                {achievements.length > 0 && (
+                                    <div className="mb-6">
+                                        <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
+                                            <span>🏆</span> הישגים החודש
+                                        </h3>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {achievements.map((achievement, idx) => (
+                                                <div key={idx} className="bg-gradient-to-br from-yellow-50 to-amber-100 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-xl p-3 border border-yellow-200 dark:border-yellow-800 hover:scale-105 transition-transform">
+                                                    <div className="text-2xl mb-1">{achievement.emoji}</div>
+                                                    <div className="text-sm font-bold text-amber-800 dark:text-amber-200">{achievement.name}</div>
+                                                    <div className="text-xs text-amber-600 dark:text-amber-400">{achievement.description}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Monthly Stats */}
+                                <div className="mb-4">
+                                    <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
+                                        <span>📅</span> סטטיסטיקה חודשית - {new Date().toLocaleDateString('he-IL', { month: 'long', year: 'numeric' })}
+                                    </h3>
+
+                                    {Object.keys(forgottenStats).length === 0 ? (
+                                        <div className="text-center py-8 bg-green-50 dark:bg-green-900/20 rounded-2xl">
+                                            <div className="text-5xl mb-3">🎉</div>
+                                            <p className="text-lg font-bold text-green-700 dark:text-green-300">מושלם!</p>
+                                            <p className="text-sm text-green-600 dark:text-green-400">לא שכחת כלום החודש</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            {Object.entries(forgottenStats)
+                                                .sort(([,a], [,b]) => b - a)
+                                                .map(([item, count]) => {
+                                                    const msg = getForgottenMessage(count);
+                                                    return (
+                                                        <div key={item} className="flex items-center justify-between bg-gray-50 dark:bg-gray-800/50 rounded-xl p-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors">
+                                                            <div className="flex items-center gap-3">
+                                                                <span className="text-2xl">{msg.emoji}</span>
+                                                                <span className="font-medium text-gray-800 dark:text-gray-200">{item}</span>
+                                                            </div>
+                                                            <div className="text-left">
+                                                                <div className="font-bold text-gray-700 dark:text-gray-300">{count} פעמים</div>
+                                                                <div className="text-xs text-gray-500">{msg.text}</div>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Tips Section */}
+                                {Object.keys(forgottenStats).length > 0 && (
+                                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
+                                        <div className="flex items-start gap-2">
+                                            <span className="text-xl">💡</span>
+                                            <div>
+                                                <div className="font-bold text-blue-800 dark:text-blue-200 text-sm">טיפ!</div>
+                                                <div className="text-xs text-blue-600 dark:text-blue-400">
+                                                    הוסף את הפריטים שנשכחים לעתים קרובות לרשימה קבועה, או הגדר תזכורת בטלפון
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
                     {showFamilySettings && <FamilySettingsModal onClose={() => setShowFamilySettings(false)} />}
                     {showCreateList && <CreateListModal onClose={() => setShowCreateList(false)} />}
-                    {showActivityFeed && <ActivityFeedModal onClose={() => setShowActivityFeed(false)} />}
                     {editingNote && <ItemNoteModal item={editingNote} onClose={() => setEditingNote(null)} onSave={(note) => updateItemNote(editingNote.id, note)} />}
+
+                    {/* Regular Items Modal */}
+                    {showRegulars && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+                            <div className="glass rounded-3xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-bold flex items-center gap-3">
+                                        <span className="text-3xl">⭐</span>
+                                        <span className="text-gradient">המוצרים הקבועים שלי</span>
+                                    </h2>
+                                    <button onClick={() => setShowRegulars(false)}
+                                        className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 dark:hover:text-red-400 text-2xl hover:scale-110 hover:rotate-90 transition-all">×</button>
+                                </div>
+
+                                <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                                    מוצרים שאתה קונה לעתים קרובות, לפי ההיסטוריה שלך:
+                                </p>
+
+                                {regularItems.length === 0 ? (
+                                    <div className="text-center py-8">
+                                        <div className="text-5xl mb-3">📊</div>
+                                        <p className="text-gray-500 dark:text-gray-400">אין מספיק היסטוריית קניות</p>
+                                        <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">סיים עוד כמה קניות כדי לזהות מוצרים קבועים</p>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="space-y-2 mb-6">
+                                            {regularItems.map((item, idx) => (
+                                                <div key={idx} className="flex items-center justify-between bg-gray-50 dark:bg-gray-800/50 rounded-xl p-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors">
+                                                    <div className="flex items-center gap-3">
+                                                        <span className="text-xl">🔄</span>
+                                                        <span className="font-medium text-gray-800 dark:text-gray-200 capitalize">{item.name}</span>
+                                                    </div>
+                                                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                                                        נקנה {item.count} פעמים
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <button
+                                            onClick={addRegularItems}
+                                            className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white px-6 py-4 rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02]"
+                                        >
+                                            ➕ הוסף את כולם לרשימה
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Calendar & Holidays Modal */}
+                    {showCalendar && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+                            <div className="glass rounded-3xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-bold flex items-center gap-3">
+                                        <span className="text-3xl">📅</span>
+                                        <span className="text-gradient">חגים ותזכורות</span>
+                                    </h2>
+                                    <button onClick={() => setShowCalendar(false)}
+                                        className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 dark:hover:text-red-400 text-2xl hover:scale-110 hover:rotate-90 transition-all">×</button>
+                                </div>
+
+                                <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                                    תזכורות לקניות לפני חגים:
+                                </p>
+
+                                <div className="space-y-3">
+                                    {ISRAELI_HOLIDAYS.map((holiday, idx) => (
+                                        <div key={idx} className={`rounded-xl p-4 border ${
+                                            holiday.type === 'national' ? 'bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border-blue-200/50 dark:border-blue-700/50' :
+                                            holiday.type === 'civil' ? 'bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20 border-pink-200/50 dark:border-pink-700/50' :
+                                            'bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border-indigo-200/50 dark:border-indigo-700/50'
+                                        }`}>
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <span className="text-2xl">{holiday.icon}</span>
+                                                <div>
+                                                    <h3 className="font-bold text-gray-800 dark:text-gray-200">{holiday.name}</h3>
+                                                    <p className="text-xs text-gray-500 dark:text-gray-400">{holiday.date}</p>
+                                                </div>
+                                                {holiday.type === 'national' && (
+                                                    <span className="mr-auto text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full">לאומי</span>
+                                                )}
+                                            </div>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400 mr-9">{holiday.reminder}</p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+                                    <div className="flex items-start gap-2">
+                                        <span className="text-xl">💡</span>
+                                        <div>
+                                            <div className="font-bold text-blue-800 dark:text-blue-200 text-sm">טיפ!</div>
+                                            <div className="text-xs text-blue-600 dark:text-blue-400">
+                                                תזכורות יופיעו אוטומטית שבוע לפני כל חג
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Quantity Selector Modal */}
+                    {showQuantitySelector && selectedProduct && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                            <div className="glass rounded-3xl p-6 max-w-sm w-full shadow-2xl">
+                                <div className="text-center mb-6">
+                                    <div className="text-4xl mb-2">{CATEGORIES[selectedProduct.category]?.icon || '🛒'}</div>
+                                    <h2 className="text-xl font-bold text-gray-800 dark:text-white">{selectedProduct.name}</h2>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">{CATEGORIES[selectedProduct.category]?.name}</p>
+                                </div>
+
+                                {/* Quantity Selector */}
+                                <div className="mb-6">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-center">כמות</label>
+                                    <div className="flex items-center justify-center gap-4">
+                                        <button
+                                            onClick={() => setSelectedQuantity(Math.max(0.5, selectedQuantity - (selectedUnit === 'גרם' ? 100 : selectedUnit === 'ק"ג' ? 0.5 : 1)))}
+                                            className="w-14 h-14 bg-gray-100 dark:bg-gray-700 rounded-2xl text-2xl font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all hover:scale-110"
+                                        >
+                                            -
+                                        </button>
+                                        <div className="text-center min-w-[80px]">
+                                            <input
+                                                type="number"
+                                                value={selectedQuantity}
+                                                onChange={(e) => setSelectedQuantity(Math.max(0.1, parseFloat(e.target.value) || 1))}
+                                                className="w-20 text-center text-3xl font-bold bg-transparent border-none outline-none text-gradient"
+                                                step={selectedUnit === 'גרם' ? 100 : selectedUnit === 'ק"ג' ? 0.5 : 1}
+                                            />
+                                        </div>
+                                        <button
+                                            onClick={() => setSelectedQuantity(selectedQuantity + (selectedUnit === 'גרם' ? 100 : selectedUnit === 'ק"ג' ? 0.5 : 1))}
+                                            className="w-14 h-14 btn-gradient text-white rounded-2xl text-2xl font-bold hover:scale-110 transition-all"
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Unit Selector */}
+                                <div className="mb-6">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-center">יחידת מידה</label>
+                                    <div className="flex justify-center gap-2 flex-wrap">
+                                        {selectedProduct.unitOptions?.map((unit) => (
+                                            <button
+                                                key={unit}
+                                                onClick={() => {
+                                                    setSelectedUnit(unit);
+                                                    // Reset quantity when changing units
+                                                    if (unit === 'גרם') setSelectedQuantity(100);
+                                                    else if (unit === 'ק"ג') setSelectedQuantity(1);
+                                                    else setSelectedQuantity(1);
+                                                }}
+                                                className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                                                    selectedUnit === unit
+                                                        ? 'btn-gradient text-white shadow-lg'
+                                                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                }`}
+                                            >
+                                                {unit}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Preview */}
+                                <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-3 mb-6 text-center">
+                                    <span className="text-lg font-bold text-indigo-700 dark:text-indigo-300">
+                                        {selectedProduct.name} - {selectedQuantity} {selectedUnit}
+                                    </span>
+                                </div>
+
+                                {/* Buttons */}
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={addProductWithQuantity}
+                                        className="flex-1 btn-gradient text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                    >
+                                        ➕ הוסף לרשימה
+                                    </button>
+                                    <button
+                                        onClick={() => { setShowQuantitySelector(false); setSelectedProduct(null); }}
+                                        className="px-6 py-4 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                                    >
+                                        ביטול
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Confetti Effect */}
                     {confetti && <ConfettiBurst x={confetti.x} y={confetti.y} onComplete={() => setConfetti(null)} />}
@@ -2766,7 +3509,27 @@
                                             <p className="text-xs opacity-80">{family?.name}</p>
                                         </div>
                                     </div>
-                                    <button onClick={() => setShowChat(false)} className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">✕</button>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={async () => {
+                                                if ('Notification' in window) {
+                                                    if (Notification.permission === 'granted') {
+                                                        setNotificationsEnabled(!notificationsEnabled);
+                                                    } else if (Notification.permission !== 'denied') {
+                                                        const permission = await Notification.requestPermission();
+                                                        setNotificationsEnabled(permission === 'granted');
+                                                    } else {
+                                                        alert('התראות חסומות. אנא אפשר התראות בהגדרות הדפדפן.');
+                                                    }
+                                                }
+                                            }}
+                                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${notificationsEnabled ? 'bg-green-400/30 hover:bg-green-400/50' : 'bg-white/20 hover:bg-white/30'}`}
+                                            title={notificationsEnabled ? 'התראות פעילות' : 'הפעל התראות'}
+                                        >
+                                            {notificationsEnabled ? '🔔' : '🔕'}
+                                        </button>
+                                        <button onClick={() => setShowChat(false)} className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">✕</button>
+                                    </div>
                                 </div>
 
                                 {/* Chat Messages */}
@@ -3059,7 +3822,6 @@
                                             <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
                                         )}
                                     </button>
-                                    <button onClick={() => setShowActivityFeed(true)} className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform" title="פעילות">📊</button>
                                     <button onClick={toggleDarkMode} className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-lg hover:scale-110 transition-transform">{darkMode ? '☀️' : '🌙'}</button>
                                     <button onClick={handleLogout} className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform text-red-600 dark:text-red-400" title="התנתק">🚪</button>
                                 </div>
@@ -3152,6 +3914,34 @@
                                     </button>
                                 )}
                             </div>
+
+                            <div className="mt-3 flex gap-2">
+                                <button onClick={() => setShowForgottenStats(true)}
+                                    className="flex-1 bg-gradient-to-r from-rose-400 to-pink-500 text-white px-4 py-3 rounded-lg hover:from-rose-500 hover:to-pink-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
+                                    <span>🧠</span>
+                                    <span>מה שכחתי?</span>
+                                    {shoppingStreak > 0 && (
+                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">🔥 {shoppingStreak}</span>
+                                    )}
+                                </button>
+                                <button onClick={() => setShowCalendar(true)}
+                                    className="w-14 bg-gradient-to-r from-violet-400 to-purple-500 text-white rounded-lg hover:from-violet-500 hover:to-purple-600 transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center"
+                                    title="לוח שנה וחגים">
+                                    📅
+                                </button>
+                            </div>
+
+                            {/* Add Regulars Button */}
+                            {regularItems.length > 0 && (
+                                <div className="mt-3">
+                                    <button onClick={() => setShowRegulars(true)}
+                                        className="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-3 rounded-lg hover:from-amber-500 hover:to-orange-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
+                                        <span>⭐</span>
+                                        <span>הוסף את הקבועים שלי</span>
+                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{regularItems.length}</span>
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         <div className="glass rounded-2xl shadow-xl p-4 mb-6 card-hover">
