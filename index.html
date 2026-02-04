@@ -1898,16 +1898,60 @@
                     .map(line => line.trim())
                     .filter(line => line.length > 0 && line.length < 50);
 
+                let addedCount = 0;
                 for (const line of lines) {
-                    // Try to extract quantity if present (e.g., "2 חלב" or "חלב x3")
-                    const qtyMatch = line.match(/^(\d+)\s*(.+)$/) || line.match(/^(.+?)\s*[xX×]\s*(\d+)$/);
+                    // Try to extract quantity if present (e.g., "2 חלב" or "חלב x3" or "2 ק"ג בשר")
+                    let qty = 1;
+                    let productName = line;
+
+                    // Match patterns like "2 חלב", "חלב x3", "2 ק"ג בשר"
+                    const qtyMatch = line.match(/^([\d.]+)\s*(.+)$/) || line.match(/^(.+?)\s*[xX×]\s*([\d.]+)$/);
                     if (qtyMatch) {
-                        const qty = parseInt(qtyMatch[1]) || parseInt(qtyMatch[2]) || 1;
-                        const name = (qtyMatch[2] || qtyMatch[1]).trim();
-                        await addProduct(name);
-                    } else {
-                        await addProduct(line);
+                        qty = parseFloat(qtyMatch[1]) || parseFloat(qtyMatch[2]) || 1;
+                        productName = (qtyMatch[2] || qtyMatch[1]).trim();
+                        // Remove unit from product name if it starts with a unit
+                        productName = productName.replace(/^(ק"ג|קג|גרם|ליטר|מ"ל|יח'|יחידות?)\s*/i, '').trim();
                     }
+
+                    if (!productName) continue;
+
+                    // Detect category and get appropriate unit
+                    const category = detectCategory(productName);
+                    const unit = CATEGORIES[category]?.unit || 'יח\'';
+
+                    // Check if already exists
+                    const existing = items.find(item => item.name === productName && !item.purchased);
+                    if (existing) {
+                        // Update quantity
+                        let newQty;
+                        if (typeof existing.quantity === 'string') {
+                            const numMatch = existing.quantity.match(/^([\d.]+)/);
+                            const existingNum = numMatch ? parseFloat(numMatch[1]) : 1;
+                            newQty = `${existingNum + qty} ${unit}`;
+                        } else {
+                            newQty = `${(existing.quantity || 0) + qty} ${unit}`;
+                        }
+                        await window.firestore.updateDoc(
+                            window.firestore.doc(window.db, 'shopping-items', existing.id),
+                            { quantity: newQty, unit: unit, updatedAt: new Date() }
+                        );
+                    } else {
+                        // Add new item with correct unit
+                        await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                            name: productName,
+                            category: category,
+                            quantity: `${qty} ${unit}`,
+                            unit: unit,
+                            purchased: false,
+                            familyId: family.id,
+                            listId: currentList.id,
+                            addedBy: user.displayName || user.email,
+                            addedByUid: user.uid,
+                            note: '',
+                            createdAt: new Date()
+                        });
+                    }
+                    addedCount++;
                 }
 
                 setWhatsAppText('');
@@ -3094,9 +3138,56 @@ END:VCALENDAR`;
             const HEBREW_MONTHS = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
             const HEBREW_DAYS = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'];
 
+            // Smart category detection with partial matching
+            const detectCategory = (productName) => {
+                const name = productName.trim().toLowerCase();
+
+                // First try exact match
+                for (const [cat, products] of Object.entries(PRODUCTS)) {
+                    if (products.some(p => p === productName || p.toLowerCase() === name)) {
+                        return cat;
+                    }
+                }
+
+                // Then try partial match - product name contains or is contained in known product
+                for (const [cat, products] of Object.entries(PRODUCTS)) {
+                    if (products.some(p => p.includes(productName) || productName.includes(p) ||
+                        p.toLowerCase().includes(name) || name.includes(p.toLowerCase()))) {
+                        return cat;
+                    }
+                }
+
+                // Keyword-based detection for common items
+                const keywords = {
+                    fruits: ['תפוח', 'בננ', 'עגבני', 'מלפפון', 'גזר', 'בצל', 'שום', 'פלפל', 'חס', 'ירק', 'פרי', 'לימון', 'תפוז', 'ענב', 'אבוקדו', 'תות', 'אבטיח', 'מלון', 'תפו"א', 'תפוא', 'בטטה', 'קישוא', 'חציל', 'ברוקולי', 'כרוב', 'סלק', 'פטריות'],
+                    meat: ['בשר', 'עוף', 'חזה', 'שניצל', 'כרעיים', 'כנפיים', 'סלמון', 'דג', 'טונה', 'פילה', 'קציצ', 'המבורגר', 'נקניק', 'אנטריקוט', 'צלעות', 'טחון', 'כבד', 'הודו'],
+                    dairy: ['חלב', 'גבינ', 'יוגורט', 'ביצ', 'קוטג', 'שמנת', 'חמאה', 'לבן', 'מוצרלה', 'צפתית'],
+                    bakery: ['לחם', 'חלה', 'פיתה', 'לחמני', 'בגט', 'עוגי', 'קרואסון', 'מאפה', 'בורקס'],
+                    drinks: ['מים', 'קולה', 'פפסי', 'מיץ', 'סודה', 'ספרייט', 'פאנטה', 'משקה'],
+                    wine: ['יין', 'בירה', 'וודקה', 'וויסקי', 'ערק', 'שמפניה', 'אלכוהול'],
+                    cleaning: ['נייר טואלט', 'אקונומיקה', 'סבון כלים', 'אבקת כביסה', 'מנקה', 'שקיות אשפה', 'ספוג', 'מטלית'],
+                    spices: ['מלח', 'פלפל', 'פפריקה', 'כורכום', 'קינמון', 'אורגנו', 'בזיליקום', 'תבלין', 'סוכר', 'קמח'],
+                    canned: ['אורז', 'פסטה', 'שימור', 'טונה', 'תירס', 'זית', 'רסק', 'שמן', 'חומוס', 'טחינה', 'ריבה', 'דבש'],
+                    snacks: ['במבה', 'ביסלי', 'שוקולד', 'חטיף', 'עוגיות', 'ממתק', 'צ\'יפס', 'פופקורן'],
+                    frozen: ['גלידה', 'קפוא', 'שלגון', 'ארטיק', 'בצק'],
+                    hygiene: ['שמפו', 'סבון', 'משחת שיניים', 'דאודורנט', 'מברשת', 'מגבון', 'קרם'],
+                    coffee: ['קפה', 'תה', 'נס', 'קפסול'],
+                    baby: ['חיתול', 'תינוק', 'פמפרס'],
+                    pets: ['כלב', 'חתול', 'מזון לחיות']
+                };
+
+                for (const [cat, words] of Object.entries(keywords)) {
+                    if (words.some(word => name.includes(word) || productName.includes(word))) {
+                        return cat;
+                    }
+                }
+
+                return 'canned'; // Default fallback to general groceries
+            };
+
             // Open quantity selector before adding product
             const addProduct = (product) => {
-                const category = selectedCategory || Object.keys(PRODUCTS).find(cat => PRODUCTS[cat].includes(product)) || 'other';
+                const category = selectedCategory || detectCategory(product);
                 const unit = CATEGORIES[category]?.unit || 'יח\'';
                 const unitOptions = CATEGORIES[category]?.unitOptions || ['יח\''];
 
