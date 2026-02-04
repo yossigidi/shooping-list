@@ -2008,6 +2008,41 @@
                 return suggestions;
             };
 
+            // Translate English product name to Hebrew
+            const translateProductToHebrew = (text) => {
+                if (!text) return text;
+                const lower = text.toLowerCase().trim();
+
+                // Check direct translation
+                if (ENGLISH_TO_HEBREW[lower]) {
+                    return ENGLISH_TO_HEBREW[lower];
+                }
+
+                // Check if any word matches
+                const words = lower.split(/\s+/);
+                for (const word of words) {
+                    if (ENGLISH_TO_HEBREW[word]) {
+                        return ENGLISH_TO_HEBREW[word];
+                    }
+                }
+
+                // Check partial matches
+                for (const [eng, heb] of Object.entries(ENGLISH_TO_HEBREW)) {
+                    if (lower.includes(eng) || eng.includes(lower)) {
+                        return heb;
+                    }
+                }
+
+                return text; // Return original if no translation found
+            };
+
+            // Check if text is English (contains mostly English letters)
+            const isEnglishText = (text) => {
+                const englishChars = (text.match(/[a-zA-Z]/g) || []).length;
+                const hebrewChars = (text.match(/[\u0590-\u05FF]/g) || []).length;
+                return englishChars > hebrewChars;
+            };
+
             const captureAndScanPrice = async () => {
                 if (!priceVideoRef.current || !priceCanvasRef.current) return;
 
@@ -2033,27 +2068,39 @@
                 ctx.putImageData(imageData, 0, 0);
 
                 try {
-                    const result = await Tesseract.recognize(canvas, 'heb+eng', {
+                    // Try Hebrew first
+                    const result = await Tesseract.recognize(canvas, 'heb', {
                         logger: m => console.log(m)
                     });
 
-                    const text = result.data.text.trim();
-                    // Extract meaningful words (Hebrew or English, 2+ chars)
+                    let text = result.data.text.trim();
+
+                    // If no Hebrew found, try English and translate
+                    if (!text || text.length < 2) {
+                        const engResult = await Tesseract.recognize(canvas, 'eng', {
+                            logger: m => console.log(m)
+                        });
+                        text = engResult.data.text.trim();
+                    }
+
+                    // Extract meaningful words
                     const words = text.match(/[\u0590-\u05FFa-zA-Z]{2,}/g) || [];
-                    // Filter out common noise words
-                    const cleanWords = words.filter(w => w.length >= 2 && !['של', 'את', 'או', 'גם', 'עם'].includes(w));
+                    const cleanWords = words.filter(w => w.length >= 2 && !['של', 'את', 'או', 'גם', 'עם', 'the', 'and', 'or'].includes(w.toLowerCase()));
 
                     if (cleanWords.length > 0) {
-                        // Try to find matching product in our database
-                        const combinedText = cleanWords.join(' ');
-                        const suggestions = getPriceSearchSuggestions(cleanWords[0]);
+                        let productName = cleanWords.slice(0, 3).join(' ');
 
+                        // If English, translate to Hebrew
+                        if (isEnglishText(productName)) {
+                            productName = translateProductToHebrew(productName);
+                        }
+
+                        // Try to find matching product in our database
+                        const suggestions = getPriceSearchSuggestions(productName);
                         if (suggestions.length > 0) {
-                            // Found a match in our database
                             setScannedProductName(suggestions[0]);
                         } else {
-                            // Use the first meaningful word/phrase
-                            setScannedProductName(cleanWords.slice(0, 3).join(' '));
+                            setScannedProductName(productName);
                         }
                     } else {
                         setScannedProductName('');
@@ -2062,6 +2109,11 @@
                     console.error('OCR Error:', err);
                 } finally {
                     setScanningPrice(false);
+
+                    // Stop camera after scan
+                    if (priceVideoRef.current?.srcObject) {
+                        priceVideoRef.current.srcObject.getTracks().forEach(track => track.stop());
+                    }
                 }
             };
 
