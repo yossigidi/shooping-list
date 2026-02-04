@@ -37,57 +37,160 @@
         .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); border-radius: 3px; }
         .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.5); }
 
-        /* Swipe gesture styles */
-        .swipe-container { position: relative; overflow: hidden; touch-action: pan-y pinch-zoom; }
-        .swipe-background { position: absolute; top: 0; bottom: 0; width: 100%; display: flex; align-items: center; padding: 0 20px; border-radius: 0.75rem; }
+        /* Swipe gesture styles - Enhanced */
+        .swipe-container { position: relative; overflow: hidden; touch-action: pan-y pinch-zoom; border-radius: 16px; }
+        .swipe-background { position: absolute; top: 0; bottom: 0; width: 100%; display: flex; align-items: center; padding: 0 24px; border-radius: 16px; }
         .swipe-bg-right { right: 0; justify-content: flex-start; background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
         .swipe-bg-left { left: 0; justify-content: flex-end; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
-        .swipe-content { position: relative; z-index: 2; background: inherit; transition: transform 0.1s ease-out; }
+        .swipe-content { position: relative; z-index: 2; background: inherit; transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
         .swipe-content.swiping { transition: none; }
-        .swipe-content.returning { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .swipe-content.completing { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .swipe-icon { color: white; font-size: 1.5rem; font-weight: bold; opacity: 0; transform: scale(0.5); transition: all 0.2s ease; }
-        .swipe-icon.visible { opacity: 1; transform: scale(1); }
+        .swipe-indicator { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .swipe-icon { color: white; font-size: 1.25rem; font-weight: 700; opacity: 0; transform: scale(0.5) translateY(10px); transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
+        .swipe-icon.visible { opacity: 1; transform: scale(1) translateY(0); }
+        .swipe-icon-emoji { font-size: 1.75rem; }
 
-        /* Dopamine checkmark animation */
+        /* Modern Product Card */
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dark .product-card {
+            background: rgba(31, 41, 55, 0.95);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+        .product-card:active { transform: scale(0.98); }
+        .product-card.purchased {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.15) 100%);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        .dark .product-card.purchased {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.2) 100%);
+        }
+
+        /* Micro animations - All under 200ms */
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeSlideOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-8px); }
+        }
+        @keyframes expandIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
         @keyframes checkBounce {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.4); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
+            0% { transform: scale(0); }
+            60% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
         @keyframes checkPop {
             0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.15); }
             100% { transform: scale(1); }
         }
-        @keyframes confettiBurst {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(2); opacity: 0; }
+        @keyframes successGlow {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            100% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
         }
         @keyframes slideOutRight {
-            0% { transform: translateX(0); opacity: 1; }
-            100% { transform: translateX(100%); opacity: 0; }
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
         }
         @keyframes slideOutLeft {
-            0% { transform: translateX(0); opacity: 1; }
-            100% { transform: translateX(-100%); opacity: 0; }
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(-100%); opacity: 0; }
         }
-        @keyframes successGlow {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        @keyframes ripple {
+            to { transform: scale(2); opacity: 0; }
         }
+        .fade-slide-in { animation: fadeSlideIn 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .expand-in { animation: expandIn 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .check-animate { animation: checkBounce 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .check-pop { animation: checkPop 0.15s ease; }
+        .success-glow { animation: successGlow 0.4s ease forwards; }
+        .slide-out-right { animation: slideOutRight 0.2s ease forwards; }
+        .slide-out-left { animation: slideOutLeft 0.2s ease forwards; }
+
+        /* Sticky Add Bar */
+        .sticky-add-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 12px 16px;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+            z-index: 40;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .dark .sticky-add-bar {
+            background: rgba(17, 24, 39, 0.95);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Inline edit input */
+        .inline-edit-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: inherit;
+            font-weight: inherit;
+            color: inherit;
+            width: 100%;
+            padding: 0;
+        }
+        .inline-edit-input:focus {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 6px;
+            padding: 2px 6px;
+            margin: -2px -6px;
+        }
+
+        /* Quantity stepper */
+        .qty-stepper {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .dark .qty-stepper { background: rgba(255, 255, 255, 0.08); }
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.25rem;
+            transition: all 0.1s ease;
+        }
+        .qty-btn:active { transform: scale(0.9); }
+        .qty-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        /* Bottom spacing for sticky bar */
+        .main-content-with-sticky { padding-bottom: 90px; }
+
+        /* Confetti */
         @keyframes particleFly {
             0% { transform: translate(0, 0) scale(1); opacity: 1; }
             100% { transform: translate(var(--tx, 50px), var(--ty, -50px)) scale(0); opacity: 0; }
         }
-        .check-animate { animation: checkBounce 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .check-pop { animation: checkPop 0.2s ease; }
-        .success-glow { animation: successGlow 0.6s ease; }
-        .slide-out-right { animation: slideOutRight 0.3s ease forwards; }
-        .slide-out-left { animation: slideOutLeft 0.3s ease forwards; }
-        .confetti-particle { position: absolute; pointer-events: none; animation: particleFly 0.6s ease-out forwards; }
+        .confetti-particle { position: absolute; pointer-events: none; animation: particleFly 0.5s ease-out forwards; }
 
         /* Voice recognition styles */
         @keyframes voicePulse {
@@ -1436,20 +1539,30 @@
                     {/* Right swipe background (bought - green) */}
                     <div
                         className="swipe-bg-right swipe-background"
-                        style={{ opacity: rightProgress * 0.9 }}
+                        style={{ opacity: rightProgress }}
                     >
-                        <span className={`swipe-icon ${showRightIndicator ? 'visible' : ''}`}>
-                            ✓ נקנה
-                        </span>
+                        <div className="swipe-indicator">
+                            <span className={`swipe-icon swipe-icon-emoji ${showRightIndicator ? 'visible' : ''}`} style={{ transform: `scale(${0.5 + rightProgress * 0.5})` }}>
+                                ✓
+                            </span>
+                            <span className={`swipe-icon text-sm ${showRightIndicator ? 'visible' : ''}`}>
+                                נקנה
+                            </span>
+                        </div>
                     </div>
                     {/* Left swipe background (postpone - orange) */}
                     <div
                         className="swipe-bg-left swipe-background"
-                        style={{ opacity: leftProgress * 0.9 }}
+                        style={{ opacity: leftProgress }}
                     >
-                        <span className={`swipe-icon ${showLeftIndicator ? 'visible' : ''}`}>
-                            אח״כ ⏭
-                        </span>
+                        <div className="swipe-indicator">
+                            <span className={`swipe-icon swipe-icon-emoji ${showLeftIndicator ? 'visible' : ''}`} style={{ transform: `scale(${0.5 + leftProgress * 0.5})` }}>
+                                ⏭
+                            </span>
+                            <span className={`swipe-icon text-sm ${showLeftIndicator ? 'visible' : ''}`}>
+                                אח״כ
+                            </span>
+                        </div>
                     </div>
                     {/* Content */}
                     <div
@@ -1484,8 +1597,11 @@
             const [showFamilySettings, setShowFamilySettings] = useState(false);
             const [showCreateList, setShowCreateList] = useState(false);
             const [editingNote, setEditingNote] = useState(null);
+            const [editingItemId, setEditingItemId] = useState(null);
+            const [editingItemName, setEditingItemName] = useState('');
             const [confetti, setConfetti] = useState(null);
             const [animatingItems, setAnimatingItems] = useState(new Set());
+            const addBarInputRef = React.useRef(null);
             // Chat & Photo states
             const [showChat, setShowChat] = useState(false);
             const [chatMessages, setChatMessages] = useState([]);
@@ -2920,6 +3036,29 @@ END:VCALENDAR`;
                 }
             };
 
+            // Inline edit item name
+            const startEditingItem = (item) => {
+                setEditingItemId(item.id);
+                setEditingItemName(item.name);
+            };
+
+            const saveItemName = async () => {
+                if (!editingItemId || !editingItemName.trim()) {
+                    setEditingItemId(null);
+                    return;
+                }
+                try {
+                    await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', editingItemId), {
+                        name: editingItemName.trim(),
+                        updatedAt: new Date(),
+                        updatedBy: user.displayName || user.email
+                    });
+                } catch (error) {
+                    console.error('שגיאה בעדכון שם:', error);
+                }
+                setEditingItemId(null);
+            };
+
             const deleteItem = async (id) => {
                 try {
                     const item = items.find(i => i.id === id);
@@ -4162,80 +4301,6 @@ END:VCALENDAR`;
                             )}
                         </div>
 
-                        <div className="glass rounded-2xl shadow-xl p-4 mb-6 card-hover">
-                            <div className="flex gap-3">
-                                <div className="relative flex-1">
-                                    <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
-                                        placeholder="🔍 חפש מוצר להוספה..."
-                                        className="w-full px-5 py-4 pl-14 border-2 border-indigo-200 dark:border-indigo-600 rounded-2xl bg-white/50 dark:bg-gray-800/50 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 dark:focus:ring-indigo-900/30 transition-all text-lg font-medium placeholder:text-gray-400" />
-                                    {searchTerm && (
-                                        <button onClick={() => setSearchTerm('')}
-                                            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-2xl hover:scale-125 hover:rotate-90 transition-all duration-300">
-                                            ✕
-                                        </button>
-                                    )}
-                                </div>
-                                {voiceSupported && (
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={toggleVoiceLang}
-                                            className={`w-14 h-14 rounded-2xl flex items-center justify-center text-sm font-bold transition-all shadow-lg ${voiceLang === 'en-US' ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' : 'bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900/50 dark:to-cyan-900/50 text-blue-700 dark:text-blue-300'}`}
-                                            title={voiceLang === 'he-IL' ? 'Switch to English' : 'החלף לעברית'}
-                                        >
-                                            {voiceLang === 'en-US' ? '🇺🇸' : '🇮🇱'}
-                                        </button>
-                                        <button
-                                            onClick={isListening ? stopListening : startListening}
-                                            className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl transition-all shadow-lg ${isListening ? 'bg-red-500 text-white animate-pulse scale-110' : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:scale-110'}`}
-                                            title={isListening ? 'לחץ לעצירה' : 'הוסף בקול'}
-                                        >
-                                            {isListening ? '⏹️' : '🎤'}
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                            {(isListening || voiceStatus) && (
-                                <div className={`mt-3 p-4 rounded-xl border-2 ${isListening ? 'bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 border-purple-300 dark:border-purple-700' : 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600'}`}>
-                                    <div className="flex items-center justify-between flex-wrap gap-2">
-                                        <div className="flex items-center gap-3 text-purple-700 dark:text-purple-300">
-                                            {isListening ? (
-                                                <>
-                                                    <div className="flex items-center h-6">
-                                                        <span className="sound-wave"></span>
-                                                        <span className="sound-wave"></span>
-                                                        <span className="sound-wave"></span>
-                                                        <span className="sound-wave"></span>
-                                                        <span className="sound-wave"></span>
-                                                    </div>
-                                                    <span className="font-bold">{voiceStatus || (voiceLang === 'en-US' ? 'Listening...' : 'מקשיב...')}</span>
-                                                </>
-                                            ) : (
-                                                <span className="text-gray-600 dark:text-gray-400">{voiceStatus}</span>
-                                            )}
-                                            <span className="text-xs px-2 py-0.5 bg-white/50 dark:bg-gray-800/50 rounded-full">{voiceLang === 'en-US' ? '🇺🇸 EN' : '🇮🇱 HE'}</span>
-                                        </div>
-                                        {isListening && (
-                                            <span className="text-sm text-purple-500 dark:text-purple-400">
-                                                {voiceLang === 'en-US' ? 'Say: "milk, eggs and bread"' : 'אמור: "חלב, ביצים ולחם"'}
-                                            </span>
-                                        )}
-                                        {!isListening && voiceStatus && (
-                                            <button onClick={() => setVoiceStatus('')} className="text-xs text-gray-400 hover:text-gray-600">✕ סגור</button>
-                                        )}
-                                    </div>
-                                    {voiceTranscript && (
-                                        <div className="mt-3 p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg">
-                                            <span className="text-xs text-gray-500 dark:text-gray-400">{voiceLang === 'en-US' ? 'Heard: ' : 'זוהה: '}</span>
-                                            <span className="text-lg font-bold text-purple-800 dark:text-purple-200">{voiceTranscript}</span>
-                                            {voiceLang === 'en-US' && (
-                                                <span className="text-xs text-green-600 dark:text-green-400 mr-2">→ יתורגם לעברית</span>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-
                         {searchTerm && (
                             <div className="glass rounded-2xl shadow-xl p-6 mb-6 card-hover">
                                 <div className="flex justify-between items-center mb-4">
@@ -4280,7 +4345,7 @@ END:VCALENDAR`;
                                     <span className="text-3xl">🏷️</span>
                                     <span className="text-gradient">בחר קטגוריה</span>
                                 </h2>
-                                <p className="text-center text-gray-500 dark:text-gray-400 text-sm mb-6">או השתמש בחיפוש למעלה למציאה מהירה</p>
+                                <p className="text-center text-gray-500 dark:text-gray-400 text-sm mb-6">או השתמש בחיפוש למטה למציאה מהירה</p>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                     {Object.entries(CATEGORIES).map(([key, cat]) => {
                                         const count = items.filter(item => item.category === key && !item.purchased).length;
@@ -4349,54 +4414,115 @@ END:VCALENDAR`;
                                         {categoryItems.map(item => (
                                             <SwipeableItem
                                                 key={item.id}
-                                                className="mb-3"
+                                                className="mb-3 fade-slide-in"
                                                 purchased={item.purchased}
                                                 onSwipeRight={() => !item.purchased && togglePurchasedWithAnimation(item.id, item.purchased)}
                                                 onSwipeLeft={() => !item.purchased && postponeItem(item.id)}
                                             >
-                                                <div className={`p-4 rounded-xl transition-all duration-300 ${animatingItems.has(item.id) ? 'success-glow' : ''} ${item.purchased ? 'bg-gradient-to-r from-green-100/80 to-emerald-100/80 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-300 dark:border-green-700' : 'bg-white/60 dark:bg-gray-700/60 border-2 border-gray-200/50 dark:border-gray-600/50'}`}>
+                                                <div className={`product-card ${animatingItems.has(item.id) ? 'success-glow' : ''} ${item.purchased ? 'purchased' : ''}`}>
                                                     <div className="flex items-center gap-3">
-                                                        <button onClick={(e) => togglePurchasedWithAnimation(item.id, item.purchased, e)}
-                                                            className={`w-7 h-7 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-300 ${item.purchased ? 'bg-gradient-to-r from-green-500 to-emerald-500 border-green-500 scale-110 shadow-lg' : 'border-gray-300 dark:border-gray-500 hover:border-green-400 hover:scale-110'}`}>
-                                                            {item.purchased && <span className={`text-white text-sm font-bold ${animatingItems.has(item.id) ? 'check-animate' : ''}`}>✓</span>}
+                                                        {/* Checkbox */}
+                                                        <button
+                                                            onClick={(e) => togglePurchasedWithAnimation(item.id, item.purchased, e)}
+                                                            className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all duration-150 ${
+                                                                item.purchased
+                                                                    ? 'bg-emerald-500 border-emerald-500'
+                                                                    : 'border-gray-300 dark:border-gray-500 hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20'
+                                                            }`}
+                                                        >
+                                                            {item.purchased && (
+                                                                <svg className={`w-4 h-4 text-white ${animatingItems.has(item.id) ? 'check-animate' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                                                </svg>
+                                                            )}
                                                         </button>
+
+                                                        {/* Item Info */}
                                                         <div className="flex-1 min-w-0">
-                                                            <span className={`font-medium text-lg ${item.purchased ? 'text-gray-400 dark:text-gray-500 line-through' : 'text-gray-800 dark:text-white'}`}>
-                                                                {item.name}
-                                                            </span>
-                                                            <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                                                <span className="text-xs text-gray-500 dark:text-gray-400">
-                                                                    👤 {item.addedBy}
-                                                                </span>
+                                                            {editingItemId === item.id ? (
+                                                                <input
+                                                                    type="text"
+                                                                    value={editingItemName}
+                                                                    onChange={(e) => setEditingItemName(e.target.value)}
+                                                                    onBlur={saveItemName}
+                                                                    onKeyDown={(e) => e.key === 'Enter' && saveItemName()}
+                                                                    className="inline-edit-input text-base font-medium text-gray-800 dark:text-white"
+                                                                    autoFocus
+                                                                />
+                                                            ) : (
+                                                                <div
+                                                                    onClick={() => !item.purchased && startEditingItem(item)}
+                                                                    className={`text-base font-medium cursor-pointer ${
+                                                                        item.purchased
+                                                                            ? 'text-gray-400 dark:text-gray-500 line-through'
+                                                                            : 'text-gray-800 dark:text-white'
+                                                                    }`}
+                                                                >
+                                                                    {item.name}
+                                                                </div>
+                                                            )}
+                                                            <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                                                                 {item.note && (
-                                                                    <span className="text-xs bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full">
-                                                                        📝 {item.note.length > 15 ? item.note.substring(0, 15) + '...' : item.note}
-                                                                    </span>
+                                                                    <button
+                                                                        onClick={() => setEditingNote(item)}
+                                                                        className="text-xs bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-md hover:bg-amber-200 dark:hover:bg-amber-900/60 transition-colors"
+                                                                    >
+                                                                        📝 {item.note.length > 12 ? item.note.substring(0, 12) + '...' : item.note}
+                                                                    </button>
                                                                 )}
                                                                 {item.purchased && item.purchasedBy && (
-                                                                    <span className="text-xs text-green-600 dark:text-green-400">
-                                                                        ✓ נקנה ע״י {item.purchasedBy}
+                                                                    <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+                                                                        ✓ {item.purchasedBy}
                                                                     </span>
                                                                 )}
                                                                 {item.postponedBy && !item.purchased && (
-                                                                    <span className="text-xs text-orange-600 dark:text-orange-400">
-                                                                        ⏭ נדחה
-                                                                    </span>
+                                                                    <span className="text-xs text-orange-500 dark:text-orange-400">נדחה</span>
                                                                 )}
                                                             </div>
                                                         </div>
-                                                        <div className="flex items-center gap-2 flex-shrink-0">
-                                                            <button onClick={() => setEditingNote(item)}
-                                                                className={`w-9 h-9 rounded-xl font-bold hover:scale-110 transition-all shadow-sm ${item.note ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-600' : 'bg-gray-100 dark:bg-gray-600 text-gray-500'}`}
-                                                                title="הוסף הערה">📝</button>
-                                                            <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                                className="w-9 h-9 bg-gray-100 dark:bg-gray-600 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-500 hover:scale-110 transition-all shadow-sm">-</button>
-                                                            <span className="w-12 text-center font-bold text-lg text-gradient">{item.quantity}</span>
-                                                            <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                                className="w-9 h-9 btn-gradient text-white rounded-xl font-bold hover:scale-110 transition-all shadow-md">+</button>
+
+                                                        {/* Quantity Stepper */}
+                                                        <div className="qty-stepper flex-shrink-0">
+                                                            <button
+                                                                onClick={() => updateQuantity(item.id, (typeof item.quantity === 'number' ? item.quantity : 1) - 1)}
+                                                                className="qty-btn text-gray-500 dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30"
+                                                            >
+                                                                −
+                                                            </button>
+                                                            <span className="qty-value text-gray-800 dark:text-white">
+                                                                {typeof item.quantity === 'string' ? item.quantity : item.quantity}
+                                                            </span>
+                                                            <button
+                                                                onClick={() => updateQuantity(item.id, (typeof item.quantity === 'number' ? item.quantity : 1) + 1)}
+                                                                className="qty-btn text-gray-500 dark:text-gray-400 hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/30"
+                                                            >
+                                                                +
+                                                            </button>
                                                         </div>
-                                                        <button onClick={() => setShowDeleteConfirm(item.id)}
-                                                            className="w-9 h-9 bg-red-100 dark:bg-red-900/50 rounded-xl text-red-500 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800 hover:scale-110 flex-shrink-0 transition-all shadow-sm">🗑</button>
+
+                                                        {/* Actions */}
+                                                        <div className="flex items-center gap-1 flex-shrink-0">
+                                                            {!item.note && (
+                                                                <button
+                                                                    onClick={() => setEditingNote(item)}
+                                                                    className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-all"
+                                                                    title="הוסף הערה"
+                                                                >
+                                                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                                    </svg>
+                                                                </button>
+                                                            )}
+                                                            <button
+                                                                onClick={() => setShowDeleteConfirm(item.id)}
+                                                                className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all"
+                                                                title="מחק"
+                                                            >
+                                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </SwipeableItem>
@@ -4410,7 +4536,88 @@ END:VCALENDAR`;
                             <div className="glass rounded-2xl shadow-xl p-12 text-center">
                                 <div className="text-7xl mb-6 float">🛒</div>
                                 <p className="text-2xl text-gradient font-bold mb-2">הרשימה ריקה</p>
-                                <p className="text-gray-500 dark:text-gray-400 mt-2">התחל להוסיף מוצרים מהקטגוריות או דרך החיפוש</p>
+                                <p className="text-gray-500 dark:text-gray-400 mt-2">הוסף מוצרים בשורת החיפוש למטה</p>
+                            </div>
+                        )}
+
+                        {/* Bottom spacing for sticky bar */}
+                        <div className="h-24"></div>
+                    </div>
+
+                    {/* Sticky Add Bar */}
+                    <div className="sticky-add-bar">
+                        <div className="max-w-2xl mx-auto flex gap-2 items-center">
+                            <div className="relative flex-1">
+                                <input
+                                    ref={addBarInputRef}
+                                    type="text"
+                                    value={searchTerm}
+                                    onChange={e => setSearchTerm(e.target.value)}
+                                    placeholder="🔍 הוסף מוצר..."
+                                    className="w-full px-4 py-3 pr-4 pl-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/30 transition-all text-base font-medium placeholder:text-gray-400"
+                                />
+                                {searchTerm && (
+                                    <button
+                                        onClick={() => setSearchTerm('')}
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 text-xl"
+                                    >
+                                        ✕
+                                    </button>
+                                )}
+                            </div>
+                            {voiceSupported && (
+                                <button
+                                    onClick={isListening ? stopListening : startListening}
+                                    className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all ${
+                                        isListening
+                                            ? 'bg-red-500 text-white animate-pulse'
+                                            : 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200'
+                                    }`}
+                                >
+                                    {isListening ? '⏹️' : '🎤'}
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Voice listening indicator */}
+                        {isListening && (
+                            <div className="max-w-2xl mx-auto mt-2 flex items-center justify-center gap-2 text-purple-600 dark:text-purple-400 expand-in">
+                                <div className="flex items-center h-4">
+                                    <span className="sound-wave"></span>
+                                    <span className="sound-wave"></span>
+                                    <span className="sound-wave"></span>
+                                </div>
+                                <span className="text-sm font-medium">{voiceLang === 'en-US' ? 'Listening...' : 'מקשיב...'}</span>
+                                <button onClick={toggleVoiceLang} className="text-xs px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 rounded-full">
+                                    {voiceLang === 'en-US' ? '🇺🇸' : '🇮🇱'}
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Quick add suggestions when searching */}
+                        {searchTerm && !isListening && (
+                            <div className="max-w-2xl mx-auto mt-2 flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
+                                {Object.entries(PRODUCTS)
+                                    .flatMap(([cat, prods]) => prods.map(p => ({ name: p, cat })))
+                                    .filter(p => p.name.includes(searchTerm))
+                                    .slice(0, 5)
+                                    .map((p, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => addProduct(p.name)}
+                                            className="flex-shrink-0 px-3 py-1.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg text-sm font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-all expand-in"
+                                        >
+                                            {CATEGORIES[p.cat]?.icon} {p.name}
+                                        </button>
+                                    ))}
+                                {searchTerm.length >= 2 && !Object.values(PRODUCTS).flat().some(p => p === searchTerm) && (
+                                    <button
+                                        onClick={() => addProduct(searchTerm)}
+                                        className="flex-shrink-0 px-3 py-1.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-all expand-in"
+                                    >
+                                        ➕ הוסף "{searchTerm}"
+                                    </button>
+                                )}
                             </div>
                         )}
                     </div>
