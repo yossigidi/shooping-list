@@ -2640,6 +2640,7 @@
             const receiptInputRef = React.useRef(null);
             const [history, setHistory] = useState([]);
             const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
+            const [showDeleteAllConfirm, setShowDeleteAllConfirm] = useState(false);
             const [showFamilySettings, setShowFamilySettings] = useState(false);
             const [showCreateList, setShowCreateList] = useState(false);
             const [editingNote, setEditingNote] = useState(null);
@@ -5096,6 +5097,22 @@ END:VCALENDAR`;
                 }
             };
 
+            // Delete all items from the shopping list
+            const deleteAllItems = async () => {
+                try {
+                    const batch = window.firestore.writeBatch(window.db);
+                    items.forEach(item => {
+                        const docRef = window.firestore.doc(window.db, 'shopping-items', item.id);
+                        batch.delete(docRef);
+                    });
+                    await batch.commit();
+                    setShowDeleteAllConfirm(false);
+                    await logActivity('all_items_deleted', { itemCount: items.length });
+                } catch (error) {
+                    console.error('שגיאה במחיקת כל המוצרים:', error);
+                }
+            };
+
             // Postpone item - moves it to the end of the list
             const postponeItem = async (id) => {
                 try {
@@ -5281,6 +5298,27 @@ END:VCALENDAR`;
                                         מחק
                                     </button>
                                     <button onClick={() => setShowDeleteConfirm(null)}
+                                        className="flex-1 px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105 transition-all">
+                                        ביטול
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {showDeleteAllConfirm && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                            <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+                                <div className="text-5xl text-center mb-4">⚠️</div>
+                                <h2 className="text-xl font-bold text-center text-gradient mb-2">מחיקת כל הרשימה</h2>
+                                <p className="text-gray-600 dark:text-gray-300 mb-2 text-center">האם אתה בטוח שברצונך למחוק את כל המוצרים?</p>
+                                <p className="text-red-500 dark:text-red-400 mb-6 text-center text-sm font-semibold">פעולה זו תמחק {items.length} מוצרים ולא ניתן לבטלה!</p>
+                                <div className="flex gap-3">
+                                    <button onClick={deleteAllItems}
+                                        className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all">
+                                        מחק הכל
+                                    </button>
+                                    <button onClick={() => setShowDeleteAllConfirm(false)}
                                         className="flex-1 px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105 transition-all">
                                         ביטול
                                     </button>
@@ -6815,6 +6853,12 @@ END:VCALENDAR`;
                                     <button onClick={exportToWhatsApp}
                                         className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-3 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-105">
                                         📱 WhatsApp
+                                    </button>
+                                )}
+                                {items.length > 0 && (
+                                    <button onClick={() => setShowDeleteAllConfirm(true)}
+                                        className="flex-1 bg-gradient-to-r from-red-500 to-rose-500 text-white px-4 py-3 rounded-lg hover:from-red-600 hover:to-rose-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-105">
+                                        🗑️ מחק הכל
                                     </button>
                                 )}
                             </div>
