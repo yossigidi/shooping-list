@@ -355,6 +355,773 @@
             return useContext(AuthContext);
         }
 
+        // Multi-language Support
+        const TRANSLATIONS = {
+            he: {
+                // App name & general
+                appName: 'רשימת קניות משותפת חכמה',
+                loading: 'טוען...',
+                save: 'שמור',
+                cancel: 'ביטול',
+                delete: 'מחק',
+                edit: 'ערוך',
+                close: 'סגור',
+                back: 'חזור',
+                yes: 'כן',
+                no: 'לא',
+                search: 'חיפוש',
+                add: 'הוסף',
+                remove: 'הסר',
+                // Auth
+                welcome: 'ברוך הבא',
+                login: 'התחברות',
+                register: 'הרשמה',
+                logout: 'התנתק',
+                email: 'אימייל',
+                password: 'סיסמה',
+                confirmPassword: 'אימות סיסמה',
+                fullName: 'שם מלא',
+                forgotPassword: 'שכחתי סיסמה',
+                resetPassword: 'איפוס סיסמה',
+                sendResetLink: 'שלח קישור לאיפוס',
+                noAccount: 'אין לך חשבון?',
+                haveAccount: 'יש לך חשבון?',
+                registerNow: 'הירשם עכשיו',
+                loginNow: 'התחבר עכשיו',
+                orContinueWith: 'או המשך עם',
+                // Family
+                family: 'משפחה',
+                createFamily: 'צור משפחה חדשה',
+                joinFamily: 'הצטרף למשפחה קיימת',
+                familyName: 'שם המשפחה',
+                familyCode: 'קוד משפחה',
+                inviteCode: 'קוד הזמנה',
+                shareCode: 'שתף את הקוד עם בני משפחה להצטרפות',
+                familyMembers: 'חברי המשפחה',
+                leaveFamily: 'עזוב משפחה',
+                deleteFamily: 'מחק משפחה',
+                removeMember: 'הסר חבר',
+                shareWithFamily: 'שתף עם המשפחה',
+                shareOptions: 'אפשרויות שיתוף',
+                copyLink: 'העתק קישור',
+                scanQR: 'סרקו את הקוד או שתפו בכל דרך שנוחה לכם',
+                // Roles
+                selectRole: 'התפקיד שלך במשפחה',
+                father: 'אבא',
+                mother: 'אמא',
+                child: 'ילד/ה',
+                admin: 'מנהל',
+                limited: 'מוגבל',
+                childPermissions: 'ילדים יכולים להוסיף ולסמן מוצרים, אך לא לערוך את המשפחה',
+                // Shopping
+                shoppingList: 'רשימת קניות',
+                addProduct: 'הוסף מוצר',
+                searchProduct: 'חיפוש מוצר',
+                noItems: 'הרשימה ריקה',
+                addItemsHint: 'הוסף מוצרים בשורת החיפוש למטה',
+                markAsPurchased: 'סמן כנקנה',
+                purchased: 'נקנה',
+                notPurchased: 'לא נקנה',
+                quantity: 'כמות',
+                unit: 'יחידה',
+                note: 'הערה',
+                addNote: 'הוסף הערה',
+                postpone: 'דחה לסוף',
+                // Categories
+                categories: 'קטגוריות',
+                backToCategories: 'חזרה לקטגוריות',
+                allProducts: 'כל המוצרים',
+                // Lists
+                lists: 'רשימות',
+                newList: 'רשימה חדשה',
+                savedLists: 'רשימות שמורות',
+                saveList: 'שמור רשימה',
+                loadList: 'טען לעגלה',
+                noSavedLists: 'אין רשימות שמורות',
+                // Shopping mode
+                shoppingMode: 'מצב קניות',
+                shoppingModeActive: 'מצב קניות פעיל - המסך לא יכבה',
+                enableShoppingMode: 'הפעל מצב קניות',
+                // Finish shopping
+                finishShopping: 'סיום קנייה',
+                totalAmount: 'סכום כולל',
+                uploadReceipt: 'העלה קבלה',
+                // History
+                history: 'היסטוריה',
+                shoppingHistory: 'היסטוריית קניות',
+                // Chat
+                familyChat: 'צ\'אט משפחתי',
+                newMessages: 'הודעות חדשות',
+                typeMessage: 'כתוב הודעה...',
+                send: 'שלח',
+                // Scanning
+                scanRecipe: 'סריקת מתכון',
+                scanProduct: 'סרוק מוצר',
+                takePhoto: 'צלם',
+                scanning: 'סורק...',
+                identifiedIngredients: 'מרכיבים שזוהו',
+                addToCart: 'הוסף לעגלה',
+                // Voice
+                voiceInput: 'הקלטה קולית',
+                startRecording: 'התחל הקלטה קולית להוספת מוצרים',
+                stopRecording: 'הפסק הקלטה',
+                listening: 'מאזין...',
+                // Settings
+                settings: 'הגדרות',
+                darkMode: 'מצב כהה',
+                lightMode: 'מצב בהיר',
+                language: 'שפה',
+                // Help
+                help: 'עזרה',
+                helpTitle: 'עזרה ומשוב',
+                howToUse: 'איך להשתמש באפליקציה',
+                howToUseDesc1: 'בחר קטגוריה ולחץ על מוצר להוספה לרשימה',
+                howToUseDesc2: 'החלק שמאלה על מוצר לסימון "נקנה"',
+                howToUseDesc3: 'החלק ימינה לדחייה לסוף הרשימה',
+                howToUseDesc4: 'השתמש בחיפוש למציאת מוצרים מהירה',
+                familySharing: 'שיתוף עם המשפחה',
+                familySharingDesc1: 'צור משפחה ושתף את הקוד עם בני המשפחה',
+                familySharingDesc2: 'כל שינוי מתעדכן בזמן אמת לכל המשפחה',
+                familySharingDesc3: 'השתמש בצ\'אט המשפחתי לתקשורת',
+                smartScanning: 'סריקה חכמה',
+                smartScanningDesc1: 'סרוק מתכון והוסף מרכיבים אוטומטית',
+                smartScanningDesc2: 'סרוק מוצר להשוואת מחירים',
+                sendFeedback: 'שלח משוב',
+                showTutorial: 'הצג הדרכה מחדש',
+                // Feedback
+                feedback: 'משוב',
+                feedbackType: 'סוג המשוב',
+                bugReport: 'דיווח על בעיה',
+                featureRequest: 'בקשת פיצ\'ר',
+                generalFeedback: 'משוב כללי',
+                feedbackMessage: 'ההודעה שלך',
+                sending: 'שולח...',
+                // Accessibility
+                accessibility: 'נגישות',
+                accessibilitySettings: 'הגדרות נגישות',
+                fontSize: 'גודל טקסט',
+                normal: 'רגיל',
+                large: 'גדול',
+                extraLarge: 'גדול מאוד',
+                contrast: 'ניגודיות',
+                highContrast: 'ניגודיות גבוהה',
+                highlightLinks: 'הדגש קישורים',
+                cursorSize: 'גודל סמן',
+                skipToContent: 'דלג לתוכן הראשי',
+                accessibilityStatement: 'הצהרת נגישות',
+                // Onboarding
+                welcomeTo: 'ברוכים הבאים ל',
+                onboardingDesc: 'האפליקציה החכמה לניהול רשימת קניות משפחתית',
+                getStarted: 'בואו נתחיל!',
+                next: 'הבא',
+                skip: 'דלג',
+                done: 'סיום',
+                addingProducts: 'הוספת מוצרים',
+                addingProductsDesc: 'בחרו קטגוריה ולחצו על מוצר להוספה, או חפשו מוצר בשורת החיפוש',
+                managingList: 'ניהול הרשימה',
+                managingListDesc: 'החליקו שמאלה לסימון כנקנה, ימינה לדחייה. לחצו על כפתור הדחייה לחלופה מקלדת.',
+                familySharingTitle: 'שיתוף משפחתי',
+                familySharingOnboardDesc: 'שתפו את קוד המשפחה או השתמשו ב-QR/WhatsApp. בחרו תפקיד: הורה (מנהל) או ילד (מוגבל).',
+                readyToShop: 'מוכנים לקניות!',
+                readyToShopDesc: 'עכשיו אתם מוכנים להתחיל. השתמשו בכל הפיצ\'רים והפכו את הקניות לחוויה משפחתית!',
+                // Notifications
+                productAdded: 'מוצר נוסף לרשימה',
+                addedBy: 'הוסיף/ה',
+                // Errors
+                error: 'שגיאה',
+                tryAgain: 'נסה שוב',
+                invalidEmail: 'אימייל לא תקין',
+                passwordTooShort: 'הסיסמה חייבת להכיל לפחות 6 תווים',
+                passwordsNoMatch: 'הסיסמאות לא תואמות',
+                codeNotFound: 'קוד לא נמצא',
+                alreadyMember: 'כבר חבר במשפחה זו',
+                selectRoleError: 'נא לבחור תפקיד במשפחה',
+                enterFamilyName: 'נא להזין שם למשפחה',
+                enterCode: 'נא להזין קוד בן 6 תווים'
+            },
+            en: {
+                // App name & general
+                appName: 'Smart Family Shopping List',
+                loading: 'Loading...',
+                save: 'Save',
+                cancel: 'Cancel',
+                delete: 'Delete',
+                edit: 'Edit',
+                close: 'Close',
+                back: 'Back',
+                yes: 'Yes',
+                no: 'No',
+                search: 'Search',
+                add: 'Add',
+                remove: 'Remove',
+                // Auth
+                welcome: 'Welcome',
+                login: 'Login',
+                register: 'Register',
+                logout: 'Logout',
+                email: 'Email',
+                password: 'Password',
+                confirmPassword: 'Confirm Password',
+                fullName: 'Full Name',
+                forgotPassword: 'Forgot Password?',
+                resetPassword: 'Reset Password',
+                sendResetLink: 'Send Reset Link',
+                noAccount: "Don't have an account?",
+                haveAccount: 'Already have an account?',
+                registerNow: 'Register Now',
+                loginNow: 'Login Now',
+                orContinueWith: 'Or continue with',
+                // Family
+                family: 'Family',
+                createFamily: 'Create New Family',
+                joinFamily: 'Join Existing Family',
+                familyName: 'Family Name',
+                familyCode: 'Family Code',
+                inviteCode: 'Invite Code',
+                shareCode: 'Share this code with family members to join',
+                familyMembers: 'Family Members',
+                leaveFamily: 'Leave Family',
+                deleteFamily: 'Delete Family',
+                removeMember: 'Remove Member',
+                shareWithFamily: 'Share with Family',
+                shareOptions: 'Share Options',
+                copyLink: 'Copy Link',
+                scanQR: 'Scan the code or share via any method you prefer',
+                // Roles
+                selectRole: 'Your role in the family',
+                father: 'Father',
+                mother: 'Mother',
+                child: 'Child',
+                admin: 'Admin',
+                limited: 'Limited',
+                childPermissions: 'Children can add and mark products, but cannot edit family settings',
+                // Shopping
+                shoppingList: 'Shopping List',
+                addProduct: 'Add Product',
+                searchProduct: 'Search Product',
+                noItems: 'List is empty',
+                addItemsHint: 'Add items using the search bar below',
+                markAsPurchased: 'Mark as Purchased',
+                purchased: 'Purchased',
+                notPurchased: 'Not Purchased',
+                quantity: 'Quantity',
+                unit: 'Unit',
+                note: 'Note',
+                addNote: 'Add Note',
+                postpone: 'Move to End',
+                // Categories
+                categories: 'Categories',
+                backToCategories: 'Back to Categories',
+                allProducts: 'All Products',
+                // Lists
+                lists: 'Lists',
+                newList: 'New List',
+                savedLists: 'Saved Lists',
+                saveList: 'Save List',
+                loadList: 'Load to Cart',
+                noSavedLists: 'No saved lists',
+                // Shopping mode
+                shoppingMode: 'Shopping Mode',
+                shoppingModeActive: 'Shopping mode active - screen stays on',
+                enableShoppingMode: 'Enable Shopping Mode',
+                // Finish shopping
+                finishShopping: 'Finish Shopping',
+                totalAmount: 'Total Amount',
+                uploadReceipt: 'Upload Receipt',
+                // History
+                history: 'History',
+                shoppingHistory: 'Shopping History',
+                // Chat
+                familyChat: 'Family Chat',
+                newMessages: 'New Messages',
+                typeMessage: 'Type a message...',
+                send: 'Send',
+                // Scanning
+                scanRecipe: 'Scan Recipe',
+                scanProduct: 'Scan Product',
+                takePhoto: 'Take Photo',
+                scanning: 'Scanning...',
+                identifiedIngredients: 'Identified Ingredients',
+                addToCart: 'Add to Cart',
+                // Voice
+                voiceInput: 'Voice Input',
+                startRecording: 'Start voice recording to add products',
+                stopRecording: 'Stop Recording',
+                listening: 'Listening...',
+                // Settings
+                settings: 'Settings',
+                darkMode: 'Dark Mode',
+                lightMode: 'Light Mode',
+                language: 'Language',
+                // Help
+                help: 'Help',
+                helpTitle: 'Help & Feedback',
+                howToUse: 'How to use the app',
+                howToUseDesc1: 'Select a category and tap a product to add to list',
+                howToUseDesc2: 'Swipe left on a product to mark as "purchased"',
+                howToUseDesc3: 'Swipe right to move to end of list',
+                howToUseDesc4: 'Use search to quickly find products',
+                familySharing: 'Family Sharing',
+                familySharingDesc1: 'Create a family and share the code with members',
+                familySharingDesc2: 'All changes sync in real-time for all family',
+                familySharingDesc3: 'Use family chat for communication',
+                smartScanning: 'Smart Scanning',
+                smartScanningDesc1: 'Scan a recipe to auto-add ingredients',
+                smartScanningDesc2: 'Scan a product for price comparison',
+                sendFeedback: 'Send Feedback',
+                showTutorial: 'Show Tutorial Again',
+                // Feedback
+                feedback: 'Feedback',
+                feedbackType: 'Feedback Type',
+                bugReport: 'Bug Report',
+                featureRequest: 'Feature Request',
+                generalFeedback: 'General Feedback',
+                feedbackMessage: 'Your Message',
+                sending: 'Sending...',
+                // Accessibility
+                accessibility: 'Accessibility',
+                accessibilitySettings: 'Accessibility Settings',
+                fontSize: 'Font Size',
+                normal: 'Normal',
+                large: 'Large',
+                extraLarge: 'Extra Large',
+                contrast: 'Contrast',
+                highContrast: 'High Contrast',
+                highlightLinks: 'Highlight Links',
+                cursorSize: 'Cursor Size',
+                skipToContent: 'Skip to main content',
+                accessibilityStatement: 'Accessibility Statement',
+                // Onboarding
+                welcomeTo: 'Welcome to',
+                onboardingDesc: 'The smart app for managing family shopping lists',
+                getStarted: "Let's get started!",
+                next: 'Next',
+                skip: 'Skip',
+                done: 'Done',
+                addingProducts: 'Adding Products',
+                addingProductsDesc: 'Choose a category and tap a product to add, or search in the search bar',
+                managingList: 'Managing the List',
+                managingListDesc: 'Swipe left to mark purchased, right to postpone. Use the postpone button for keyboard alternative.',
+                familySharingTitle: 'Family Sharing',
+                familySharingOnboardDesc: 'Share family code or use QR/WhatsApp. Choose role: parent (admin) or child (limited).',
+                readyToShop: 'Ready to Shop!',
+                readyToShopDesc: "You're all set! Use all features and make shopping a family experience!",
+                // Notifications
+                productAdded: 'Product added to list',
+                addedBy: 'Added by',
+                // Errors
+                error: 'Error',
+                tryAgain: 'Try Again',
+                invalidEmail: 'Invalid email',
+                passwordTooShort: 'Password must be at least 6 characters',
+                passwordsNoMatch: 'Passwords do not match',
+                codeNotFound: 'Code not found',
+                alreadyMember: 'Already a member of this family',
+                selectRoleError: 'Please select a family role',
+                enterFamilyName: 'Please enter a family name',
+                enterCode: 'Please enter a 6-character code'
+            },
+            ru: {
+                // App name & general
+                appName: 'Умный семейный список покупок',
+                loading: 'Загрузка...',
+                save: 'Сохранить',
+                cancel: 'Отмена',
+                delete: 'Удалить',
+                edit: 'Изменить',
+                close: 'Закрыть',
+                back: 'Назад',
+                yes: 'Да',
+                no: 'Нет',
+                search: 'Поиск',
+                add: 'Добавить',
+                remove: 'Удалить',
+                // Auth
+                welcome: 'Добро пожаловать',
+                login: 'Вход',
+                register: 'Регистрация',
+                logout: 'Выйти',
+                email: 'Электронная почта',
+                password: 'Пароль',
+                confirmPassword: 'Подтверждение пароля',
+                fullName: 'Полное имя',
+                forgotPassword: 'Забыли пароль?',
+                resetPassword: 'Сброс пароля',
+                sendResetLink: 'Отправить ссылку для сброса',
+                noAccount: 'Нет аккаунта?',
+                haveAccount: 'Уже есть аккаунт?',
+                registerNow: 'Зарегистрироваться',
+                loginNow: 'Войти',
+                orContinueWith: 'Или продолжить с',
+                // Family
+                family: 'Семья',
+                createFamily: 'Создать новую семью',
+                joinFamily: 'Присоединиться к семье',
+                familyName: 'Название семьи',
+                familyCode: 'Код семьи',
+                inviteCode: 'Код приглашения',
+                shareCode: 'Поделитесь этим кодом с членами семьи',
+                familyMembers: 'Члены семьи',
+                leaveFamily: 'Покинуть семью',
+                deleteFamily: 'Удалить семью',
+                removeMember: 'Удалить участника',
+                shareWithFamily: 'Поделиться с семьёй',
+                shareOptions: 'Варианты отправки',
+                copyLink: 'Копировать ссылку',
+                scanQR: 'Отсканируйте код или поделитесь удобным способом',
+                // Roles
+                selectRole: 'Ваша роль в семье',
+                father: 'Папа',
+                mother: 'Мама',
+                child: 'Ребёнок',
+                admin: 'Администратор',
+                limited: 'Ограничено',
+                childPermissions: 'Дети могут добавлять и отмечать товары, но не могут редактировать настройки семьи',
+                // Shopping
+                shoppingList: 'Список покупок',
+                addProduct: 'Добавить товар',
+                searchProduct: 'Поиск товара',
+                noItems: 'Список пуст',
+                addItemsHint: 'Добавьте товары через строку поиска ниже',
+                markAsPurchased: 'Отметить как купленное',
+                purchased: 'Куплено',
+                notPurchased: 'Не куплено',
+                quantity: 'Количество',
+                unit: 'Единица',
+                note: 'Заметка',
+                addNote: 'Добавить заметку',
+                postpone: 'В конец списка',
+                // Categories
+                categories: 'Категории',
+                backToCategories: 'К категориям',
+                allProducts: 'Все товары',
+                // Lists
+                lists: 'Списки',
+                newList: 'Новый список',
+                savedLists: 'Сохранённые списки',
+                saveList: 'Сохранить список',
+                loadList: 'Загрузить в корзину',
+                noSavedLists: 'Нет сохранённых списков',
+                // Shopping mode
+                shoppingMode: 'Режим покупок',
+                shoppingModeActive: 'Режим покупок активен - экран не выключится',
+                enableShoppingMode: 'Включить режим покупок',
+                // Finish shopping
+                finishShopping: 'Завершить покупки',
+                totalAmount: 'Общая сумма',
+                uploadReceipt: 'Загрузить чек',
+                // History
+                history: 'История',
+                shoppingHistory: 'История покупок',
+                // Chat
+                familyChat: 'Семейный чат',
+                newMessages: 'Новые сообщения',
+                typeMessage: 'Введите сообщение...',
+                send: 'Отправить',
+                // Scanning
+                scanRecipe: 'Сканировать рецепт',
+                scanProduct: 'Сканировать товар',
+                takePhoto: 'Сделать фото',
+                scanning: 'Сканирование...',
+                identifiedIngredients: 'Распознанные ингредиенты',
+                addToCart: 'В корзину',
+                // Voice
+                voiceInput: 'Голосовой ввод',
+                startRecording: 'Начать запись для добавления товаров',
+                stopRecording: 'Остановить запись',
+                listening: 'Слушаю...',
+                // Settings
+                settings: 'Настройки',
+                darkMode: 'Тёмный режим',
+                lightMode: 'Светлый режим',
+                language: 'Язык',
+                // Help
+                help: 'Помощь',
+                helpTitle: 'Помощь и отзывы',
+                howToUse: 'Как пользоваться приложением',
+                howToUseDesc1: 'Выберите категорию и нажмите на товар для добавления',
+                howToUseDesc2: 'Проведите влево по товару для отметки "куплено"',
+                howToUseDesc3: 'Проведите вправо для перемещения в конец списка',
+                howToUseDesc4: 'Используйте поиск для быстрого поиска товаров',
+                familySharing: 'Семейный доступ',
+                familySharingDesc1: 'Создайте семью и поделитесь кодом с членами семьи',
+                familySharingDesc2: 'Все изменения синхронизируются в реальном времени',
+                familySharingDesc3: 'Используйте семейный чат для общения',
+                smartScanning: 'Умное сканирование',
+                smartScanningDesc1: 'Сканируйте рецепт для автоматического добавления ингредиентов',
+                smartScanningDesc2: 'Сканируйте товар для сравнения цен',
+                sendFeedback: 'Отправить отзыв',
+                showTutorial: 'Показать обучение снова',
+                // Feedback
+                feedback: 'Отзыв',
+                feedbackType: 'Тип отзыва',
+                bugReport: 'Сообщить об ошибке',
+                featureRequest: 'Предложить функцию',
+                generalFeedback: 'Общий отзыв',
+                feedbackMessage: 'Ваше сообщение',
+                sending: 'Отправка...',
+                // Accessibility
+                accessibility: 'Доступность',
+                accessibilitySettings: 'Настройки доступности',
+                fontSize: 'Размер шрифта',
+                normal: 'Обычный',
+                large: 'Большой',
+                extraLarge: 'Очень большой',
+                contrast: 'Контраст',
+                highContrast: 'Высокий контраст',
+                highlightLinks: 'Выделять ссылки',
+                cursorSize: 'Размер курсора',
+                skipToContent: 'Перейти к содержимому',
+                accessibilityStatement: 'Заявление о доступности',
+                // Onboarding
+                welcomeTo: 'Добро пожаловать в',
+                onboardingDesc: 'Умное приложение для управления семейным списком покупок',
+                getStarted: 'Начнём!',
+                next: 'Далее',
+                skip: 'Пропустить',
+                done: 'Готово',
+                addingProducts: 'Добавление товаров',
+                addingProductsDesc: 'Выберите категорию и нажмите на товар, или найдите в поиске',
+                managingList: 'Управление списком',
+                managingListDesc: 'Проведите влево для отметки, вправо для перемещения. Используйте кнопку для клавиатурной альтернативы.',
+                familySharingTitle: 'Семейный доступ',
+                familySharingOnboardDesc: 'Поделитесь кодом семьи или используйте QR/WhatsApp. Выберите роль: родитель (админ) или ребёнок (ограничен).',
+                readyToShop: 'Готовы к покупкам!',
+                readyToShopDesc: 'Всё готово! Используйте все функции и сделайте покупки семейным делом!',
+                // Notifications
+                productAdded: 'Товар добавлен в список',
+                addedBy: 'Добавил(а)',
+                // Errors
+                error: 'Ошибка',
+                tryAgain: 'Попробовать снова',
+                invalidEmail: 'Неверный email',
+                passwordTooShort: 'Пароль должен содержать минимум 6 символов',
+                passwordsNoMatch: 'Пароли не совпадают',
+                codeNotFound: 'Код не найден',
+                alreadyMember: 'Уже являетесь членом этой семьи',
+                selectRoleError: 'Пожалуйста, выберите роль в семье',
+                enterFamilyName: 'Пожалуйста, введите название семьи',
+                enterCode: 'Пожалуйста, введите 6-значный код'
+            },
+            ar: {
+                // App name & general
+                appName: 'قائمة التسوق العائلية الذكية',
+                loading: 'جاري التحميل...',
+                save: 'حفظ',
+                cancel: 'إلغاء',
+                delete: 'حذف',
+                edit: 'تعديل',
+                close: 'إغلاق',
+                back: 'رجوع',
+                yes: 'نعم',
+                no: 'لا',
+                search: 'بحث',
+                add: 'إضافة',
+                remove: 'إزالة',
+                // Auth
+                welcome: 'مرحباً',
+                login: 'تسجيل الدخول',
+                register: 'تسجيل',
+                logout: 'تسجيل الخروج',
+                email: 'البريد الإلكتروني',
+                password: 'كلمة المرور',
+                confirmPassword: 'تأكيد كلمة المرور',
+                fullName: 'الاسم الكامل',
+                forgotPassword: 'نسيت كلمة المرور؟',
+                resetPassword: 'إعادة تعيين كلمة المرور',
+                sendResetLink: 'إرسال رابط إعادة التعيين',
+                noAccount: 'ليس لديك حساب؟',
+                haveAccount: 'لديك حساب بالفعل؟',
+                registerNow: 'سجل الآن',
+                loginNow: 'سجل دخول الآن',
+                orContinueWith: 'أو تابع مع',
+                // Family
+                family: 'العائلة',
+                createFamily: 'إنشاء عائلة جديدة',
+                joinFamily: 'الانضمام لعائلة موجودة',
+                familyName: 'اسم العائلة',
+                familyCode: 'رمز العائلة',
+                inviteCode: 'رمز الدعوة',
+                shareCode: 'شارك هذا الرمز مع أفراد العائلة للانضمام',
+                familyMembers: 'أفراد العائلة',
+                leaveFamily: 'مغادرة العائلة',
+                deleteFamily: 'حذف العائلة',
+                removeMember: 'إزالة عضو',
+                shareWithFamily: 'مشاركة مع العائلة',
+                shareOptions: 'خيارات المشاركة',
+                copyLink: 'نسخ الرابط',
+                scanQR: 'امسح الرمز أو شارك بأي طريقة تفضلها',
+                // Roles
+                selectRole: 'دورك في العائلة',
+                father: 'أب',
+                mother: 'أم',
+                child: 'طفل',
+                admin: 'مدير',
+                limited: 'محدود',
+                childPermissions: 'يمكن للأطفال إضافة المنتجات وتحديدها، لكن لا يمكنهم تعديل إعدادات العائلة',
+                // Shopping
+                shoppingList: 'قائمة التسوق',
+                addProduct: 'إضافة منتج',
+                searchProduct: 'بحث عن منتج',
+                noItems: 'القائمة فارغة',
+                addItemsHint: 'أضف منتجات من شريط البحث أدناه',
+                markAsPurchased: 'تحديد كمشترى',
+                purchased: 'تم الشراء',
+                notPurchased: 'لم يتم الشراء',
+                quantity: 'الكمية',
+                unit: 'الوحدة',
+                note: 'ملاحظة',
+                addNote: 'إضافة ملاحظة',
+                postpone: 'نقل للنهاية',
+                // Categories
+                categories: 'الفئات',
+                backToCategories: 'العودة للفئات',
+                allProducts: 'جميع المنتجات',
+                // Lists
+                lists: 'القوائم',
+                newList: 'قائمة جديدة',
+                savedLists: 'القوائم المحفوظة',
+                saveList: 'حفظ القائمة',
+                loadList: 'تحميل للسلة',
+                noSavedLists: 'لا توجد قوائم محفوظة',
+                // Shopping mode
+                shoppingMode: 'وضع التسوق',
+                shoppingModeActive: 'وضع التسوق نشط - الشاشة لن تنطفئ',
+                enableShoppingMode: 'تفعيل وضع التسوق',
+                // Finish shopping
+                finishShopping: 'إنهاء التسوق',
+                totalAmount: 'المبلغ الإجمالي',
+                uploadReceipt: 'رفع الفاتورة',
+                // History
+                history: 'السجل',
+                shoppingHistory: 'سجل التسوق',
+                // Chat
+                familyChat: 'دردشة العائلة',
+                newMessages: 'رسائل جديدة',
+                typeMessage: 'اكتب رسالة...',
+                send: 'إرسال',
+                // Scanning
+                scanRecipe: 'مسح الوصفة',
+                scanProduct: 'مسح المنتج',
+                takePhoto: 'التقط صورة',
+                scanning: 'جاري المسح...',
+                identifiedIngredients: 'المكونات المحددة',
+                addToCart: 'إضافة للسلة',
+                // Voice
+                voiceInput: 'الإدخال الصوتي',
+                startRecording: 'ابدأ التسجيل الصوتي لإضافة منتجات',
+                stopRecording: 'إيقاف التسجيل',
+                listening: 'جاري الاستماع...',
+                // Settings
+                settings: 'الإعدادات',
+                darkMode: 'الوضع الداكن',
+                lightMode: 'الوضع الفاتح',
+                language: 'اللغة',
+                // Help
+                help: 'مساعدة',
+                helpTitle: 'المساعدة والملاحظات',
+                howToUse: 'كيفية استخدام التطبيق',
+                howToUseDesc1: 'اختر فئة واضغط على منتج لإضافته للقائمة',
+                howToUseDesc2: 'اسحب لليسار على منتج لتحديده كـ "مشترى"',
+                howToUseDesc3: 'اسحب لليمين لنقله لنهاية القائمة',
+                howToUseDesc4: 'استخدم البحث للعثور على المنتجات بسرعة',
+                familySharing: 'المشاركة العائلية',
+                familySharingDesc1: 'أنشئ عائلة وشارك الرمز مع الأفراد',
+                familySharingDesc2: 'جميع التغييرات تتزامن في الوقت الفعلي',
+                familySharingDesc3: 'استخدم دردشة العائلة للتواصل',
+                smartScanning: 'المسح الذكي',
+                smartScanningDesc1: 'امسح وصفة لإضافة المكونات تلقائياً',
+                smartScanningDesc2: 'امسح منتج لمقارنة الأسعار',
+                sendFeedback: 'إرسال ملاحظات',
+                showTutorial: 'عرض الشرح مجدداً',
+                // Feedback
+                feedback: 'ملاحظات',
+                feedbackType: 'نوع الملاحظة',
+                bugReport: 'الإبلاغ عن مشكلة',
+                featureRequest: 'طلب ميزة',
+                generalFeedback: 'ملاحظات عامة',
+                feedbackMessage: 'رسالتك',
+                sending: 'جاري الإرسال...',
+                // Accessibility
+                accessibility: 'إمكانية الوصول',
+                accessibilitySettings: 'إعدادات إمكانية الوصول',
+                fontSize: 'حجم الخط',
+                normal: 'عادي',
+                large: 'كبير',
+                extraLarge: 'كبير جداً',
+                contrast: 'التباين',
+                highContrast: 'تباين عالي',
+                highlightLinks: 'تمييز الروابط',
+                cursorSize: 'حجم المؤشر',
+                skipToContent: 'تخطي إلى المحتوى الرئيسي',
+                accessibilityStatement: 'بيان إمكانية الوصول',
+                // Onboarding
+                welcomeTo: 'مرحباً بك في',
+                onboardingDesc: 'التطبيق الذكي لإدارة قائمة تسوق العائلة',
+                getStarted: 'هيا نبدأ!',
+                next: 'التالي',
+                skip: 'تخطي',
+                done: 'تم',
+                addingProducts: 'إضافة المنتجات',
+                addingProductsDesc: 'اختر فئة واضغط على منتج، أو ابحث في شريط البحث',
+                managingList: 'إدارة القائمة',
+                managingListDesc: 'اسحب لليسار للتحديد، لليمين للتأجيل. استخدم زر التأجيل كبديل للوحة المفاتيح.',
+                familySharingTitle: 'المشاركة العائلية',
+                familySharingOnboardDesc: 'شارك رمز العائلة أو استخدم QR/WhatsApp. اختر دورك: والد (مدير) أو طفل (محدود).',
+                readyToShop: 'جاهز للتسوق!',
+                readyToShopDesc: 'أنت جاهز الآن! استخدم جميع الميزات واجعل التسوق تجربة عائلية!',
+                // Notifications
+                productAdded: 'تمت إضافة منتج للقائمة',
+                addedBy: 'أضافه',
+                // Errors
+                error: 'خطأ',
+                tryAgain: 'حاول مرة أخرى',
+                invalidEmail: 'بريد إلكتروني غير صالح',
+                passwordTooShort: 'كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل',
+                passwordsNoMatch: 'كلمات المرور غير متطابقة',
+                codeNotFound: 'الرمز غير موجود',
+                alreadyMember: 'أنت عضو بالفعل في هذه العائلة',
+                selectRoleError: 'يرجى اختيار دور في العائلة',
+                enterFamilyName: 'يرجى إدخال اسم العائلة',
+                enterCode: 'يرجى إدخال رمز من 6 أحرف'
+            }
+        };
+
+        // Language Context
+        const LanguageContext = createContext(null);
+
+        function LanguageProvider({ children }) {
+            const [language, setLanguage] = useState(() => {
+                return localStorage.getItem('appLanguage') || 'he';
+            });
+
+            const changeLanguage = (lang) => {
+                setLanguage(lang);
+                localStorage.setItem('appLanguage', lang);
+                // Update document direction
+                document.documentElement.dir = (lang === 'he' || lang === 'ar') ? 'rtl' : 'ltr';
+                document.documentElement.lang = lang;
+            };
+
+            // Set initial direction
+            useEffect(() => {
+                document.documentElement.dir = (language === 'he' || language === 'ar') ? 'rtl' : 'ltr';
+                document.documentElement.lang = language;
+            }, []);
+
+            const t = (key) => TRANSLATIONS[language]?.[key] || TRANSLATIONS['he'][key] || key;
+
+            return (
+                <LanguageContext.Provider value={{ language, changeLanguage, t }}>
+                    {children}
+                </LanguageContext.Provider>
+            );
+        }
+
+        function useLanguage() {
+            return useContext(LanguageContext);
+        }
+
         // Family Context
         const FamilyContext = createContext(null);
 
@@ -1856,6 +2623,9 @@
         function ShoppingList() {
             const { user } = useAuth();
             const { family, lists, currentList, setCurrentList, logActivity } = useFamily();
+            const { language, changeLanguage, t } = useLanguage();
+            // Expose changeLanguage to window for accessibility modal buttons
+            window.changeAppLanguage = changeLanguage;
             const [items, setItems] = useState([]);
             const prevItemIdsRef = React.useRef(new Set());
             const [selectedCategory, setSelectedCategory] = useState(null);
@@ -6589,6 +7359,29 @@ END:VCALENDAR`;
                                         </div>
                                     </div>
 
+                                    {/* Language Selector */}
+                                    <div>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 text-center">🌐 שפה / Language</p>
+                                        <div className="grid grid-cols-4 gap-2">
+                                            <button onClick={() => { const { changeLanguage } = useLanguage(); changeLanguage('he'); }}
+                                                className={`py-2 rounded-xl font-medium transition-colors ${localStorage.getItem('appLanguage') === 'he' || !localStorage.getItem('appLanguage') ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                עברית
+                                            </button>
+                                            <button onClick={() => { const ctx = document.querySelector('[data-lang-ctx]'); if(window.changeAppLanguage) window.changeAppLanguage('en'); }}
+                                                className={`py-2 rounded-xl font-medium transition-colors ${localStorage.getItem('appLanguage') === 'en' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                English
+                                            </button>
+                                            <button onClick={() => { if(window.changeAppLanguage) window.changeAppLanguage('ru'); }}
+                                                className={`py-2 rounded-xl font-medium transition-colors ${localStorage.getItem('appLanguage') === 'ru' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                Русский
+                                            </button>
+                                            <button onClick={() => { if(window.changeAppLanguage) window.changeAppLanguage('ar'); }}
+                                                className={`py-2 rounded-xl font-medium transition-colors ${localStorage.getItem('appLanguage') === 'ar' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                العربية
+                                            </button>
+                                        </div>
+                                    </div>
+
                                     {/* Reset */}
                                     <button onClick={resetAccessibility}
                                         className="w-full py-3 bg-gray-200 dark:bg-gray-600 rounded-xl font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">
@@ -6855,9 +7648,11 @@ END:VCALENDAR`;
         }
 
         ReactDOM.render(
-            <AuthProvider>
-                <App />
-            </AuthProvider>,
+            <LanguageProvider>
+                <AuthProvider>
+                    <App />
+                </AuthProvider>
+            </LanguageProvider>,
             document.getElementById('root')
         );
     </script>
