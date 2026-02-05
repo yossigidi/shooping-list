@@ -1857,6 +1857,7 @@
             const { user } = useAuth();
             const { family, lists, currentList, setCurrentList, logActivity } = useFamily();
             const [items, setItems] = useState([]);
+            const prevItemIdsRef = React.useRef(new Set());
             const [selectedCategory, setSelectedCategory] = useState(null);
             const [searchTerm, setSearchTerm] = useState('');
             const [loading, setLoading] = useState(true);
@@ -2839,6 +2840,20 @@
                             const dateB = b.createdAt?.toDate?.() || new Date(0);
                             return dateB - dateA;
                         });
+
+                        // Check for new items added by other users
+                        const currentIds = new Set(itemsData.map(item => item.id));
+                        itemsData.forEach(item => {
+                            if (!prevItemIdsRef.current.has(item.id) && prevItemIdsRef.current.size > 0) {
+                                // New item detected
+                                if (item.addedByUid && item.addedByUid !== user?.uid) {
+                                    // Added by another user - show notification
+                                    showProductNotification(item, item.addedBy || 'מישהו');
+                                }
+                            }
+                        });
+                        prevItemIdsRef.current = currentIds;
+
                         setItems(itemsData);
                         setLoading(false);
                     },
@@ -2920,6 +2935,36 @@
 
                     // Auto close after 5 seconds
                     setTimeout(() => notification.close(), 5000);
+                } catch (error) {
+                    console.error('Notification error:', error);
+                }
+            };
+
+            // Show product added notification
+            const showProductNotification = (item, addedByName) => {
+                if (!notificationsEnabled || !('Notification' in window)) return;
+                if (Notification.permission !== 'granted') return;
+                if (document.visibilityState === 'visible') return; // Don't notify if app is visible
+
+                const title = `🛒 מוצר נוסף לרשימה`;
+                const body = `${addedByName} הוסיף/ה: ${item.name}`;
+
+                try {
+                    const notification = new Notification(title, {
+                        body: body,
+                        icon: '🛒',
+                        badge: '🛒',
+                        tag: 'product-added',
+                        renotify: true,
+                        vibrate: [200, 100, 200]
+                    });
+
+                    notification.onclick = () => {
+                        window.focus();
+                        notification.close();
+                    };
+
+                    setTimeout(() => notification.close(), 4000);
                 } catch (error) {
                     console.error('Notification error:', error);
                 }
