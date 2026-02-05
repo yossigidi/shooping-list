@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3TZHCPSK23"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-3TZHCPSK23');
+    </script>
     <meta name="theme-color" content="#4F46E5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -19,6 +27,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
+    <script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js"></script>
     <script>tailwind.config = { darkMode: 'class' }</script>
     <style>
         * { font-family: 'Heebo', sans-serif; }
@@ -863,11 +872,44 @@
             const { user } = useAuth();
             const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
             const [copied, setCopied] = useState(false);
+            const [showShareOptions, setShowShareOptions] = useState(false);
+            const [qrCodeUrl, setQrCodeUrl] = useState('');
+
+            const inviteLink = `https://yossigidi.github.io/shooping-list/?join=${family?.code}`;
 
             const copyCode = () => {
                 navigator.clipboard.writeText(family.code);
                 setCopied(true);
                 setTimeout(() => setCopied(false), 2000);
+            };
+
+            const copyLink = () => {
+                navigator.clipboard.writeText(inviteLink);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            };
+
+            const generateQRCode = () => {
+                try {
+                    const qr = qrcode(0, 'M');
+                    qr.addData(inviteLink);
+                    qr.make();
+                    setQrCodeUrl(qr.createDataURL(6, 0));
+                    setShowShareOptions(true);
+                } catch (e) {
+                    console.error('QR generation error:', e);
+                }
+            };
+
+            const shareViaWhatsApp = () => {
+                const text = encodeURIComponent(`הצטרף/י למשפחת "${family.name}" באפליקציית רשימת הקניות שלנו!\n\nקוד הצטרפות: ${family.code}\n\nאו לחץ על הקישור:\n${inviteLink}`);
+                window.open(`https://wa.me/?text=${text}`, '_blank');
+            };
+
+            const shareViaEmail = () => {
+                const subject = encodeURIComponent(`הזמנה להצטרף למשפחת ${family.name}`);
+                const body = encodeURIComponent(`שלום!\n\nאני מזמין אותך להצטרף למשפחת "${family.name}" באפליקציית רשימת הקניות המשותפת שלנו.\n\nקוד הצטרפות: ${family.code}\n\nאו לחץ על הקישור הבא:\n${inviteLink}\n\nנתראה ברשימה!`);
+                window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
             };
 
             const handleLeave = async () => {
@@ -887,7 +929,7 @@
                         </div>
 
                         {/* Share Code */}
-                        <div className="glass rounded-xl p-4 mb-6">
+                        <div className="glass rounded-xl p-4 mb-4">
                             <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-2">קוד הזמנה</h3>
                             <div className="flex items-center gap-3">
                                 <div className="flex-1 bg-indigo-100 dark:bg-indigo-900/50 px-4 py-3 rounded-lg text-center">
@@ -897,8 +939,61 @@
                                     {copied ? '✓' : '📋'}
                                 </button>
                             </div>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">שתף את הקוד עם בני משפחה להצטרפות</p>
                         </div>
+
+                        {/* Share Options Button */}
+                        <button
+                            onClick={generateQRCode}
+                            className="w-full mb-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-600 transition-all flex items-center justify-center gap-2"
+                        >
+                            <span>📤</span> שתף עם המשפחה
+                        </button>
+
+                        {/* Share Options Modal */}
+                        {showShareOptions && (
+                            <div className="glass rounded-xl p-4 mb-4 border-2 border-green-200 dark:border-green-800">
+                                <div className="flex justify-between items-center mb-3">
+                                    <h4 className="font-bold text-gray-700 dark:text-gray-300">אפשרויות שיתוף</h4>
+                                    <button onClick={() => setShowShareOptions(false)} className="text-gray-400 hover:text-gray-600">✕</button>
+                                </div>
+
+                                {/* QR Code */}
+                                {qrCodeUrl && (
+                                    <div className="flex justify-center mb-4">
+                                        <div className="bg-white p-3 rounded-xl">
+                                            <img src={qrCodeUrl} alt="QR Code" className="w-40 h-40" />
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Share Buttons */}
+                                <div className="grid grid-cols-3 gap-2 mb-3">
+                                    <button
+                                        onClick={shareViaWhatsApp}
+                                        className="flex flex-col items-center gap-1 p-3 bg-green-100 dark:bg-green-900/30 rounded-xl hover:bg-green-200 dark:hover:bg-green-900/50 transition-all"
+                                    >
+                                        <span className="text-2xl">💬</span>
+                                        <span className="text-xs font-medium text-green-700 dark:text-green-400">WhatsApp</span>
+                                    </button>
+                                    <button
+                                        onClick={shareViaEmail}
+                                        className="flex flex-col items-center gap-1 p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-all"
+                                    >
+                                        <span className="text-2xl">📧</span>
+                                        <span className="text-xs font-medium text-blue-700 dark:text-blue-400">אימייל</span>
+                                    </button>
+                                    <button
+                                        onClick={copyLink}
+                                        className="flex flex-col items-center gap-1 p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-all"
+                                    >
+                                        <span className="text-2xl">🔗</span>
+                                        <span className="text-xs font-medium text-purple-700 dark:text-purple-400">העתק קישור</span>
+                                    </button>
+                                </div>
+
+                                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">סרקו את הקוד או שתפו בכל דרך שנוחה לכם</p>
+                            </div>
+                        )}
 
                         {/* Members List */}
                         <div className="mb-6">
@@ -2017,6 +2112,13 @@
                 setShowSavedLists(false);
             };
 
+            // Delete saved list
+            const deleteSavedList = (listId) => {
+                const updated = savedLists.filter(list => list.id !== listId);
+                setSavedLists(updated);
+                localStorage.setItem(`savedLists_${family.id}`, JSON.stringify(updated));
+            };
+
             // Import from WhatsApp text
             const importFromWhatsApp = async () => {
                 if (!whatsAppText.trim()) return;
@@ -3100,10 +3202,33 @@
                 const video = recipeVideoRef.current;
                 const canvas = recipeCanvasRef.current;
 
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
+                // Use higher resolution for better OCR
+                const scale = 2;
+                canvas.width = video.videoWidth * scale;
+                canvas.height = video.videoHeight * scale;
                 const ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0);
+
+                // Draw and scale up
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Image preprocessing for better OCR
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+
+                // Convert to grayscale with enhanced contrast
+                for (let i = 0; i < data.length; i += 4) {
+                    // Grayscale
+                    const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                    // Increase contrast
+                    const contrast = 1.4;
+                    let newVal = ((gray - 128) * contrast) + 128;
+                    newVal = Math.min(255, Math.max(0, newVal));
+                    // Apply sharpening threshold (adaptive binarization simulation)
+                    const threshold = 140;
+                    const finalVal = newVal > threshold ? 255 : (newVal > 80 ? newVal * 1.2 : 0);
+                    data[i] = data[i + 1] = data[i + 2] = Math.min(255, finalVal);
+                }
+                ctx.putImageData(imageData, 0, 0);
 
                 // Stop camera - more robust cleanup
                 if (video.srcObject) {
@@ -3123,17 +3248,19 @@
                         throw new Error('OCR library not loaded');
                     }
 
-                    const imageData = canvas.toDataURL('image/jpeg', 0.95);
+                    const processedImageData = canvas.toDataURL('image/png');
 
                     const result = await Tesseract.recognize(
-                        imageData,
-                        'heb+eng',
+                        processedImageData,
+                        'heb',
                         {
                             logger: info => {
                                 if (info.status === 'recognizing text') {
-                                    setScanProgress(Math.round(info.progress * 90) + 5);
+                                    setScanProgress(Math.round(info.progress * 85) + 10);
                                 }
-                            }
+                            },
+                            tessedit_pageseg_mode: '6', // Assume uniform block of text
+                            preserve_interword_spaces: '1'
                         }
                     );
 
@@ -3153,31 +3280,108 @@
                 }
             };
 
+            // Common Hebrew ingredients for better matching
+            const COMMON_INGREDIENTS = [
+                'בשר', 'בשר טחון', 'בשר בקר', 'עוף', 'חזה עוף', 'שוקיים', 'כרעיים',
+                'בצל', 'שום', 'גזר', 'תפוח אדמה', 'עגבניה', 'עגבניות', 'מלפפון', 'פלפל',
+                'שמן', 'שמן זית', 'שמן קנולה', 'חמאה', 'מרגרינה',
+                'מלח', 'פלפל שחור', 'פפריקה', 'כמון', 'כורכום', 'אבקת מרק',
+                'קמח', 'סוכר', 'ביצים', 'ביצה', 'חלב', 'שמנת', 'גבינה',
+                'אורז', 'פסטה', 'אטריות', 'קוסקוס', 'בורגול',
+                'עלי כוסברה', 'פטרוזיליה', 'שמיר', 'בזיליקום', 'נענע',
+                'לימון', 'מיץ לימון', 'חומץ', 'רסק עגבניות', 'תמרים',
+                'אגוזים', 'שקדים', 'צנוברים', 'אגוזי מלך',
+                'חומוס', 'טחינה', 'תחינה', 'סילאן', 'דבש',
+                'יין', 'יין אדום', 'יין לבן', 'מים', 'ציר עוף', 'ציר ירקות'
+            ];
+
             const parseIngredientsFromText = (text) => {
-                const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 1);
+                const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 2);
                 const ingredients = [];
-                const skipWords = ['הוראות', 'הכנה', 'אופן', 'שלב', 'step', 'instructions', 'method'];
+                const seenNames = new Set();
+
+                // Skip words that indicate instructions, not ingredients
+                const skipWords = ['הוראות', 'הכנה', 'אופן', 'שלב', 'הגשה', 'טיפ', 'הערה', 'לקישוט', 'step', 'instructions', 'method', 'directions'];
+                const skipPatterns = [/^\d+\.\s*[א-ת]/, /^שלב\s*\d/, /מנות|זמן|דקות|שעות/];
+
+                // Units patterns
+                const unitPatterns = /(\d+\.?\d*)\s*(כוס|כוסות|כפ[יו]ת?|כף|גרם|ג['\u0027]|ק["\u0022]ג|קילו|מ["\u0022]ל|ליטר|יחיד[הו]ת?|יח['\u0027]?|חבילה|חבילות|שקית|קופסה|פחית)/i;
 
                 for (const line of lines) {
-                    if (skipWords.some(word => line.toLowerCase().includes(word))) continue;
-                    if (/^\d+\.$/.test(line)) continue;
+                    // Skip instruction lines
+                    if (skipWords.some(word => line.includes(word))) continue;
+                    if (skipPatterns.some(pattern => pattern.test(line))) continue;
+                    if (line.length > 60) continue; // Too long, probably instructions
 
-                    const match = line.match(/^(\d+\.?\d*)?\s*(.+)$/);
-                    if (match) {
-                        const quantity = parseInt(match[1]) || 1;
-                        let name = (match[2] || match[1] || '').trim();
+                    // Clean the line
+                    let cleanLine = line
+                        .replace(/[•\-\*\(\)]/g, ' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
 
-                        if (name && name.length > 1 && name.length < 40) {
-                            // Try to match with known products
-                            for (const [cat, products] of Object.entries(PRODUCTS)) {
-                                const found = products.find(p => p.includes(name) || name.includes(p));
-                                if (found) { name = found; break; }
-                            }
+                    if (cleanLine.length < 3) continue;
 
-                            ingredients.push({ name, quantity, original: line, selected: true });
+                    // Extract quantity and unit
+                    let quantity = 1;
+                    let unit = '';
+                    const unitMatch = cleanLine.match(unitPatterns);
+                    if (unitMatch) {
+                        quantity = parseFloat(unitMatch[1]) || 1;
+                        unit = unitMatch[2];
+                    }
+
+                    // Try to find known ingredient in line
+                    let foundIngredient = null;
+
+                    // First try exact match with common ingredients
+                    for (const ing of COMMON_INGREDIENTS) {
+                        if (cleanLine.includes(ing)) {
+                            foundIngredient = ing;
+                            break;
                         }
                     }
+
+                    // Then try matching with PRODUCTS database
+                    if (!foundIngredient) {
+                        for (const [cat, products] of Object.entries(PRODUCTS)) {
+                            for (const product of products) {
+                                if (cleanLine.includes(product) || product.split(' ').every(word => word.length > 2 && cleanLine.includes(word))) {
+                                    foundIngredient = product;
+                                    break;
+                                }
+                            }
+                            if (foundIngredient) break;
+                        }
+                    }
+
+                    // If no match found, try to extract ingredient name
+                    if (!foundIngredient) {
+                        // Remove quantities and units, keep the ingredient name
+                        let name = cleanLine
+                            .replace(/\d+\.?\d*/g, '')
+                            .replace(/(כוס|כוסות|כפ[יו]ת?|כף|גרם|ג['\u0027]|ק["\u0022]ג|קילו|מ["\u0022]ל|ליטר|יחיד[הו]ת?|יח['\u0027]?|חבילה|שקית|קופסה|פחית|סה["\u0022]כ|בערך|כ\-|או)/gi, '')
+                            .replace(/[\-–—]/g, '')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+
+                        // Only keep if it looks like a valid ingredient (Hebrew letters, reasonable length)
+                        if (name.length >= 2 && name.length <= 30 && /[א-ת]/.test(name)) {
+                            foundIngredient = name;
+                        }
+                    }
+
+                    if (foundIngredient && !seenNames.has(foundIngredient.toLowerCase())) {
+                        seenNames.add(foundIngredient.toLowerCase());
+                        ingredients.push({
+                            name: foundIngredient,
+                            quantity,
+                            unit,
+                            original: line,
+                            selected: true
+                        });
+                    }
                 }
+
                 return ingredients;
             };
 
@@ -4226,7 +4430,16 @@ END:VCALENDAR`;
                                             >
                                                 <div className="flex items-center justify-between mb-2">
                                                     <span className="font-semibold text-gray-800 dark:text-white">{list.name}</span>
-                                                    <span className="text-xs text-gray-400">{list.items.length} פריטים</span>
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-xs text-gray-400">{list.items.length} פריטים</span>
+                                                        <button
+                                                            onClick={() => deleteSavedList(list.id)}
+                                                            className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 flex items-center justify-center hover:bg-red-200 dark:hover:bg-red-900/50 transition-all text-sm"
+                                                            title="מחק רשימה"
+                                                        >
+                                                            🗑️
+                                                        </button>
+                                                    </div>
                                                 </div>
                                                 <div className="text-xs text-gray-500 dark:text-gray-400 mb-3 truncate">
                                                     {list.items.slice(0, 5).map(i => i.name).join(', ')}
