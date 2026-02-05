@@ -7413,23 +7413,34 @@ END:VCALENDAR`;
                                         <ul className="text-sm text-indigo-700 dark:text-indigo-300 space-y-2 list-disc list-inside">
                                             <li>בחר קטגוריה ולחץ על מוצר להוספה לרשימה</li>
                                             <li>החלק שמאלה על מוצר לסימון "נקנה"</li>
-                                            <li>החלק ימינה לדחייה לסוף הרשימה</li>
-                                            <li>השתמש בחיפוש למציאת מוצרים מהירה</li>
+                                            <li>החלק ימינה או לחץ על ⏭ לדחייה לסוף הרשימה</li>
+                                            <li>השתמש בחיפוש או הקלטה קולית להוספה מהירה</li>
+                                            <li>שמור רשימות לשימוש חוזר</li>
                                         </ul>
                                     </div>
                                     <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4">
                                         <h3 className="font-bold text-purple-800 dark:text-purple-200 mb-2">👨‍👩‍👧‍👦 שיתוף עם המשפחה</h3>
                                         <ul className="text-sm text-purple-700 dark:text-purple-300 space-y-2 list-disc list-inside">
-                                            <li>שתף את קוד המשפחה עם בני הבית</li>
-                                            <li>כולם יכולים להוסיף ולערוך פריטים</li>
+                                            <li>שתף קוד, QR, קישור או WhatsApp</li>
+                                            <li><strong>הורים (אבא/אמא)</strong> - הרשאות מנהל מלאות</li>
+                                            <li><strong>ילדים</strong> - יכולים להוסיף ולסמן מוצרים בלבד</li>
+                                            <li>קבל התראות כשמישהו מוסיף מוצר</li>
                                             <li>צ'אט מובנה לתיאום הקניות</li>
                                         </ul>
                                     </div>
                                     <div className="bg-amber-50 dark:bg-amber-900/30 rounded-xl p-4">
                                         <h3 className="font-bold text-amber-800 dark:text-amber-200 mb-2">📷 סריקה חכמה</h3>
                                         <ul className="text-sm text-amber-700 dark:text-amber-300 space-y-2 list-disc list-inside">
-                                            <li>סרוק מתכון להוספת רכיבים אוטומטית</li>
-                                            <li>צלם מוצר לזיהוי והוספה</li>
+                                            <li>סרוק מתכון להוספת מרכיבים אוטומטית</li>
+                                            <li>צלם מוצר לזיהוי והשוואת מחירים</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4">
+                                        <h3 className="font-bold text-green-800 dark:text-green-200 mb-2">🌐 שפות ונגישות</h3>
+                                        <ul className="text-sm text-green-700 dark:text-green-300 space-y-2 list-disc list-inside">
+                                            <li>תמיכה בעברית, אנגלית, רוסית וערבית</li>
+                                            <li>החלף שפה בכפתור הנגישות (♿)</li>
+                                            <li>מצב כהה/בהיר, הגדלת טקסט ועוד</li>
                                         </ul>
                                     </div>
                                     <button onClick={() => { setShowHelp(false); setShowFeedback(true); }}
@@ -7553,9 +7564,11 @@ END:VCALENDAR`;
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">שיתוף משפחתי</h3>
                                         <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4 mb-4">
                                             <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <li>🔗 <strong>קוד משפחה:</strong> שתף עם בני הבית להצטרפות</li>
-                                                <li>💬 <strong>צ'אט:</strong> תקשורת בזמן אמת</li>
-                                                <li>🔄 <strong>סנכרון:</strong> שינויים מופיעים מיד אצל כולם</li>
+                                                <li>📤 <strong>שיתוף:</strong> קוד, QR, WhatsApp או קישור</li>
+                                                <li>👨👩 <strong>הורים:</strong> אבא/אמא - הרשאות מנהל מלאות</li>
+                                                <li>👦 <strong>ילדים:</strong> יכולים להוסיף ולסמן מוצרים בלבד</li>
+                                                <li>🔔 <strong>התראות:</strong> קבל הודעה כשמישהו מוסיף מוצר</li>
+                                                <li>💬 <strong>צ'אט:</strong> תקשורת משפחתית בזמן אמת</li>
                                             </ul>
                                         </div>
                                         <div className="flex gap-2">
@@ -7569,10 +7582,15 @@ END:VCALENDAR`;
                                         <div className="text-6xl mb-4">🎉</div>
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">מוכנים לקניות!</h3>
                                         <p className="text-gray-600 dark:text-gray-300 mb-4">תמיד אפשר לחזור להדרכה מכפתור העזרה</p>
+                                        <div className="flex flex-wrap gap-2 text-xs text-gray-500 dark:text-gray-400 justify-center mb-4">
+                                            <span>🌐 עברית | English | Русский | العربية</span>
+                                        </div>
                                         <div className="flex gap-2 text-xs text-gray-500 dark:text-gray-400 justify-center mb-4">
                                             <span>♿ נגישות</span>
                                             <span>•</span>
                                             <span>❓ עזרה</span>
+                                            <span>•</span>
+                                            <span>🌙 מצב כהה</span>
                                         </div>
                                         <button onClick={completeOnboarding} className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold">
                                             ✨ בואו נתחיל!
