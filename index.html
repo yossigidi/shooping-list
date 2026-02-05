@@ -2593,7 +2593,7 @@
                     // Using a simple mailto link as fallback (opens email client)
                     const subject = encodeURIComponent(`[ShopSmart] ${feedbackType === 'bug' ? 'דיווח על בעיה' : feedbackType === 'feature' ? 'בקשת פיצ\'ר' : 'משוב כללי'}`);
                     const body = encodeURIComponent(`סוג: ${feedbackType}\n\nהודעה:\n${feedbackText}\n\n---\nמשתמש: ${user?.displayName || 'אנונימי'}\nאימייל: ${user?.email || 'לא זמין'}`);
-                    window.open(`mailto:yosigidi1979@gmail.com?subject=${subject}&body=${body}`, '_blank');
+                    window.open(`mailto:shopinglist1979@gmail.com?subject=${subject}&body=${body}`, '_blank');
                     setFeedbackSent(true);
                     setFeedbackText('');
                     setTimeout(() => {
