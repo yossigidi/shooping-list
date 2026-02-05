@@ -11,14 +11,14 @@
         gtag('js', new Date());
         gtag('config', 'G-3TZHCPSK23');
     </script>
-    <meta name="theme-color" content="#4F46E5">
+    <meta name="theme-color" content="#F97316">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="רשימת קניות משותפת חכמה">
-    <meta name="description" content="אפליקציה חכמה לניהול רשימת קניות משפחתית עם שיתוף בזמן אמת">
+    <meta name="apple-mobile-web-app-title" content="ListNest">
+    <meta name="description" content="ListNest - הקן המשפחתי לרשימות קניות חכמות עם שיתוף בזמן אמת">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    <title>רשימת קניות משותפת חכמה - רשימת קניות חכמה</title>
+    <title>ListNest - רשימת קניות משפחתית חכמה</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -33,19 +33,19 @@
         * { font-family: 'Heebo', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); }
         .dark .glass { background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); }
-        .dark .gradient-bg { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%); }
-        .btn-gradient { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); }
-        .btn-gradient:hover { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); transform: translateY(-2px); box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4); }
+        .gradient-bg { background: linear-gradient(135deg, #F97316 0%, #FB923C 50%, #FBBF24 100%); }
+        .dark .gradient-bg { background: linear-gradient(135deg, #7C2D12 0%, #9A3412 50%, #B45309 100%); }
+        .btn-gradient { background: linear-gradient(135deg, #F97316 0%, #FB923C 100%); }
+        .btn-gradient:hover { background: linear-gradient(135deg, #EA580C 0%, #F97316 100%); transform: translateY(-2px); box-shadow: 0 10px 40px rgba(249, 115, 22, 0.4); }
         .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .card-hover:hover { transform: translateY(-4px) scale(1.02); }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         .float { animation: float 3s ease-in-out infinite; }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
         .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
-        .progress-animate { background: linear-gradient(90deg, #6366f1, #8b5cf6, #a855f7, #8b5cf6, #6366f1); background-size: 200% 100%; animation: shimmer 2s linear infinite; }
-        .text-gradient { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        input:focus { outline: none; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
+        .progress-animate { background: linear-gradient(90deg, #F97316, #FB923C, #FBBF24, #FB923C, #F97316); background-size: 200% 100%; animation: shimmer 2s linear infinite; }
+        .text-gradient { background: linear-gradient(135deg, #F97316 0%, #FBBF24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        input:focus { outline: none; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3); }
         .scrollbar-thin::-webkit-scrollbar { width: 6px; }
         .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
         .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); border-radius: 3px; }
@@ -359,7 +359,7 @@
         const TRANSLATIONS = {
             he: {
                 // App name & general
-                appName: 'רשימת קניות משותפת חכמה',
+                appName: 'ListNest',
                 loading: 'טוען...',
                 save: 'שמור',
                 cancel: 'ביטול',
@@ -2364,7 +2364,7 @@
 
                         <div className="text-center mb-8 pt-4">
                             <div className="text-7xl mb-4 float">🛒</div>
-                            <h1 className="text-3xl font-bold text-gradient mb-2">רשימת קניות משותפת חכמה</h1>
+                            <h1 className="text-3xl font-bold text-gradient mb-2">ListNest</h1>
                             <p className="text-gray-500 dark:text-gray-400 text-sm">רשימת הקניות החכמה שלך</p>
                         </div>
 
@@ -3569,7 +3569,7 @@
                         user_name: user?.displayName || 'אנונימי'
                     };
                     // Using a simple mailto link as fallback (opens email client)
-                    const subject = encodeURIComponent(`[רשימת קניות משותפת חכמה] ${feedbackType === 'bug' ? 'דיווח על בעיה' : feedbackType === 'feature' ? 'בקשת פיצ\'ר' : 'משוב כללי'}`);
+                    const subject = encodeURIComponent(`[ListNest] ${feedbackType === 'bug' ? 'דיווח על בעיה' : feedbackType === 'feature' ? 'בקשת פיצ\'ר' : 'משוב כללי'}`);
                     const body = encodeURIComponent(`סוג: ${feedbackType}\n\nהודעה:\n${feedbackText}\n\n---\nמשתמש: ${user?.displayName || 'אנונימי'}\nאימייל: ${user?.email || 'לא זמין'}`);
                     window.open(`mailto:shopinglist1979@gmail.com?subject=${subject}&body=${body}`, '_blank');
                     setFeedbackSent(true);
@@ -4820,7 +4820,7 @@
                 endDate.setDate(endDate.getDate() + 1);
 
                 const title = encodeURIComponent(`🛒 קניות לפני ${holiday.name}`);
-                const details = encodeURIComponent(`${holiday.reminder}\n\nתזכורת מאפליקציית רשימת קניות משותפת חכמה`);
+                const details = encodeURIComponent(`${holiday.reminder}\n\nתזכורת מאפליקציית ListNest`);
                 const startStr = formatDateForGoogle(reminderDate);
                 const endStr = formatDateForGoogle(endDate);
 
@@ -4839,12 +4839,12 @@
 
                 const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//רשימת קניות משותפת חכמה//Shopping Reminder//HE
+PRODID:-//ListNest//Shopping Reminder//HE
 BEGIN:VEVENT
 DTSTART;VALUE=DATE:${formatICSDate(reminderDate)}
 DTEND;VALUE=DATE:${formatICSDate(endDate)}
 SUMMARY:🛒 קניות לפני ${holiday.name}
-DESCRIPTION:${holiday.reminder}\\n\\nתזכורת מאפליקציית רשימת קניות משותפת חכמה
+DESCRIPTION:${holiday.reminder}\\n\\nתזכורת מאפליקציית ListNest
 END:VEVENT
 END:VCALENDAR`;
 
@@ -5265,7 +5265,7 @@ END:VCALENDAR`;
             };
 
             return (
-                <div className="min-h-screen gradient-bg p-4 pb-20" role="application" aria-label="רשימת קניות משותפת חכמה - רשימת קניות">
+                <div className="min-h-screen gradient-bg p-4 pb-20" role="application" aria-label="ListNest - רשימת קניות">
                     {/* Main content landmark for skip link */}
                     <main id="main-content" role="main" aria-label="תוכן ראשי">
 
@@ -6581,7 +6581,7 @@ END:VCALENDAR`;
                                         <span className="text-3xl">🛒</span>
                                     </div>
                                     <div>
-                                        <h1 className="text-2xl font-bold text-gradient">רשימת קניות משותפת חכמה</h1>
+                                        <h1 className="text-2xl font-bold text-gradient">ListNest</h1>
                                         <div className="flex items-center gap-2 mt-1 flex-wrap">
                                             <button onClick={() => setShowFamilySettings(true)} className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300 hover:scale-105 transition-transform cursor-pointer">
                                                 👨‍👩‍👧‍👦 {family?.name}
@@ -7391,7 +7391,7 @@ END:VCALENDAR`;
                                     {/* Footer links */}
                                     <div className="flex justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
                                         <button onClick={() => setShowFeedback(true)} className="text-blue-500 hover:underline text-sm">צור קשר</button>
-                                        <button onClick={() => alert('אפליקציית רשימת קניות משותפת חכמה מחויבת לנגישות מלאה לכל המשתמשים.\n\nהאפליקציה תוכננה בהתאם לתקן הישראלי ת"י 5568 ולהנחיות WCAG 2.1 ברמה AA.\n\nלשאלות בנושא נגישות ניתן לפנות אלינו.')} className="text-blue-500 hover:underline text-sm">הצהרת נגישות</button>
+                                        <button onClick={() => alert('אפליקציית ListNest מחויבת לנגישות מלאה לכל המשתמשים.\n\nהאפליקציה תוכננה בהתאם לתקן הישראלי ת"י 5568 ולהנחיות WCAG 2.1 ברמה AA.\n\nלשאלות בנושא נגישות ניתן לפנות אלינו.')} className="text-blue-500 hover:underline text-sm">הצהרת נגישות</button>
                                     </div>
                                 </div>
                             </div>
@@ -7516,7 +7516,7 @@ END:VCALENDAR`;
                                 {onboardingStep === 0 && (
                                     <div className="p-6 text-center">
                                         <div className="text-6xl mb-4">🛒</div>
-                                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">ברוכים הבאים ל-רשימת קניות משותפת חכמה!</h2>
+                                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">ברוכים הבאים ל-ListNest!</h2>
                                         <p className="text-gray-600 dark:text-gray-300 mb-6">רשימת קניות חכמה לכל המשפחה</p>
                                         <button onClick={() => setOnboardingStep(1)} className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold">
                                             בואו נתחיל! →

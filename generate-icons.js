@@ -5,7 +5,7 @@ const path = require('path');
 const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
 const maskableSizes = [192, 512];
 
-// SVG icon template - shopping cart with checkmark
+// SVG icon template - ListNest brand (nest + list concept)
 function createIconSVG(size, maskable = false) {
     const padding = maskable ? size * 0.1 : 0;
     const innerSize = size - (padding * 2);
@@ -15,31 +15,50 @@ function createIconSVG(size, maskable = false) {
     return `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#6366F1"/>
-      <stop offset="100%" style="stop-color:#8B5CF6"/>
+      <stop offset="0%" style="stop-color:#F97316"/>
+      <stop offset="50%" style="stop-color:#FB923C"/>
+      <stop offset="100%" style="stop-color:#FBBF24"/>
     </linearGradient>
     <clipPath id="rounded">
-      <rect x="0" y="0" width="${size}" height="${size}" rx="${maskable ? 0 : size * 0.2}" ry="${maskable ? 0 : size * 0.2}"/>
+      <rect x="0" y="0" width="${size}" height="${size}" rx="${maskable ? 0 : size * 0.22}" ry="${maskable ? 0 : size * 0.22}"/>
     </clipPath>
   </defs>
 
   <!-- Background -->
   <rect width="${size}" height="${size}" fill="url(#grad)" clip-path="url(#rounded)"/>
 
-  <!-- Shopping Cart -->
-  <g transform="translate(${offset + innerSize * 0.15}, ${offset + innerSize * 0.15})" stroke="white" stroke-width="${scale * 5}" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <!-- Cart handle -->
-    <path d="M${10 * scale} ${20 * scale} L${20 * scale} ${20 * scale} L${25 * scale} ${48 * scale} L${58 * scale} ${48 * scale}"/>
+  <!-- Nest shape (curved lines) -->
+  <g transform="translate(${offset + innerSize * 0.1}, ${offset + innerSize * 0.15})" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="${scale * 3}">
+    <path d="M${10 * scale} ${55 * scale} Q${40 * scale} ${75 * scale} ${70 * scale} ${55 * scale}"/>
+    <path d="M${15 * scale} ${48 * scale} Q${40 * scale} ${65 * scale} ${65 * scale} ${48 * scale}"/>
+  </g>
 
-    <!-- Cart body -->
-    <path d="M${25 * scale} ${32 * scale} L${58 * scale} ${32 * scale} L${54 * scale} ${58 * scale} L${29 * scale} ${58 * scale} Z" fill="rgba(255,255,255,0.2)"/>
+  <!-- Shopping list icon -->
+  <g transform="translate(${offset + innerSize * 0.22}, ${offset + innerSize * 0.15})" fill="white">
+    <!-- List paper -->
+    <rect x="0" y="0" width="${56 * scale}" height="${65 * scale}" rx="${6 * scale}" fill="white" opacity="0.95"/>
 
-    <!-- Wheels -->
-    <circle cx="${33 * scale}" cy="${68 * scale}" r="${5 * scale}" fill="white" stroke="none"/>
-    <circle cx="${50 * scale}" cy="${68 * scale}" r="${5 * scale}" fill="white" stroke="none"/>
+    <!-- List lines with checkboxes -->
+    <g fill="none" stroke="#F97316" stroke-width="${scale * 2.5}">
+      <!-- Checkbox 1 - checked -->
+      <rect x="${6 * scale}" y="${10 * scale}" width="${10 * scale}" height="${10 * scale}" rx="${2 * scale}"/>
+      <path d="M${8 * scale} ${15 * scale} L${11 * scale} ${18 * scale} L${18 * scale} ${11 * scale}" stroke="#22C55E" stroke-width="${scale * 3}"/>
+      <line x1="${22 * scale}" y1="${15 * scale}" x2="${48 * scale}" y2="${15 * scale}" stroke="#9CA3AF" stroke-width="${scale * 2}"/>
 
-    <!-- Checkmark -->
-    <path d="M${38 * scale} ${42 * scale} L${45 * scale} ${50 * scale} L${58 * scale} ${35 * scale}" stroke="#10B981" stroke-width="${scale * 6}"/>
+      <!-- Checkbox 2 - checked -->
+      <rect x="${6 * scale}" y="${26 * scale}" width="${10 * scale}" height="${10 * scale}" rx="${2 * scale}"/>
+      <path d="M${8 * scale} ${31 * scale} L${11 * scale} ${34 * scale} L${18 * scale} ${27 * scale}" stroke="#22C55E" stroke-width="${scale * 3}"/>
+      <line x1="${22 * scale}" y1="${31 * scale}" x2="${42 * scale}" y2="${31 * scale}" stroke="#9CA3AF" stroke-width="${scale * 2}"/>
+
+      <!-- Checkbox 3 - unchecked -->
+      <rect x="${6 * scale}" y="${42 * scale}" width="${10 * scale}" height="${10 * scale}" rx="${2 * scale}"/>
+      <line x1="${22 * scale}" y1="${47 * scale}" x2="${45 * scale}" y2="${47 * scale}" stroke="#374151" stroke-width="${scale * 2}"/>
+    </g>
+  </g>
+
+  <!-- Family hearts/warmth indicator -->
+  <g transform="translate(${offset + innerSize * 0.65}, ${offset + innerSize * 0.55})">
+    <text x="0" y="${15 * scale}" font-size="${18 * scale}" fill="white">🏠</text>
   </g>
 </svg>`;
 }
@@ -52,7 +71,7 @@ async function generateIcons() {
         fs.mkdirSync(iconsDir, { recursive: true });
     }
 
-    console.log('Generating icons...\n');
+    console.log('Generating ListNest icons...\n');
 
     // Generate regular icons
     for (const size of sizes) {
@@ -80,7 +99,7 @@ async function generateIcons() {
         console.log(`Created: ${filename}`);
     }
 
-    console.log('\nAll icons generated successfully!');
+    console.log('\nAll ListNest icons generated successfully!');
 }
 
 generateIcons().catch(console.error);

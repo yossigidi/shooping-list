@@ -4,9 +4,9 @@ const path = require('path');
 const screenshotSVG = `<svg width="1080" height="1920" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#667eea"/>
-      <stop offset="50%" style="stop-color:#764ba2"/>
-      <stop offset="100%" style="stop-color:#f093fb"/>
+      <stop offset="0%" style="stop-color:#F97316"/>
+      <stop offset="50%" style="stop-color:#FB923C"/>
+      <stop offset="100%" style="stop-color:#FBBF24"/>
     </linearGradient>
   </defs>
 
@@ -17,8 +17,8 @@ const screenshotSVG = `<svg width="1080" height="1920" xmlns="http://www.w3.org/
   <rect x="140" y="200" width="800" height="1520" rx="50" fill="white" opacity="0.95"/>
 
   <!-- Header -->
-  <rect x="140" y="200" width="800" height="120" rx="50" fill="#6366F1"/>
-  <text x="540" y="275" font-family="Arial" font-size="48" fill="white" text-anchor="middle" font-weight="bold">רשימת קניות משותפת חכמה</text>
+  <rect x="140" y="200" width="800" height="120" rx="50" fill="#F97316"/>
+  <text x="540" y="275" font-family="Arial" font-size="48" fill="white" text-anchor="middle" font-weight="bold">ListNest</text>
 
   <!-- Shopping list items -->
   <g transform="translate(180, 360)">
@@ -51,13 +51,13 @@ const screenshotSVG = `<svg width="1080" height="1920" xmlns="http://www.w3.org/
   </g>
 
   <!-- Bottom bar -->
-  <rect x="140" y="1560" width="800" height="160" rx="0" fill="#F9FAFB"/>
-  <rect x="200" y="1600" width="680" height="60" rx="30" fill="#EEF2FF" stroke="#C7D2FE" stroke-width="2"/>
+  <rect x="140" y="1560" width="800" height="160" rx="0" fill="#FFF7ED"/>
+  <rect x="200" y="1600" width="680" height="60" rx="30" fill="#FFEDD5" stroke="#FDBA74" stroke-width="2"/>
   <text x="540" y="1640" font-family="Arial" font-size="28" fill="#9CA3AF" text-anchor="middle">🔍 הוסף מוצר...</text>
 
   <!-- App title at bottom -->
-  <text x="540" y="1850" font-family="Arial" font-size="36" fill="white" text-anchor="middle" font-weight="bold">רשימת קניות משותפת חכמה</text>
-  <text x="540" y="1890" font-family="Arial" font-size="24" fill="rgba(255,255,255,0.8)" text-anchor="middle">שיתוף בזמן אמת עם המשפחה</text>
+  <text x="540" y="1850" font-family="Arial" font-size="36" fill="white" text-anchor="middle" font-weight="bold">ListNest</text>
+  <text x="540" y="1890" font-family="Arial" font-size="24" fill="rgba(255,255,255,0.8)" text-anchor="middle">הקן המשפחתי לרשימות קניות חכמות</text>
 </svg>`;
 
 async function generateScreenshot() {
