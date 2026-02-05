@@ -208,6 +208,42 @@
         .sound-wave:nth-child(3) { animation-delay: 0.2s; }
         .sound-wave:nth-child(4) { animation-delay: 0.3s; }
         .sound-wave:nth-child(5) { animation-delay: 0.4s; }
+
+        /* Accessibility styles */
+        .high-contrast { filter: contrast(1.4); }
+        .high-contrast * { border-color: #000 !important; }
+        .low-contrast { filter: contrast(0.8); }
+        .highlight-links a, .highlight-links button { outline: 3px solid #0066cc !important; outline-offset: 2px; }
+        .cursor-large-black, .cursor-large-black * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M4 0l16 12.279-6.78 1.138 4.256 8.676-3.902 1.907-4.256-8.676-5.318 4.676z'/%3E%3C/svg%3E"), auto !important; }
+        .cursor-large-white, .cursor-large-white * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' stroke='%23000' stroke-width='1' d='M4 0l16 12.279-6.78 1.138 4.256 8.676-3.902 1.907-4.256-8.676-5.318 4.676z'/%3E%3C/svg%3E"), auto !important; }
+
+        /* Accessibility button */
+        .accessibility-btn {
+            position: fixed;
+            bottom: 100px;
+            left: 16px;
+            width: 50px;
+            height: 50px;
+            background: #0066cc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.4);
+            z-index: 9999;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .accessibility-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0, 102, 204, 0.5); }
+        .accessibility-btn svg { width: 30px; height: 30px; fill: white; }
+
+        /* Onboarding styles */
+        .onboarding-highlight {
+            position: relative;
+            z-index: 10001;
+            box-shadow: 0 0 0 4px #6366f1, 0 0 20px rgba(99, 102, 241, 0.5);
+            border-radius: 12px;
+        }
     </style>
 
     <script type="module">
@@ -1693,6 +1729,23 @@
             const [showAIAssistant, setShowAIAssistant] = useState(false);
             const [aiSuggestions, setAiSuggestions] = useState([]);
             const [aiThinking, setAiThinking] = useState(false);
+            // Onboarding & Help
+            const [showOnboarding, setShowOnboarding] = useState(false);
+            const [onboardingStep, setOnboardingStep] = useState(0);
+            const [showHelp, setShowHelp] = useState(false);
+            const [showFeedback, setShowFeedback] = useState(false);
+            const [feedbackText, setFeedbackText] = useState('');
+            const [feedbackType, setFeedbackType] = useState('bug');
+            const [feedbackSending, setFeedbackSending] = useState(false);
+            const [feedbackSent, setFeedbackSent] = useState(false);
+            // Accessibility
+            const [showAccessibility, setShowAccessibility] = useState(false);
+            const [accessibilitySettings, setAccessibilitySettings] = useState({
+                fontSize: 'normal',
+                contrast: 'normal',
+                highlightLinks: false,
+                cursorSize: 'normal'
+            });
 
             // English to Hebrew grocery translations
             const ENGLISH_TO_HEBREW = {
@@ -2434,6 +2487,100 @@
                     document.documentElement.classList.add('dark');
                 }
             }, []);
+
+            // Check for first-time visit and show onboarding
+            useEffect(() => {
+                const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
+                if (!hasSeenOnboarding) {
+                    setTimeout(() => setShowOnboarding(true), 1000);
+                }
+                // Load saved accessibility settings
+                const savedAccessibility = localStorage.getItem('accessibilitySettings');
+                if (savedAccessibility) {
+                    const settings = JSON.parse(savedAccessibility);
+                    setAccessibilitySettings(settings);
+                    applyAccessibilitySettings(settings);
+                }
+            }, []);
+
+            // Apply accessibility settings to document
+            const applyAccessibilitySettings = (settings) => {
+                const root = document.documentElement;
+                // Font size
+                root.style.fontSize = settings.fontSize === 'large' ? '120%' : settings.fontSize === 'small' ? '85%' : '100%';
+                // Contrast
+                if (settings.contrast === 'high') {
+                    root.classList.add('high-contrast');
+                    root.classList.remove('low-contrast');
+                } else if (settings.contrast === 'low') {
+                    root.classList.add('low-contrast');
+                    root.classList.remove('high-contrast');
+                } else {
+                    root.classList.remove('high-contrast', 'low-contrast');
+                }
+                // Highlight links
+                if (settings.highlightLinks) {
+                    root.classList.add('highlight-links');
+                } else {
+                    root.classList.remove('highlight-links');
+                }
+                // Cursor size
+                if (settings.cursorSize === 'large-black') {
+                    root.classList.add('cursor-large-black');
+                    root.classList.remove('cursor-large-white');
+                } else if (settings.cursorSize === 'large-white') {
+                    root.classList.add('cursor-large-white');
+                    root.classList.remove('cursor-large-black');
+                } else {
+                    root.classList.remove('cursor-large-black', 'cursor-large-white');
+                }
+            };
+
+            const updateAccessibility = (key, value) => {
+                const newSettings = { ...accessibilitySettings, [key]: value };
+                setAccessibilitySettings(newSettings);
+                localStorage.setItem('accessibilitySettings', JSON.stringify(newSettings));
+                applyAccessibilitySettings(newSettings);
+            };
+
+            const resetAccessibility = () => {
+                const defaultSettings = { fontSize: 'normal', contrast: 'normal', highlightLinks: false, cursorSize: 'normal' };
+                setAccessibilitySettings(defaultSettings);
+                localStorage.setItem('accessibilitySettings', JSON.stringify(defaultSettings));
+                applyAccessibilitySettings(defaultSettings);
+            };
+
+            const completeOnboarding = () => {
+                localStorage.setItem('hasSeenOnboarding', 'true');
+                setShowOnboarding(false);
+            };
+
+            const sendFeedback = async () => {
+                if (!feedbackText.trim()) return;
+                setFeedbackSending(true);
+                try {
+                    // Send feedback using EmailJS or similar service (hidden from user)
+                    const templateParams = {
+                        type: feedbackType,
+                        message: feedbackText,
+                        user_email: user?.email || 'לא מחובר',
+                        user_name: user?.displayName || 'אנונימי'
+                    };
+                    // Using a simple mailto link as fallback (opens email client)
+                    const subject = encodeURIComponent(`[ShopSmart] ${feedbackType === 'bug' ? 'דיווח על בעיה' : feedbackType === 'feature' ? 'בקשת פיצ\'ר' : 'משוב כללי'}`);
+                    const body = encodeURIComponent(`סוג: ${feedbackType}\n\nהודעה:\n${feedbackText}\n\n---\nמשתמש: ${user?.displayName || 'אנונימי'}\nאימייל: ${user?.email || 'לא זמין'}`);
+                    window.open(`mailto:yosigidi1979@gmail.com?subject=${subject}&body=${body}`, '_blank');
+                    setFeedbackSent(true);
+                    setFeedbackText('');
+                    setTimeout(() => {
+                        setShowFeedback(false);
+                        setFeedbackSent(false);
+                    }, 2000);
+                } catch (error) {
+                    console.error('Error sending feedback:', error);
+                }
+                setFeedbackSending(false);
+            };
 
             useEffect(() => {
                 if (!family || !currentList) {
@@ -5895,6 +6042,309 @@ END:VCALENDAR`;
                             </div>
                         )}
                     </div>
+
+                    {/* Accessibility Button */}
+                    <button
+                        onClick={() => setShowAccessibility(true)}
+                        className="accessibility-btn"
+                        title="הגדרות נגישות"
+                        aria-label="פתח תפריט נגישות"
+                    >
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="4" r="2" fill="white"/>
+                            <path d="M19 13v-2c-1.54.02-3.09-.75-4.07-1.83l-1.29-1.43c-.17-.19-.38-.34-.61-.45-.01 0-.01-.01-.02-.01H13c-.35-.2-.75-.3-1.19-.26C10.76 7.11 10 8.04 10 9.09V15c0 1.1.9 2 2 2h5v5h2v-5.5c0-1.1-.9-2-2-2h-3v-3.45c1.29 1.07 3.25 1.94 5 1.95zm-6.17 5c-.41 1.16-1.52 2-2.83 2-1.66 0-3-1.34-3-3 0-1.31.84-2.41 2-2.83V12.1c-2.28.46-4 2.48-4 4.9 0 2.76 2.24 5 5 5 2.42 0 4.44-1.72 4.9-4h-2.07z" fill="white"/>
+                        </svg>
+                    </button>
+
+                    {/* Help Button */}
+                    <button
+                        onClick={() => setShowHelp(true)}
+                        className="fixed bottom-100 left-4 w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-[9998] hover:scale-110 transition-transform"
+                        style={{ bottom: '160px' }}
+                        title="עזרה ומשוב"
+                    >
+                        ?
+                    </button>
+
+                    {/* Accessibility Modal */}
+                    {showAccessibility && (
+                        <div className="fixed inset-0 bg-black/50 z-[10000] flex items-start justify-center pt-10 overflow-y-auto" onClick={() => setShowAccessibility(false)}>
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 mb-10" onClick={e => e.stopPropagation()}>
+                                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                                    <button onClick={() => setShowAccessibility(false)} className="text-2xl text-gray-500 hover:text-gray-700">✕</button>
+                                    <h2 className="text-xl font-bold text-gray-800 dark:text-white">סרגל נגישות</h2>
+                                    <div className="w-8"></div>
+                                </div>
+                                <div className="p-4 space-y-4">
+                                    {/* Skip to content */}
+                                    <button onClick={() => { document.querySelector('main, [role="main"], .max-w-4xl')?.scrollIntoView(); setShowAccessibility(false); }}
+                                        className="w-full py-3 bg-gray-100 dark:bg-gray-700 rounded-xl font-medium text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                        דלג לתוכן העמוד
+                                    </button>
+
+                                    {/* Font Size */}
+                                    <div>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 text-center">גופן וקישורים</p>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => updateAccessibility('fontSize', 'large')}
+                                                className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.fontSize === 'large' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                הגדלת טקסט
+                                            </button>
+                                            <button onClick={() => updateAccessibility('fontSize', 'small')}
+                                                className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.fontSize === 'small' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                הקטנת טקסט
+                                            </button>
+                                            <button onClick={() => updateAccessibility('highlightLinks', !accessibilitySettings.highlightLinks)}
+                                                className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.highlightLinks ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                הדגש קישורים
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Contrast */}
+                                    <div>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 text-center">צבעים</p>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => updateAccessibility('contrast', 'low')}
+                                                className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.contrast === 'low' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                ניגודיות עדינה
+                                            </button>
+                                            <button onClick={() => updateAccessibility('contrast', 'normal')}
+                                                className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.contrast === 'normal' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                ניגודיות רגילה
+                                            </button>
+                                            <button onClick={() => updateAccessibility('contrast', 'high')}
+                                                className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.contrast === 'high' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                ניגודיות גבוהה
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Cursor */}
+                                    <div>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 text-center">סמן העכבר</p>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => updateAccessibility('cursorSize', 'large-black')}
+                                                className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.cursorSize === 'large-black' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                סמן גדול שחור
+                                            </button>
+                                            <button onClick={() => updateAccessibility('cursorSize', 'normal')}
+                                                className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.cursorSize === 'normal' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                סמן רגיל
+                                            </button>
+                                            <button onClick={() => updateAccessibility('cursorSize', 'large-white')}
+                                                className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.cursorSize === 'large-white' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
+                                                סמן גדול לבן
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Reset */}
+                                    <button onClick={resetAccessibility}
+                                        className="w-full py-3 bg-gray-200 dark:bg-gray-600 rounded-xl font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">
+                                        איפוס כל ההגדרות
+                                    </button>
+
+                                    {/* Footer links */}
+                                    <div className="flex justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
+                                        <button onClick={() => setShowFeedback(true)} className="text-blue-500 hover:underline text-sm">צור קשר</button>
+                                        <button onClick={() => alert('אפליקציית ShopSmart מחויבת לנגישות מלאה לכל המשתמשים.\n\nהאפליקציה תוכננה בהתאם לתקן הישראלי ת"י 5568 ולהנחיות WCAG 2.1 ברמה AA.\n\nלשאלות בנושא נגישות ניתן לפנות אלינו.')} className="text-blue-500 hover:underline text-sm">הצהרת נגישות</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Help Modal */}
+                    {showHelp && (
+                        <div className="fixed inset-0 bg-black/50 z-[10000] flex items-center justify-center p-4" onClick={() => setShowHelp(false)}>
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+                                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-800">
+                                    <button onClick={() => setShowHelp(false)} className="text-2xl text-gray-500 hover:text-gray-700">✕</button>
+                                    <h2 className="text-xl font-bold text-gray-800 dark:text-white">עזרה</h2>
+                                    <div className="w-8"></div>
+                                </div>
+                                <div className="p-4 space-y-4">
+                                    <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4">
+                                        <h3 className="font-bold text-indigo-800 dark:text-indigo-200 mb-2">🛒 איך להשתמש באפליקציה</h3>
+                                        <ul className="text-sm text-indigo-700 dark:text-indigo-300 space-y-2 list-disc list-inside">
+                                            <li>בחר קטגוריה ולחץ על מוצר להוספה לרשימה</li>
+                                            <li>החלק שמאלה על מוצר לסימון "נקנה"</li>
+                                            <li>החלק ימינה לדחייה לסוף הרשימה</li>
+                                            <li>השתמש בחיפוש למציאת מוצרים מהירה</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4">
+                                        <h3 className="font-bold text-purple-800 dark:text-purple-200 mb-2">👨‍👩‍👧‍👦 שיתוף עם המשפחה</h3>
+                                        <ul className="text-sm text-purple-700 dark:text-purple-300 space-y-2 list-disc list-inside">
+                                            <li>שתף את קוד המשפחה עם בני הבית</li>
+                                            <li>כולם יכולים להוסיף ולערוך פריטים</li>
+                                            <li>צ'אט מובנה לתיאום הקניות</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-amber-50 dark:bg-amber-900/30 rounded-xl p-4">
+                                        <h3 className="font-bold text-amber-800 dark:text-amber-200 mb-2">📷 סריקה חכמה</h3>
+                                        <ul className="text-sm text-amber-700 dark:text-amber-300 space-y-2 list-disc list-inside">
+                                            <li>סרוק מתכון להוספת רכיבים אוטומטית</li>
+                                            <li>צלם מוצר לזיהוי והוספה</li>
+                                        </ul>
+                                    </div>
+                                    <button onClick={() => { setShowHelp(false); setShowFeedback(true); }}
+                                        className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold hover:opacity-90 transition-opacity">
+                                        📧 שלח משוב או דיווח על בעיה
+                                    </button>
+                                    <button onClick={() => { localStorage.removeItem('hasSeenOnboarding'); setShowHelp(false); setShowOnboarding(true); setOnboardingStep(0); }}
+                                        className="w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                        🎓 הצג הדרכה מחדש
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Feedback Modal */}
+                    {showFeedback && (
+                        <div className="fixed inset-0 bg-black/50 z-[10001] flex items-center justify-center p-4" onClick={() => setShowFeedback(false)}>
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md" onClick={e => e.stopPropagation()}>
+                                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                                    <button onClick={() => setShowFeedback(false)} className="text-2xl text-gray-500 hover:text-gray-700">✕</button>
+                                    <h2 className="text-xl font-bold text-gray-800 dark:text-white">שלח משוב</h2>
+                                    <div className="w-8"></div>
+                                </div>
+                                {feedbackSent ? (
+                                    <div className="p-8 text-center">
+                                        <div className="text-5xl mb-4">✅</div>
+                                        <p className="text-lg font-medium text-gray-800 dark:text-white">תודה על המשוב!</p>
+                                        <p className="text-gray-500 dark:text-gray-400">נחזור אליך בהקדם</p>
+                                    </div>
+                                ) : (
+                                    <div className="p-4 space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">סוג הפנייה</label>
+                                            <div className="flex gap-2">
+                                                <button onClick={() => setFeedbackType('bug')}
+                                                    className={`flex-1 py-2 rounded-xl font-medium transition-colors ${feedbackType === 'bug' ? 'bg-red-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}>
+                                                    🐛 באג
+                                                </button>
+                                                <button onClick={() => setFeedbackType('feature')}
+                                                    className={`flex-1 py-2 rounded-xl font-medium transition-colors ${feedbackType === 'feature' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}>
+                                                    💡 בקשה
+                                                </button>
+                                                <button onClick={() => setFeedbackType('other')}
+                                                    className={`flex-1 py-2 rounded-xl font-medium transition-colors ${feedbackType === 'other' ? 'bg-purple-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}>
+                                                    💬 אחר
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">תיאור</label>
+                                            <textarea
+                                                value={feedbackText}
+                                                onChange={(e) => setFeedbackText(e.target.value)}
+                                                placeholder="ספר לנו מה קרה או מה תרצה לראות..."
+                                                className="w-full h-32 p-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white resize-none focus:ring-2 focus:ring-indigo-500"
+                                            />
+                                        </div>
+                                        <button onClick={sendFeedback} disabled={!feedbackText.trim() || feedbackSending}
+                                            className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold disabled:opacity-50 hover:opacity-90 transition-opacity">
+                                            {feedbackSending ? '⏳ שולח...' : '📤 שלח'}
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Onboarding Modal */}
+                    {showOnboarding && (
+                        <div className="fixed inset-0 bg-black/70 z-[10002] flex items-center justify-center p-4">
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+                                {onboardingStep === 0 && (
+                                    <div className="p-6 text-center">
+                                        <div className="text-6xl mb-4">🛒</div>
+                                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">ברוכים הבאים ל-ShopSmart!</h2>
+                                        <p className="text-gray-600 dark:text-gray-300 mb-6">רשימת קניות חכמה לכל המשפחה</p>
+                                        <button onClick={() => setOnboardingStep(1)} className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold">
+                                            בואו נתחיל! →
+                                        </button>
+                                    </div>
+                                )}
+                                {onboardingStep === 1 && (
+                                    <div className="p-6">
+                                        <div className="text-4xl mb-3 text-center">📱</div>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">הוספת מוצרים</h3>
+                                        <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4 mb-4">
+                                            <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                                                <li>📂 <strong>קטגוריות:</strong> בחר קטגוריה ולחץ על מוצר</li>
+                                                <li>🔍 <strong>חיפוש:</strong> הקלד שם מוצר בשורת החיפוש</li>
+                                                <li>🎤 <strong>קולי:</strong> לחץ על המיקרופון ואמור את המוצר</li>
+                                            </ul>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => setOnboardingStep(0)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">← הקודם</button>
+                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">הבא →</button>
+                                        </div>
+                                    </div>
+                                )}
+                                {onboardingStep === 2 && (
+                                    <div className="p-6">
+                                        <div className="text-4xl mb-3 text-center">👆</div>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">ניהול הרשימה</h3>
+                                        <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4 mb-4">
+                                            <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                                                <li>👈 <strong>החלקה שמאלה:</strong> סימון "נקנה" ✓</li>
+                                                <li>👉 <strong>החלקה ימינה:</strong> דחייה לסוף הרשימה</li>
+                                                <li>🔢 <strong>לחיצה על כמות:</strong> שינוי כמות</li>
+                                                <li>📝 <strong>לחיצה ארוכה:</strong> עריכת הערה</li>
+                                            </ul>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => setOnboardingStep(1)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">← הקודם</button>
+                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">הבא →</button>
+                                        </div>
+                                    </div>
+                                )}
+                                {onboardingStep === 3 && (
+                                    <div className="p-6">
+                                        <div className="text-4xl mb-3 text-center">👨‍👩‍👧‍👦</div>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">שיתוף משפחתי</h3>
+                                        <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4 mb-4">
+                                            <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                                                <li>🔗 <strong>קוד משפחה:</strong> שתף עם בני הבית להצטרפות</li>
+                                                <li>💬 <strong>צ'אט:</strong> תקשורת בזמן אמת</li>
+                                                <li>🔄 <strong>סנכרון:</strong> שינויים מופיעים מיד אצל כולם</li>
+                                            </ul>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">← הקודם</button>
+                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">הבא →</button>
+                                        </div>
+                                    </div>
+                                )}
+                                {onboardingStep === 4 && (
+                                    <div className="p-6 text-center">
+                                        <div className="text-6xl mb-4">🎉</div>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">מוכנים לקניות!</h3>
+                                        <p className="text-gray-600 dark:text-gray-300 mb-4">תמיד אפשר לחזור להדרכה מכפתור העזרה</p>
+                                        <div className="flex gap-2 text-xs text-gray-500 dark:text-gray-400 justify-center mb-4">
+                                            <span>♿ נגישות</span>
+                                            <span>•</span>
+                                            <span>❓ עזרה</span>
+                                        </div>
+                                        <button onClick={completeOnboarding} className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold">
+                                            ✨ בואו נתחיל!
+                                        </button>
+                                    </div>
+                                )}
+                                {/* Progress dots */}
+                                <div className="flex justify-center gap-2 pb-4">
+                                    {[0, 1, 2, 3, 4].map(step => (
+                                        <div key={step} className={`w-2 h-2 rounded-full transition-colors ${onboardingStep === step ? 'bg-indigo-500' : 'bg-gray-300 dark:bg-gray-600'}`} />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
         }
