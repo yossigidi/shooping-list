@@ -76,7 +76,7 @@
   "screenshots": [
     {
       "src": "screenshots/screenshot1.png",
-      "sizes": "540x720",
+      "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "מסך ראשי - רשימת קניות"
