@@ -1,6 +1,6 @@
 {
-  "name": "ShopSmart - רשימת קניות משפחתית",
-  "short_name": "ShopSmart",
+  "name": "רשימת קניות משותפת חכמה",
+  "short_name": "רשימת קניות",
   "description": "אפליקציה חכמה לניהול רשימת קניות משפחתית עם שיתוף בזמן אמת",
   "start_url": "/shooping-list/",
   "scope": "/shooping-list/",

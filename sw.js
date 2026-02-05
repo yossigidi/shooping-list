@@ -86,6 +86,6 @@ self.addEventListener('push', event => {
   };
 
   event.waitUntil(
-    self.registration.showNotification('ShopSmart', options)
+    self.registration.showNotification('רשימת קניות משותפת חכמה', options)
   );
 });

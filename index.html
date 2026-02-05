@@ -6,11 +6,11 @@
     <meta name="theme-color" content="#4F46E5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="ShopSmart">
+    <meta name="apple-mobile-web-app-title" content="רשימת קניות משותפת חכמה">
     <meta name="description" content="אפליקציה חכמה לניהול רשימת קניות משפחתית עם שיתוף בזמן אמת">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    <title>ShopSmart - רשימת קניות חכמה</title>
+    <title>רשימת קניות משותפת חכמה - רשימת קניות חכמה</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1402,7 +1402,7 @@
 
                         <div className="text-center mb-8 pt-4">
                             <div className="text-7xl mb-4 float">🛒</div>
-                            <h1 className="text-3xl font-bold text-gradient mb-2">ShopSmart</h1>
+                            <h1 className="text-3xl font-bold text-gradient mb-2">רשימת קניות משותפת חכמה</h1>
                             <p className="text-gray-500 dark:text-gray-400 text-sm">רשימת הקניות החכמה שלך</p>
                         </div>
 
@@ -2596,7 +2596,7 @@
                         user_name: user?.displayName || 'אנונימי'
                     };
                     // Using a simple mailto link as fallback (opens email client)
-                    const subject = encodeURIComponent(`[ShopSmart] ${feedbackType === 'bug' ? 'דיווח על בעיה' : feedbackType === 'feature' ? 'בקשת פיצ\'ר' : 'משוב כללי'}`);
+                    const subject = encodeURIComponent(`[רשימת קניות משותפת חכמה] ${feedbackType === 'bug' ? 'דיווח על בעיה' : feedbackType === 'feature' ? 'בקשת פיצ\'ר' : 'משוב כללי'}`);
                     const body = encodeURIComponent(`סוג: ${feedbackType}\n\nהודעה:\n${feedbackText}\n\n---\nמשתמש: ${user?.displayName || 'אנונימי'}\nאימייל: ${user?.email || 'לא זמין'}`);
                     window.open(`mailto:shopinglist1979@gmail.com?subject=${subject}&body=${body}`, '_blank');
                     setFeedbackSent(true);
@@ -3701,7 +3701,7 @@
                 endDate.setDate(endDate.getDate() + 1);
 
                 const title = encodeURIComponent(`🛒 קניות לפני ${holiday.name}`);
-                const details = encodeURIComponent(`${holiday.reminder}\n\nתזכורת מאפליקציית ShopSmart`);
+                const details = encodeURIComponent(`${holiday.reminder}\n\nתזכורת מאפליקציית רשימת קניות משותפת חכמה`);
                 const startStr = formatDateForGoogle(reminderDate);
                 const endStr = formatDateForGoogle(endDate);
 
@@ -3720,12 +3720,12 @@
 
                 const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//ShopSmart//Shopping Reminder//HE
+PRODID:-//רשימת קניות משותפת חכמה//Shopping Reminder//HE
 BEGIN:VEVENT
 DTSTART;VALUE=DATE:${formatICSDate(reminderDate)}
 DTEND;VALUE=DATE:${formatICSDate(endDate)}
 SUMMARY:🛒 קניות לפני ${holiday.name}
-DESCRIPTION:${holiday.reminder}\\n\\nתזכורת מאפליקציית ShopSmart
+DESCRIPTION:${holiday.reminder}\\n\\nתזכורת מאפליקציית רשימת קניות משותפת חכמה
 END:VEVENT
 END:VCALENDAR`;
 
@@ -4146,7 +4146,7 @@ END:VCALENDAR`;
             };
 
             return (
-                <div className="min-h-screen gradient-bg p-4 pb-20" role="application" aria-label="ShopSmart - רשימת קניות">
+                <div className="min-h-screen gradient-bg p-4 pb-20" role="application" aria-label="רשימת קניות משותפת חכמה - רשימת קניות">
                     {/* Main content landmark for skip link */}
                     <main id="main-content" role="main" aria-label="תוכן ראשי">
 
@@ -5453,7 +5453,7 @@ END:VCALENDAR`;
                                         <span className="text-3xl">🛒</span>
                                     </div>
                                     <div>
-                                        <h1 className="text-2xl font-bold text-gradient">ShopSmart</h1>
+                                        <h1 className="text-2xl font-bold text-gradient">רשימת קניות משותפת חכמה</h1>
                                         <div className="flex items-center gap-2 mt-1 flex-wrap">
                                             <button onClick={() => setShowFamilySettings(true)} className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300 hover:scale-105 transition-transform cursor-pointer">
                                                 👨‍👩‍👧‍👦 {family?.name}
@@ -6240,7 +6240,7 @@ END:VCALENDAR`;
                                     {/* Footer links */}
                                     <div className="flex justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
                                         <button onClick={() => setShowFeedback(true)} className="text-blue-500 hover:underline text-sm">צור קשר</button>
-                                        <button onClick={() => alert('אפליקציית ShopSmart מחויבת לנגישות מלאה לכל המשתמשים.\n\nהאפליקציה תוכננה בהתאם לתקן הישראלי ת"י 5568 ולהנחיות WCAG 2.1 ברמה AA.\n\nלשאלות בנושא נגישות ניתן לפנות אלינו.')} className="text-blue-500 hover:underline text-sm">הצהרת נגישות</button>
+                                        <button onClick={() => alert('אפליקציית רשימת קניות משותפת חכמה מחויבת לנגישות מלאה לכל המשתמשים.\n\nהאפליקציה תוכננה בהתאם לתקן הישראלי ת"י 5568 ולהנחיות WCAG 2.1 ברמה AA.\n\nלשאלות בנושא נגישות ניתן לפנות אלינו.')} className="text-blue-500 hover:underline text-sm">הצהרת נגישות</button>
                                     </div>
                                 </div>
                             </div>
@@ -6354,7 +6354,7 @@ END:VCALENDAR`;
                                 {onboardingStep === 0 && (
                                     <div className="p-6 text-center">
                                         <div className="text-6xl mb-4">🛒</div>
-                                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">ברוכים הבאים ל-ShopSmart!</h2>
+                                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">ברוכים הבאים ל-רשימת קניות משותפת חכמה!</h2>
                                         <p className="text-gray-600 dark:text-gray-300 mb-6">רשימת קניות חכמה לכל המשפחה</p>
                                         <button onClick={() => setOnboardingStep(1)} className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold">
                                             בואו נתחיל! →
