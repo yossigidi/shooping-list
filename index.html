@@ -6980,7 +6980,7 @@ END:VCALENDAR`;
                             {totalItems > 0 && (
                                 <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 rounded-2xl p-4 mb-4">
                                     <div className="flex justify-between mb-2 text-sm">
-                                        <span className="text-gray-600 dark:text-gray-300 font-medium">התקדמות קנייה</span>
+                                        <span className="text-gray-600 dark:text-gray-300 font-medium">{t('shoppingProgress')}</span>
                                         <span className="font-bold text-gradient">{purchasedCount} / {totalItems}</span>
                                     </div>
                                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
@@ -6988,29 +6988,29 @@ END:VCALENDAR`;
                                             style={{ width: `${totalItems > 0 ? (purchasedCount / totalItems) * 100 : 0}%` }} />
                                     </div>
                                     {purchasedCount === totalItems && totalItems > 0 && (
-                                        <div className="text-center mt-2 text-sm text-green-600 dark:text-green-400 font-medium">🎉 כל המוצרים נקנו!</div>
+                                        <div className="text-center mt-2 text-sm text-green-600 dark:text-green-400 font-medium">🎉 {t('allPurchased')}</div>
                                     )}
                                 </div>
                             )}
 
                             <div className="grid grid-cols-2 gap-3">
-                                <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : alert('אין מוצרים שנקנו עדיין. סמן מוצרים שקנית.')}
+                                <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : alert(t('markPurchased'))}
                                     className="relative overflow-hidden bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/30 dark:to-green-900/30 p-4 rounded-2xl border border-emerald-200/50 dark:border-emerald-700/50 card-hover group">
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">סיים קנייה</div>
+                                    <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">{t('finishShopping')}</div>
                                     <div className="text-3xl my-1">✅</div>
                                     {purchasedCount > 0 ? (
-                                        <div className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">{purchasedCount} פריטים נקנו</div>
+                                        <div className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">{purchasedCount} {t('itemsPurchased')}</div>
                                     ) : (
-                                        <div className="text-xs text-gray-400 dark:text-gray-500">סמן מוצרים שקנית</div>
+                                        <div className="text-xs text-gray-400 dark:text-gray-500">{t('markPurchased')}</div>
                                     )}
                                 </button>
                                 <button onClick={() => setShowHistory(true)}
                                     className="relative overflow-hidden bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-4 rounded-2xl border border-purple-200/50 dark:border-purple-700/50 card-hover group">
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">היסטוריה</div>
+                                    <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">{t('history')}</div>
                                     <div className="text-3xl my-1">📊</div>
-                                    <div className="text-xs text-purple-600 dark:text-purple-400 font-semibold">{history.length} קניות</div>
+                                    <div className="text-xs text-purple-600 dark:text-purple-400 font-semibold">{history.length} {t('purchases')}</div>
                                 </button>
                             </div>
 
