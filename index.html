@@ -5291,7 +5291,7 @@ END:VCALENDAR`;
                                     </button>
                                     <button onClick={() => setShowChat(true)} className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform relative" title="צ'אט משפחתי">
                                         💬
-                                        {chatMessages.length > 0 && (
+                                        {chatMessages.some(msg => msg.senderUid !== user.uid && (!msg.readBy || !msg.readBy.includes(user.uid))) && (
                                             <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
                                         )}
                                     </button>
