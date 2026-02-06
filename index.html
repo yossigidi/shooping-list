@@ -9583,14 +9583,115 @@ END:VCALENDAR`;
 
                         {filteredItems.length > 0 && (
                             <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-6 mb-6">
-                                <h2 className="text-2xl font-bold mb-6 dark:text-white flex items-center gap-3">
+                                <h2 className="text-2xl font-bold mb-4 dark:text-white flex items-center gap-3">
                                     <span className="text-3xl">📝</span>
                                     <span className="text-gradient">הרשימה שלי</span>
                                     <span className="btn-gradient text-white text-sm px-3 py-1 rounded-full">{filteredItems.length}</span>
                                 </h2>
+
+                                {/* Estimated Total & Templates */}
+                                <div className="flex flex-wrap items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+                                    {estimatedTotal > 0 && (
+                                        <div className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-xl">
+                                            <span>💰</span>
+                                            <span className="font-semibold">סה״כ משוער: ₪{estimatedTotal.toFixed(2)}</span>
+                                        </div>
+                                    )}
+                                    <button
+                                        onClick={() => setShowTemplates(!showTemplates)}
+                                        className="flex items-center gap-2 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 px-4 py-2 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-all"
+                                    >
+                                        <span>📋</span>
+                                        <span className="font-medium">תבניות</span>
+                                    </button>
+                                    {items.filter(i => !i.purchased).length > 0 && (
+                                        <button
+                                            onClick={() => setShowSaveTemplate(true)}
+                                            className="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 px-4 py-2 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-all"
+                                        >
+                                            <span>💾</span>
+                                            <span className="font-medium">שמור כתבנית</span>
+                                        </button>
+                                    )}
+                                </div>
+
+                                {/* Templates Panel */}
+                                {showTemplates && (
+                                    <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
+                                        <h3 className="font-bold text-purple-700 dark:text-purple-400 mb-3 flex items-center gap-2">
+                                            <span>📋</span> התבניות שלי
+                                        </h3>
+                                        {templates.length === 0 ? (
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">אין תבניות שמורות עדיין. שמור רשימה כתבנית לשימוש חוזר!</p>
+                                        ) : (
+                                            <div className="grid gap-2">
+                                                {templates.map(template => (
+                                                    <div key={template.id} className="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded-lg">
+                                                        <div>
+                                                            <span className="font-medium">{template.name}</span>
+                                                            <span className="text-xs text-gray-500 mr-2">({template.items.length} פריטים)</span>
+                                                        </div>
+                                                        <div className="flex gap-2">
+                                                            <button
+                                                                onClick={() => loadTemplate(template)}
+                                                                className="text-xs bg-purple-500 text-white px-3 py-1 rounded-lg hover:bg-purple-600"
+                                                            >
+                                                                טען
+                                                            </button>
+                                                            <button
+                                                                onClick={() => deleteTemplate(template.id)}
+                                                                className="text-xs bg-red-100 text-red-600 px-3 py-1 rounded-lg hover:bg-red-200"
+                                                            >
+                                                                מחק
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Save Template Modal */}
+                                {showSaveTemplate && (
+                                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                                        <div className="glass rounded-2xl p-6 w-full max-w-md">
+                                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                                <span>💾</span> שמור כתבנית
+                                            </h3>
+                                            <input
+                                                type="text"
+                                                value={newTemplateName}
+                                                onChange={(e) => setNewTemplateName(e.target.value)}
+                                                placeholder="שם התבנית (לדוגמה: קניות שבועיות)"
+                                                className="w-full p-3 border rounded-xl dark:bg-gray-700 dark:border-gray-600 mb-4"
+                                                autoFocus
+                                            />
+                                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                                                יישמרו {items.filter(i => !i.purchased).length} פריטים לא מסומנים
+                                            </p>
+                                            <div className="flex gap-3">
+                                                <button
+                                                    onClick={() => { setShowSaveTemplate(false); setNewTemplateName(''); }}
+                                                    className="flex-1 px-4 py-2 border rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                >
+                                                    ביטול
+                                                </button>
+                                                <button
+                                                    onClick={() => saveAsTemplate(newTemplateName)}
+                                                    disabled={!newTemplateName.trim()}
+                                                    className="flex-1 btn-gradient text-white px-4 py-2 rounded-xl disabled:opacity-50"
+                                                >
+                                                    שמור
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
                                 {Object.entries(groupedItems).map(([category, categoryItems]) => (
                                     <div key={category} className="mb-6">
-                                        <h3 className="flex items-center gap-2 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
+                                        <h3 className="sticky-category-header flex items-center gap-2 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
                                             <span className="text-xl">{CATEGORIES[category]?.icon}</span>
                                             <span className="text-base font-semibold text-gray-700 dark:text-gray-300">{CATEGORIES[category]?.name}</span>
                                             <span className="text-xs bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded-full font-medium">{categoryItems.length}</span>
@@ -9598,7 +9699,7 @@ END:VCALENDAR`;
                                         {categoryItems.map(item => (
                                             <SwipeableItem
                                                 key={item.id}
-                                                className="mb-3 fade-slide-in"
+                                                className={`mb-3 ${exitingItems.has(item.id) ? 'item-exit' : 'item-enter'}`}
                                                 purchased={item.purchased}
                                                 onSwipeRight={() => !item.purchased && togglePurchasedWithAnimation(item.id, item.purchased)}
                                                 onSwipeLeft={() => !item.purchased && postponeItem(item.id)}
@@ -9658,6 +9759,29 @@ END:VCALENDAR`;
                                                             </div>
                                                         </div>
 
+                                                        {/* Price display/edit */}
+                                                        {editingPriceId === item.id ? (
+                                                            <div className="flex items-center gap-1 flex-shrink-0">
+                                                                <input
+                                                                    type="number"
+                                                                    value={editingPriceValue}
+                                                                    onChange={(e) => setEditingPriceValue(e.target.value)}
+                                                                    onBlur={() => { updateItemPrice(item.id, parseFloat(editingPriceValue) || 0); }}
+                                                                    onKeyDown={(e) => e.key === 'Enter' && updateItemPrice(item.id, parseFloat(editingPriceValue) || 0)}
+                                                                    className="w-16 px-2 py-1 text-sm border rounded dark:bg-gray-700 dark:border-gray-600"
+                                                                    placeholder="₪"
+                                                                    autoFocus
+                                                                />
+                                                            </div>
+                                                        ) : item.price ? (
+                                                            <button
+                                                                onClick={() => { setEditingPriceId(item.id); setEditingPriceValue(item.price.toString()); }}
+                                                                className="text-xs text-green-600 dark:text-green-400 font-medium px-2 py-1 rounded hover:bg-green-50 dark:hover:bg-green-900/20"
+                                                            >
+                                                                ₪{item.price.toFixed(2)}
+                                                            </button>
+                                                        ) : null}
+
                                                         {/* Quantity - compact stepper */}
                                                         <div className="qty-stepper flex-shrink-0" role="group" aria-label={`כמות ${item.name}`}>
                                                             <button
@@ -9693,6 +9817,11 @@ END:VCALENDAR`;
                                                                 {!item.note && (
                                                                     <button onClick={() => { setEditingNote(item); setOpenItemMenu(null); }} className="item-action-btn">
                                                                         <span>📝</span> הוסף הערה
+                                                                    </button>
+                                                                )}
+                                                                {!item.price && (
+                                                                    <button onClick={() => { setEditingPriceId(item.id); setEditingPriceValue(''); setOpenItemMenu(null); }} className="item-action-btn">
+                                                                        <span>💰</span> הוסף מחיר משוער
                                                                     </button>
                                                                 )}
                                                                 {!item.purchased && (
