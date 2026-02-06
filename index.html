@@ -3363,7 +3363,8 @@
 
         // Helper function to get translated product name
         function getProductTranslation(productName, language) {
-            if (language === 'he') return productName;
+            if (!productName) return '';
+            if (!language || language === 'he') return productName;
             const translation = PRODUCT_TRANSLATIONS[productName];
             if (translation && translation[language]) {
                 return translation[language];
