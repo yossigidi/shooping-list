@@ -6221,8 +6221,8 @@ END:VCALENDAR`;
                 return acc;
             }, {});
 
-            const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-            const purchasedCount = items.filter(item => item.purchased).reduce((sum, item) => sum + item.quantity, 0);
+            const totalItems = items.reduce((sum, item) => sum + getQuantityNumber(item.quantity), 0);
+            const purchasedCount = items.filter(item => item.purchased).reduce((sum, item) => sum + getQuantityNumber(item.quantity), 0);
 
             // WCAG 4.1.3 - Announce status messages to screen readers
             const announceToScreenReader = (message, priority = 'polite') => {
