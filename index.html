@@ -3371,6 +3371,16 @@
             return productName; // Return Hebrew if no translation found
         }
 
+        // Helper function to extract number from quantity (handles both number and string formats)
+        function getQuantityNumber(quantity) {
+            if (typeof quantity === 'number') return quantity;
+            if (typeof quantity === 'string') {
+                const numMatch = quantity.match(/^([\d.]+)/);
+                return numMatch ? parseFloat(numMatch[1]) : 1;
+            }
+            return 1;
+        }
+
         // Confetti burst effect component
         function ConfettiBurst({ x, y, onComplete }) {
             const [particles, setParticles] = useState([]);
@@ -3949,15 +3959,13 @@
                     // Check if already exists
                     const existing = items.find(item => item.name === productName && !item.purchased);
                     if (existing) {
-                        // Update quantity
-                        let newQty;
-                        if (typeof existing.quantity === 'string') {
-                            const numMatch = existing.quantity.match(/^([\d.]+)/);
-                            const existingNum = numMatch ? parseFloat(numMatch[1]) : 1;
-                            newQty = `${existingNum + qty} ${unit}`;
-                        } else {
-                            newQty = `${(existing.quantity || 0) + qty} ${unit}`;
+                        // Update quantity - extract number if string
+                        let existingNum = existing.quantity;
+                        if (typeof existingNum === 'string') {
+                            const numMatch = existingNum.match(/^([\d.]+)/);
+                            existingNum = numMatch ? parseFloat(numMatch[1]) : 1;
                         }
+                        const newQty = (existingNum || 0) + qty;
                         await window.firestore.updateDoc(
                             window.firestore.doc(window.db, 'shopping-items', existing.id),
                             { quantity: newQty, unit: unit, updatedAt: new Date() }
@@ -3967,7 +3975,7 @@
                         await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                             name: productName,
                             category: category,
-                            quantity: `${qty} ${unit}`,
+                            quantity: qty,
                             unit: unit,
                             purchased: false,
                             familyId: family.id,
@@ -4908,7 +4916,7 @@
                     await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                         name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
                         category,
-                        quantity: `1 ${unit}`,
+                        quantity: 1,
                         unit,
                         purchased: false,
                         addedBy: user.displayName || user.email,
@@ -5871,19 +5879,13 @@ END:VCALENDAR`;
                     const existing = items.find(item => item.name === product && !item.purchased);
 
                     if (existing) {
-                        // Add to existing quantity
-                        let newQty;
-                        if (typeof existing.quantity === 'string') {
-                            const numMatch = existing.quantity.match(/^([\d.]+)/);
-                            if (numMatch) {
-                                const num = parseFloat(numMatch[1]) + selectedQuantity;
-                                newQty = `${num} ${selectedUnit}`;
-                            } else {
-                                newQty = `${selectedQuantity + 1} ${selectedUnit}`;
-                            }
-                        } else {
-                            newQty = `${(existing.quantity || 0) + selectedQuantity} ${selectedUnit}`;
+                        // Add to existing quantity - extract number if string
+                        let existingNum = existing.quantity;
+                        if (typeof existingNum === 'string') {
+                            const numMatch = existingNum.match(/^([\d.]+)/);
+                            existingNum = numMatch ? parseFloat(numMatch[1]) : 1;
                         }
+                        const newQty = (existingNum || 0) + selectedQuantity;
 
                         const updateData = {
                                 quantity: newQty,
@@ -5903,7 +5905,7 @@ END:VCALENDAR`;
                         await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                             name: product,
                             category: category,
-                            quantity: `${selectedQuantity} ${selectedUnit}`,
+                            quantity: selectedQuantity,
                             unit: selectedUnit,
                             purchased: false,
                             familyId: family.id,
@@ -8054,17 +8056,17 @@ END:VCALENDAR`;
                                                         {/* Quantity Stepper - WCAG compliant */}
                                                         <div className="qty-stepper flex-shrink-0" role="group" aria-label={`כמות ${item.name}`}>
                                                             <button
-                                                                onClick={() => updateQuantity(item.id, (typeof item.quantity === 'number' ? item.quantity : 1) - 1)}
+                                                                onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) - 1)}
                                                                 aria-label={`הפחת כמות של ${item.name}`}
                                                                 className="qty-btn text-gray-500 dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 touch-target"
                                                             >
                                                                 <span aria-hidden="true">−</span>
                                                             </button>
                                                             <span className="qty-value text-gray-800 dark:text-white" aria-live="polite" aria-atomic="true">
-                                                                {typeof item.quantity === 'string' ? item.quantity : item.quantity}
+                                                                {getQuantityNumber(item.quantity)}
                                                             </span>
                                                             <button
-                                                                onClick={() => updateQuantity(item.id, (typeof item.quantity === 'number' ? item.quantity : 1) + 1)}
+                                                                onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) + 1)}
                                                                 aria-label={`הוסף כמות של ${item.name}`}
                                                                 className="qty-btn text-gray-500 dark:text-gray-400 hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 touch-target"
                                                             >
