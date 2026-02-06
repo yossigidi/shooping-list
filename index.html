@@ -5509,7 +5509,7 @@
             // Generic update item function for offline sync
             const updateItem = async (itemId, data, skipQueue = false) => {
                 try {
-                    const itemRef = window.firestore.doc(window.db, 'items', itemId);
+                    const itemRef = window.firestore.doc(window.db, 'shopping-items', itemId);
                     await window.firestore.updateDoc(itemRef, data);
                 } catch (e) {
                     console.error('Error updating item:', e);
