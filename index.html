@@ -51,6 +51,59 @@
         .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); border-radius: 3px; }
         .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.5); }
 
+        /* Item enter/exit animations */
+        @keyframes itemEnter {
+            from { opacity: 0; transform: translateX(20px); max-height: 0; }
+            to { opacity: 1; transform: translateX(0); max-height: 200px; }
+        }
+        @keyframes itemExit {
+            from { opacity: 1; transform: translateX(0); max-height: 200px; }
+            to { opacity: 0; transform: translateX(-30px); max-height: 0; margin: 0; padding: 0; }
+        }
+        .item-enter { animation: itemEnter 0.3s ease-out forwards; }
+        .item-exit { animation: itemExit 0.3s ease-out forwards; overflow: hidden; }
+
+        /* Sync status indicator */
+        .sync-indicator {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .sync-indicator.online { background: rgba(16, 185, 129, 0.9); color: white; }
+        .sync-indicator.offline { background: rgba(239, 68, 68, 0.9); color: white; }
+        .sync-indicator.syncing { background: rgba(245, 158, 11, 0.9); color: white; }
+        @keyframes syncSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .sync-spin { animation: syncSpin 1s linear infinite; }
+
+        /* Sticky category header */
+        .sticky-category-header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            margin: -24px -24px 16px -24px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dark .sticky-category-header {
+            background: rgba(30, 41, 59, 0.95);
+            border-bottom-color: rgba(255,255,255,0.1);
+        }
+
         /* Swipe gesture styles - Enhanced */
         .swipe-container { position: relative; overflow: hidden; touch-action: pan-y pinch-zoom; border-radius: 16px; }
         .swipe-background { position: absolute; top: 0; bottom: 0; width: 100%; display: flex; align-items: center; padding: 0 24px; border-radius: 16px; }
@@ -5053,6 +5106,27 @@
             const [priceCompareResults, setPriceCompareResults] = useState(null);
             const priceVideoRef = React.useRef(null);
             const priceCanvasRef = React.useRef(null);
+            // Offline mode state
+            const [isOnline, setIsOnline] = useState(navigator.onLine);
+            const [pendingOperations, setPendingOperations] = useState(() => {
+                try { return JSON.parse(localStorage.getItem('pendingOps') || '[]'); } catch { return []; }
+            });
+            const [syncStatus, setSyncStatus] = useState('synced');
+            // Item animations
+            const [exitingItems, setExitingItems] = useState(new Set());
+            // Templates system
+            const [templates, setTemplates] = useState(() => {
+                try { return JSON.parse(localStorage.getItem('shoppingTemplates') || '[]'); } catch { return []; }
+            });
+            const [showTemplates, setShowTemplates] = useState(false);
+            const [showSaveTemplate, setShowSaveTemplate] = useState(false);
+            const [newTemplateName, setNewTemplateName] = useState('');
+            // Sticky category header
+            const [activeCategory, setActiveCategory] = useState(null);
+            const categoryObserverRef = React.useRef(null);
+            // Price editing
+            const [editingPriceId, setEditingPriceId] = useState(null);
+            const [editingPriceValue, setEditingPriceValue] = useState('');
             // AI Assistant
             const [showAIAssistant, setShowAIAssistant] = useState(false);
             const [aiSuggestions, setAiSuggestions] = useState([]);
@@ -5390,6 +5464,96 @@
                 setWhatsAppText('');
                 setShowImportWhatsApp(false);
             };
+
+            // ============================================
+            // Offline Mode Functions
+            // ============================================
+            useEffect(() => {
+                const handleOnline = () => { setIsOnline(true); syncPendingOperations(); };
+                const handleOffline = () => { setIsOnline(false); };
+                window.addEventListener('online', handleOnline);
+                window.addEventListener('offline', handleOffline);
+                return () => {
+                    window.removeEventListener('online', handleOnline);
+                    window.removeEventListener('offline', handleOffline);
+                };
+            }, []);
+
+            const queueOperation = (operation) => {
+                const ops = [...pendingOperations, { ...operation, timestamp: Date.now() }];
+                localStorage.setItem('pendingOps', JSON.stringify(ops));
+                setPendingOperations(ops);
+                setSyncStatus('pending');
+            };
+
+            const syncPendingOperations = async () => {
+                if (pendingOperations.length === 0) return;
+                setSyncStatus('syncing');
+                try {
+                    for (const op of pendingOperations) {
+                        if (op.type === 'add') await addProduct(op.name, op.category, op.quantity, true);
+                        else if (op.type === 'delete') await deleteItem(op.id, true);
+                        else if (op.type === 'update') await updateItem(op.id, op.data, true);
+                    }
+                    localStorage.removeItem('pendingOps');
+                    setPendingOperations([]);
+                    setSyncStatus('synced');
+                } catch (e) {
+                    console.error('Sync failed:', e);
+                    setSyncStatus('pending');
+                }
+            };
+
+            // ============================================
+            // Templates System
+            // ============================================
+            const saveAsTemplate = (name) => {
+                if (!name.trim()) return;
+                const template = {
+                    id: Date.now(),
+                    name: name.trim(),
+                    items: items.filter(i => !i.purchased).map(i => ({
+                        name: i.name, category: i.category, quantity: i.quantity
+                    })),
+                    createdAt: new Date().toISOString()
+                };
+                const newTemplates = [...templates, template];
+                setTemplates(newTemplates);
+                localStorage.setItem('shoppingTemplates', JSON.stringify(newTemplates));
+                setShowSaveTemplate(false);
+                setNewTemplateName('');
+            };
+
+            const loadTemplate = async (template) => {
+                for (const item of template.items) {
+                    await addProduct(item.name, item.category, item.quantity);
+                }
+                setShowTemplates(false);
+            };
+
+            const deleteTemplate = (templateId) => {
+                const newTemplates = templates.filter(t => t.id !== templateId);
+                setTemplates(newTemplates);
+                localStorage.setItem('shoppingTemplates', JSON.stringify(newTemplates));
+            };
+
+            // ============================================
+            // Price per Item
+            // ============================================
+            const updateItemPrice = async (itemId, price) => {
+                if (!currentList || !family) return;
+                const priceNum = parseFloat(price) || 0;
+                const itemRef = doc(db, 'families', family.id, 'lists', currentList.id, 'items', itemId);
+                await updateDoc(itemRef, { price: priceNum });
+                setEditingPriceId(null);
+                setEditingPriceValue('');
+            };
+
+            const estimatedTotal = React.useMemo(() => {
+                return items
+                    .filter(i => !i.purchased && i.price)
+                    .reduce((sum, i) => sum + (i.price * (parseInt(i.quantity) || 1)), 0);
+            }, [items]);
 
             // Price comparison scanner functions
             const startPriceScanner = async () => {
@@ -7403,20 +7567,29 @@ END:VCALENDAR`;
                 setEditingItemId(null);
             };
 
-            const deleteItem = async (id) => {
+            const deleteItem = async (id, skipAnimation = false) => {
                 try {
                     const item = items.find(i => i.id === id);
+
+                    // Add exit animation
+                    if (!skipAnimation) {
+                        setExitingItems(prev => new Set([...prev, id]));
+                        await new Promise(resolve => setTimeout(resolve, 280));
+                    }
+
                     await window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', id));
                     setShowDeleteConfirm(null);
+                    setExitingItems(prev => { const next = new Set(prev); next.delete(id); return next; });
+
                     if (item) {
                         await logActivity('item_deleted', { itemName: item.name });
-                        // Track as forgotten if wasn't purchased
                         if (!item.purchased) {
                             await trackForgottenItem(item.name);
                         }
                     }
                 } catch (error) {
                     console.error('שגיאה במחיקת מוצר:', error);
+                    setExitingItems(prev => { const next = new Set(prev); next.delete(id); return next; });
                 }
             };
 
@@ -7632,6 +7805,19 @@ END:VCALENDAR`;
 
             return (
                 <div className="min-h-screen gradient-bg p-4 pb-20" role="application" aria-label="ListNest - רשימת קניות">
+                    {/* Sync Status Indicator */}
+                    {(pendingOperations.length > 0 || !isOnline) && (
+                        <div className={`sync-indicator ${!isOnline ? 'offline' : syncStatus === 'syncing' ? 'syncing' : 'online'}`}>
+                            {!isOnline ? (
+                                <><span>🔴</span><span>אופליין</span>{pendingOperations.length > 0 && <span>({pendingOperations.length})</span>}</>
+                            ) : syncStatus === 'syncing' ? (
+                                <><span className="sync-spin">🔄</span><span>מסנכרן...</span></>
+                            ) : (
+                                <><span>🟡</span><span>ממתין ({pendingOperations.length})</span></>
+                            )}
+                        </div>
+                    )}
+
                     {/* Main content landmark for skip link */}
                     <main id="main-content" role="main" aria-label="תוכן ראשי">
 
