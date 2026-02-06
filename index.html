@@ -5826,8 +5826,12 @@
                     }));
             };
 
-            // Fuse.js product search index
+            // Fuse.js product search index (with safety check)
             const productSearchIndex = React.useMemo(() => {
+                if (typeof Fuse === 'undefined') {
+                    console.warn('Fuse.js not loaded');
+                    return null;
+                }
                 const allProducts = Object.values(PRODUCTS).flat();
                 return new Fuse(allProducts, {
                     includeScore: true,
@@ -5838,11 +5842,16 @@
 
             // Fuzzy product search with confidence
             const fuzzyProductSearch = (text) => {
-                if (!text || text.length < 2) return [];
-                return productSearchIndex.search(text)
-                    .filter(r => (1 - r.score) >= 0.5)
-                    .slice(0, 8)
-                    .map(r => ({ product: r.item, confidence: Math.round((1 - r.score) * 100) }));
+                if (!text || text.length < 2 || !productSearchIndex) return [];
+                try {
+                    return productSearchIndex.search(text)
+                        .filter(r => (1 - r.score) >= 0.5)
+                        .slice(0, 8)
+                        .map(r => ({ product: r.item, confidence: Math.round((1 - r.score) * 100) }));
+                } catch (e) {
+                    console.error('Fuzzy search error:', e);
+                    return [];
+                }
             };
 
             const captureAndScanPrice = async () => {
