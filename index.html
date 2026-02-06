@@ -5574,12 +5574,18 @@
             // Price per Item
             // ============================================
             const updateItemPrice = async (itemId, price) => {
-                if (!currentList || !family) return;
-                const priceNum = parseFloat(price) || 0;
-                const itemRef = doc(db, 'families', family.id, 'lists', currentList.id, 'items', itemId);
-                await updateDoc(itemRef, { price: priceNum });
-                setEditingPriceId(null);
-                setEditingPriceValue('');
+                try {
+                    const priceNum = parseFloat(price) || 0;
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'shopping-items', itemId),
+                        { price: priceNum, updatedAt: new Date() }
+                    );
+                    setEditingPriceId(null);
+                    setEditingPriceValue('');
+                } catch (error) {
+                    console.error('Error updating price:', error);
+                    setEditingPriceId(null);
+                }
             };
 
             const estimatedTotal = React.useMemo(() => {
