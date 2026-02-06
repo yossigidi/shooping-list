@@ -5486,6 +5486,19 @@
                 setSyncStatus('pending');
             };
 
+            // Generic update item function for offline sync
+            const updateItem = async (itemId, data, skipQueue = false) => {
+                try {
+                    const itemRef = window.firestore.doc(window.db, 'items', itemId);
+                    await window.firestore.updateDoc(itemRef, data);
+                } catch (e) {
+                    console.error('Error updating item:', e);
+                    if (!skipQueue && !isOnline) {
+                        queueOperation({ type: 'update', id: itemId, data });
+                    }
+                }
+            };
+
             const syncPendingOperations = async () => {
                 if (pendingOperations.length === 0) return;
                 setSyncStatus('syncing');
