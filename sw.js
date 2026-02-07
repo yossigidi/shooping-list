@@ -1,11 +1,11 @@
-const CACHE_NAME = 'listnest-v2';
-const STATIC_CACHE = 'listnest-static-v2';
+const CACHE_NAME = 'listnest-v4';
+const STATIC_CACHE = 'listnest-static-v4';
 
-// Core app files
+// Core app files - use root paths for Vercel deployment
 const urlsToCache = [
-  '/shooping-list/',
-  '/shooping-list/index.html',
-  '/shooping-list/manifest.json'
+  '/',
+  '/index.html',
+  '/manifest.json'
 ];
 
 // CDN assets to cache for faster loading
@@ -76,6 +76,11 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  // Skip API calls - always fetch fresh
+  if (url.pathname.startsWith('/api/')) {
+    return;
+  }
+
   // For CDN assets - Cache first, then network (faster loading)
   if (url.hostname.includes('unpkg.com') ||
       url.hostname.includes('cdn.') ||
@@ -129,7 +134,7 @@ self.addEventListener('fetch', event => {
           }
           // Return cached index for navigation requests
           if (event.request.mode === 'navigate') {
-            return caches.match('/shooping-list/index.html');
+            return caches.match('/index.html');
           }
         });
       })
@@ -140,8 +145,8 @@ self.addEventListener('fetch', event => {
 self.addEventListener('push', event => {
   const options = {
     body: event.data ? event.data.text() : 'יש עדכון חדש ברשימה!',
-    icon: '/shooping-list/icons/icon-192x192.png',
-    badge: '/shooping-list/icons/icon-72x72.png',
+    icon: '/icons/icon-192x192.png',
+    badge: '/icons/icon-72x72.png',
     dir: 'rtl',
     lang: 'he',
     vibrate: [200, 100, 200]
@@ -156,6 +161,6 @@ self.addEventListener('push', event => {
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   event.waitUntil(
-    clients.openWindow('/shooping-list/')
+    clients.openWindow('/')
   );
 });

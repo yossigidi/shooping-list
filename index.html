@@ -5837,6 +5837,11 @@
             const [listComparisonData, setListComparisonData] = useState(null);
             const [comparisonViewMode, setComparisonViewMode] = useState('chains'); // 'chains' or 'optimal'
             const [optimizationStrategy, setOptimizationStrategy] = useState('optimal'); // 'single', 'split', 'optimal'
+            // AI Smart Add
+            const [showSmartAdd, setShowSmartAdd] = useState(false);
+            const [smartAddText, setSmartAddText] = useState('');
+            const [smartAddLoading, setSmartAddLoading] = useState(false);
+            const [smartAddResults, setSmartAddResults] = useState(null);
             // Offline mode state
             const [isOnline, setIsOnline] = useState(navigator.onLine);
             const [pendingOperations, setPendingOperations] = useState(() => {
@@ -8153,6 +8158,120 @@ END:VCALENDAR`;
                 }
             };
 
+            // AI Smart Add - parse free text into shopping items
+            const handleSmartAdd = async () => {
+                if (!smartAddText.trim()) return;
+
+                setSmartAddLoading(true);
+                setSmartAddResults(null);
+
+                try {
+                    const response = await fetch('/api/ai', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text: smartAddText, action: 'parse' })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.items && data.items.length > 0) {
+                        setSmartAddResults(data.items);
+                    } else {
+                        setSmartAddResults([]);
+                    }
+                } catch (error) {
+                    console.error('Smart Add error:', error);
+                    // Fallback: simple split by comma
+                    const fallbackItems = smartAddText.split(/[,،\n]+/)
+                        .map(s => s.trim())
+                        .filter(s => s)
+                        .map(name => ({
+                            name,
+                            quantity: 1,
+                            unit: 'יח\'',
+                            category: detectCategory(name)
+                        }));
+                    setSmartAddResults(fallbackItems);
+                }
+
+                setSmartAddLoading(false);
+            };
+
+            // Add all items from smart add results
+            const addSmartItems = async (itemsToAdd) => {
+                for (const item of itemsToAdd) {
+                    const category = item.category || detectCategory(item.name);
+                    const existing = items.find(i => i.name === item.name && !i.purchased);
+                    const estimatedPrice = getEstimatedPrice(item.name);
+
+                    const tempId = `temp_${Date.now()}_${Math.random()}`;
+                    const newItem = {
+                        id: tempId,
+                        name: item.name,
+                        category: category,
+                        quantity: existing ? (getQuantityNumber(existing.quantity) + item.quantity) : item.quantity,
+                        unit: item.unit || 'יח\'',
+                        purchased: false,
+                        familyId: family.id,
+                        listId: currentList.id,
+                        addedBy: user.displayName || user.email,
+                        addedByUid: user.uid,
+                        note: '',
+                        price: estimatedPrice || null,
+                        priceSource: estimatedPrice ? 'estimated' : null,
+                        createdAt: { toDate: () => new Date() },
+                        _isTemp: true
+                    };
+
+                    if (existing) {
+                        setItems(prev => prev.map(i => i.id === existing.id ? { ...i, quantity: newItem.quantity } : i));
+                    } else {
+                        setItems(prev => [newItem, ...prev]);
+                    }
+
+                    // Save to Firebase if online
+                    if (isOnline) {
+                        try {
+                            if (existing) {
+                                await window.firestore.updateDoc(
+                                    window.firestore.doc(window.db, 'shopping-items', existing.id),
+                                    { quantity: newItem.quantity, updatedAt: new Date() }
+                                );
+                            } else {
+                                const docRef = await window.firestore.addDoc(
+                                    window.firestore.collection(window.db, 'shopping-items'),
+                                    {
+                                        name: item.name,
+                                        category: category,
+                                        quantity: item.quantity,
+                                        unit: item.unit || 'יח\'',
+                                        purchased: false,
+                                        familyId: family.id,
+                                        listId: currentList.id,
+                                        addedBy: user.displayName || user.email,
+                                        addedByUid: user.uid,
+                                        note: '',
+                                        price: estimatedPrice || null,
+                                        priceSource: estimatedPrice ? 'estimated' : null,
+                                        createdAt: new Date()
+                                    }
+                                );
+                                setItems(prev => prev.map(i => i.id === tempId ? { ...i, id: docRef.id, _isTemp: false } : i));
+                            }
+                        } catch (err) {
+                            console.error('Error adding smart item:', err);
+                        }
+                    } else {
+                        queueOperation({ type: 'add', name: item.name, category, quantity: item.quantity, unit: item.unit || 'יח\'', note: '', price: estimatedPrice });
+                    }
+                }
+
+                // Close modal and reset
+                setShowSmartAdd(false);
+                setSmartAddText('');
+                setSmartAddResults(null);
+            };
+
             const togglePurchased = async (id, currentStatus) => {
                 const item = items.find(i => i.id === id);
                 const updateData = {
@@ -9285,6 +9404,140 @@ END:VCALENDAR`;
                                     </button>
                                 </div>
                             )}
+                        </div>
+                    )}
+
+                    {/* AI Smart Add Modal */}
+                    {showSmartAdd && (
+                        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex flex-col z-50">
+                            {/* Header */}
+                            <div className="p-4 flex items-center justify-between border-b border-white/10">
+                                <button
+                                    onClick={() => { setShowSmartAdd(false); setSmartAddText(''); setSmartAddResults(null); }}
+                                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-xl hover:bg-white/20 transition-all"
+                                >
+                                    ✕
+                                </button>
+                                <h2 className="text-white font-bold text-lg flex items-center gap-2">
+                                    <span>✨</span>
+                                    <span>הוספה חכמה עם AI</span>
+                                </h2>
+                                <div className="w-10"></div>
+                            </div>
+
+                            {/* Content */}
+                            <div className="flex-1 overflow-y-auto p-4">
+                                <div className="max-w-lg mx-auto">
+                                    {/* Explanation */}
+                                    <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-4 mb-4 border border-purple-500/30">
+                                        <p className="text-white/90 text-sm leading-relaxed">
+                                            כתוב מה שאתה צריך בטקסט חופשי והבינה המלאכותית תזהה את המוצרים והכמויות אוטומטית.
+                                        </p>
+                                        <p className="text-white/60 text-xs mt-2">
+                                            לדוגמה: "תביא 2 חלב, ביצים, ו-3 לחמים"
+                                        </p>
+                                    </div>
+
+                                    {/* Text Input */}
+                                    <div className="relative mb-4">
+                                        <textarea
+                                            value={smartAddText}
+                                            onChange={(e) => setSmartAddText(e.target.value)}
+                                            placeholder="מה להוסיף לרשימה?"
+                                            className="w-full px-4 py-4 rounded-2xl bg-white/10 border-2 border-white/20 text-white placeholder:text-white/40 focus:border-purple-400 focus:outline-none resize-none text-lg"
+                                            rows={4}
+                                            autoFocus
+                                        />
+                                    </div>
+
+                                    {/* Parse Button */}
+                                    <button
+                                        onClick={handleSmartAdd}
+                                        disabled={!smartAddText.trim() || smartAddLoading}
+                                        className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl font-bold text-lg hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                                    >
+                                        {smartAddLoading ? (
+                                            <>
+                                                <span className="animate-spin">⏳</span>
+                                                <span>מזהה מוצרים...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span>✨</span>
+                                                <span>זהה מוצרים</span>
+                                            </>
+                                        )}
+                                    </button>
+
+                                    {/* Results */}
+                                    {smartAddResults && (
+                                        <div className="mt-6">
+                                            {smartAddResults.length > 0 ? (
+                                                <>
+                                                    <h3 className="text-white font-bold mb-3 flex items-center gap-2">
+                                                        <span>🛒</span>
+                                                        <span>זיהיתי {smartAddResults.length} מוצרים:</span>
+                                                    </h3>
+                                                    <div className="space-y-2 mb-4">
+                                                        {smartAddResults.map((item, index) => (
+                                                            <div key={index} className="bg-white/10 rounded-xl p-3 flex items-center justify-between">
+                                                                <div className="flex items-center gap-3">
+                                                                    <span className="text-2xl">
+                                                                        {item.category === 'dairy' ? '🥛' :
+                                                                         item.category === 'fruits' ? '🍎' :
+                                                                         item.category === 'vegetables' ? '🥬' :
+                                                                         item.category === 'meat' ? '🥩' :
+                                                                         item.category === 'bread' ? '🍞' :
+                                                                         item.category === 'drinks' ? '🥤' :
+                                                                         item.category === 'cleaning' ? '🧹' :
+                                                                         item.category === 'snacks' ? '🍿' : '📦'}
+                                                                    </span>
+                                                                    <span className="text-white font-medium">{item.name}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-2">
+                                                                    <span className="bg-white/20 px-3 py-1 rounded-full text-white text-sm font-bold">
+                                                                        {item.quantity} {item.unit}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    <button
+                                                        onClick={() => addSmartItems(smartAddResults)}
+                                                        className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-2xl font-bold text-lg hover:from-green-600 hover:to-emerald-600 transition-all flex items-center justify-center gap-2"
+                                                    >
+                                                        <span>✓</span>
+                                                        <span>הוסף הכל לרשימה</span>
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <div className="text-center py-8">
+                                                    <div className="text-5xl mb-3">🤔</div>
+                                                    <p className="text-white/70">לא הצלחתי לזהות מוצרים. נסה לכתוב יותר ברור.</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {/* Quick Examples */}
+                                    {!smartAddResults && (
+                                        <div className="mt-6">
+                                            <h4 className="text-white/60 text-sm mb-2">דוגמאות:</h4>
+                                            <div className="space-y-2">
+                                                {['2 חלב, 12 ביצים, לחם', 'פירות וירקות לסלט', 'דברים לארוחת בוקר'].map((example) => (
+                                                    <button
+                                                        key={example}
+                                                        onClick={() => setSmartAddText(example)}
+                                                        className="w-full text-right px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl text-white/70 hover:text-white text-sm transition-all"
+                                                    >
+                                                        {example}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     )}
 
@@ -10816,6 +11069,15 @@ END:VCALENDAR`;
                                     <span aria-hidden="true">{isListening ? '⏹️' : '🎤'}</span>
                                 </button>
                             )}
+                            {/* AI Smart Add Button */}
+                            <button
+                                onClick={() => setShowSmartAdd(true)}
+                                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all touch-target bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl hover:scale-105"
+                                aria-label="הוספה חכמה עם AI"
+                                title="הוספה חכמה - כתוב משפט חופשי"
+                            >
+                                <span aria-hidden="true">✨</span>
+                            </button>
                         </div>
 
                         {/* Voice listening indicator - Enhanced */}

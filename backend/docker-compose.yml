@@ -1,0 +1,156 @@
+version: '3.8'
+
+services:
+  # FastAPI Application
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: listnest-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://listnest:${DB_PASSWORD:-listnest_secure_pass}@db:5432/listnest
+      - DATABASE_SYNC_URL=postgresql://listnest:${DB_PASSWORD:-listnest_secure_pass}@db:5432/listnest
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+      - DEBUG=false
+      - CORS_ORIGINS=["https://listnest.co.il","https://www.listnest.co.il","http://localhost:3000"]
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - scraper_data:/tmp/supermarket_data
+    networks:
+      - listnest-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Celery Worker
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: listnest-celery-worker
+    restart: unless-stopped
+    command: celery -A app.tasks.celery_app worker --loglevel=info --concurrency=2 -Q prices,maintenance
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://listnest:${DB_PASSWORD:-listnest_secure_pass}@db:5432/listnest
+      - DATABASE_SYNC_URL=postgresql://listnest:${DB_PASSWORD:-listnest_secure_pass}@db:5432/listnest
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - scraper_data:/tmp/supermarket_data
+    networks:
+      - listnest-network
+
+  # Celery Beat (Scheduler)
+  celery_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: listnest-celery-beat
+    restart: unless-stopped
+    command: celery -A app.tasks.celery_app beat --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://listnest:${DB_PASSWORD:-listnest_secure_pass}@db:5432/listnest
+      - DATABASE_SYNC_URL=postgresql://listnest:${DB_PASSWORD:-listnest_secure_pass}@db:5432/listnest
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    depends_on:
+      - redis
+    networks:
+      - listnest-network
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: listnest-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=listnest
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-listnest_secure_pass}
+      - POSTGRES_DB=listnest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - listnest-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U listnest -d listnest"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: listnest-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - listnest-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: listnest-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - certbot_webroot:/var/www/certbot:ro
+      - certbot_certs:/etc/letsencrypt:ro
+    depends_on:
+      - api
+    networks:
+      - listnest-network
+
+  # Certbot for SSL (optional, run manually)
+  certbot:
+    image: certbot/certbot
+    container_name: listnest-certbot
+    volumes:
+      - certbot_webroot:/var/www/certbot
+      - certbot_certs:/etc/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+volumes:
+  postgres_data:
+  redis_data:
+  scraper_data:
+  certbot_webroot:
+  certbot_certs:
+
+networks:
+  listnest-network:
+    driver: bridge
