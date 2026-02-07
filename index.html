@@ -5842,6 +5842,8 @@
             const [smartAddText, setSmartAddText] = useState('');
             const [smartAddLoading, setSmartAddLoading] = useState(false);
             const [smartAddResults, setSmartAddResults] = useState(null);
+            // Expanded chain in comparison view
+            const [expandedChain, setExpandedChain] = useState(null);
             // Offline mode state
             const [isOnline, setIsOnline] = useState(navigator.onLine);
             const [pendingOperations, setPendingOperations] = useState(() => {
@@ -9239,7 +9241,7 @@ END:VCALENDAR`;
                                             </div>
                                         </div>
 
-                                        {/* Chain List */}
+                                        {/* Chain List - Expandable */}
                                         <div className="space-y-3">
                                             {listComparisonData.comparison?.sort((a, b) => a.total - b.total).map((chain, idx) => (
                                                 <div
@@ -9250,12 +9252,18 @@ END:VCALENDAR`;
                                                             : 'border-white/10'
                                                     }`}
                                                 >
-                                                    {/* Chain Name Header */}
-                                                    <div className={`px-4 py-2 flex items-center gap-2 ${getChainColor(chain.chain_name_he || chain.chain_name)}`}>
+                                                    {/* Chain Name Header - Clickable */}
+                                                    <button
+                                                        onClick={() => setExpandedChain(expandedChain === chain.chain_id ? null : chain.chain_id)}
+                                                        className={`w-full px-4 py-2 flex items-center gap-2 ${getChainColor(chain.chain_name_he || chain.chain_name)} hover:opacity-90 transition-all`}
+                                                    >
                                                         {chain.is_cheapest && <span className="text-lg">🏆</span>}
                                                         <span className="text-white font-bold text-lg">{chain.chain_name_he || chain.chain_name}</span>
-                                                        {chain.is_cheapest && <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full mr-auto">הכי זול!</span>}
-                                                    </div>
+                                                        {chain.is_cheapest && <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full">הכי זול!</span>}
+                                                        <span className="mr-auto text-white/70 text-xl transition-transform duration-200" style={{ transform: expandedChain === chain.chain_id ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                                                            ▼
+                                                        </span>
+                                                    </button>
                                                     {/* Price Info */}
                                                     <div className={`p-4 ${chain.is_cheapest ? 'bg-green-500/10' : 'bg-white/5'}`}>
                                                         <div className="flex items-center justify-between">
@@ -9274,6 +9282,34 @@ END:VCALENDAR`;
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    {/* Expanded Product List */}
+                                                    {expandedChain === chain.chain_id && chain.items?.length > 0 && (
+                                                        <div className="border-t border-white/10 bg-black/20 max-h-64 overflow-y-auto">
+                                                            <div className="p-3">
+                                                                <div className="text-white/60 text-xs mb-2 font-medium">פירוט מוצרים ומחירים:</div>
+                                                                <div className="space-y-1">
+                                                                    {chain.items.map((item, itemIdx) => (
+                                                                        <div key={itemIdx} className="flex items-center justify-between py-2 px-3 bg-white/5 rounded-lg">
+                                                                            <div className="flex items-center gap-2">
+                                                                                <span className="text-white/50 text-sm">{item.quantity}×</span>
+                                                                                <span className="text-white text-sm">{item.name}</span>
+                                                                                {item.matchedName !== item.name && (
+                                                                                    <span className="text-white/40 text-xs">({item.matchedName})</span>
+                                                                                )}
+                                                                            </div>
+                                                                            <div className="text-left">
+                                                                                <span className="text-white font-medium">₪{item.total?.toFixed(2)}</span>
+                                                                                {item.quantity > 1 && (
+                                                                                    <span className="text-white/40 text-xs mr-1">(₪{item.price?.toFixed(2)} ליח')</span>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
 
                                                     {chain.items_not_found?.length > 0 && (
                                                         <div className="px-4 py-2 bg-red-500/10 border-t border-red-500/20">
