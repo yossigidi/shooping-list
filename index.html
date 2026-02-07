@@ -19,16 +19,64 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <title>ListNest - רשימת קניות משפחתית חכמה</title>
+    <!-- Preconnect to external resources for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossorigin>
+
+    <!-- DNS prefetch for additional resources -->
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+    <!-- Critical font with display swap for faster text rendering -->
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Core libraries - loaded synchronously as they're critical -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
-    <script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js"></script>
-    <script>tailwind.config = { darkMode: 'class' }</script>
+
+    <!-- Non-critical libraries - loaded with defer -->
+    <script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js" defer></script>
+
+    <!-- Tesseract.js will be loaded dynamically when needed -->
+    <script>
+        // Performance timing
+        window.appLoadStart = performance.now();
+
+        // Lazy load Tesseract.js only when scanning is initiated
+        window.loadTesseract = function() {
+            return new Promise((resolve, reject) => {
+                if (window.Tesseract) {
+                    resolve(window.Tesseract);
+                    return;
+                }
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/tesseract.js@5.0.4/dist/tesseract.min.js';
+                script.onload = () => resolve(window.Tesseract);
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        };
+
+        // Remove loading skeleton when React app renders
+        window.hideLoadingSkeleton = function() {
+            const skeleton = document.getElementById('loading-skeleton');
+            if (skeleton) {
+                skeleton.style.transition = 'opacity 0.3s ease-out';
+                skeleton.style.opacity = '0';
+                setTimeout(() => skeleton.remove(), 300);
+                // Log performance
+                const loadTime = Math.round(performance.now() - window.appLoadStart);
+                console.log(`App loaded in ${loadTime}ms`);
+            }
+        };
+
+        tailwind.config = { darkMode: 'class' };
+    </script>
     <style>
         * { font-family: 'Heebo', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); }
@@ -542,6 +590,22 @@
     <div id="aria-live-region" aria-live="polite" aria-atomic="true" class="sr-only"></div>
     <div id="aria-live-assertive" aria-live="assertive" aria-atomic="true" class="sr-only"></div>
 
+    <!-- Loading skeleton - shows instantly while React loads -->
+    <div id="loading-skeleton" style="position:fixed;inset:0;z-index:99999;min-height:100vh;background:linear-gradient(135deg,#F97316 0%,#FB923C 50%,#FBBF24 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Heebo,sans-serif;direction:rtl;">
+        <style>
+            @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+            @keyframes spin{to{transform:rotate(360deg)}}
+            .skeleton-pulse{animation:pulse 1.5s ease-in-out infinite}
+            .skeleton-spin{animation:spin 1s linear infinite}
+        </style>
+        <div style="text-align:center;color:white;">
+            <div style="font-size:80px;margin-bottom:16px;" class="skeleton-pulse">🛒</div>
+            <h1 style="font-size:32px;font-weight:700;margin:0 0 8px 0;">ListNest</h1>
+            <p style="font-size:16px;opacity:0.9;margin:0 0 24px 0;">רשימת הקניות החכמה שלך</p>
+            <div style="width:48px;height:48px;border:3px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;margin:0 auto;" class="skeleton-spin"></div>
+            <p style="font-size:14px;opacity:0.7;margin-top:16px;">טוען...</p>
+        </div>
+    </div>
     <div id="root"></div>
     <script>
         // Global error handler for debugging
@@ -5833,6 +5897,18 @@
                 if (!priceVideoRef.current || !priceCanvasRef.current) return;
 
                 setScanningPrice(true);
+
+                // Lazy load Tesseract.js if not already loaded
+                if (!window.Tesseract) {
+                    try {
+                        await window.loadTesseract();
+                    } catch (err) {
+                        console.error('Failed to load Tesseract:', err);
+                        setScanningPrice(false);
+                        alert('שגיאה בטעינת מנוע הסריקה. נסה שוב.');
+                        return;
+                    }
+                }
                 const video = priceVideoRef.current;
                 const canvas = priceCanvasRef.current;
 
@@ -10028,7 +10104,13 @@ END:VCALENDAR`;
                     <App />
                 </AuthProvider>
             </LanguageProvider>,
-            document.getElementById('root')
+            document.getElementById('root'),
+            () => {
+                // Hide loading skeleton after React renders
+                if (window.hideLoadingSkeleton) {
+                    requestAnimationFrame(() => window.hideLoadingSkeleton());
+                }
+            }
         );
     </script>
 
