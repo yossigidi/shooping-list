@@ -9125,36 +9125,39 @@ END:VCALENDAR`;
                                             {listComparisonData.comparison?.sort((a, b) => a.total - b.total).map((chain, idx) => (
                                                 <div
                                                     key={idx}
-                                                    className={`p-4 rounded-xl border ${
+                                                    className={`rounded-xl overflow-hidden border ${
                                                         chain.is_cheapest
-                                                            ? 'bg-green-500/20 border-green-500/40'
-                                                            : 'bg-white/5 border-white/10'
+                                                            ? 'border-green-500/60'
+                                                            : 'border-white/10'
                                                     }`}
                                                 >
-                                                    <div className="flex items-center justify-between">
-                                                        <div className="flex items-center gap-3">
-                                                            {chain.is_cheapest && <span className="text-xl">🏆</span>}
-                                                            <div>
-                                                                <div className="text-white font-bold">{chain.chain_name_he}</div>
-                                                                <div className="text-gray-400 text-sm">
-                                                                    {chain.items_found}/{listComparisonData.items_analyzed} פריטים נמצאו
-                                                                </div>
+                                                    {/* Chain Name Header */}
+                                                    <div className={`px-4 py-2 flex items-center gap-2 ${getChainColor(chain.chain_name_he || chain.chain_name)}`}>
+                                                        {chain.is_cheapest && <span className="text-lg">🏆</span>}
+                                                        <span className="text-white font-bold text-lg">{chain.chain_name_he || chain.chain_name}</span>
+                                                        {chain.is_cheapest && <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full mr-auto">הכי זול!</span>}
+                                                    </div>
+                                                    {/* Price Info */}
+                                                    <div className={`p-4 ${chain.is_cheapest ? 'bg-green-500/10' : 'bg-white/5'}`}>
+                                                        <div className="flex items-center justify-between">
+                                                            <div className="text-gray-400 text-sm">
+                                                                {chain.items_found}/{listComparisonData.items_analyzed} פריטים נמצאו
                                                             </div>
-                                                        </div>
-                                                        <div className="text-left">
-                                                            <div className={`font-bold text-xl ${chain.is_cheapest ? 'text-green-400' : 'text-white'}`}>
-                                                                ₪{chain.total?.toFixed(2)}
-                                                            </div>
-                                                            {chain.savings_vs_expensive > 0 && (
-                                                                <div className="text-green-400 text-sm">
-                                                                    חוסך ₪{chain.savings_vs_expensive.toFixed(2)}
+                                                            <div className="text-left">
+                                                                <div className={`font-bold text-2xl ${chain.is_cheapest ? 'text-green-400' : 'text-white'}`}>
+                                                                    ₪{chain.total?.toFixed(2)}
                                                                 </div>
-                                                            )}
+                                                                {chain.savings_vs_expensive > 0 && (
+                                                                    <div className="text-green-400 text-sm font-medium">
+                                                                        חוסך ₪{chain.savings_vs_expensive.toFixed(2)}
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     {chain.items_not_found?.length > 0 && (
-                                                        <div className="mt-2 pt-2 border-t border-white/10">
+                                                        <div className="px-4 py-2 bg-red-500/10 border-t border-red-500/20">
                                                             <div className="text-red-400 text-xs">
                                                                 לא נמצאו: {chain.items_not_found.slice(0, 3).join(', ')}
                                                                 {chain.items_not_found.length > 3 && ` (+${chain.items_not_found.length - 3})`}
