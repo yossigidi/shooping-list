@@ -71,7 +71,7 @@
                 setTimeout(() => skeleton.remove(), 300);
                 // Log performance
                 const loadTime = Math.round(performance.now() - window.appLoadStart);
-                console.log(`App loaded in ${loadTime}ms`);
+                console.log(`🚀 ListNest v3.1 loaded in ${loadTime}ms`);
             }
         };
 
@@ -131,6 +131,7 @@
         .sync-indicator.offline { background: rgba(239, 68, 68, 0.9); color: white; }
         .sync-indicator.syncing { background: rgba(245, 158, 11, 0.9); color: white; }
         @keyframes syncSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
         .sync-spin { animation: syncSpin 1s linear infinite; }
 
         /* Sticky category header */
@@ -241,42 +242,54 @@
         }
         .item-qty-badge:hover { background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%); }
         .item-menu-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #9ca3af;
+            color: #6b7280;
             cursor: pointer;
             transition: all 0.15s ease;
+            position: relative;
+            z-index: 10;
+            background: #f3f4f6;
+            border: none;
+            flex-shrink: 0;
         }
-        .item-menu-btn:hover { background: #f3f4f6; color: #6b7280; }
-        .dark .item-menu-btn:hover { background: #374151; color: #d1d5db; }
+        .dark .item-menu-btn { background: #374151; color: #9ca3af; }
+        .item-menu-btn:hover, .item-menu-btn:active { background: #e5e7eb; color: #374151; transform: scale(1.05); }
+        .dark .item-menu-btn:hover, .dark .item-menu-btn:active { background: #4b5563; color: #e5e7eb; }
 
         /* Item actions menu */
         .item-menu-backdrop {
             position: fixed;
             inset: 0;
-            z-index: 40;
+            z-index: 9998;
+            background: rgba(0,0,0,0.3);
         }
         .item-actions-menu {
-            position: absolute;
-            top: 100%;
-            left: 8px;
-            right: 8px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
             background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            margin-top: 4px;
-            z-index: 50;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+            z-index: 9999;
             overflow: hidden;
-            animation: slideDown 0.15s ease;
+            animation: slideUp 0.2s ease;
+            padding-bottom: env(safe-area-inset-bottom, 20px);
         }
         .dark .item-actions-menu {
             background: #1f2937;
-            border-color: #374151;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.25s ease-out;
         }
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-8px); }
@@ -284,24 +297,27 @@
         }
         .item-action-btn {
             width: 100%;
-            padding: 12px 16px;
+            padding: 16px 20px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 0.9375rem;
-            color: #4b5563;
+            gap: 14px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #374151;
             transition: background 0.1s ease;
             border: none;
+            border-bottom: 1px solid #f3f4f6;
             background: none;
             cursor: pointer;
             text-align: right;
         }
-        .dark .item-action-btn { color: #d1d5db; }
-        .item-action-btn:hover { background: #f9fafb; }
-        .dark .item-action-btn:hover { background: #374151; }
+        .dark .item-action-btn { color: #e5e7eb; border-bottom-color: #374151; }
+        .item-action-btn:hover, .item-action-btn:active { background: #f3f4f6; }
+        .dark .item-action-btn:hover, .dark .item-action-btn:active { background: #374151; }
         .item-action-btn.danger { color: #ef4444; }
         .item-action-btn.danger:hover { background: #fef2f2; }
-        .dark .item-action-btn.danger:hover { background: rgba(239,68,68,0.1); }
+        .dark .item-action-btn.danger:hover { background: rgba(239,68,68,0.15); }
+        .item-action-btn:last-child { border-bottom: none; }
 
         /* Item note badge */
         .item-note-badge {
@@ -548,7 +564,7 @@
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, where, serverTimestamp, arrayUnion, arrayRemove, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, where, serverTimestamp, arrayUnion, arrayRemove, getDoc, setDoc, enableIndexedDbPersistence } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import {
             getAuth,
             createUserWithEmailAndPassword,
@@ -569,8 +585,14 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        window.db = getFirestore(app);
+        // Enable offline persistence with multi-tab support
+        window.db = initializeFirestore(app, {
+            localCache: persistentLocalCache({
+                tabManager: persistentMultipleTabManager()
+            })
+        });
         window.auth = getAuth(app);
+        console.log('🔄 Firestore offline persistence enabled');
         window.firestore = { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, where, serverTimestamp, arrayUnion, arrayRemove, getDoc, setDoc };
         window.firebaseAuth = {
             createUserWithEmailAndPassword,
@@ -579,6 +601,117 @@
             onAuthStateChanged,
             updateProfile,
             sendPasswordResetEmail
+        };
+
+        // ListNest Price Comparison API Service
+        // Uses Vercel serverless function - FREE!
+        window.PriceComparisonAPI = {
+            // API URL - same domain, Vercel serverless
+            BASE_URL: '/api/compare',
+
+            // Search for product prices
+            async searchProductPrices(productName) {
+                try {
+                    const response = await fetch(
+                        `${this.BASE_URL}?action=search&q=${encodeURIComponent(productName)}`
+                    );
+                    if (!response.ok) throw new Error('API Error');
+                    return await response.json();
+                } catch (e) {
+                    console.warn('Price API error:', e);
+                    return this._fallbackProductSearch(productName);
+                }
+            },
+
+            // Compare shopping list across chains
+            async compareShoppingList(items) {
+                try {
+                    const response = await fetch(`${this.BASE_URL}?action=compare`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ items: items.map(i => ({
+                            name: i.name,
+                            quantity: i.quantity || 1
+                        }))})
+                    });
+                    if (!response.ok) throw new Error('API Error');
+                    return await response.json();
+                } catch (e) {
+                    console.warn('Price API error:', e);
+                    return this._fallbackListComparison(items);
+                }
+            },
+
+            // Optimize basket for minimum cost
+            async optimizeBasket(items, maxChains = 2, strategy = 'optimal') {
+                try {
+                    const response = await fetch(`${this.BASE_URL}?action=optimize`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            items: items.map(i => ({
+                                name: i.name,
+                                quantity: i.quantity || 1
+                            })),
+                            max_chains: maxChains,
+                            strategy: strategy
+                        })
+                    });
+                    if (!response.ok) throw new Error('API Error');
+                    return await response.json();
+                } catch (e) {
+                    console.warn('Price API error:', e);
+                    return this._fallbackOptimization(items);
+                }
+            },
+
+            // Fallback: Generate supermarket search URLs
+            _fallbackProductSearch(productName) {
+                const encoded = encodeURIComponent(productName);
+                return {
+                    fallback: true,
+                    product: { name: productName },
+                    prices: [
+                        { chain_name_he: 'שופרסל', price: null, url: `https://www.shufersal.co.il/online/he/search?text=${encoded}` },
+                        { chain_name_he: 'רמי לוי', price: null, url: `https://www.rami-levy.co.il/he/online/search?q=${encoded}` },
+                        { chain_name_he: 'ויקטורי', price: null, url: `https://www.victoryonline.co.il/search?q=${encoded}` },
+                        { chain_name_he: 'יינות ביתן', price: null, url: `https://www.ybitan.co.il/search?q=${encoded}` },
+                        { chain_name_he: 'חצי חינם', price: null, url: `https://shop.hazi-hinam.co.il/search?q=${encoded}` }
+                    ]
+                };
+            },
+
+            _fallbackListComparison(items) {
+                const chains = [
+                    { id: 1, name: 'שופרסל', color: '#dc2626', url: 'https://www.shufersal.co.il' },
+                    { id: 2, name: 'רמי לוי', color: '#2563eb', url: 'https://www.rami-levy.co.il' },
+                    { id: 3, name: 'ויקטורי', color: '#ea580c', url: 'https://www.victoryonline.co.il' },
+                    { id: 4, name: 'יינות ביתן', color: '#7c3aed', url: 'https://www.ybitan.co.il' },
+                    { id: 5, name: 'חצי חינם', color: '#16a34a', url: 'https://shop.hazi-hinam.co.il' }
+                ];
+                return {
+                    fallback: true,
+                    comparison: chains.map(c => ({
+                        chain_id: c.id,
+                        chain_name_he: c.name,
+                        color: c.color,
+                        url: c.url,
+                        total: null,
+                        items_found: 0
+                    })),
+                    items_analyzed: items.length,
+                    message: 'לא ניתן להשוות כרגע'
+                };
+            },
+
+            _fallbackOptimization(items) {
+                return {
+                    fallback: true,
+                    strategy: 'fallback',
+                    message: 'לא ניתן לייעל כרגע',
+                    shopping_plan: []
+                };
+            }
         };
     </script>
 </head>
@@ -711,6 +844,7 @@
                 unit: 'יחידה',
                 note: 'הערה',
                 addNote: 'הוסף הערה',
+                selectAction: 'בחר פעולה',
                 postpone: 'דחה לסוף',
                 // Categories
                 categories: 'קטגוריות',
@@ -951,6 +1085,7 @@
                 estimatedTotal: 'סה״כ משוער',
                 itemsWithPrice: 'פריטים עם מחיר',
                 of: 'מתוך',
+                priceDisclaimer: '* המחירים משוערים בלבד ועשויים להשתנות',
                 undoPostpone: 'החזר לרשימה',
                 deleteItem: 'מחק פריט',
                 addPrice: 'הוסף מחיר משוער'
@@ -1024,6 +1159,7 @@
                 unit: 'Unit',
                 note: 'Note',
                 addNote: 'Add Note',
+                selectAction: 'Select action',
                 postpone: 'Move to End',
                 // Categories
                 categories: 'Categories',
@@ -1264,6 +1400,7 @@
                 estimatedTotal: 'Estimated Total',
                 itemsWithPrice: 'items with price',
                 of: 'of',
+                priceDisclaimer: '* Prices are estimates only and may vary',
                 undoPostpone: 'Return to List',
                 deleteItem: 'Delete Item',
                 addPrice: 'Add Estimated Price'
@@ -1337,6 +1474,7 @@
                 unit: 'Единица',
                 note: 'Заметка',
                 addNote: 'Добавить заметку',
+                selectAction: 'Выберите действие',
                 postpone: 'В конец списка',
                 // Categories
                 categories: 'Категории',
@@ -1549,6 +1687,7 @@
                 estimatedTotal: 'Ориентировочная сумма',
                 itemsWithPrice: 'товаров с ценой',
                 of: 'из',
+                priceDisclaimer: '* Цены являются ориентировочными и могут меняться',
                 undoPostpone: 'Вернуть в список',
                 deleteItem: 'Удалить товар',
                 addPrice: 'Добавить цену'
@@ -1622,6 +1761,7 @@
                 unit: 'الوحدة',
                 note: 'ملاحظة',
                 addNote: 'إضافة ملاحظة',
+                selectAction: 'اختر إجراء',
                 postpone: 'نقل للنهاية',
                 // Categories
                 categories: 'الفئات',
@@ -1862,6 +2002,7 @@
                 estimatedTotal: 'المجموع التقديري',
                 itemsWithPrice: 'عناصر بسعر',
                 of: 'من',
+                priceDisclaimer: '* الأسعار تقديرية فقط وقابلة للتغيير',
                 undoPostpone: 'إرجاع للقائمة',
                 deleteItem: 'حذف العنصر',
                 addPrice: 'إضافة سعر تقديري'
@@ -3229,10 +3370,12 @@
             pets: 'pets'
         };
 
-        // Israeli holidays for calendar reminders (2025-2026 dates)
+        // Israeli holidays for calendar reminders (2025-2030)
         const ISRAELI_HOLIDAYS = [
+            // 2025
             { name: 'פורים', icon: '🎭', date: '14.03.2025', dateObj: new Date('2025-03-14'), reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
             { name: 'פסח', icon: '🍷', date: '13-19.04.2025', dateObj: new Date('2025-04-13'), reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' },
+            { name: 'יום השואה', icon: '🕯️', date: '24.04.2025', dateObj: new Date('2025-04-24'), reminder: 'יום הזיכרון לשואה ולגבורה', type: 'national' },
             { name: 'יום הזיכרון', icon: '🕯️', date: '30.04.2025', dateObj: new Date('2025-04-30'), reminder: 'יום זיכרון לחללי צה"ל', type: 'national' },
             { name: 'יום העצמאות', icon: '🇮🇱', date: '01.05.2025', dateObj: new Date('2025-05-01'), reminder: 'זמן לקנות בשר, נקניקיות וציוד למנגל!', type: 'national' },
             { name: 'ל"ג בעומר', icon: '🔥', date: '16.05.2025', dateObj: new Date('2025-05-16'), reminder: 'זמן לקנות בשר ונקניקיות למדורה', type: 'jewish' },
@@ -3244,10 +3387,91 @@
             { name: 'שמחת תורה', icon: '📜', date: '15.10.2025', dateObj: new Date('2025-10-15'), reminder: 'זמן להכין כיבוד וממתקים', type: 'jewish' },
             { name: 'חנוכה', icon: '🕎', date: '15-22.12.2025', dateObj: new Date('2025-12-15'), reminder: 'זמן לקנות שמן, נרות, סופגניות ולביבות', type: 'jewish' },
             { name: 'סילבסטר', icon: '🥂', date: '31.12.2025', dateObj: new Date('2025-12-31'), reminder: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה', type: 'civil' },
+            // 2026
             { name: 'ראש השנה האזרחית', icon: '🎉', date: '01.01.2026', dateObj: new Date('2026-01-01'), reminder: 'שנה אזרחית חדשה!', type: 'civil' },
             { name: 'ט"ו בשבט', icon: '🌳', date: '04.02.2026', dateObj: new Date('2026-02-04'), reminder: 'זמן לקנות פירות יבשים ופירות הארץ', type: 'jewish' },
             { name: 'פורים', icon: '🎭', date: '03.03.2026', dateObj: new Date('2026-03-03'), reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
-            { name: 'פסח', icon: '🍷', date: '02-08.04.2026', dateObj: new Date('2026-04-02'), reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' }
+            { name: 'פסח', icon: '🍷', date: '02-08.04.2026', dateObj: new Date('2026-04-02'), reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' },
+            { name: 'יום השואה', icon: '🕯️', date: '21.04.2026', dateObj: new Date('2026-04-21'), reminder: 'יום הזיכרון לשואה ולגבורה', type: 'national' },
+            { name: 'יום הזיכרון', icon: '🕯️', date: '28.04.2026', dateObj: new Date('2026-04-28'), reminder: 'יום זיכרון לחללי צה"ל', type: 'national' },
+            { name: 'יום העצמאות', icon: '🇮🇱', date: '29.04.2026', dateObj: new Date('2026-04-29'), reminder: 'זמן לקנות בשר, נקניקיות וציוד למנגל!', type: 'national' },
+            { name: 'ל"ג בעומר', icon: '🔥', date: '07.05.2026', dateObj: new Date('2026-05-07'), reminder: 'זמן לקנות בשר ונקניקיות למדורה', type: 'jewish' },
+            { name: 'יום ירושלים', icon: '🏛️', date: '22.05.2026', dateObj: new Date('2026-05-22'), reminder: 'יום ירושלים', type: 'national' },
+            { name: 'שבועות', icon: '🧀', date: '22-23.05.2026', dateObj: new Date('2026-05-22'), reminder: 'זמן לקנות מוצרי חלב ועוגות גבינה', type: 'jewish' },
+            { name: 'ראש השנה', icon: '🍎', date: '12-13.09.2026', dateObj: new Date('2026-09-12'), reminder: 'זמן לקנות דבש, תפוחים, רימונים ודגים', type: 'jewish' },
+            { name: 'יום כיפור', icon: '🕯️', date: '21.09.2026', dateObj: new Date('2026-09-21'), reminder: 'זמן להכין אוכל לפני ואחרי הצום', type: 'jewish' },
+            { name: 'סוכות', icon: '🌿', date: '26.09-02.10.2026', dateObj: new Date('2026-09-26'), reminder: 'זמן לקנות ארבעת המינים ואוכל לחג', type: 'jewish' },
+            { name: 'שמחת תורה', icon: '📜', date: '04.10.2026', dateObj: new Date('2026-10-04'), reminder: 'זמן להכין כיבוד וממתקים', type: 'jewish' },
+            { name: 'חנוכה', icon: '🕎', date: '05-12.12.2026', dateObj: new Date('2026-12-05'), reminder: 'זמן לקנות שמן, נרות, סופגניות ולביבות', type: 'jewish' },
+            { name: 'סילבסטר', icon: '🥂', date: '31.12.2026', dateObj: new Date('2026-12-31'), reminder: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה', type: 'civil' },
+            // 2027
+            { name: 'ראש השנה האזרחית', icon: '🎉', date: '01.01.2027', dateObj: new Date('2027-01-01'), reminder: 'שנה אזרחית חדשה!', type: 'civil' },
+            { name: 'ט"ו בשבט', icon: '🌳', date: '23.01.2027', dateObj: new Date('2027-01-23'), reminder: 'זמן לקנות פירות יבשים ופירות הארץ', type: 'jewish' },
+            { name: 'פורים', icon: '🎭', date: '23.03.2027', dateObj: new Date('2027-03-23'), reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
+            { name: 'פסח', icon: '🍷', date: '22-28.04.2027', dateObj: new Date('2027-04-22'), reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' },
+            { name: 'יום השואה', icon: '🕯️', date: '11.05.2027', dateObj: new Date('2027-05-11'), reminder: 'יום הזיכרון לשואה ולגבורה', type: 'national' },
+            { name: 'יום הזיכרון', icon: '🕯️', date: '18.05.2027', dateObj: new Date('2027-05-18'), reminder: 'יום זיכרון לחללי צה"ל', type: 'national' },
+            { name: 'יום העצמאות', icon: '🇮🇱', date: '19.05.2027', dateObj: new Date('2027-05-19'), reminder: 'זמן לקנות בשר, נקניקיות וציוד למנגל!', type: 'national' },
+            { name: 'ל"ג בעומר', icon: '🔥', date: '27.05.2027', dateObj: new Date('2027-05-27'), reminder: 'זמן לקנות בשר ונקניקיות למדורה', type: 'jewish' },
+            { name: 'יום ירושלים', icon: '🏛️', date: '10.06.2027', dateObj: new Date('2027-06-10'), reminder: 'יום ירושלים', type: 'national' },
+            { name: 'שבועות', icon: '🧀', date: '11-12.06.2027', dateObj: new Date('2027-06-11'), reminder: 'זמן לקנות מוצרי חלב ועוגות גבינה', type: 'jewish' },
+            { name: 'ראש השנה', icon: '🍎', date: '02-03.10.2027', dateObj: new Date('2027-10-02'), reminder: 'זמן לקנות דבש, תפוחים, רימונים ודגים', type: 'jewish' },
+            { name: 'יום כיפור', icon: '🕯️', date: '11.10.2027', dateObj: new Date('2027-10-11'), reminder: 'זמן להכין אוכל לפני ואחרי הצום', type: 'jewish' },
+            { name: 'סוכות', icon: '🌿', date: '16-22.10.2027', dateObj: new Date('2027-10-16'), reminder: 'זמן לקנות ארבעת המינים ואוכל לחג', type: 'jewish' },
+            { name: 'שמחת תורה', icon: '📜', date: '24.10.2027', dateObj: new Date('2027-10-24'), reminder: 'זמן להכין כיבוד וממתקים', type: 'jewish' },
+            { name: 'חנוכה', icon: '🕎', date: '25.12.2027-01.01.2028', dateObj: new Date('2027-12-25'), reminder: 'זמן לקנות שמן, נרות, סופגניות ולביבות', type: 'jewish' },
+            { name: 'סילבסטר', icon: '🥂', date: '31.12.2027', dateObj: new Date('2027-12-31'), reminder: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה', type: 'civil' },
+            // 2028
+            { name: 'ראש השנה האזרחית', icon: '🎉', date: '01.01.2028', dateObj: new Date('2028-01-01'), reminder: 'שנה אזרחית חדשה!', type: 'civil' },
+            { name: 'ט"ו בשבט', icon: '🌳', date: '11.02.2028', dateObj: new Date('2028-02-11'), reminder: 'זמן לקנות פירות יבשים ופירות הארץ', type: 'jewish' },
+            { name: 'פורים', icon: '🎭', date: '12.03.2028', dateObj: new Date('2028-03-12'), reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
+            { name: 'פסח', icon: '🍷', date: '11-17.04.2028', dateObj: new Date('2028-04-11'), reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' },
+            { name: 'יום השואה', icon: '🕯️', date: '30.04.2028', dateObj: new Date('2028-04-30'), reminder: 'יום הזיכרון לשואה ולגבורה', type: 'national' },
+            { name: 'יום הזיכרון', icon: '🕯️', date: '07.05.2028', dateObj: new Date('2028-05-07'), reminder: 'יום זיכרון לחללי צה"ל', type: 'national' },
+            { name: 'יום העצמאות', icon: '🇮🇱', date: '08.05.2028', dateObj: new Date('2028-05-08'), reminder: 'זמן לקנות בשר, נקניקיות וציוד למנגל!', type: 'national' },
+            { name: 'ל"ג בעומר', icon: '🔥', date: '16.05.2028', dateObj: new Date('2028-05-16'), reminder: 'זמן לקנות בשר ונקניקיות למדורה', type: 'jewish' },
+            { name: 'יום ירושלים', icon: '🏛️', date: '30.05.2028', dateObj: new Date('2028-05-30'), reminder: 'יום ירושלים', type: 'national' },
+            { name: 'שבועות', icon: '🧀', date: '31.05-01.06.2028', dateObj: new Date('2028-05-31'), reminder: 'זמן לקנות מוצרי חלב ועוגות גבינה', type: 'jewish' },
+            { name: 'ראש השנה', icon: '🍎', date: '21-22.09.2028', dateObj: new Date('2028-09-21'), reminder: 'זמן לקנות דבש, תפוחים, רימונים ודגים', type: 'jewish' },
+            { name: 'יום כיפור', icon: '🕯️', date: '30.09.2028', dateObj: new Date('2028-09-30'), reminder: 'זמן להכין אוכל לפני ואחרי הצום', type: 'jewish' },
+            { name: 'סוכות', icon: '🌿', date: '05-11.10.2028', dateObj: new Date('2028-10-05'), reminder: 'זמן לקנות ארבעת המינים ואוכל לחג', type: 'jewish' },
+            { name: 'שמחת תורה', icon: '📜', date: '13.10.2028', dateObj: new Date('2028-10-13'), reminder: 'זמן להכין כיבוד וממתקים', type: 'jewish' },
+            { name: 'חנוכה', icon: '🕎', date: '13-20.12.2028', dateObj: new Date('2028-12-13'), reminder: 'זמן לקנות שמן, נרות, סופגניות ולביבות', type: 'jewish' },
+            { name: 'סילבסטר', icon: '🥂', date: '31.12.2028', dateObj: new Date('2028-12-31'), reminder: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה', type: 'civil' },
+            // 2029
+            { name: 'ראש השנה האזרחית', icon: '🎉', date: '01.01.2029', dateObj: new Date('2029-01-01'), reminder: 'שנה אזרחית חדשה!', type: 'civil' },
+            { name: 'ט"ו בשבט', icon: '🌳', date: '31.01.2029', dateObj: new Date('2029-01-31'), reminder: 'זמן לקנות פירות יבשים ופירות הארץ', type: 'jewish' },
+            { name: 'פורים', icon: '🎭', date: '01.03.2029', dateObj: new Date('2029-03-01'), reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
+            { name: 'פסח', icon: '🍷', date: '31.03-06.04.2029', dateObj: new Date('2029-03-31'), reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' },
+            { name: 'יום השואה', icon: '🕯️', date: '18.04.2029', dateObj: new Date('2029-04-18'), reminder: 'יום הזיכרון לשואה ולגבורה', type: 'national' },
+            { name: 'יום הזיכרון', icon: '🕯️', date: '25.04.2029', dateObj: new Date('2029-04-25'), reminder: 'יום זיכרון לחללי צה"ל', type: 'national' },
+            { name: 'יום העצמאות', icon: '🇮🇱', date: '26.04.2029', dateObj: new Date('2029-04-26'), reminder: 'זמן לקנות בשר, נקניקיות וציוד למנגל!', type: 'national' },
+            { name: 'ל"ג בעומר', icon: '🔥', date: '04.05.2029', dateObj: new Date('2029-05-04'), reminder: 'זמן לקנות בשר ונקניקיות למדורה', type: 'jewish' },
+            { name: 'יום ירושלים', icon: '🏛️', date: '18.05.2029', dateObj: new Date('2029-05-18'), reminder: 'יום ירושלים', type: 'national' },
+            { name: 'שבועות', icon: '🧀', date: '20-21.05.2029', dateObj: new Date('2029-05-20'), reminder: 'זמן לקנות מוצרי חלב ועוגות גבינה', type: 'jewish' },
+            { name: 'ראש השנה', icon: '🍎', date: '10-11.09.2029', dateObj: new Date('2029-09-10'), reminder: 'זמן לקנות דבש, תפוחים, רימונים ודגים', type: 'jewish' },
+            { name: 'יום כיפור', icon: '🕯️', date: '19.09.2029', dateObj: new Date('2029-09-19'), reminder: 'זמן להכין אוכל לפני ואחרי הצום', type: 'jewish' },
+            { name: 'סוכות', icon: '🌿', date: '24-30.09.2029', dateObj: new Date('2029-09-24'), reminder: 'זמן לקנות ארבעת המינים ואוכל לחג', type: 'jewish' },
+            { name: 'שמחת תורה', icon: '📜', date: '02.10.2029', dateObj: new Date('2029-10-02'), reminder: 'זמן להכין כיבוד וממתקים', type: 'jewish' },
+            { name: 'חנוכה', icon: '🕎', date: '02-09.12.2029', dateObj: new Date('2029-12-02'), reminder: 'זמן לקנות שמן, נרות, סופגניות ולביבות', type: 'jewish' },
+            { name: 'סילבסטר', icon: '🥂', date: '31.12.2029', dateObj: new Date('2029-12-31'), reminder: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה', type: 'civil' },
+            // 2030
+            { name: 'ראש השנה האזרחית', icon: '🎉', date: '01.01.2030', dateObj: new Date('2030-01-01'), reminder: 'שנה אזרחית חדשה!', type: 'civil' },
+            { name: 'ט"ו בשבט', icon: '🌳', date: '19.01.2030', dateObj: new Date('2030-01-19'), reminder: 'זמן לקנות פירות יבשים ופירות הארץ', type: 'jewish' },
+            { name: 'פורים', icon: '🎭', date: '18.02.2030', dateObj: new Date('2030-02-18'), reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
+            { name: 'פסח', icon: '🍷', date: '18-24.03.2030', dateObj: new Date('2030-03-18'), reminder: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג', type: 'jewish' },
+            { name: 'יום השואה', icon: '🕯️', date: '07.04.2030', dateObj: new Date('2030-04-07'), reminder: 'יום הזיכרון לשואה ולגבורה', type: 'national' },
+            { name: 'יום הזיכרון', icon: '🕯️', date: '14.04.2030', dateObj: new Date('2030-04-14'), reminder: 'יום זיכרון לחללי צה"ל', type: 'national' },
+            { name: 'יום העצמאות', icon: '🇮🇱', date: '15.04.2030', dateObj: new Date('2030-04-15'), reminder: 'זמן לקנות בשר, נקניקיות וציוד למנגל!', type: 'national' },
+            { name: 'ל"ג בעומר', icon: '🔥', date: '23.04.2030', dateObj: new Date('2030-04-23'), reminder: 'זמן לקנות בשר ונקניקיות למדורה', type: 'jewish' },
+            { name: 'יום ירושלים', icon: '🏛️', date: '07.05.2030', dateObj: new Date('2030-05-07'), reminder: 'יום ירושלים', type: 'national' },
+            { name: 'שבועות', icon: '🧀', date: '08-09.05.2030', dateObj: new Date('2030-05-08'), reminder: 'זמן לקנות מוצרי חלב ועוגות גבינה', type: 'jewish' },
+            { name: 'ראש השנה', icon: '🍎', date: '28-29.09.2030', dateObj: new Date('2030-09-28'), reminder: 'זמן לקנות דבש, תפוחים, רימונים ודגים', type: 'jewish' },
+            { name: 'יום כיפור', icon: '🕯️', date: '07.10.2030', dateObj: new Date('2030-10-07'), reminder: 'זמן להכין אוכל לפני ואחרי הצום', type: 'jewish' },
+            { name: 'סוכות', icon: '🌿', date: '12-18.10.2030', dateObj: new Date('2030-10-12'), reminder: 'זמן לקנות ארבעת המינים ואוכל לחג', type: 'jewish' },
+            { name: 'שמחת תורה', icon: '📜', date: '20.10.2030', dateObj: new Date('2030-10-20'), reminder: 'זמן להכין כיבוד וממתקים', type: 'jewish' },
+            { name: 'חנוכה', icon: '🕎', date: '21-28.12.2030', dateObj: new Date('2030-12-21'), reminder: 'זמן לקנות שמן, נרות, סופגניות ולביבות', type: 'jewish' },
+            { name: 'סילבסטר', icon: '🥂', date: '31.12.2030', dateObj: new Date('2030-12-31'), reminder: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה', type: 'civil' }
         ];
 
         const PRODUCTS = {
@@ -3302,7 +3526,8 @@
 
         // Average Israeli supermarket prices (in NIS) - Updated 2024
         // Comprehensive Israeli supermarket price database (average prices in NIS)
-        const PRODUCT_PRICES = {
+        // Price database - will be updated from API
+        let PRODUCT_PRICES = {
             // Dairy - מוצרי חלב (expanded)
             'חלב 3%': 6.90, 'חלב 1%': 6.50, 'חלב דל שומן': 6.50, 'חלב סויה': 12.90, 'חלב שקדים': 14.90,
             'חלב קוקוס': 14.90, 'חלב שיבולת שועל': 13.90, 'לבן': 5.90, 'לבן עז': 8.90,
@@ -3451,7 +3676,168 @@
 
             // Pets - חיות מחמד
             'אוכל לכלבים': 44.90, 'אוכל לכלבים יבש': 89.90, 'אוכל לחתולים': 34.90,
-            'אוכל לחתולים יבש': 79.90, 'חול לחתולים': 39.90, 'חטיפים לכלבים': 19.90
+            'אוכל לחתולים יבש': 79.90, 'חול לחתולים': 39.90, 'חטיפים לכלבים': 19.90,
+            'חטיפים לחתולים': 16.90, 'מזון רטוב לכלבים': 8.90, 'מזון רטוב לחתולים': 6.90,
+            'צעצועים לכלבים': 29.90, 'צעצועים לחתולים': 19.90, 'מברשת לכלב': 24.90,
+            'שמפו לכלבים': 34.90, 'שמפו לחתולים': 29.90,
+
+            // Candles & Oil - נרות ושמן
+            'נרות שבת': 12.90, 'נרות שבת 24': 14.90, 'נרות שבת 72': 29.90,
+            'נרות חנוכה': 9.90, 'נרות חנוכה צבעוניים': 12.90, 'נרות חנוכה פרימיום': 19.90,
+            'שמן למאור': 14.90, 'שמן זית למאור': 24.90, 'פתילות': 7.90, 'פתילות שבת': 9.90,
+            'נר נשמה 24 שעות': 5.90, 'נר נשמה 48 שעות': 7.90, 'נר נשמה 7 ימים': 12.90,
+            'נר נשמה': 5.90, 'נר הבדלה': 9.90, 'בשמים להבדלה': 14.90,
+            'נרות יום הולדת': 9.90, 'נרות ספרות': 14.90, 'נרות מוזיקליים': 19.90,
+            'נרות ריחניים': 24.90, 'נרות דקורטיביים': 29.90, 'נרות צפים': 19.90,
+            'גפרורים': 4.90, 'גפרורים ארוכים': 7.90, 'מצית': 9.90, 'מציתים': 9.90,
+            'חנוכייה': 29.90, 'חנוכייה מהודרת': 79.90, 'סביבונים': 9.90,
+
+            // Cleaning - ניקיון (expanded)
+            'אקונומיקה': 9.90, 'אקונומיקה מבושמת': 12.90, 'אקונומיקה ג\'ל': 14.90,
+            'נוזל כלים': 9.90, 'נוזל כלים פיירי': 14.90, 'נוזל כלים סנו': 12.90,
+            'סבון כלים': 9.90, 'טבליות למדיח': 44.90, 'מלח למדיח': 14.90, 'מבריק למדיח': 19.90,
+            'נוזל רצפות': 14.90, 'נוזל רצפות סנו': 19.90, 'נוזל אוניברסלי': 12.90,
+            'מסיר שומנים': 16.90, 'מסיר אבנית': 14.90, 'מנקה שירותים': 12.90,
+            'מנקה אמבטיה': 14.90, 'מנקה זכוכית': 12.90, 'מנקה תנור': 19.90,
+            'מרכך כביסה': 19.90, 'מרכך סנו': 24.90, 'אבקת כביסה': 29.90,
+            'נוזל כביסה': 34.90, 'קפסולות כביסה': 44.90, 'מסיר כתמים': 19.90,
+            'מטליות': 9.90, 'מטליות רצפה': 14.90, 'ספוגים': 9.90, 'ספוג פלדה': 7.90,
+            'שקיות אשפה': 14.90, 'שקיות אשפה גדולות': 19.90, 'שקיות זבל': 14.90,
+            'מטאטא': 29.90, 'יעה': 24.90, 'מגב': 34.90, 'דלי וסחיטה': 39.90,
+            'כפפות גומי': 9.90, 'כפפות חד פעמיות': 14.90,
+
+            // Health Foods - מזון בריאות
+            'אבקת חלבון': 149.90, 'חלבון מי גבינה': 169.90, 'חטיף חלבון': 9.90,
+            'גרנולה': 24.90, 'גרנולה ללא סוכר': 29.90, 'שיבולת שועל': 14.90,
+            'קינואה': 29.90, 'בורגול': 12.90, 'כוסמת': 19.90, 'עדשים': 14.90,
+            'חומוס יבש': 12.90, 'שעועית יבשה': 12.90, 'שעועית שחורה': 14.90,
+            'טחינה גולמית': 34.90, 'חמאת שקדים': 49.90, 'חמאת קשיו': 54.90,
+            'שמן קוקוס': 34.90, 'שמן MCT': 79.90, 'סילאן': 19.90,
+            'דבש דבורים': 39.90, 'דבש אורגני': 54.90, 'ממתיק סטיביה': 29.90,
+            'חלב שקדים': 14.90, 'חלב קוקוס': 14.90, 'חלב שיבולת שועל': 16.90,
+            'טופו': 18.90, 'טמפה': 24.90, 'סייטן': 29.90
+        };
+
+        // Products sold by weight - price per KG (not per unit)
+        // These products have quantity in grams, so we calculate: pricePerKg * (quantity / 1000)
+        let WEIGHT_BASED_PRICES = {
+            // Cheese - גבינות (price per kg)
+            'גבינה צהובה עמק': 119.90, 'גבינה צהובה גלבוע': 109.90, 'גבינה צהובה 9%': 99.90,
+            'גבינה צהובה 22%': 109.90, 'גבינה צהובה': 109.90, 'גאודה': 129.90, 'אמנטל': 149.90,
+            'עמק': 119.90, 'גלבוע': 109.90, 'גבינה לבנה': 45.90, 'גבינה בולגרית': 69.90,
+            'צפתית': 79.90, 'מוצרלה': 79.90, 'פרמזן': 189.90, 'ברי': 139.90, 'קממבר': 119.90,
+            'חלומי': 149.90, 'גבינת עזים': 119.90,
+            // Deli - מעדנייה (price per kg)
+            'פסטרמה': 149.90, 'פסטרמה דבש': 149.90, 'פסטרמה הודו': 149.90,
+            'סלמי': 139.90, 'סלמי הונגרי': 149.90,
+            'חזה הודו מעושן': 129.90, 'הודו מעושן': 129.90, 'חזה הודו': 129.90,
+            'רוסטביף': 169.90, 'רוסט ביף': 169.90,
+            'נקניק': 89.90, 'נקניק פרנקפורטר': 99.90, 'חזה עוף מעושן': 119.90,
+            'שניצל מוכן': 89.90, 'קציצות מוכנות': 79.90, 'קבב מוכן': 89.90,
+            // Meat - בשר (price per kg)
+            'חזה עוף טרי': 49.90, 'חזה עוף': 49.90, 'שוקיים עוף': 39.90, 'כרעיים עוף': 34.90,
+            'כנפיים עוף': 29.90, 'עוף טחון': 44.90, 'כבד עוף': 29.90, 'פרגית': 46.90,
+            'חזה הודו': 59.90, 'הודו טחון': 54.90, 'בשר טחון': 69.90, 'בשר טחון רזה': 79.90,
+            'אנטריקוט': 179.90, 'סינטה': 159.90, 'פילה בקר': 219.90, 'צלעות בקר': 129.90,
+            'אסאדו': 109.90, 'גולש': 99.90, 'קבב': 69.90,
+            // Fish - דגים (price per kg)
+            'סלמון טרי': 129.90, 'סלמון': 129.90, 'דניס': 79.90, 'לברק': 89.90, 'בורי': 59.90,
+            'אמנון': 49.90, 'טונה טרייה': 119.90, 'פילה דג': 89.90,
+            // Salads & Spreads - סלטים וממרחים (price per kg)
+            'חומוס': 39.90, 'טחינה': 49.90, 'חציל': 39.90, 'סלט ירקות': 35.90,
+            'מטבוחה': 45.90, 'סלט חצילים': 45.90, 'סלט טורקי': 42.90,
+            // Fruits & Vegetables by weight
+            'עגבניות': 9.90, 'מלפפונים': 7.90, 'בצל': 5.90, 'גזר': 6.90, 'תפו״א': 6.90,
+            'בטטה': 9.90, 'פלפל': 14.90, 'חציל': 9.90, 'קישוא': 8.90, 'ברוקולי': 16.90,
+            'בננות': 10.90, 'תפוחים': 14.90, 'תפוזים': 9.90, 'ענבים': 29.90
+        };
+
+        // API URL for prices
+        const PRICES_API_URL = 'https://shooping-list-blue.vercel.app/api/prices?all=true';
+
+        // Flag to track if prices were loaded from API
+        let pricesLoadedFromAPI = false;
+
+        // Fetch prices from API and update local database
+        const fetchPricesFromAPI = async () => {
+            try {
+                const response = await fetch(PRICES_API_URL);
+                if (!response.ok) throw new Error('API request failed');
+
+                const data = await response.json();
+
+                if (data.success && data.prices) {
+                    // Merge API prices with local prices (API takes priority)
+                    PRODUCT_PRICES = { ...PRODUCT_PRICES, ...data.prices };
+
+                    if (data.weightBasedPrices) {
+                        WEIGHT_BASED_PRICES = { ...WEIGHT_BASED_PRICES, ...data.weightBasedPrices };
+                    }
+
+                    pricesLoadedFromAPI = true;
+                    console.log(`✅ Loaded ${data.totalProducts} prices from API (Updated: ${data.lastUpdated})`);
+                }
+            } catch (error) {
+                console.log('⚠️ Using local prices (API unavailable):', error.message);
+            }
+        };
+
+        // Load prices from API on startup
+        fetchPricesFromAPI();
+
+        // Check if a product is sold by weight (returns price per kg, or null if sold by unit)
+        const getWeightBasedPrice = (productName) => {
+            if (!productName) return null;
+
+            // Direct match first
+            if (WEIGHT_BASED_PRICES[productName]) {
+                return WEIGHT_BASED_PRICES[productName];
+            }
+
+            // Partial match - check if product name contains any weight-based product
+            for (const [product, pricePerKg] of Object.entries(WEIGHT_BASED_PRICES)) {
+                if (productName.includes(product) || product.includes(productName)) {
+                    return pricePerKg;
+                }
+            }
+
+            // Word-based match - split by spaces and check each word
+            const words = productName.split(/\s+/);
+            for (const word of words) {
+                if (word.length >= 3 && WEIGHT_BASED_PRICES[word]) {
+                    return WEIGHT_BASED_PRICES[word];
+                }
+                // Check if any weight-based product contains this word
+                for (const [product, pricePerKg] of Object.entries(WEIGHT_BASED_PRICES)) {
+                    if (product.includes(word) && word.length >= 3) {
+                        return pricePerKg;
+                    }
+                }
+            }
+
+            return null;
+        };
+
+        // Calculate item price based on quantity and whether it's sold by weight
+        const calculateItemPrice = (item) => {
+            if (!item.price) return 0;
+            const quantity = parseInt(item.quantity) || 1;
+
+            // Check if this product is sold by weight
+            const pricePerKg = getWeightBasedPrice(item.name);
+
+            if (pricePerKg) {
+                // Weight-based product: quantity is in grams, price is per kg
+                // If quantity is small (1-10), treat as units of 100g packages
+                if (quantity <= 10) {
+                    return item.price * quantity; // Small quantity = number of packages
+                }
+                // Larger quantity = grams, calculate proportionally
+                return pricePerKg * (quantity / 1000);
+            } else {
+                // Unit-based product: multiply price by quantity
+                return item.price * quantity;
+            }
         };
 
         // Function to get estimated price for a product
@@ -3730,7 +4116,13 @@
             'ממרח טונה': { en: 'Tuna Spread', ru: 'Тунцовая паста', ar: 'معجون تونة' },
             'ממרח חציל': { en: 'Eggplant Spread', ru: 'Баклажанная паста', ar: 'معجون باذنجان' },
             'חומוס ממרח': { en: 'Hummus Spread', ru: 'Хумус', ar: 'حمص' },
-            // Deli - מעדניית נקניקים
+            // Deli - מעדניית נקניקים (generic names)
+            'פסטרמה': { en: 'Pastrami', ru: 'Пастрами', ar: 'بسطرمة' },
+            'סלמי': { en: 'Salami', ru: 'Салями', ar: 'سلامي' },
+            'נקניק': { en: 'Sausage', ru: 'Колбаса', ar: 'نقانق' },
+            'נקניק פרנקפורטר': { en: 'Frankfurter', ru: 'Франкфуртер', ar: 'فرانكفورتر' },
+            'חזה הודו מעושן': { en: 'Smoked Turkey Breast', ru: 'Копчёная грудка индейки', ar: 'صدر ديك رومي مدخن' },
+            // Deli - מעדניית נקניקים (specific types)
             'סלמי מעושן': { en: 'Smoked Salami', ru: 'Копчёная салями', ar: 'سلامي مدخن' },
             'נקניק כתף': { en: 'Shoulder Sausage', ru: 'Колбаса из плеча', ar: 'نقانق كتف' },
             'סלמי תה': { en: 'Tea Salami', ru: 'Чайная салями', ar: 'سلامي شاي' },
@@ -5439,6 +5831,12 @@
             const [priceCompareResults, setPriceCompareResults] = useState(null);
             const priceVideoRef = React.useRef(null);
             const priceCanvasRef = React.useRef(null);
+            // Full list price comparison
+            const [showListComparison, setShowListComparison] = useState(false);
+            const [listComparisonLoading, setListComparisonLoading] = useState(false);
+            const [listComparisonData, setListComparisonData] = useState(null);
+            const [comparisonViewMode, setComparisonViewMode] = useState('chains'); // 'chains' or 'optimal'
+            const [optimizationStrategy, setOptimizationStrategy] = useState('optimal'); // 'single', 'split', 'optimal'
             // Offline mode state
             const [isOnline, setIsOnline] = useState(navigator.onLine);
             const [pendingOperations, setPendingOperations] = useState(() => {
@@ -5797,6 +6195,7 @@
                         );
                     } else {
                         // Add new item with correct unit
+                        const estimatedPrice = getEstimatedPrice(productName);
                         await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                             name: productName,
                             category: category,
@@ -5808,6 +6207,8 @@
                             addedBy: user.displayName || user.email,
                             addedByUid: user.uid,
                             note: '',
+                            price: estimatedPrice || null,
+                            priceSource: estimatedPrice ? 'estimated' : null,
                             createdAt: new Date()
                         });
                     }
@@ -5855,18 +6256,52 @@
             const syncPendingOperations = async () => {
                 if (pendingOperations.length === 0) return;
                 setSyncStatus('syncing');
-                try {
-                    for (const op of pendingOperations) {
-                        if (op.type === 'add') await addProduct(op.name, op.category, op.quantity, true);
-                        else if (op.type === 'delete') await deleteItem(op.id, true);
-                        else if (op.type === 'update') await updateItem(op.id, op.data, true);
+                console.log('🔄 Syncing', pendingOperations.length, 'pending operations...');
+
+                const failedOps = [];
+                for (const op of pendingOperations) {
+                    try {
+                        if (op.type === 'add') {
+                            // Add new item to Firestore
+                            await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                                name: op.name,
+                                category: op.category,
+                                quantity: op.quantity,
+                                unit: op.unit || 'יח\'',
+                                purchased: false,
+                                familyId: family?.id,
+                                listId: currentList?.id,
+                                addedBy: user?.displayName || user?.email || 'אופליין',
+                                addedByUid: user?.uid,
+                                note: op.note || '',
+                                price: op.price || null,
+                                priceSource: op.price ? 'estimated' : null,
+                                createdAt: new Date(op.timestamp || Date.now())
+                            });
+                            console.log('✅ Synced add:', op.name);
+                        } else if (op.type === 'delete') {
+                            await window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', op.id));
+                            console.log('✅ Synced delete:', op.itemName || op.id);
+                        } else if (op.type === 'update') {
+                            await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', op.id), op.data);
+                            console.log('✅ Synced update:', op.id);
+                        }
+                    } catch (e) {
+                        console.error('❌ Failed to sync operation:', op, e);
+                        failedOps.push(op);
                     }
+                }
+
+                if (failedOps.length === 0) {
                     localStorage.removeItem('pendingOps');
                     setPendingOperations([]);
                     setSyncStatus('synced');
-                } catch (e) {
-                    console.error('Sync failed:', e);
+                    console.log('✅ All operations synced successfully!');
+                } else {
+                    localStorage.setItem('pendingOps', JSON.stringify(failedOps));
+                    setPendingOperations(failedOps);
                     setSyncStatus('pending');
+                    console.log('⚠️', failedOps.length, 'operations still pending');
                 }
             };
 
@@ -5924,7 +6359,7 @@
             const estimatedTotal = React.useMemo(() => {
                 return items
                     .filter(i => !i.purchased && i.price)
-                    .reduce((sum, i) => sum + (i.price * (parseInt(i.quantity) || 1)), 0);
+                    .reduce((sum, i) => sum + calculateItemPrice(i), 0);
             }, [items]);
 
             // Price comparison scanner functions
@@ -6212,6 +6647,71 @@
 
             const openPriceLink = (url) => {
                 window.open(url, '_blank');
+            };
+
+            // Compare full shopping list across chains
+            const compareFullShoppingList = async () => {
+                const unpurchasedItems = items.filter(item => !item.purchased);
+                if (unpurchasedItems.length === 0) {
+                    alert('אין פריטים להשוואה ברשימה');
+                    return;
+                }
+
+                setShowListComparison(true);
+                setListComparisonLoading(true);
+                setListComparisonData(null);
+
+                try {
+                    const data = await window.PriceComparisonAPI.compareShoppingList(unpurchasedItems);
+                    setListComparisonData(data);
+                } catch (error) {
+                    console.error('Price comparison failed:', error);
+                    setListComparisonData({
+                        error: true,
+                        message: 'שגיאה בהשוואת מחירים. נסה שוב.'
+                    });
+                } finally {
+                    setListComparisonLoading(false);
+                }
+            };
+
+            // Optimize shopping basket
+            const optimizeShoppingBasket = async (strategy = 'optimal') => {
+                const unpurchasedItems = items.filter(item => !item.purchased);
+                if (unpurchasedItems.length === 0) return;
+
+                setListComparisonLoading(true);
+                setOptimizationStrategy(strategy);
+
+                try {
+                    const data = await window.PriceComparisonAPI.optimizeBasket(unpurchasedItems, 2, strategy);
+                    setListComparisonData(prev => ({
+                        ...prev,
+                        optimization: data
+                    }));
+                    setComparisonViewMode('optimal');
+                } catch (error) {
+                    console.error('Optimization failed:', error);
+                } finally {
+                    setListComparisonLoading(false);
+                }
+            };
+
+            // Get color for chain
+            const getChainColor = (chainName) => {
+                const colors = {
+                    'שופרסל': 'bg-red-500',
+                    'רמי לוי': 'bg-blue-500',
+                    'ויקטורי': 'bg-orange-500',
+                    'יינות ביתן': 'bg-purple-500',
+                    'חצי חינם': 'bg-green-500',
+                    'מגה': 'bg-cyan-500',
+                    'אושר עד': 'bg-teal-500',
+                    'טיב טעם': 'bg-amber-500',
+                    'יוחננוף': 'bg-indigo-500',
+                    'סופר פארם': 'bg-pink-500'
+                };
+                return colors[chainName] || 'bg-gray-500';
             };
 
             // Get holiday recommendations
@@ -6554,11 +7054,48 @@
                 setFeedbackSending(false);
             };
 
+            // Cache key for current list
+            const getCacheKey = () => `items_${family?.id}_${currentList?.id}`;
+
+            // Save items to local cache
+            const cacheItems = (itemsData) => {
+                try {
+                    const cacheData = itemsData.map(item => ({
+                        ...item,
+                        createdAt: item.createdAt?.toDate?.()?.toISOString() || item.createdAt,
+                        updatedAt: item.updatedAt?.toDate?.()?.toISOString() || item.updatedAt
+                    }));
+                    localStorage.setItem(getCacheKey(), JSON.stringify(cacheData));
+                } catch (e) { console.warn('Failed to cache items:', e); }
+            };
+
+            // Load items from local cache
+            const loadCachedItems = () => {
+                try {
+                    const cached = localStorage.getItem(getCacheKey());
+                    if (cached) {
+                        const items = JSON.parse(cached);
+                        return items.map(item => ({
+                            ...item,
+                            createdAt: item.createdAt ? { toDate: () => new Date(item.createdAt) } : null
+                        }));
+                    }
+                } catch (e) { console.warn('Failed to load cached items:', e); }
+                return null;
+            };
+
             useEffect(() => {
                 if (!family || !currentList) {
                     setItems([]);
                     setLoading(false);
                     return;
+                }
+
+                // Load cached items immediately for faster display
+                const cached = loadCachedItems();
+                if (cached && cached.length > 0) {
+                    setItems(cached);
+                    console.log('📦 Loaded', cached.length, 'items from cache');
                 }
 
                 const q = window.firestore.query(
@@ -6569,6 +7106,7 @@
 
                 const unsubscribe = window.firestore.onSnapshot(
                     q,
+                    { includeMetadataChanges: true },
                     (snapshot) => {
                         const itemsData = [];
                         snapshot.forEach((doc) => {
@@ -6596,9 +7134,23 @@
 
                         setItems(itemsData);
                         setLoading(false);
+
+                        // Cache items for offline use (only if from server, not cache)
+                        if (!snapshot.metadata.fromCache) {
+                            cacheItems(itemsData);
+                            console.log('💾 Cached', itemsData.length, 'items from server');
+                        } else {
+                            console.log('📱 Loaded', itemsData.length, 'items from Firestore cache');
+                        }
                     },
                     (error) => {
                         console.error('שגיאה בטעינת נתונים:', error);
+                        // On error, try to load from localStorage cache
+                        const cached = loadCachedItems();
+                        if (cached) {
+                            setItems(cached);
+                            console.log('🔄 Loaded', cached.length, 'items from fallback cache');
+                        }
                         setLoading(false);
                     }
                 );
@@ -6922,6 +7474,7 @@
                     }
 
                     const unit = CATEGORIES[category]?.unit || 'יח\'';
+                    const estimatedPrice = getEstimatedPrice(item.name);
 
                     await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                         name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
@@ -6935,7 +7488,9 @@
                         updatedAt: new Date(),
                         familyId: family.id,
                         listId: currentList.id,
-                        isRegular: true
+                        isRegular: true,
+                        price: estimatedPrice || null,
+                        priceSource: estimatedPrice ? 'estimated' : null
                     });
                 }
 
@@ -7148,6 +7703,7 @@
                                 { quantity: existing.quantity + 1, updatedAt: new Date() }
                             );
                         } else {
+                            const estimatedPrice = getEstimatedPrice(productName);
                             await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                                 name: productName,
                                 category: matchedCategory,
@@ -7158,6 +7714,8 @@
                                 addedBy: user.displayName || user.email,
                                 addedByUid: user.uid,
                                 note: '🎤 נוסף בקול',
+                                price: estimatedPrice || null,
+                                priceSource: estimatedPrice ? 'estimated' : null,
                                 createdAt: new Date()
                             });
                         }
@@ -7489,25 +8047,62 @@ END:VCALENDAR`;
             const addProductWithQuantity = async () => {
                 if (!selectedProduct) return;
 
-                try {
-                    const { name: product, category } = selectedProduct;
-                    const existing = items.find(item => item.name === product && !item.purchased);
+                const { name: product, category } = selectedProduct;
+                const existing = items.find(item => item.name === product && !item.purchased);
+                const estimatedPrice = getEstimatedPrice(product);
 
+                // Create optimistic item for offline support
+                const tempId = `temp_${Date.now()}`;
+                const newItem = {
+                    id: tempId,
+                    name: product,
+                    category: category,
+                    quantity: existing ? (getQuantityNumber(existing.quantity) + selectedQuantity) : selectedQuantity,
+                    unit: selectedUnit,
+                    purchased: false,
+                    familyId: family.id,
+                    listId: currentList.id,
+                    addedBy: user.displayName || user.email,
+                    addedByUid: user.uid,
+                    note: selectedNote || '',
+                    price: estimatedPrice || null,
+                    priceSource: estimatedPrice ? 'estimated' : null,
+                    createdAt: { toDate: () => new Date() },
+                    _isTemp: true
+                };
+
+                // Optimistically update local state
+                if (existing) {
+                    setItems(prev => prev.map(i => i.id === existing.id ? { ...i, quantity: newItem.quantity, note: selectedNote ? (i.note ? `${i.note}, ${selectedNote}` : selectedNote) : i.note } : i));
+                } else {
+                    setItems(prev => [newItem, ...prev]);
+                }
+
+                setSearchTerm('');
+                setShowQuantitySelector(false);
+                setSelectedNote('');
+                setSelectedProduct(null);
+
+                // If offline, queue operation for later
+                if (!isOnline) {
                     if (existing) {
-                        // Add to existing quantity - extract number if string
-                        let existingNum = existing.quantity;
-                        if (typeof existingNum === 'string') {
-                            const numMatch = existingNum.match(/^([\d.]+)/);
-                            existingNum = numMatch ? parseFloat(numMatch[1]) : 1;
-                        }
-                        const newQty = (existingNum || 0) + selectedQuantity;
+                        queueOperation({ type: 'update', id: existing.id, data: { quantity: newItem.quantity, note: selectedNote || existing.note } });
+                    } else {
+                        queueOperation({ type: 'add', name: product, category, quantity: selectedQuantity, unit: selectedUnit, note: selectedNote, price: estimatedPrice });
+                    }
+                    console.log('📴 Queued add operation for:', product);
+                    return;
+                }
 
+                try {
+                    if (existing) {
+                        // Update existing item
                         const updateData = {
-                                quantity: newQty,
-                                unit: selectedUnit,
-                                updatedAt: new Date(),
-                                updatedBy: user.displayName || user.email
-                            };
+                            quantity: newItem.quantity,
+                            unit: selectedUnit,
+                            updatedAt: new Date(),
+                            updatedBy: user.displayName || user.email
+                        };
                         if (selectedNote) {
                             updateData.note = existing.note ? `${existing.note}, ${selectedNote}` : selectedNote;
                         }
@@ -7517,10 +8112,8 @@ END:VCALENDAR`;
                         );
                         await logActivity('quantity_changed', { itemName: product });
                     } else {
-                        // Get estimated price from database
-                        const estimatedPrice = getEstimatedPrice(product);
-
-                        await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                        // Add new item
+                        const docRef = await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                             name: product,
                             category: category,
                             quantity: selectedQuantity,
@@ -7535,23 +8128,51 @@ END:VCALENDAR`;
                             priceSource: estimatedPrice ? 'estimated' : null,
                             createdAt: new Date()
                         });
+                        // Replace temp item with real item ID
+                        setItems(prev => prev.map(i => i.id === tempId ? { ...i, id: docRef.id, _isTemp: false } : i));
                         await logActivity('item_added', { itemName: product });
                     }
-
-                    setSearchTerm('');
-                    setShowQuantitySelector(false);
-                    setSelectedNote('');
-                    setSelectedProduct(null);
                 } catch (error) {
                     console.error('שגיאה בהוספת מוצר:', error);
-                    alert('שגיאה בהוספת המוצר. נסה שוב.');
+                    if (!navigator.onLine) {
+                        // Queue for later if offline
+                        if (existing) {
+                            queueOperation({ type: 'update', id: existing.id, data: { quantity: newItem.quantity } });
+                        } else {
+                            queueOperation({ type: 'add', name: product, category, quantity: selectedQuantity, unit: selectedUnit, note: selectedNote, price: estimatedPrice });
+                        }
+                    } else {
+                        alert('שגיאה בהוספת המוצר. נסה שוב.');
+                        // Rollback optimistic update
+                        if (existing) {
+                            setItems(prev => prev.map(i => i.id === existing.id ? existing : i));
+                        } else {
+                            setItems(prev => prev.filter(i => i.id !== tempId));
+                        }
+                    }
                 }
             };
 
             const togglePurchased = async (id, currentStatus) => {
-                try {
-                    const item = items.find(i => i.id === id);
+                const item = items.find(i => i.id === id);
+                const updateData = {
+                    purchased: !currentStatus,
+                    purchasedBy: !currentStatus ? (user.displayName || user.email) : null,
+                    purchasedByUid: !currentStatus ? user.uid : null,
+                    purchasedAt: !currentStatus ? new Date() : null
+                };
 
+                // Optimistically update local state
+                setItems(prev => prev.map(i => i.id === id ? { ...i, ...updateData } : i));
+
+                // If offline, queue operation
+                if (!isOnline) {
+                    queueOperation({ type: 'update', id, data: updateData });
+                    console.log('📴 Queued toggle for:', item?.name);
+                    return;
+                }
+
+                try {
                     // Conflict detection: Check if item was already marked by someone else
                     const docRef = window.firestore.doc(window.db, 'shopping-items', id);
                     const freshDoc = await window.firestore.getDoc(docRef);
@@ -7567,38 +8188,58 @@ END:VCALENDAR`;
                         }
                     }
 
-                    await window.firestore.updateDoc(docRef, {
-                        purchased: !currentStatus,
-                        purchasedBy: !currentStatus ? (user.displayName || user.email) : null,
-                        purchasedByUid: !currentStatus ? user.uid : null,
-                        purchasedAt: !currentStatus ? new Date() : null
-                    });
+                    await window.firestore.updateDoc(docRef, updateData);
 
                     if (!currentStatus && item) {
                         await logActivity('item_purchased', { itemName: item.name });
                     }
                 } catch (error) {
                     console.error('שגיאה בעדכון מוצר:', error);
+                    if (!navigator.onLine) {
+                        queueOperation({ type: 'update', id, data: updateData });
+                    } else {
+                        // Rollback on error
+                        setItems(prev => prev.map(i => i.id === id ? item : i));
+                    }
                 }
             };
 
             const updateQuantity = async (id, newQuantity) => {
+                if (newQuantity < 1) {
+                    setShowDeleteConfirm(id);
+                    return;
+                }
+
+                const item = items.find(i => i.id === id);
+                const updateData = {
+                    quantity: newQuantity,
+                    updatedAt: new Date(),
+                    updatedBy: user.displayName || user.email
+                };
+
+                // Optimistically update local state
+                setItems(prev => prev.map(i => i.id === id ? { ...i, ...updateData } : i));
+
+                // If offline, queue operation
+                if (!isOnline) {
+                    queueOperation({ type: 'update', id, data: updateData });
+                    console.log('📴 Queued quantity update for:', item?.name);
+                    return;
+                }
+
                 try {
-                    if (newQuantity < 1) {
-                        setShowDeleteConfirm(id);
-                    } else {
-                        const item = items.find(i => i.id === id);
-                        await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
-                            quantity: newQuantity,
-                            updatedAt: new Date(),
-                            updatedBy: user.displayName || user.email
-                        });
-                        if (item) {
-                            await logActivity('quantity_changed', { itemName: item.name });
-                        }
+                    await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), updateData);
+                    if (item) {
+                        await logActivity('quantity_changed', { itemName: item.name });
                     }
                 } catch (error) {
                     console.error('שגיאה בעדכון כמות:', error);
+                    if (!navigator.onLine) {
+                        queueOperation({ type: 'update', id, data: updateData });
+                    } else {
+                        // Rollback on error
+                        setItems(prev => prev.map(i => i.id === id ? item : i));
+                    }
                 }
             };
 
@@ -7626,18 +8267,28 @@ END:VCALENDAR`;
             };
 
             const deleteItem = async (id, skipAnimation = false) => {
+                const item = items.find(i => i.id === id);
+
+                // Add exit animation
+                if (!skipAnimation) {
+                    setExitingItems(prev => new Set([...prev, id]));
+                    await new Promise(resolve => setTimeout(resolve, 280));
+                }
+
+                // Optimistically remove from local state
+                setItems(prev => prev.filter(i => i.id !== id));
+                setShowDeleteConfirm(null);
+                setExitingItems(prev => { const next = new Set(prev); next.delete(id); return next; });
+
+                // If offline, queue operation for later
+                if (!isOnline) {
+                    queueOperation({ type: 'delete', id, itemName: item?.name });
+                    console.log('📴 Queued delete operation for:', item?.name);
+                    return;
+                }
+
                 try {
-                    const item = items.find(i => i.id === id);
-
-                    // Add exit animation
-                    if (!skipAnimation) {
-                        setExitingItems(prev => new Set([...prev, id]));
-                        await new Promise(resolve => setTimeout(resolve, 280));
-                    }
-
                     await window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', id));
-                    setShowDeleteConfirm(null);
-                    setExitingItems(prev => { const next = new Set(prev); next.delete(id); return next; });
 
                     if (item) {
                         await logActivity('item_deleted', { itemName: item.name });
@@ -7647,7 +8298,13 @@ END:VCALENDAR`;
                     }
                 } catch (error) {
                     console.error('שגיאה במחיקת מוצר:', error);
-                    setExitingItems(prev => { const next = new Set(prev); next.delete(id); return next; });
+                    // If failed and we're now offline, queue operation
+                    if (!navigator.onLine) {
+                        queueOperation({ type: 'delete', id, itemName: item?.name });
+                    } else {
+                        // Restore item if deletion failed while online
+                        setItems(prev => item ? [...prev, item] : prev);
+                    }
                 }
             };
 
@@ -7879,12 +8536,27 @@ END:VCALENDAR`;
 
             return (
                 <div className="min-h-screen gradient-bg p-4 pb-20" role="application" aria-label="ListNest - רשימת קניות">
+                    {/* Offline Banner */}
+                    {!isOnline && (
+                        <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-red-500 to-orange-500 text-white py-3 px-4 z-50 shadow-lg">
+                            <div className="flex items-center justify-center gap-3 max-w-lg mx-auto">
+                                <span className="text-xl">📡</span>
+                                <div className="text-center">
+                                    <div className="font-bold">אין חיבור לאינטרנט</div>
+                                    <div className="text-xs opacity-90">
+                                        {pendingOperations.length > 0
+                                            ? `${pendingOperations.length} שינויים ממתינים לסנכרון`
+                                            : 'השינויים יישמרו ויסונכרנו כשהחיבור יחזור'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Sync Status Indicator */}
-                    {(pendingOperations.length > 0 || !isOnline) && (
-                        <div className={`sync-indicator ${!isOnline ? 'offline' : syncStatus === 'syncing' ? 'syncing' : 'online'}`}>
-                            {!isOnline ? (
-                                <><span>🔴</span><span>אופליין</span>{pendingOperations.length > 0 && <span>({pendingOperations.length})</span>}</>
-                            ) : syncStatus === 'syncing' ? (
+                    {isOnline && (pendingOperations.length > 0 || syncStatus === 'syncing') && (
+                        <div className={`sync-indicator ${syncStatus === 'syncing' ? 'syncing' : 'online'}`}>
+                            {syncStatus === 'syncing' ? (
                                 <><span className="sync-spin">🔄</span><span>מסנכרן...</span></>
                             ) : (
                                 <><span>🟡</span><span>ממתין ({pendingOperations.length})</span></>
@@ -7892,8 +8564,72 @@ END:VCALENDAR`;
                         </div>
                     )}
 
+                    {/* Just synced notification */}
+                    {isOnline && syncStatus === 'synced' && pendingOperations.length === 0 && (
+                        <div className="sync-indicator online" style={{animation: 'fadeOut 3s forwards', animationDelay: '2s'}}>
+                            <span>✅</span><span>מסונכרן</span>
+                        </div>
+                    )}
+
                     {/* Main content landmark for skip link */}
                     <main id="main-content" role="main" aria-label="תוכן ראשי">
+
+                    {/* Item Actions Menu - Bottom Sheet Modal */}
+                    {openItemMenu && (() => {
+                        const menuItem = items.find(i => i.id === openItemMenu);
+                        if (!menuItem) return null;
+                        return (
+                            <div className="fixed inset-0 z-[9999]">
+                                <div className="absolute inset-0 bg-black/40" onClick={() => setOpenItemMenu(null)} />
+                                <div className="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-3xl shadow-2xl animate-slide-up">
+                                    {/* Handle */}
+                                    <div className="flex justify-center pt-3 pb-2">
+                                        <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                                    </div>
+                                    {/* Header */}
+                                    <div className="px-5 pb-4 border-b border-gray-200 dark:border-gray-700">
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white">{menuItem.name}</h3>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">{t('selectAction')}</p>
+                                    </div>
+                                    {/* Actions */}
+                                    <div className="py-2">
+                                        {!menuItem.note && (
+                                            <button onClick={() => { setEditingNote(menuItem); setOpenItemMenu(null); }} className="item-action-btn">
+                                                <span className="text-xl">📝</span> <span>{t('addNote')}</span>
+                                            </button>
+                                        )}
+                                        {!menuItem.purchased && !menuItem.postponedBy && (
+                                            <button onClick={() => { postponeItem(menuItem.id); setOpenItemMenu(null); }} className="item-action-btn">
+                                                <span className="text-xl">⏭️</span> <span>{t('postpone')}</span>
+                                            </button>
+                                        )}
+                                        {menuItem.postponedBy && !menuItem.purchased && (
+                                            <button onClick={() => { undoPostponeItem(menuItem.id); setOpenItemMenu(null); }} className="item-action-btn">
+                                                <span className="text-xl">↩️</span> <span>{t('undoPostpone')}</span>
+                                            </button>
+                                        )}
+                                        {!menuItem.purchased && !menuItem.outOfStock && (
+                                            <button onClick={() => { markOutOfStock(menuItem); setOpenItemMenu(null); }} className="item-action-btn">
+                                                <span className="text-xl">🚫</span> <span>{t('outOfStockStatus')}</span>
+                                            </button>
+                                        )}
+                                        <button onClick={() => { setShowDeleteConfirm(menuItem.id); setOpenItemMenu(null); }} className="item-action-btn danger">
+                                            <span className="text-xl">🗑️</span> <span>{t('deleteItem')}</span>
+                                        </button>
+                                    </div>
+                                    {/* Cancel button */}
+                                    <div className="p-4 pb-8 border-t border-gray-200 dark:border-gray-700">
+                                        <button
+                                            onClick={() => setOpenItemMenu(null)}
+                                            className="w-full py-4 text-center font-bold text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-lg"
+                                        >
+                                            {t('cancel')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })()}
 
                     {showDeleteConfirm && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -8259,6 +8995,296 @@ END:VCALENDAR`;
                         </div>
                     )}
 
+                    {/* Full Shopping List Price Comparison Modal */}
+                    {showListComparison && (
+                        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex flex-col z-50">
+                            {/* Header */}
+                            <div className="p-4 flex items-center justify-between border-b border-white/10">
+                                <button
+                                    onClick={() => { setShowListComparison(false); setListComparisonData(null); }}
+                                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-xl hover:bg-white/20 transition-all"
+                                >
+                                    ✕
+                                </button>
+                                <h2 className="text-white font-bold text-lg flex items-center gap-2">
+                                    <span>📊</span>
+                                    <span>{t('priceComparison')} - כל הרשימה</span>
+                                </h2>
+                                <div className="w-10"></div>
+                            </div>
+
+                            {/* View Mode Toggle */}
+                            <div className="p-3 flex gap-2 border-b border-white/10">
+                                <button
+                                    onClick={() => setComparisonViewMode('chains')}
+                                    className={`flex-1 py-2 px-4 rounded-xl font-medium text-sm transition-all ${
+                                        comparisonViewMode === 'chains'
+                                            ? 'bg-orange-500 text-white'
+                                            : 'bg-white/10 text-white/70 hover:bg-white/20'
+                                    }`}
+                                >
+                                    📍 לפי רשת
+                                </button>
+                                <button
+                                    onClick={() => { setComparisonViewMode('optimal'); optimizeShoppingBasket('optimal'); }}
+                                    className={`flex-1 py-2 px-4 rounded-xl font-medium text-sm transition-all ${
+                                        comparisonViewMode === 'optimal'
+                                            ? 'bg-green-500 text-white'
+                                            : 'bg-white/10 text-white/70 hover:bg-white/20'
+                                    }`}
+                                >
+                                    💰 הכי זול
+                                </button>
+                            </div>
+
+                            {/* Content */}
+                            <div className="flex-1 overflow-y-auto p-4">
+                                {listComparisonLoading ? (
+                                    <div className="flex flex-col items-center justify-center py-16">
+                                        <div className="text-5xl mb-4 animate-bounce">🛒</div>
+                                        <div className="text-white text-lg font-medium mb-2">משווה מחירים...</div>
+                                        <div className="text-gray-400 text-sm">בודק את כל הרשתות</div>
+                                        <div className="mt-4 w-48 h-2 bg-white/20 rounded-full overflow-hidden">
+                                            <div className="h-full bg-gradient-to-r from-orange-500 to-yellow-500 progress-animate" style={{width: '100%'}}></div>
+                                        </div>
+                                    </div>
+                                ) : listComparisonData?.error ? (
+                                    <div className="text-center py-16">
+                                        <div className="text-5xl mb-4">😕</div>
+                                        <div className="text-white text-lg font-medium mb-2">שגיאה</div>
+                                        <div className="text-gray-400 text-sm">{listComparisonData.message}</div>
+                                        <button
+                                            onClick={compareFullShoppingList}
+                                            className="mt-4 px-6 py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-all"
+                                        >
+                                            נסה שוב
+                                        </button>
+                                    </div>
+                                ) : listComparisonData?.fallback ? (
+                                    /* Fallback Mode - Show links to supermarkets */
+                                    <div className="space-y-4">
+                                        <div className="bg-yellow-500/20 border border-yellow-500/40 rounded-xl p-4 mb-4">
+                                            <div className="flex items-start gap-3">
+                                                <span className="text-2xl">💡</span>
+                                                <div>
+                                                    <div className="text-yellow-200 font-medium">מצב השוואה ידנית</div>
+                                                    <div className="text-yellow-200/70 text-sm mt-1">
+                                                        השרת לא זמין כרגע. לחץ על כל רשת כדי לחפש את המוצרים שלך ישירות.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="text-white/60 text-sm mb-2">
+                                            {items.filter(i => !i.purchased).length} פריטים להשוואה
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            {listComparisonData.comparison.map((chain, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => {
+                                                        const searchTerms = items.filter(i => !i.purchased).map(i => i.name).join(' ');
+                                                        window.open(`${chain.url}/search?q=${encodeURIComponent(searchTerms)}`, '_blank');
+                                                    }}
+                                                    className={`w-full p-4 ${getChainColor(chain.chain_name_he)} text-white rounded-xl font-bold text-lg flex items-center justify-between hover:opacity-90 hover:scale-[1.02] transition-all shadow-lg`}
+                                                >
+                                                    <span>{chain.chain_name_he}</span>
+                                                    <span className="text-white/70">🔗</span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ) : listComparisonData && comparisonViewMode === 'chains' ? (
+                                    /* Chain Comparison View */
+                                    <div className="space-y-4">
+                                        {/* Summary Stats */}
+                                        <div className="grid grid-cols-2 gap-3 mb-4">
+                                            <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl p-4">
+                                                <div className="text-green-300 text-sm">הכי זול</div>
+                                                <div className="text-white font-bold text-xl mt-1">
+                                                    {listComparisonData.cheapest_chain?.chain_name_he || '-'}
+                                                </div>
+                                                <div className="text-green-400 text-lg font-bold">
+                                                    ₪{listComparisonData.cheapest_chain?.total?.toFixed(2) || '0'}
+                                                </div>
+                                            </div>
+                                            <div className="bg-gradient-to-br from-orange-500/20 to-orange-600/20 border border-orange-500/30 rounded-xl p-4">
+                                                <div className="text-orange-300 text-sm">חיסכון אפשרי</div>
+                                                <div className="text-white font-bold text-xl mt-1">
+                                                    ₪{listComparisonData.potential_savings?.toFixed(2) || '0'}
+                                                </div>
+                                                <div className="text-orange-400 text-sm">
+                                                    {listComparisonData.items_analyzed} פריטים
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Chain List */}
+                                        <div className="space-y-3">
+                                            {listComparisonData.comparison?.sort((a, b) => a.total - b.total).map((chain, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className={`p-4 rounded-xl border ${
+                                                        chain.is_cheapest
+                                                            ? 'bg-green-500/20 border-green-500/40'
+                                                            : 'bg-white/5 border-white/10'
+                                                    }`}
+                                                >
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="flex items-center gap-3">
+                                                            {chain.is_cheapest && <span className="text-xl">🏆</span>}
+                                                            <div>
+                                                                <div className="text-white font-bold">{chain.chain_name_he}</div>
+                                                                <div className="text-gray-400 text-sm">
+                                                                    {chain.items_found}/{listComparisonData.items_analyzed} פריטים נמצאו
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="text-left">
+                                                            <div className={`font-bold text-xl ${chain.is_cheapest ? 'text-green-400' : 'text-white'}`}>
+                                                                ₪{chain.total?.toFixed(2)}
+                                                            </div>
+                                                            {chain.savings_vs_expensive > 0 && (
+                                                                <div className="text-green-400 text-sm">
+                                                                    חוסך ₪{chain.savings_vs_expensive.toFixed(2)}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {chain.items_not_found?.length > 0 && (
+                                                        <div className="mt-2 pt-2 border-t border-white/10">
+                                                            <div className="text-red-400 text-xs">
+                                                                לא נמצאו: {chain.items_not_found.slice(0, 3).join(', ')}
+                                                                {chain.items_not_found.length > 3 && ` (+${chain.items_not_found.length - 3})`}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ) : listComparisonData?.optimization && comparisonViewMode === 'optimal' ? (
+                                    /* Optimized Basket View */
+                                    <div className="space-y-4">
+                                        {/* Optimization Summary */}
+                                        <div className="bg-gradient-to-br from-green-500/30 to-emerald-600/30 border border-green-500/40 rounded-xl p-5">
+                                            <div className="flex items-center justify-between mb-3">
+                                                <div className="text-green-300 font-medium">סה"כ מחיר אופטימלי</div>
+                                                <div className="text-white font-bold text-2xl">
+                                                    ₪{listComparisonData.optimization.total_price?.toFixed(2)}
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between">
+                                                <div className="text-green-300 text-sm">חיסכון</div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-green-400 font-bold">
+                                                        ₪{listComparisonData.optimization.total_savings?.toFixed(2)}
+                                                    </span>
+                                                    <span className="bg-green-500/30 text-green-300 text-xs px-2 py-1 rounded-full">
+                                                        {listComparisonData.optimization.savings_percentage?.toFixed(1)}%
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Strategy Selection */}
+                                        <div className="flex gap-2 flex-wrap">
+                                            {['single', 'optimal', 'split'].map(strategy => (
+                                                <button
+                                                    key={strategy}
+                                                    onClick={() => optimizeShoppingBasket(strategy)}
+                                                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                                                        optimizationStrategy === strategy
+                                                            ? 'bg-green-500 text-white'
+                                                            : 'bg-white/10 text-white/70 hover:bg-white/20'
+                                                    }`}
+                                                >
+                                                    {strategy === 'single' && '🏪 רשת אחת'}
+                                                    {strategy === 'optimal' && '⚖️ מאוזן'}
+                                                    {strategy === 'split' && '💸 הכי זול'}
+                                                </button>
+                                            ))}
+                                        </div>
+
+                                        {/* Shopping Plan */}
+                                        <div className="space-y-4">
+                                            <div className="text-white/60 text-sm">תוכנית קניות מומלצת:</div>
+                                            {listComparisonData.optimization.shopping_plan?.map((chainPlan, idx) => (
+                                                <div key={idx} className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+                                                    <div className={`${getChainColor(chainPlan.chain_name_he)} p-4 flex items-center justify-between`}>
+                                                        <div className="font-bold text-white text-lg">{chainPlan.chain_name_he}</div>
+                                                        <div className="text-white/90">
+                                                            {chainPlan.item_count} פריטים • ₪{chainPlan.subtotal?.toFixed(2)}
+                                                        </div>
+                                                    </div>
+                                                    <div className="p-3 max-h-40 overflow-y-auto">
+                                                        {chainPlan.items?.map((item, itemIdx) => (
+                                                            <div key={itemIdx} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
+                                                                <span className="text-white/80">{item.name}</span>
+                                                                <span className="text-white/60 text-sm">
+                                                                    {item.quantity}x • ₪{item.total?.toFixed(2)}
+                                                                </span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Single Chain Comparison */}
+                                        {listComparisonData.optimization.single_chain_comparison && (
+                                            <div className="bg-white/5 border border-white/10 rounded-xl p-4 mt-4">
+                                                <div className="text-white/60 text-sm mb-1">לעומת רשת יחידה הזולה ביותר:</div>
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-white">{listComparisonData.optimization.single_chain_comparison.cheapest}</span>
+                                                    <span className="text-white/60">₪{listComparisonData.optimization.single_chain_comparison.total?.toFixed(2)}</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-16">
+                                        <div className="text-5xl mb-4">📊</div>
+                                        <div className="text-white text-lg font-medium">לא נמצאו נתונים</div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Footer with action buttons */}
+                            {!listComparisonLoading && listComparisonData && !listComparisonData.error && (
+                                <div className="p-4 border-t border-white/10 flex gap-3">
+                                    <button
+                                        onClick={compareFullShoppingList}
+                                        className="flex-1 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-all"
+                                    >
+                                        🔄 רענן
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            if (listComparisonData.cheapest_chain) {
+                                                const name = listComparisonData.cheapest_chain.chain_name_he;
+                                                const urls = {
+                                                    'שופרסל': 'https://www.shufersal.co.il',
+                                                    'רמי לוי': 'https://www.rami-levy.co.il',
+                                                    'ויקטורי': 'https://www.victoryonline.co.il',
+                                                    'יינות ביתן': 'https://www.ybitan.co.il',
+                                                    'חצי חינם': 'https://shop.hazi-hinam.co.il',
+                                                    'אושר עד': 'https://www.osherad.co.il'
+                                                };
+                                                window.open(urls[name] || 'https://www.shufersal.co.il', '_blank');
+                                            }
+                                        }}
+                                        className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold hover:opacity-90 transition-all"
+                                    >
+                                        🛒 הזמן מ{listComparisonData.cheapest_chain?.chain_name_he || 'הרשת'}
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     {showFinishShopping && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                             <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
@@ -8594,6 +9620,28 @@ END:VCALENDAR`;
                                         className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 dark:hover:text-red-400 text-2xl hover:scale-110 hover:rotate-90 transition-all">×</button>
                                 </div>
 
+                                {/* Year Navigation */}
+                                <div className="flex items-center justify-between mb-2">
+                                    <button
+                                        onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear() + 1, calendarMonth.getMonth()))}
+                                        className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center gap-1"
+                                    >
+                                        <span>«</span> שנה קודמת
+                                    </button>
+                                    <button
+                                        onClick={() => setCalendarMonth(new Date())}
+                                        className="px-3 py-1 text-sm bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-all"
+                                    >
+                                        היום
+                                    </button>
+                                    <button
+                                        onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear() - 1, calendarMonth.getMonth()))}
+                                        className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center gap-1"
+                                    >
+                                        שנה הבאה <span>»</span>
+                                    </button>
+                                </div>
+
                                 {/* Month Navigation */}
                                 <div className="flex items-center justify-between mb-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl p-3">
                                     <button
@@ -8602,7 +9650,7 @@ END:VCALENDAR`;
                                     >
                                         ‹
                                     </button>
-                                    <div className="text-center">
+                                    <div className="text-center cursor-pointer" onClick={() => setCalendarMonth(new Date())}>
                                         <div className="text-lg font-bold">{HEBREW_MONTHS[calendarMonth.getMonth()]}</div>
                                         <div className="text-sm opacity-80">{calendarMonth.getFullYear()}</div>
                                     </div>
@@ -8707,40 +9755,68 @@ END:VCALENDAR`;
                                         </div>
                                     </div>
                                 ) : (
-                                    /* Upcoming Holidays List */
-                                    <div className="space-y-2">
-                                        <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-2">🎉 חגים קרובים:</h3>
-                                        {ISRAELI_HOLIDAYS
-                                            .filter(h => h.dateObj >= new Date())
-                                            .sort((a, b) => a.dateObj - b.dateObj)
-                                            .slice(0, 4)
-                                            .map((holiday, idx) => {
-                                                const daysUntil = Math.ceil((holiday.dateObj - new Date()) / (1000 * 60 * 60 * 24));
-                                                return (
-                                                    <button
-                                                        key={idx}
-                                                        onClick={() => {
-                                                            setSelectedHoliday(holiday);
-                                                            setCalendarMonth(new Date(holiday.dateObj));
-                                                        }}
-                                                        className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all text-right"
-                                                    >
-                                                        <span className="text-xl">{holiday.icon}</span>
-                                                        <div className="flex-1">
-                                                            <div className="font-medium text-gray-800 dark:text-white">{holiday.name}</div>
-                                                            <div className="text-xs text-gray-500">{holiday.date}</div>
-                                                        </div>
-                                                        <span className={`text-xs px-2 py-1 rounded-full ${
-                                                            daysUntil <= 7 ? 'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300' :
-                                                            daysUntil <= 30 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300' :
-                                                            'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
-                                                        }`}>
-                                                            {daysUntil} ימים
-                                                        </span>
-                                                    </button>
-                                                );
-                                            })}
-                                    </div>
+                                    <>
+                                        {/* Holidays in Current Month */}
+                                        {(() => {
+                                            const monthHolidays = ISRAELI_HOLIDAYS.filter(h =>
+                                                h.dateObj.getMonth() === calendarMonth.getMonth() &&
+                                                h.dateObj.getFullYear() === calendarMonth.getFullYear()
+                                            );
+                                            return monthHolidays.length > 0 && (
+                                                <div className="space-y-2 mb-4">
+                                                    <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-2">📅 חגים בחודש זה:</h3>
+                                                    {monthHolidays.map((holiday, idx) => (
+                                                        <button
+                                                            key={idx}
+                                                            onClick={() => setSelectedHoliday(holiday)}
+                                                            className="w-full flex items-center gap-3 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-all text-right border border-amber-200 dark:border-amber-700"
+                                                        >
+                                                            <span className="text-xl">{holiday.icon}</span>
+                                                            <div className="flex-1">
+                                                                <div className="font-medium text-amber-800 dark:text-amber-200">{holiday.name}</div>
+                                                                <div className="text-xs text-amber-600 dark:text-amber-400">{holiday.date}</div>
+                                                            </div>
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            );
+                                        })()}
+
+                                        {/* Upcoming Holidays List */}
+                                        <div className="space-y-2">
+                                            <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-2">🎉 חגים קרובים:</h3>
+                                            {ISRAELI_HOLIDAYS
+                                                .filter(h => h.dateObj >= new Date())
+                                                .sort((a, b) => a.dateObj - b.dateObj)
+                                                .slice(0, 4)
+                                                .map((holiday, idx) => {
+                                                    const daysUntil = Math.ceil((holiday.dateObj - new Date()) / (1000 * 60 * 60 * 24));
+                                                    return (
+                                                        <button
+                                                            key={idx}
+                                                            onClick={() => {
+                                                                setSelectedHoliday(holiday);
+                                                                setCalendarMonth(new Date(holiday.dateObj));
+                                                            }}
+                                                            className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all text-right"
+                                                        >
+                                                            <span className="text-xl">{holiday.icon}</span>
+                                                            <div className="flex-1">
+                                                                <div className="font-medium text-gray-800 dark:text-white">{holiday.name}</div>
+                                                                <div className="text-xs text-gray-500">{holiday.date}</div>
+                                                            </div>
+                                                            <span className={`text-xs px-2 py-1 rounded-full ${
+                                                                daysUntil <= 7 ? 'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300' :
+                                                                daysUntil <= 30 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300' :
+                                                                'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
+                                                            }`}>
+                                                                {daysUntil} ימים
+                                                            </span>
+                                                        </button>
+                                                    );
+                                                })}
+                                        </div>
+                                    </>
                                 )}
 
                                 {/* Legend */}
@@ -9175,9 +10251,21 @@ END:VCALENDAR`;
                                     className="flex flex-col items-center justify-center py-3 rounded-xl bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 transition-all"
                                 >
                                     <span className="text-2xl mb-1">📸</span>
-                                    <span className="text-xs font-medium">{t('priceComparison')}</span>
+                                    <span className="text-xs font-medium">סרוק מוצר</span>
                                 </button>
                             </div>
+
+                            {/* Full List Price Comparison Button */}
+                            {items.filter(i => !i.purchased).length > 0 && (
+                                <button
+                                    onClick={compareFullShoppingList}
+                                    className="w-full mb-4 flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                >
+                                    <span className="text-2xl">📊</span>
+                                    <span>השווה מחירים - כל הרשימה</span>
+                                    <span className="bg-white/20 px-2 py-0.5 rounded-full text-sm">{items.filter(i => !i.purchased).length}</span>
+                                </button>
+                            )}
 
                             {/* AI Assistant Button */}
                             <button
@@ -9434,14 +10522,17 @@ END:VCALENDAR`;
                                         const unpurchasedItems = items.filter(i => !i.purchased);
                                         const itemsWithPrice = unpurchasedItems.filter(i => i.price);
                                         return estimatedTotal > 0 && (
-                                            <div className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-xl">
-                                                <span>💰</span>
-                                                <div className="flex flex-col">
-                                                    <span className="font-semibold">{t('estimatedTotal')}: ₪{estimatedTotal.toFixed(2)}</span>
-                                                    <span className="text-xs opacity-75">
-                                                        {itemsWithPrice.length} {t('itemsWithPrice')} {t('of')} {unpurchasedItems.length}
-                                                    </span>
+                                            <div className="flex flex-col gap-1">
+                                                <div className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-xl">
+                                                    <span>💰</span>
+                                                    <div className="flex flex-col">
+                                                        <span className="font-semibold">{t('estimatedTotal')}: ₪{estimatedTotal.toFixed(2)}</span>
+                                                        <span className="text-xs opacity-75">
+                                                            {itemsWithPrice.length} {t('itemsWithPrice')} {t('of')} {unpurchasedItems.length}
+                                                        </span>
+                                                    </div>
                                                 </div>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400 px-1">{t('priceDisclaimer')}</span>
                                             </div>
                                         );
                                     })()}
@@ -9557,9 +10648,11 @@ END:VCALENDAR`;
                                                     <div className="item-row" role="group" aria-label={`פריט: ${item.name}`}>
                                                         {/* Checkbox */}
                                                         <button
+                                                            onTouchStart={(e) => e.stopPropagation()}
                                                             onClick={(e) => togglePurchasedWithAnimation(item.id, item.purchased, e)}
                                                             aria-label={item.purchased ? `בטל סימון עבור ${item.name}` : `סמן ${item.name} כנקנה`}
                                                             className={`item-checkbox ${item.purchased ? 'checked' : ''}`}
+                                                            style={{ touchAction: 'manipulation' }}
                                                         >
                                                             {item.purchased && (
                                                                 <svg className={`w-4 h-4 text-white ${animatingItems.has(item.id) ? 'check-animate' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -9570,24 +10663,9 @@ END:VCALENDAR`;
 
                                                         {/* Product Name */}
                                                         <div className="flex-1 min-w-0">
-                                                            {editingItemId === item.id ? (
-                                                                <input
-                                                                    type="text"
-                                                                    value={editingItemName}
-                                                                    onChange={(e) => setEditingItemName(e.target.value)}
-                                                                    onBlur={saveItemName}
-                                                                    onKeyDown={(e) => e.key === 'Enter' && saveItemName()}
-                                                                    className="inline-edit-input w-full text-base font-medium"
-                                                                    autoFocus
-                                                                />
-                                                            ) : (
-                                                                <div
-                                                                    onClick={() => !item.purchased && startEditingItem(item)}
-                                                                    className={`item-name ${item.purchased ? 'purchased' : ''} cursor-pointer`}
-                                                                >
-                                                                    {getProductTranslation(item.name, language)}
-                                                                </div>
-                                                            )}
+                                                            <div className={`item-name ${item.purchased ? 'purchased' : ''}`}>
+                                                                {getProductTranslation(item.name, language)}
+                                                            </div>
                                                             {/* Status indicators */}
                                                             <div className="flex items-center gap-2 flex-wrap">
                                                                 {item.note && (
@@ -9607,92 +10685,61 @@ END:VCALENDAR`;
                                                             </div>
                                                         </div>
 
-                                                        {/* Price display/edit */}
-                                                        {editingPriceId === item.id ? (
-                                                            <div className="flex items-center gap-1 flex-shrink-0">
-                                                                <input
-                                                                    type="number"
-                                                                    value={editingPriceValue}
-                                                                    onChange={(e) => setEditingPriceValue(e.target.value)}
-                                                                    onBlur={() => { updateItemPrice(item.id, parseFloat(editingPriceValue) || 0); }}
-                                                                    onKeyDown={(e) => e.key === 'Enter' && updateItemPrice(item.id, parseFloat(editingPriceValue) || 0)}
-                                                                    className="w-16 px-2 py-1 text-sm border rounded dark:bg-gray-700 dark:border-gray-600"
-                                                                    placeholder="₪"
-                                                                    autoFocus
-                                                                />
-                                                            </div>
-                                                        ) : item.price ? (
-                                                            <button
-                                                                onClick={() => { setEditingPriceId(item.id); setEditingPriceValue(item.price.toString()); }}
-                                                                className="text-xs text-green-600 dark:text-green-400 font-medium px-2 py-1 rounded hover:bg-green-50 dark:hover:bg-green-900/20"
-                                                            >
-                                                                ₪{item.price.toFixed(2)}
-                                                            </button>
+                                                        {/* Price display (read-only, calculated based on quantity) */}
+                                                        {item.price ? (
+                                                            <span className="text-xs text-green-600 dark:text-green-400 font-medium px-2 py-1">
+                                                                ₪{calculateItemPrice(item).toFixed(2)}
+                                                            </span>
                                                         ) : null}
 
                                                         {/* Quantity - compact stepper */}
-                                                        <div className="qty-stepper flex-shrink-0" role="group" aria-label={`כמות ${item.name}`}>
+                                                        <div
+                                                            className="qty-stepper flex-shrink-0"
+                                                            role="group"
+                                                            aria-label={`כמות ${item.name}`}
+                                                            onTouchStart={(e) => e.stopPropagation()}
+                                                        >
                                                             <button
                                                                 onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) - 1)}
                                                                 className="qty-btn"
                                                                 aria-label="הפחת"
+                                                                style={{ touchAction: 'manipulation' }}
                                                             >−</button>
                                                             <span className="qty-value">{getQuantityNumber(item.quantity)}</span>
                                                             <button
                                                                 onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) + 1)}
                                                                 className="qty-btn"
                                                                 aria-label="הוסף"
+                                                                style={{ touchAction: 'manipulation' }}
                                                             >+</button>
                                                         </div>
 
                                                         {/* Menu button */}
                                                         <button
-                                                            onClick={() => setOpenItemMenu(openItemMenu === item.id ? null : item.id)}
-                                                            className="item-menu-btn"
+                                                            type="button"
+                                                            onTouchStart={(e) => {
+                                                                e.stopPropagation();
+                                                            }}
+                                                            onTouchEnd={(e) => {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                setOpenItemMenu(openItemMenu === item.id ? null : item.id);
+                                                            }}
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                setOpenItemMenu(openItemMenu === item.id ? null : item.id);
+                                                            }}
+                                                            className="item-menu-btn touch-target"
                                                             aria-label="תפריט פעולות"
+                                                            style={{ minWidth: '44px', minHeight: '44px', touchAction: 'manipulation' }}
                                                         >
-                                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                                                                 <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                                                             </svg>
                                                         </button>
                                                     </div>
 
-                                                    {/* Actions Menu */}
-                                                    {openItemMenu === item.id && (
-                                                        <React.Fragment>
-                                                            <div className="item-menu-backdrop" onClick={() => setOpenItemMenu(null)} />
-                                                            <div className="item-actions-menu">
-                                                                {!item.note && (
-                                                                    <button onClick={() => { setEditingNote(item); setOpenItemMenu(null); }} className="item-action-btn">
-                                                                        <span>📝</span> {t('addNote')}
-                                                                    </button>
-                                                                )}
-                                                                {!item.price && (
-                                                                    <button onClick={() => { setEditingPriceId(item.id); setEditingPriceValue(''); setOpenItemMenu(null); }} className="item-action-btn">
-                                                                        <span>💰</span> {t('addPrice') || 'הוסף מחיר משוער'}
-                                                                    </button>
-                                                                )}
-                                                                {!item.purchased && !item.postponedBy && (
-                                                                    <button onClick={() => { postponeItem(item.id); setOpenItemMenu(null); }} className="item-action-btn">
-                                                                        <span>⏭️</span> {t('postpone')}
-                                                                    </button>
-                                                                )}
-                                                                {item.postponedBy && !item.purchased && (
-                                                                    <button onClick={() => { undoPostponeItem(item.id); setOpenItemMenu(null); }} className="item-action-btn">
-                                                                        <span>↩️</span> {t('undoPostpone')}
-                                                                    </button>
-                                                                )}
-                                                                {!item.purchased && !item.outOfStock && (
-                                                                    <button onClick={() => { markOutOfStock(item); setOpenItemMenu(null); }} className="item-action-btn">
-                                                                        <span>🚫</span> {t('outOfStockStatus')}
-                                                                    </button>
-                                                                )}
-                                                                <button onClick={() => { setShowDeleteConfirm(item.id); setOpenItemMenu(null); }} className="item-action-btn danger">
-                                                                    <span>🗑️</span> {t('deleteItem')}
-                                                                </button>
-                                                            </div>
-                                                        </React.Fragment>
-                                                    )}
                                                 </div>
                                             </SwipeableItem>
                                         ))}
