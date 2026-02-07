@@ -871,7 +871,18 @@
                 noRecipesSaved: 'אין מתכונים שמורים',
                 addFirstRecipe: 'הוסף מתכון ראשון',
                 noHistoryYet: 'אין היסטוריה עדיין',
-                completeFirstShopping: 'סיימו קנייה ראשונה לראות סטטיסטיקה'
+                completeFirstShopping: 'סיימו קנייה ראשונה לראות סטטיסטיקה',
+                // Templates
+                templates: 'תבניות',
+                saveAsTemplate: 'שמור כתבנית',
+                myTemplates: 'התבניות שלי',
+                noTemplatesSaved: 'אין תבניות שמורות עדיין. שמור רשימה כתבנית לשימוש חוזר!',
+                templateNamePlaceholder: 'שם התבנית (לדוגמה: קניות שבועיות)',
+                itemsWillBeSaved: 'יישמרו {count} פריטים לא מסומנים',
+                myList: 'הרשימה שלי',
+                // Status labels
+                postponedStatus: 'נדחה',
+                outOfStockStatus: 'אזל'
             },
             en: {
                 // App name & general
@@ -1166,7 +1177,18 @@
                 noRecipesSaved: 'No recipes saved',
                 addFirstRecipe: 'Add first recipe',
                 noHistoryYet: 'No history yet',
-                completeFirstShopping: 'Complete your first shopping to see statistics'
+                completeFirstShopping: 'Complete your first shopping to see statistics',
+                // Templates
+                templates: 'Templates',
+                saveAsTemplate: 'Save as Template',
+                myTemplates: 'My Templates',
+                noTemplatesSaved: 'No templates saved yet. Save a list as a template for reuse!',
+                templateNamePlaceholder: 'Template name (e.g., Weekly Shopping)',
+                itemsWillBeSaved: '{count} unchecked items will be saved',
+                myList: 'My List',
+                // Status labels
+                postponedStatus: 'Postponed',
+                outOfStockStatus: 'Out of stock'
             },
             ru: {
                 // App name & general
@@ -1433,7 +1455,18 @@
                 noRecipesSaved: 'Нет сохраненных рецептов',
                 addFirstRecipe: 'Добавить первый рецепт',
                 noHistoryYet: 'Истории пока нет',
-                completeFirstShopping: 'Завершите первую покупку, чтобы увидеть статистику'
+                completeFirstShopping: 'Завершите первую покупку, чтобы увидеть статистику',
+                // Templates
+                templates: 'Шаблоны',
+                saveAsTemplate: 'Сохранить как шаблон',
+                myTemplates: 'Мои шаблоны',
+                noTemplatesSaved: 'Шаблоны пока не сохранены. Сохраните список как шаблон для повторного использования!',
+                templateNamePlaceholder: 'Название шаблона (например: Еженедельные покупки)',
+                itemsWillBeSaved: '{count} неотмеченных товаров будут сохранены',
+                myList: 'Мой список',
+                // Status labels
+                postponedStatus: 'Отложено',
+                outOfStockStatus: 'Нет в наличии'
             },
             ar: {
                 // App name & general
@@ -1728,7 +1761,18 @@
                 noRecipesSaved: 'لا توجد وصفات محفوظة',
                 addFirstRecipe: 'أضف أول وصفة',
                 noHistoryYet: 'لا يوجد سجل بعد',
-                completeFirstShopping: 'أكمل أول تسوق لرؤية الإحصائيات'
+                completeFirstShopping: 'أكمل أول تسوق لرؤية الإحصائيات',
+                // Templates
+                templates: 'القوالب',
+                saveAsTemplate: 'حفظ كقالب',
+                myTemplates: 'قوالبي',
+                noTemplatesSaved: 'لا توجد قوالب محفوظة بعد. احفظ قائمة كقالب لإعادة الاستخدام!',
+                templateNamePlaceholder: 'اسم القالب (مثال: التسوق الأسبوعي)',
+                itemsWillBeSaved: 'سيتم حفظ {count} عنصر غير محدد',
+                myList: 'قائمتي',
+                // Status labels
+                postponedStatus: 'مؤجل',
+                outOfStockStatus: 'غير متوفر'
             }
         };
 
@@ -3065,6 +3109,34 @@
             pets: { name: 'חיות מחמד', icon: '🐕', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג'] }
         };
 
+        // Category key to translation key mapping
+        const CATEGORY_TO_TRANSLATION = {
+            fruits: 'fruitsVeg',
+            dairy: 'dairyProducts',
+            desserts: 'dairyDesserts',
+            meat: 'meat',
+            fish: 'fish',
+            deli: 'deli',
+            salads: 'readySalads',
+            bakery: 'breadBakery',
+            spreads: 'spreads',
+            baking: 'bakingProducts',
+            cereals: 'cereals',
+            canned: 'cannedDry',
+            spices: 'spices',
+            coffee: 'coffeeTea',
+            drinks: 'drinks',
+            wine: 'wineAlcohol',
+            snacks: 'snacks',
+            frozen: 'frozen',
+            health: 'dietProtein',
+            hygiene: 'hygiene',
+            cleaning: 'cleaning',
+            candles: 'candlesOil',
+            baby: 'babyKids',
+            pets: 'pets'
+        };
+
         // Israeli holidays for calendar reminders (2025-2026 dates)
         const ISRAELI_HOLIDAYS = [
             { name: 'פורים', icon: '🎭', date: '14.03.2025', dateObj: new Date('2025-03-14'), reminder: 'זמן לקנות משלוחי מנות ואוזני המן', type: 'jewish' },
@@ -3134,6 +3206,103 @@
             baby: ['חיתולים מידה 1', 'חיתולים מידה 2', 'חיתולים מידה 3', 'חיתולים מידה 4', 'חיתולים מידה 5', 'חיתולים מידה 6', 'מכנסוני חיתול', 'חיתולי לילה', 'מגבונים לתינוקות', 'מגבונים רגישים', 'שמפו לתינוקות', 'סבון לתינוקות', 'אל סבון לתינוקות', 'קרם החתלה', 'קרם פוש', 'קרם דסיטין', 'משחת החתלה', 'שמן תינוקות', 'קרם פנים לתינוק', 'אבקת חלב סימילאק', 'אבקת חלב מטרנה', 'מחית פירות', 'מחית ירקות', 'דייסה לתינוקות', 'ביסלי לתינוקות', 'חטיף תינוקות', 'מיץ לתינוקות', 'מוצצים', 'בקבוק תינוק', 'פטמות', 'מברשת שיניים לתינוק', 'משחת שיניים לתינוק', 'שמפו ילדים', 'סבון ילדים'],
 
             pets: ['מזון לכלבים', 'מזון יבש לכלבים', 'מזון רטוב לכלבים', 'מזון לכלבים בוגרים', 'מזון לגורים', 'מזון לחתולים', 'מזון יבש לחתולים', 'מזון רטוב לחתולים', 'מזון לחתולים בוגרים', 'מזון לגורי חתולים', 'חול לחתולים', 'חול מתגבש', 'חול סיליקה', 'חטיפים לכלבים', 'חטיפים לחתולים', 'עצמות לכעיסה', 'דנטסטיקס', 'צעצועים לכלבים', 'צעצועים לחתולים', 'מיטה לכלב', 'מיטה לחתול', 'קערת אוכל', 'קערת מים', 'רצועה לכלב', 'קולר', 'מסרק לכלב', 'שמפו לכלבים', 'שקיות קקי', 'משטח אימון', 'מזון לדגים', 'מזון לציפורים', 'מזון לאוגרים']
+        };
+
+        // Average Israeli supermarket prices (in NIS) - Updated 2024
+        const PRODUCT_PRICES = {
+            // Dairy - מוצרי חלב
+            'חלב 3%': 6.90, 'חלב 1%': 6.50, 'חלב דל שומן': 6.50, 'חלב סויה': 12.90, 'חלב שקדים': 14.90,
+            'לבן': 5.90, 'גבינה צהובה עמק': 32.90, 'גבינה צהובה 9%': 24.90, 'קוטג׳ 5%': 8.90, 'קוטג׳ 3%': 8.50,
+            'גבינה בולגרית': 18.90, 'צפתית': 22.90, 'גבינת שמנת': 12.90, 'מוצרלה': 19.90, 'פרמזן': 42.90,
+            'ביצים L': 24.90, 'ביצים XL': 28.90, 'ביצים אורגניות': 34.90, 'חמאה': 14.90,
+            'שמנת מתוקה': 9.90, 'שמנת חמוצה': 7.90, 'יוגורט': 5.90, 'יוגורט יווני': 8.90,
+
+            // Bread & Bakery - לחם ומאפים
+            'לחם': 7.90, 'לחם מלא': 9.90, 'לחם שיפון': 12.90, 'חלה': 12.90, 'פיתות': 8.90,
+            'לחמניות': 9.90, 'בגט': 6.90, 'קרואסון': 7.90, 'בורקס גבינה': 14.90,
+
+            // Fruits & Vegetables - פירות וירקות
+            'עגבניות': 8.90, 'עגבניות שרי': 12.90, 'מלפפונים': 6.90, 'בצל': 4.90, 'שום': 9.90,
+            'פלפל אדום': 12.90, 'פלפל ירוק': 8.90, 'חסה': 7.90, 'גזר': 5.90, 'תפו״א אדום': 5.90,
+            'בטטה': 8.90, 'בננות': 9.90, 'תפוחים ירוקים': 12.90, 'תפוחים אדומים': 12.90,
+            'תפוזים': 8.90, 'לימון': 7.90, 'אבוקדו': 6.90, 'מנגו': 14.90, 'ענבים ירוקים': 24.90,
+
+            // Meat - בשר
+            'חזה עוף טרי': 39.90, 'כרעיים עוף טריות': 24.90, 'שוקיים עוף טריים': 29.90,
+            'עוף שלם טרי': 34.90, 'בשר טחון טרי': 49.90, 'אנטריקוט טרי': 129.90,
+            'שניצל עוף טרי': 42.90, 'המבורגר טרי': 44.90, 'נקניקיות עוף': 24.90,
+
+            // Fish - דגים
+            'סלמון טרי': 89.90, 'פילה סלמון טרי': 99.90, 'פילה אמנון טרי': 54.90, 'טונה': 12.90,
+
+            // Pantry - מזווה
+            'אורז': 12.90, 'אורז בסמטי': 16.90, 'פסטה': 7.90, 'פסטה ספגטי': 7.90,
+            'שמן זית': 34.90, 'שמן זית כתית': 44.90, 'שמן קנולה': 14.90,
+            'רוטב עגבניות': 8.90, 'רסק עגבניות': 5.90, 'חומוס': 12.90, 'טחינה': 18.90,
+            'קמח': 6.90, 'סוכר': 8.90, 'מלח': 3.90,
+
+            // Snacks - חטיפים
+            'במבה': 6.90, 'ביסלי': 6.90, 'דוריטוס': 12.90, 'פרינגלס': 14.90,
+            'שוקולד': 8.90, 'שוקולד פרה': 9.90, 'סניקרס': 6.90, 'קיטקט': 5.90,
+
+            // Drinks - משקאות
+            'קולה 1.5 ליטר': 8.90, 'קולה זירו 1.5 ליטר': 8.90, 'ספרייט 1.5 ליטר': 8.90,
+            'מיץ תפוזים': 12.90, 'מיץ תפוזים 1 ליטר': 14.90, 'מים בטעמים': 5.90,
+
+            // Coffee & Tea - קפה ותה
+            'קפה נמס': 24.90, 'קפה טורקי': 19.90, 'תה שחור': 12.90, 'תה ירוק': 14.90,
+
+            // Frozen - קפואים
+            'גלידה': 24.90, 'גלידה וניל': 24.90, 'פיצה קפואה': 29.90, 'ירקות קפואים': 14.90,
+            'שניצל קפוא': 34.90,
+
+            // Cleaning - ניקיון
+            'נייר טואלט': 34.90, 'מגבות נייר': 19.90, 'סבון כלים': 9.90, 'אבקת כביסה': 44.90,
+            'מרכך כביסה': 24.90, 'שקיות אשפה': 14.90,
+
+            // Hygiene - היגיינה
+            'שמפו': 19.90, 'סבון גוף': 14.90, 'משחת שיניים': 12.90, 'דאודורנט': 18.90,
+
+            // Baby - תינוקות
+            'חיתולים מידה 3': 49.90, 'חיתולים מידה 4': 49.90, 'מגבונים לתינוקות': 14.90,
+
+            // Spreads - ממרחים
+            'נוטלה': 24.90, 'חמאת בוטנים': 22.90, 'ריבה': 14.90, 'דבש': 29.90,
+
+            // Desserts - קינוחים
+            'מילקי': 5.90, 'דנונה': 5.50, 'יופלה': 5.90, 'שוקו יטבתה': 4.90
+        };
+
+        // Function to get estimated price for a product
+        const getEstimatedPrice = (productName) => {
+            if (!productName) return null;
+
+            // Direct match
+            if (PRODUCT_PRICES[productName]) {
+                return PRODUCT_PRICES[productName];
+            }
+
+            // Partial match - find product that contains or is contained by the name
+            const nameLower = productName.toLowerCase();
+            for (const [product, price] of Object.entries(PRODUCT_PRICES)) {
+                const productLower = product.toLowerCase();
+                if (productLower.includes(nameLower) || nameLower.includes(productLower)) {
+                    return price;
+                }
+            }
+
+            // Word-based match
+            const words = nameLower.split(/\s+/).filter(w => w.length > 2);
+            for (const [product, price] of Object.entries(PRODUCT_PRICES)) {
+                const productLower = product.toLowerCase();
+                for (const word of words) {
+                    if (productLower.includes(word)) {
+                        return price;
+                    }
+                }
+            }
+
+            return null;
         };
 
         // Product translations for multi-language support
@@ -5824,6 +5993,16 @@
             const searchPriceComparison = (productName) => {
                 if (!productName) return;
 
+                // Stop camera when showing results
+                if (priceVideoRef.current?.srcObject) {
+                    const tracks = priceVideoRef.current.srcObject.getTracks();
+                    tracks.forEach(track => {
+                        track.stop();
+                        track.enabled = false;
+                    });
+                    priceVideoRef.current.srcObject = null;
+                }
+
                 const encodedName = encodeURIComponent(productName);
 
                 // Israeli supermarket search URLs
@@ -7145,6 +7324,9 @@ END:VCALENDAR`;
                         );
                         await logActivity('quantity_changed', { itemName: product });
                     } else {
+                        // Get estimated price from database
+                        const estimatedPrice = getEstimatedPrice(product);
+
                         await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
                             name: product,
                             category: category,
@@ -7156,6 +7338,8 @@ END:VCALENDAR`;
                             addedBy: user.displayName || user.email,
                             addedByUid: user.uid,
                             note: selectedNote || '',
+                            price: estimatedPrice || null,
+                            priceSource: estimatedPrice ? 'estimated' : null,
                             createdAt: new Date()
                         });
                         await logActivity('item_added', { itemName: product });
@@ -9000,12 +9184,12 @@ END:VCALENDAR`;
                                     </button>
                                 </div>
 
-                                <div id="products-section" className="glass rounded-2xl shadow-xl mb-6">
-                                    {/* Category Header */}
-                                    <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                                <div id="products-section" className="glass rounded-2xl shadow-xl mb-6 overflow-visible">
+                                    {/* Category Header - Sticky */}
+                                    <div className="sticky top-0 z-30 p-4 border-b border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md rounded-t-2xl">
                                         <h2 className="text-xl font-bold flex items-center justify-center gap-2 dark:text-white">
                                             <span className="text-3xl">{CATEGORIES[selectedCategory].icon}</span>
-                                            <span className="text-gradient">{getCategoryName(selectedCategory)}</span>
+                                            <span className="text-gradient">{t(CATEGORY_TO_TRANSLATION[selectedCategory]) || getCategoryName(selectedCategory)}</span>
                                         </h2>
                                     </div>
 
@@ -9037,7 +9221,7 @@ END:VCALENDAR`;
                             <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-6 mb-6">
                                 <h2 className="text-2xl font-bold mb-4 dark:text-white flex items-center gap-3">
                                     <span className="text-3xl">📝</span>
-                                    <span className="text-gradient">הרשימה שלי</span>
+                                    <span className="text-gradient">{t('myList')}</span>
                                     <span className="btn-gradient text-white text-sm px-3 py-1 rounded-full">{filteredItems.length}</span>
                                 </h2>
 
@@ -9054,7 +9238,7 @@ END:VCALENDAR`;
                                         className="flex items-center gap-2 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 px-4 py-2 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-all"
                                     >
                                         <span>📋</span>
-                                        <span className="font-medium">תבניות</span>
+                                        <span className="font-medium">{t('templates')}</span>
                                     </button>
                                     {items.filter(i => !i.purchased).length > 0 && (
                                         <button
@@ -9062,7 +9246,7 @@ END:VCALENDAR`;
                                             className="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 px-4 py-2 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-all"
                                         >
                                             <span>💾</span>
-                                            <span className="font-medium">שמור כתבנית</span>
+                                            <span className="font-medium">{t('saveAsTemplate')}</span>
                                         </button>
                                     )}
                                 </div>
@@ -9071,30 +9255,30 @@ END:VCALENDAR`;
                                 {showTemplates && (
                                     <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
                                         <h3 className="font-bold text-purple-700 dark:text-purple-400 mb-3 flex items-center gap-2">
-                                            <span>📋</span> התבניות שלי
+                                            <span>📋</span> {t('myTemplates')}
                                         </h3>
                                         {templates.length === 0 ? (
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">אין תבניות שמורות עדיין. שמור רשימה כתבנית לשימוש חוזר!</p>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('noTemplatesSaved')}</p>
                                         ) : (
                                             <div className="grid gap-2">
                                                 {templates.map(template => (
                                                     <div key={template.id} className="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded-lg">
                                                         <div>
                                                             <span className="font-medium">{template.name}</span>
-                                                            <span className="text-xs text-gray-500 mr-2">({template.items.length} פריטים)</span>
+                                                            <span className="text-xs text-gray-500 mr-2">({template.items.length} {t('items')})</span>
                                                         </div>
                                                         <div className="flex gap-2">
                                                             <button
                                                                 onClick={() => loadTemplate(template)}
                                                                 className="text-xs bg-purple-500 text-white px-3 py-1 rounded-lg hover:bg-purple-600"
                                                             >
-                                                                טען
+                                                                {t('loadList')}
                                                             </button>
                                                             <button
                                                                 onClick={() => deleteTemplate(template.id)}
                                                                 className="text-xs bg-red-100 text-red-600 px-3 py-1 rounded-lg hover:bg-red-200"
                                                             >
-                                                                מחק
+                                                                {t('delete')}
                                                             </button>
                                                         </div>
                                                     </div>
@@ -9109,32 +9293,32 @@ END:VCALENDAR`;
                                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                                         <div className="glass rounded-2xl p-6 w-full max-w-md">
                                             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                                                <span>💾</span> שמור כתבנית
+                                                <span>💾</span> {t('saveAsTemplate')}
                                             </h3>
                                             <input
                                                 type="text"
                                                 value={newTemplateName}
                                                 onChange={(e) => setNewTemplateName(e.target.value)}
-                                                placeholder="שם התבנית (לדוגמה: קניות שבועיות)"
+                                                placeholder={t('templateNamePlaceholder')}
                                                 className="w-full p-3 border rounded-xl dark:bg-gray-700 dark:border-gray-600 mb-4"
                                                 autoFocus
                                             />
                                             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                                                יישמרו {items.filter(i => !i.purchased).length} פריטים לא מסומנים
+                                                {t('itemsWillBeSaved').replace('{count}', items.filter(i => !i.purchased).length)}
                                             </p>
                                             <div className="flex gap-3">
                                                 <button
                                                     onClick={() => { setShowSaveTemplate(false); setNewTemplateName(''); }}
                                                     className="flex-1 px-4 py-2 border rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700"
                                                 >
-                                                    ביטול
+                                                    {t('cancel')}
                                                 </button>
                                                 <button
                                                     onClick={() => saveAsTemplate(newTemplateName)}
                                                     disabled={!newTemplateName.trim()}
                                                     className="flex-1 btn-gradient text-white px-4 py-2 rounded-xl disabled:opacity-50"
                                                 >
-                                                    שמור
+                                                    {t('save')}
                                                 </button>
                                             </div>
                                         </div>
@@ -9145,7 +9329,7 @@ END:VCALENDAR`;
                                     <div key={category} className="mb-6">
                                         <h3 className="sticky-category-header flex items-center gap-2 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
                                             <span className="text-xl">{CATEGORIES[category]?.icon}</span>
-                                            <span className="text-base font-semibold text-gray-700 dark:text-gray-300">{CATEGORIES[category]?.name}</span>
+                                            <span className="text-base font-semibold text-gray-700 dark:text-gray-300">{t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}</span>
                                             <span className="text-xs bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded-full font-medium">{categoryItems.length}</span>
                                         </h3>
                                         {categoryItems.map(item => (
@@ -9200,13 +9384,13 @@ END:VCALENDAR`;
                                                                     </span>
                                                                 )}
                                                                 {item.postponedBy && !item.purchased && (
-                                                                    <span className="item-status postponed">נדחה</span>
+                                                                    <span className="item-status postponed">{t('postponedStatus')}</span>
                                                                 )}
                                                                 {item.purchased && item.purchasedBy && (
                                                                     <span className="item-status purchased-by">✓ {item.purchasedBy}</span>
                                                                 )}
                                                                 {item.outOfStock && (
-                                                                    <span className="item-status postponed">🚫 אזל</span>
+                                                                    <span className="item-status postponed">🚫 {t('outOfStockStatus')}</span>
                                                                 )}
                                                             </div>
                                                         </div>
