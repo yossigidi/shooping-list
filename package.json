@@ -18,9 +18,6 @@
     "url": "https://github.com/yossigidi/shooping-list/issues"
   },
   "homepage": "https://github.com/yossigidi/shooping-list#readme",
-  "dependencies": {
-    "@google/generative-ai": "^0.21.0"
-  },
   "devDependencies": {
     "sharp": "^0.34.5"
   }

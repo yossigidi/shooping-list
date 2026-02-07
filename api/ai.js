@@ -1,29 +1,40 @@
-// ListNest AI - Smart Item Parser using Gemini (FREE tier)
+// ListNest Smart Add - Using Groq AI (FREE tier - 14,400 requests/day)
 // Vercel Serverless Function
-
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-
-// Initialize Gemini - uses GEMINI_API_KEY from environment
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Hebrew category detection for parsed items
 const CATEGORY_KEYWORDS = {
-    'fruits': ['תפוח', 'בננה', 'תפוז', 'אבטיח', 'מלון', 'ענב', 'אגס', 'שזיף', 'אפרסק', 'נקטרינה', 'מנגו', 'אננס', 'קיווי', 'רימון', 'תות', 'אוכמניות', 'פטל', 'לימון', 'אשכולית', 'קלמנטינה', 'פומלה', 'תמר', 'תאנה', 'משמש', 'דובדבן', 'פירות'],
-    'vegetables': ['עגבניה', 'מלפפון', 'גזר', 'בצל', 'תפוח אדמה', 'פלפל', 'חסה', 'כרוב', 'ברוקולי', 'כרובית', 'חציל', 'קישוא', 'סלרי', 'פטרוזיליה', 'כוסברה', 'נענע', 'בזיליקום', 'שום', 'זנגביל', 'לימון', 'ירקות', 'סלט', 'ירק', 'תרד', 'מנגולד', 'קייל', 'רוקט', 'עלי', 'דלעת', 'בטטה', 'שעועית', 'אפונה', 'תירס', 'פטריות', 'אבוקדו'],
-    'dairy': ['חלב', 'גבינה', 'יוגורט', 'קוטג', 'שמנת', 'חמאה', 'ביצים', 'ביצה', 'קשקבל', 'גאודה', 'עמק', 'בולגרית', 'צפתית', 'פטה', 'מוצרלה', 'פרמזן', 'שמנת', 'לבן', 'אשל', 'מעדן', 'פודינג', 'דנונה', 'אקטיביה', 'מילקי'],
-    'meat': ['עוף', 'בקר', 'טחון', 'שניצל', 'סטייק', 'נקניק', 'נקניקיה', 'קבב', 'המבורגר', 'כבד', 'כנפיים', 'שוקיים', 'חזה', 'פרגית', 'אנטריקוט', 'סינטה', 'צלעות', 'פילה', 'בשר'],
-    'fish': ['דג', 'סלמון', 'טונה', 'אמנון', 'דניס', 'לוקוס', 'מוסר', 'קרפיון', 'בורי', 'סרדין', 'מקרל', 'נסיכה', 'קוד', 'פילה דג'],
-    'bread': ['לחם', 'פיתה', 'באגט', 'לחמניה', 'חלה', 'טורטיה', 'קרואסון', 'לפה', 'פוקצ\'ה', 'פרוסות', 'לחם אחיד'],
-    'pantry': ['אורז', 'פסטה', 'קמח', 'סוכר', 'מלח', 'שמן', 'חומוס', 'טחינה', 'עדשים', 'שעועית', 'גרגירי חומוס', 'קוסקוס', 'בורגול', 'קינואה', 'שיבולת שועל', 'קורנפלקס', 'גרנולה', 'דגני בוקר', 'דבש', 'ריבה', 'שוקולד', 'ממרח', 'חמאת בוטנים', 'טחינה גולמית', 'סילאן', 'מייפל'],
-    'drinks': ['מים', 'מיץ', 'קולה', 'סודה', 'בירה', 'יין', 'קפה', 'תה', 'חלב שוקו', 'לימונדה', 'משקה אנרגיה', 'מינרלים', 'פפסי', 'ספרייט', 'פנטה', 'שוופס'],
-    'frozen': ['גלידה', 'פיצה קפואה', 'שניצל קפוא', 'ירקות קפואים', 'בצק עלים', 'בורקס', 'קפוא', 'מאפה'],
-    'snacks': ['חטיף', 'ביסלי', 'במבה', 'צ\'יפס', 'קרקר', 'עוגיות', 'שוקולד', 'סוכריות', 'וופלים', 'פופקורן', 'בוטנים', 'שקדים', 'אגוזים', 'חטיפים'],
-    'cleaning': ['סבון', 'שמפו', 'מרכך', 'אקונומיקה', 'נייר טואלט', 'מגבונים', 'סבון כלים', 'אבקת כביסה', 'מרכך כביסה', 'ספוג', 'מברשת', 'שקיות אשפה', 'נוזל כלים', 'נוזל רצפה', 'אקונומיקה'],
+    'fruits': ['תפוח', 'בננה', 'תפוז', 'אבטיח', 'מלון', 'ענב', 'אגס', 'שזיף', 'אפרסק', 'נקטרינה', 'מנגו', 'אננס', 'קיווי', 'רימון', 'תות', 'אוכמניות', 'פטל', 'לימון', 'אשכולית', 'קלמנטינה', 'פומלה', 'תמר', 'תאנה', 'משמש', 'דובדבן', 'פירות', 'תפוזים', 'בננות', 'תפוחים', 'ענבים'],
+    'vegetables': ['עגבניה', 'עגבניות', 'מלפפון', 'מלפפונים', 'גזר', 'בצל', 'תפוח אדמה', 'תפוחי אדמה', 'פלפל', 'חסה', 'כרוב', 'ברוקולי', 'כרובית', 'חציל', 'חצילים', 'קישוא', 'קישואים', 'סלרי', 'פטרוזיליה', 'כוסברה', 'נענע', 'בזיליקום', 'שום', 'זנגביל', 'ירקות', 'סלט', 'ירק', 'תרד', 'מנגולד', 'קייל', 'רוקט', 'עלי', 'דלעת', 'בטטה', 'שעועית', 'אפונה', 'תירס', 'פטריות', 'אבוקדו'],
+    'dairy': ['חלב', 'גבינה', 'יוגורט', 'קוטג', 'שמנת', 'חמאה', 'ביצים', 'ביצה', 'קשקבל', 'גאודה', 'עמק', 'בולגרית', 'צפתית', 'פטה', 'מוצרלה', 'פרמזן', 'לבן', 'אשל', 'מעדן', 'פודינג', 'דנונה', 'אקטיביה', 'מילקי', 'גבינת', 'שמנת חמוצה'],
+    'meat': ['עוף', 'בקר', 'טחון', 'שניצל', 'סטייק', 'נקניק', 'נקניקיות', 'נקניקיה', 'קבב', 'המבורגר', 'כבד', 'כנפיים', 'שוקיים', 'חזה עוף', 'חזה', 'פרגית', 'אנטריקוט', 'סינטה', 'צלעות', 'פילה', 'בשר', 'כרעיים', 'שוק', 'בשר טחון'],
+    'fish': ['דג', 'דגים', 'סלמון', 'טונה', 'אמנון', 'דניס', 'לוקוס', 'מוסר', 'קרפיון', 'בורי', 'סרדין', 'מקרל', 'נסיכה', 'קוד', 'פילה דג'],
+    'bread': ['לחם', 'פיתה', 'פיתות', 'באגט', 'לחמניה', 'לחמניות', 'חלה', 'טורטיה', 'קרואסון', 'לפה', 'פוקצ\'ה', 'פרוסות', 'לחם אחיד', 'לחם לבן', 'לחם מלא'],
+    'pantry': ['אורז', 'פסטה', 'קמח', 'סוכר', 'מלח', 'שמן', 'שמן זית', 'חומוס', 'טחינה', 'עדשים', 'שעועית', 'גרגירי חומוס', 'קוסקוס', 'בורגול', 'קינואה', 'שיבולת שועל', 'קורנפלקס', 'גרנולה', 'דגני בוקר', 'דבש', 'ריבה', 'שוקולד', 'ממרח', 'חמאת בוטנים', 'סילאן', 'מייפל', 'רסק עגבניות', 'קטשופ', 'מיונז', 'חרדל'],
+    'drinks': ['מים', 'מיץ', 'קולה', 'סודה', 'בירה', 'יין', 'קפה', 'תה', 'חלב שוקו', 'לימונדה', 'משקה אנרגיה', 'מינרלים', 'פפסי', 'ספרייט', 'פנטה', 'שוופס', 'מיץ תפוזים', 'מיץ תפוחים'],
+    'frozen': ['גלידה', 'פיצה קפואה', 'פיצה', 'שניצל קפוא', 'ירקות קפואים', 'בצק עלים', 'בורקס', 'קפוא', 'מאפה', 'שניצלים'],
+    'snacks': ['חטיף', 'ביסלי', 'במבה', 'צ\'יפס', 'קרקר', 'עוגיות', 'שוקולד', 'סוכריות', 'וופלים', 'פופקורן', 'בוטנים', 'שקדים', 'אגוזים', 'חטיפים', 'קרקרים'],
+    'cleaning': ['סבון', 'שמפו', 'מרכך', 'אקונומיקה', 'נייר טואלט', 'מגבונים', 'סבון כלים', 'אבקת כביסה', 'מרכך כביסה', 'ספוג', 'מברשת', 'שקיות אשפה', 'נוזל כלים', 'נוזל רצפה'],
     'baby': ['טיטולים', 'מטרנה', 'סימילאק', 'מגבונים לתינוק', 'בקבוק', 'מוצץ', 'חיתולים']
 };
 
+// Common Hebrew product aliases and corrections
+const PRODUCT_ALIASES = {
+    'חלב': 'חלב',
+    'חלב תנובה': 'חלב',
+    'ביצים': 'ביצים',
+    'ביצה': 'ביצים',
+    'תפו"א': 'תפוחי אדמה',
+    'תפוא': 'תפוחי אדמה',
+    'עגבניה': 'עגבניות',
+    'מלפפון': 'מלפפונים',
+    'לחם': 'לחם',
+    'פיתה': 'פיתות',
+    'גבינה צהובה': 'גבינה צהובה',
+    'גבינה לבנה': 'גבינה לבנה',
+};
+
 function detectCategory(productName) {
-    const normalized = productName.toLowerCase();
+    const normalized = productName.toLowerCase().trim();
     for (const [category, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
         for (const keyword of keywords) {
             if (normalized.includes(keyword)) {
@@ -31,50 +42,185 @@ function detectCategory(productName) {
             }
         }
     }
-    return 'pantry'; // Default
+    return 'pantry';
 }
 
-// Parse AI response to extract items
-function parseAIResponse(text) {
-    try {
-        // Try to extract JSON from the response
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-            const parsed = JSON.parse(jsonMatch[0]);
-            if (parsed.items && Array.isArray(parsed.items)) {
-                return parsed.items.map(item => ({
-                    name: item.name || item.product || '',
-                    quantity: parseInt(item.quantity) || 1,
-                    unit: item.unit || 'יח\'',
-                    category: item.category || detectCategory(item.name || '')
-                })).filter(item => item.name);
-            }
-        }
+function normalizeProductName(name) {
+    const trimmed = name.trim();
+    return PRODUCT_ALIASES[trimmed] || trimmed;
+}
 
-        // Fallback: try to parse line by line
-        const lines = text.split('\n').filter(line => line.trim());
-        const items = [];
-        for (const line of lines) {
-            // Match patterns like "2 חלב" or "חלב - 2" or "חלב (2)"
-            const match = line.match(/(\d+)?\s*[xX×]?\s*([א-ת\s]+?)(?:\s*[-:]\s*(\d+)|\s*\((\d+)\))?/);
+// Smart local parser - handles Hebrew text patterns
+function smartParse(text) {
+    const items = [];
+    const seen = new Set();
+
+    // Normalize text
+    let normalized = text
+        .replace(/\s+/g, ' ')
+        .replace(/،/g, ',')
+        .replace(/\./g, ',')
+        .replace(/;/g, ',')
+        .replace(/\n/g, ', ')
+        .trim();
+
+    // Split by common separators
+    const parts = normalized.split(/[,]+/).map(s => s.trim()).filter(s => s.length > 0);
+
+    for (let part of parts) {
+        // Handle "ו" (and) connector: "חלב וביצים" -> ["חלב", "ביצים"]
+        const andParts = part.split(/\s+ו(?=[א-ת])/);
+
+        for (let subPart of andParts) {
+            subPart = subPart.trim();
+            if (!subPart) continue;
+
+            let quantity = 1;
+            let name = subPart;
+            let unit = 'יח\'';
+
+            // Pattern: "2 חלב" or "2x חלב" or "2X חלב" or "×2 חלב"
+            let match = subPart.match(/^(\d+)\s*[xX×]?\s+(.+)$/);
             if (match) {
-                const quantity = parseInt(match[1] || match[3] || match[4]) || 1;
-                const name = match[2].trim();
-                if (name && name.length > 1) {
-                    items.push({
-                        name,
-                        quantity,
-                        unit: 'יח\'',
-                        category: detectCategory(name)
-                    });
+                quantity = parseInt(match[1]) || 1;
+                name = match[2].trim();
+            }
+
+            // Pattern: "חלב 2" or "חלב - 2" or "חלב (2)"
+            if (!match) {
+                match = subPart.match(/^(.+?)\s*[-–]?\s*(\d+)$/);
+                if (match && match[2]) {
+                    quantity = parseInt(match[2]) || 1;
+                    name = match[1].trim();
                 }
             }
+
+            // Pattern: "חלב (2)"
+            if (!match) {
+                match = subPart.match(/^(.+?)\s*\((\d+)\)$/);
+                if (match && match[2]) {
+                    quantity = parseInt(match[2]) || 1;
+                    name = match[1].trim();
+                }
+            }
+
+            // Pattern: "קילו עגבניות" or "חצי קילו גבינה"
+            const kiloMatch = name.match(/^(חצי\s+)?קילו\s+(.+)$/);
+            if (kiloMatch) {
+                name = kiloMatch[2];
+                unit = kiloMatch[1] ? '0.5 ק"ג' : 'ק"ג';
+            }
+
+            // Pattern: "ליטר חלב"
+            const literMatch = name.match(/^(חצי\s+)?ליטר\s+(.+)$/);
+            if (literMatch) {
+                name = literMatch[2];
+                unit = literMatch[1] ? '0.5 ליטר' : 'ליטר';
+            }
+
+            // Pattern: "200 גרם גבינה"
+            const gramMatch = name.match(/^(\d+)\s*(?:גרם|גר)\s+(.+)$/);
+            if (gramMatch) {
+                name = gramMatch[2];
+                unit = `${gramMatch[1]} גרם`;
+                quantity = 1;
+            }
+
+            // Clean up name
+            name = name
+                .replace(/^את\s+/, '')
+                .replace(/^של\s+/, '')
+                .replace(/^קצת\s+/, '')
+                .replace(/^הרבה\s+/, '')
+                .replace(/^עוד\s+/, '')
+                .replace(/\s+$/, '')
+                .trim();
+
+            // Normalize and validate
+            name = normalizeProductName(name);
+
+            if (name && name.length > 0 && !seen.has(name.toLowerCase())) {
+                seen.add(name.toLowerCase());
+                items.push({
+                    name,
+                    quantity,
+                    unit,
+                    category: detectCategory(name)
+                });
+            }
         }
-        return items;
-    } catch (e) {
-        console.error('Error parsing AI response:', e);
-        return [];
     }
+
+    return items;
+}
+
+// Call Groq API for advanced parsing
+async function callGroqAPI(text) {
+    const GROQ_API_KEY = process.env.GROQ_API_KEY;
+
+    if (!GROQ_API_KEY) {
+        return null;
+    }
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${GROQ_API_KEY}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            model: 'llama-3.3-70b-versatile',
+            messages: [
+                {
+                    role: 'system',
+                    content: `אתה עוזר לרשימת קניות ישראלית. תפקידך להמיר טקסט חופשי לרשימת מוצרים.
+
+הנחיות:
+1. זהה את כל המוצרים והכמויות
+2. אם לא צוינה כמות, השתמש ב-1
+3. תקן שגיאות כתיב
+4. השתמש בשמות מוצרים סטנדרטיים בעברית
+5. החזר JSON בלבד, ללא markdown
+
+פורמט התשובה (JSON בלבד):
+{"items": [{"name": "שם המוצר", "quantity": 1, "unit": "יח'"}]}`
+                },
+                {
+                    role: 'user',
+                    content: text
+                }
+            ],
+            temperature: 0.1,
+            max_tokens: 1000
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error(`Groq API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content;
+
+    if (!content) {
+        return null;
+    }
+
+    // Parse JSON from response
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        if (parsed.items && Array.isArray(parsed.items)) {
+            return parsed.items.map(item => ({
+                name: normalizeProductName(item.name || ''),
+                quantity: parseInt(item.quantity) || 1,
+                unit: item.unit || 'יח\'',
+                category: detectCategory(item.name || '')
+            })).filter(item => item.name);
+        }
+    }
+
+    return null;
 }
 
 module.exports = async (req, res) => {
@@ -93,119 +239,51 @@ module.exports = async (req, res) => {
 
     const { text, action = 'parse' } = req.body;
 
-    if (!text) {
-        return res.status(400).json({ error: 'Missing text parameter' });
-    }
-
-    // Check if API key is configured
-    if (!process.env.GEMINI_API_KEY) {
-        return res.status(500).json({
-            error: 'Gemini API key not configured',
-            fallback: true,
-            items: simpleParse(text) // Use simple fallback parser
-        });
+    if (!text || typeof text !== 'string') {
+        return res.status(400).json({ error: 'Missing or invalid text parameter' });
     }
 
     try {
-        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        let items;
+        let usedAI = false;
 
-        let prompt;
-
-        if (action === 'parse') {
-            // Smart item parsing from free text
-            prompt = `אתה עוזר לרשימת קניות ישראלית. המר את הטקסט הבא לרשימת מוצרים.
-
-טקסט מהמשתמש: "${text}"
-
-הנחיות:
-1. זהה את כל המוצרים והכמויות
-2. אם לא צוינה כמות, הניח 1
-3. תקן שגיאות כתיב נפוצות
-4. השתמש בשמות מוצרים סטנדרטיים בעברית
-
-החזר JSON בלבד בפורמט הבא (בלי הסברים, בלי markdown):
-{"items": [{"name": "שם המוצר", "quantity": 1, "unit": "יח'"}, ...]}
-
-יחידות אפשריות: יח', ק"ג, גרם, ליטר, מ"ל, חבילה, קרטון`;
-
-        } else if (action === 'suggest') {
-            // Recipe to shopping list
-            prompt = `אתה עוזר לרשימת קניות. המשתמש רוצה להכין: "${text}"
-
-צור רשימת מצרכים נדרשים.
-
-החזר JSON בלבד:
-{"items": [{"name": "שם המוצר", "quantity": 1, "unit": "יח'"}, ...]}`;
-
-        } else if (action === 'complete') {
-            // Smart suggestions based on current list
-            prompt = `רשימת הקניות הנוכחית מכילה: ${text}
-
-הצע 3-5 מוצרים שכנראה חסרים ומתאימים לרשימה זו.
-
-החזר JSON בלבד:
-{"suggestions": ["מוצר 1", "מוצר 2", ...]}`;
-        }
-
-        const result = await model.generateContent(prompt);
-        const response = result.response;
-        const responseText = response.text();
-
-        if (action === 'complete') {
-            // Return suggestions
-            const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-            if (jsonMatch) {
-                const parsed = JSON.parse(jsonMatch[0]);
-                return res.json({ suggestions: parsed.suggestions || [] });
+        // Try Groq API first if available
+        if (process.env.GROQ_API_KEY) {
+            try {
+                const aiItems = await callGroqAPI(text);
+                if (aiItems && aiItems.length > 0) {
+                    items = aiItems;
+                    usedAI = true;
+                }
+            } catch (aiError) {
+                console.error('Groq API error, falling back to local parser:', aiError.message);
             }
-            return res.json({ suggestions: [] });
         }
 
-        // Parse items from response
-        const items = parseAIResponse(responseText);
+        // Fallback to smart local parser
+        if (!items || items.length === 0) {
+            items = smartParse(text);
+        }
 
         res.json({
             success: true,
             items,
-            rawResponse: responseText
+            usedAI,
+            count: items.length
         });
 
     } catch (error) {
-        console.error('AI Error:', error);
+        console.error('Parse error:', error);
 
-        // Fallback to simple parser
+        // Ultimate fallback
+        const fallbackItems = smartParse(text);
+
         res.json({
-            success: false,
-            error: error.message,
+            success: true,
+            items: fallbackItems,
+            usedAI: false,
             fallback: true,
-            items: simpleParse(text)
+            count: fallbackItems.length
         });
     }
 };
-
-// Simple fallback parser (no AI needed)
-function simpleParse(text) {
-    const items = [];
-
-    // Split by common separators
-    const parts = text.split(/[,،\n\r]+/).map(s => s.trim()).filter(s => s);
-
-    for (const part of parts) {
-        // Match patterns: "2 חלב", "חלב 2", "חלב", "2x חלב"
-        const match = part.match(/^(\d+)?\s*[xX×]?\s*(.+?)(?:\s+(\d+))?$/);
-        if (match) {
-            const quantity = parseInt(match[1] || match[3]) || 1;
-            const name = match[2].trim().replace(/^\d+\s*/, '');
-            if (name && name.length > 0) {
-                items.push({
-                    name,
-                    quantity,
-                    unit: 'יח\'',
-                    category: detectCategory(name)
-                });
-            }
-        }
-    }
-
-    return items;
-}
