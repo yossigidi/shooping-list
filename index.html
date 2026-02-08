@@ -1116,7 +1116,8 @@
                 estimatedTotal: 'סה״כ משוער',
                 itemsWithPrice: 'פריטים עם מחיר',
                 of: 'מתוך',
-                priceDisclaimer: '* המחירים משוערים בלבד ועשויים להשתנות',
+                priceDisclaimer: '* מחיר ממוצע מכל הרשתות',
+                priceCompareHint: 'להשוואת מחירים מפורטת →',
                 undoPostpone: 'החזר לרשימה',
                 deleteItem: 'מחק פריט',
                 addPrice: 'הוסף מחיר משוער'
@@ -1431,7 +1432,8 @@
                 estimatedTotal: 'Estimated Total',
                 itemsWithPrice: 'items with price',
                 of: 'of',
-                priceDisclaimer: '* Prices are estimates only and may vary',
+                priceDisclaimer: '* Average price across all chains',
+                priceCompareHint: 'Compare prices in detail →',
                 undoPostpone: 'Return to List',
                 deleteItem: 'Delete Item',
                 addPrice: 'Add Estimated Price'
@@ -1718,7 +1720,8 @@
                 estimatedTotal: 'Ориентировочная сумма',
                 itemsWithPrice: 'товаров с ценой',
                 of: 'из',
-                priceDisclaimer: '* Цены являются ориентировочными и могут меняться',
+                priceDisclaimer: '* Средняя цена по всем сетям',
+                priceCompareHint: 'Сравнить цены подробнее →',
                 undoPostpone: 'Вернуть в список',
                 deleteItem: 'Удалить товар',
                 addPrice: 'Добавить цену'
@@ -2033,7 +2036,8 @@
                 estimatedTotal: 'المجموع التقديري',
                 itemsWithPrice: 'عناصر بسعر',
                 of: 'من',
-                priceDisclaimer: '* الأسعار تقديرية فقط وقابلة للتغيير',
+                priceDisclaimer: '* متوسط السعر في جميع السلاسل',
+                priceCompareHint: 'مقارنة الأسعار بالتفصيل ←',
                 undoPostpone: 'إرجاع للقائمة',
                 deleteItem: 'حذف العنصر',
                 addPrice: 'إضافة سعر تقديري'
@@ -10984,7 +10988,11 @@ END:VCALENDAR`;
                                         const itemsWithPrice = unpurchasedItems.filter(i => i.price);
                                         return estimatedTotal > 0 && (
                                             <div className="flex flex-col gap-1">
-                                                <div className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-xl">
+                                                <div
+                                                    className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-xl cursor-pointer hover:bg-green-100 dark:hover:bg-green-900/40 transition-all"
+                                                    onClick={() => setShowPriceComparison(true)}
+                                                    title={t('priceCompareHint')}
+                                                >
                                                     <span>💰</span>
                                                     <div className="flex flex-col">
                                                         <span className="font-semibold">{t('estimatedTotal')}: ₪{estimatedTotal.toFixed(2)}</span>
@@ -10992,8 +11000,17 @@ END:VCALENDAR`;
                                                             {itemsWithPrice.length} {t('itemsWithPrice')} {t('of')} {unpurchasedItems.length}
                                                         </span>
                                                     </div>
+                                                    <span className="text-lg">📊</span>
                                                 </div>
-                                                <span className="text-xs text-gray-500 dark:text-gray-400 px-1">{t('priceDisclaimer')}</span>
+                                                <div className="flex flex-col gap-0.5 px-1">
+                                                    <span className="text-xs text-gray-500 dark:text-gray-400">{t('priceDisclaimer')}</span>
+                                                    <button
+                                                        onClick={() => setShowPriceComparison(true)}
+                                                        className="text-xs text-orange-600 dark:text-orange-400 hover:underline text-right"
+                                                    >
+                                                        {t('priceCompareHint')}
+                                                    </button>
+                                                </div>
                                             </div>
                                         );
                                     })()}
