@@ -247,7 +247,54 @@ module.exports = async (req, res) => {
                   .slice(0, 10)
                   .map(p => ({ id: p.id, name: p.name, category: p.category }));
 
-                return res.json({ success: true, suggestions: scoredProducts });
+                // Get average prices for suggestions
+                const allPricesForSuggest = await supabaseQuery('prices', '', true);
+                const priceMapForSuggest = {};
+                allPricesForSuggest.forEach(p => {
+                    if (!priceMapForSuggest[p.product_id]) {
+                        priceMapForSuggest[p.product_id] = { total: 0, count: 0 };
+                    }
+                    priceMapForSuggest[p.product_id].total += p.price;
+                    priceMapForSuggest[p.product_id].count++;
+                });
+
+                const suggestionsWithPrices = scoredProducts.map(p => ({
+                    ...p,
+                    avgPrice: priceMapForSuggest[p.id]
+                        ? Math.round((priceMapForSuggest[p.id].total / priceMapForSuggest[p.id].count) * 100) / 100
+                        : null
+                }));
+
+                return res.json({ success: true, suggestions: suggestionsWithPrices });
+
+            case 'avgprices':
+                // Return average prices for all products
+                const productsForAvg = await supabaseQuery('products', '', true);
+                const pricesForAvg = await supabaseQuery('prices', '', true);
+
+                // Calculate average price per product
+                const priceMap = {};
+                pricesForAvg.forEach(p => {
+                    if (!priceMap[p.product_id]) {
+                        priceMap[p.product_id] = { total: 0, count: 0 };
+                    }
+                    priceMap[p.product_id].total += p.price;
+                    priceMap[p.product_id].count++;
+                });
+
+                const productPrices = {};
+                productsForAvg.forEach(p => {
+                    if (priceMap[p.id]) {
+                        productPrices[p.name] = Math.round((priceMap[p.id].total / priceMap[p.id].count) * 100) / 100;
+                    }
+                });
+
+                return res.json({
+                    success: true,
+                    prices: productPrices,
+                    totalProducts: Object.keys(productPrices).length,
+                    lastUpdated: new Date().toISOString()
+                });
 
             case 'debug':
                 const debugData = await getAllData();

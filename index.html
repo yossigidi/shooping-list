@@ -3559,8 +3559,9 @@
         // Comprehensive Israeli supermarket price database (average prices in NIS)
         // Price database - will be updated from API
         let PRODUCT_PRICES = {
-            // Dairy - מוצרי חלב (expanded)
-            'חלב 3%': 6.90, 'חלב 1%': 6.50, 'חלב דל שומן': 6.50, 'חלב סויה': 12.90, 'חלב שקדים': 14.90,
+            // Dairy - מוצרי חלב (expanded) - מחירים מפוקחים!
+            'חלב 3%': 7.28, 'חלב 1%': 7.28, 'חלב דל שומן': 7.28, 'חלב תנובה': 7.28, 'חלב': 7.28,
+            'חלב סויה': 12.90, 'חלב שקדים': 14.90,
             'חלב קוקוס': 14.90, 'חלב שיבולת שועל': 13.90, 'לבן': 5.90, 'לבן עז': 8.90,
             'גבינה צהובה עמק': 32.90, 'גבינה צהובה גלבוע': 28.90, 'גבינה צהובה 9%': 24.90, 'גבינה צהובה 22%': 28.90,
             'קוטג׳ 5%': 8.90, 'קוטג׳ 3%': 8.50, 'גבינה בולגרית': 18.90, 'צפתית': 22.90,
@@ -3783,13 +3784,13 @@
             'בננות': 10.90, 'תפוחים': 14.90, 'תפוזים': 9.90, 'ענבים': 29.90
         };
 
-        // API URL for prices
-        const PRICES_API_URL = 'https://shooping-list-blue.vercel.app/api/prices?all=true';
+        // API URL for average prices from Supabase
+        const PRICES_API_URL = '/api/prices?action=avgprices';
 
         // Flag to track if prices were loaded from API
         let pricesLoadedFromAPI = false;
 
-        // Fetch prices from API and update local database
+        // Fetch real average prices from Supabase
         const fetchPricesFromAPI = async () => {
             try {
                 const response = await fetch(PRICES_API_URL);
@@ -3798,22 +3799,18 @@
                 const data = await response.json();
 
                 if (data.success && data.prices) {
-                    // Merge API prices with local prices (API takes priority)
+                    // Replace local prices with real Supabase prices (Supabase takes priority)
                     PRODUCT_PRICES = { ...PRODUCT_PRICES, ...data.prices };
 
-                    if (data.weightBasedPrices) {
-                        WEIGHT_BASED_PRICES = { ...WEIGHT_BASED_PRICES, ...data.weightBasedPrices };
-                    }
-
                     pricesLoadedFromAPI = true;
-                    console.log(`✅ Loaded ${data.totalProducts} prices from API (Updated: ${data.lastUpdated})`);
+                    console.log(`✅ Loaded ${data.totalProducts} real prices from Supabase`);
                 }
             } catch (error) {
-                console.log('⚠️ Using local prices (API unavailable):', error.message);
+                console.log('⚠️ Using local prices (Supabase unavailable):', error.message);
             }
         };
 
-        // Load prices from API on startup
+        // Load real prices from Supabase on startup
         fetchPricesFromAPI();
 
         // Check if a product is sold by weight (returns price per kg, or null if sold by unit)
