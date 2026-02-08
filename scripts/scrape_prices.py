@@ -352,45 +352,42 @@ def scrape_all_chains() -> List[dict]:
 
 
 def update_database(supabase: Client, all_prices: List[dict]) -> Tuple[int, int]:
-    """Update Supabase database with scraped prices."""
+    """Update Supabase database with scraped prices.
+
+    IMPORTANT: Only matches by barcode for accuracy.
+    Name matching was causing incorrect price associations.
+    """
     if not all_prices:
         return 0, 0
 
-    # Get existing products
+    # Get existing products by barcode only
     products_by_barcode = get_existing_products(supabase)
-    products_by_name = get_existing_products_by_name(supabase)
 
     updated = 0
     skipped = 0
 
     for price_data in all_prices:
         barcode = price_data.get('barcode', '')
-        name = price_data.get('name', '')
         price = price_data.get('price', 0)
         chain_id = price_data.get('chain_id', 0)
 
-        if not price or price <= 0:
+        # Skip invalid prices
+        if not price or price <= 0 or price > 500:
             skipped += 1
             continue
 
-        # Try to find product by barcode first
+        # Skip if no barcode
+        if not barcode:
+            skipped += 1
+            continue
+
+        # Match by barcode ONLY (more reliable)
         product = products_by_barcode.get(barcode)
-
-        # If not found by barcode, try by name (partial match)
-        if not product and name:
-            # Try exact match first
-            product = products_by_name.get(name)
-
-            # Try partial match for common variations
-            if not product:
-                for prod_name, prod_data in products_by_name.items():
-                    if name in prod_name or prod_name in name:
-                        product = prod_data
-                        break
 
         if product:
             if upsert_price(supabase, product['id'], chain_id, price):
                 updated += 1
+                print(f"  ✓ {product['name']}: {price}₪")
             else:
                 skipped += 1
         else:
