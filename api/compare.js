@@ -490,6 +490,103 @@ const PRICE_DATABASE = {
     'מזון לכלבים': { shufersal: 49.90, rami_levy: 44.90, victory: 52.90, ybitan: 54.90, hatzi_hinam: 46.90 },
     'מזון לחתולים': { shufersal: 44.90, rami_levy: 39.90, victory: 47.90, ybitan: 49.90, hatzi_hinam: 41.90 },
     'חול לחתולים': { shufersal: 34.90, rami_levy: 29.90, victory: 37.90, ybitan: 39.90, hatzi_hinam: 31.90 },
+
+    // ===== דגנים וארוחת בוקר =====
+    'קורנפלקס': { shufersal: 18.90, rami_levy: 19.90, victory: 20.90, ybitan: 21.90, hatzi_hinam: 17.90 },
+    'קורנפלקס קלאסי': { shufersal: 18.90, rami_levy: 19.90, victory: 20.90, ybitan: 21.90, hatzi_hinam: 17.90 },
+    'קורנפלקס דבש': { shufersal: 21.90, rami_levy: 22.90, victory: 23.90, ybitan: 24.90, hatzi_hinam: 20.90 },
+    'קורנפלקס שוקולד': { shufersal: 21.90, rami_levy: 22.90, victory: 23.90, ybitan: 24.90, hatzi_hinam: 20.90 },
+    'קורנפלקס כריות': { shufersal: 23.90, rami_levy: 24.90, victory: 25.90, ybitan: 26.90, hatzi_hinam: 22.90 },
+    'קורנפלקס פירות': { shufersal: 22.90, rami_levy: 23.90, victory: 24.90, ybitan: 25.90, hatzi_hinam: 21.90 },
+    'גרנולה': { shufersal: 24.90, rami_levy: 25.90, victory: 26.90, ybitan: 27.90, hatzi_hinam: 23.90 },
+    'גרנולה שוקולד': { shufersal: 26.90, rami_levy: 27.90, victory: 28.90, ybitan: 29.90, hatzi_hinam: 25.90 },
+    'גרנולה פירות': { shufersal: 26.90, rami_levy: 27.90, victory: 28.90, ybitan: 29.90, hatzi_hinam: 25.90 },
+    'מוזלי': { shufersal: 22.90, rami_levy: 23.90, victory: 24.90, ybitan: 25.90, hatzi_hinam: 21.90 },
+    'שיבולת שועל': { shufersal: 12.90, rami_levy: 13.90, victory: 14.90, ybitan: 15.90, hatzi_hinam: 11.90 },
+    'קוואקר': { shufersal: 14.90, rami_levy: 15.90, victory: 16.90, ybitan: 17.90, hatzi_hinam: 13.90 },
+
+    // ===== מעדני חלב =====
+    'מילקי': { shufersal: 4.90, rami_levy: 5.20, victory: 5.50, ybitan: 5.90, hatzi_hinam: 4.50 },
+    'מילקי שוקולד': { shufersal: 4.90, rami_levy: 5.20, victory: 5.50, ybitan: 5.90, hatzi_hinam: 4.50 },
+    'מילקי וניל': { shufersal: 4.90, rami_levy: 5.20, victory: 5.50, ybitan: 5.90, hatzi_hinam: 4.50 },
+    'מילקי קרמל': { shufersal: 4.90, rami_levy: 5.20, victory: 5.50, ybitan: 5.90, hatzi_hinam: 4.50 },
+    'דניאלה': { shufersal: 5.90, rami_levy: 6.20, victory: 6.50, ybitan: 6.90, hatzi_hinam: 5.50 },
+    'דניאלה שוקולד': { shufersal: 5.90, rami_levy: 6.20, victory: 6.50, ybitan: 6.90, hatzi_hinam: 5.50 },
+    'דניאלה וניל': { shufersal: 5.90, rami_levy: 6.20, victory: 6.50, ybitan: 6.90, hatzi_hinam: 5.50 },
+    'דנונה': { shufersal: 5.50, rami_levy: 5.90, victory: 6.20, ybitan: 6.50, hatzi_hinam: 5.20 },
+    'דנונה שוקולד': { shufersal: 5.50, rami_levy: 5.90, victory: 6.20, ybitan: 6.50, hatzi_hinam: 5.20 },
+    'יופלה': { shufersal: 6.90, rami_levy: 7.20, victory: 7.50, ybitan: 7.90, hatzi_hinam: 6.50 },
+    'יופלה תות': { shufersal: 6.90, rami_levy: 7.20, victory: 7.50, ybitan: 7.90, hatzi_hinam: 6.50 },
+    'אקטימל': { shufersal: 7.90, rami_levy: 8.20, victory: 8.50, ybitan: 8.90, hatzi_hinam: 7.50 },
+    'פטיט דנון': { shufersal: 14.90, rami_levy: 15.50, victory: 16.20, ybitan: 16.90, hatzi_hinam: 14.50 },
+    'מעדן שוקולד': { shufersal: 5.50, rami_levy: 5.90, victory: 6.20, ybitan: 6.50, hatzi_hinam: 5.20 },
+    'מעדן וניל': { shufersal: 5.50, rami_levy: 5.90, victory: 6.20, ybitan: 6.50, hatzi_hinam: 5.20 },
+    'שוקו': { shufersal: 4.90, rami_levy: 5.20, victory: 5.50, ybitan: 5.90, hatzi_hinam: 4.50 },
+    'שוקו תנובה': { shufersal: 4.90, rami_levy: 5.20, victory: 5.50, ybitan: 5.90, hatzi_hinam: 4.50 },
+    'פרי גד': { shufersal: 5.90, rami_levy: 6.20, victory: 6.50, ybitan: 6.90, hatzi_hinam: 5.50 },
+
+    // ===== גלידות נוספות =====
+    'מגנום': { shufersal: 12.90, rami_levy: 11.50, victory: 13.50, ybitan: 14.50, hatzi_hinam: 10.90 },
+    'מגנום שקדים': { shufersal: 12.90, rami_levy: 11.50, victory: 13.50, ybitan: 14.50, hatzi_hinam: 10.90 },
+    'מגנום לבן': { shufersal: 12.90, rami_levy: 11.50, victory: 13.50, ybitan: 14.50, hatzi_hinam: 10.90 },
+    'קורנטו': { shufersal: 9.90, rami_levy: 8.50, victory: 10.50, ybitan: 11.50, hatzi_hinam: 7.90 },
+    'קורנטו שוקולד': { shufersal: 9.90, rami_levy: 8.50, victory: 10.50, ybitan: 11.50, hatzi_hinam: 7.90 },
+    'גולדה': { shufersal: 32.90, rami_levy: 29.90, victory: 34.90, ybitan: 36.90, hatzi_hinam: 28.90 },
+    'ארטיק': { shufersal: 6.90, rami_levy: 5.90, victory: 7.50, ybitan: 8.50, hatzi_hinam: 5.50 },
+
+    // ===== קפואים נוספים =====
+    'בורקס': { shufersal: 28.90, rami_levy: 24.90, victory: 29.90, ybitan: 31.90, hatzi_hinam: 26.90 },
+    'בורקס גבינה': { shufersal: 28.90, rami_levy: 24.90, victory: 29.90, ybitan: 31.90, hatzi_hinam: 26.90 },
+    'בורקס תפו"א': { shufersal: 26.90, rami_levy: 22.90, victory: 27.90, ybitan: 29.90, hatzi_hinam: 24.90 },
+    'בורקס פטריות': { shufersal: 28.90, rami_levy: 24.90, victory: 29.90, ybitan: 31.90, hatzi_hinam: 26.90 },
+    'פיצה משפחתית': { shufersal: 34.90, rami_levy: 29.90, victory: 35.90, ybitan: 37.90, hatzi_hinam: 32.90 },
+    'שווארמה קפואה': { shufersal: 44.90, rami_levy: 39.90, victory: 46.90, ybitan: 48.90, hatzi_hinam: 42.90 },
+    'קבב קפוא': { shufersal: 39.90, rami_levy: 34.90, victory: 41.90, ybitan: 43.90, hatzi_hinam: 37.90 },
+    'פלאפל קפוא': { shufersal: 18.90, rami_levy: 15.90, victory: 19.90, ybitan: 21.90, hatzi_hinam: 17.90 },
+    'פירות יער קפואים': { shufersal: 24.90, rami_levy: 21.90, victory: 25.90, ybitan: 27.90, hatzi_hinam: 23.90 },
+    'תותים קפואים': { shufersal: 22.90, rami_levy: 19.90, victory: 23.90, ybitan: 25.90, hatzi_hinam: 21.90 },
+
+    // ===== משקאות קרים נוספים =====
+    'נסטי': { shufersal: 7.90, rami_levy: 8.50, victory: 8.90, ybitan: 9.50, hatzi_hinam: 6.90 },
+    'נסטי אפרסק': { shufersal: 7.90, rami_levy: 8.50, victory: 8.90, ybitan: 9.50, hatzi_hinam: 6.90 },
+    'נסטי לימון': { shufersal: 7.90, rami_levy: 8.50, victory: 8.90, ybitan: 9.50, hatzi_hinam: 6.90 },
+    'פיוז טי': { shufersal: 7.90, rami_levy: 8.50, victory: 8.90, ybitan: 9.50, hatzi_hinam: 6.90 },
+    'פיוז טי אפרסק': { shufersal: 7.90, rami_levy: 8.50, victory: 8.90, ybitan: 9.50, hatzi_hinam: 6.90 },
+    'ליפטון תה קר': { shufersal: 8.90, rami_levy: 9.50, victory: 9.90, ybitan: 10.50, hatzi_hinam: 7.90 },
+    'XL': { shufersal: 6.90, rami_levy: 7.50, victory: 7.90, ybitan: 8.50, hatzi_hinam: 5.90 },
+    'רד בול': { shufersal: 9.90, rami_levy: 10.50, victory: 10.90, ybitan: 11.50, hatzi_hinam: 8.90 },
+
+    // ===== חטיפים נוספים =====
+    'קינדר בואנו': { shufersal: 8.90, rami_levy: 9.50, victory: 9.90, ybitan: 10.50, hatzi_hinam: 7.90 },
+    'קינדר שוקולד': { shufersal: 7.90, rami_levy: 8.50, victory: 8.90, ybitan: 9.50, hatzi_hinam: 6.90 },
+    'קינדר סרפרייז': { shufersal: 9.90, rami_levy: 10.50, victory: 10.90, ybitan: 11.50, hatzi_hinam: 8.90 },
+    'פסק זמן': { shufersal: 6.90, rami_levy: 7.50, victory: 7.90, ybitan: 8.50, hatzi_hinam: 5.90 },
+    'פסק זמן לבן': { shufersal: 6.90, rami_levy: 7.50, victory: 7.90, ybitan: 8.50, hatzi_hinam: 5.90 },
+    'באונטי': { shufersal: 6.90, rami_levy: 7.50, victory: 7.90, ybitan: 8.50, hatzi_hinam: 5.90 },
+    'קליק': { shufersal: 5.90, rami_levy: 6.50, victory: 6.90, ybitan: 7.50, hatzi_hinam: 4.90 },
+    'קליק מריר': { shufersal: 5.90, rami_levy: 6.50, victory: 6.90, ybitan: 7.50, hatzi_hinam: 4.90 },
+    'טורטית': { shufersal: 5.90, rami_levy: 6.50, victory: 6.90, ybitan: 7.50, hatzi_hinam: 4.90 },
+    'רושקה': { shufersal: 4.90, rami_levy: 5.50, victory: 5.90, ybitan: 6.50, hatzi_hinam: 3.90 },
+    'כדורגל': { shufersal: 4.90, rami_levy: 5.50, victory: 5.90, ybitan: 6.50, hatzi_hinam: 3.90 },
+    'חלווה': { shufersal: 18.90, rami_levy: 16.90, victory: 19.90, ybitan: 21.90, hatzi_hinam: 17.90 },
+    'גרעינים': { shufersal: 12.90, rami_levy: 11.90, victory: 13.90, ybitan: 14.90, hatzi_hinam: 10.90 },
+
+    // ===== ניקיון נוספים =====
+    'אקונומיקה': { shufersal: 9.90, rami_levy: 10.90, victory: 11.90, ybitan: 12.90, hatzi_hinam: 8.90 },
+    'אקונומיקה לימון': { shufersal: 9.90, rami_levy: 10.90, victory: 11.90, ybitan: 12.90, hatzi_hinam: 8.90 },
+    'מרכך כביסה': { shufersal: 16.90, rami_levy: 18.90, victory: 19.90, ybitan: 21.90, hatzi_hinam: 15.90 },
+    'מרכך סנו': { shufersal: 18.90, rami_levy: 20.90, victory: 21.90, ybitan: 23.90, hatzi_hinam: 17.90 },
+    'אבקת כביסה פרסיל': { shufersal: 44.90, rami_levy: 48.90, victory: 49.90, ybitan: 52.90, hatzi_hinam: 42.90 },
+    'נוזל כלים סנו': { shufersal: 12.90, rami_levy: 14.90, victory: 15.90, ybitan: 16.90, hatzi_hinam: 11.90 },
+    'מסיר שומנים': { shufersal: 14.90, rami_levy: 16.90, victory: 17.90, ybitan: 18.90, hatzi_hinam: 13.90 },
+    'מסיר אבנית': { shufersal: 16.90, rami_levy: 18.90, victory: 19.90, ybitan: 20.90, hatzi_hinam: 15.90 },
+
+    // ===== היגיינה נוספים =====
+    'סבון דאב': { shufersal: 8.90, rami_levy: 9.90, victory: 10.90, ybitan: 11.90, hatzi_hinam: 7.90 },
+    'דאודורנט רקסונה': { shufersal: 19.90, rami_levy: 21.90, victory: 22.90, ybitan: 24.90, hatzi_hinam: 18.90 },
+    'דאודורנט ניוואה': { shufersal: 21.90, rami_levy: 23.90, victory: 24.90, ybitan: 26.90, hatzi_hinam: 20.90 },
+    'משחת שיניים קולגייט': { shufersal: 14.90, rami_levy: 16.90, victory: 17.90, ybitan: 18.90, hatzi_hinam: 13.90 },
+    'מרכך פנטן': { shufersal: 24.90, rami_levy: 26.90, victory: 27.90, ybitan: 29.90, hatzi_hinam: 23.90 },
 };
 
 // Chain information
