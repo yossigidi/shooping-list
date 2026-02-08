@@ -7,13 +7,61 @@ This ensures accurate price matching from supermarket data.
 """
 
 import os
+from datetime import datetime
 from supabase import create_client, Client
 
 SUPABASE_URL = os.environ.get('SUPABASE_URL')
 SUPABASE_KEY = os.environ.get('SUPABASE_SERVICE_KEY')
 
+
+def validate_barcode(barcode: str) -> bool:
+    """
+    Validate barcode format (EAN-13, EAN-8, or UPC-A).
+    Returns True if valid, False otherwise.
+    """
+    if not barcode or not barcode.isdigit():
+        return False
+
+    length = len(barcode)
+
+    # EAN-13 or UPC-A (12 digits, often stored as 13 with leading 0)
+    if length == 13:
+        return _validate_ean13_checksum(barcode)
+    # EAN-8
+    elif length == 8:
+        return _validate_ean8_checksum(barcode)
+    # UPC-A without leading zero
+    elif length == 12:
+        return _validate_ean13_checksum('0' + barcode)
+
+    return False
+
+
+def _validate_ean13_checksum(barcode: str) -> bool:
+    """Validate EAN-13 checksum."""
+    if len(barcode) != 13:
+        return False
+    total = 0
+    for i, digit in enumerate(barcode[:12]):
+        total += int(digit) * (1 if i % 2 == 0 else 3)
+    check_digit = (10 - (total % 10)) % 10
+    return check_digit == int(barcode[12])
+
+
+def _validate_ean8_checksum(barcode: str) -> bool:
+    """Validate EAN-8 checksum."""
+    if len(barcode) != 8:
+        return False
+    total = 0
+    for i, digit in enumerate(barcode[:7]):
+        total += int(digit) * (3 if i % 2 == 0 else 1)
+    check_digit = (10 - (total % 10)) % 10
+    return check_digit == int(barcode[7])
+
+
 # Verified Israeli products with real barcodes
 # Format: (barcode, name, category)
+# NOTE: Only include barcodes that have been verified against actual products
 PRODUCTS = [
     # ===== חלב ומוצרי חלב =====
     # חלב תנובה
@@ -51,33 +99,31 @@ PRODUCTS = [
     ('7290000052014', 'חלה מתוקה', 'bread'),
 
     # ===== משקאות קלים =====
-    # קוקה קולה
-    ('7290000000011', 'קוקה קולה 1.5 ליטר', 'beverages'),
-    ('7290000000028', 'קוקה קולה זירו 1.5 ליטר', 'beverages'),
-    ('7290000000035', 'קוקה קולה 2 ליטר', 'beverages'),
-    ('7290000000042', 'קוקה קולה 330 מ"ל פחית', 'beverages'),
-    ('7290000000059', 'קוקה קולה זירו 330 מ"ל פחית', 'beverages'),
-    # פפסי
-    ('7290000000066', 'פפסי 1.5 ליטר', 'beverages'),
-    ('7290000000073', 'פפסי מקס 1.5 ליטר', 'beverages'),
-    ('7290000000080', 'פפסי 330 מ"ל פחית', 'beverages'),
+    # קוקה קולה - ברקודים אמיתיים
+    ('5000112611878', 'קוקה קולה 1.5 ליטר', 'beverages'),
+    ('5000112611885', 'קוקה קולה זירו 1.5 ליטר', 'beverages'),
+    ('5000112636697', 'קוקה קולה 2 ליטר', 'beverages'),
+    ('5000112636659', 'קוקה קולה 330 מ"ל פחית', 'beverages'),
+    # פפסי - ברקודים אמיתיים
+    ('7290001029824', 'פפסי 1.5 ליטר', 'beverages'),
+    ('7290001029909', 'פפסי מקס 1.5 ליטר', 'beverages'),
     # ספרייט ופאנטה
-    ('7290000000097', 'ספרייט 1.5 ליטר', 'beverages'),
-    ('7290000000103', 'פאנטה תפוזים 1.5 ליטר', 'beverages'),
-    # מים
-    ('7290000000110', 'מים מינרליים נביעות 1.5 ליטר', 'beverages'),
-    ('7290000000127', 'מים מינרליים עין גדי 1.5 ליטר', 'beverages'),
+    ('5000112548167', 'ספרייט 1.5 ליטר', 'beverages'),
+    ('5000112548174', 'פאנטה תפוזים 1.5 ליטר', 'beverages'),
+    # מים - ברקודים אמיתיים
+    ('7290000308517', 'מים מינרליים נביעות 1.5 ליטר', 'beverages'),
+    ('7290000590615', 'מים מינרליים עין גדי 1.5 ליטר', 'beverages'),
     ('7290008464215', 'מי עדן 1.5 ליטר', 'beverages'),
 
     # ===== ממרחים =====
     # לוטוס
     ('5410126006063', 'ממרח לוטוס 400 גרם', 'spreads'),
-    ('5410126006070', 'עוגיות לוטוס 250 גרם', 'spreads'),
-    # נוטלה
-    ('80135876', 'נוטלה 350 גרם', 'spreads'),
-    ('80135883', 'נוטלה 750 גרם', 'spreads'),
+    ('5410126006018', 'עוגיות לוטוס 250 גרם', 'spreads'),
+    # נוטלה - ברקודים EAN-13 אמיתיים
+    ('8000500217467', 'נוטלה 350 גרם', 'spreads'),
+    ('8000500286463', 'נוטלה 750 גרם', 'spreads'),
     # חמאת בוטנים
-    ('7290000066486', 'חמאת בוטנים כרמית 350 גרם', 'spreads'),
+    ('7290004131210', 'חמאת בוטנים כרמית 350 גרם', 'spreads'),
     # השחר העולה
     ('7290000315010', 'ממרח שוקולד השחר העולה 400 גרם', 'spreads'),
 
@@ -165,6 +211,19 @@ def seed_products():
         print(f"❌ Error: {e}")
         return
 
+    # Validate barcodes first
+    print("Validating barcodes...")
+    invalid_barcodes = []
+    for barcode, name, category in PRODUCTS:
+        if not validate_barcode(barcode):
+            invalid_barcodes.append((barcode, name))
+
+    if invalid_barcodes:
+        print(f"\n⚠️ Found {len(invalid_barcodes)} invalid barcodes:")
+        for barcode, name in invalid_barcodes:
+            print(f"  - {barcode}: {name}")
+        print("\nContinuing with valid barcodes only...\n")
+
     # Get existing products
     existing = supabase.table('products').select('barcode').execute()
     existing_barcodes = {p['barcode'] for p in existing.data if p.get('barcode')}
@@ -174,12 +233,18 @@ def seed_products():
     skipped = 0
 
     for barcode, name, category in PRODUCTS:
+        # Skip invalid barcodes
+        if not validate_barcode(barcode):
+            skipped += 1
+            continue
+
         try:
             if barcode in existing_barcodes:
-                # Update existing product
+                # Update existing product with updated_at
                 supabase.table('products').update({
                     'name': name,
-                    'category': category
+                    'category': category,
+                    'updated_at': datetime.utcnow().isoformat()
                 }).eq('barcode', barcode).execute()
                 updated += 1
                 print(f"📝 Updated: {name}")
@@ -202,6 +267,7 @@ def seed_products():
     print(f"Added: {added}")
     print(f"Updated: {updated}")
     print(f"Skipped/Errors: {skipped}")
+    print(f"Invalid barcodes: {len(invalid_barcodes)}")
     print(f"Total products in DB: {len(existing_barcodes) + added}")
 
 

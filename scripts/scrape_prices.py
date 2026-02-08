@@ -46,7 +46,7 @@ CHAINS = {
         'name': 'שופרסל',
         'name_en': 'Shufersal',
         'type': 'shufersal',
-        'base_url': 'http://prices.shufersal.co.il',
+        'base_url': 'https://prices.shufersal.co.il',
     },
     2: {
         'name': 'רמי לוי',
@@ -74,21 +74,6 @@ CHAINS = {
     },
 }
 
-# Common product barcodes to prioritize
-PRIORITY_BARCODES = {
-    # חלב מפוקח
-    '7290000066318': 'חלב 3% 1 ליטר',
-    '7290000066325': 'חלב 1% 1 ליטר',
-    # קולה
-    '7290000066004': 'קולה 1.5 ליטר',
-    '7290000066011': 'קולה זירו 1.5 ליטר',
-    '7290000066028': 'קולה 2 ליטר',
-    # פפסי
-    '7290000066035': 'פפסי 1.5 ליטר',
-    # ביצים
-    '7290000066042': 'ביצים L 12 יח׳',
-}
-
 
 # ============================================
 # Supabase Functions
@@ -106,16 +91,6 @@ def get_existing_products(supabase: Client) -> Dict[str, dict]:
     try:
         response = supabase.table('products').select('id, barcode, name').execute()
         return {p['barcode']: p for p in response.data if p.get('barcode')}
-    except Exception as e:
-        print(f"Error fetching products: {e}")
-        return {}
-
-
-def get_existing_products_by_name(supabase: Client) -> Dict[str, dict]:
-    """Get all existing products from Supabase indexed by name."""
-    try:
-        response = supabase.table('products').select('id, barcode, name').execute()
-        return {p['name']: p for p in response.data if p.get('name')}
     except Exception as e:
         print(f"Error fetching products: {e}")
         return {}
@@ -240,7 +215,7 @@ def fetch_shufersal_prices(chain_info: dict) -> List[dict]:
             # Decompress gzip
             try:
                 content = gzip.decompress(file_response.content)
-            except:
+            except (OSError, gzip.BadGzipFile):
                 content = file_response.content
 
             # Parse XML
@@ -269,7 +244,7 @@ def fetch_publishedprices_chain(chain_id: int, chain_info: dict) -> List[dict]:
 
     try:
         # Get list of available files
-        list_url = f"http://url.publishedprices.co.il/file/json/dir/{publisher_id}"
+        list_url = f"https://url.publishedprices.co.il/file/json/dir/{publisher_id}"
         response = requests.get(list_url, headers=HEADERS, timeout=TIMEOUT)
 
         if response.status_code != 200:
@@ -292,7 +267,7 @@ def fetch_publishedprices_chain(chain_id: int, chain_info: dict) -> List[dict]:
         # Sort by name (usually contains date) and get latest
         latest_file = sorted(price_files, key=lambda x: x.get('name', ''), reverse=True)[0]
         file_name = latest_file['name']
-        file_url = f"http://url.publishedprices.co.il/file/d/{publisher_id}/{file_name}"
+        file_url = f"https://url.publishedprices.co.il/file/d/{publisher_id}/{file_name}"
 
         print(f"  Downloading: {file_name}")
         file_response = requests.get(file_url, headers=HEADERS, timeout=TIMEOUT)
@@ -304,8 +279,8 @@ def fetch_publishedprices_chain(chain_id: int, chain_info: dict) -> List[dict]:
             if file_name.endswith('.gz'):
                 try:
                     content = gzip.decompress(content)
-                except:
-                    pass
+                except (OSError, gzip.BadGzipFile):
+                    pass  # Use content as-is if decompression fails
 
             # Parse XML
             root = parse_xml_content(content)
