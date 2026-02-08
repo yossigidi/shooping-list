@@ -4,24 +4,51 @@
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
-// Fetch from Supabase
-async function supabaseQuery(table, query = '') {
-    const url = `${SUPABASE_URL}/rest/v1/${table}${query}`;
-    const response = await fetch(url, {
-        headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json'
-        }
-    });
-    return response.json();
+// Fetch from Supabase with pagination support
+async function supabaseQuery(table, query = '', fetchAll = false) {
+    const baseUrl = `${SUPABASE_URL}/rest/v1/${table}${query}`;
+
+    if (!fetchAll) {
+        const response = await fetch(baseUrl, {
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.json();
+    }
+
+    // Fetch all rows with pagination
+    let allRows = [];
+    let offset = 0;
+    const batchSize = 1000;
+
+    while (true) {
+        const separator = query.includes('?') ? '&' : '?';
+        const url = `${baseUrl}${separator}offset=${offset}&limit=${batchSize}`;
+        const response = await fetch(url, {
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'count=exact'
+            }
+        });
+        const rows = await response.json();
+        if (!rows || rows.length === 0) break;
+        allRows = allRows.concat(rows);
+        if (rows.length < batchSize) break;
+        offset += batchSize;
+    }
+    return allRows;
 }
 
-// Get all data (with no limit for prices)
+// Get all data (with pagination for prices)
 async function getAllData() {
     const [products, prices, chains] = await Promise.all([
-        supabaseQuery('products', '?limit=2000'),
-        supabaseQuery('prices', '?limit=10000'),
+        supabaseQuery('products', '', true),  // fetchAll
+        supabaseQuery('prices', '', true),     // fetchAll
         supabaseQuery('chains', '?is_active=eq.true')
     ]);
     return { products, prices, chains };
