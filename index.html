@@ -8479,10 +8479,18 @@ END:VCALENDAR`;
             const addProduct = (product) => {
                 const category = selectedCategory || detectCategory(product);
                 let unit = CATEGORIES[category]?.unit || 'יח\'';
-                const unitOptions = CATEGORIES[category]?.unitOptions || ['יח\''];
+                let unitOptions = CATEGORIES[category]?.unitOptions || ['יח\''];
 
-                // Override unit for cheese products to grams
-                if (category === 'dairy' && isCheeseInGrams(product)) {
+                // Check if product name already contains size (packaged product)
+                // These should be sold as units, not by weight
+                const hasPackagedSize = /\d+\s*(גרם|מ"ל|ליטר|ק"ג|יח'|מ״ל)/.test(product);
+
+                if (hasPackagedSize) {
+                    // Packaged product with size in name - sell as units only
+                    unit = 'יח\'';
+                    unitOptions = ['יח\''];
+                } else if (category === 'dairy' && isCheeseInGrams(product)) {
+                    // Only apply grams for cheese without size in name
                     unit = 'גרם';
                 }
 
