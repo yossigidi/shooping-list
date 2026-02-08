@@ -8483,7 +8483,7 @@ END:VCALENDAR`;
 
                 // Check if product name already contains size (packaged product)
                 // These should be sold as units, not by weight
-                const hasPackagedSize = /\d+\s*(גרם|מ"ל|ליטר|ק"ג|יח'|מ״ל)/.test(product);
+                const hasPackagedSize = /\d+\s*(גרם|מ"ל|מ״ל|ליטר|ק"ג|ק״ג|יח'|יח׳)/.test(product);
 
                 if (hasPackagedSize) {
                     // Packaged product with size in name - sell as units only
