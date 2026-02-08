@@ -72,19 +72,54 @@ async function compareList(items) {
         const searchTerm = item.name.toLowerCase().trim();
         const quantity = item.quantity || 1;
 
-        // Find matching product - improved matching for Hebrew
-        const product = products.find(p => {
+        // Find BEST matching product using scoring
+        const searchWords = searchTerm.split(' ').filter(w => w.length > 1);
+
+        let bestMatch = null;
+        let bestScore = 0;
+
+        for (const p of products) {
             const productName = p.name.toLowerCase();
-            // Check if search term is in product name
-            if (productName.includes(searchTerm)) return true;
-            // Check if product name is in search term
-            if (searchTerm.includes(productName)) return true;
-            // Check individual words
-            const searchWords = searchTerm.split(' ').filter(w => w.length > 1);
             const productWords = productName.split(' ').filter(w => w.length > 1);
-            // Match if any significant word matches
-            return searchWords.some(sw => productWords.some(pw => pw.includes(sw) || sw.includes(pw)));
-        });
+            let score = 0;
+
+            // Exact match - highest score
+            if (productName === searchTerm) {
+                score = 1000;
+            }
+            // Product name contains full search term
+            else if (productName.includes(searchTerm)) {
+                score = 500;
+            }
+            // Search term contains full product name
+            else if (searchTerm.includes(productName)) {
+                score = 400;
+            }
+            else {
+                // Count matching words
+                let matchedWords = 0;
+                for (const sw of searchWords) {
+                    for (const pw of productWords) {
+                        if (pw === sw) {
+                            matchedWords += 10; // Exact word match
+                        } else if (pw.includes(sw) || sw.includes(pw)) {
+                            matchedWords += 5; // Partial word match
+                        }
+                    }
+                }
+                // Bonus for matching more of the search words
+                if (matchedWords > 0) {
+                    score = matchedWords * (searchWords.length > 0 ? (matchedWords / searchWords.length) : 1);
+                }
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMatch = p;
+            }
+        }
+
+        const product = bestScore > 0 ? bestMatch : null;
 
         if (product) {
             const productPrices = prices.filter(p => p.product_id === product.id);
