@@ -6,12 +6,18 @@
 // יינות ביתן - זול ביינות ואלכוהול | קארפור - זול במוצרים מיובאים
 
 const PRICE_DATABASE = {
-    // ===== חלב ומוצרי חלב (שופרסל זול) =====
-    'חלב 3% 1 ליטר': { shufersal: 6.40, rami_levy: 6.70, victory: 6.90, ybitan: 7.20, hatzi_hinam: 6.60, carrefour: 6.90 },
-    'חלב 1% 1 ליטר': { shufersal: 6.20, rami_levy: 6.50, victory: 6.70, ybitan: 6.90, hatzi_hinam: 6.40, carrefour: 7.10 },
-    'חלב דל שומן 1 ליטר': { shufersal: 6.20, rami_levy: 6.50, victory: 6.70, ybitan: 6.90, hatzi_hinam: 6.40, carrefour: 6.10 },
-    'חלב 3% 0.5 ליטר': { shufersal: 4.50, rami_levy: 4.80, victory: 4.90, ybitan: 5.10, hatzi_hinam: 4.70, carrefour: 5.10 },
-    'חלב 1% 0.5 ליטר': { shufersal: 4.30, rami_levy: 4.60, victory: 4.70, ybitan: 4.90, hatzi_hinam: 4.50, carrefour: 4.10 },
+    // ===== חלב ומוצרי חלב (מחירים מפוקחים לקרטון) =====
+    // חלב בקרטון - מחיר מפוקח 7.28 ש"ח
+    'חלב 3% קרטון 1 ליטר': { shufersal: 7.28, rami_levy: 7.28, victory: 7.28, ybitan: 7.28, hatzi_hinam: 7.28, carrefour: 7.28 },
+    'חלב 1% קרטון 1 ליטר': { shufersal: 7.28, rami_levy: 7.28, victory: 7.28, ybitan: 7.28, hatzi_hinam: 7.28, carrefour: 7.28 },
+    'חלב 3% 1 ליטר': { shufersal: 7.28, rami_levy: 7.28, victory: 7.28, ybitan: 7.28, hatzi_hinam: 7.28, carrefour: 7.28 },
+    'חלב 1% 1 ליטר': { shufersal: 7.28, rami_levy: 7.28, victory: 7.28, ybitan: 7.28, hatzi_hinam: 7.28, carrefour: 7.28 },
+    // חלב בשקית - זול יותר
+    'חלב 3% שקית 1 ליטר': { shufersal: 6.50, rami_levy: 6.40, victory: 6.60, ybitan: 6.70, hatzi_hinam: 6.45, carrefour: 6.55 },
+    'חלב 1% שקית 1 ליטר': { shufersal: 6.40, rami_levy: 6.30, victory: 6.50, ybitan: 6.60, hatzi_hinam: 6.35, carrefour: 6.45 },
+    'חלב דל שומן 1 ליטר': { shufersal: 7.28, rami_levy: 7.28, victory: 7.28, ybitan: 7.28, hatzi_hinam: 7.28, carrefour: 7.28 },
+    'חלב 3% 0.5 ליטר': { shufersal: 4.90, rami_levy: 4.85, victory: 4.95, ybitan: 5.00, hatzi_hinam: 4.90, carrefour: 4.90 },
+    'חלב 1% 0.5 ליטר': { shufersal: 4.80, rami_levy: 4.75, victory: 4.85, ybitan: 4.90, hatzi_hinam: 4.80, carrefour: 4.80 },
     'חלב סויה 1 ליטר': { shufersal: 11.90, rami_levy: 12.50, victory: 12.90, ybitan: 13.50, hatzi_hinam: 12.20, carrefour: 13.10 },
     'חלב שקדים 1 ליטר': { shufersal: 13.90, rami_levy: 14.50, victory: 14.90, ybitan: 15.50, hatzi_hinam: 14.20, carrefour: 12.50 },
     'חלב קוקוס 1 ליטר': { shufersal: 13.90, rami_levy: 14.50, victory: 14.90, ybitan: 15.50, hatzi_hinam: 14.20, carrefour: 13.50 },
