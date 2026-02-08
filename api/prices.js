@@ -17,11 +17,11 @@ async function supabaseQuery(table, query = '') {
     return response.json();
 }
 
-// Get all data
+// Get all data (with higher limit for prices)
 async function getAllData() {
     const [products, prices, chains] = await Promise.all([
-        supabaseQuery('products'),
-        supabaseQuery('prices'),
+        supabaseQuery('products', '?limit=1000'),
+        supabaseQuery('prices', '?limit=5000'),
         supabaseQuery('chains', '?is_active=eq.true')
     ]);
     return { products, prices, chains };
@@ -42,14 +42,22 @@ async function compareList(items) {
 
     // Process each item
     for (const item of items) {
-        const searchTerm = item.name.toLowerCase();
+        const searchTerm = item.name.toLowerCase().trim();
         const quantity = item.quantity || 1;
 
-        // Find matching product
-        const product = products.find(p =>
-            p.name.toLowerCase().includes(searchTerm) ||
-            searchTerm.includes(p.name.toLowerCase())
-        );
+        // Find matching product - improved matching for Hebrew
+        const product = products.find(p => {
+            const productName = p.name.toLowerCase();
+            // Check if search term is in product name
+            if (productName.includes(searchTerm)) return true;
+            // Check if product name is in search term
+            if (searchTerm.includes(productName)) return true;
+            // Check individual words
+            const searchWords = searchTerm.split(' ').filter(w => w.length > 1);
+            const productWords = productName.split(' ').filter(w => w.length > 1);
+            // Match if any significant word matches
+            return searchWords.some(sw => productWords.some(pw => pw.includes(sw) || sw.includes(pw)));
+        });
 
         if (product) {
             const productPrices = prices.filter(p => p.product_id === product.id);
