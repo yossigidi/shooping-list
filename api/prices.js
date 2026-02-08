@@ -96,20 +96,30 @@ async function compareList(items) {
                 score = 400;
             }
             else {
-                // Count matching words
-                let matchedWords = 0;
+                // Count EXACT word matches only (no partial matches)
+                let exactMatches = 0;
+                let matchedSearchWords = new Set();
+
                 for (const sw of searchWords) {
                     for (const pw of productWords) {
                         if (pw === sw) {
-                            matchedWords += 10; // Exact word match
-                        } else if (pw.includes(sw) || sw.includes(pw)) {
-                            matchedWords += 5; // Partial word match
+                            exactMatches += 1;
+                            matchedSearchWords.add(sw);
                         }
                     }
                 }
-                // Bonus for matching more of the search words
-                if (matchedWords > 0) {
-                    score = matchedWords * (searchWords.length > 0 ? (matchedWords / searchWords.length) : 1);
+
+                // Score based on how many search words matched exactly
+                if (exactMatches > 0) {
+                    // Base score: 50 per exact word match
+                    score = exactMatches * 50;
+                    // Bonus for matching higher percentage of search words
+                    const matchPercentage = matchedSearchWords.size / searchWords.length;
+                    score *= (1 + matchPercentage);
+                    // Bonus if all search words matched
+                    if (matchedSearchWords.size === searchWords.length) {
+                        score += 100;
+                    }
                 }
             }
 
@@ -197,7 +207,7 @@ module.exports = async (req, res) => {
 
                 const scoredProducts = allProducts.map(p => {
                     const name = p.name.toLowerCase();
-                    const nameWords = name.split(' ');
+                    const nameWords = name.split(' ').filter(w => w.length > 1);
                     let score = 0;
 
                     // Exact match
@@ -207,13 +217,28 @@ module.exports = async (req, res) => {
                     // Query contains full name
                     else if (query.includes(name)) score = 400;
                     else {
-                        // Word matching
+                        // Count exact word matches
+                        let exactMatches = 0;
+                        let startsWithMatches = 0;
+                        let matchedQueryWords = new Set();
+
                         for (const qw of queryWords) {
                             for (const nw of nameWords) {
-                                if (nw === qw) score += 100; // Exact word
-                                else if (nw.startsWith(qw)) score += 50; // Word starts with query word
-                                else if (nw.includes(qw)) score += 25; // Word contains query word
+                                if (nw === qw) {
+                                    exactMatches++;
+                                    matchedQueryWords.add(qw);
+                                } else if (nw.startsWith(qw) && qw.length >= 3) {
+                                    startsWithMatches++;
+                                    matchedQueryWords.add(qw);
+                                }
                             }
+                        }
+
+                        // Score: exact matches are worth more
+                        score = (exactMatches * 100) + (startsWithMatches * 30);
+                        // Bonus for matching more query words
+                        if (matchedQueryWords.size > 0) {
+                            score *= (1 + matchedQueryWords.size / queryWords.length);
                         }
                     }
                     return { ...p, score };
