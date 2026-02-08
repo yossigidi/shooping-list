@@ -68,7 +68,7 @@ async function supabaseQuery(table, query = '', fetchAll = false) {
     // Fetch all rows with pagination
     let allRows = [];
     let offset = 0;
-    const batchSize = 1000;
+    const batchSize = 15000;
 
     while (true) {
         const separator = query.includes('?') ? '&' : '?';
