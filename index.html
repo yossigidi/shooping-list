@@ -584,10 +584,24 @@
         };
 
         // ListNest Price Comparison API Service
-        // Uses Vercel serverless function - FREE!
+        // Uses Vercel serverless function + Supabase - FREE!
         window.PriceComparisonAPI = {
-            // API URL - same domain, Vercel serverless
+            // API URLs - same domain, Vercel serverless
             BASE_URL: '/api/compare',
+            SUPABASE_URL: '/api/prices',
+
+            // Get chains from Supabase
+            async getChains() {
+                try {
+                    const response = await fetch(`${this.SUPABASE_URL}?action=chains`);
+                    if (!response.ok) throw new Error('API Error');
+                    const data = await response.json();
+                    return data.chains || [];
+                } catch (e) {
+                    console.warn('Chains API error:', e);
+                    return [];
+                }
+            },
 
             // Search for product prices
             async searchProductPrices(productName) {
@@ -603,8 +617,45 @@
                 }
             },
 
-            // Compare shopping list across chains
+            // Compare shopping list across chains (tries Supabase first, then local)
             async compareShoppingList(items) {
+                // Try Supabase API first
+                try {
+                    const response = await fetch(`${this.SUPABASE_URL}?action=compare`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ items: items.map(i => ({
+                            name: i.name,
+                            quantity: i.quantity || 1
+                        }))})
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success && data.chains && data.chains.length > 0) {
+                            // Convert Supabase format to expected format
+                            return {
+                                comparison: data.chains.map(c => ({
+                                    chain_id: c.id,
+                                    chain_name: c.name,
+                                    chain_name_he: c.name_he,
+                                    total: c.total,
+                                    items_found: c.itemsFound,
+                                    items: c.items
+                                })),
+                                cheapest_chain: data.cheapest ? {
+                                    name: data.cheapest.name_he,
+                                    total: data.cheapest.total
+                                } : null,
+                                savings: data.savings,
+                                source: 'supabase'
+                            };
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Supabase API error, trying local:', e);
+                }
+
+                // Fallback to local API
                 try {
                     const response = await fetch(`${this.BASE_URL}?action=compare`, {
                         method: 'POST',
