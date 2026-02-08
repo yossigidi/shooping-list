@@ -17,11 +17,11 @@ async function supabaseQuery(table, query = '') {
     return response.json();
 }
 
-// Get all data (with higher limit for prices)
+// Get all data (with no limit for prices)
 async function getAllData() {
     const [products, prices, chains] = await Promise.all([
-        supabaseQuery('products', '?limit=1000'),
-        supabaseQuery('prices', '?limit=5000'),
+        supabaseQuery('products', '?limit=2000'),
+        supabaseQuery('prices', '?limit=10000'),
         supabaseQuery('chains', '?is_active=eq.true')
     ]);
     return { products, prices, chains };
