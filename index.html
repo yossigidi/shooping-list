@@ -617,57 +617,9 @@
                 }
             },
 
-            // Compare shopping list across chains (tries Supabase first, then local)
+            // Compare shopping list across chains (uses local curated prices)
             async compareShoppingList(items) {
-                // Try Supabase API first
-                try {
-                    const response = await fetch(`${this.SUPABASE_URL}?action=compare`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ items: items.map(i => ({
-                            name: i.name,
-                            quantity: i.quantity || 1
-                        }))})
-                    });
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.success && data.chains && data.chains.length > 0) {
-                            // Validate prices - check if they make sense
-                            const totals = data.chains.map(c => c.total).filter(t => t > 0);
-                            if (totals.length >= 2) {
-                                const minTotal = Math.min(...totals);
-                                const maxTotal = Math.max(...totals);
-                                // If prices vary more than 5x between chains, data is suspicious
-                                if (maxTotal > minTotal * 5) {
-                                    console.warn('Supabase prices look suspicious, using local fallback');
-                                    throw new Error('Suspicious price variance');
-                                }
-                            }
-
-                            // Convert Supabase format to expected format
-                            return {
-                                comparison: data.chains.map(c => ({
-                                    chain_id: c.id,
-                                    chain_name: c.name,
-                                    chain_name_he: c.name_he,
-                                    total: c.total,
-                                    items_found: c.itemsFound,
-                                    items: c.items
-                                })),
-                                cheapest_chain: data.cheapest ? {
-                                    name: data.cheapest.name_he,
-                                    total: data.cheapest.total
-                                } : null,
-                                savings: data.savings,
-                                source: 'supabase'
-                            };
-                        }
-                    }
-                } catch (e) {
-                    console.warn('Supabase API error, trying local:', e);
-                }
-
-                // Fallback to local API
+                // Use local API with curated, verified prices
                 try {
                     const response = await fetch(`${this.BASE_URL}?action=compare`, {
                         method: 'POST',
