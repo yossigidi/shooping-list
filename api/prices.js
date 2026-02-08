@@ -186,6 +186,23 @@ module.exports = async (req, res) => {
                 const products = await supabaseQuery('products');
                 return res.json({ success: true, products });
 
+            case 'suggest':
+                // Return product suggestions based on search query
+                const query = (req.query.q || '').toLowerCase().trim();
+                if (!query || query.length < 2) {
+                    return res.json({ success: true, suggestions: [] });
+                }
+                const allProducts = await supabaseQuery('products', '', true);
+                const suggestions = allProducts
+                    .filter(p => {
+                        const name = p.name.toLowerCase();
+                        // Match if product contains query or query contains product
+                        return name.includes(query) || query.split(' ').some(w => w.length > 1 && name.includes(w));
+                    })
+                    .slice(0, 10) // Limit to 10 suggestions
+                    .map(p => ({ id: p.id, name: p.name, category: p.category }));
+                return res.json({ success: true, suggestions });
+
             case 'debug':
                 const debugData = await getAllData();
                 return res.json({

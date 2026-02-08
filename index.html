@@ -5873,6 +5873,8 @@
             const [smartAddText, setSmartAddText] = useState('');
             const [smartAddLoading, setSmartAddLoading] = useState(false);
             const [smartAddResults, setSmartAddResults] = useState(null);
+            // Supabase product suggestions
+            const [supabaseSuggestions, setSupabaseSuggestions] = useState([]);
             // Expanded chain in comparison view
             const [expandedChain, setExpandedChain] = useState(null);
             // Offline mode state
@@ -7394,6 +7396,30 @@
 
                 return () => unsubscribe();
             }, [family]);
+
+            // Fetch product suggestions from Supabase when typing
+            useEffect(() => {
+                if (!searchTerm || searchTerm.length < 2) {
+                    setSupabaseSuggestions([]);
+                    return;
+                }
+
+                const timeoutId = setTimeout(async () => {
+                    try {
+                        const response = await fetch(`/api/prices?action=suggest&q=${encodeURIComponent(searchTerm)}`);
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data.success && data.suggestions) {
+                                setSupabaseSuggestions(data.suggestions);
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Suggestions fetch error:', e);
+                    }
+                }, 300); // Debounce 300ms
+
+                return () => clearTimeout(timeoutId);
+            }, [searchTerm]);
 
             // Recalculate achievements when stats change
             useEffect(() => {
@@ -11219,23 +11245,38 @@ END:VCALENDAR`;
                             </div>
                         )}
 
-                        {/* Quick add suggestions when searching */}
+                        {/* Quick add suggestions when searching - from Supabase */}
                         {searchTerm && !isListening && (
                             <div className="max-w-2xl mx-auto mt-2 flex flex-wrap gap-1.5 pb-1">
-                                {Object.entries(PRODUCTS)
-                                    .flatMap(([cat, prods]) => prods.map(p => ({ name: p, cat })))
-                                    .filter(p => p.name.includes(searchTerm))
-                                    .slice(0, 6)
-                                    .map((p, i) => (
+                                {/* Supabase suggestions (from database) */}
+                                {supabaseSuggestions.length > 0 ? (
+                                    supabaseSuggestions.slice(0, 8).map((p, i) => (
                                         <button
-                                            key={i}
+                                            key={`supa-${i}`}
                                             onClick={() => addProduct(p.name)}
-                                            className="px-2.5 py-1.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-all expand-in"
+                                            className="px-2.5 py-1.5 bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/50 dark:to-amber-900/50 text-orange-700 dark:text-orange-300 rounded-lg text-xs font-medium hover:from-orange-200 hover:to-amber-200 dark:hover:from-orange-800 dark:hover:to-amber-800 transition-all expand-in border border-orange-200 dark:border-orange-700"
                                         >
-                                            {CATEGORIES[p.cat]?.icon} {p.name}
+                                            🏷️ {p.name}
                                         </button>
-                                    ))}
-                                {searchTerm.length >= 2 && !Object.values(PRODUCTS).flat().some(p => p === searchTerm) && (
+                                    ))
+                                ) : (
+                                    /* Fallback to local PRODUCTS if no Supabase results */
+                                    Object.entries(PRODUCTS)
+                                        .flatMap(([cat, prods]) => prods.map(p => ({ name: p, cat })))
+                                        .filter(p => p.name.includes(searchTerm))
+                                        .slice(0, 6)
+                                        .map((p, i) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => addProduct(p.name)}
+                                                className="px-2.5 py-1.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-all expand-in"
+                                            >
+                                                {CATEGORIES[p.cat]?.icon} {p.name}
+                                            </button>
+                                        ))
+                                )}
+                                {/* Always show custom add option */}
+                                {searchTerm.length >= 2 && !supabaseSuggestions.some(p => p.name === searchTerm) && (
                                     <button
                                         onClick={() => addProduct(searchTerm)}
                                         className="px-2.5 py-1.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded-lg text-xs font-medium hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-all expand-in"
