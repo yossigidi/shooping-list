@@ -187,21 +187,42 @@ module.exports = async (req, res) => {
                 return res.json({ success: true, products });
 
             case 'suggest':
-                // Return product suggestions based on search query
+                // Return product suggestions based on search query with scoring
                 const query = (req.query.q || '').toLowerCase().trim();
                 if (!query || query.length < 2) {
                     return res.json({ success: true, suggestions: [] });
                 }
                 const allProducts = await supabaseQuery('products', '', true);
-                const suggestions = allProducts
-                    .filter(p => {
-                        const name = p.name.toLowerCase();
-                        // Match if product contains query or query contains product
-                        return name.includes(query) || query.split(' ').some(w => w.length > 1 && name.includes(w));
-                    })
-                    .slice(0, 10) // Limit to 10 suggestions
-                    .map(p => ({ id: p.id, name: p.name, category: p.category }));
-                return res.json({ success: true, suggestions });
+                const queryWords = query.split(' ').filter(w => w.length > 1);
+
+                const scoredProducts = allProducts.map(p => {
+                    const name = p.name.toLowerCase();
+                    const nameWords = name.split(' ');
+                    let score = 0;
+
+                    // Exact match
+                    if (name === query) score = 1000;
+                    // Name contains full query
+                    else if (name.includes(query)) score = 500;
+                    // Query contains full name
+                    else if (query.includes(name)) score = 400;
+                    else {
+                        // Word matching
+                        for (const qw of queryWords) {
+                            for (const nw of nameWords) {
+                                if (nw === qw) score += 100; // Exact word
+                                else if (nw.startsWith(qw)) score += 50; // Word starts with query word
+                                else if (nw.includes(qw)) score += 25; // Word contains query word
+                            }
+                        }
+                    }
+                    return { ...p, score };
+                }).filter(p => p.score > 0)
+                  .sort((a, b) => b.score - a.score)
+                  .slice(0, 10)
+                  .map(p => ({ id: p.id, name: p.name, category: p.category }));
+
+                return res.json({ success: true, suggestions: scoredProducts });
 
             case 'debug':
                 const debugData = await getAllData();
