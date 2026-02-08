@@ -140,6 +140,19 @@ const PRICE_DATABASE = {
     'חרדל': { shufersal: 7.50, rami_levy: 9.90, victory: 10.90, ybitan: 11.90, hatzi_hinam: 9.50 },
     'רוטב עגבניות': { shufersal: 6.50, rami_levy: 8.90, victory: 9.90, ybitan: 10.90, hatzi_hinam: 8.50 },
     'רסק עגבניות': { shufersal: 4.50, rami_levy: 6.90, victory: 7.90, ybitan: 8.90, hatzi_hinam: 6.50 },
+    // תבלינים
+    'פפריקה': { shufersal: 9.90, rami_levy: 8.90, victory: 10.90, ybitan: 11.90, hatzi_hinam: 8.50 },
+    'פפריקה מתוקה': { shufersal: 9.90, rami_levy: 8.90, victory: 10.90, ybitan: 11.90, hatzi_hinam: 8.50 },
+    'פפריקה חריפה': { shufersal: 9.90, rami_levy: 8.90, victory: 10.90, ybitan: 11.90, hatzi_hinam: 8.50 },
+    'פפריקה מתוקה 80 גרם': { shufersal: 8.90, rami_levy: 7.90, victory: 9.90, ybitan: 10.90, hatzi_hinam: 7.50 },
+    'פפריקה חריפה 80 גרם': { shufersal: 8.90, rami_levy: 7.90, victory: 9.90, ybitan: 10.90, hatzi_hinam: 7.50 },
+    'פפריקה מתוקה 100 גרם': { shufersal: 10.90, rami_levy: 9.90, victory: 11.90, ybitan: 12.90, hatzi_hinam: 9.50 },
+    'פפריקה חריפה 100 גרם': { shufersal: 10.90, rami_levy: 9.90, victory: 11.90, ybitan: 12.90, hatzi_hinam: 9.50 },
+    'פלפל שחור': { shufersal: 10.90, rami_levy: 9.90, victory: 11.90, ybitan: 12.90, hatzi_hinam: 9.50 },
+    'כורכום': { shufersal: 13.90, rami_levy: 11.90, victory: 14.90, ybitan: 15.90, hatzi_hinam: 11.50 },
+    'כמון': { shufersal: 10.90, rami_levy: 9.90, victory: 11.90, ybitan: 12.90, hatzi_hinam: 9.50 },
+    'קינמון': { shufersal: 10.90, rami_levy: 9.90, victory: 11.90, ybitan: 12.90, hatzi_hinam: 9.50 },
+    'זעתר': { shufersal: 11.90, rami_levy: 10.90, victory: 12.90, ybitan: 13.90, hatzi_hinam: 10.50 },
 
     // ===== חטיפים וממתקים (חצי חינם זול) =====
     'שוקולד': { shufersal: 10.90, rami_levy: 9.90, victory: 10.50, ybitan: 11.90, hatzi_hinam: 7.50 },
@@ -151,6 +164,12 @@ const PRICE_DATABASE = {
     'עוגיות': { shufersal: 16.90, rami_levy: 15.90, victory: 16.50, ybitan: 17.90, hatzi_hinam: 13.50 },
     'נוטלה': { shufersal: 25.90, rami_levy: 24.90, victory: 25.50, ybitan: 27.90, hatzi_hinam: 21.50 },
     'חמאת בוטנים': { shufersal: 25.90, rami_levy: 24.90, victory: 25.50, ybitan: 27.90, hatzi_hinam: 21.50 },
+    'ממרח לוטוס': { shufersal: 26.90, rami_levy: 24.90, victory: 27.90, ybitan: 28.90, hatzi_hinam: 23.90 },
+    'ממרח לוטוס 400 גרם': { shufersal: 26.90, rami_levy: 24.90, victory: 27.90, ybitan: 28.90, hatzi_hinam: 23.90 },
+    'לוטוס': { shufersal: 26.90, rami_levy: 24.90, victory: 27.90, ybitan: 28.90, hatzi_hinam: 23.90 },
+    'עוגיות לוטוס': { shufersal: 12.90, rami_levy: 11.90, victory: 13.90, ybitan: 14.90, hatzi_hinam: 10.90 },
+    'ממרח שוקולד': { shufersal: 18.90, rami_levy: 16.90, victory: 19.90, ybitan: 21.90, hatzi_hinam: 15.90 },
+    'ממרח אגוזים': { shufersal: 22.90, rami_levy: 20.90, victory: 23.90, ybitan: 25.90, hatzi_hinam: 19.90 },
 
     // ===== משקאות (חצי חינם זול) =====
     'מים': { shufersal: 6.90, rami_levy: 5.90, victory: 6.50, ybitan: 7.90, hatzi_hinam: 3.50 },

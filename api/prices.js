@@ -4,6 +4,52 @@
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
+// Maximum reasonable prices by category (sanity check)
+const MAX_REASONABLE_PRICES = {
+    'dairy': 50,
+    'beverages': 60,
+    'pantry': 50,
+    'spreads': 50,
+    'bread': 30,
+    'snacks': 40,
+    'spices': 35,
+    'cleaning': 60,
+    'frozen': 80,
+    'meat': 200,
+    'fish': 150,
+    'default': 100
+};
+
+// Packaged product patterns (these are sold by unit, not weight)
+const PACKAGED_PATTERNS = [
+    /\d+\s*(גרם|גר\'|גר|g)/i,      // grams
+    /\d+\s*(מ"ל|מ״ל|מל|ml)/i,      // milliliters
+    /\d+\s*(ליטר|ל\'|l)/i,         // liters
+    /\d+\s*(יח'|יח׳|יחידות)/i,     // units
+    /\d+\s*(ק"ג|ק״ג|קג|kg)/i,      // kilograms (packaged)
+    /שישיי[הת]/,                    // 6-pack
+    /אריזת?/,                       // package
+    /חבילה/,                        // bundle
+    /פחית/,                         // can
+    /בקבוק/,                        // bottle
+];
+
+// Check if product is packaged (sold by unit)
+function isPackagedProduct(productName) {
+    if (!productName) return false;
+    return PACKAGED_PATTERNS.some(pattern => pattern.test(productName));
+}
+
+// Get reasonable max price for a product
+function getMaxReasonablePrice(productName, category) {
+    // Special cases for expensive items
+    if (/אנטריקוט|סטייק|פילה בקר|סינטה/.test(productName)) return 200;
+    if (/סלמון|לברק|דניס/.test(productName)) return 150;
+    if (/שישיי[הת]/.test(productName)) return 60;
+
+    return MAX_REASONABLE_PRICES[category] || MAX_REASONABLE_PRICES.default;
+}
+
 // Fetch from Supabase with pagination support
 async function supabaseQuery(table, query = '', fetchAll = false) {
     const baseUrl = `${SUPABASE_URL}/rest/v1/${table}${query}`;
@@ -133,15 +179,32 @@ async function compareList(items) {
 
         if (product) {
             const productPrices = prices.filter(p => p.product_id === product.id);
+            const isPackaged = isPackagedProduct(product.name) || isPackagedProduct(item.name);
+            const maxPrice = getMaxReasonablePrice(product.name, product.category);
 
             productPrices.forEach(pp => {
-                const totalPrice = pp.price * quantity;
+                let priceToUse = pp.price;
+
+                // Sanity check: if price is unreasonably high, it might be a per-kg price
+                // for a packaged item - cap it at reasonable maximum
+                if (priceToUse > maxPrice && isPackaged) {
+                    // This is likely a data error - use a reasonable estimate
+                    // For packaged items, cap at the category max
+                    priceToUse = maxPrice * 0.7; // Use 70% of max as fallback
+                }
+
+                // Additional sanity: prices under 1₪ or over 500₪ are likely errors
+                if (priceToUse < 1 || priceToUse > 500) {
+                    return; // Skip this price entry
+                }
+
+                const totalPrice = priceToUse * quantity;
                 chainTotals[pp.chain_id] += totalPrice;
                 chainItems[pp.chain_id].push({
                     name: product.name,
                     quantity,
-                    price: pp.price,
-                    total: totalPrice
+                    price: priceToUse,
+                    total: Math.round(totalPrice * 100) / 100
                 });
             });
         }
@@ -272,9 +335,32 @@ module.exports = async (req, res) => {
                 const productsForAvg = await supabaseQuery('products', '', true);
                 const pricesForAvg = await supabaseQuery('prices', '', true);
 
-                // Calculate average price per product
+                // Create product lookup for category info
+                const productLookup = {};
+                productsForAvg.forEach(p => {
+                    productLookup[p.id] = p;
+                });
+
+                // Calculate average price per product with sanity checks
                 const priceMap = {};
                 pricesForAvg.forEach(p => {
+                    const product = productLookup[p.product_id];
+                    if (!product) return;
+
+                    // Skip unreasonable prices
+                    const maxPrice = getMaxReasonablePrice(product.name, product.category);
+                    const isPackaged = isPackagedProduct(product.name);
+
+                    // If price is way too high for a packaged item, skip it
+                    if (isPackaged && p.price > maxPrice * 1.5) {
+                        return;
+                    }
+
+                    // Skip prices under 1₪ or over 500₪ (likely data errors)
+                    if (p.price < 1 || p.price > 500) {
+                        return;
+                    }
+
                     if (!priceMap[p.product_id]) {
                         priceMap[p.product_id] = { total: 0, count: 0 };
                     }
@@ -284,8 +370,9 @@ module.exports = async (req, res) => {
 
                 const productPrices = {};
                 productsForAvg.forEach(p => {
-                    if (priceMap[p.id]) {
-                        productPrices[p.name] = Math.round((priceMap[p.id].total / priceMap[p.id].count) * 100) / 100;
+                    if (priceMap[p.id] && priceMap[p.id].count > 0) {
+                        const avgPrice = priceMap[p.id].total / priceMap[p.id].count;
+                        productPrices[p.name] = Math.round(avgPrice * 100) / 100;
                     }
                 });
 
