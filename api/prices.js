@@ -124,6 +124,19 @@ module.exports = async (req, res) => {
                 const products = await supabaseQuery('products');
                 return res.json({ success: true, products });
 
+            case 'debug':
+                const debugData = await getAllData();
+                return res.json({
+                    success: true,
+                    counts: {
+                        products: debugData.products.length,
+                        prices: debugData.prices.length,
+                        chains: debugData.chains.length
+                    },
+                    samplePrices: debugData.prices.slice(-10),
+                    maxPriceId: Math.max(...debugData.prices.map(p => p.id))
+                });
+
             case 'compare':
                 if (req.method !== 'POST') {
                     return res.status(405).json({ error: 'Use POST for compare' });
