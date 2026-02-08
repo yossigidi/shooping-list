@@ -9312,6 +9312,30 @@ END:VCALENDAR`;
                                                                 )}
                                                             </div>
                                                         </div>
+                                                        {/* Order Button */}
+                                                        <button
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                const chainUrls = {
+                                                                    'שופרסל': 'https://www.shufersal.co.il/online/he/',
+                                                                    'רמי לוי': 'https://www.rami-levy.co.il/he/online/',
+                                                                    'ויקטורי': 'https://www.victoryonline.co.il/',
+                                                                    'יינות ביתן': 'https://www.ybitan.co.il/',
+                                                                    'חצי חינם': 'https://shop.hazi-hinam.co.il/'
+                                                                };
+                                                                const chainName = chain.chain_name_he || chain.chain_name;
+                                                                window.open(chainUrls[chainName] || 'https://www.google.com/search?q=' + encodeURIComponent(chainName + ' קניות אונליין'), '_blank');
+                                                            }}
+                                                            className={`mt-3 w-full py-2.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] ${
+                                                                chain.is_cheapest
+                                                                    ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
+                                                                    : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
+                                                            }`}
+                                                        >
+                                                            <span>🛒</span>
+                                                            <span>הזמן מ{chain.chain_name_he || chain.chain_name}</span>
+                                                            <span>←</span>
+                                                        </button>
                                                     </div>
 
                                                     {/* Expanded Product List */}
