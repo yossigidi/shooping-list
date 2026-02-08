@@ -11293,7 +11293,8 @@ END:VCALENDAR`;
                                     {(() => {
                                         const unpurchasedItems = items.filter(i => !i.purchased);
                                         const itemsWithPrice = unpurchasedItems.filter(i => i.price);
-                                        return estimatedTotal > 0 && (
+                                        // Show button if there are unpurchased items (even without prices)
+                                        return unpurchasedItems.length > 0 && (
                                             <div className="flex flex-col gap-1">
                                                 <div
                                                     className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-xl cursor-pointer hover:bg-green-100 dark:hover:bg-green-900/40 transition-all"
