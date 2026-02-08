@@ -179,23 +179,24 @@ async function compareList(items) {
 
         if (product) {
             const productPrices = prices.filter(p => p.product_id === product.id);
-            const isPackaged = isPackagedProduct(product.name) || isPackagedProduct(item.name);
-            const maxPrice = getMaxReasonablePrice(product.name, product.category);
+
+            // Calculate median price to detect outliers
+            const allPrices = productPrices.map(pp => pp.price).sort((a, b) => a - b);
+            const medianPrice = allPrices.length > 0
+                ? allPrices[Math.floor(allPrices.length / 2)]
+                : 0;
 
             productPrices.forEach(pp => {
                 let priceToUse = pp.price;
 
-                // Sanity check: if price is unreasonably high, it might be a per-kg price
-                // for a packaged item - cap it at reasonable maximum
-                if (priceToUse > maxPrice && isPackaged) {
-                    // This is likely a data error - use a reasonable estimate
-                    // For packaged items, cap at the category max
-                    priceToUse = maxPrice * 0.7; // Use 70% of max as fallback
-                }
-
-                // Additional sanity: prices under 1₪ or over 500₪ are likely errors
+                // Skip prices that are clearly errors:
+                // - Under 1₪ or over 500₪
+                // - More than 5x or less than 0.2x the median (outliers)
                 if (priceToUse < 1 || priceToUse > 500) {
-                    return; // Skip this price entry
+                    return;
+                }
+                if (medianPrice > 0 && (priceToUse > medianPrice * 5 || priceToUse < medianPrice * 0.2)) {
+                    return; // Skip outlier
                 }
 
                 const totalPrice = priceToUse * quantity;
@@ -341,20 +342,11 @@ module.exports = async (req, res) => {
                     productLookup[p.id] = p;
                 });
 
-                // Calculate average price per product with sanity checks
+                // Collect all prices per product
                 const priceMap = {};
                 pricesForAvg.forEach(p => {
                     const product = productLookup[p.product_id];
                     if (!product) return;
-
-                    // Skip unreasonable prices
-                    const maxPrice = getMaxReasonablePrice(product.name, product.category);
-                    const isPackaged = isPackagedProduct(product.name);
-
-                    // If price is way too high for a packaged item, skip it
-                    if (isPackaged && p.price > maxPrice * 1.5) {
-                        return;
-                    }
 
                     // Skip prices under 1₪ or over 500₪ (likely data errors)
                     if (p.price < 1 || p.price > 500) {
@@ -362,17 +354,27 @@ module.exports = async (req, res) => {
                     }
 
                     if (!priceMap[p.product_id]) {
-                        priceMap[p.product_id] = { total: 0, count: 0 };
+                        priceMap[p.product_id] = [];
                     }
-                    priceMap[p.product_id].total += p.price;
-                    priceMap[p.product_id].count++;
+                    priceMap[p.product_id].push(p.price);
                 });
 
+                // Calculate MEDIAN price (more robust than average against outliers)
                 const productPrices = {};
                 productsForAvg.forEach(p => {
-                    if (priceMap[p.id] && priceMap[p.id].count > 0) {
-                        const avgPrice = priceMap[p.id].total / priceMap[p.id].count;
-                        productPrices[p.name] = Math.round(avgPrice * 100) / 100;
+                    if (priceMap[p.id] && priceMap[p.id].length > 0) {
+                        const prices = priceMap[p.id].sort((a, b) => a - b);
+                        const median = prices[Math.floor(prices.length / 2)];
+
+                        // Filter out extreme outliers (more than 3x or less than 0.33x median)
+                        const validPrices = prices.filter(price =>
+                            price >= median * 0.33 && price <= median * 3
+                        );
+
+                        if (validPrices.length > 0) {
+                            const avg = validPrices.reduce((sum, pr) => sum + pr, 0) / validPrices.length;
+                            productPrices[p.name] = Math.round(avg * 100) / 100;
+                        }
                     }
                 });
 
