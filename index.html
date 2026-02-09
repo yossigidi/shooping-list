@@ -7552,24 +7552,8 @@
                     const data = await response.json();
                     if (data.success && data.total > 0) {
                         setPromotionsData(data);
-                        // Build lookup for product promotions
+                        // Build lookup for product promotions - only by linked products (exact)
                         const promoLookup = {};
-
-                        // Specific brand/product keywords to extract from descriptions
-                        // Only include very specific names that won't cause false matches
-                        const productKeywords = [
-                            // Snack brands
-                            'ביסלי', 'במבה', 'אפרופו', 'דוריטוס', 'צ\'יפס', 'פרינגלס',
-                            // Baby formula brands
-                            'סימילאק', 'מטרנה', 'נוטרילון',
-                            // Diaper brands
-                            'פמפרס', 'האגיס',
-                            // Specific products
-                            'נוטלה', 'פררו', 'קינדר', 'מילקה', 'עלית', 'שטראוס',
-                            'תנובה', 'טרה', 'יטבתה', 'גד',
-                            'אוסם', 'תלמה', 'ויסוצקי', 'עלית',
-                            'סנו', 'כיף', 'פלמוליב', 'דאב', 'לוריאל', 'נייטרוג\'ינה'
-                        ];
 
                         (data.promotions || []).forEach(promo => {
                             const promoData = {
@@ -7578,21 +7562,12 @@
                                 end_date: promo.end_date
                             };
 
-                            // Index by linked products
+                            // Index ONLY by linked products from database (exact names)
                             (promo.products || []).forEach(p => {
-                                if (!promoLookup[p.name]) promoLookup[p.name] = [];
-                                promoLookup[p.name].push(promoData);
-                            });
-
-                            // Also extract keywords from description
-                            const descLower = (promo.description || '').toLowerCase();
-                            productKeywords.forEach(keyword => {
-                                if (descLower.includes(keyword.toLowerCase())) {
-                                    if (!promoLookup[keyword]) promoLookup[keyword] = [];
-                                    // Avoid duplicates
-                                    if (!promoLookup[keyword].some(p => p.description === promo.description)) {
-                                        promoLookup[keyword].push(promoData);
-                                    }
+                                const name = p.name?.toLowerCase();
+                                if (name) {
+                                    if (!promoLookup[name]) promoLookup[name] = [];
+                                    promoLookup[name].push(promoData);
                                 }
                             });
                         });
@@ -7610,59 +7585,50 @@
                 }
             };
 
-            // Check if item has promotions - strict matching
+            // Check if item has promotions - EXACT matching only
             const getItemPromotions = (itemName) => {
                 if (!itemName) return [];
                 const nameLower = itemName.toLowerCase().trim();
-                const nameWords = nameLower.split(/\s+/);
                 const matches = [];
                 const seenDescriptions = new Set();
 
-                // Check from API data first
+                // Method 1: Check linked products from API (exact name match only)
                 if (productPromotions && Object.keys(productPromotions).length > 0) {
-                    Object.keys(productPromotions).forEach(productName => {
-                        const prodLower = productName.toLowerCase();
-                        const prodWords = prodLower.split(/\s+/);
-
-                        // Strict matching rules:
-                        // 1. Exact full match: "ביסלי" = "ביסלי"
-                        // 2. Product name equals first word AND has more than one word: "ביסלי בצל" starts with "ביסלי"
-                        // 3. Both are multi-word and first words match exactly: "גבינה צהובה" vs "גבינה בולגרית" - NO MATCH
-                        // 4. Single word product matches single word promo keyword exactly
-
-                        let isMatch = false;
-
-                        // Exact full match
-                        if (prodLower === nameLower) {
-                            isMatch = true;
-                        }
-                        // Single word keyword matching first word of multi-word product
-                        else if (prodWords.length === 1 && nameWords.length >= 1 && nameWords[0] === prodLower) {
-                            // Only match if the keyword is specific enough (4+ chars)
-                            // AND the product doesn't have a qualifier that changes meaning
-                            const qualifiers = ['צהובה', 'לבנה', 'בולגרית', 'קשה', 'רכה', 'מלוח', 'מתוק', 'טבעי', 'דל', 'מלא'];
-                            const hasQualifier = nameWords.length > 1 && qualifiers.some(q => nameLower.includes(q));
-                            // If product has qualifier, don't match generic keyword
-                            if (!hasQualifier && prodLower.length >= 4) {
-                                isMatch = true;
+                    // Only exact matches
+                    if (productPromotions[nameLower]) {
+                        productPromotions[nameLower].forEach(promo => {
+                            if (!seenDescriptions.has(promo.description)) {
+                                seenDescriptions.add(promo.description);
+                                matches.push(promo);
                             }
-                        }
-                        // Multi-word promo product matching multi-word item - need higher overlap
-                        else if (prodWords.length > 1 && nameWords.length > 1) {
-                            // All promo words must appear in product name
-                            const allMatch = prodWords.every(pw => nameWords.includes(pw));
-                            if (allMatch) {
-                                isMatch = true;
+                        });
+                    }
+                    // Also check original case
+                    if (productPromotions[itemName]) {
+                        productPromotions[itemName].forEach(promo => {
+                            if (!seenDescriptions.has(promo.description)) {
+                                seenDescriptions.add(promo.description);
+                                matches.push(promo);
                             }
-                        }
+                        });
+                    }
+                }
 
-                        if (isMatch) {
-                            productPromotions[productName].forEach(promo => {
-                                if (!seenDescriptions.has(promo.description)) {
-                                    seenDescriptions.add(promo.description);
-                                    matches.push(promo);
-                                }
-                            });
+                // Method 2: Check if product name appears as a WHOLE WORD in promo description
+                if (matches.length === 0 && promotionsData?.promotions && nameLower.length >= 4) {
+                    promotionsData.promotions.forEach(promo => {
+                        const desc = (promo.description || '').toLowerCase();
+                        // Split description into words and check for exact word match
+                        const descWords = desc.split(/[^א-תa-z0-9]+/).filter(w => w.length > 0);
+                        if (descWords.includes(nameLower)) {
+                            if (!seenDescriptions.has(promo.description)) {
+                                seenDescriptions.add(promo.description);
+                                matches.push({
+                                    chain: promo.chain_name,
+                                    description: promo.description,
+                                    end_date: promo.end_date
+                                });
+                            }
                         }
                     });
                 }
