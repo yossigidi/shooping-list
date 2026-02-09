@@ -1,9 +1,10 @@
 name: Update Supermarket Prices
 
 on:
-  # הרצה אוטומטית פעמיים ביום (6:00 ו-18:00 שעון ישראל)
+  # הרצה אוטומטית פעם ביום ב-06:00 שעון ישראל
+  # הרשתות מעדכנות מחירים פעם ביום/יומיים, אז מספיק עדכון בוקר אחד
   schedule:
-    - cron: '0 4,16 * * *'  # UTC time (Israel is UTC+2/+3)
+    - cron: '0 4 * * *'  # 04:00 UTC = 06:00 Israel (winter) / 07:00 Israel (summer)
 
   # אפשרות להרצה ידנית מ-GitHub
   workflow_dispatch:
