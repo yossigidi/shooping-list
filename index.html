@@ -7555,18 +7555,20 @@
                         // Build lookup for product promotions
                         const promoLookup = {};
 
-                        // Common product keywords to extract from descriptions
+                        // Specific brand/product keywords to extract from descriptions
+                        // Only include very specific names that won't cause false matches
                         const productKeywords = [
-                            'ביסלי', 'במבה', 'אפרופו', 'ציפס', 'שוקולד', 'עוגיות', 'וופלים', 'חלב',
-                            'גבינה', 'יוגורט', 'לחם', 'ביצים', 'חומוס', 'תה', 'קפה', 'סוכר', 'קמח',
-                            'שמן', 'אורז', 'פסטה', 'רוטב', 'עגבניות', 'מלפפון', 'גזר', 'תפוח',
-                            'בננה', 'תפוז', 'לימון', 'בצל', 'שום', 'פלפל', 'חסה', 'עגבניה',
-                            'מיץ', 'מים', 'סודה', 'בירה', 'יין', 'וודקה', 'נקניק', 'חזה עוף',
-                            'בשר', 'דג', 'סלמון', 'טונה', 'קוטג', 'שמנת', 'חמאה', 'מרגרינה',
-                            'דגני בוקר', 'קורנפלקס', 'גרנולה', 'חטיף', 'אגוזים', 'שקדים',
-                            'פיצה', 'המבורגר', 'שניצל', 'פלאפל', 'טחינה', 'חריף', 'קטשופ',
-                            'מיונז', 'חרדל', 'סימילאק', 'מטרנה', 'נוטרילון', 'פמפרס', 'האגיס',
-                            'שמפו', 'סבון', 'אל סבון', 'מרכך', 'דאודורנט', 'משחת שיניים'
+                            // Snack brands
+                            'ביסלי', 'במבה', 'אפרופו', 'דוריטוס', 'צ\'יפס', 'פרינגלס',
+                            // Baby formula brands
+                            'סימילאק', 'מטרנה', 'נוטרילון',
+                            // Diaper brands
+                            'פמפרס', 'האגיס',
+                            // Specific products
+                            'נוטלה', 'פררו', 'קינדר', 'מילקה', 'עלית', 'שטראוס',
+                            'תנובה', 'טרה', 'יטבתה', 'גד',
+                            'אוסם', 'תלמה', 'ויסוצקי', 'עלית',
+                            'סנו', 'כיף', 'פלמוליב', 'דאב', 'לוריאל', 'נייטרוג\'ינה'
                         ];
 
                         (data.promotions || []).forEach(promo => {
@@ -7608,7 +7610,7 @@
                 }
             };
 
-            // Check if item has promotions - improved matching
+            // Check if item has promotions - strict matching
             const getItemPromotions = (itemName) => {
                 if (!itemName) return [];
                 const nameLower = itemName.toLowerCase().trim();
@@ -7620,16 +7622,39 @@
                 if (productPromotions && Object.keys(productPromotions).length > 0) {
                     Object.keys(productPromotions).forEach(productName => {
                         const prodLower = productName.toLowerCase();
-                        // Check for matches:
-                        // 1. Exact match
-                        // 2. Product name contains the keyword
-                        // 3. Keyword contains the product name (for short names like "חלב")
-                        // 4. First word matches (for "ביסלי בצל" matching "ביסלי")
-                        const isMatch =
-                            prodLower === nameLower ||
-                            nameLower.includes(prodLower) ||
-                            (prodLower.length >= 3 && nameLower.startsWith(prodLower)) ||
-                            (nameWords[0] === prodLower && prodLower.length >= 3);
+                        const prodWords = prodLower.split(/\s+/);
+
+                        // Strict matching rules:
+                        // 1. Exact full match: "ביסלי" = "ביסלי"
+                        // 2. Product name equals first word AND has more than one word: "ביסלי בצל" starts with "ביסלי"
+                        // 3. Both are multi-word and first words match exactly: "גבינה צהובה" vs "גבינה בולגרית" - NO MATCH
+                        // 4. Single word product matches single word promo keyword exactly
+
+                        let isMatch = false;
+
+                        // Exact full match
+                        if (prodLower === nameLower) {
+                            isMatch = true;
+                        }
+                        // Single word keyword matching first word of multi-word product
+                        else if (prodWords.length === 1 && nameWords.length >= 1 && nameWords[0] === prodLower) {
+                            // Only match if the keyword is specific enough (4+ chars)
+                            // AND the product doesn't have a qualifier that changes meaning
+                            const qualifiers = ['צהובה', 'לבנה', 'בולגרית', 'קשה', 'רכה', 'מלוח', 'מתוק', 'טבעי', 'דל', 'מלא'];
+                            const hasQualifier = nameWords.length > 1 && qualifiers.some(q => nameLower.includes(q));
+                            // If product has qualifier, don't match generic keyword
+                            if (!hasQualifier && prodLower.length >= 4) {
+                                isMatch = true;
+                            }
+                        }
+                        // Multi-word promo product matching multi-word item - need higher overlap
+                        else if (prodWords.length > 1 && nameWords.length > 1) {
+                            // All promo words must appear in product name
+                            const allMatch = prodWords.every(pw => nameWords.includes(pw));
+                            if (allMatch) {
+                                isMatch = true;
+                            }
+                        }
 
                         if (isMatch) {
                             productPromotions[productName].forEach(promo => {
