@@ -4341,32 +4341,75 @@
         const getEstimatedPrice = (productName) => {
             if (!productName) return null;
 
-            // Direct match
+            const nameLower = productName.toLowerCase().trim();
+
+            // Direct match (exact)
             if (PRODUCT_PRICES[productName]) {
                 return PRODUCT_PRICES[productName];
             }
 
-            // Partial match - find product that contains or is contained by the name
-            const nameLower = productName.toLowerCase();
+            // Case-insensitive direct match
             for (const [product, price] of Object.entries(PRODUCT_PRICES)) {
-                const productLower = product.toLowerCase();
-                if (productLower.includes(nameLower) || nameLower.includes(productLower)) {
+                if (product.toLowerCase() === nameLower) {
                     return price;
                 }
             }
 
-            // Word-based match
-            const words = nameLower.split(/\s+/).filter(w => w.length > 2);
+            // Score-based matching - find BEST match, not first match
+            let bestMatch = null;
+            let bestScore = 0;
+
+            const searchWords = nameLower.split(/\s+/).filter(w => w.length > 1);
+
             for (const [product, price] of Object.entries(PRODUCT_PRICES)) {
                 const productLower = product.toLowerCase();
-                for (const word of words) {
-                    if (productLower.includes(word)) {
-                        return price;
+                const productWords = productLower.split(/\s+/).filter(w => w.length > 1);
+                let score = 0;
+
+                // Exact product name contains full search term
+                if (productLower.includes(nameLower)) {
+                    score = 500 + (1 / product.length) * 100; // Prefer shorter matches
+                }
+                // Search term contains full product name
+                else if (nameLower.includes(productLower) && productLower.length >= 4) {
+                    score = 400;
+                }
+                else {
+                    // Count exact word matches
+                    let exactMatches = 0;
+                    let matchedWords = new Set();
+
+                    for (const sw of searchWords) {
+                        for (const pw of productWords) {
+                            // Exact word match
+                            if (pw === sw) {
+                                exactMatches += 2;
+                                matchedWords.add(sw);
+                            }
+                            // Word starts with search word (prefix match)
+                            else if (pw.startsWith(sw) && sw.length >= 3) {
+                                exactMatches += 1;
+                                matchedWords.add(sw);
+                            }
+                        }
                     }
+
+                    if (exactMatches > 0) {
+                        // Base score from word matches
+                        score = exactMatches * 50;
+                        // Bonus for matching higher percentage of search words
+                        score += (matchedWords.size / searchWords.length) * 100;
+                    }
+                }
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = price;
                 }
             }
 
-            return null;
+            // Only return if we have a good match (score > 100)
+            return bestScore > 100 ? bestMatch : null;
         };
 
         // Calculate item price based on quantity and whether it's sold by weight
