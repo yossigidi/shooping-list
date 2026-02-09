@@ -7937,6 +7937,37 @@
                 applyAccessibilitySettings(defaultSettings);
             };
 
+            // Force update app - clear cache and reload
+            const forceUpdateApp = async () => {
+                try {
+                    const confirmed = confirm('האם לעדכן את האפליקציה לגרסה החדשה?\n\nהפעולה תרענן את האפליקציה ותטען את כל השינויים האחרונים.');
+                    if (!confirmed) return;
+
+                    // Unregister all service workers
+                    if ('serviceWorker' in navigator) {
+                        const registrations = await navigator.serviceWorker.getRegistrations();
+                        for (const registration of registrations) {
+                            await registration.unregister();
+                        }
+                    }
+
+                    // Clear all caches
+                    if ('caches' in window) {
+                        const cacheNames = await caches.keys();
+                        for (const cacheName of cacheNames) {
+                            await caches.delete(cacheName);
+                        }
+                    }
+
+                    alert('✅ האפליקציה עודכנה בהצלחה!\n\nהדף יטען מחדש עם הגרסה החדשה.');
+                    window.location.reload(true);
+                } catch (error) {
+                    console.error('Error updating app:', error);
+                    alert('שגיאה בעדכון. נסה לרענן את הדף ידנית.');
+                    window.location.reload(true);
+                }
+            };
+
             const completeOnboarding = () => {
                 localStorage.setItem('hasSeenOnboarding', 'true');
                 setShowOnboarding(false);
@@ -12456,6 +12487,14 @@ END:VCALENDAR`;
                                     <button onClick={resetAccessibility}
                                         className="w-full py-3 bg-gray-200 dark:bg-gray-600 rounded-xl font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">
                                         איפוס כל ההגדרות
+                                    </button>
+
+                                    {/* Update App */}
+                                    <button onClick={forceUpdateApp}
+                                        className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-medium hover:from-green-600 hover:to-emerald-600 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                                        <span>🔄</span>
+                                        <span>עדכן גרסה</span>
+                                        <span className="text-xs opacity-75">(v12)</span>
                                     </button>
 
                                     {/* Footer links */}
