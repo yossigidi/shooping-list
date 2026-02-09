@@ -6,6 +6,7 @@ Fetches prices from official government-mandated price publications.
 All Israeli supermarket chains are required by law to publish prices publicly.
 
 Updated February 2026 to work with current API structures.
+Supports: Shufersal, Rami Levy, Yeinot Bitan, Victory, Hatzi Hinam
 """
 
 import os
@@ -14,6 +15,7 @@ import gzip
 import json
 import requests
 import xml.etree.ElementTree as ET
+from bs4 import BeautifulSoup
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 from supabase import create_client, Client
@@ -45,33 +47,25 @@ CHAINS = {
         'name': 'רמי לוי',
         'name_en': 'Rami Levy',
         'type': 'cerberus',
-        'login_url': 'https://url.publishedprices.co.il/login',
-        'file_url': 'https://url.publishedprices.co.il/file',
         'username': 'RamiLevi',
     },
     3: {
         'name': 'יינות ביתן',
         'name_en': 'Yeinot Bitan',
-        'type': 'cerberus',
-        'login_url': 'https://url.publishedprices.co.il/login',
-        'file_url': 'https://url.publishedprices.co.il/file',
-        'username': 'ybitan',
+        'type': 'carrefour',
+        'base_url': 'https://prices.carrefour.co.il',
     },
     4: {
         'name': 'ויקטורי',
         'name_en': 'Victory',
-        'type': 'cerberus',
-        'login_url': 'https://url.publishedprices.co.il/login',
-        'file_url': 'https://url.publishedprices.co.il/file',
-        'username': 'Victory',
+        'type': 'victory',
+        'base_url': 'https://laibcatalog.co.il',
     },
     5: {
         'name': 'חצי חינם',
         'name_en': 'Hatzi Hinam',
-        'type': 'cerberus',
-        'login_url': 'https://url.publishedprices.co.il/login',
-        'file_url': 'https://url.publishedprices.co.il/file',
-        'username': 'HaziHinam',
+        'type': 'hazihinam',
+        'base_url': 'https://shop.hazi-hinam.co.il/Prices',
     },
 }
 
@@ -143,11 +137,11 @@ def parse_xml_content(content: bytes) -> Optional[ET.Element]:
         return None
 
 
-def extract_items_from_xml(root: ET.Element) -> List[dict]:
+def extract_items_from_xml(root: ET.Element, item_tag: str = 'Item') -> List[dict]:
     """Extract product items from parsed XML."""
     items = []
 
-    for item in root.findall('.//Item'):
+    for item in root.findall(f'.//{item_tag}'):
         try:
             item_data = {}
 
@@ -209,23 +203,20 @@ def fetch_shufersal_prices(chain_info: dict) -> List[dict]:
         print(f"  Found {len(matches)} price files")
 
         # Download first few files (different stores)
-        files_to_download = matches[:3]  # Limit to 3 stores for speed
+        files_to_download = matches[:3]
 
         for file_url in files_to_download:
-            # Unescape HTML entities
             file_url = file_url.replace('&amp;', '&')
 
             try:
                 file_response = requests.get(file_url, headers=HEADERS, timeout=TIMEOUT)
 
                 if file_response.status_code == 200:
-                    # Decompress gzip
                     try:
                         content = gzip.decompress(file_response.content)
                     except (OSError, gzip.BadGzipFile):
                         content = file_response.content
 
-                    # Parse XML
                     root = parse_xml_content(content)
                     if root:
                         items = extract_items_from_xml(root)
@@ -238,7 +229,373 @@ def fetch_shufersal_prices(chain_info: dict) -> List[dict]:
                 print(f"    Error downloading file: {e}")
                 continue
 
-        # Remove duplicates (keep first occurrence)
+        # Remove duplicates
+        seen_barcodes = set()
+        unique_prices = []
+        for p in prices:
+            if p['barcode'] not in seen_barcodes:
+                seen_barcodes.add(p['barcode'])
+                unique_prices.append(p)
+
+        print(f"  Total unique products: {len(unique_prices)}")
+        return unique_prices
+
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    return prices
+
+
+# ============================================
+# Cerberus Scraper (Rami Levy)
+# ============================================
+
+def fetch_cerberus_prices(chain_id: int, chain_info: dict) -> List[dict]:
+    """Fetch prices from Cerberus-based chains via HTTP API."""
+    prices = []
+    username = chain_info.get('username', '')
+
+    if not username:
+        print("  No username configured")
+        return prices
+
+    try:
+        session = requests.Session()
+        session.headers.update(HEADERS)
+
+        # Step 1: Get login page and extract CSRF token
+        login_page = session.get('https://url.publishedprices.co.il/login', timeout=TIMEOUT)
+        if login_page.status_code != 200:
+            print(f"  Failed to get login page: HTTP {login_page.status_code}")
+            return prices
+
+        csrf_match = re.search(r'csrftoken" content="([^"]+)"', login_page.text)
+        if not csrf_match:
+            print("  Could not find CSRF token")
+            return prices
+
+        csrf = csrf_match.group(1)
+
+        # Step 2: Login
+        login_data = {
+            'username': username,
+            'password': '',
+            'csrftoken': csrf
+        }
+        login_resp = session.post('https://url.publishedprices.co.il/login/user',
+                                  data=login_data, timeout=TIMEOUT)
+
+        if '/file' not in login_resp.url:
+            print(f"  Login may have failed (redirect: {login_resp.url})")
+
+        # Step 3: Get file page to get new CSRF token
+        files_page = session.get('https://url.publishedprices.co.il/file', timeout=TIMEOUT)
+        new_csrf_match = re.search(r'csrftoken" content="([^"]+)"', files_page.text)
+        if not new_csrf_match:
+            print("  Could not find file page CSRF token")
+            return prices
+
+        new_csrf = new_csrf_match.group(1)
+
+        # Step 4: Get PriceFull file listing
+        api_response = session.post(
+            'https://url.publishedprices.co.il/file/json/dir',
+            timeout=TIMEOUT,
+            headers={
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': new_csrf,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data={
+                'sEcho': '1',
+                'iDisplayStart': '0',
+                'iDisplayLength': '100',
+                'csrftoken': new_csrf,
+                'sSearch': 'PriceFull'
+            }
+        )
+
+        if api_response.status_code != 200:
+            print(f"  API error: HTTP {api_response.status_code}")
+            return prices
+
+        data = api_response.json()
+        files_list = data.get('aaData', [])
+
+        if not files_list:
+            print(f"  No PriceFull files found")
+            return prices
+
+        print(f"  Found {len(files_list)} PriceFull files")
+
+        # Step 5: Download first few files
+        files_to_download = files_list[:3]
+
+        for file_info in files_to_download:
+            filename = file_info.get('fname', '')
+            if not filename:
+                continue
+
+            try:
+                download_url = f'https://url.publishedprices.co.il/file/d/{filename}'
+                download_resp = session.get(download_url, timeout=TIMEOUT)
+
+                if download_resp.status_code == 200 and len(download_resp.content) > 0:
+                    try:
+                        content = gzip.decompress(download_resp.content)
+                    except (OSError, gzip.BadGzipFile):
+                        content = download_resp.content
+
+                    root = parse_xml_content(content)
+                    if root:
+                        items = extract_items_from_xml(root)
+                        for item in items:
+                            item['chain_id'] = chain_id
+                            prices.append(item)
+                        print(f"    Parsed {len(items)} products from {filename}")
+
+            except Exception as e:
+                print(f"    Error downloading {filename}: {e}")
+                continue
+
+        # Remove duplicates
+        seen_barcodes = set()
+        unique_prices = []
+        for p in prices:
+            if p['barcode'] not in seen_barcodes:
+                seen_barcodes.add(p['barcode'])
+                unique_prices.append(p)
+
+        print(f"  Total unique products: {len(unique_prices)}")
+        return unique_prices
+
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    return prices
+
+
+# ============================================
+# Carrefour/Yeinot Bitan Scraper
+# ============================================
+
+def fetch_carrefour_prices(chain_id: int, chain_info: dict) -> List[dict]:
+    """Fetch prices from Carrefour/Yeinot Bitan."""
+    prices = []
+    base_url = chain_info['base_url']
+
+    try:
+        session = requests.Session()
+        session.headers.update(HEADERS)
+
+        resp = session.get(base_url + '/', timeout=TIMEOUT)
+        if resp.status_code != 200:
+            print(f"  Failed to get page: HTTP {resp.status_code}")
+            return prices
+
+        # Extract path and files from JavaScript
+        path_match = re.search(r'const\s+path\s*=\s*["\']([^"\']*)["\']', resp.text)
+        path = path_match.group(1) if path_match else ''
+
+        files_match = re.search(r'const\s+files\s*=\s*(\[.*?\]);', resp.text, re.DOTALL)
+        if not files_match:
+            print("  Could not find files list")
+            return prices
+
+        files = json.loads(files_match.group(1))
+        price_files = [f for f in files if 'PriceFull' in f.get('name', '')]
+
+        if not price_files:
+            print("  No PriceFull files found")
+            return prices
+
+        print(f"  Found {len(price_files)} PriceFull files")
+
+        # Download first few files
+        for file_info in price_files[:3]:
+            filename = file_info.get('name', '')
+            if not filename:
+                continue
+
+            try:
+                download_url = f'{base_url}/{path}/{filename}'
+                download_resp = session.get(download_url, timeout=TIMEOUT)
+
+                if download_resp.status_code == 200:
+                    try:
+                        content = gzip.decompress(download_resp.content)
+                    except (OSError, gzip.BadGzipFile):
+                        content = download_resp.content
+
+                    root = parse_xml_content(content)
+                    if root:
+                        items = extract_items_from_xml(root)
+                        for item in items:
+                            item['chain_id'] = chain_id
+                            prices.append(item)
+                        print(f"    Parsed {len(items)} products from {filename}")
+
+            except Exception as e:
+                print(f"    Error downloading {filename}: {e}")
+                continue
+
+        # Remove duplicates
+        seen_barcodes = set()
+        unique_prices = []
+        for p in prices:
+            if p['barcode'] not in seen_barcodes:
+                seen_barcodes.add(p['barcode'])
+                unique_prices.append(p)
+
+        print(f"  Total unique products: {len(unique_prices)}")
+        return unique_prices
+
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    return prices
+
+
+# ============================================
+# Victory Scraper (laibcatalog.co.il)
+# ============================================
+
+def fetch_victory_prices(chain_id: int, chain_info: dict) -> List[dict]:
+    """Fetch prices from Victory via laibcatalog.co.il."""
+    prices = []
+    base_url = chain_info['base_url']
+
+    try:
+        session = requests.Session()
+        session.headers.update(HEADERS)
+
+        resp = session.get(f'{base_url}/NBCompetitionRegulations.aspx', timeout=TIMEOUT)
+        if resp.status_code != 200:
+            print(f"  Failed to get page: HTTP {resp.status_code}")
+            return prices
+
+        soup = BeautifulSoup(resp.text, 'html.parser')
+
+        # Find PriceFull links
+        links = soup.find_all('a', href=True)
+        pricefull_links = [l.get('href') for l in links if 'PriceFull' in l.get('href', '')]
+
+        if not pricefull_links:
+            print("  No PriceFull files found")
+            return prices
+
+        print(f"  Found {len(pricefull_links)} PriceFull files")
+
+        # Download first few files
+        for link in pricefull_links[:3]:
+            try:
+                # Fix path separators
+                link = link.replace('\\', '/')
+                download_url = f'{base_url}/{link}'
+                download_resp = session.get(download_url, timeout=TIMEOUT)
+
+                if download_resp.status_code == 200:
+                    try:
+                        content = gzip.decompress(download_resp.content)
+                    except (OSError, gzip.BadGzipFile):
+                        content = download_resp.content
+
+                    root = parse_xml_content(content)
+                    if root:
+                        # Victory uses 'Product' tag instead of 'Item'
+                        items = extract_items_from_xml(root, item_tag='Product')
+                        for item in items:
+                            item['chain_id'] = chain_id
+                            prices.append(item)
+                        print(f"    Parsed {len(items)} products")
+
+            except Exception as e:
+                print(f"    Error downloading file: {e}")
+                continue
+
+        # Remove duplicates
+        seen_barcodes = set()
+        unique_prices = []
+        for p in prices:
+            if p['barcode'] not in seen_barcodes:
+                seen_barcodes.add(p['barcode'])
+                unique_prices.append(p)
+
+        print(f"  Total unique products: {len(unique_prices)}")
+        return unique_prices
+
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    return prices
+
+
+# ============================================
+# Hatzi Hinam Scraper
+# ============================================
+
+def fetch_hazihinam_prices(chain_id: int, chain_info: dict) -> List[dict]:
+    """Fetch prices from Hatzi Hinam."""
+    prices = []
+    base_url = chain_info['base_url']
+
+    try:
+        session = requests.Session()
+        session.headers.update(HEADERS)
+
+        # Get today's date for the filter
+        today = datetime.now().strftime('%Y-%m-%d')
+        resp = session.get(f'{base_url}?t=1&d={today}', timeout=TIMEOUT)
+
+        if resp.status_code != 200:
+            print(f"  Failed to get page: HTTP {resp.status_code}")
+            return prices
+
+        soup = BeautifulSoup(resp.text, 'html.parser')
+        tbody = soup.find('tbody')
+
+        if not tbody:
+            print("  Could not find file table")
+            return prices
+
+        # Find PriceFull links
+        rows = tbody.find_all('tr')
+        pricefull_links = []
+        for row in rows:
+            link = row.find('a', href=True)
+            if link and 'PriceFull' in link.get('href', ''):
+                pricefull_links.append(link.get('href'))
+
+        if not pricefull_links:
+            print("  No PriceFull files found")
+            return prices
+
+        print(f"  Found {len(pricefull_links)} PriceFull files")
+
+        # Download first few files
+        for download_url in pricefull_links[:3]:
+            try:
+                download_resp = session.get(download_url, timeout=TIMEOUT)
+
+                if download_resp.status_code == 200:
+                    try:
+                        content = gzip.decompress(download_resp.content)
+                    except (OSError, gzip.BadGzipFile):
+                        content = download_resp.content
+
+                    root = parse_xml_content(content)
+                    if root:
+                        items = extract_items_from_xml(root)
+                        for item in items:
+                            item['chain_id'] = chain_id
+                            prices.append(item)
+                        print(f"    Parsed {len(items)} products")
+
+            except Exception as e:
+                print(f"    Error downloading file: {e}")
+                continue
+
+        # Remove duplicates
         seen_barcodes = set()
         unique_prices = []
         for p in prices:
@@ -268,14 +625,24 @@ def scrape_all_chains() -> List[dict]:
 
         chain_type = chain_info.get('type', '')
 
-        if chain_type == 'shufersal':
-            prices = fetch_shufersal_prices(chain_info)
+        try:
+            if chain_type == 'shufersal':
+                prices = fetch_shufersal_prices(chain_info)
+            elif chain_type == 'cerberus':
+                prices = fetch_cerberus_prices(chain_id, chain_info)
+            elif chain_type == 'carrefour':
+                prices = fetch_carrefour_prices(chain_id, chain_info)
+            elif chain_type == 'victory':
+                prices = fetch_victory_prices(chain_id, chain_info)
+            elif chain_type == 'hazihinam':
+                prices = fetch_hazihinam_prices(chain_id, chain_info)
+            else:
+                print(f"  Unknown chain type: {chain_type}")
+                continue
+
             all_prices.extend(prices)
-        elif chain_type == 'cerberus':
-            # Cerberus chains require authentication - skip for now
-            print(f"  Skipping (requires authentication)")
-        else:
-            print(f"  Unknown chain type: {chain_type}")
+        except Exception as e:
+            print(f"  Error scraping chain: {e}")
 
     return all_prices
 
@@ -324,12 +691,21 @@ def update_database(supabase: Client, all_prices: List[dict]) -> Tuple[int, int]
 def print_summary(supabase: Client):
     """Print summary of current prices in database."""
     try:
-        response = supabase.table('prices').select('chain_id, price').execute()
+        all_prices = []
+        offset = 0
+        while True:
+            response = supabase.table('prices').select('chain_id, price').range(offset, offset + 999).execute()
+            if not response.data:
+                break
+            all_prices.extend(response.data)
+            if len(response.data) < 1000:
+                break
+            offset += 1000
 
         chain_counts = {}
         chain_totals = {}
 
-        for p in response.data:
+        for p in all_prices:
             cid = p['chain_id']
             chain_counts[cid] = chain_counts.get(cid, 0) + 1
             chain_totals[cid] = chain_totals.get(cid, 0) + p['price']
