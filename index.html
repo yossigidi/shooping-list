@@ -3880,10 +3880,11 @@
         // Price database - will be updated from API
         let PRODUCT_PRICES = {
             // Dairy - מוצרי חלב (expanded) - מחירים מפוקחים!
-            // חלב - מחירים לפי גודל
-            'חלב 3%': 7.28, 'חלב 1%': 7.28, 'חלב דל שומן': 7.28, 'חלב תנובה': 7.28, 'חלב': 7.28,
-            'חלב 3% 1 ליטר': 7.28, 'חלב 1% 1 ליטר': 7.28, 'חלב דל שומן 1 ליטר': 7.28,
-            'חלב 3% 0.5 ליטר': 4.90, 'חלב 1% 0.5 ליטר': 4.90,
+            // חלב - מחירים מפוקחים (פיקוח ממשלתי)
+            'חלב 3%': 5.90, 'חלב 1%': 5.90, 'חלב דל שומן': 5.90, 'חלב תנובה': 5.90, 'חלב': 5.90,
+            'חלב תנובה 3%': 5.90, 'חלב תנובה 3% 1 ליטר': 5.90, 'חלב תנובה 1%': 5.90,
+            'חלב 3% 1 ליטר': 5.90, 'חלב 1% 1 ליטר': 5.90, 'חלב דל שומן 1 ליטר': 5.90,
+            'חלב 3% 0.5 ליטר': 3.50, 'חלב 1% 0.5 ליטר': 3.50,
             'חלב סויה': 12.90, 'חלב שקדים': 14.90,
             'חלב סויה 1 ליטר': 12.90, 'חלב שקדים 1 ליטר': 14.90, 'חלב קוקוס 1 ליטר': 14.90, 'חלב שיבולת שועל 1 ליטר': 13.90,
             'חלב קוקוס': 14.90, 'חלב שיבולת שועל': 13.90,
@@ -7964,25 +7965,37 @@
                 const pDesc = promoDescription.toLowerCase();
 
                 // Category-specific validation to prevent mismatches
-                const snackKeywords = ['במבה', 'ביסלי', 'חטיף', 'אפרופו', 'צ\'יפס', 'שוקולד', 'ממתק', 'גומי'];
-                const dairyKeywords = ['חלב', 'יוגורט', 'גבינה', 'קוטג', 'שמנת', 'לבן'];
-                const babyKeywords = ['מטרנה', 'סימילאק', 'נוטרילון', 'תינוק', 'פורמולה', 'תחליף חלב'];
+                const snackKeywords = ['במבה', 'ביסלי', 'חטיף', 'חטיפים', 'אפרופו', 'צ\'יפס', 'שוקולד', 'ממתק', 'גומי', 'מלוח', 'מלוחים', 'מוצרים מלוחים', 'קרקר', 'פריכיות', 'נשנוש', 'אוסם', 'שטראוס חטיפים'];
+                const dairyKeywords = ['חלב', 'יוגורט', 'גבינה', 'קוטג', 'שמנת', 'לבן', 'תנובה', 'טרה', 'שטראוס מחלבות'];
+                const babyKeywords = ['מטרנה', 'סימילאק', 'נוטרילון', 'תינוק', 'פורמולה', 'תחליף חלב', 'מזון תינוקות'];
+                const meatKeywords = ['בשר', 'עוף', 'הודו', 'נקניק', 'פסטרמה', 'שניצל', 'קבב', 'המבורגר'];
+                const cleaningKeywords = ['ניקיון', 'כביסה', 'סבון', 'אקונומיקה', 'מרכך'];
 
-                // If product is dairy (milk), don't show snack promos
+                // If product is dairy (milk), only show dairy-related promos
                 if (dairyKeywords.some(k => pName.includes(k)) && !babyKeywords.some(k => pName.includes(k))) {
+                    // Block snacks, meat, and cleaning promos for dairy products
                     if (snackKeywords.some(k => pDesc.includes(k))) return false;
+                    if (meatKeywords.some(k => pDesc.includes(k)) && !dairyKeywords.some(k => pDesc.includes(k))) return false;
+                    if (cleaningKeywords.some(k => pDesc.includes(k))) return false;
                 }
 
                 // If product is baby formula, only show baby-related promos
                 if (babyKeywords.some(k => pName.includes(k))) {
-                    // Baby formula should only match baby/formula promos
                     const isBabyPromo = babyKeywords.some(k => pDesc.includes(k)) || pDesc.includes('תינוק');
-                    if (!isBabyPromo && dairyKeywords.some(k => pDesc.includes(k))) return false;
+                    if (!isBabyPromo) return false; // Baby formula only shows baby promos
                 }
 
-                // If product is snack, don't show dairy promos (unless it mentions the snack)
+                // If product is snack, don't show dairy/meat promos
                 if (snackKeywords.some(k => pName.includes(k))) {
                     if (dairyKeywords.some(k => pDesc.includes(k)) && !snackKeywords.some(k => pDesc.includes(k))) return false;
+                    if (meatKeywords.some(k => pDesc.includes(k))) return false;
+                }
+
+                // If product is meat, don't show dairy/snack/cleaning promos
+                if (meatKeywords.some(k => pName.includes(k))) {
+                    if (dairyKeywords.some(k => pDesc.includes(k))) return false;
+                    if (snackKeywords.some(k => pDesc.includes(k))) return false;
+                    if (cleaningKeywords.some(k => pDesc.includes(k))) return false;
                 }
 
                 return true;
