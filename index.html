@@ -12844,14 +12844,14 @@ END:VCALENDAR`;
                         </div>
                     )}
 
-                    {/* Sticky Accessibility Button */}
+                    {/* Sticky Accessibility Button - Top Left, Subtle */}
                     <button
                         onClick={() => setShowAccessibility(true)}
-                        className="fixed left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-blue-500 text-white shadow-lg hover:bg-blue-600 hover:scale-110 transition-all z-50 flex items-center justify-center"
+                        className="fixed left-4 top-20 w-10 h-10 rounded-full bg-gray-200/60 dark:bg-gray-700/60 text-gray-500 dark:text-gray-400 shadow-sm hover:bg-gray-300/80 dark:hover:bg-gray-600/80 hover:text-gray-700 dark:hover:text-gray-200 hover:scale-110 transition-all z-50 flex items-center justify-center backdrop-blur-sm border border-gray-300/30 dark:border-gray-600/30"
                         title={t('accessibility')}
                         aria-label={t('accessibility')}
                     >
-                        <span className="text-xl">♿</span>
+                        <span className="text-lg opacity-70">♿</span>
                     </button>
                     </main>
                 </div>
