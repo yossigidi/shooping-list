@@ -7438,66 +7438,94 @@
             };
 
             // Sample promotions data (fallback when API unavailable)
+            // includes product keywords for matching
             const SAMPLE_PROMOTIONS = {
                 success: true,
-                total: 15,
+                total: 30,
                 byChain: [
                     {
                         chain_id: 1, chain_name: 'Shufersal', chain_name_he: 'שופרסל',
                         promo_url: CHAIN_PROMO_URLS[1],
                         promotions: [
-                            { description: 'חלב תנובה 3% - 2 ב-12.90₪', end_date: '2026-02-28' },
-                            { description: 'קורנפלקס קלוגס - 1+1 מתנה', end_date: '2026-02-20' },
-                            { description: 'שמן זית רביעיה 750 מ"ל - 29.90₪', end_date: '2026-02-25' },
-                            { description: 'גבינה צהובה עמק - 20% הנחה', end_date: '2026-02-22' }
+                            { description: 'חלב תנובה 3% - 2 ב-12.90₪', end_date: '2026-02-28', keywords: ['חלב', 'חלב תנובה'] },
+                            { description: 'קורנפלקס קלוגס - 1+1 מתנה', end_date: '2026-02-20', keywords: ['קורנפלקס', 'קלוגס'] },
+                            { description: 'שמן זית רביעיה 750 מ"ל - 29.90₪', end_date: '2026-02-25', keywords: ['שמן זית'] },
+                            { description: 'גבינה צהובה עמק - 20% הנחה', end_date: '2026-02-22', keywords: ['גבינה צהובה', 'עמק'] },
+                            { description: 'יוגורט דנונה - 4 ב-10₪', end_date: '2026-02-28', keywords: ['יוגורט', 'דנונה'] },
+                            { description: 'קוטג\' 5% תנובה - 5.90₪', end_date: '2026-02-25', keywords: ['קוטג', 'קוטג\''] }
                         ]
                     },
                     {
                         chain_id: 2, chain_name: 'Rami Levy', chain_name_he: 'רמי לוי',
                         promo_url: CHAIN_PROMO_URLS[2],
                         promotions: [
-                            { description: 'עוף שלם טרי - 19.90₪ לק"ג', end_date: '2026-02-15' },
-                            { description: 'קוקה קולה 6 פחיות - 24.90₪', end_date: '2026-02-28' },
-                            { description: 'ביצים L - תריס ב-21.90₪', end_date: '2026-02-18' },
-                            { description: 'פסטה ברילה - 3 ב-20₪', end_date: '2026-02-25' }
+                            { description: 'עוף שלם טרי - 19.90₪ לק"ג', end_date: '2026-02-15', keywords: ['עוף', 'עוף שלם'] },
+                            { description: 'קוקה קולה 6 פחיות - 24.90₪', end_date: '2026-02-28', keywords: ['קולה', 'קוקה קולה', 'משקה'] },
+                            { description: 'ביצים L - תריס ב-21.90₪', end_date: '2026-02-18', keywords: ['ביצים', 'ביצה'] },
+                            { description: 'פסטה ברילה - 3 ב-20₪', end_date: '2026-02-25', keywords: ['פסטה', 'ספגטי'] },
+                            { description: 'חזה עוף - 29.90₪ לק"ג', end_date: '2026-02-20', keywords: ['חזה עוף'] },
+                            { description: 'בננות - 4.90₪ לק"ג', end_date: '2026-02-28', keywords: ['בננה', 'בננות'] }
                         ]
                     },
                     {
                         chain_id: 3, chain_name: 'Yeinot Bitan', chain_name_he: 'יינות ביתן',
                         promo_url: CHAIN_PROMO_URLS[3],
                         promotions: [
-                            { description: 'יין אדום יקבי כרמל - 29.90₪', end_date: '2026-02-28' },
-                            { description: 'גבינות איטלקיות - 30% הנחה', end_date: '2026-02-20' },
-                            { description: 'לחם אחיד - 2 ב-10₪', end_date: '2026-02-15' }
+                            { description: 'יין אדום יקבי כרמל - 29.90₪', end_date: '2026-02-28', keywords: ['יין', 'יין אדום'] },
+                            { description: 'גבינות איטלקיות - 30% הנחה', end_date: '2026-02-20', keywords: ['גבינה', 'מוצרלה', 'פרמזן'] },
+                            { description: 'לחם אחיד - 2 ב-10₪', end_date: '2026-02-15', keywords: ['לחם'] },
+                            { description: 'שוקולד פרה - 3 ב-15₪', end_date: '2026-02-25', keywords: ['שוקולד', 'פרה'] },
+                            { description: 'מים מינרלים - 6 ב-12₪', end_date: '2026-02-28', keywords: ['מים', 'מים מינרלים'] }
                         ]
                     },
                     {
                         chain_id: 4, chain_name: 'Victory', chain_name_he: 'ויקטורי',
                         promo_url: CHAIN_PROMO_URLS[4],
                         promotions: [
-                            { description: 'מוצרי חלב שטראוס - קנה 3 שלם 2', end_date: '2026-02-22' },
-                            { description: 'שימורי טונה - 4 ב-25₪', end_date: '2026-02-28' }
+                            { description: 'מוצרי חלב שטראוס - קנה 3 שלם 2', end_date: '2026-02-22', keywords: ['חלב', 'שטראוס', 'יוגורט'] },
+                            { description: 'שימורי טונה - 4 ב-25₪', end_date: '2026-02-28', keywords: ['טונה'] },
+                            { description: 'במבה אסם - 3 ב-10₪', end_date: '2026-02-20', keywords: ['במבה', 'חטיף'] },
+                            { description: 'אורז תבואות - 2 ב-15₪', end_date: '2026-02-25', keywords: ['אורז'] }
                         ]
                     },
                     {
                         chain_id: 5, chain_name: 'Hatzi Hinam', chain_name_he: 'חצי חינם',
                         promo_url: CHAIN_PROMO_URLS[5],
                         promotions: [
-                            { description: 'כל מוצרי הניקיון - 1+1', end_date: '2026-02-20' },
-                            { description: 'פירות וירקות טריים - 50% הנחה על השני', end_date: '2026-02-15' }
+                            { description: 'כל מוצרי הניקיון - 1+1', end_date: '2026-02-20', keywords: ['נייר טואלט', 'אקונומיקה', 'סבון'] },
+                            { description: 'פירות וירקות טריים - 50% הנחה על השני', end_date: '2026-02-15', keywords: ['תפוח', 'עגבניה', 'מלפפון', 'גזר'] },
+                            { description: 'חומוס צבר - 5.90₪', end_date: '2026-02-28', keywords: ['חומוס'] },
+                            { description: 'גבינה בולגרית - 9.90₪', end_date: '2026-02-25', keywords: ['גבינה בולגרית'] }
                         ]
                     },
                     {
                         chain_id: 6, chain_name: 'Carrefour', chain_name_he: 'קארפור',
                         promo_url: CHAIN_PROMO_URLS[6],
                         promotions: [
-                            { description: 'מוצרי חלב טרה - 25% הנחה', end_date: '2026-02-25' },
-                            { description: 'פסטה ברילה 500 גרם - 2 ב-15₪', end_date: '2026-02-28' },
-                            { description: 'קפה עלית - 1+1 מתנה', end_date: '2026-02-20' }
+                            { description: 'מוצרי חלב טרה - 25% הנחה', end_date: '2026-02-25', keywords: ['חלב', 'טרה', 'יוגורט'] },
+                            { description: 'פסטה ברילה 500 גרם - 2 ב-15₪', end_date: '2026-02-28', keywords: ['פסטה'] },
+                            { description: 'קפה עלית - 1+1 מתנה', end_date: '2026-02-20', keywords: ['קפה', 'עלית', 'נס קפה'] },
+                            { description: 'שמנת מתוקה - 5.90₪', end_date: '2026-02-22', keywords: ['שמנת'] },
+                            { description: 'חמאה תנובה - 6.90₪', end_date: '2026-02-28', keywords: ['חמאה'] }
                         ]
                     }
-                ]
+                ],
+                // Flat list for product matching
+                promotions: []
             };
+
+            // Build flat promotions list for product matching
+            SAMPLE_PROMOTIONS.byChain.forEach(chain => {
+                chain.promotions.forEach(promo => {
+                    SAMPLE_PROMOTIONS.promotions.push({
+                        chain_id: chain.chain_id,
+                        chain_name: chain.chain_name_he,
+                        description: promo.description,
+                        end_date: promo.end_date,
+                        keywords: promo.keywords || []
+                    });
+                });
+            });
 
             // Fetch promotions
             const fetchPromotions = async () => {
@@ -7535,15 +7563,47 @@
 
             // Check if item has promotions
             const getItemPromotions = (itemName) => {
-                if (!productPromotions || !itemName) return [];
+                if (!itemName) return [];
                 const nameLower = itemName.toLowerCase();
                 const matches = [];
-                Object.keys(productPromotions).forEach(productName => {
-                    if (productName.toLowerCase().includes(nameLower) || nameLower.includes(productName.toLowerCase())) {
-                        matches.push(...productPromotions[productName]);
+
+                // Check from API data first
+                if (productPromotions && Object.keys(productPromotions).length > 0) {
+                    Object.keys(productPromotions).forEach(productName => {
+                        if (productName.toLowerCase().includes(nameLower) || nameLower.includes(productName.toLowerCase())) {
+                            matches.push(...productPromotions[productName]);
+                        }
+                    });
+                }
+
+                // Also check from SAMPLE_PROMOTIONS keywords
+                if (matches.length === 0 && SAMPLE_PROMOTIONS.promotions) {
+                    SAMPLE_PROMOTIONS.promotions.forEach(promo => {
+                        const keywordMatch = (promo.keywords || []).some(kw =>
+                            nameLower.includes(kw.toLowerCase()) || kw.toLowerCase().includes(nameLower)
+                        );
+                        if (keywordMatch) {
+                            matches.push({
+                                chain: promo.chain_name,
+                                chain_id: promo.chain_id,
+                                description: promo.description,
+                                end_date: promo.end_date
+                            });
+                        }
+                    });
+                }
+
+                // Remove duplicates by chain
+                const uniqueByChain = [];
+                const seenChains = new Set();
+                matches.forEach(m => {
+                    if (!seenChains.has(m.chain)) {
+                        seenChains.add(m.chain);
+                        uniqueByChain.push(m);
                     }
                 });
-                return matches;
+
+                return uniqueByChain;
             };
 
             // Get color for chain
@@ -11806,21 +11866,44 @@ END:VCALENDAR`;
                                     {/* Products Grid */}
                                     <div className="p-4">
                                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                                            {PRODUCTS[selectedCategory]?.map((product, idx) => (
+                                            {PRODUCTS[selectedCategory]?.map((product, idx) => {
+                                                const promos = getItemPromotions(product);
+                                                const hasPromo = promos.length > 0;
+                                                return (
                                                 <button key={idx} onClick={() => addProduct(product)}
-                                                    className="group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right"
+                                                    className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${hasPromo ? 'border-orange-300 dark:border-orange-600 ring-1 ring-orange-200 dark:ring-orange-700' : 'border-gray-100 dark:border-gray-700'} hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right`}
                                                     style={{animationDelay: `${idx * 30}ms`}}
                                                 >
+                                                {/* Promotion Badge */}
+                                                {hasPromo && (
+                                                    <div className="absolute -top-2 -right-2 z-10">
+                                                        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg animate-pulse">
+                                                            🏷️ מבצע!
+                                                        </div>
+                                                    </div>
+                                                )}
                                                 <div className="flex items-center justify-between gap-2">
-                                                    <div className="w-8 h-8 rounded-full bg-gray-50 dark:bg-gray-700 flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200">
-                                                        <svg className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                    <div className={`w-8 h-8 rounded-full ${hasPromo ? 'bg-orange-100 dark:bg-orange-900' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200`}>
+                                                        <svg className={`w-4 h-4 ${hasPromo ? 'text-orange-500' : 'text-gray-400'} group-hover:text-white transition-colors`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                                                         </svg>
                                                     </div>
                                                     <span className="flex-1 font-semibold text-gray-700 dark:text-gray-200 text-sm leading-tight">{getProductTranslation(product, language)}</span>
                                                 </div>
+                                                {/* Show promotion details on hover/tap */}
+                                                {hasPromo && (
+                                                    <div className="mt-2 pt-2 border-t border-orange-200 dark:border-orange-800">
+                                                        <div className="text-xs text-orange-600 dark:text-orange-400 truncate">
+                                                            {promos[0].description}
+                                                        </div>
+                                                        <div className="text-xs text-gray-400 mt-0.5">
+                                                            ב{promos[0].chain} {promos.length > 1 ? `+${promos.length - 1} רשתות` : ''}
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </button>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             </div>
