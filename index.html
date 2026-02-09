@@ -4418,7 +4418,7 @@
 
             // Also check partial matches in PRODUCT_PRICES - if found there, it's a packaged item
             for (const product of Object.keys(PRODUCT_PRICES)) {
-                if (productName === product || productName.includes(product) && product.length > 5) {
+                if (productName === product || (productName.includes(product) && product.length > 5)) {
                     return null; // Found in packaged products
                 }
             }
