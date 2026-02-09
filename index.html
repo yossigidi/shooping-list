@@ -11816,6 +11816,226 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
+                            <div className="grid grid-cols-4 gap-2">
+                                <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : alert(t('markPurchased'))}
+                                    className="relative overflow-hidden bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/30 dark:to-green-900/30 p-3 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50 card-hover group">
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                                    <div className="text-2xl mb-1">✅</div>
+                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('finishShopping')}</div>
+                                </button>
+                                <button onClick={() => setShowHistory(true)}
+                                    className="relative overflow-hidden bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-3 rounded-xl border border-purple-200/50 dark:border-purple-700/50 card-hover group">
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                                    <div className="text-2xl mb-1">📊</div>
+                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('history')}</div>
+                                </button>
+                                <button onClick={() => setShowCalendar(true)}
+                                    className="relative overflow-hidden bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/30 dark:to-purple-900/30 p-3 rounded-xl border border-violet-200/50 dark:border-violet-700/50 card-hover group">
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                                    <div className="text-2xl mb-1">📅</div>
+                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('calendar')}</div>
+                                </button>
+                                <button onClick={() => setShowChat(true)}
+                                    className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 p-3 rounded-xl border border-blue-200/50 dark:border-blue-700/50 card-hover group">
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                                    <div className="text-2xl mb-1 relative">
+                                        💬
+                                        {chatMessages.some(msg => msg.senderUid !== user.uid && (!msg.readBy || !msg.readBy.includes(user.uid))) && (
+                                            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+                                        )}
+                                    </div>
+                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('familyChat')}</div>
+                                </button>
+                            </div>
+
+                            {/* AI Assistant Button */}
+                            <div className="mt-3">
+                                <button
+                                    onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
+                                    className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                >
+                                    <span className="text-2xl">🤖</span>
+                                    <span>עוזר קניות חכם</span>
+                                    <span className="text-lg">✨</span>
+                                </button>
+                            </div>
+
+                            <div className="mt-3">
+                                <button onClick={() => setShowForgottenStats(true)}
+                                    className="w-full bg-gradient-to-r from-rose-400 to-pink-500 text-white px-4 py-3 rounded-lg hover:from-rose-500 hover:to-pink-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
+                                    <span>🧠</span>
+                                    <span>{t('whatForgot')}</span>
+                                    {shoppingStreak > 0 && (
+                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">🔥 {shoppingStreak}</span>
+                                    )}
+                                </button>
+                            </div>
+
+                            {/* Add Regulars Button */}
+                            {regularItems.length > 0 && (
+                                <div className="mt-3">
+                                    <button onClick={() => setShowRegulars(true)}
+                                        className="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-3 rounded-lg hover:from-amber-500 hover:to-orange-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
+                                        <span>⭐</span>
+                                        <span>הוסף את הקבועים שלי</span>
+                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{regularItems.length}</span>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        {searchTerm && (
+                            <div className="glass rounded-2xl shadow-xl p-6 mb-6 card-hover">
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-xl font-bold dark:text-white flex items-center gap-2">
+                                        <span className="text-2xl">🔍</span>
+                                        <span className="text-gradient">תוצאות חיפוש</span>
+                                    </h2>
+                                    <button onClick={() => setSearchTerm('')} className="btn-gradient text-white text-sm px-4 py-2 rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all">נקה חיפוש ✕</button>
+                                </div>
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                    {Object.entries(PRODUCTS).flatMap(([category, products]) =>
+                                        products
+                                            .filter(product => product.includes(searchTerm))
+                                            .map((product, idx) => (
+                                                <button key={`${category}-${idx}`} onClick={() => { addProduct(product); setSelectedCategory(category); }}
+                                                    className="group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right"
+                                                >
+                                                    <div className="flex items-start gap-3">
+                                                        <div className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                                            {CATEGORIES[category]?.icon}
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="font-semibold text-gray-700 dark:text-gray-200 text-sm leading-tight mb-1">{getProductTranslation(product, language)}</div>
+                                                            <div className="text-xs text-gray-400 dark:text-gray-500">{getCategoryName(category)}</div>
+                                                        </div>
+                                                        <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-indigo-500 transition-all duration-200">
+                                                            <svg className="w-3.5 h-3.5 text-gray-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                            ))
+                                    )}
+                                </div>
+                                {Object.entries(PRODUCTS).flatMap(([_, products]) => products.filter(p => p.includes(searchTerm))).length === 0 && (
+                                    <div className="text-center py-8">
+                                        <div className="text-6xl mb-4">🔍</div>
+                                        <p className="text-gray-500 dark:text-gray-400 text-lg">{t('noProductsFound')} "<span className="font-bold">{searchTerm}</span>"</p>
+                                        <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">{t('tryAnotherSearch')}</p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {!selectedCategory && !searchTerm ? (
+                            <div className="glass rounded-2xl shadow-xl p-6 mb-6">
+                                <h2 className="text-2xl font-bold text-center mb-2 dark:text-white flex items-center justify-center gap-2">
+                                    <span className="text-3xl">🏷️</span>
+                                    <span className="text-gradient">{t('selectCategory')}</span>
+                                </h2>
+                                <p className="text-center text-gray-500 dark:text-gray-400 text-sm mb-6">{t('addItemsHint')}</p>
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                    {Object.entries(CATEGORIES).map(([key, cat]) => {
+                                        const count = items.filter(item => item.category === key && !item.purchased).length;
+                                        return (
+                                            <button
+                                                key={key}
+                                                onClick={() => { setSelectedCategory(key); setTimeout(() => { const el = document.getElementById('products-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }}
+                                                className="group relative bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-xl hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200"
+                                            >
+                                                <div className="flex flex-col items-center text-center">
+                                                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 group-hover:shadow-lg transition-all duration-200">
+                                                        {cat.icon}
+                                                    </div>
+                                                    <div className="text-sm font-semibold text-gray-700 dark:text-gray-200">{getCategoryName(key)}</div>
+                                                </div>
+                                                {count > 0 && (
+                                                    <div className="absolute -top-1 -left-1 bg-indigo-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-md">
+                                                        {count}
+                                                    </div>
+                                                )}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        ) : selectedCategory && !searchTerm && (
+                            <>
+                                {/* Fixed Buttons at Bottom - Back + Price Compare */}
+                                <div className="fixed bottom-28 left-4 right-4 z-40 flex justify-center gap-3 pointer-events-none" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+                                    <button onClick={() => setSelectedCategory(null)}
+                                        className="pointer-events-auto btn-gradient text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
+                                        <span>←</span>
+                                        <span>{t('backToCategories')}</span>
+                                    </button>
+                                    {items.filter(i => !i.purchased).length > 0 && (
+                                        <button onClick={compareFullShoppingList}
+                                            className="pointer-events-auto bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
+                                            <span>📊</span>
+                                            <span>השווה מחירים</span>
+                                            <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
+                                        </button>
+                                    )}
+                                </div>
+
+                                <div id="products-section" className="glass rounded-2xl shadow-xl mb-6 overflow-visible">
+                                    {/* Category Header - Sticky */}
+                                    <div className="sticky top-0 z-30 p-4 border-b border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md rounded-t-2xl">
+                                        <h2 className="text-xl font-bold flex items-center justify-center gap-2 dark:text-white">
+                                            <span className="text-3xl">{CATEGORIES[selectedCategory].icon}</span>
+                                            <span className="text-gradient">{t(CATEGORY_TO_TRANSLATION[selectedCategory]) || getCategoryName(selectedCategory)}</span>
+                                        </h2>
+                                    </div>
+
+                                    {/* Products Grid */}
+                                    <div className="p-4">
+                                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                            {PRODUCTS[selectedCategory]?.map((product, idx) => {
+                                                const promos = getItemPromotions(product);
+                                                const hasPromo = promos.length > 0;
+                                                return (
+                                                <button key={idx} onClick={() => addProduct(product)}
+                                                    className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${hasPromo ? 'border-orange-300 dark:border-orange-600 ring-1 ring-orange-200 dark:ring-orange-700' : 'border-gray-100 dark:border-gray-700'} hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right`}
+                                                    style={{animationDelay: `${idx * 30}ms`}}
+                                                >
+                                                {/* Promotion Badge */}
+                                                {hasPromo && (
+                                                    <div className="absolute -top-2 -right-2 z-10">
+                                                        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg animate-pulse">
+                                                            🏷️ מבצע!
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <div className="flex items-center justify-between gap-2">
+                                                    <div className={`w-8 h-8 rounded-full ${hasPromo ? 'bg-orange-100 dark:bg-orange-900' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200`}>
+                                                        <svg className={`w-4 h-4 ${hasPromo ? 'text-orange-500' : 'text-gray-400'} group-hover:text-white transition-colors`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                                                        </svg>
+                                                    </div>
+                                                    <span className="flex-1 font-semibold text-gray-700 dark:text-gray-200 text-sm leading-tight">{getProductTranslation(product, language)}</span>
+                                                </div>
+                                                {/* Show promotion details on hover/tap */}
+                                                {hasPromo && (
+                                                    <div className="mt-2 pt-2 border-t border-orange-200 dark:border-orange-800">
+                                                        <div className="text-xs text-orange-600 dark:text-orange-400 truncate">
+                                                            {promos[0].description}
+                                                        </div>
+                                                        <div className="text-xs text-gray-400 mt-0.5">
+                                                            ב{promos[0].chain} {promos.length > 1 ? `+${promos.length - 1} רשתות` : ''}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                            </>
+                        )}
+
                         {filteredItems.length > 0 && (
                             <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-6 mb-6">
                                 <h2 className="text-2xl font-bold mb-4 dark:text-white flex items-center gap-3">
@@ -12123,226 +12343,6 @@ END:VCALENDAR`;
                                 <p className="text-2xl text-gradient font-bold mb-2">{t('emptyList')}</p>
                                 <p className="text-gray-500 dark:text-gray-400 mt-2">{t('addProductsBelow')}</p>
                             </div>
-                        )}
-
-                            <div className="grid grid-cols-4 gap-2">
-                                <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : alert(t('markPurchased'))}
-                                    className="relative overflow-hidden bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/30 dark:to-green-900/30 p-3 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50 card-hover group">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1">✅</div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('finishShopping')}</div>
-                                </button>
-                                <button onClick={() => setShowHistory(true)}
-                                    className="relative overflow-hidden bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-3 rounded-xl border border-purple-200/50 dark:border-purple-700/50 card-hover group">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1">📊</div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('history')}</div>
-                                </button>
-                                <button onClick={() => setShowCalendar(true)}
-                                    className="relative overflow-hidden bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/30 dark:to-purple-900/30 p-3 rounded-xl border border-violet-200/50 dark:border-violet-700/50 card-hover group">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1">📅</div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('calendar')}</div>
-                                </button>
-                                <button onClick={() => setShowChat(true)}
-                                    className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 p-3 rounded-xl border border-blue-200/50 dark:border-blue-700/50 card-hover group">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1 relative">
-                                        💬
-                                        {chatMessages.some(msg => msg.senderUid !== user.uid && (!msg.readBy || !msg.readBy.includes(user.uid))) && (
-                                            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
-                                        )}
-                                    </div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('familyChat')}</div>
-                                </button>
-                            </div>
-
-                            {/* AI Assistant Button */}
-                            <div className="mt-3">
-                                <button
-                                    onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
-                                    className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
-                                >
-                                    <span className="text-2xl">🤖</span>
-                                    <span>עוזר קניות חכם</span>
-                                    <span className="text-lg">✨</span>
-                                </button>
-                            </div>
-
-                            <div className="mt-3">
-                                <button onClick={() => setShowForgottenStats(true)}
-                                    className="w-full bg-gradient-to-r from-rose-400 to-pink-500 text-white px-4 py-3 rounded-lg hover:from-rose-500 hover:to-pink-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
-                                    <span>🧠</span>
-                                    <span>{t('whatForgot')}</span>
-                                    {shoppingStreak > 0 && (
-                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">🔥 {shoppingStreak}</span>
-                                    )}
-                                </button>
-                            </div>
-
-                            {/* Add Regulars Button */}
-                            {regularItems.length > 0 && (
-                                <div className="mt-3">
-                                    <button onClick={() => setShowRegulars(true)}
-                                        className="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-3 rounded-lg hover:from-amber-500 hover:to-orange-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
-                                        <span>⭐</span>
-                                        <span>הוסף את הקבועים שלי</span>
-                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{regularItems.length}</span>
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-
-                        {searchTerm && (
-                            <div className="glass rounded-2xl shadow-xl p-6 mb-6 card-hover">
-                                <div className="flex justify-between items-center mb-4">
-                                    <h2 className="text-xl font-bold dark:text-white flex items-center gap-2">
-                                        <span className="text-2xl">🔍</span>
-                                        <span className="text-gradient">תוצאות חיפוש</span>
-                                    </h2>
-                                    <button onClick={() => setSearchTerm('')} className="btn-gradient text-white text-sm px-4 py-2 rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all">נקה חיפוש ✕</button>
-                                </div>
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                                    {Object.entries(PRODUCTS).flatMap(([category, products]) =>
-                                        products
-                                            .filter(product => product.includes(searchTerm))
-                                            .map((product, idx) => (
-                                                <button key={`${category}-${idx}`} onClick={() => { addProduct(product); setSelectedCategory(category); }}
-                                                    className="group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right"
-                                                >
-                                                    <div className="flex items-start gap-3">
-                                                        <div className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                                                            {CATEGORIES[category]?.icon}
-                                                        </div>
-                                                        <div className="flex-1 min-w-0">
-                                                            <div className="font-semibold text-gray-700 dark:text-gray-200 text-sm leading-tight mb-1">{getProductTranslation(product, language)}</div>
-                                                            <div className="text-xs text-gray-400 dark:text-gray-500">{getCategoryName(category)}</div>
-                                                        </div>
-                                                        <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-indigo-500 transition-all duration-200">
-                                                            <svg className="w-3.5 h-3.5 text-gray-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </button>
-                                            ))
-                                    )}
-                                </div>
-                                {Object.entries(PRODUCTS).flatMap(([_, products]) => products.filter(p => p.includes(searchTerm))).length === 0 && (
-                                    <div className="text-center py-8">
-                                        <div className="text-6xl mb-4">🔍</div>
-                                        <p className="text-gray-500 dark:text-gray-400 text-lg">{t('noProductsFound')} "<span className="font-bold">{searchTerm}</span>"</p>
-                                        <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">{t('tryAnotherSearch')}</p>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
-                        {!selectedCategory && !searchTerm ? (
-                            <div className="glass rounded-2xl shadow-xl p-6 mb-6">
-                                <h2 className="text-2xl font-bold text-center mb-2 dark:text-white flex items-center justify-center gap-2">
-                                    <span className="text-3xl">🏷️</span>
-                                    <span className="text-gradient">{t('selectCategory')}</span>
-                                </h2>
-                                <p className="text-center text-gray-500 dark:text-gray-400 text-sm mb-6">{t('addItemsHint')}</p>
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                                    {Object.entries(CATEGORIES).map(([key, cat]) => {
-                                        const count = items.filter(item => item.category === key && !item.purchased).length;
-                                        return (
-                                            <button
-                                                key={key}
-                                                onClick={() => { setSelectedCategory(key); setTimeout(() => { const el = document.getElementById('products-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }}
-                                                className="group relative bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-xl hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200"
-                                            >
-                                                <div className="flex flex-col items-center text-center">
-                                                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 group-hover:shadow-lg transition-all duration-200">
-                                                        {cat.icon}
-                                                    </div>
-                                                    <div className="text-sm font-semibold text-gray-700 dark:text-gray-200">{getCategoryName(key)}</div>
-                                                </div>
-                                                {count > 0 && (
-                                                    <div className="absolute -top-1 -left-1 bg-indigo-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-md">
-                                                        {count}
-                                                    </div>
-                                                )}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        ) : selectedCategory && !searchTerm && (
-                            <>
-                                {/* Fixed Buttons at Bottom - Back + Price Compare */}
-                                <div className="fixed bottom-28 left-4 right-4 z-40 flex justify-center gap-3 pointer-events-none" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
-                                    <button onClick={() => setSelectedCategory(null)}
-                                        className="pointer-events-auto btn-gradient text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
-                                        <span>←</span>
-                                        <span>{t('backToCategories')}</span>
-                                    </button>
-                                    {items.filter(i => !i.purchased).length > 0 && (
-                                        <button onClick={compareFullShoppingList}
-                                            className="pointer-events-auto bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
-                                            <span>📊</span>
-                                            <span>השווה מחירים</span>
-                                            <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
-                                        </button>
-                                    )}
-                                </div>
-
-                                <div id="products-section" className="glass rounded-2xl shadow-xl mb-6 overflow-visible">
-                                    {/* Category Header - Sticky */}
-                                    <div className="sticky top-0 z-30 p-4 border-b border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md rounded-t-2xl">
-                                        <h2 className="text-xl font-bold flex items-center justify-center gap-2 dark:text-white">
-                                            <span className="text-3xl">{CATEGORIES[selectedCategory].icon}</span>
-                                            <span className="text-gradient">{t(CATEGORY_TO_TRANSLATION[selectedCategory]) || getCategoryName(selectedCategory)}</span>
-                                        </h2>
-                                    </div>
-
-                                    {/* Products Grid */}
-                                    <div className="p-4">
-                                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                                            {PRODUCTS[selectedCategory]?.map((product, idx) => {
-                                                const promos = getItemPromotions(product);
-                                                const hasPromo = promos.length > 0;
-                                                return (
-                                                <button key={idx} onClick={() => addProduct(product)}
-                                                    className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${hasPromo ? 'border-orange-300 dark:border-orange-600 ring-1 ring-orange-200 dark:ring-orange-700' : 'border-gray-100 dark:border-gray-700'} hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right`}
-                                                    style={{animationDelay: `${idx * 30}ms`}}
-                                                >
-                                                {/* Promotion Badge */}
-                                                {hasPromo && (
-                                                    <div className="absolute -top-2 -right-2 z-10">
-                                                        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-lg animate-pulse">
-                                                            🏷️ מבצע!
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                <div className="flex items-center justify-between gap-2">
-                                                    <div className={`w-8 h-8 rounded-full ${hasPromo ? 'bg-orange-100 dark:bg-orange-900' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200`}>
-                                                        <svg className={`w-4 h-4 ${hasPromo ? 'text-orange-500' : 'text-gray-400'} group-hover:text-white transition-colors`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                                                        </svg>
-                                                    </div>
-                                                    <span className="flex-1 font-semibold text-gray-700 dark:text-gray-200 text-sm leading-tight">{getProductTranslation(product, language)}</span>
-                                                </div>
-                                                {/* Show promotion details on hover/tap */}
-                                                {hasPromo && (
-                                                    <div className="mt-2 pt-2 border-t border-orange-200 dark:border-orange-800">
-                                                        <div className="text-xs text-orange-600 dark:text-orange-400 truncate">
-                                                            {promos[0].description}
-                                                        </div>
-                                                        <div className="text-xs text-gray-400 mt-0.5">
-                                                            ב{promos[0].chain} {promos.length > 1 ? `+${promos.length - 1} רשתות` : ''}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </button>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
-                            </>
                         )}
 
                         {/* Bottom spacing for sticky bar */}
