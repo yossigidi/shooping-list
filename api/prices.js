@@ -66,9 +66,10 @@ async function supabaseQuery(table, query = '', fetchAll = false) {
     }
 
     // Fetch all rows with pagination
+    // Supabase REST API has a max of 1000 rows per request
     let allRows = [];
     let offset = 0;
-    const batchSize = 20000;
+    const batchSize = 1000;
 
     while (true) {
         const separator = query.includes('?') ? '&' : '?';
@@ -257,8 +258,8 @@ module.exports = async (req, res) => {
                 return res.json({ success: true, chains });
 
             case 'products':
-                const products = await supabaseQuery('products');
-                return res.json({ success: true, products });
+                const products = await supabaseQuery('products', '', true);
+                return res.json({ success: true, products, total: products.length });
 
             case 'suggest':
                 // Return product suggestions based on search query with scoring
