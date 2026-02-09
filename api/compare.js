@@ -5,6 +5,34 @@
 // חצי חינם - זול בחטיפים ומשקאות | ויקטורי - זול בפירות ומאפים
 // יינות ביתן - זול ביינות ואלכוהול | קארפור - זול במוצרים מיובאים
 
+// Hebrew synonym dictionary for better product matching
+const HEBREW_SYNONYMS = {
+    'קולה': ['קוקה קולה', 'coca cola', 'קוקה'],
+    'קוקה קולה': ['קולה', 'קוקה'],
+    'פפסי': ['pepsi'],
+    'חלב': ['חלב טרי'],
+    'יוגורט': ['לבן'],
+    'גבינה צהובה': ['עמק', 'גאודה'],
+    'קוטג': ['קוטג\'', 'cottage'],
+    'מטרנה': ['materna'],
+    'סימילאק': ['similac'],
+    'נוטרילון': ['nutrilon'],
+    'חיתולים': ['חיתול', 'טיטולים'],
+};
+
+// Get all synonyms for a word
+function getSynonyms(word) {
+    const wordLower = word.toLowerCase();
+    const synonyms = [wordLower];
+    for (const [key, values] of Object.entries(HEBREW_SYNONYMS)) {
+        if (key.toLowerCase() === wordLower || values.some(v => v.toLowerCase() === wordLower)) {
+            synonyms.push(key.toLowerCase());
+            values.forEach(v => synonyms.push(v.toLowerCase()));
+        }
+    }
+    return [...new Set(synonyms)];
+}
+
 const PRICE_DATABASE = {
     // ===== חלב ומוצרי חלב (מחירים מפוקחים לקרטון) =====
     // חלב בקרטון - מחיר מפוקח 7.28 ש"ח

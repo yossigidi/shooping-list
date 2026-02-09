@@ -4,6 +4,80 @@
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
+// Hebrew synonym dictionary for better product matching
+const HEBREW_SYNONYMS = {
+    // משקאות
+    'קולה': ['קוקה קולה', 'קוקה-קולה', 'coca cola', 'coca-cola', 'קוקה'],
+    'קוקה קולה': ['קולה', 'קוקה-קולה', 'coca cola', 'קוקה'],
+    'פפסי': ['pepsi', 'פפסי קולה'],
+    'ספרייט': ['sprite', 'ספריט'],
+    'פנטה': ['fanta', 'פאנטה'],
+    'סודה': ['מים מוגזים', 'מוגזים'],
+    'מים': ['מים מינרלים', 'מינרלים'],
+
+    // חלב ומוצריו
+    'חלב': ['חלב טרי', 'חלב תנובה'],
+    'יוגורט': ['יוגורט טבעי', 'לבן'],
+    'גבינה צהובה': ['גבינה', 'עמק', 'גאודה', 'צהובה'],
+    'גבינה לבנה': ['גבינת שמנת', 'קוטג\'', 'קוטג'],
+    'קוטג': ['קוטג\'', 'גבינת קוטג', 'cottage'],
+
+    // לחם ומאפים
+    'לחם': ['לחם פרוס', 'לחם אחיד'],
+    'פיתה': ['פיתות', 'לחם פיתה'],
+    'חלה': ['חלות', 'לחם חלה'],
+    'באגט': ['לחם צרפתי', 'כיכר'],
+
+    // ירקות
+    'עגבניה': ['עגבניות', 'עגבנייה'],
+    'מלפפון': ['מלפפונים', 'מפפון'],
+    'גזר': ['גזרים'],
+    'בצל': ['בצלים'],
+    'תפוח אדמה': ['תפו"א', 'תפוא', 'תפוחי אדמה'],
+
+    // פירות
+    'תפוח': ['תפוחים', 'תפוח עץ'],
+    'בננה': ['בננות'],
+    'תפוז': ['תפוזים'],
+    'לימון': ['לימונים'],
+
+    // בשר
+    'עוף': ['חזה עוף', 'כרעיים', 'שוקיים'],
+    'בקר': ['בשר בקר', 'סטייק'],
+    'טחון': ['בשר טחון'],
+
+    // תינוקות - פורמולות
+    'מטרנה': ['materna', 'מטרנא'],
+    'סימילאק': ['similac', 'סימילק'],
+    'נוטרילון': ['nutrilon', 'נוטרילן'],
+    'חיתולים': ['חיתול', 'טיטולים', 'פמפרס', 'האגיס'],
+    'מגבונים': ['מגבוני', 'מגבון'],
+
+    // ניקיון
+    'סבון': ['סבון כלים', 'נוזל כלים', 'פיירי'],
+    'אקונומיקה': ['אקונומיקא', 'אקו'],
+    'נייר טואלט': ['טואלט', 'נייר שירותים'],
+};
+
+// Expand search terms with synonyms
+function expandWithSynonyms(searchTerm) {
+    const terms = [searchTerm.toLowerCase()];
+    const searchLower = searchTerm.toLowerCase();
+
+    // Check each synonym group
+    for (const [key, synonyms] of Object.entries(HEBREW_SYNONYMS)) {
+        const keyLower = key.toLowerCase();
+        // If search term matches the key or any synonym
+        if (searchLower.includes(keyLower) || synonyms.some(s => searchLower.includes(s.toLowerCase()))) {
+            // Add the key and all synonyms
+            terms.push(keyLower);
+            synonyms.forEach(s => terms.push(s.toLowerCase()));
+        }
+    }
+
+    return [...new Set(terms)]; // Remove duplicates
+}
+
 // Maximum reasonable prices by category (sanity check)
 const MAX_REASONABLE_PRICES = {
     'dairy': 50,
@@ -270,21 +344,36 @@ module.exports = async (req, res) => {
                 const allProducts = await supabaseQuery('products', '', true);
                 const queryWords = query.split(' ').filter(w => w.length > 1);
 
+                // Expand query with synonyms for better matching
+                const expandedTerms = expandWithSynonyms(query);
+
                 const scoredProducts = allProducts.map(p => {
                     const name = p.name.toLowerCase();
                     const nameWords = name.split(' ').filter(w => w.length > 1);
                     let score = 0;
 
-                    // Exact match
-                    if (name === query) score = 1000;
-                    // Name contains full query
-                    else if (name.includes(query)) score = 500;
-                    // Query contains full name
-                    else if (query.includes(name)) score = 400;
-                    else {
+                    // Check against original query and all synonyms
+                    for (const searchTerm of expandedTerms) {
+                        // Exact match - highest priority
+                        if (name === searchTerm) {
+                            score = Math.max(score, 1000);
+                        }
+                        // Name contains full search term
+                        else if (name.includes(searchTerm)) {
+                            score = Math.max(score, searchTerm === query ? 500 : 450);
+                        }
+                        // Search term contains full name
+                        else if (searchTerm.includes(name)) {
+                            score = Math.max(score, searchTerm === query ? 400 : 350);
+                        }
+                    }
+
+                    // If no direct match, try word-by-word
+                    if (score === 0) {
                         // Count exact word matches
                         let exactMatches = 0;
                         let startsWithMatches = 0;
+                        let synonymMatches = 0;
                         let matchedQueryWords = new Set();
 
                         for (const qw of queryWords) {
@@ -297,10 +386,16 @@ module.exports = async (req, res) => {
                                     matchedQueryWords.add(qw);
                                 }
                             }
+                            // Check synonym matches
+                            for (const synTerm of expandedTerms) {
+                                if (synTerm !== query && name.includes(synTerm)) {
+                                    synonymMatches++;
+                                }
+                            }
                         }
 
-                        // Score: exact matches are worth more
-                        score = (exactMatches * 100) + (startsWithMatches * 30);
+                        // Score: exact matches > synonyms > startsWith
+                        score = (exactMatches * 100) + (synonymMatches * 70) + (startsWithMatches * 30);
                         // Bonus for matching more query words
                         if (matchedQueryWords.size > 0) {
                             score *= (1 + matchedQueryWords.size / queryWords.length);
