@@ -47,6 +47,11 @@
         // Performance timing
         window.appLoadStart = performance.now();
 
+        // Production mode - disable console.log (keep error/warn for debugging)
+        if (window.location.hostname !== 'localhost' && !window.location.hostname.includes('127.0.0.1')) {
+            console.log = function() {};
+        }
+
         // Lazy load Tesseract.js only when scanning is initiated
         window.loadTesseract = function() {
             return new Promise((resolve, reject) => {
@@ -7477,6 +7482,16 @@
                 6: 'https://www.carrefour.co.il/specials'
             };
 
+            // Chain branch finder URLs (verified February 2026)
+            const CHAIN_BRANCH_URLS = {
+                1: 'https://www.shufersal.co.il/corp/%D7%90%D7%99%D7%AA%D7%95%D7%A8-%D7%A1%D7%A0%D7%99%D7%A4%D7%99%D7%9D',
+                2: 'https://www.rami-levy.co.il/he/stores',
+                3: 'https://brand.carrefour.co.il/branches',
+                4: 'https://victory.co.il/branches/',
+                5: 'https://shop.hazi-hinam.co.il/branches',
+                6: 'https://brand.carrefour.co.il/branches'
+            };
+
             // Sample promotions data (fallback when API unavailable)
             // includes product keywords for matching
             const SAMPLE_PROMOTIONS = {
@@ -10388,30 +10403,43 @@ END:VCALENDAR`;
                                                                 )}
                                                             </div>
                                                         </div>
-                                                        {/* Order Button */}
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                const chainUrls = {
-                                                                    'שופרסל': 'https://www.shufersal.co.il/online/he/',
-                                                                    'רמי לוי': 'https://www.rami-levy.co.il/he/online/',
-                                                                    'ויקטורי': 'https://www.victoryonline.co.il/',
-                                                                    'יינות ביתן': 'https://www.ybitan.co.il/',
-                                                                    'חצי חינם': 'https://shop.hazi-hinam.co.il/'
-                                                                };
-                                                                const chainName = chain.chain_name_he || chain.chain_name;
-                                                                window.open(chainUrls[chainName] || 'https://www.google.com/search?q=' + encodeURIComponent(chainName + ' קניות אונליין'), '_blank');
-                                                            }}
-                                                            className={`mt-3 w-full py-2.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] ${
-                                                                chain.is_cheapest
-                                                                    ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
-                                                                    : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
-                                                            }`}
-                                                        >
-                                                            <span>🛒</span>
-                                                            <span>הזמן מ{chain.chain_name_he || chain.chain_name}</span>
-                                                            <span>←</span>
-                                                        </button>
+                                                        {/* Action Buttons */}
+                                                        <div className="mt-3 flex gap-2">
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    const chainUrls = {
+                                                                        'שופרסל': 'https://www.shufersal.co.il/online/he/',
+                                                                        'רמי לוי': 'https://www.rami-levy.co.il/he/online/',
+                                                                        'ויקטורי': 'https://www.victoryonline.co.il/',
+                                                                        'יינות ביתן': 'https://www.ybitan.co.il/',
+                                                                        'חצי חינם': 'https://shop.hazi-hinam.co.il/',
+                                                                        'קארפור': 'https://www.carrefour.co.il/'
+                                                                    };
+                                                                    const chainName = chain.chain_name_he || chain.chain_name;
+                                                                    window.open(chainUrls[chainName] || 'https://www.google.com/search?q=' + encodeURIComponent(chainName + ' קניות אונליין'), '_blank');
+                                                                }}
+                                                                className={`flex-1 py-2.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] ${
+                                                                    chain.is_cheapest
+                                                                        ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
+                                                                        : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
+                                                                }`}
+                                                            >
+                                                                <span>🛒</span>
+                                                                <span>הזמן</span>
+                                                            </button>
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    const branchUrl = CHAIN_BRANCH_URLS[chain.chain_id];
+                                                                    if (branchUrl) window.open(branchUrl, '_blank');
+                                                                }}
+                                                                className="px-4 py-2.5 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1"
+                                                            >
+                                                                <span>📍</span>
+                                                                <span>סניפים</span>
+                                                            </button>
+                                                        </div>
                                                     </div>
 
                                                     {/* Expanded Product List */}
@@ -10660,17 +10688,29 @@ END:VCALENDAR`;
                                                         </div>
                                                     )}
                                                 </div>
-                                                {/* Link to chain's promotion page */}
-                                                {(chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id]) && (
-                                                    <a
-                                                        href={chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id]}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="block w-full p-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-center font-bold text-sm hover:from-orange-600 hover:to-red-600 transition-all"
-                                                    >
-                                                        🔗 לכל המבצעים באתר {chain.chain_name_he}
-                                                    </a>
-                                                )}
+                                                {/* Links to chain pages */}
+                                                <div className="flex gap-1">
+                                                    {(chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id]) && (
+                                                        <a
+                                                            href={chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id]}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="flex-1 p-2.5 bg-gradient-to-r from-orange-500 to-red-500 text-white text-center font-bold text-xs hover:from-orange-600 hover:to-red-600 transition-all"
+                                                        >
+                                                            🏷️ מבצעים
+                                                        </a>
+                                                    )}
+                                                    {CHAIN_BRANCH_URLS[chain.chain_id] && (
+                                                        <a
+                                                            href={CHAIN_BRANCH_URLS[chain.chain_id]}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="flex-1 p-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-center font-bold text-xs hover:from-blue-600 hover:to-indigo-600 transition-all"
+                                                        >
+                                                            📍 סניפים
+                                                        </a>
+                                                    )}
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
