@@ -1051,6 +1051,9 @@
                 helpAndFeedback: 'עזרה ומשוב',
                 showTutorial: 'הצג הדרכה',
                 logoutButton: 'התנתקות',
+                settings: 'הגדרות',
+                refreshApp: 'רענון האפליקציה',
+                shoppingModeTitle: 'מצב קניות',
                 total: 'סה"כ',
                 items: 'פריטים',
                 share: 'שתף',
@@ -1378,6 +1381,9 @@
                 helpAndFeedback: 'Help & Feedback',
                 showTutorial: 'Show Tutorial',
                 logoutButton: 'Logout',
+                settings: 'Settings',
+                refreshApp: 'Refresh App',
+                shoppingModeTitle: 'Shopping Mode',
                 total: 'Total',
                 items: 'items',
                 share: 'Share',
@@ -6499,6 +6505,7 @@
             const addBarInputRef = React.useRef(null);
             // Chat & Photo states
             const [showChat, setShowChat] = useState(false);
+            const [showSettings, setShowSettings] = useState(false);
             const [chatMessages, setChatMessages] = useState([]);
             const [chatInput, setChatInput] = useState('');
             const [showCamera, setShowCamera] = useState(false);
@@ -11579,48 +11586,77 @@ END:VCALENDAR`;
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <button
-                                        onClick={toggleShoppingMode}
-                                        className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg hover:scale-110 transition-all touch-target ${
-                                            shoppingMode
-                                                ? 'bg-green-500 text-white shadow-lg shadow-green-200 dark:shadow-green-900/50 animate-pulse'
-                                                : 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400'
-                                        }`}
-                                        title={shoppingMode ? t('shoppingModeActive') : t('enableShoppingMode')}
-                                        aria-label={shoppingMode ? t('shoppingModeActive') : t('enableShoppingMode')}
-                                        aria-pressed={shoppingMode}
-                                    >
-                                        <span aria-hidden="true">{shoppingMode ? '🛒' : '📱'}</span>
-                                    </button>
-                                    <button
                                         onClick={() => setShowChat(true)}
-                                        className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform relative touch-target"
+                                        className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-xl hover:scale-110 transition-transform relative touch-target"
                                         title={t('familyChat')}
                                         aria-label={chatMessages.some(msg => msg.senderUid !== user.uid && (!msg.readBy || !msg.readBy.includes(user.uid))) ? `${t('familyChat')} - ${t('newMessages')}` : t('familyChat')}
                                     >
                                         <span aria-hidden="true">💬</span>
                                         {chatMessages.some(msg => msg.senderUid !== user.uid && (!msg.readBy || !msg.readBy.includes(user.uid))) && (
                                             <>
-                                                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" aria-hidden="true"></span>
+                                                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse" aria-hidden="true"></span>
                                                 <span className="sr-only">{t('newMessages')}</span>
                                             </>
                                         )}
                                     </button>
-                                    <button
-                                        onClick={toggleDarkMode}
-                                        className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-lg hover:scale-110 transition-transform touch-target"
-                                        aria-label={darkMode ? t('lightMode') : t('darkMode')}
-                                        aria-pressed={darkMode}
-                                    >
-                                        <span aria-hidden="true">{darkMode ? '☀️' : '🌙'}</span>
-                                    </button>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-lg hover:scale-110 transition-transform text-red-600 dark:text-red-400 touch-target"
-                                        title={t('logout')}
-                                        aria-label={t('logout')}
-                                    >
-                                        <span aria-hidden="true">🚪</span>
-                                    </button>
+                                    <div className="relative">
+                                        <button
+                                            onClick={() => setShowSettings(!showSettings)}
+                                            className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xl hover:scale-110 transition-transform touch-target"
+                                            title={t('settings')}
+                                            aria-label={t('settings')}
+                                            aria-expanded={showSettings}
+                                        >
+                                            <span aria-hidden="true">⚙️</span>
+                                        </button>
+                                        {showSettings && (
+                                            <>
+                                                <div className="fixed inset-0 z-40" onClick={() => setShowSettings(false)}></div>
+                                                <div className="absolute left-0 top-full mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+                                                    <button
+                                                        onClick={() => { toggleShoppingMode(); setShowSettings(false); }}
+                                                        className={`w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
+                                                            shoppingMode ? 'bg-green-50 dark:bg-green-900/30' : ''
+                                                        }`}
+                                                    >
+                                                        <span className="text-xl">{shoppingMode ? '🛒' : '📱'}</span>
+                                                        <div className="flex-1">
+                                                            <div className="font-medium text-gray-800 dark:text-gray-200">{t('shoppingModeTitle')}</div>
+                                                            <div className="text-xs text-gray-500 dark:text-gray-400">{shoppingMode ? t('shoppingModeActive') : t('enableShoppingMode')}</div>
+                                                        </div>
+                                                        {shoppingMode && <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>}
+                                                    </button>
+                                                    <button
+                                                        onClick={() => { toggleDarkMode(); setShowSettings(false); }}
+                                                        className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
+                                                    >
+                                                        <span className="text-xl">{darkMode ? '☀️' : '🌙'}</span>
+                                                        <div className="flex-1">
+                                                            <div className="font-medium text-gray-800 dark:text-gray-200">{darkMode ? t('lightMode') : t('darkMode')}</div>
+                                                        </div>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => { forceUpdateApp(); setShowSettings(false); }}
+                                                        className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
+                                                    >
+                                                        <span className="text-xl">🔄</span>
+                                                        <div className="flex-1">
+                                                            <div className="font-medium text-gray-800 dark:text-gray-200">{t('refreshApp')}</div>
+                                                        </div>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => { handleLogout(); setShowSettings(false); }}
+                                                        className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors border-t border-gray-100 dark:border-gray-700 text-red-600 dark:text-red-400"
+                                                    >
+                                                        <span className="text-xl">🚪</span>
+                                                        <div className="flex-1">
+                                                            <div className="font-medium">{t('logoutButton')}</div>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
 
