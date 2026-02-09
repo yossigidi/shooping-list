@@ -10795,17 +10795,18 @@ END:VCALENDAR`;
                                                                 <span>🛒</span>
                                                                 <span>הזמן</span>
                                                             </button>
-                                                            <button
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    const branchUrl = CHAIN_BRANCH_URLS[chain.chain_id];
-                                                                    if (branchUrl) window.open(branchUrl, '_blank');
-                                                                }}
-                                                                className="px-4 py-2.5 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1"
-                                                            >
-                                                                <span>📍</span>
-                                                                <span>סניפים</span>
-                                                            </button>
+                                                            {CHAIN_BRANCH_URLS[chain.chain_id] && (
+                                                                <a
+                                                                    href={CHAIN_BRANCH_URLS[chain.chain_id]}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    className="px-4 py-2.5 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1"
+                                                                >
+                                                                    <span>📍</span>
+                                                                    <span>סניפים</span>
+                                                                </a>
+                                                            )}
                                                         </div>
                                                     </div>
 
