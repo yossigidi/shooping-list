@@ -972,6 +972,30 @@ def scrape_all_chains() -> List[dict]:
     return all_prices
 
 
+def is_gluten_free_product(name: str) -> bool:
+    """Check if product is gluten-free based on name."""
+    if not name:
+        return False
+    name_lower = name.lower()
+    gluten_free_keywords = ['גלוטן', 'gluten', 'ללא גלוטן', 'gluten free', 'gluten-free', 'שר ', 'schar', 'schär']
+    return any(kw in name_lower for kw in gluten_free_keywords)
+
+
+def create_product(supabase: Client, barcode: str, name: str, category: str = 'glutenFree') -> Optional[int]:
+    """Create a new product in the database and return its ID."""
+    try:
+        response = supabase.table('products').insert({
+            'barcode': barcode,
+            'name': name,
+            'category': category,
+        }).execute()
+        if response.data and len(response.data) > 0:
+            return response.data[0]['id']
+    except Exception as e:
+        print(f"    Error creating product {name}: {e}")
+    return None
+
+
 def update_database(supabase: Client, all_prices: List[dict]) -> Tuple[int, int]:
     """Update Supabase database with scraped prices."""
     if not all_prices:
@@ -983,11 +1007,13 @@ def update_database(supabase: Client, all_prices: List[dict]) -> Tuple[int, int]
 
     updated = 0
     skipped = 0
+    new_gluten_free = 0
 
     for price_data in all_prices:
         barcode = price_data.get('barcode', '')
         price = price_data.get('price', 0)
         chain_id = price_data.get('chain_id', 0)
+        name = price_data.get('name', '')
 
         # Skip invalid prices
         if not price or price <= 0 or price > 500:
@@ -1008,7 +1034,25 @@ def update_database(supabase: Client, all_prices: List[dict]) -> Tuple[int, int]
             else:
                 skipped += 1
         else:
-            skipped += 1
+            # Product doesn't exist - check if it's gluten-free and add it
+            if is_gluten_free_product(name):
+                product_id = create_product(supabase, barcode, name)
+                if product_id:
+                    # Add to our local cache
+                    products_by_barcode[barcode] = {'id': product_id, 'barcode': barcode, 'name': name}
+                    if upsert_price(supabase, product_id, chain_id, price):
+                        updated += 1
+                        new_gluten_free += 1
+                        print(f"    Added gluten-free product: {name} ({price}₪)")
+                    else:
+                        skipped += 1
+                else:
+                    skipped += 1
+            else:
+                skipped += 1
+
+    if new_gluten_free > 0:
+        print(f"\n  Added {new_gluten_free} new gluten-free products")
 
     return updated, skipped
 
