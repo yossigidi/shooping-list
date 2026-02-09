@@ -399,9 +399,9 @@ module.exports = async (req, res) => {
                 });
 
                 // Create product lookup
-                const productLookup = {};
+                const promoProductLookup = {};
                 productsForPromos.forEach(p => {
-                    productLookup[p.id] = { name: p.name, category: p.category };
+                    promoProductLookup[p.id] = { name: p.name, category: p.category };
                 });
 
                 // Filter active promotions (end_date >= today)
@@ -422,7 +422,7 @@ module.exports = async (req, res) => {
                     discount_type: p.discount_type,
                     discount_rate: p.discount_rate,
                     min_qty: p.min_qty,
-                    products: (p.product_ids || []).map(pid => productLookup[pid]).filter(Boolean)
+                    products: (p.product_ids || []).map(pid => promoProductLookup[pid]).filter(Boolean)
                 }));
 
                 // Group by chain
