@@ -1,0 +1,1074 @@
+Logger       2026-02-09 08:55:25,443 WARNING  [MainThread] logger.py:warning scraper CITY_MARKET_KIRYATGAT is not stable, pass_expiration_date: 2026-03-01, datetime.now(): 2026-02-09
+Logger       2026-02-09 08:55:37,876 WARNING  [MainThread] logger.py:warning scraper CITY_MARKET_KIRYATGAT is not stable, pass_expiration_date: 2026-03-01, datetime.now(): 2026-02-09
+Logger       2026-02-09 08:55:45,665 WARNING  [MainThread] logger.py:warning scraper CITY_MARKET_KIRYATGAT is not stable, pass_expiration_date: 2026-03-01, datetime.now(): 2026-02-09
+Logger       2026-02-09 08:57:17,614 INFO     [MainThread] logger.py:info size_estimation_mode: False
+Logger       2026-02-09 08:57:17,614 INFO     [MainThread] logger.py:info Enabled scrapers: ['SHUFERSAL', 'RAMI_LEVY', 'VICTORY', 'HAZI_HINAM']
+Logger       2026-02-09 08:57:17,614 INFO     [MainThread] logger.py:info Limit is 1
+Logger       2026-02-09 08:57:17,614 INFO     [MainThread] logger.py:info files_types is ['PRICE_FULL_FILE']
+Logger       2026-02-09 08:57:17,614 INFO     [MainThread] logger.py:info Start scraping SHUFERSAL,RAMI_LEVY,VICTORY,HAZI_HINAM.
+Logger       2026-02-09 09:11:56,217 INFO     [MainThread] logger.py:info Open connection to FTP server with url.retail.publishedprices.co.il , username: RamiLevi , password: 
+Logger       2026-02-09 09:13:21,179 DEBUG    [MainThread] logger.py:debug Didn't find cookie file
+Logger       2026-02-09 09:13:21,179 DEBUG    [MainThread] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0, body=None
+Logger       2026-02-09 09:13:25,291 INFO     [MainThread] logger.py:info Found 86 pages
+Logger       2026-02-09 09:13:25,292 INFO     [MainThread] logger.py:info Running 86 tasks in parallel
+Logger       2026-02-09 09:13:25,295 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=2, body=None
+Logger       2026-02-09 09:13:25,295 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=3, body=None
+Logger       2026-02-09 09:13:25,295 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=1, body=None
+Logger       2026-02-09 09:13:25,295 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=4, body=None
+Logger       2026-02-09 09:13:25,295 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=5, body=None
+Logger       2026-02-09 09:13:29,185 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=2', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:29,185 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=6, body=None
+Logger       2026-02-09 09:13:29,647 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=4', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:29,648 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=7, body=None
+Logger       2026-02-09 09:13:30,355 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=1', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:30,356 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=8, body=None
+Logger       2026-02-09 09:13:30,804 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=3', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:30,805 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=9, body=None
+Logger       2026-02-09 09:13:32,067 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=5', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:32,068 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=10, body=None
+Logger       2026-02-09 09:13:33,950 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=6', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:33,951 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=11, body=None
+Logger       2026-02-09 09:13:34,639 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=7', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:34,640 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=12, body=None
+Logger       2026-02-09 09:13:35,496 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=8', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:35,497 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=13, body=None
+Logger       2026-02-09 09:13:36,089 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=11', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:36,090 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=14, body=None
+Logger       2026-02-09 09:13:36,204 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=9', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:36,205 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=15, body=None
+Logger       2026-02-09 09:13:36,594 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=12', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:36,594 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=16, body=None
+Logger       2026-02-09 09:13:37,663 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=10', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:37,665 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=17, body=None
+Logger       2026-02-09 09:13:37,856 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=13', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:37,857 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=18, body=None
+Logger       2026-02-09 09:13:39,063 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=14', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:39,063 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=19, body=None
+Logger       2026-02-09 09:13:39,908 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=15', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:39,908 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=20, body=None
+Logger       2026-02-09 09:13:41,269 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=16', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:41,269 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=21, body=None
+Logger       2026-02-09 09:13:41,926 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=18', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:41,927 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=22, body=None
+Logger       2026-02-09 09:13:42,146 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=17', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:42,147 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=23, body=None
+Logger       2026-02-09 09:13:43,407 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=20', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:43,407 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=24, body=None
+Logger       2026-02-09 09:13:43,614 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=19', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:43,615 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=25, body=None
+Logger       2026-02-09 09:13:43,741 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=21', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:43,742 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=26, body=None
+Logger       2026-02-09 09:13:45,057 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=22', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:45,057 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=27, body=None
+Logger       2026-02-09 09:13:45,674 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=24', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:45,674 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=28, body=None
+Logger       2026-02-09 09:13:45,676 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=23', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:45,677 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=29, body=None
+Logger       2026-02-09 09:13:46,830 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=25', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:46,831 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=30, body=None
+Logger       2026-02-09 09:13:46,936 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=27', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:46,937 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=31, body=None
+Logger       2026-02-09 09:13:47,031 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=26', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:47,032 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=32, body=None
+Logger       2026-02-09 09:13:48,411 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=28', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:48,412 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=33, body=None
+Logger       2026-02-09 09:13:49,098 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=29', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:49,098 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=34, body=None
+Logger       2026-02-09 09:13:49,531 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=30', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:49,532 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=35, body=None
+Logger       2026-02-09 09:13:50,325 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=31', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:50,326 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=36, body=None
+Logger       2026-02-09 09:13:50,663 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=32', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:50,664 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=37, body=None
+Logger       2026-02-09 09:13:53,505 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=33', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:53,507 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=38, body=None
+Logger       2026-02-09 09:13:53,867 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=34', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:53,868 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=39, body=None
+Logger       2026-02-09 09:13:55,088 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=36', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:55,089 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=40, body=None
+Logger       2026-02-09 09:13:55,295 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=35', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:55,296 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=41, body=None
+Logger       2026-02-09 09:13:55,515 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=37', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:55,516 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=42, body=None
+Logger       2026-02-09 09:13:58,808 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=38', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:58,809 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=43, body=None
+Logger       2026-02-09 09:13:59,422 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=39', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:13:59,423 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=44, body=None
+Logger       2026-02-09 09:14:00,437 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=41', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:00,438 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=45, body=None
+Logger       2026-02-09 09:14:00,613 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=42', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:00,614 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=46, body=None
+Logger       2026-02-09 09:14:00,859 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=40', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:00,860 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=47, body=None
+Logger       2026-02-09 09:14:01,942 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=43', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:01,943 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=48, body=None
+Logger       2026-02-09 09:14:02,488 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=44', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:02,489 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=49, body=None
+Logger       2026-02-09 09:14:04,129 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=46', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:04,130 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=50, body=None
+Logger       2026-02-09 09:14:04,246 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=47', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:04,247 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=51, body=None
+Logger       2026-02-09 09:14:04,693 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=45', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:04,694 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=52, body=None
+Logger       2026-02-09 09:14:05,452 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=49', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:05,454 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=53, body=None
+Logger       2026-02-09 09:14:05,830 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=48', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:05,831 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=54, body=None
+Logger       2026-02-09 09:14:06,503 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=50', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:06,503 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=55, body=None
+Logger       2026-02-09 09:14:06,958 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=51', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:06,959 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=56, body=None
+Logger       2026-02-09 09:14:07,708 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=52', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:07,709 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=57, body=None
+Logger       2026-02-09 09:14:08,426 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=54', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:08,427 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=58, body=None
+Logger       2026-02-09 09:14:09,095 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=53', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:09,096 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=59, body=None
+Logger       2026-02-09 09:14:09,667 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=55', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:09,669 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=60, body=None
+Logger       2026-02-09 09:14:10,799 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=56', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:10,801 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=61, body=None
+Logger       2026-02-09 09:14:10,809 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=59', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:10,809 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=62, body=None
+Logger       2026-02-09 09:14:10,930 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=58', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:10,931 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=63, body=None
+Logger       2026-02-09 09:14:11,026 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=57', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:11,027 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=64, body=None
+Logger       2026-02-09 09:14:11,363 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=60', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:11,364 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=65, body=None
+Logger       2026-02-09 09:14:12,290 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=63', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:12,291 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=66, body=None
+Logger       2026-02-09 09:14:12,719 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=61', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:12,721 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=67, body=None
+Logger       2026-02-09 09:14:12,727 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=64', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:12,729 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=68, body=None
+Logger       2026-02-09 09:14:12,976 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=65', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:12,977 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=69, body=None
+Logger       2026-02-09 09:14:13,154 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=62', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:13,155 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=70, body=None
+Logger       2026-02-09 09:14:13,359 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=66', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:13,360 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=71, body=None
+Logger       2026-02-09 09:14:14,277 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=67', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:14,278 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=72, body=None
+Logger       2026-02-09 09:14:14,618 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=68', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:14,620 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=73, body=None
+Logger       2026-02-09 09:14:14,646 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=69', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:14,647 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=74, body=None
+Logger       2026-02-09 09:14:15,007 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=70', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:15,008 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=75, body=None
+Logger       2026-02-09 09:14:15,375 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=71', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:15,376 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=76, body=None
+Logger       2026-02-09 09:14:16,024 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=72', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:16,025 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=77, body=None
+Logger       2026-02-09 09:14:16,271 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=74', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:16,273 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=78, body=None
+Logger       2026-02-09 09:14:16,321 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=73', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:16,322 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=79, body=None
+Logger       2026-02-09 09:14:18,118 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=75', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:18,119 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=80, body=None
+Logger       2026-02-09 09:14:18,205 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=76', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:18,206 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=81, body=None
+Logger       2026-02-09 09:14:19,722 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=78', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:19,723 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=82, body=None
+Logger       2026-02-09 09:14:19,734 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=79', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:19,734 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=83, body=None
+Logger       2026-02-09 09:14:20,412 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=77', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:20,413 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=84, body=None
+Logger       2026-02-09 09:14:21,316 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=80', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:21,317 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=85, body=None
+Logger       2026-02-09 09:14:21,491 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=81', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:21,491 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=86, body=None
+Logger       2026-02-09 09:14:22,810 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=82', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:24,743 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=83', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:25,325 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=84', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:25,384 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=86', 'method': 'GET'}: Found 18 files
+Logger       2026-02-09 09:14:25,692 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=85', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:48,386 INFO     [MainThread] logger.py:info Found the following files in /tmp/listnest_prices/shufersal/Shufersal
+Logger       2026-02-09 09:14:48,386 INFO     [MainThread] logger.py:info Folder /tmp/listnest_prices/shufersal/Shufersal: Num of Files= 0,Size= 0 MB
+Logger       2026-02-09 09:14:57,291 DEBUG    [MainThread] logger.py:debug Didn't find cookie file
+Logger       2026-02-09 09:14:57,292 DEBUG    [MainThread] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0, body=None
+Logger       2026-02-09 09:14:58,232 INFO     [MainThread] logger.py:info Found 86 pages
+Logger       2026-02-09 09:14:58,232 INFO     [MainThread] logger.py:info Running 86 tasks in parallel
+Logger       2026-02-09 09:14:58,235 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=1, body=None
+Logger       2026-02-09 09:14:58,235 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=2, body=None
+Logger       2026-02-09 09:14:58,235 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=3, body=None
+Logger       2026-02-09 09:14:58,237 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=4, body=None
+Logger       2026-02-09 09:14:58,238 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=5, body=None
+Logger       2026-02-09 09:14:59,570 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=1', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:59,570 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:14:59,571 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:14:59,571 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:14:59,571 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:14:59,571 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:14:59,571 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:14:59,571 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:14:59,571 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=1', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:14:59,573 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=6, body=None
+Logger       2026-02-09 09:14:59,577 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=4', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:59,578 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:14:59,578 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:14:59,578 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:14:59,578 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:14:59,578 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:14:59,578 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:14:59,578 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:14:59,578 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=4', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:14:59,580 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=7, body=None
+Logger       2026-02-09 09:14:59,835 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=3', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:59,836 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:14:59,836 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:14:59,836 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:14:59,836 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:14:59,836 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:14:59,836 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:14:59,837 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:14:59,837 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=3', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:14:59,839 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=8, body=None
+Logger       2026-02-09 09:14:59,870 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=2', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:59,870 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:14:59,871 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:14:59,871 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:14:59,871 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:14:59,871 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:14:59,871 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:14:59,871 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:14:59,871 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=2', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:14:59,872 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=9, body=None
+Logger       2026-02-09 09:14:59,903 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=5', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:14:59,903 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:14:59,903 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:14:59,903 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:14:59,903 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:14:59,904 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:14:59,904 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:14:59,904 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:14:59,904 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=5', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:14:59,905 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=10, body=None
+Logger       2026-02-09 09:15:01,179 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=7', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:01,180 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:01,180 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:01,180 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:01,180 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:01,180 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:01,180 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:01,180 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:01,180 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=7', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:01,182 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=11, body=None
+Logger       2026-02-09 09:15:01,216 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=6', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:01,216 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:01,216 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:01,216 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:01,216 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:01,216 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:01,216 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:01,216 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:01,216 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=6', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:01,218 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=12, body=None
+Logger       2026-02-09 09:15:02,676 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=8', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:02,677 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:02,677 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:02,678 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=9', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:02,678 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:02,678 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:02,679 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:02,679 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:02,679 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:02,679 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:02,679 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:02,679 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=8', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:02,679 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:02,679 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:02,680 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:02,681 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:02,681 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:02,681 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=13, body=None
+Logger       2026-02-09 09:15:02,681 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=9', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:02,683 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=14, body=None
+Logger       2026-02-09 09:15:03,429 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=10', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:03,429 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:03,429 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:03,429 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:03,429 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:03,429 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:03,429 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:03,429 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:03,429 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=10', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:03,430 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=15, body=None
+Logger       2026-02-09 09:15:06,413 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=11', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:06,413 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:06,413 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:06,413 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:06,413 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:06,414 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:06,414 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:06,414 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:06,414 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=11', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:06,416 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=16, body=None
+Logger       2026-02-09 09:15:06,595 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=12', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:06,595 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:06,595 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:06,595 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:06,595 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:06,595 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:06,595 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:06,595 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:06,595 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=12', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:06,597 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=17, body=None
+Logger       2026-02-09 09:15:07,284 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=13', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:07,284 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:07,284 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:07,285 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:07,285 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:07,285 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:07,285 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:07,285 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:07,285 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=13', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:07,287 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=18, body=None
+Logger       2026-02-09 09:15:07,417 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=14', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:07,417 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:07,417 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:07,417 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:07,417 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:07,418 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:07,418 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:07,418 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:07,418 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=14', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:07,420 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=19, body=None
+Logger       2026-02-09 09:15:07,641 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=15', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:07,642 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:07,642 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:07,642 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:07,642 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:07,642 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:07,642 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:07,642 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:07,642 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=15', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:07,645 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=20, body=None
+Logger       2026-02-09 09:15:08,542 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=16', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:08,543 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:08,543 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:08,543 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:08,543 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:08,543 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:08,543 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:08,543 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:08,543 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=16', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:08,545 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=21, body=None
+Logger       2026-02-09 09:15:08,878 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=17', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:08,879 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:08,879 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:08,879 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:08,879 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:08,879 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:08,879 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:08,879 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:08,880 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=17', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:08,882 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=22, body=None
+Logger       2026-02-09 09:15:08,923 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=18', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:08,923 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:08,923 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:08,923 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:08,923 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:08,923 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:08,923 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:08,923 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:08,923 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=18', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:08,925 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=23, body=None
+Logger       2026-02-09 09:15:09,060 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=19', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:09,062 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:09,062 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:09,062 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:09,062 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:09,062 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:09,062 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:09,062 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:09,062 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=19', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:09,064 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=24, body=None
+Logger       2026-02-09 09:15:09,229 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=20', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:09,229 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:09,230 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:09,230 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:09,230 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:09,230 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:09,230 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:09,230 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:09,230 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=20', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:09,232 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=25, body=None
+Logger       2026-02-09 09:15:10,273 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=21', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:10,273 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:10,274 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:10,274 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:10,274 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:10,274 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:10,274 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:10,274 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:10,274 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=21', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:10,275 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=26, body=None
+Logger       2026-02-09 09:15:10,499 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=23', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:10,500 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:10,500 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:10,500 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:10,500 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:10,500 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:10,500 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:10,500 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:10,500 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=23', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:10,503 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=27, body=None
+Logger       2026-02-09 09:15:10,803 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=22', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:10,804 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:10,804 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:10,804 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:10,804 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:10,804 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:10,804 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:10,804 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:10,804 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=22', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:10,808 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=28, body=None
+Logger       2026-02-09 09:15:10,889 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=24', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:10,889 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:10,889 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:10,889 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:10,889 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:10,889 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:10,889 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:10,890 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:10,890 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=24', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:10,892 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=29, body=None
+Logger       2026-02-09 09:15:10,912 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=25', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:10,912 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:10,912 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:10,912 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:10,912 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:10,912 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:10,912 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:10,912 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:10,912 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=25', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:10,914 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=30, body=None
+Logger       2026-02-09 09:15:11,957 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=27', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:11,957 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:11,957 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:11,957 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:11,957 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:11,958 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:11,958 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:11,958 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:11,958 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=27', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:11,959 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=31, body=None
+Logger       2026-02-09 09:15:12,130 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=26', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:12,132 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:12,132 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:12,132 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:12,132 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:12,132 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:12,132 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:12,132 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:12,132 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=26', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:12,134 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=32, body=None
+Logger       2026-02-09 09:15:12,168 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=28', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:12,169 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:12,169 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:12,169 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:12,169 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:12,169 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:12,169 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:12,169 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:12,169 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=28', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:12,190 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=33, body=None
+Logger       2026-02-09 09:15:13,375 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=30', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:13,375 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:13,375 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:13,375 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:13,375 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:13,375 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:13,376 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:13,376 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:13,376 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=30', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:13,378 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=34, body=None
+Logger       2026-02-09 09:15:13,839 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=29', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:13,839 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:13,839 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:13,839 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:13,839 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:13,839 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:13,839 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:13,839 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:13,839 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=29', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:13,841 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=35, body=None
+Logger       2026-02-09 09:15:13,949 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=32', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:13,949 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:13,949 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:13,949 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:13,949 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:13,949 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:13,949 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:13,950 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:13,950 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=32', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:13,951 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=36, body=None
+Logger       2026-02-09 09:15:14,088 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=31', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:14,088 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:14,088 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:14,088 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:14,088 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:14,088 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:14,088 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:14,088 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:14,088 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=31', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:14,089 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=37, body=None
+Logger       2026-02-09 09:15:15,649 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=35', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:15,651 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:15,651 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:15,651 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:15,651 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:15,651 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:15,652 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:15,652 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:15,652 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=35', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:15,654 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=38, body=None
+Logger       2026-02-09 09:15:16,133 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=36', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:16,133 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:16,134 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:16,134 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:16,134 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:16,134 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:16,134 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:16,134 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:16,134 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=36', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:16,135 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=39, body=None
+Logger       2026-02-09 09:15:16,983 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=33', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:16,983 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:16,983 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:16,983 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:16,983 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:16,983 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:16,983 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:16,983 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:16,983 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=33', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:16,985 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=40, body=None
+Logger       2026-02-09 09:15:17,442 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=34', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:17,443 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:17,443 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:17,443 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:17,443 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:17,443 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:17,443 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:17,443 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:17,444 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=34', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:17,446 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=41, body=None
+Logger       2026-02-09 09:15:17,483 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=37', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:17,483 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:17,483 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:17,483 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:17,483 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:17,483 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:17,483 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:17,483 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:17,484 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=37', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:17,485 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=42, body=None
+Logger       2026-02-09 09:15:18,830 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=38', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:18,830 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:18,831 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:18,831 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:18,831 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:18,831 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:18,831 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:18,831 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:18,831 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=38', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:18,835 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=43, body=None
+Logger       2026-02-09 09:15:19,522 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=39', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:19,523 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:19,523 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:19,523 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:19,523 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:19,523 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:19,523 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:19,523 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:19,523 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=39', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:19,530 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=44, body=None
+Logger       2026-02-09 09:15:22,326 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=40', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:22,327 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:22,327 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:22,327 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:22,327 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:22,327 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:22,327 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:22,327 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:22,327 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=40', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:22,329 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=45, body=None
+Logger       2026-02-09 09:15:23,605 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=41', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:23,606 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:23,606 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:23,606 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:23,606 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:23,606 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:23,606 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:23,606 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:23,606 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=41', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:23,608 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=46, body=None
+Logger       2026-02-09 09:15:26,504 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=42', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:26,505 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:26,505 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:26,505 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:26,505 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:26,505 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:26,505 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:26,505 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:26,505 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=42', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:26,508 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=47, body=None
+Logger       2026-02-09 09:15:27,931 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=43', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:27,932 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:27,932 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:27,932 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:27,932 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:27,932 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:27,932 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:27,932 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:27,932 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=43', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:27,935 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=48, body=None
+Logger       2026-02-09 09:15:28,306 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=44', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:28,306 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:28,306 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:28,306 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:28,306 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:28,307 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:28,307 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:28,307 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:28,307 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=44', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:28,309 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=49, body=None
+Logger       2026-02-09 09:15:31,307 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=45', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:31,307 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:31,308 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:31,308 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:31,308 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:31,308 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:31,308 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:31,308 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:31,308 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=45', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:31,310 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=50, body=None
+Logger       2026-02-09 09:15:32,477 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=46', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:32,477 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:32,478 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:32,478 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:32,478 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:32,478 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:32,478 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:32,478 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:32,478 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=46', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:32,483 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=51, body=None
+Logger       2026-02-09 09:15:33,747 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=47', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:33,748 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:33,748 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:33,748 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:33,748 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:33,748 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:33,748 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:33,748 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:33,748 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=47', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:33,750 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=52, body=None
+Logger       2026-02-09 09:15:34,108 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=48', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:34,108 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:34,108 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:34,108 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:34,108 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:34,108 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:34,108 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:34,108 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:34,109 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=48', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:34,110 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=53, body=None
+Logger       2026-02-09 09:15:34,326 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=49', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:34,326 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:34,326 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:34,326 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:34,326 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:34,326 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:34,326 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:34,326 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:34,326 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=49', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:34,328 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=54, body=None
+Logger       2026-02-09 09:15:34,971 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=50', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:34,972 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:34,972 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:34,972 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:34,972 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:34,972 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:34,972 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:34,972 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:34,972 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=50', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:34,974 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=55, body=None
+Logger       2026-02-09 09:15:37,638 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=51', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:37,638 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:37,638 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:37,638 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:37,638 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:37,638 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:37,638 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:37,638 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:37,638 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=51', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:37,640 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=56, body=None
+Logger       2026-02-09 09:15:41,476 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=52', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:41,476 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:41,477 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:41,477 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:41,477 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:41,477 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:41,477 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:41,477 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:41,477 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=52', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:41,479 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=57, body=None
+Logger       2026-02-09 09:15:42,882 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=53', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:42,883 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:42,884 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:42,884 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:42,884 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:42,884 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:42,884 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:42,884 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:42,885 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=53', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:42,890 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=58, body=None
+Logger       2026-02-09 09:15:43,463 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=55', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:43,464 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:43,464 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:43,464 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:43,464 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:43,464 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:43,464 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:43,464 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:43,464 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=55', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:43,468 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=59, body=None
+Logger       2026-02-09 09:15:43,488 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=54', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:43,488 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:43,489 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:43,489 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:43,489 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:43,489 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:43,489 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:43,489 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:43,489 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=54', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:43,491 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=60, body=None
+Logger       2026-02-09 09:15:43,959 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=56', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:43,959 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:43,959 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:43,959 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:43,959 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:43,959 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:43,959 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:43,959 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:43,959 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=56', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:43,961 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=61, body=None
+Logger       2026-02-09 09:15:44,860 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=57', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:44,861 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:44,861 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:44,861 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:44,861 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:44,861 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:44,861 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:44,861 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:44,861 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=57', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:44,864 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=62, body=None
+Logger       2026-02-09 09:15:45,946 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=58', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:45,946 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:45,946 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:45,946 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:45,946 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:45,946 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:45,947 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:45,947 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:45,947 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=58', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:45,948 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=63, body=None
+Logger       2026-02-09 09:15:46,391 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=59', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:46,392 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:46,392 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:46,392 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:46,392 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:46,392 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:46,392 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:46,392 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:46,392 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=59', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:46,394 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=64, body=None
+Logger       2026-02-09 09:15:46,544 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=61', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:46,544 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:46,545 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:46,545 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:46,545 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:46,545 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:46,545 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:46,545 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:46,545 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=61', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:46,547 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=65, body=None
+Logger       2026-02-09 09:15:47,154 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=60', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:47,155 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:47,155 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:47,155 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:47,155 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:47,155 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:47,155 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:47,155 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:47,155 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=60', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:47,157 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=66, body=None
+Logger       2026-02-09 09:15:47,375 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=62', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:47,375 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:47,375 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:47,375 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:47,375 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:47,375 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:47,375 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:47,375 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:47,375 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=62', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:47,377 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=67, body=None
+Logger       2026-02-09 09:15:49,756 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=65', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:49,756 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:49,757 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:49,757 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:49,757 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:49,757 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:49,757 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:49,757 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:49,757 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=65', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:49,759 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=68, body=None
+Logger       2026-02-09 09:15:50,066 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=63', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:50,067 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:50,067 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:50,068 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:50,068 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:50,068 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:50,068 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:50,068 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:50,069 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=63', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:50,071 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=69, body=None
+Logger       2026-02-09 09:15:50,350 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=64', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:50,350 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:50,350 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:50,350 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:50,350 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:50,350 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:50,350 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:50,350 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:50,350 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=64', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:50,351 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=70, body=None
+Logger       2026-02-09 09:15:50,486 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=66', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:50,487 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:50,487 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:50,487 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:50,487 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:50,487 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:50,487 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:50,487 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:50,487 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=66', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:50,490 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=71, body=None
+Logger       2026-02-09 09:15:53,931 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=67', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:53,932 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:53,932 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:53,932 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:53,933 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:53,933 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:53,933 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:53,933 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:53,933 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=67', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:53,935 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=72, body=None
+Logger       2026-02-09 09:15:54,002 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=68', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:54,002 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:54,002 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:54,002 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:54,002 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:54,002 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:54,002 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:54,003 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:54,003 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=68', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:54,004 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=73, body=None
+Logger       2026-02-09 09:15:54,960 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=71', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:54,961 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:54,961 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:54,961 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:54,961 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:54,961 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:54,961 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:54,961 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:54,962 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=71', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:54,964 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=74, body=None
+Logger       2026-02-09 09:15:55,064 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=69', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:55,064 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:55,064 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:55,064 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:55,064 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:55,064 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:55,064 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:55,064 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:55,064 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=69', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:55,066 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=75, body=None
+Logger       2026-02-09 09:15:57,763 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=73', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:57,764 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:57,764 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:57,764 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:57,764 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:57,764 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:57,764 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:57,764 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:15:57,764 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=73', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:57,766 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=76, body=None
+Logger       2026-02-09 09:15:57,965 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=72', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:57,965 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:57,965 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:57,965 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:57,966 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:57,966 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:57,966 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:57,966 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:15:57,966 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=72', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:57,968 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=77, body=None
+Logger       2026-02-09 09:15:58,213 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=70', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:58,214 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:58,214 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:58,214 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:58,214 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:58,214 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:58,214 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:58,214 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:15:58,214 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=70', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:58,215 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=78, body=None
+Logger       2026-02-09 09:15:59,397 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=74', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:59,398 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:59,398 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:59,398 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:59,398 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:59,398 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:59,398 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:59,398 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:15:59,398 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=74', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:59,400 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=79, body=None
+Logger       2026-02-09 09:15:59,874 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=75', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:15:59,875 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:15:59,875 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:15:59,875 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:15:59,875 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:15:59,875 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:15:59,875 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:15:59,875 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:15:59,875 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=75', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:15:59,877 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=80, body=None
+Logger       2026-02-09 09:16:00,550 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=76', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:16:00,551 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:16:00,551 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:16:00,552 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:16:00,552 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:16:00,552 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:16:00,552 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:00,552 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:16:00,552 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=76', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:00,555 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=81, body=None
+Logger       2026-02-09 09:16:01,101 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=78', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:16:01,101 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:16:01,101 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:16:01,101 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:16:01,101 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:16:01,101 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:16:01,101 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:01,101 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:16:01,101 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=78', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:01,103 DEBUG    [PullingThread_0] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=82, body=None
+Logger       2026-02-09 09:16:03,534 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=77', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:16:03,535 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:16:03,535 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:16:03,535 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:16:03,535 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:16:03,535 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:16:03,535 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:03,535 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:16:03,535 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=77', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:03,538 DEBUG    [PullingThread_2] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=83, body=None
+Logger       2026-02-09 09:16:05,087 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=80', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:16:05,088 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:16:05,088 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:16:05,088 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:16:05,088 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:16:05,088 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:16:05,088 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:05,088 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:16:05,088 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=80', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:05,089 DEBUG    [PullingThread_1] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=84, body=None
+Logger       2026-02-09 09:16:05,270 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=79', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:16:05,271 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:16:05,271 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:16:05,271 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:16:05,271 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:16:05,271 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:16:05,271 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:05,271 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:16:05,272 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=79', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:05,274 DEBUG    [PullingThread_3] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=85, body=None
+Logger       2026-02-09 09:16:07,459 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=81', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:16:07,460 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:16:07,461 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:16:07,461 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:16:07,461 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:16:07,461 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:16:07,461 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:07,461 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:16:07,461 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=81', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:07,463 DEBUG    [PullingThread_4] logger.py:debug On a new Session requesting url: method=GET, url=https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=86, body=None
+Logger       2026-02-09 09:16:07,468 INFO     [PullingThread_0] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=82', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:16:07,469 INFO     [PullingThread_0] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:16:07,469 INFO     [PullingThread_0] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:16:07,469 INFO     [PullingThread_0] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:16:07,469 INFO     [PullingThread_0] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:16:07,469 INFO     [PullingThread_0] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:16:07,469 INFO     [PullingThread_0] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:07,469 INFO     [PullingThread_0] logger.py:info Result length 2
+Logger       2026-02-09 09:16:07,469 INFO     [PullingThread_0] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=82', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:09,287 INFO     [PullingThread_1] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=84', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:16:09,287 INFO     [PullingThread_1] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:16:09,287 INFO     [PullingThread_1] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:16:09,288 INFO     [PullingThread_1] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:16:09,288 INFO     [PullingThread_1] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:16:09,288 INFO     [PullingThread_1] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:16:09,288 INFO     [PullingThread_1] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:09,288 INFO     [PullingThread_1] logger.py:info Result length 2
+Logger       2026-02-09 09:16:09,288 INFO     [PullingThread_1] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=84', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:09,313 INFO     [PullingThread_2] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=83', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:16:09,313 INFO     [PullingThread_2] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:16:09,313 INFO     [PullingThread_2] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:16:09,313 INFO     [PullingThread_2] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:16:09,313 INFO     [PullingThread_2] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:16:09,313 INFO     [PullingThread_2] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:16:09,313 INFO     [PullingThread_2] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:09,313 INFO     [PullingThread_2] logger.py:info Result length 2
+Logger       2026-02-09 09:16:09,313 INFO     [PullingThread_2] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=83', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:10,178 INFO     [PullingThread_4] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=86', 'method': 'GET'}: Found 18 files
+Logger       2026-02-09 09:16:10,179 INFO     [PullingThread_4] logger.py:info Number of entry after filter already downloaded is 18
+Logger       2026-02-09 09:16:10,179 INFO     [PullingThread_4] logger.py:info Number of entry after filter unique links is 18
+Logger       2026-02-09 09:16:10,179 INFO     [PullingThread_4] logger.py:info Number of entry after filter store id is 18
+Logger       2026-02-09 09:16:10,179 INFO     [PullingThread_4] logger.py:info Number of entry after filter file type id is 18
+Logger       2026-02-09 09:16:10,179 INFO     [PullingThread_4] logger.py:info Number of entry after filtering base on time is 18
+Logger       2026-02-09 09:16:10,179 INFO     [PullingThread_4] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:10,179 INFO     [PullingThread_4] logger.py:info Result length 2
+Logger       2026-02-09 09:16:10,179 INFO     [PullingThread_4] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=86', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:12,817 INFO     [PullingThread_3] logger.py:info Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=85', 'method': 'GET'}: Found 20 files
+Logger       2026-02-09 09:16:12,818 INFO     [PullingThread_3] logger.py:info Number of entry after filter already downloaded is 20
+Logger       2026-02-09 09:16:12,818 INFO     [PullingThread_3] logger.py:info Number of entry after filter unique links is 20
+Logger       2026-02-09 09:16:12,818 INFO     [PullingThread_3] logger.py:info Number of entry after filter store id is 20
+Logger       2026-02-09 09:16:12,818 INFO     [PullingThread_3] logger.py:info Number of entry after filter file type id is 20
+Logger       2026-02-09 09:16:12,818 INFO     [PullingThread_3] logger.py:info Number of entry after filtering base on time is 20
+Logger       2026-02-09 09:16:12,818 INFO     [PullingThread_3] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:12,818 INFO     [PullingThread_3] logger.py:info Result length 2
+Logger       2026-02-09 09:16:12,818 INFO     [PullingThread_3] logger.py:info After applying limit: Page {'url': 'https://prices.shufersal.co.il//FileObject/UpdateCategory?catID=0&page=85', 'method': 'GET'}: Found 2 line and 2 files
+Logger       2026-02-09 09:16:12,821 INFO     [MainThread] logger.py:info Done with 3 tasks in parallel
+Logger       2026-02-09 09:16:12,821 INFO     [MainThread] logger.py:info Found 172 files
+Logger       2026-02-09 09:16:12,821 INFO     [MainThread] logger.py:info After filtering bad files: Found 172 files
+Logger       2026-02-09 09:16:12,821 INFO     [MainThread] logger.py:info Number of entry after filter already downloaded is 172
+Logger       2026-02-09 09:16:12,822 INFO     [MainThread] logger.py:info Number of entry after filter unique links is 172
+Logger       2026-02-09 09:16:12,822 INFO     [MainThread] logger.py:info Number of entry after filter store id is 172
+Logger       2026-02-09 09:16:12,822 INFO     [MainThread] logger.py:info Number of entry after filter file type id is 172
+Logger       2026-02-09 09:16:12,822 INFO     [MainThread] logger.py:info Number of entry after filtering base on time is 172
+Logger       2026-02-09 09:16:12,822 INFO     [MainThread] logger.py:info Limit: 2
+Logger       2026-02-09 09:16:12,822 INFO     [MainThread] logger.py:info Result length 2
+Logger       2026-02-09 09:16:12,826 INFO     [MainThread] logger.py:info collected 2 to download.
+Logger       2026-02-09 09:16:12,827 INFO     [MainThread] logger.py:info Running 2 tasks in parallel
+Logger       2026-02-09 09:16:12,827 DEBUG    [PullingThread_0] logger.py:debug Downloading https://pricesprodpublic.blob.core.windows.net/price/Price7290027600007-001-202602090200.gz?sv=2014-02-14&sr=b&sig=4G00o%2FfME32ICjv9YdyvSnCSKabQg%2F2PBKyR9NB53qY%3D&se=2026-02-09T07%3A44%3A58Z&sp=r to /tmp/listnest_prices/shufersal/Shufersal/Price7290027600007-001-202602090200.gz
+Logger       2026-02-09 09:16:12,828 DEBUG    [PullingThread_1] logger.py:debug Downloading https://pricesprodpublic.blob.core.windows.net/price/Price7290027600007-002-202602090200.gz?sv=2014-02-14&sr=b&sig=gqXeEf7N%2BJDmwhKADnfZG2POjMFQ8kCDwKMdJW%2B6e9k%3D&se=2026-02-09T07%3A44%3A58Z&sp=r to /tmp/listnest_prices/shufersal/Shufersal/Price7290027600007-002-202602090200.gz
+Logger       2026-02-09 09:16:13,770 DEBUG    [PullingThread_1] logger.py:debug File size is 15380 bytes.
+Logger       2026-02-09 09:16:13,773 DEBUG    [PullingThread_0] logger.py:debug File size is 11913 bytes.
+Logger       2026-02-09 09:16:13,773 DEBUG    [PullingThread_1] logger.py:debug Done downloading https://pricesprodpublic.blob.core.windows.net/price/Price7290027600007-002-202602090200.gz?sv=2014-02-14&sr=b&sig=gqXeEf7N%2BJDmwhKADnfZG2POjMFQ8kCDwKMdJW%2B6e9k%3D&se=2026-02-09T07%3A44%3A58Z&sp=r
+Logger       2026-02-09 09:16:13,774 DEBUG    [PullingThread_0] logger.py:debug Done downloading https://pricesprodpublic.blob.core.windows.net/price/Price7290027600007-001-202602090200.gz?sv=2014-02-14&sr=b&sig=4G00o%2FfME32ICjv9YdyvSnCSKabQg%2F2PBKyR9NB53qY%3D&se=2026-02-09T07%3A44%3A58Z&sp=r
+Logger       2026-02-09 09:16:13,774 INFO     [MainThread] logger.py:info Done with 2 tasks in parallel
+Logger       2026-02-09 09:16:13,775 INFO     [MainThread] logger.py:info Found the following files in /tmp/listnest_prices/shufersal/Shufersal
+Logger       2026-02-09 09:16:13,776 INFO     [MainThread] logger.py:info - file /tmp/listnest_prices/shufersal/Shufersal/Price7290027600007-002-202602090200.xml: size 221620
+Logger       2026-02-09 09:16:13,776 INFO     [MainThread] logger.py:info - file /tmp/listnest_prices/shufersal/Shufersal/Price7290027600007-001-202602090200.xml: size 389895
+Logger       2026-02-09 09:16:13,776 INFO     [MainThread] logger.py:info Folder /tmp/listnest_prices/shufersal/Shufersal: Num of Files= 2,Size= 389895 MB
