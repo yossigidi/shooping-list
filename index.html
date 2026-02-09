@@ -12785,19 +12785,38 @@ END:VCALENDAR`;
                                     </div>
                                 )}
                                 {onboardingStep === 4 && (
+                                    <div className="p-6">
+                                        <div className="text-4xl mb-3 text-center">⚙️</div>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">הגדרות ובקרה</h3>
+                                        <div className="bg-gray-50 dark:bg-gray-900/30 rounded-xl p-4 mb-4">
+                                            <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                                                <li>⚙️ <strong>כפתור הגדרות:</strong> בפינה הימנית למעלה</li>
+                                                <li>🛒 <strong>מצב קניות:</strong> מונע כיבוי מסך בזמן קניה</li>
+                                                <li>🌙 <strong>מצב כהה/בהיר:</strong> התאמה לסביבה</li>
+                                                <li>🔄 <strong>רענון:</strong> עדכון גרסה חדשה</li>
+                                                <li>🚪 <strong>התנתקות:</strong> יציאה מהחשבון</li>
+                                            </ul>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">← הקודם</button>
+                                            <button onClick={() => setOnboardingStep(5)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">הבא →</button>
+                                        </div>
+                                    </div>
+                                )}
+                                {onboardingStep === 5 && (
                                     <div className="p-6 text-center">
                                         <div className="text-6xl mb-4">🎉</div>
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">מוכנים לקניות!</h3>
-                                        <p className="text-gray-600 dark:text-gray-300 mb-4">תמיד אפשר לחזור להדרכה מכפתור העזרה</p>
+                                        <p className="text-gray-600 dark:text-gray-300 mb-4">תמיד אפשר לחזור להדרכה מהתפריט למטה</p>
                                         <div className="flex flex-wrap gap-2 text-xs text-gray-500 dark:text-gray-400 justify-center mb-4">
                                             <span>🌐 עברית | English | Русский | العربية</span>
                                         </div>
                                         <div className="flex gap-2 text-xs text-gray-500 dark:text-gray-400 justify-center mb-4">
+                                            <span>💬 צ'אט משפחתי</span>
+                                            <span>•</span>
+                                            <span>⚙️ הגדרות</span>
+                                            <span>•</span>
                                             <span>♿ נגישות</span>
-                                            <span>•</span>
-                                            <span>❓ עזרה</span>
-                                            <span>•</span>
-                                            <span>🌙 מצב כהה</span>
                                         </div>
                                         <button onClick={completeOnboarding} className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold">
                                             ✨ בואו נתחיל!
@@ -12806,7 +12825,7 @@ END:VCALENDAR`;
                                 )}
                                 {/* Progress dots */}
                                 <div className="flex justify-center gap-2 pb-4">
-                                    {[0, 1, 2, 3, 4].map(step => (
+                                    {[0, 1, 2, 3, 4, 5].map(step => (
                                         <div key={step} className={`w-2 h-2 rounded-full transition-colors ${onboardingStep === step ? 'bg-indigo-500' : 'bg-gray-300 dark:bg-gray-600'}`} />
                                     ))}
                                 </div>
