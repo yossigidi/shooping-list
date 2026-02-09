@@ -117,6 +117,71 @@ def upsert_price(supabase: Client, product_id: int, chain_id: int, price: float)
 # XML Parsing Functions
 # ============================================
 
+def extract_promotions_from_xml(root: ET.Element) -> List[dict]:
+    """Extract promotions from parsed PromoFull XML."""
+    promotions = []
+
+    for promo in root.findall('.//Promotion'):
+        try:
+            promo_data = {}
+
+            # Promotion ID
+            promo_id_elem = promo.find('PromotionId')
+            if promo_id_elem is not None and promo_id_elem.text:
+                promo_data['promo_id'] = promo_id_elem.text.strip()
+
+            # Description
+            desc_elem = promo.find('PromotionDescription')
+            if desc_elem is not None and desc_elem.text:
+                promo_data['description'] = desc_elem.text.strip()
+
+            # Start date
+            start_elem = promo.find('PromotionStartDate') or promo.find('PromotionStartDateTime')
+            if start_elem is not None and start_elem.text:
+                promo_data['start_date'] = start_elem.text.strip()[:10]  # YYYY-MM-DD
+
+            # End date
+            end_elem = promo.find('PromotionEndDate') or promo.find('PromotionEndDateTime')
+            if end_elem is not None and end_elem.text:
+                promo_data['end_date'] = end_elem.text.strip()[:10]  # YYYY-MM-DD
+
+            # Discount type and amount
+            discount_type_elem = promo.find('DiscountType')
+            if discount_type_elem is not None and discount_type_elem.text:
+                promo_data['discount_type'] = discount_type_elem.text.strip()
+
+            discount_rate_elem = promo.find('DiscountRate')
+            if discount_rate_elem is not None and discount_rate_elem.text:
+                try:
+                    promo_data['discount_rate'] = float(discount_rate_elem.text.strip())
+                except ValueError:
+                    pass
+
+            # Min quantity for promo
+            min_qty_elem = promo.find('MinQty')
+            if min_qty_elem is not None and min_qty_elem.text:
+                try:
+                    promo_data['min_qty'] = int(min_qty_elem.text.strip())
+                except ValueError:
+                    pass
+
+            # Get item barcodes related to this promotion
+            promo_data['barcodes'] = []
+            for item in promo.findall('.//PromotionItem') or promo.findall('.//Item'):
+                barcode_elem = item.find('ItemCode')
+                if barcode_elem is not None and barcode_elem.text:
+                    promo_data['barcodes'].append(barcode_elem.text.strip())
+
+            # Only add if we have description
+            if promo_data.get('description'):
+                promotions.append(promo_data)
+
+        except Exception:
+            continue
+
+    return promotions
+
+
 def parse_xml_content(content: bytes) -> Optional[ET.Element]:
     """Parse XML content, handling encoding issues."""
     try:
@@ -613,6 +678,266 @@ def fetch_hazihinam_prices(chain_id: int, chain_info: dict) -> List[dict]:
 
 
 # ============================================
+# Promotion Scrapers
+# ============================================
+
+def fetch_shufersal_promotions(chain_info: dict) -> List[dict]:
+    """Fetch promotions from Shufersal."""
+    promotions = []
+    base_url = chain_info['base_url']
+
+    try:
+        # Get list of available promo files (catID=3 for promos)
+        list_url = f"{base_url}/FileObject/UpdateCategory?catID=3&storeId=0"
+        response = requests.get(list_url, headers=HEADERS, timeout=TIMEOUT)
+
+        if response.status_code != 200:
+            print(f"  Failed to get promo file list: HTTP {response.status_code}")
+            return promotions
+
+        # Find PromoFull files
+        pattern = r'href="(https://pricesprodpublic\.blob\.core\.windows\.net/promofull/PromoFull[^"]+)"'
+        matches = re.findall(pattern, response.text)
+
+        if not matches:
+            print("  No promo files found")
+            return promotions
+
+        print(f"  Found {len(matches)} promo files")
+
+        # Download first file
+        file_url = matches[0].replace('&amp;', '&')
+        file_response = requests.get(file_url, headers=HEADERS, timeout=TIMEOUT)
+
+        if file_response.status_code == 200:
+            try:
+                content = gzip.decompress(file_response.content)
+            except (OSError, gzip.BadGzipFile):
+                content = file_response.content
+
+            root = parse_xml_content(content)
+            if root:
+                promos = extract_promotions_from_xml(root)
+                for p in promos:
+                    p['chain_id'] = 1
+                promotions.extend(promos)
+                print(f"    Parsed {len(promos)} promotions")
+
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    return promotions
+
+
+def fetch_cerberus_promotions(chain_id: int, chain_info: dict) -> List[dict]:
+    """Fetch promotions from Cerberus-based chains (Rami Levy)."""
+    promotions = []
+    username = chain_info.get('username', '')
+
+    if not username:
+        return promotions
+
+    try:
+        session = requests.Session()
+        session.headers.update(HEADERS)
+
+        # Login process (same as price fetching)
+        login_page = session.get('https://url.publishedprices.co.il/login', timeout=TIMEOUT)
+        if login_page.status_code != 200:
+            return promotions
+
+        csrf_match = re.search(r'csrftoken" content="([^"]+)"', login_page.text)
+        if not csrf_match:
+            return promotions
+
+        csrf = csrf_match.group(1)
+        login_data = {'username': username, 'password': '', 'csrftoken': csrf}
+        session.post('https://url.publishedprices.co.il/login/user', data=login_data, timeout=TIMEOUT)
+
+        # Get file page for new CSRF
+        files_page = session.get('https://url.publishedprices.co.il/file', timeout=TIMEOUT)
+        new_csrf_match = re.search(r'csrftoken" content="([^"]+)"', files_page.text)
+        if not new_csrf_match:
+            return promotions
+
+        new_csrf = new_csrf_match.group(1)
+
+        # Get PromoFull files
+        api_response = session.post(
+            'https://url.publishedprices.co.il/file/json/dir',
+            timeout=TIMEOUT,
+            headers={'X-Requested-With': 'XMLHttpRequest', 'X-CSRFToken': new_csrf},
+            data={'sEcho': '1', 'iDisplayStart': '0', 'iDisplayLength': '100',
+                  'csrftoken': new_csrf, 'sSearch': 'PromoFull'}
+        )
+
+        if api_response.status_code != 200:
+            return promotions
+
+        data = api_response.json()
+        files_list = data.get('aaData', [])
+
+        if not files_list:
+            print(f"  No PromoFull files found")
+            return promotions
+
+        print(f"  Found {len(files_list)} PromoFull files")
+
+        # Download first file
+        filename = files_list[0].get('fname', '')
+        if filename:
+            download_url = f'https://url.publishedprices.co.il/file/d/{filename}'
+            download_resp = session.get(download_url, timeout=TIMEOUT)
+
+            if download_resp.status_code == 200:
+                try:
+                    content = gzip.decompress(download_resp.content)
+                except (OSError, gzip.BadGzipFile):
+                    content = download_resp.content
+
+                root = parse_xml_content(content)
+                if root:
+                    promos = extract_promotions_from_xml(root)
+                    for p in promos:
+                        p['chain_id'] = chain_id
+                    promotions.extend(promos)
+                    print(f"    Parsed {len(promos)} promotions")
+
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    return promotions
+
+
+def fetch_carrefour_promotions(chain_id: int, chain_info: dict) -> List[dict]:
+    """Fetch promotions from Carrefour/Yeinot Bitan."""
+    promotions = []
+    base_url = chain_info['base_url']
+
+    try:
+        session = requests.Session()
+        session.headers.update(HEADERS)
+
+        resp = session.get(base_url + '/', timeout=TIMEOUT)
+        if resp.status_code != 200:
+            return promotions
+
+        path_match = re.search(r'const\s+path\s*=\s*["\']([^"\']*)["\']', resp.text)
+        path = path_match.group(1) if path_match else ''
+
+        files_match = re.search(r'const\s+files\s*=\s*(\[.*?\]);', resp.text, re.DOTALL)
+        if not files_match:
+            return promotions
+
+        files = json.loads(files_match.group(1))
+        promo_files = [f for f in files if 'PromoFull' in f.get('name', '')]
+
+        if not promo_files:
+            print("  No PromoFull files found")
+            return promotions
+
+        print(f"  Found {len(promo_files)} PromoFull files")
+
+        # Download first file
+        filename = promo_files[0].get('name', '')
+        if filename:
+            download_url = f'{base_url}/{path}/{filename}'
+            download_resp = session.get(download_url, timeout=TIMEOUT)
+
+            if download_resp.status_code == 200:
+                try:
+                    content = gzip.decompress(download_resp.content)
+                except (OSError, gzip.BadGzipFile):
+                    content = download_resp.content
+
+                root = parse_xml_content(content)
+                if root:
+                    promos = extract_promotions_from_xml(root)
+                    for p in promos:
+                        p['chain_id'] = chain_id
+                    promotions.extend(promos)
+                    print(f"    Parsed {len(promos)} promotions")
+
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    return promotions
+
+
+def scrape_all_promotions() -> List[dict]:
+    """Scrape promotions from all configured chains."""
+    all_promotions = []
+
+    for chain_id, chain_info in CHAINS.items():
+        print(f"\n[Promos {chain_id}] {chain_info['name']}")
+
+        chain_type = chain_info.get('type', '')
+
+        try:
+            if chain_type == 'shufersal':
+                promos = fetch_shufersal_promotions(chain_info)
+            elif chain_type == 'cerberus':
+                promos = fetch_cerberus_promotions(chain_id, chain_info)
+            elif chain_type == 'carrefour':
+                promos = fetch_carrefour_promotions(chain_id, chain_info)
+            else:
+                print(f"  Promotions not supported for this chain type")
+                continue
+
+            all_promotions.extend(promos)
+        except Exception as e:
+            print(f"  Error scraping promotions: {e}")
+
+    return all_promotions
+
+
+def update_promotions_database(supabase: Client, promotions: List[dict]) -> Tuple[int, int]:
+    """Update Supabase with scraped promotions."""
+    if not promotions:
+        return 0, 0
+
+    # Get existing products by barcode for linking
+    products_by_barcode = get_existing_products(supabase)
+
+    updated = 0
+    skipped = 0
+
+    # Clear old promotions
+    try:
+        supabase.table('promotions').delete().neq('id', 0).execute()
+    except Exception:
+        pass  # Table may not exist yet
+
+    for promo in promotions:
+        try:
+            # Find product IDs for barcodes in this promotion
+            product_ids = []
+            for barcode in promo.get('barcodes', []):
+                if barcode in products_by_barcode:
+                    product_ids.append(products_by_barcode[barcode]['id'])
+
+            promo_record = {
+                'chain_id': promo.get('chain_id'),
+                'promo_id': promo.get('promo_id', ''),
+                'description': promo.get('description', ''),
+                'start_date': promo.get('start_date'),
+                'end_date': promo.get('end_date'),
+                'discount_type': promo.get('discount_type'),
+                'discount_rate': promo.get('discount_rate'),
+                'min_qty': promo.get('min_qty'),
+                'product_ids': product_ids[:10] if product_ids else None,  # Limit to 10
+            }
+
+            supabase.table('promotions').insert(promo_record).execute()
+            updated += 1
+
+        except Exception as e:
+            skipped += 1
+
+    return updated, skipped
+
+
+# ============================================
 # Main Scraper Logic
 # ============================================
 
@@ -759,6 +1084,16 @@ def main():
         print("\nUpdating database...")
         updated, skipped = update_database(supabase, all_prices)
         print(f"Updated: {updated}, Skipped: {skipped}")
+
+    # Scrape promotions
+    print("\nScraping promotions from chains...")
+    all_promotions = scrape_all_promotions()
+    print(f"\nTotal scraped: {len(all_promotions)} promotions")
+
+    if all_promotions:
+        print("\nUpdating promotions in database...")
+        promo_updated, promo_skipped = update_promotions_database(supabase, all_promotions)
+        print(f"Promotions - Updated: {promo_updated}, Skipped: {promo_skipped}")
 
     # Print summary
     print_summary(supabase)

@@ -386,6 +386,110 @@ module.exports = async (req, res) => {
                     lastUpdated: new Date().toISOString()
                 });
 
+            case 'promotions':
+                // Get all active promotions
+                const promotions = await supabaseQuery('promotions', '', true);
+                const chainsForPromos = await supabaseQuery('chains', '?is_active=eq.true');
+                const productsForPromos = await supabaseQuery('products', '', true);
+
+                // Create chain lookup
+                const chainLookup = {};
+                chainsForPromos.forEach(c => {
+                    chainLookup[c.id] = { name: c.name, name_he: c.name_he };
+                });
+
+                // Create product lookup
+                const productLookup = {};
+                productsForPromos.forEach(p => {
+                    productLookup[p.id] = { name: p.name, category: p.category };
+                });
+
+                // Filter active promotions (end_date >= today)
+                const today = new Date().toISOString().split('T')[0];
+                const activePromos = promotions.filter(p => {
+                    if (!p.end_date) return true;
+                    return p.end_date >= today;
+                });
+
+                // Enhance with chain and product names
+                const enhancedPromos = activePromos.map(p => ({
+                    id: p.id,
+                    chain_id: p.chain_id,
+                    chain_name: chainLookup[p.chain_id]?.name_he || chainLookup[p.chain_id]?.name,
+                    description: p.description,
+                    start_date: p.start_date,
+                    end_date: p.end_date,
+                    discount_type: p.discount_type,
+                    discount_rate: p.discount_rate,
+                    min_qty: p.min_qty,
+                    products: (p.product_ids || []).map(pid => productLookup[pid]).filter(Boolean)
+                }));
+
+                // Group by chain
+                const promosByChain = {};
+                chainsForPromos.forEach(c => {
+                    promosByChain[c.id] = {
+                        chain_id: c.id,
+                        chain_name: c.name,
+                        chain_name_he: c.name_he,
+                        promotions: []
+                    };
+                });
+                enhancedPromos.forEach(p => {
+                    if (promosByChain[p.chain_id]) {
+                        promosByChain[p.chain_id].promotions.push(p);
+                    }
+                });
+
+                return res.json({
+                    success: true,
+                    total: enhancedPromos.length,
+                    promotions: enhancedPromos,
+                    byChain: Object.values(promosByChain).filter(c => c.promotions.length > 0),
+                    lastUpdated: new Date().toISOString()
+                });
+
+            case 'productPromos':
+                // Get promotions for specific products (by name search)
+                const productName = (req.query.name || '').toLowerCase().trim();
+                if (!productName) {
+                    return res.json({ success: true, promotions: [] });
+                }
+
+                const allPromos = await supabaseQuery('promotions', '', true);
+                const allProds = await supabaseQuery('products', '', true);
+                const allChains = await supabaseQuery('chains', '?is_active=eq.true');
+
+                // Find matching product IDs
+                const matchingProducts = allProds.filter(p =>
+                    p.name.toLowerCase().includes(productName)
+                );
+                const matchingProductIds = new Set(matchingProducts.map(p => p.id));
+
+                // Find promotions that include these products
+                const matchingPromos = allPromos.filter(promo => {
+                    if (!promo.product_ids) return false;
+                    return promo.product_ids.some(pid => matchingProductIds.has(pid));
+                });
+
+                // Create lookups
+                const chainMap = {};
+                allChains.forEach(c => { chainMap[c.id] = c; });
+                const prodMap = {};
+                allProds.forEach(p => { prodMap[p.id] = p; });
+
+                const result = matchingPromos.map(p => ({
+                    chain_name: chainMap[p.chain_id]?.name_he || chainMap[p.chain_id]?.name,
+                    description: p.description,
+                    end_date: p.end_date,
+                    products: (p.product_ids || [])
+                        .filter(pid => matchingProductIds.has(pid))
+                        .map(pid => prodMap[pid]?.name)
+                        .filter(Boolean)
+                }));
+
+                return res.json({ success: true, promotions: result });
+
             case 'debug':
                 const debugData = await getAllData();
                 return res.json({
