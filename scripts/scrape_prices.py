@@ -693,9 +693,9 @@ def fetch_shufersal_promotions(chain_info: dict) -> List[dict]:
     base_url = chain_info['base_url']
 
     try:
-        # Get list of available promo files (catID=3 for promos)
+        # Get list of available PromoFull files (catID=4 for full promos)
         # Need X-Requested-With header for AJAX response
-        list_url = f"{base_url}/FileObject/UpdateCategory?catID=3&storeId=0&iDisplayStart=0&iDisplayLength=20"
+        list_url = f"{base_url}/FileObject/UpdateCategory?catID=4&storeId=0&iDisplayStart=0&iDisplayLength=50"
         ajax_headers = {**HEADERS, 'X-Requested-With': 'XMLHttpRequest'}
         response = requests.get(list_url, headers=ajax_headers, timeout=TIMEOUT)
 
@@ -703,16 +703,16 @@ def fetch_shufersal_promotions(chain_info: dict) -> List[dict]:
             print(f"  Failed to get promo file list: HTTP {response.status_code}")
             return promotions
 
-        # Find Promo files (not PromoFull - Shufersal uses /promo/Promo path)
-        pattern = r'(https://pricesprodpublic\.blob\.core\.windows\.net/promo/Promo[^"<\s]+)'
+        # Find PromoFull files (catID=4 has complete promotion data)
+        pattern = r'(https://pricesprodpublic\.blob\.core\.windows\.net/promofull/PromoFull[^"<\s]+)'
         matches = re.findall(pattern, response.text)
 
         if not matches:
             print("  No promo files found")
             return promotions
 
-        # Remove duplicates and limit
-        unique_matches = list(set(matches))[:5]
+        # Remove duplicates and limit - get more files for comprehensive coverage
+        unique_matches = list(set(matches))[:15]
         print(f"  Found {len(unique_matches)} promo files")
 
         # Download files
