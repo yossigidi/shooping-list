@@ -694,40 +694,56 @@ def fetch_shufersal_promotions(chain_info: dict) -> List[dict]:
 
     try:
         # Get list of available promo files (catID=3 for promos)
-        list_url = f"{base_url}/FileObject/UpdateCategory?catID=3&storeId=0"
-        response = requests.get(list_url, headers=HEADERS, timeout=TIMEOUT)
+        # Need X-Requested-With header for AJAX response
+        list_url = f"{base_url}/FileObject/UpdateCategory?catID=3&storeId=0&iDisplayStart=0&iDisplayLength=20"
+        ajax_headers = {**HEADERS, 'X-Requested-With': 'XMLHttpRequest'}
+        response = requests.get(list_url, headers=ajax_headers, timeout=TIMEOUT)
 
         if response.status_code != 200:
             print(f"  Failed to get promo file list: HTTP {response.status_code}")
             return promotions
 
-        # Find PromoFull files
-        pattern = r'href="(https://pricesprodpublic\.blob\.core\.windows\.net/promofull/PromoFull[^"]+)"'
+        # Find Promo files (not PromoFull - Shufersal uses /promo/Promo path)
+        pattern = r'(https://pricesprodpublic\.blob\.core\.windows\.net/promo/Promo[^"<\s]+)'
         matches = re.findall(pattern, response.text)
 
         if not matches:
             print("  No promo files found")
             return promotions
 
-        print(f"  Found {len(matches)} promo files")
+        # Remove duplicates and limit
+        unique_matches = list(set(matches))[:5]
+        print(f"  Found {len(unique_matches)} promo files")
 
-        # Download first file
-        file_url = matches[0].replace('&amp;', '&')
-        file_response = requests.get(file_url, headers=HEADERS, timeout=TIMEOUT)
-
-        if file_response.status_code == 200:
+        # Download files
+        seen_promos = set()
+        for file_url in unique_matches:
+            file_url = file_url.replace('&amp;', '&')
             try:
-                content = gzip.decompress(file_response.content)
-            except (OSError, gzip.BadGzipFile):
-                content = file_response.content
+                file_response = requests.get(file_url, headers=HEADERS, timeout=TIMEOUT)
 
-            root = parse_xml_content(content)
-            if root:
-                promos = extract_promotions_from_xml(root)
-                for p in promos:
-                    p['chain_id'] = 1
-                promotions.extend(promos)
-                print(f"    Parsed {len(promos)} promotions")
+                if file_response.status_code == 200:
+                    try:
+                        content = gzip.decompress(file_response.content)
+                    except (OSError, gzip.BadGzipFile):
+                        content = file_response.content
+
+                    root = parse_xml_content(content)
+                    if root:
+                        promos = extract_promotions_from_xml(root)
+                        for p in promos:
+                            # Deduplicate by promo_id
+                            promo_key = p.get('promo_id', '') + p.get('description', '')
+                            if promo_key not in seen_promos:
+                                seen_promos.add(promo_key)
+                                p['chain_id'] = 1
+                                promotions.append(p)
+                        print(f"    Parsed {len(promos)} promotions from file")
+            except Exception as e:
+                print(f"    Error downloading promo file: {e}")
+                continue
+
+        print(f"  Total unique promotions: {len(promotions)}")
 
     except Exception as e:
         print(f"  Error: {e}")
