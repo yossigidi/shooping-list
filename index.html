@@ -7554,14 +7554,44 @@
                         setPromotionsData(data);
                         // Build lookup for product promotions
                         const promoLookup = {};
+
+                        // Common product keywords to extract from descriptions
+                        const productKeywords = [
+                            'ביסלי', 'במבה', 'אפרופו', 'ציפס', 'שוקולד', 'עוגיות', 'וופלים', 'חלב',
+                            'גבינה', 'יוגורט', 'לחם', 'ביצים', 'חומוס', 'תה', 'קפה', 'סוכר', 'קמח',
+                            'שמן', 'אורז', 'פסטה', 'רוטב', 'עגבניות', 'מלפפון', 'גזר', 'תפוח',
+                            'בננה', 'תפוז', 'לימון', 'בצל', 'שום', 'פלפל', 'חסה', 'עגבניה',
+                            'מיץ', 'מים', 'סודה', 'בירה', 'יין', 'וודקה', 'נקניק', 'חזה עוף',
+                            'בשר', 'דג', 'סלמון', 'טונה', 'קוטג', 'שמנת', 'חמאה', 'מרגרינה',
+                            'דגני בוקר', 'קורנפלקס', 'גרנולה', 'חטיף', 'אגוזים', 'שקדים',
+                            'פיצה', 'המבורגר', 'שניצל', 'פלאפל', 'טחינה', 'חריף', 'קטשופ',
+                            'מיונז', 'חרדל', 'סימילאק', 'מטרנה', 'נוטרילון', 'פמפרס', 'האגיס',
+                            'שמפו', 'סבון', 'אל סבון', 'מרכך', 'דאודורנט', 'משחת שיניים'
+                        ];
+
                         (data.promotions || []).forEach(promo => {
+                            const promoData = {
+                                chain: promo.chain_name,
+                                description: promo.description,
+                                end_date: promo.end_date
+                            };
+
+                            // Index by linked products
                             (promo.products || []).forEach(p => {
                                 if (!promoLookup[p.name]) promoLookup[p.name] = [];
-                                promoLookup[p.name].push({
-                                    chain: promo.chain_name,
-                                    description: promo.description,
-                                    end_date: promo.end_date
-                                });
+                                promoLookup[p.name].push(promoData);
+                            });
+
+                            // Also extract keywords from description
+                            const descLower = (promo.description || '').toLowerCase();
+                            productKeywords.forEach(keyword => {
+                                if (descLower.includes(keyword.toLowerCase())) {
+                                    if (!promoLookup[keyword]) promoLookup[keyword] = [];
+                                    // Avoid duplicates
+                                    if (!promoLookup[keyword].some(p => p.description === promo.description)) {
+                                        promoLookup[keyword].push(promoData);
+                                    }
+                                }
                             });
                         });
                         setProductPromotions(promoLookup);
@@ -7578,22 +7608,36 @@
                 }
             };
 
-            // Check if item has promotions - strict matching
+            // Check if item has promotions - improved matching
             const getItemPromotions = (itemName) => {
                 if (!itemName) return [];
                 const nameLower = itemName.toLowerCase().trim();
                 const nameWords = nameLower.split(/\s+/);
                 const matches = [];
+                const seenDescriptions = new Set();
 
                 // Check from API data first
                 if (productPromotions && Object.keys(productPromotions).length > 0) {
                     Object.keys(productPromotions).forEach(productName => {
                         const prodLower = productName.toLowerCase();
-                        // Exact match or very close match only
-                        if (prodLower === nameLower ||
-                            nameLower.startsWith(prodLower + ' ') ||
-                            prodLower.startsWith(nameLower + ' ')) {
-                            matches.push(...productPromotions[productName]);
+                        // Check for matches:
+                        // 1. Exact match
+                        // 2. Product name contains the keyword
+                        // 3. Keyword contains the product name (for short names like "חלב")
+                        // 4. First word matches (for "ביסלי בצל" matching "ביסלי")
+                        const isMatch =
+                            prodLower === nameLower ||
+                            nameLower.includes(prodLower) ||
+                            (prodLower.length >= 3 && nameLower.startsWith(prodLower)) ||
+                            (nameWords[0] === prodLower && prodLower.length >= 3);
+
+                        if (isMatch) {
+                            productPromotions[productName].forEach(promo => {
+                                if (!seenDescriptions.has(promo.description)) {
+                                    seenDescriptions.add(promo.description);
+                                    matches.push(promo);
+                                }
+                            });
                         }
                     });
                 }
