@@ -29,10 +29,11 @@ service cloud.firestore {
 
     // Families collection
     match /families/{familyId} {
-      // Anyone can read a family document (needed for join codes)
-      allow read: if isSignedIn();
+      // Anyone can read a family document (needed for join codes and child login)
+      // Note: Child accounts use client-side reads for PIN validation
+      allow read: if true;
 
-      // Only admin can update family settings
+      // Only admin can update family settings (including childAccounts and childInviteTokens)
       allow update: if isFamilyAdmin(familyId);
 
       // Anyone signed in can create a family

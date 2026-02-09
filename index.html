@@ -794,6 +794,199 @@
             return useContext(AuthContext);
         }
 
+        // Child Auth Context - for PIN-based child accounts
+        const ChildAuthContext = createContext(null);
+
+        function ChildAuthProvider({ children }) {
+            const [childUser, setChildUser] = useState(null);
+            const [loading, setLoading] = useState(true);
+
+            // Load child session from localStorage on mount
+            useEffect(() => {
+                try {
+                    const savedSession = localStorage.getItem('childSession');
+                    if (savedSession) {
+                        const session = JSON.parse(savedSession);
+                        // Check if session is still valid (24 hours)
+                        if (session.expiresAt && new Date(session.expiresAt) > new Date()) {
+                            setChildUser(session);
+                        } else {
+                            localStorage.removeItem('childSession');
+                        }
+                    }
+                } catch (e) {
+                    localStorage.removeItem('childSession');
+                }
+                setLoading(false);
+            }, []);
+
+            // Hash PIN with family code as salt
+            const hashPin = async (pin, salt) => {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(pin + salt);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            };
+
+            // Login child with PIN
+            const loginChild = async (familyId, familyCode, childId, childName, pin) => {
+                try {
+                    // Get family document to validate PIN
+                    const familyDoc = await window.firestore.getDoc(
+                        window.firestore.doc(window.db, 'families', familyId)
+                    );
+
+                    if (!familyDoc.exists()) {
+                        return { success: false, error: 'familyNotFound' };
+                    }
+
+                    const familyData = familyDoc.data();
+                    const childAccount = familyData.childAccounts?.find(c => c.childId === childId);
+
+                    if (!childAccount) {
+                        return { success: false, error: 'childNotFound' };
+                    }
+
+                    // Verify PIN
+                    const pinHash = await hashPin(pin, familyCode);
+                    if (pinHash !== childAccount.pinHash) {
+                        return { success: false, error: 'invalidPin' };
+                    }
+
+                    // Create session (24 hour expiry)
+                    const session = {
+                        childId: childId,
+                        displayName: childAccount.displayName,
+                        familyId: familyId,
+                        familyName: familyData.name,
+                        familyCode: familyCode,
+                        role: 'limited',
+                        familyRole: 'child',
+                        isChildAccount: true,
+                        loginAt: new Date().toISOString(),
+                        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+                    };
+
+                    // Update lastLoginAt in Firestore
+                    const updatedChildAccounts = familyData.childAccounts.map(c =>
+                        c.childId === childId ? { ...c, lastLoginAt: new Date() } : c
+                    );
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'families', familyId),
+                        { childAccounts: updatedChildAccounts }
+                    );
+
+                    localStorage.setItem('childSession', JSON.stringify(session));
+                    setChildUser(session);
+                    return { success: true };
+                } catch (error) {
+                    console.error('Child login error:', error);
+                    return { success: false, error: 'loginFailed' };
+                }
+            };
+
+            // Login child with QR token
+            const loginChildWithToken = async (token, displayName) => {
+                try {
+                    // Query families for matching token
+                    const familiesRef = window.firestore.collection(window.db, 'families');
+                    const snapshot = await window.firestore.getDocs(familiesRef);
+
+                    let targetFamily = null;
+                    let targetToken = null;
+
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        const foundToken = data.childInviteTokens?.find(t =>
+                            t.token === token &&
+                            !t.usedAt &&
+                            new Date(t.expiresAt.toDate ? t.expiresAt.toDate() : t.expiresAt) > new Date()
+                        );
+                        if (foundToken) {
+                            targetFamily = { id: doc.id, ...data };
+                            targetToken = foundToken;
+                        }
+                    });
+
+                    if (!targetFamily || !targetToken) {
+                        return { success: false, error: 'invalidToken' };
+                    }
+
+                    // Create child account
+                    const childId = crypto.randomUUID ? crypto.randomUUID() :
+                        'child_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+                    const newChildAccount = {
+                        childId: childId,
+                        displayName: displayName,
+                        pinHash: null, // No PIN for QR-joined accounts
+                        createdAt: new Date(),
+                        createdBy: targetToken.createdBy,
+                        lastLoginAt: new Date(),
+                        role: 'limited',
+                        familyRole: 'child',
+                        isChildAccount: true
+                    };
+
+                    // Mark token as used and add child account
+                    const updatedTokens = targetFamily.childInviteTokens.map(t =>
+                        t.token === token ? { ...t, usedAt: new Date() } : t
+                    );
+
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'families', targetFamily.id),
+                        {
+                            childAccounts: window.firestore.arrayUnion(newChildAccount),
+                            childInviteTokens: updatedTokens
+                        }
+                    );
+
+                    // Create session
+                    const session = {
+                        childId: childId,
+                        displayName: displayName,
+                        familyId: targetFamily.id,
+                        familyName: targetFamily.name,
+                        familyCode: targetFamily.code,
+                        role: 'limited',
+                        familyRole: 'child',
+                        isChildAccount: true,
+                        loginAt: new Date().toISOString(),
+                        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+                    };
+
+                    localStorage.setItem('childSession', JSON.stringify(session));
+                    setChildUser(session);
+                    return { success: true };
+                } catch (error) {
+                    console.error('Child token login error:', error);
+                    return { success: false, error: 'loginFailed' };
+                }
+            };
+
+            // Logout child
+            const logoutChild = () => {
+                localStorage.removeItem('childSession');
+                setChildUser(null);
+            };
+
+            const value = {
+                childUser,
+                loading,
+                loginChild,
+                loginChildWithToken,
+                logoutChild,
+                hashPin
+            };
+
+            return <ChildAuthContext.Provider value={value}>{children}</ChildAuthContext.Provider>;
+        }
+
+        function useChildAuth() {
+            return useContext(ChildAuthContext);
+        }
+
         // Multi-language Support
         const TRANSLATIONS = {
             he: {
@@ -1125,7 +1318,41 @@
                 viewAllPromotions: 'צפה בכל המבצעים',
                 undoPostpone: 'החזר לרשימה',
                 deleteItem: 'מחק פריט',
-                addPrice: 'הוסף מחיר משוער'
+                addPrice: 'הוסף מחיר משוער',
+                // Child Accounts
+                childAccounts: 'חשבונות ילדים',
+                addChildAccount: 'הוסף חשבון ילד',
+                childLogin: 'התחבר כילד',
+                childName: 'שם הילד',
+                enterPin: 'הזן קוד PIN',
+                pinCode: 'קוד PIN (4 ספרות)',
+                confirmPin: 'אשר קוד PIN',
+                generateChildQR: 'צור QR להצטרפות',
+                childInviteQR: 'קוד QR להצטרפות ילד',
+                qrValidFor: 'הקוד תקף ל-{minutes} דקות',
+                qrExpired: 'הקוד פג תוקף',
+                scanToJoin: 'סרוק להצטרפות',
+                resetPin: 'אפס PIN',
+                deleteChildAccount: 'מחק חשבון ילד',
+                noChildAccounts: 'אין חשבונות ילדים',
+                childAccountCreated: 'חשבון ילד נוצר בהצלחה',
+                pinResetSuccess: 'קוד PIN אופס בהצלחה',
+                childAccountDeleted: 'חשבון ילד נמחק',
+                invalidPin: 'קוד PIN לא תקין',
+                pinMismatch: 'קודי PIN לא תואמים',
+                tooManyAttempts: 'יותר מדי ניסיונות. נסה שוב בעוד {minutes} דקות',
+                childLoginSuccess: 'התחברת בהצלחה',
+                selectChild: 'בחר ילד',
+                enterFamilyCode: 'הזן קוד משפחה',
+                welcomeChild: 'שלום {name}!',
+                logoutChild: 'התנתק',
+                childMode: 'מצב ילד',
+                childCannotAccess: 'פעולה זו לא זמינה בחשבון ילד',
+                joinViaQR: 'הצטרפות דרך QR',
+                enterYourName: 'הזן את שמך',
+                joining: 'מצטרף...',
+                invalidToken: 'קוד הזמנה לא תקין או פג תוקף',
+                joinSuccess: 'הצטרפת בהצלחה!'
             },
             en: {
                 // App name & general
@@ -1456,7 +1683,41 @@
                 viewAllPromotions: 'View all promotions',
                 undoPostpone: 'Return to List',
                 deleteItem: 'Delete Item',
-                addPrice: 'Add Estimated Price'
+                addPrice: 'Add Estimated Price',
+                // Child Accounts
+                childAccounts: 'Child Accounts',
+                addChildAccount: 'Add Child Account',
+                childLogin: 'Login as Child',
+                childName: 'Child Name',
+                enterPin: 'Enter PIN',
+                pinCode: 'PIN Code (4 digits)',
+                confirmPin: 'Confirm PIN',
+                generateChildQR: 'Generate QR for Joining',
+                childInviteQR: 'Child Join QR Code',
+                qrValidFor: 'Code valid for {minutes} minutes',
+                qrExpired: 'Code expired',
+                scanToJoin: 'Scan to Join',
+                resetPin: 'Reset PIN',
+                deleteChildAccount: 'Delete Child Account',
+                noChildAccounts: 'No child accounts',
+                childAccountCreated: 'Child account created successfully',
+                pinResetSuccess: 'PIN reset successfully',
+                childAccountDeleted: 'Child account deleted',
+                invalidPin: 'Invalid PIN',
+                pinMismatch: 'PINs do not match',
+                tooManyAttempts: 'Too many attempts. Try again in {minutes} minutes',
+                childLoginSuccess: 'Logged in successfully',
+                selectChild: 'Select Child',
+                enterFamilyCode: 'Enter Family Code',
+                welcomeChild: 'Hello {name}!',
+                logoutChild: 'Logout',
+                childMode: 'Child Mode',
+                childCannotAccess: 'This action is not available for child accounts',
+                joinViaQR: 'Join via QR',
+                enterYourName: 'Enter your name',
+                joining: 'Joining...',
+                invalidToken: 'Invalid or expired invite code',
+                joinSuccess: 'Joined successfully!'
             },
             ru: {
                 // App name & general
@@ -1744,7 +2005,41 @@
                 priceCompareHint: 'Сравнить цены подробнее →',
                 undoPostpone: 'Вернуть в список',
                 deleteItem: 'Удалить товар',
-                addPrice: 'Добавить цену'
+                addPrice: 'Добавить цену',
+                // Child Accounts
+                childAccounts: 'Детские аккаунты',
+                addChildAccount: 'Добавить детский аккаунт',
+                childLogin: 'Войти как ребёнок',
+                childName: 'Имя ребёнка',
+                enterPin: 'Введите PIN',
+                pinCode: 'PIN-код (4 цифры)',
+                confirmPin: 'Подтвердите PIN',
+                generateChildQR: 'Создать QR для присоединения',
+                childInviteQR: 'QR-код для присоединения ребёнка',
+                qrValidFor: 'Код действителен {minutes} минут',
+                qrExpired: 'Код истёк',
+                scanToJoin: 'Сканируйте для присоединения',
+                resetPin: 'Сбросить PIN',
+                deleteChildAccount: 'Удалить детский аккаунт',
+                noChildAccounts: 'Нет детских аккаунтов',
+                childAccountCreated: 'Детский аккаунт успешно создан',
+                pinResetSuccess: 'PIN успешно сброшен',
+                childAccountDeleted: 'Детский аккаунт удалён',
+                invalidPin: 'Неверный PIN',
+                pinMismatch: 'PIN-коды не совпадают',
+                tooManyAttempts: 'Слишком много попыток. Повторите через {minutes} минут',
+                childLoginSuccess: 'Вход выполнен успешно',
+                selectChild: 'Выберите ребёнка',
+                enterFamilyCode: 'Введите код семьи',
+                welcomeChild: 'Привет, {name}!',
+                logoutChild: 'Выйти',
+                childMode: 'Детский режим',
+                childCannotAccess: 'Это действие недоступно для детских аккаунтов',
+                joinViaQR: 'Присоединиться через QR',
+                enterYourName: 'Введите ваше имя',
+                joining: 'Присоединение...',
+                invalidToken: 'Недействительный или истёкший код приглашения',
+                joinSuccess: 'Успешно присоединились!'
             },
             ar: {
                 // App name & general
@@ -2061,7 +2356,41 @@
                 priceCompareHint: 'مقارنة الأسعار بالتفصيل ←',
                 undoPostpone: 'إرجاع للقائمة',
                 deleteItem: 'حذف العنصر',
-                addPrice: 'إضافة سعر تقديري'
+                addPrice: 'إضافة سعر تقديري',
+                // Child Accounts
+                childAccounts: 'حسابات الأطفال',
+                addChildAccount: 'إضافة حساب طفل',
+                childLogin: 'تسجيل دخول كطفل',
+                childName: 'اسم الطفل',
+                enterPin: 'أدخل رمز PIN',
+                pinCode: 'رمز PIN (4 أرقام)',
+                confirmPin: 'تأكيد رمز PIN',
+                generateChildQR: 'إنشاء QR للانضمام',
+                childInviteQR: 'رمز QR لانضمام طفل',
+                qrValidFor: 'الرمز صالح لمدة {minutes} دقائق',
+                qrExpired: 'انتهت صلاحية الرمز',
+                scanToJoin: 'امسح للانضمام',
+                resetPin: 'إعادة تعيين PIN',
+                deleteChildAccount: 'حذف حساب طفل',
+                noChildAccounts: 'لا توجد حسابات أطفال',
+                childAccountCreated: 'تم إنشاء حساب الطفل بنجاح',
+                pinResetSuccess: 'تم إعادة تعيين PIN بنجاح',
+                childAccountDeleted: 'تم حذف حساب الطفل',
+                invalidPin: 'رمز PIN غير صالح',
+                pinMismatch: 'رموز PIN غير متطابقة',
+                tooManyAttempts: 'محاولات كثيرة جداً. حاول مرة أخرى بعد {minutes} دقائق',
+                childLoginSuccess: 'تم تسجيل الدخول بنجاح',
+                selectChild: 'اختر طفل',
+                enterFamilyCode: 'أدخل رمز العائلة',
+                welcomeChild: 'مرحباً {name}!',
+                logoutChild: 'تسجيل الخروج',
+                childMode: 'وضع الطفل',
+                childCannotAccess: 'هذا الإجراء غير متاح لحسابات الأطفال',
+                joinViaQR: 'الانضمام عبر QR',
+                enterYourName: 'أدخل اسمك',
+                joining: 'جاري الانضمام...',
+                invalidToken: 'رمز دعوة غير صالح أو منتهي الصلاحية',
+                joinSuccess: 'تم الانضمام بنجاح!'
             }
         };
 
@@ -2406,6 +2735,185 @@
                 );
             };
 
+            // Hash PIN with family code as salt
+            const hashPin = async (pin, salt) => {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(pin + salt);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            };
+
+            // Create child account
+            const createChildAccount = async (name, pin) => {
+                if (!family || !user || family.adminId !== user.uid) {
+                    return { success: false, error: 'notAdmin' };
+                }
+
+                try {
+                    const childId = crypto.randomUUID ? crypto.randomUUID() :
+                        'child_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+                    const pinHash = await hashPin(pin, family.code);
+
+                    const newChildAccount = {
+                        childId: childId,
+                        displayName: name,
+                        pinHash: pinHash,
+                        createdAt: new Date(),
+                        createdBy: user.uid,
+                        lastLoginAt: null,
+                        role: 'limited',
+                        familyRole: 'child',
+                        isChildAccount: true
+                    };
+
+                    const currentChildAccounts = family.childAccounts || [];
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'families', family.id),
+                        { childAccounts: [...currentChildAccounts, newChildAccount] }
+                    );
+
+                    await logActivity('child_account_created', { childName: name });
+                    return { success: true, childId: childId };
+                } catch (error) {
+                    console.error('Create child account error:', error);
+                    return { success: false, error: 'createFailed' };
+                }
+            };
+
+            // Delete child account
+            const deleteChildAccount = async (childId) => {
+                if (!family || !user || family.adminId !== user.uid) {
+                    return { success: false, error: 'notAdmin' };
+                }
+
+                try {
+                    const childAccount = family.childAccounts?.find(c => c.childId === childId);
+                    if (!childAccount) {
+                        return { success: false, error: 'notFound' };
+                    }
+
+                    const updatedChildAccounts = family.childAccounts.filter(c => c.childId !== childId);
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'families', family.id),
+                        { childAccounts: updatedChildAccounts }
+                    );
+
+                    await logActivity('child_account_deleted', { childName: childAccount.displayName });
+                    return { success: true };
+                } catch (error) {
+                    console.error('Delete child account error:', error);
+                    return { success: false, error: 'deleteFailed' };
+                }
+            };
+
+            // Reset child PIN
+            const resetChildPin = async (childId, newPin) => {
+                if (!family || !user || family.adminId !== user.uid) {
+                    return { success: false, error: 'notAdmin' };
+                }
+
+                try {
+                    const childAccount = family.childAccounts?.find(c => c.childId === childId);
+                    if (!childAccount) {
+                        return { success: false, error: 'notFound' };
+                    }
+
+                    const pinHash = await hashPin(newPin, family.code);
+                    const updatedChildAccounts = family.childAccounts.map(c =>
+                        c.childId === childId ? { ...c, pinHash: pinHash } : c
+                    );
+
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'families', family.id),
+                        { childAccounts: updatedChildAccounts }
+                    );
+
+                    await logActivity('child_pin_reset', { childName: childAccount.displayName });
+                    return { success: true };
+                } catch (error) {
+                    console.error('Reset child PIN error:', error);
+                    return { success: false, error: 'resetFailed' };
+                }
+            };
+
+            // Generate child invite token
+            const generateChildInviteToken = async () => {
+                if (!family || !user || family.adminId !== user.uid) {
+                    return { success: false, error: 'notAdmin' };
+                }
+
+                try {
+                    // Generate 32-char random token
+                    const array = new Uint8Array(16);
+                    crypto.getRandomValues(array);
+                    const token = Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
+
+                    const newToken = {
+                        token: token,
+                        expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+                        usedAt: null,
+                        createdBy: user.uid
+                    };
+
+                    const currentTokens = family.childInviteTokens || [];
+                    // Clean up expired/used tokens
+                    const validTokens = currentTokens.filter(t =>
+                        !t.usedAt && new Date(t.expiresAt.toDate ? t.expiresAt.toDate() : t.expiresAt) > new Date()
+                    );
+
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'families', family.id),
+                        { childInviteTokens: [...validTokens, newToken] }
+                    );
+
+                    return { success: true, token: token, expiresAt: newToken.expiresAt };
+                } catch (error) {
+                    console.error('Generate child invite token error:', error);
+                    return { success: false, error: 'generateFailed' };
+                }
+            };
+
+            // Validate child invite token (called from ChildAuthContext)
+            const validateChildInviteToken = async (token) => {
+                try {
+                    // Query all families for matching token
+                    const familiesRef = window.firestore.collection(window.db, 'families');
+                    const snapshot = await window.firestore.getDocs(familiesRef);
+
+                    let foundFamily = null;
+                    let foundToken = null;
+
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        const matchingToken = data.childInviteTokens?.find(t =>
+                            t.token === token &&
+                            !t.usedAt &&
+                            new Date(t.expiresAt.toDate ? t.expiresAt.toDate() : t.expiresAt) > new Date()
+                        );
+                        if (matchingToken) {
+                            foundFamily = { id: doc.id, ...data };
+                            foundToken = matchingToken;
+                        }
+                    });
+
+                    if (!foundFamily || !foundToken) {
+                        return { valid: false, error: 'invalidToken' };
+                    }
+
+                    return {
+                        valid: true,
+                        familyId: foundFamily.id,
+                        familyName: foundFamily.name,
+                        familyCode: foundFamily.code
+                    };
+                } catch (error) {
+                    console.error('Validate child invite token error:', error);
+                    return { valid: false, error: 'validationFailed' };
+                }
+            };
+
             const value = {
                 family,
                 lists,
@@ -2420,7 +2928,13 @@
                 createList,
                 deleteList,
                 logActivity,
-                isAdmin: family?.adminId === user?.uid
+                isAdmin: family?.adminId === user?.uid,
+                // Child account methods
+                createChildAccount,
+                deleteChildAccount,
+                resetChildPin,
+                generateChildInviteToken,
+                validateChildInviteToken
             };
 
             return <FamilyContext.Provider value={value}>{children}</FamilyContext.Provider>;
@@ -2728,12 +3242,18 @@
 
         // Family Settings Modal
         function FamilySettingsModal({ onClose }) {
-            const { family, leaveFamily, removeMember, isAdmin } = useFamily();
+            const { family, leaveFamily, removeMember, isAdmin, deleteChildAccount } = useFamily();
             const { user } = useAuth();
+            const { t, language } = useLanguage();
             const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
             const [copied, setCopied] = useState(false);
             const [showShareOptions, setShowShareOptions] = useState(false);
             const [qrCodeUrl, setQrCodeUrl] = useState('');
+            const [showCreateChildModal, setShowCreateChildModal] = useState(false);
+            const [showChildQRModal, setShowChildQRModal] = useState(false);
+            const [showResetPinModal, setShowResetPinModal] = useState(null);
+            const [deleteChildId, setDeleteChildId] = useState(null);
+            const isRTL = language === 'he' || language === 'ar';
 
             const inviteLink = `https://yossigidi.github.io/shooping-list/?join=${family?.code}`;
 
@@ -2777,8 +3297,13 @@
                 onClose();
             };
 
+            const handleDeleteChild = async (childId) => {
+                await deleteChildAccount(childId);
+                setDeleteChildId(null);
+            };
+
             return (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" dir={isRTL ? 'rtl' : 'ltr'}>
                     <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-2xl font-bold flex items-center gap-3">
@@ -2790,7 +3315,7 @@
 
                         {/* Share Code */}
                         <div className="glass rounded-xl p-4 mb-4">
-                            <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-2">קוד הזמנה</h3>
+                            <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-2">{t('inviteCode')}</h3>
                             <div className="flex items-center gap-3">
                                 <div className="flex-1 bg-indigo-100 dark:bg-indigo-900/50 px-4 py-3 rounded-lg text-center">
                                     <span className="text-2xl font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-widest">{family.code}</span>
@@ -2806,14 +3331,14 @@
                             onClick={generateQRCode}
                             className="w-full mb-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-600 transition-all flex items-center justify-center gap-2"
                         >
-                            <span>📤</span> שתף עם המשפחה
+                            <span>📤</span> {t('shareWithFamily')}
                         </button>
 
                         {/* Share Options Modal */}
                         {showShareOptions && (
                             <div className="glass rounded-xl p-4 mb-4 border-2 border-green-200 dark:border-green-800">
                                 <div className="flex justify-between items-center mb-3">
-                                    <h4 className="font-bold text-gray-700 dark:text-gray-300">אפשרויות שיתוף</h4>
+                                    <h4 className="font-bold text-gray-700 dark:text-gray-300">{t('shareOptions')}</h4>
                                     <button onClick={() => setShowShareOptions(false)} className="text-gray-400 hover:text-gray-600">✕</button>
                                 </div>
 
@@ -2840,24 +3365,24 @@
                                         className="flex flex-col items-center gap-1 p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-all"
                                     >
                                         <span className="text-2xl">📧</span>
-                                        <span className="text-xs font-medium text-blue-700 dark:text-blue-400">אימייל</span>
+                                        <span className="text-xs font-medium text-blue-700 dark:text-blue-400">{t('email')}</span>
                                     </button>
                                     <button
                                         onClick={copyLink}
                                         className="flex flex-col items-center gap-1 p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-all"
                                     >
                                         <span className="text-2xl">🔗</span>
-                                        <span className="text-xs font-medium text-purple-700 dark:text-purple-400">העתק קישור</span>
+                                        <span className="text-xs font-medium text-purple-700 dark:text-purple-400">{t('copyLink')}</span>
                                     </button>
                                 </div>
 
-                                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">סרקו את הקוד או שתפו בכל דרך שנוחה לכם</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">{t('scanQR')}</p>
                             </div>
                         )}
 
                         {/* Members List */}
-                        <div className="mb-6">
-                            <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3">חברי המשפחה ({family.members?.length})</h3>
+                        <div className="mb-4">
+                            <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3">{t('familyMembers')} ({family.members?.length})</h3>
                             <div className="space-y-2">
                                 {family.members?.map((member, idx) => (
                                     <div key={idx} className="glass rounded-lg p-3 flex items-center justify-between">
@@ -2868,8 +3393,8 @@
                                             <div>
                                                 <div className="font-medium dark:text-white">{member.displayName}</div>
                                                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                                                    {member.familyRoleLabel || (member.role === 'admin' ? '👑 מנהל' : 'חבר')}
-                                                    {(member.isParent || member.role === 'admin') && <span className="mr-1 text-green-600">• מנהל</span>}
+                                                    {member.familyRoleLabel || (member.role === 'admin' ? '👑 ' + t('admin') : t('child'))}
+                                                    {(member.isParent || member.role === 'admin') && <span className="mr-1 text-green-600">• {t('admin')}</span>}
                                                 </div>
                                             </div>
                                         </div>
@@ -2877,7 +3402,7 @@
                                             <button
                                                 onClick={() => removeMember(member.userId)}
                                                 className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
-                                                title="הסר חבר"
+                                                title={t('removeMember')}
                                             >
                                                 🗑
                                             </button>
@@ -2887,13 +3412,109 @@
                             </div>
                         </div>
 
+                        {/* Child Accounts Section - Admin Only */}
+                        {isAdmin && (
+                            <div className="mb-6">
+                                <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+                                    <span>👦</span>
+                                    {t('childAccounts')} ({family.childAccounts?.length || 0})
+                                </h3>
+
+                                {/* Child accounts list */}
+                                {family.childAccounts?.length > 0 ? (
+                                    <div className="space-y-2 mb-3">
+                                        {family.childAccounts.map((child, idx) => (
+                                            <div key={idx} className="glass rounded-lg p-3">
+                                                {deleteChildId === child.childId ? (
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-sm text-red-600 dark:text-red-400">{t('deleteChildAccount')}?</span>
+                                                        <div className="flex gap-2">
+                                                            <button
+                                                                onClick={() => handleDeleteChild(child.childId)}
+                                                                className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-medium"
+                                                            >
+                                                                {t('yes')}
+                                                            </button>
+                                                            <button
+                                                                onClick={() => setDeleteChildId(null)}
+                                                                className="glass px-3 py-1 rounded-lg text-sm font-medium"
+                                                            >
+                                                                {t('no')}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-xl">
+                                                                👦
+                                                            </div>
+                                                            <div>
+                                                                <div className="font-medium dark:text-white">{child.displayName}</div>
+                                                                <div className="text-xs text-gray-500 dark:text-gray-400">
+                                                                    {child.pinHash ? '🔐 PIN' : '📱 QR'}
+                                                                    {child.lastLoginAt && (
+                                                                        <span className="mr-2">
+                                                                            • {new Date(child.lastLoginAt.toDate ? child.lastLoginAt.toDate() : child.lastLoginAt).toLocaleDateString(language)}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex gap-1">
+                                                            {child.pinHash && (
+                                                                <button
+                                                                    onClick={() => setShowResetPinModal(child)}
+                                                                    className="text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-900/30 p-2 rounded-lg transition-colors"
+                                                                    title={t('resetPin')}
+                                                                >
+                                                                    🔑
+                                                                </button>
+                                                            )}
+                                                            <button
+                                                                onClick={() => setDeleteChildId(child.childId)}
+                                                                className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
+                                                                title={t('deleteChildAccount')}
+                                                            >
+                                                                🗑
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{t('noChildAccounts')}</p>
+                                )}
+
+                                {/* Add child account buttons */}
+                                <div className="grid grid-cols-2 gap-2">
+                                    <button
+                                        onClick={() => setShowCreateChildModal(true)}
+                                        className="flex items-center justify-center gap-2 py-2 px-3 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-lg font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors text-sm"
+                                    >
+                                        <span>➕</span>
+                                        {t('addChildAccount')}
+                                    </button>
+                                    <button
+                                        onClick={() => setShowChildQRModal(true)}
+                                        className="flex items-center justify-center gap-2 py-2 px-3 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400 rounded-lg font-medium hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-colors text-sm"
+                                    >
+                                        <span>📱</span>
+                                        {t('generateChildQR')}
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
                         {/* Leave Family */}
                         {!showLeaveConfirm ? (
                             <button
                                 onClick={() => setShowLeaveConfirm(true)}
                                 className="w-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 py-3 rounded-xl font-semibold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
                             >
-                                {isAdmin && family.members?.length === 1 ? '🗑 מחק משפחה' : '🚪 עזוב משפחה'}
+                                {isAdmin && family.members?.length === 1 ? '🗑 ' + t('deleteFamily') : '🚪 ' + t('leaveFamily')}
                             </button>
                         ) : (
                             <div className="glass rounded-xl p-4 border-2 border-red-300 dark:border-red-700">
@@ -2904,12 +3525,404 @@
                                 </p>
                                 <div className="flex gap-2">
                                     <button onClick={handleLeave} className="flex-1 bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600">
-                                        כן, {isAdmin && family.members?.length === 1 ? 'מחק' : 'עזוב'}
+                                        {t('yes')}, {isAdmin && family.members?.length === 1 ? t('delete') : t('leaveFamily')}
                                     </button>
                                     <button onClick={() => setShowLeaveConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">
-                                        ביטול
+                                        {t('cancel')}
                                     </button>
                                 </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Child Account Modals */}
+                    {showCreateChildModal && (
+                        <CreateChildAccountModal
+                            onClose={() => setShowCreateChildModal(false)}
+                            onSuccess={() => {}}
+                        />
+                    )}
+                    {showChildQRModal && (
+                        <GenerateChildQRModal
+                            onClose={() => setShowChildQRModal(false)}
+                        />
+                    )}
+                    {showResetPinModal && (
+                        <ResetChildPinModal
+                            child={showResetPinModal}
+                            onClose={() => setShowResetPinModal(null)}
+                            onSuccess={() => {}}
+                        />
+                    )}
+                </div>
+            );
+        }
+
+        // Create Child Account Modal
+        function CreateChildAccountModal({ onClose, onSuccess }) {
+            const { createChildAccount } = useFamily();
+            const { t, language } = useLanguage();
+            const [name, setName] = useState('');
+            const [pin, setPin] = useState('');
+            const [confirmPin, setConfirmPin] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+            const isRTL = language === 'he' || language === 'ar';
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setError('');
+
+                if (!name.trim()) {
+                    setError(t('enterDisplayName'));
+                    return;
+                }
+
+                if (!/^\d{4}$/.test(pin)) {
+                    setError(t('invalidPin'));
+                    return;
+                }
+
+                if (pin !== confirmPin) {
+                    setError(t('pinMismatch'));
+                    return;
+                }
+
+                setLoading(true);
+                const result = await createChildAccount(name.trim(), pin);
+
+                if (result.success) {
+                    onSuccess?.();
+                    onClose();
+                } else {
+                    setError(t('error'));
+                }
+                setLoading(false);
+            };
+
+            return (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-xl font-bold flex items-center gap-2">
+                                <span className="text-2xl">👦</span>
+                                <span className="text-gradient">{t('addChildAccount')}</span>
+                            </h2>
+                            <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 transition-all">×</button>
+                        </div>
+
+                        {error && (
+                            <div className="bg-red-100 dark:bg-red-900/30 border-2 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm mb-4">
+                                {error}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('childName')}</label>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                    placeholder={t('displayNamePlaceholder')}
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('pinCode')}</label>
+                                <input
+                                    type="password"
+                                    inputMode="numeric"
+                                    pattern="\d{4}"
+                                    maxLength={4}
+                                    value={pin}
+                                    onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                                    placeholder="****"
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-2xl tracking-widest"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('confirmPin')}</label>
+                                <input
+                                    type="password"
+                                    inputMode="numeric"
+                                    pattern="\d{4}"
+                                    maxLength={4}
+                                    value={confirmPin}
+                                    onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                                    placeholder="****"
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-2xl tracking-widest"
+                                    required
+                                />
+                            </div>
+
+                            <div className="flex gap-3 pt-2">
+                                <button
+                                    type="button"
+                                    onClick={onClose}
+                                    className="flex-1 glass py-3 rounded-xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                >
+                                    {t('cancel')}
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="flex-1 btn-gradient text-white py-3 rounded-xl font-semibold disabled:opacity-50"
+                                >
+                                    {loading ? t('loading') : t('add')}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        // Reset Child PIN Modal
+        function ResetChildPinModal({ child, onClose, onSuccess }) {
+            const { resetChildPin } = useFamily();
+            const { t, language } = useLanguage();
+            const [pin, setPin] = useState('');
+            const [confirmPin, setConfirmPin] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+            const isRTL = language === 'he' || language === 'ar';
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setError('');
+
+                if (!/^\d{4}$/.test(pin)) {
+                    setError(t('invalidPin'));
+                    return;
+                }
+
+                if (pin !== confirmPin) {
+                    setError(t('pinMismatch'));
+                    return;
+                }
+
+                setLoading(true);
+                const result = await resetChildPin(child.childId, pin);
+
+                if (result.success) {
+                    onSuccess?.();
+                    onClose();
+                } else {
+                    setError(t('error'));
+                }
+                setLoading(false);
+            };
+
+            return (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-xl font-bold flex items-center gap-2">
+                                <span className="text-2xl">🔑</span>
+                                <span className="text-gradient">{t('resetPin')}</span>
+                            </h2>
+                            <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 transition-all">×</button>
+                        </div>
+
+                        <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                            {t('resetPin')} - {child.displayName}
+                        </p>
+
+                        {error && (
+                            <div className="bg-red-100 dark:bg-red-900/30 border-2 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm mb-4">
+                                {error}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('pinCode')}</label>
+                                <input
+                                    type="password"
+                                    inputMode="numeric"
+                                    pattern="\d{4}"
+                                    maxLength={4}
+                                    value={pin}
+                                    onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                                    placeholder="****"
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-2xl tracking-widest"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('confirmPin')}</label>
+                                <input
+                                    type="password"
+                                    inputMode="numeric"
+                                    pattern="\d{4}"
+                                    maxLength={4}
+                                    value={confirmPin}
+                                    onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                                    placeholder="****"
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-2xl tracking-widest"
+                                    required
+                                />
+                            </div>
+
+                            <div className="flex gap-3 pt-2">
+                                <button
+                                    type="button"
+                                    onClick={onClose}
+                                    className="flex-1 glass py-3 rounded-xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                >
+                                    {t('cancel')}
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="flex-1 btn-gradient text-white py-3 rounded-xl font-semibold disabled:opacity-50"
+                                >
+                                    {loading ? t('loading') : t('save')}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        // Generate Child QR Modal
+        function GenerateChildQRModal({ onClose }) {
+            const { generateChildInviteToken, family } = useFamily();
+            const { t, language } = useLanguage();
+            const [token, setToken] = useState(null);
+            const [expiresAt, setExpiresAt] = useState(null);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState('');
+            const [qrCodeUrl, setQrCodeUrl] = useState('');
+            const [timeLeft, setTimeLeft] = useState(0);
+            const isRTL = language === 'he' || language === 'ar';
+
+            // Generate token on mount
+            useEffect(() => {
+                const generateToken = async () => {
+                    const result = await generateChildInviteToken();
+                    if (result.success) {
+                        setToken(result.token);
+                        setExpiresAt(result.expiresAt);
+
+                        // Generate QR code
+                        const joinUrl = `${window.location.origin}${window.location.pathname}?childToken=${result.token}`;
+                        try {
+                            const qr = qrcode(0, 'M');
+                            qr.addData(joinUrl);
+                            qr.make();
+                            setQrCodeUrl(qr.createDataURL(6, 0));
+                        } catch (e) {
+                            console.error('QR generation error:', e);
+                        }
+                    } else {
+                        setError(t('error'));
+                    }
+                    setLoading(false);
+                };
+                generateToken();
+            }, []);
+
+            // Countdown timer
+            useEffect(() => {
+                if (!expiresAt) return;
+
+                const updateTimer = () => {
+                    const now = new Date();
+                    const expires = new Date(expiresAt);
+                    const diff = Math.max(0, Math.floor((expires - now) / 1000));
+                    setTimeLeft(diff);
+                };
+
+                updateTimer();
+                const interval = setInterval(updateTimer, 1000);
+                return () => clearInterval(interval);
+            }, [expiresAt]);
+
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            };
+
+            const copyLink = () => {
+                const joinUrl = `${window.location.origin}${window.location.pathname}?childToken=${token}`;
+                navigator.clipboard.writeText(joinUrl);
+            };
+
+            return (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-xl font-bold flex items-center gap-2">
+                                <span className="text-2xl">📱</span>
+                                <span className="text-gradient">{t('childInviteQR')}</span>
+                            </h2>
+                            <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 transition-all">×</button>
+                        </div>
+
+                        {loading ? (
+                            <div className="text-center py-8">
+                                <div className="text-4xl mb-4 animate-pulse">📱</div>
+                                <p className="text-gray-600 dark:text-gray-400">{t('loading')}</p>
+                            </div>
+                        ) : error ? (
+                            <div className="text-center py-8">
+                                <div className="text-4xl mb-4">❌</div>
+                                <p className="text-red-600 dark:text-red-400">{error}</p>
+                            </div>
+                        ) : timeLeft === 0 ? (
+                            <div className="text-center py-8">
+                                <div className="text-4xl mb-4">⏰</div>
+                                <p className="text-orange-600 dark:text-orange-400 font-medium">{t('qrExpired')}</p>
+                                <button
+                                    onClick={onClose}
+                                    className="mt-4 glass py-2 px-6 rounded-xl font-semibold"
+                                >
+                                    {t('close')}
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="text-center">
+                                {/* QR Code */}
+                                {qrCodeUrl && (
+                                    <div className="flex justify-center mb-4">
+                                        <div className="bg-white p-4 rounded-xl shadow-lg">
+                                            <img src={qrCodeUrl} alt="QR Code" className="w-48 h-48" />
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Timer */}
+                                <div className="mb-4">
+                                    <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${timeLeft < 60 ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'} font-mono font-bold text-lg`}>
+                                        <span>⏱️</span>
+                                        <span>{formatTime(timeLeft)}</span>
+                                    </div>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                        {t('qrValidFor').replace('{minutes}', '10')}
+                                    </p>
+                                </div>
+
+                                {/* Copy link button */}
+                                <button
+                                    onClick={copyLink}
+                                    className="w-full glass py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                >
+                                    <span>🔗</span>
+                                    <span>{t('copyLink')}</span>
+                                </button>
+
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">
+                                    {t('scanToJoin')}
+                                </p>
                             </div>
                         )}
                     </div>
@@ -3394,10 +4407,447 @@
             );
         }
 
+        // Child Login Form - PIN-based login for children
+        function ChildLoginForm({ onSwitchToLogin }) {
+            const { t, language } = useLanguage();
+            const { loginChild } = useChildAuth();
+            const [familyCode, setFamilyCode] = useState('');
+            const [selectedChild, setSelectedChild] = useState(null);
+            const [pin, setPin] = useState('');
+            const [error, setError] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [childAccounts, setChildAccounts] = useState([]);
+            const [familyData, setFamilyData] = useState(null);
+            const [step, setStep] = useState(1); // 1: enter code, 2: select child, 3: enter PIN
+            const [attempts, setAttempts] = useState(0);
+            const [lockedUntil, setLockedUntil] = useState(null);
+            const isRTL = language === 'he' || language === 'ar';
+
+            // Check rate limit from localStorage
+            useEffect(() => {
+                const saved = localStorage.getItem('childLoginAttempts');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    if (data.lockedUntil && new Date(data.lockedUntil) > new Date()) {
+                        setLockedUntil(new Date(data.lockedUntil));
+                        setAttempts(data.attempts);
+                    } else if (new Date() - new Date(data.firstAttempt) > 15 * 60 * 1000) {
+                        // Reset after 15 minutes
+                        localStorage.removeItem('childLoginAttempts');
+                    } else {
+                        setAttempts(data.attempts);
+                    }
+                }
+            }, []);
+
+            // Update lockout timer
+            useEffect(() => {
+                if (!lockedUntil) return;
+                const interval = setInterval(() => {
+                    if (new Date() >= lockedUntil) {
+                        setLockedUntil(null);
+                        setAttempts(0);
+                        localStorage.removeItem('childLoginAttempts');
+                    }
+                }, 1000);
+                return () => clearInterval(interval);
+            }, [lockedUntil]);
+
+            const recordAttempt = () => {
+                const saved = localStorage.getItem('childLoginAttempts');
+                let data = saved ? JSON.parse(saved) : { attempts: 0, firstAttempt: new Date().toISOString() };
+                data.attempts++;
+
+                if (data.attempts >= 5) {
+                    data.lockedUntil = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+                    setLockedUntil(new Date(data.lockedUntil));
+                }
+
+                localStorage.setItem('childLoginAttempts', JSON.stringify(data));
+                setAttempts(data.attempts);
+            };
+
+            const handleFamilyCodeSubmit = async (e) => {
+                e.preventDefault();
+                setError('');
+
+                if (!/^[A-Z0-9]{6}$/.test(familyCode.toUpperCase())) {
+                    setError(t('enterCode'));
+                    return;
+                }
+
+                setLoading(true);
+
+                try {
+                    const q = window.firestore.query(
+                        window.firestore.collection(window.db, 'families'),
+                        window.firestore.where('code', '==', familyCode.toUpperCase())
+                    );
+                    const snapshot = await window.firestore.getDocs(q);
+
+                    if (snapshot.empty) {
+                        setError(t('codeNotFound'));
+                        setLoading(false);
+                        return;
+                    }
+
+                    const doc = snapshot.docs[0];
+                    const data = doc.data();
+
+                    if (!data.childAccounts || data.childAccounts.length === 0) {
+                        setError(t('noChildAccounts'));
+                        setLoading(false);
+                        return;
+                    }
+
+                    // Filter to only show children with PIN (not QR-only)
+                    const childrenWithPin = data.childAccounts.filter(c => c.pinHash);
+                    if (childrenWithPin.length === 0) {
+                        setError(t('noChildAccounts'));
+                        setLoading(false);
+                        return;
+                    }
+
+                    setFamilyData({ id: doc.id, ...data });
+                    setChildAccounts(childrenWithPin);
+                    setStep(2);
+                } catch (err) {
+                    console.error('Family lookup error:', err);
+                    setError(t('error'));
+                }
+
+                setLoading(false);
+            };
+
+            const handleChildSelect = (child) => {
+                setSelectedChild(child);
+                setStep(3);
+                setPin('');
+            };
+
+            const handlePinSubmit = async (e) => {
+                e.preventDefault();
+                setError('');
+
+                if (lockedUntil) {
+                    const mins = Math.ceil((lockedUntil - new Date()) / 60000);
+                    setError(t('tooManyAttempts').replace('{minutes}', mins));
+                    return;
+                }
+
+                if (!/^\d{4}$/.test(pin)) {
+                    setError(t('invalidPin'));
+                    return;
+                }
+
+                setLoading(true);
+
+                const result = await loginChild(
+                    familyData.id,
+                    familyData.code,
+                    selectedChild.childId,
+                    selectedChild.displayName,
+                    pin
+                );
+
+                if (result.success) {
+                    // Clear rate limit on success
+                    localStorage.removeItem('childLoginAttempts');
+                    // Reload to trigger auth state change
+                    window.location.reload();
+                } else {
+                    recordAttempt();
+                    if (result.error === 'invalidPin') {
+                        setError(t('invalidPin'));
+                    } else {
+                        setError(t('error'));
+                    }
+                }
+
+                setLoading(false);
+            };
+
+            const getLockedMinutes = () => {
+                if (!lockedUntil) return 0;
+                return Math.ceil((lockedUntil - new Date()) / 60000);
+            };
+
+            return (
+                <div className="space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white text-center mb-6 flex items-center justify-center gap-2">
+                        <span>👦</span>
+                        {t('childLogin')}
+                    </h2>
+
+                    {error && (
+                        <div className="bg-red-100 dark:bg-red-900/30 border-2 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
+                            {error}
+                        </div>
+                    )}
+
+                    {lockedUntil && (
+                        <div className="bg-orange-100 dark:bg-orange-900/30 border-2 border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300 px-4 py-3 rounded-lg text-sm text-center">
+                            {t('tooManyAttempts').replace('{minutes}', getLockedMinutes())}
+                        </div>
+                    )}
+
+                    {step === 1 && (
+                        <form onSubmit={handleFamilyCodeSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('familyCode')}</label>
+                                <input
+                                    type="text"
+                                    value={familyCode}
+                                    onChange={e => setFamilyCode(e.target.value.toUpperCase().slice(0, 6))}
+                                    placeholder="XXXXXX"
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-2xl tracking-widest font-mono"
+                                    maxLength={6}
+                                    required
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading || familyCode.length !== 6}
+                                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50"
+                            >
+                                {loading ? t('loading') : t('next')}
+                            </button>
+                        </form>
+                    )}
+
+                    {step === 2 && (
+                        <div className="space-y-4">
+                            <p className="text-sm text-gray-600 dark:text-gray-400 text-center mb-4">{t('selectChild')}</p>
+                            <div className="space-y-2">
+                                {childAccounts.map((child, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => handleChildSelect(child)}
+                                        className="w-full glass rounded-xl p-4 flex items-center gap-4 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors"
+                                    >
+                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-2xl">
+                                            👦
+                                        </div>
+                                        <span className="font-medium text-lg dark:text-white">{child.displayName}</span>
+                                    </button>
+                                ))}
+                            </div>
+                            <button
+                                onClick={() => { setStep(1); setFamilyCode(''); }}
+                                className="w-full text-gray-600 dark:text-gray-400 text-sm hover:underline"
+                            >
+                                {t('back')}
+                            </button>
+                        </div>
+                    )}
+
+                    {step === 3 && (
+                        <form onSubmit={handlePinSubmit} className="space-y-4">
+                            <div className="text-center mb-4">
+                                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-3xl mx-auto mb-2">
+                                    👦
+                                </div>
+                                <p className="font-medium text-lg dark:text-white">{selectedChild.displayName}</p>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('enterPin')}</label>
+                                <input
+                                    type="password"
+                                    inputMode="numeric"
+                                    pattern="\d{4}"
+                                    maxLength={4}
+                                    value={pin}
+                                    onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                                    placeholder="****"
+                                    className="w-full px-4 py-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-3xl tracking-widest"
+                                    autoFocus
+                                    required
+                                    disabled={!!lockedUntil}
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading || pin.length !== 4 || !!lockedUntil}
+                                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50"
+                            >
+                                {loading ? t('loading') : t('login')}
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => { setStep(2); setPin(''); setError(''); }}
+                                className="w-full text-gray-600 dark:text-gray-400 text-sm hover:underline"
+                            >
+                                {t('back')}
+                            </button>
+                        </form>
+                    )}
+
+                    <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <button
+                            onClick={onSwitchToLogin}
+                            className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline"
+                        >
+                            {t('backToLogin')}
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // Child QR Join Screen - for children joining via QR code
+        function ChildQRJoinScreen({ token, onBack }) {
+            const { t, language } = useLanguage();
+            const { loginChildWithToken } = useChildAuth();
+            const { validateChildInviteToken } = useFamily() || {};
+            const [displayName, setDisplayName] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [validating, setValidating] = useState(true);
+            const [tokenInfo, setTokenInfo] = useState(null);
+            const [error, setError] = useState('');
+            const isRTL = language === 'he' || language === 'ar';
+
+            // Validate token on mount
+            useEffect(() => {
+                const validate = async () => {
+                    try {
+                        // Query families for matching token directly
+                        const familiesRef = window.firestore.collection(window.db, 'families');
+                        const snapshot = await window.firestore.getDocs(familiesRef);
+
+                        let found = null;
+                        snapshot.forEach(doc => {
+                            const data = doc.data();
+                            const matchingToken = data.childInviteTokens?.find(t =>
+                                t.token === token &&
+                                !t.usedAt &&
+                                new Date(t.expiresAt.toDate ? t.expiresAt.toDate() : t.expiresAt) > new Date()
+                            );
+                            if (matchingToken) {
+                                found = { familyId: doc.id, familyName: data.name, familyCode: data.code };
+                            }
+                        });
+
+                        if (found) {
+                            setTokenInfo(found);
+                        } else {
+                            setError(t('invalidToken'));
+                        }
+                    } catch (err) {
+                        console.error('Token validation error:', err);
+                        setError(t('error'));
+                    }
+                    setValidating(false);
+                };
+                validate();
+            }, [token]);
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setError('');
+
+                if (!displayName.trim()) {
+                    setError(t('enterDisplayName'));
+                    return;
+                }
+
+                setLoading(true);
+                const result = await loginChildWithToken(token, displayName.trim());
+
+                if (result.success) {
+                    window.location.reload();
+                } else {
+                    setError(t(result.error) || t('error'));
+                }
+                setLoading(false);
+            };
+
+            if (validating) {
+                return (
+                    <div className="text-center py-8" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className="text-4xl mb-4 animate-pulse">📱</div>
+                        <p className="text-gray-600 dark:text-gray-400">{t('loading')}</p>
+                    </div>
+                );
+            }
+
+            if (error && !tokenInfo) {
+                return (
+                    <div className="text-center py-8" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className="text-4xl mb-4">❌</div>
+                        <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                        <button
+                            onClick={onBack}
+                            className="text-indigo-600 dark:text-indigo-400 hover:underline"
+                        >
+                            {t('backToLogin')}
+                        </button>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white text-center mb-2 flex items-center justify-center gap-2">
+                        <span>👦</span>
+                        {t('joinViaQR')}
+                    </h2>
+
+                    <div className="text-center mb-4">
+                        <p className="text-gray-600 dark:text-gray-400">
+                            {t('joinFamily')}: <strong className="text-indigo-600 dark:text-indigo-400">{tokenInfo?.familyName}</strong>
+                        </p>
+                    </div>
+
+                    {error && (
+                        <div className="bg-red-100 dark:bg-red-900/30 border-2 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('enterYourName')}</label>
+                            <input
+                                type="text"
+                                value={displayName}
+                                onChange={e => setDisplayName(e.target.value)}
+                                placeholder={t('displayNamePlaceholder')}
+                                className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors"
+                                autoFocus
+                                required
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50"
+                        >
+                            {loading ? t('joining') : t('joinFamily')}
+                        </button>
+                    </form>
+
+                    <button
+                        onClick={onBack}
+                        className="w-full text-gray-600 dark:text-gray-400 text-sm hover:underline"
+                    >
+                        {t('cancel')}
+                    </button>
+                </div>
+            );
+        }
+
         // Auth Screen Container
         function AuthScreen() {
+            const { t, language } = useLanguage();
             const [mode, setMode] = useState('login');
             const [darkMode, setDarkMode] = useState(false);
+            const [childToken, setChildToken] = useState(null);
+            const isRTL = language === 'he' || language === 'ar';
 
             useEffect(() => {
                 const savedDark = localStorage.getItem('darkMode') === 'true';
@@ -3413,6 +4863,15 @@
                     localStorage.setItem('pendingJoinCode', joinCode);
                     // Switch to signup mode for new users coming from invite
                     setMode('signup');
+                    // Clean URL without reloading
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+
+                // Check for child token from QR code
+                const token = urlParams.get('childToken');
+                if (token) {
+                    setChildToken(token);
+                    setMode('child-qr');
                     // Clean URL without reloading
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }
@@ -3437,22 +4896,42 @@
                         </button>
 
                         <div className="text-center mb-8 pt-4">
-                            <div className="text-7xl mb-4 float">🛒</div>
+                            <div className="text-7xl mb-4 float">{mode === 'child-login' || mode === 'child-qr' ? '👦' : '🛒'}</div>
                             <h1 className="text-3xl font-bold text-gradient mb-2">ListNest</h1>
-                            <p className="text-gray-500 dark:text-gray-400 text-sm">רשימת הקניות החכמה שלך</p>
+                            <p className="text-gray-500 dark:text-gray-400 text-sm">{t('smartShoppingList')}</p>
                         </div>
 
                         {mode === 'login' && (
-                            <LoginForm
-                                onSwitchToSignUp={() => setMode('signup')}
-                                onSwitchToReset={() => setMode('reset')}
-                            />
+                            <>
+                                <LoginForm
+                                    onSwitchToSignUp={() => setMode('signup')}
+                                    onSwitchToReset={() => setMode('reset')}
+                                />
+                                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                    <button
+                                        onClick={() => setMode('child-login')}
+                                        className="w-full flex items-center justify-center gap-2 py-2 text-purple-600 dark:text-purple-400 font-medium hover:underline"
+                                    >
+                                        <span>👦</span>
+                                        {t('childLogin')}
+                                    </button>
+                                </div>
+                            </>
                         )}
                         {mode === 'signup' && (
                             <SignUpForm onSwitchToLogin={() => setMode('login')} />
                         )}
                         {mode === 'reset' && (
                             <PasswordResetForm onSwitchToLogin={() => setMode('login')} />
+                        )}
+                        {mode === 'child-login' && (
+                            <ChildLoginForm onSwitchToLogin={() => setMode('login')} />
+                        )}
+                        {mode === 'child-qr' && childToken && (
+                            <ChildQRJoinScreen
+                                token={childToken}
+                                onBack={() => { setMode('login'); setChildToken(null); }}
+                            />
                         )}
                     </div>
                 </div>
@@ -13476,6 +14955,132 @@ END:VCALENDAR`;
             return <ShoppingList />;
         }
 
+        // Child App Content - simplified version for child accounts
+        function ChildAppContent({ childUser }) {
+            const { logoutChild } = useChildAuth();
+            const { t, language } = useLanguage();
+            const [family, setFamily] = useState(null);
+            const [lists, setLists] = useState([]);
+            const [currentList, setCurrentList] = useState(null);
+            const [loading, setLoading] = useState(true);
+            const [darkMode, setDarkMode] = useState(false);
+
+            useEffect(() => {
+                const savedDark = localStorage.getItem('darkMode') === 'true';
+                if (savedDark) {
+                    setDarkMode(true);
+                    document.documentElement.classList.add('dark');
+                }
+            }, []);
+
+            // Load family data
+            useEffect(() => {
+                if (!childUser?.familyId) {
+                    setLoading(false);
+                    return;
+                }
+
+                const unsubscribe = window.firestore.onSnapshot(
+                    window.firestore.doc(window.db, 'families', childUser.familyId),
+                    (doc) => {
+                        if (doc.exists()) {
+                            setFamily({ id: doc.id, ...doc.data() });
+                        }
+                        setLoading(false);
+                    }
+                );
+
+                return () => unsubscribe();
+            }, [childUser?.familyId]);
+
+            // Load lists
+            useEffect(() => {
+                if (!childUser?.familyId) return;
+
+                const q = window.firestore.query(
+                    window.firestore.collection(window.db, 'lists'),
+                    window.firestore.where('familyId', '==', childUser.familyId)
+                );
+
+                const unsubscribe = window.firestore.onSnapshot(q, (snapshot) => {
+                    const listsData = [];
+                    snapshot.forEach((doc) => {
+                        listsData.push({ id: doc.id, ...doc.data() });
+                    });
+                    listsData.sort((a, b) => (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0));
+                    setLists(listsData);
+
+                    if (!currentList || !listsData.find(l => l.id === currentList.id)) {
+                        const defaultList = listsData.find(l => l.isDefault) || listsData[0];
+                        setCurrentList(defaultList);
+                    }
+                });
+
+                return () => unsubscribe();
+            }, [childUser?.familyId]);
+
+            const toggleDarkMode = () => {
+                const newMode = !darkMode;
+                setDarkMode(newMode);
+                localStorage.setItem('darkMode', String(newMode));
+                document.documentElement.classList.toggle('dark');
+            };
+
+            if (loading) {
+                return (
+                    <div className="min-h-screen gradient-bg flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="text-6xl mb-4 float">👦</div>
+                            <div className="text-xl text-white font-medium">{t('loading')}</div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Create a minimal family context for child
+            const childFamilyContext = {
+                family,
+                lists,
+                currentList,
+                setCurrentList,
+                activities: [],
+                loading: false,
+                isAdmin: false,
+                isChildAccount: true,
+                logActivity: async () => {} // Children don't log activity
+            };
+
+            return (
+                <FamilyContext.Provider value={childFamilyContext}>
+                    <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
+                        {/* Child mode banner */}
+                        <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center py-2 px-4 text-sm font-medium flex items-center justify-between">
+                            <span className="flex items-center gap-2">
+                                <span>👦</span>
+                                <span>{t('welcomeChild').replace('{name}', childUser.displayName)}</span>
+                            </span>
+                            <button
+                                onClick={logoutChild}
+                                className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg text-xs transition-colors"
+                            >
+                                {t('logoutChild')}
+                            </button>
+                        </div>
+                        {family && currentList ? (
+                            <ShoppingList />
+                        ) : (
+                            <div className="min-h-screen gradient-bg flex items-center justify-center p-4">
+                                <div className="text-center text-white">
+                                    <div className="text-6xl mb-4">👨‍👩‍👧‍👦</div>
+                                    <p>{t('loading')}</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </FamilyContext.Provider>
+            );
+        }
+
         // Error Boundary Component for catching React errors
         class ErrorBoundary extends React.Component {
             constructor(props) {
@@ -13537,9 +15142,10 @@ END:VCALENDAR`;
 
         // Main App Component
         function App() {
-            const { user, loading } = useAuth();
+            const { user, loading: authLoading } = useAuth();
+            const { childUser, loading: childLoading } = useChildAuth();
 
-            if (loading) {
+            if (authLoading || childLoading) {
                 return (
                     <div className="min-h-screen gradient-bg flex items-center justify-center">
                         <div className="text-center">
@@ -13553,8 +15159,14 @@ END:VCALENDAR`;
                 );
             }
 
-            if (!user) {
+            // If neither user nor child is logged in, show auth screen
+            if (!user && !childUser) {
                 return <AuthScreen />;
+            }
+
+            // If child is logged in (without Firebase user), show child app content
+            if (childUser && !user) {
+                return <ChildAppContent childUser={childUser} />;
             }
 
             return (
@@ -13568,7 +15180,9 @@ END:VCALENDAR`;
             <ErrorBoundary>
                 <LanguageProvider>
                     <AuthProvider>
-                        <App />
+                        <ChildAuthProvider>
+                            <App />
+                        </ChildAuthProvider>
                     </AuthProvider>
                 </LanguageProvider>
             </ErrorBoundary>,
