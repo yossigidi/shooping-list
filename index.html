@@ -7427,6 +7427,15 @@
                 }
             };
 
+            // Chain promotion page URLs (verified February 2026)
+            const CHAIN_PROMO_URLS = {
+                1: 'https://www.shufersal.co.il/online/he/promo/A',
+                2: 'https://www.rami-levy.co.il/he/online/feed',
+                3: 'https://www.ybitan.co.il/specials',
+                4: 'https://victory.co.il/%D7%9E%D7%91%D7%A6%D7%A2%D7%99-%D7%94%D7%A9%D7%91%D7%95%D7%A2/',
+                5: 'https://shop.hazi-hinam.co.il/promotions/%D7%A2%D7%9C%D7%95%D7%9F-%D7%9E%D7%91%D7%A6%D7%A2%D7%99%D7%9D'
+            };
+
             // Sample promotions data (fallback when API unavailable)
             const SAMPLE_PROMOTIONS = {
                 success: true,
@@ -7434,6 +7443,7 @@
                 byChain: [
                     {
                         chain_id: 1, chain_name: 'Shufersal', chain_name_he: 'שופרסל',
+                        promo_url: CHAIN_PROMO_URLS[1],
                         promotions: [
                             { description: 'חלב תנובה 3% - 2 ב-12.90₪', end_date: '2026-02-28' },
                             { description: 'קורנפלקס קלוגס - 1+1 מתנה', end_date: '2026-02-20' },
@@ -7443,6 +7453,7 @@
                     },
                     {
                         chain_id: 2, chain_name: 'Rami Levy', chain_name_he: 'רמי לוי',
+                        promo_url: CHAIN_PROMO_URLS[2],
                         promotions: [
                             { description: 'עוף שלם טרי - 19.90₪ לק"ג', end_date: '2026-02-15' },
                             { description: 'קוקה קולה 6 פחיות - 24.90₪', end_date: '2026-02-28' },
@@ -7452,6 +7463,7 @@
                     },
                     {
                         chain_id: 3, chain_name: 'Yeinot Bitan', chain_name_he: 'יינות ביתן',
+                        promo_url: CHAIN_PROMO_URLS[3],
                         promotions: [
                             { description: 'יין אדום יקבי כרמל - 29.90₪', end_date: '2026-02-28' },
                             { description: 'גבינות איטלקיות - 30% הנחה', end_date: '2026-02-20' },
@@ -7460,6 +7472,7 @@
                     },
                     {
                         chain_id: 4, chain_name: 'Victory', chain_name_he: 'ויקטורי',
+                        promo_url: CHAIN_PROMO_URLS[4],
                         promotions: [
                             { description: 'מוצרי חלב שטראוס - קנה 3 שלם 2', end_date: '2026-02-22' },
                             { description: 'שימורי טונה - 4 ב-25₪', end_date: '2026-02-28' }
@@ -7467,6 +7480,7 @@
                     },
                     {
                         chain_id: 5, chain_name: 'Hatzi Hinam', chain_name_he: 'חצי חינם',
+                        promo_url: CHAIN_PROMO_URLS[5],
                         promotions: [
                             { description: 'כל מוצרי הניקיון - 1+1', end_date: '2026-02-20' },
                             { description: 'פירות וירקות טריים - 50% הנחה על השני', end_date: '2026-02-15' }
@@ -10409,6 +10423,17 @@ END:VCALENDAR`;
                                                         </div>
                                                     )}
                                                 </div>
+                                                {/* Link to chain's promotion page */}
+                                                {(chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id]) && (
+                                                    <a
+                                                        href={chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id]}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="block w-full p-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-center font-bold text-sm hover:from-orange-600 hover:to-red-600 transition-all"
+                                                    >
+                                                        🔗 לכל המבצעים באתר {chain.chain_name_he}
+                                                    </a>
+                                                )}
                                             </div>
                                         ))}
                                     </div>
