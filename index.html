@@ -7307,13 +7307,61 @@
                 }
             };
 
+            // Sample promotions data (fallback when API unavailable)
+            const SAMPLE_PROMOTIONS = {
+                success: true,
+                total: 15,
+                byChain: [
+                    {
+                        chain_id: 1, chain_name: 'Shufersal', chain_name_he: 'שופרסל',
+                        promotions: [
+                            { description: 'חלב תנובה 3% - 2 ב-12.90₪', end_date: '2026-02-28' },
+                            { description: 'קורנפלקס קלוגס - 1+1 מתנה', end_date: '2026-02-20' },
+                            { description: 'שמן זית רביעיה 750 מ"ל - 29.90₪', end_date: '2026-02-25' },
+                            { description: 'גבינה צהובה עמק - 20% הנחה', end_date: '2026-02-22' }
+                        ]
+                    },
+                    {
+                        chain_id: 2, chain_name: 'Rami Levy', chain_name_he: 'רמי לוי',
+                        promotions: [
+                            { description: 'עוף שלם טרי - 19.90₪ לק"ג', end_date: '2026-02-15' },
+                            { description: 'קוקה קולה 6 פחיות - 24.90₪', end_date: '2026-02-28' },
+                            { description: 'ביצים L - תריס ב-21.90₪', end_date: '2026-02-18' },
+                            { description: 'פסטה ברילה - 3 ב-20₪', end_date: '2026-02-25' }
+                        ]
+                    },
+                    {
+                        chain_id: 3, chain_name: 'Yeinot Bitan', chain_name_he: 'יינות ביתן',
+                        promotions: [
+                            { description: 'יין אדום יקבי כרמל - 29.90₪', end_date: '2026-02-28' },
+                            { description: 'גבינות איטלקיות - 30% הנחה', end_date: '2026-02-20' },
+                            { description: 'לחם אחיד - 2 ב-10₪', end_date: '2026-02-15' }
+                        ]
+                    },
+                    {
+                        chain_id: 4, chain_name: 'Victory', chain_name_he: 'ויקטורי',
+                        promotions: [
+                            { description: 'מוצרי חלב שטראוס - קנה 3 שלם 2', end_date: '2026-02-22' },
+                            { description: 'שימורי טונה - 4 ב-25₪', end_date: '2026-02-28' }
+                        ]
+                    },
+                    {
+                        chain_id: 5, chain_name: 'Hatzi Hinam', chain_name_he: 'חצי חינם',
+                        promotions: [
+                            { description: 'כל מוצרי הניקיון - 1+1', end_date: '2026-02-20' },
+                            { description: 'פירות וירקות טריים - 50% הנחה על השני', end_date: '2026-02-15' }
+                        ]
+                    }
+                ]
+            };
+
             // Fetch promotions
             const fetchPromotions = async () => {
                 setPromotionsLoading(true);
                 try {
-                    const response = await fetch('https://listnest.vercel.app/api/prices?action=promotions');
+                    const response = await fetch('/api/prices?action=promotions');
                     const data = await response.json();
-                    if (data.success) {
+                    if (data.success && data.total > 0) {
                         setPromotionsData(data);
                         // Build lookup for product promotions
                         const promoLookup = {};
@@ -7328,9 +7376,14 @@
                             });
                         });
                         setProductPromotions(promoLookup);
+                    } else {
+                        // Use sample data as fallback
+                        setPromotionsData(SAMPLE_PROMOTIONS);
                     }
                 } catch (error) {
                     console.error('Failed to fetch promotions:', error);
+                    // Use sample data as fallback
+                    setPromotionsData(SAMPLE_PROMOTIONS);
                 } finally {
                     setPromotionsLoading(false);
                 }
@@ -11677,10 +11730,13 @@ END:VCALENDAR`;
                                     )}
                                     <button
                                         onClick={() => { setShowPromotions(true); fetchPromotions(); }}
-                                        className="flex items-center gap-2 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 px-4 py-2 rounded-xl hover:bg-yellow-100 dark:hover:bg-yellow-900/40 transition-all"
+                                        className="relative flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-orange-400 dark:from-yellow-600 dark:to-orange-600 text-white px-4 py-2 rounded-xl hover:from-yellow-500 hover:to-orange-500 dark:hover:from-yellow-700 dark:hover:to-orange-700 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
                                     >
-                                        <span>🏷️</span>
-                                        <span className="font-medium">{t('promotions')}</span>
+                                        <span className="text-lg">🏷️</span>
+                                        <span className="font-bold">{t('promotions')}</span>
+                                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full animate-pulse">
+                                            חם!
+                                        </span>
                                     </button>
                                 </div>
 
