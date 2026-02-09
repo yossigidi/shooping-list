@@ -8095,7 +8095,7 @@
                             return false;
                         });
 
-                        if (hasStrictMatch) {
+                        if (hasStrictMatch && isPromoRelevant(itemName, promo.description)) {
                             matches.push({
                                 chain: promo.chain_name,
                                 chain_id: promo.chain_id,
