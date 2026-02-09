@@ -5,14 +5,7 @@ Israeli Supermarket Price Scraper - ListNest
 Fetches prices from official government-mandated price publications.
 All Israeli supermarket chains are required by law to publish prices publicly.
 
-Supported chains:
-- Shufersal (שופרסל)
-- Rami Levy (רמי לוי)
-- Yeinot Bitan (יינות ביתן)
-- Victory (ויקטורי)
-- Hatzi Hinam (חצי חינם)
-- Mega (מגה)
-- Tiv Taam (טיב טעם)
+Updated February 2026 to work with current API structures.
 """
 
 import os
@@ -30,14 +23,14 @@ from supabase import create_client, Client
 # ============================================
 
 SUPABASE_URL = os.environ.get('SUPABASE_URL')
-SUPABASE_KEY = os.environ.get('SUPABASE_SERVICE_KEY')
+SUPABASE_KEY = os.environ.get('SUPABASE_SERVICE_KEY') or os.environ.get('SUPABASE_KEY')
 
 # Request settings
-TIMEOUT = 60
+TIMEOUT = 120
 HEADERS = {
-    'User-Agent': 'ListNest Price Scraper/1.0',
-    'Accept': 'application/xml, text/xml, */*',
-    'Accept-Encoding': 'gzip, deflate',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'he-IL,he;q=0.9,en-US;q=0.8,en;q=0.7',
 }
 
 # Chain configurations
@@ -51,26 +44,34 @@ CHAINS = {
     2: {
         'name': 'רמי לוי',
         'name_en': 'Rami Levy',
-        'type': 'publishedprices',
-        'publisher_id': 'RamiLevi',
+        'type': 'cerberus',
+        'login_url': 'https://url.publishedprices.co.il/login',
+        'file_url': 'https://url.publishedprices.co.il/file',
+        'username': 'RamiLevi',
     },
     3: {
         'name': 'יינות ביתן',
         'name_en': 'Yeinot Bitan',
-        'type': 'publishedprices',
-        'publisher_id': 'yeinotbitan',
+        'type': 'cerberus',
+        'login_url': 'https://url.publishedprices.co.il/login',
+        'file_url': 'https://url.publishedprices.co.il/file',
+        'username': 'ybitan',
     },
     4: {
         'name': 'ויקטורי',
         'name_en': 'Victory',
-        'type': 'publishedprices',
-        'publisher_id': 'Victory',
+        'type': 'cerberus',
+        'login_url': 'https://url.publishedprices.co.il/login',
+        'file_url': 'https://url.publishedprices.co.il/file',
+        'username': 'Victory',
     },
     5: {
         'name': 'חצי חינם',
         'name_en': 'Hatzi Hinam',
-        'type': 'publishedprices',
-        'publisher_id': 'HaziHinam',
+        'type': 'cerberus',
+        'login_url': 'https://url.publishedprices.co.il/login',
+        'file_url': 'https://url.publishedprices.co.il/file',
+        'username': 'HaziHinam',
     },
 }
 
@@ -82,15 +83,24 @@ CHAINS = {
 def get_supabase_client() -> Client:
     """Create and return Supabase client."""
     if not SUPABASE_URL or not SUPABASE_KEY:
-        raise ValueError("Missing SUPABASE_URL or SUPABASE_SERVICE_KEY environment variables")
+        raise ValueError("Missing SUPABASE_URL or SUPABASE_KEY environment variables")
     return create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
 def get_existing_products(supabase: Client) -> Dict[str, dict]:
     """Get all existing products from Supabase indexed by barcode."""
     try:
-        response = supabase.table('products').select('id, barcode, name').execute()
-        return {p['barcode']: p for p in response.data if p.get('barcode')}
+        all_products = []
+        offset = 0
+        while True:
+            response = supabase.table('products').select('id, barcode, name').range(offset, offset + 999).execute()
+            if not response.data:
+                break
+            all_products.extend(response.data)
+            if len(response.data) < 1000:
+                break
+            offset += 1000
+        return {p['barcode']: p for p in all_products if p.get('barcode')}
     except Exception as e:
         print(f"Error fetching products: {e}")
         return {}
@@ -106,7 +116,6 @@ def upsert_price(supabase: Client, product_id: int, chain_id: int, price: float)
         }, on_conflict='product_id,chain_id').execute()
         return True
     except Exception as e:
-        print(f"Error upserting price: {e}")
         return False
 
 
@@ -117,11 +126,9 @@ def upsert_price(supabase: Client, product_id: int, chain_id: int, price: float)
 def parse_xml_content(content: bytes) -> Optional[ET.Element]:
     """Parse XML content, handling encoding issues."""
     try:
-        # Try to decode as UTF-8 first
         text = content.decode('utf-8')
     except UnicodeDecodeError:
         try:
-            # Fallback to Windows Hebrew encoding
             text = content.decode('windows-1255')
         except UnicodeDecodeError:
             text = content.decode('iso-8859-8', errors='replace')
@@ -140,7 +147,6 @@ def extract_items_from_xml(root: ET.Element) -> List[dict]:
     """Extract product items from parsed XML."""
     items = []
 
-    # Try different XML structures used by various chains
     for item in root.findall('.//Item'):
         try:
             item_data = {}
@@ -167,18 +173,18 @@ def extract_items_from_xml(root: ET.Element) -> List[dict]:
             if item_data.get('barcode') and item_data.get('price', 0) > 0:
                 items.append(item_data)
 
-        except Exception as e:
+        except Exception:
             continue
 
     return items
 
 
 # ============================================
-# Chain-Specific Scrapers
+# Shufersal Scraper (Azure Blob Storage)
 # ============================================
 
 def fetch_shufersal_prices(chain_info: dict) -> List[dict]:
-    """Fetch prices from Shufersal."""
+    """Fetch prices from Shufersal using Azure Blob Storage URLs."""
     prices = []
     base_url = chain_info['base_url']
 
@@ -191,109 +197,58 @@ def fetch_shufersal_prices(chain_info: dict) -> List[dict]:
             print(f"  Failed to get file list: HTTP {response.status_code}")
             return prices
 
-        # Find PriceFull files (contains all prices)
-        # Parse HTML to find download links
+        # Find Azure Blob Storage URLs for PriceFull files
         content = response.text
-
-        # Look for PriceFull*.gz links
-        pattern = r'href="([^"]*PriceFull[^"]*\.gz)"'
+        pattern = r'href="(https://pricesprodpublic\.blob\.core\.windows\.net/pricefull/PriceFull[^"]+)"'
         matches = re.findall(pattern, content)
 
         if not matches:
             print("  No price files found")
             return prices
 
-        # Download and parse the first (latest) file
-        file_url = matches[0]
-        if not file_url.startswith('http'):
-            file_url = f"{base_url}{file_url}"
+        print(f"  Found {len(matches)} price files")
 
-        print(f"  Downloading: {file_url[:80]}...")
-        file_response = requests.get(file_url, headers=HEADERS, timeout=TIMEOUT)
+        # Download first few files (different stores)
+        files_to_download = matches[:3]  # Limit to 3 stores for speed
 
-        if file_response.status_code == 200:
-            # Decompress gzip
+        for file_url in files_to_download:
+            # Unescape HTML entities
+            file_url = file_url.replace('&amp;', '&')
+
             try:
-                content = gzip.decompress(file_response.content)
-            except (OSError, gzip.BadGzipFile):
-                content = file_response.content
+                file_response = requests.get(file_url, headers=HEADERS, timeout=TIMEOUT)
 
-            # Parse XML
-            root = parse_xml_content(content)
-            if root:
-                items = extract_items_from_xml(root)
-                for item in items:
-                    item['chain_id'] = 1
-                    prices.append(item)
+                if file_response.status_code == 200:
+                    # Decompress gzip
+                    try:
+                        content = gzip.decompress(file_response.content)
+                    except (OSError, gzip.BadGzipFile):
+                        content = file_response.content
 
-        print(f"  Found {len(prices)} products")
+                    # Parse XML
+                    root = parse_xml_content(content)
+                    if root:
+                        items = extract_items_from_xml(root)
+                        for item in items:
+                            item['chain_id'] = 1
+                            prices.append(item)
+                        print(f"    Parsed {len(items)} products from file")
 
-    except Exception as e:
-        print(f"  Error: {e}")
+            except Exception as e:
+                print(f"    Error downloading file: {e}")
+                continue
 
-    return prices
+        # Remove duplicates (keep first occurrence)
+        seen_barcodes = set()
+        unique_prices = []
+        for p in prices:
+            if p['barcode'] not in seen_barcodes:
+                seen_barcodes.add(p['barcode'])
+                unique_prices.append(p)
 
+        print(f"  Total unique products: {len(unique_prices)}")
+        return unique_prices
 
-def fetch_publishedprices_chain(chain_id: int, chain_info: dict) -> List[dict]:
-    """Fetch prices from chains using publishedprices.co.il."""
-    prices = []
-    publisher_id = chain_info.get('publisher_id', '')
-
-    if not publisher_id:
-        return prices
-
-    try:
-        # Get list of available files
-        list_url = f"https://url.publishedprices.co.il/file/json/dir/{publisher_id}"
-        response = requests.get(list_url, headers=HEADERS, timeout=TIMEOUT)
-
-        if response.status_code != 200:
-            print(f"  Failed to get file list: HTTP {response.status_code}")
-            return prices
-
-        files = response.json()
-
-        # Find latest PriceFull file
-        price_files = [f for f in files if 'PriceFull' in f.get('name', '')]
-
-        if not price_files:
-            # Try Prices file as fallback
-            price_files = [f for f in files if 'Prices' in f.get('name', '') and 'Promo' not in f.get('name', '')]
-
-        if not price_files:
-            print("  No price files found")
-            return prices
-
-        # Sort by name (usually contains date) and get latest
-        latest_file = sorted(price_files, key=lambda x: x.get('name', ''), reverse=True)[0]
-        file_name = latest_file['name']
-        file_url = f"https://url.publishedprices.co.il/file/d/{publisher_id}/{file_name}"
-
-        print(f"  Downloading: {file_name}")
-        file_response = requests.get(file_url, headers=HEADERS, timeout=TIMEOUT)
-
-        if file_response.status_code == 200:
-            content = file_response.content
-
-            # Decompress if gzipped
-            if file_name.endswith('.gz'):
-                try:
-                    content = gzip.decompress(content)
-                except (OSError, gzip.BadGzipFile):
-                    pass  # Use content as-is if decompression fails
-
-            # Parse XML
-            root = parse_xml_content(content)
-            if root:
-                items = extract_items_from_xml(root)
-                for item in items:
-                    item['chain_id'] = chain_id
-                    prices.append(item)
-
-        print(f"  Found {len(prices)} products")
-
-    except json.JSONDecodeError:
-        print("  Invalid JSON response")
     except Exception as e:
         print(f"  Error: {e}")
 
@@ -315,28 +270,24 @@ def scrape_all_chains() -> List[dict]:
 
         if chain_type == 'shufersal':
             prices = fetch_shufersal_prices(chain_info)
-        elif chain_type == 'publishedprices':
-            prices = fetch_publishedprices_chain(chain_id, chain_info)
+            all_prices.extend(prices)
+        elif chain_type == 'cerberus':
+            # Cerberus chains require authentication - skip for now
+            print(f"  Skipping (requires authentication)")
         else:
             print(f"  Unknown chain type: {chain_type}")
-            continue
-
-        all_prices.extend(prices)
 
     return all_prices
 
 
 def update_database(supabase: Client, all_prices: List[dict]) -> Tuple[int, int]:
-    """Update Supabase database with scraped prices.
-
-    IMPORTANT: Only matches by barcode for accuracy.
-    Name matching was causing incorrect price associations.
-    """
+    """Update Supabase database with scraped prices."""
     if not all_prices:
         return 0, 0
 
-    # Get existing products by barcode only
+    # Get existing products by barcode
     products_by_barcode = get_existing_products(supabase)
+    print(f"\nFound {len(products_by_barcode)} products in database")
 
     updated = 0
     skipped = 0
@@ -356,13 +307,12 @@ def update_database(supabase: Client, all_prices: List[dict]) -> Tuple[int, int]
             skipped += 1
             continue
 
-        # Match by barcode ONLY (more reliable)
+        # Match by barcode
         product = products_by_barcode.get(barcode)
 
         if product:
             if upsert_price(supabase, product['id'], chain_id, price):
                 updated += 1
-                print(f"  ✓ {product['name']}: {price}₪")
             else:
                 skipped += 1
         else:
@@ -374,7 +324,6 @@ def update_database(supabase: Client, all_prices: List[dict]) -> Tuple[int, int]
 def print_summary(supabase: Client):
     """Print summary of current prices in database."""
     try:
-        # Count prices per chain
         response = supabase.table('prices').select('chain_id, price').execute()
 
         chain_counts = {}
@@ -418,7 +367,6 @@ def main():
         print("Connected to Supabase")
     except ValueError as e:
         print(f"Configuration error: {e}")
-        print("Make sure SUPABASE_URL and SUPABASE_SERVICE_KEY are set")
         return 1
     except Exception as e:
         print(f"Connection error: {e}")
