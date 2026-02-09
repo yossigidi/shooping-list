@@ -7472,9 +7472,9 @@
                         promo_url: CHAIN_PROMO_URLS[3],
                         promotions: [
                             { description: 'יין אדום יקבי כרמל - 29.90₪', end_date: '2026-02-28', keywords: ['יין', 'יין אדום'] },
-                            { description: 'גבינות איטלקיות - 30% הנחה', end_date: '2026-02-20', keywords: ['גבינה', 'מוצרלה', 'פרמזן'] },
+                            { description: 'גבינות איטלקיות - 30% הנחה', end_date: '2026-02-20', keywords: ['מוצרלה', 'פרמזן', 'גבינה איטלקית'] },
                             { description: 'לחם אחיד - 2 ב-10₪', end_date: '2026-02-15', keywords: ['לחם'] },
-                            { description: 'שוקולד פרה - 3 ב-15₪', end_date: '2026-02-25', keywords: ['שוקולד', 'פרה'] },
+                            { description: 'שוקולד פרה - 3 ב-15₪', end_date: '2026-02-25', keywords: ['שוקולד פרה', 'פרה שוקולד'] },
                             { description: 'מים מינרלים - 6 ב-12₪', end_date: '2026-02-28', keywords: ['מים', 'מים מינרלים'] }
                         ]
                     },
@@ -7561,28 +7561,50 @@
                 }
             };
 
-            // Check if item has promotions
+            // Check if item has promotions - strict matching
             const getItemPromotions = (itemName) => {
                 if (!itemName) return [];
-                const nameLower = itemName.toLowerCase();
+                const nameLower = itemName.toLowerCase().trim();
+                const nameWords = nameLower.split(/\s+/);
                 const matches = [];
 
                 // Check from API data first
                 if (productPromotions && Object.keys(productPromotions).length > 0) {
                     Object.keys(productPromotions).forEach(productName => {
-                        if (productName.toLowerCase().includes(nameLower) || nameLower.includes(productName.toLowerCase())) {
+                        const prodLower = productName.toLowerCase();
+                        // Exact match or very close match only
+                        if (prodLower === nameLower ||
+                            nameLower.startsWith(prodLower + ' ') ||
+                            prodLower.startsWith(nameLower + ' ')) {
                             matches.push(...productPromotions[productName]);
                         }
                     });
                 }
 
-                // Also check from SAMPLE_PROMOTIONS keywords
+                // Also check from SAMPLE_PROMOTIONS keywords - stricter matching
                 if (matches.length === 0 && SAMPLE_PROMOTIONS.promotions) {
                     SAMPLE_PROMOTIONS.promotions.forEach(promo => {
-                        const keywordMatch = (promo.keywords || []).some(kw =>
-                            nameLower.includes(kw.toLowerCase()) || kw.toLowerCase().includes(nameLower)
-                        );
-                        if (keywordMatch) {
+                        const keywords = promo.keywords || [];
+
+                        // Check for strict keyword match
+                        const hasStrictMatch = keywords.some(kw => {
+                            const kwLower = kw.toLowerCase();
+                            const kwWords = kwLower.split(/\s+/);
+
+                            // Multi-word keyword: must match exactly in product name
+                            if (kwWords.length > 1) {
+                                return nameLower.includes(kwLower) || kwLower.includes(nameLower);
+                            }
+
+                            // Single word keyword: must be the FIRST word or exact match
+                            // This prevents "עוגן שוקולד" from matching "שוקולד פרה"
+                            const firstWord = nameWords[0];
+                            return firstWord === kwLower ||
+                                   nameLower === kwLower ||
+                                   (firstWord.startsWith(kwLower) && kwLower.length >= 4);
+                        });
+
+                        if (hasStrictMatch) {
                             matches.push({
                                 chain: promo.chain_name,
                                 chain_id: promo.chain_id,
@@ -12494,7 +12516,7 @@ END:VCALENDAR`;
                                         className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-medium hover:from-green-600 hover:to-emerald-600 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
                                         <span>🔄</span>
                                         <span>עדכן גרסה</span>
-                                        <span className="text-xs opacity-75">(v12)</span>
+                                        <span className="text-xs opacity-75">(v13)</span>
                                     </button>
 
                                     {/* Footer links */}
