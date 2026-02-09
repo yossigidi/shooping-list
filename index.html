@@ -7626,6 +7626,36 @@
                 }
             };
 
+            // Validate promotion relevance - filter out mismatched promos
+            const isPromoRelevant = (productName, promoDescription) => {
+                const pName = productName.toLowerCase();
+                const pDesc = promoDescription.toLowerCase();
+
+                // Category-specific validation to prevent mismatches
+                const snackKeywords = ['במבה', 'ביסלי', 'חטיף', 'אפרופו', 'צ\'יפס', 'שוקולד', 'ממתק', 'גומי'];
+                const dairyKeywords = ['חלב', 'יוגורט', 'גבינה', 'קוטג', 'שמנת', 'לבן'];
+                const babyKeywords = ['מטרנה', 'סימילאק', 'נוטרילון', 'תינוק', 'פורמולה', 'תחליף חלב'];
+
+                // If product is dairy (milk), don't show snack promos
+                if (dairyKeywords.some(k => pName.includes(k)) && !babyKeywords.some(k => pName.includes(k))) {
+                    if (snackKeywords.some(k => pDesc.includes(k))) return false;
+                }
+
+                // If product is baby formula, only show baby-related promos
+                if (babyKeywords.some(k => pName.includes(k))) {
+                    // Baby formula should only match baby/formula promos
+                    const isBabyPromo = babyKeywords.some(k => pDesc.includes(k)) || pDesc.includes('תינוק');
+                    if (!isBabyPromo && dairyKeywords.some(k => pDesc.includes(k))) return false;
+                }
+
+                // If product is snack, don't show dairy promos (unless it mentions the snack)
+                if (snackKeywords.some(k => pName.includes(k))) {
+                    if (dairyKeywords.some(k => pDesc.includes(k)) && !snackKeywords.some(k => pDesc.includes(k))) return false;
+                }
+
+                return true;
+            };
+
             // Check if item has promotions - EXACT matching only
             const getItemPromotions = (itemName) => {
                 if (!itemName) return [];
@@ -7639,7 +7669,7 @@
                     // Only exact matches
                     if (productPromotions[nameLower]) {
                         productPromotions[nameLower].forEach(promo => {
-                            if (!seenDescriptions.has(promo.description)) {
+                            if (!seenDescriptions.has(promo.description) && isPromoRelevant(itemName, promo.description)) {
                                 seenDescriptions.add(promo.description);
                                 matches.push(promo);
                             }
@@ -7648,7 +7678,7 @@
                     // Also check original case
                     if (productPromotions[itemName]) {
                         productPromotions[itemName].forEach(promo => {
-                            if (!seenDescriptions.has(promo.description)) {
+                            if (!seenDescriptions.has(promo.description) && isPromoRelevant(itemName, promo.description)) {
                                 seenDescriptions.add(promo.description);
                                 matches.push(promo);
                             }
@@ -7662,7 +7692,7 @@
                         const desc = (promo.description || '').toLowerCase();
                         // Split description into words and check for exact word match
                         const descWords = desc.split(/[^א-תa-z0-9]+/).filter(w => w.length > 0);
-                        if (descWords.includes(nameLower)) {
+                        if (descWords.includes(nameLower) && isPromoRelevant(itemName, promo.description)) {
                             if (!seenDescriptions.has(promo.description)) {
                                 seenDescriptions.add(promo.description);
                                 matches.push({
