@@ -1054,6 +1054,7 @@
                 settings: 'הגדרות',
                 refreshApp: 'רענון האפליקציה',
                 shoppingModeTitle: 'מצב קניות',
+                addToList: 'הוסף לרשימה',
                 total: 'סה"כ',
                 items: 'פריטים',
                 share: 'שתף',
@@ -1384,6 +1385,7 @@
                 settings: 'Settings',
                 refreshApp: 'Refresh App',
                 shoppingModeTitle: 'Shopping Mode',
+                addToList: 'Add to list',
                 total: 'Total',
                 items: 'items',
                 share: 'Share',
@@ -10033,6 +10035,20 @@ END:VCALENDAR`;
                                             🔍
                                         </button>
                                     </div>
+                                    {/* Add to list button */}
+                                    {scannedProductName && (
+                                        <button
+                                            onClick={() => {
+                                                addProduct(scannedProductName);
+                                                stopPriceScanner();
+                                                setScannedProductName('');
+                                            }}
+                                            className="w-full mt-3 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold text-lg flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] transition-all"
+                                        >
+                                            <span>🛒</span>
+                                            <span>הוסף "{scannedProductName}" לרשימה</span>
+                                        </button>
+                                    )}
                                 </div>
 
                                 {/* Autocomplete Suggestions */}
@@ -11881,15 +11897,6 @@ END:VCALENDAR`;
                                     </button>
                                 </div>
                             )}
-
-                            {/* Update App Button - Visible and Accessible */}
-                            <div className="mt-3">
-                                <button onClick={forceUpdateApp}
-                                    className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-4 py-2.5 rounded-lg hover:from-cyan-500 hover:to-blue-600 transition-all font-medium shadow-md hover:shadow-lg hover:scale-[1.01] flex items-center justify-center gap-2 text-sm">
-                                    <span>🔄</span>
-                                    <span>עדכון גרסה / רענון האפליקציה</span>
-                                </button>
-                            </div>
                         </div>
 
                         {searchTerm && (
