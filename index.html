@@ -12403,6 +12403,29 @@ END:VCALENDAR`;
                             </div>
                         )}
 
+                        {/* Promotions Banner - Always at top */}
+                        {!selectedCategory && !searchTerm && (
+                            <div className="mb-6">
+                                <button
+                                    onClick={() => { setShowPromotions(true); fetchPromotions(); }}
+                                    className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
+                                >
+                                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')] opacity-50"></div>
+                                    <div className="relative flex items-center justify-center gap-4">
+                                        <span className="text-4xl animate-bounce">🏷️</span>
+                                        <div className="text-center">
+                                            <div className="text-xl font-bold">מבצעים חמים!</div>
+                                            <div className="text-sm opacity-90">צפה במבצעים הכי טובים בכל הרשתות</div>
+                                        </div>
+                                        <span className="text-4xl animate-bounce" style={{animationDelay: '0.1s'}}>🔥</span>
+                                    </div>
+                                    <span className="absolute top-2 left-2 bg-white text-red-500 text-xs font-bold px-2 py-1 rounded-full animate-pulse">
+                                        חדש!
+                                    </span>
+                                </button>
+                            </div>
+                        )}
+
                         {!selectedCategory && !searchTerm ? (
                             <div className="glass rounded-2xl shadow-xl p-6 mb-6">
                                 <h2 className="text-2xl font-bold text-center mb-2 dark:text-white flex items-center justify-center gap-2">
@@ -12817,19 +12840,7 @@ END:VCALENDAR`;
                             <div className="glass rounded-2xl shadow-xl p-12 text-center">
                                 <div className="text-7xl mb-6 float">🛒</div>
                                 <p className="text-2xl text-gradient font-bold mb-2">{t('emptyList')}</p>
-                                <p className="text-gray-500 dark:text-gray-400 mt-2 mb-6">{t('addProductsBelow')}</p>
-                                {/* Promotions Button - Always visible */}
-                                <button
-                                    onClick={() => { setShowPromotions(true); fetchPromotions(); }}
-                                    className="relative inline-flex items-center gap-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-2xl hover:from-yellow-500 hover:to-orange-600 transition-all shadow-lg hover:shadow-xl transform hover:scale-105 text-lg font-bold"
-                                >
-                                    <span className="text-2xl">🏷️</span>
-                                    <span>{t('promotions')}</span>
-                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">
-                                        חם!
-                                    </span>
-                                </button>
-                                <p className="text-sm text-gray-400 dark:text-gray-500 mt-4">צפה במבצעים הכי חמים בכל הרשתות</p>
+                                <p className="text-gray-500 dark:text-gray-400 mt-2">{t('addProductsBelow')}</p>
                             </div>
                         )}
 
