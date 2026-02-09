@@ -11715,6 +11715,304 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
+                        {filteredItems.length > 0 && (
+                            <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-6 mb-6">
+                                <h2 className="text-2xl font-bold mb-4 dark:text-white flex items-center gap-3">
+                                    <span className="text-3xl">📝</span>
+                                    <span className="text-gradient">{t('myList')}</span>
+                                    <span className="btn-gradient text-white text-sm px-3 py-1 rounded-full">{filteredItems.length}</span>
+                                </h2>
+
+                                {/* Estimated Total & Templates */}
+                                <div className="flex flex-wrap items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+                                    {(() => {
+                                        const unpurchasedItems = items.filter(i => !i.purchased);
+                                        const itemsWithPrice = unpurchasedItems.filter(i => calculateItemPrice(i) > 0);
+                                        // Show button if there are unpurchased items (even without prices)
+                                        return unpurchasedItems.length > 0 && (
+                                            <div className="flex flex-col gap-1">
+                                                <div
+                                                    className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-xl cursor-pointer hover:bg-green-100 dark:hover:bg-green-900/40 transition-all"
+                                                    onClick={() => setShowListComparison(true)}
+                                                    title={t('priceCompareHint')}
+                                                >
+                                                    <span>💰</span>
+                                                    <div className="flex flex-col">
+                                                        <span className="font-semibold">{t('estimatedTotal')}: ₪{estimatedTotal.toFixed(2)}</span>
+                                                        <span className="text-xs opacity-75">
+                                                            {itemsWithPrice.length} {t('itemsWithPrice')} {t('of')} {unpurchasedItems.length}
+                                                        </span>
+                                                    </div>
+                                                    <span className="text-lg">📊</span>
+                                                </div>
+                                                <div className="flex flex-col gap-0.5 px-1">
+                                                    <span className="text-xs text-gray-500 dark:text-gray-400">{t('priceDisclaimer')}</span>
+                                                    <button
+                                                        onClick={() => setShowListComparison(true)}
+                                                        className="text-xs text-orange-600 dark:text-orange-400 hover:underline text-right"
+                                                    >
+                                                        {t('priceCompareHint')}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        );
+                                    })()}
+                                    <button
+                                        onClick={() => setShowTemplates(!showTemplates)}
+                                        className="flex items-center gap-2 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 px-4 py-2 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-all"
+                                    >
+                                        <span>📋</span>
+                                        <span className="font-medium">{t('templates')}</span>
+                                    </button>
+                                    {items.filter(i => !i.purchased).length > 0 && (
+                                        <button
+                                            onClick={() => setShowSaveTemplate(true)}
+                                            className="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 px-4 py-2 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-all"
+                                        >
+                                            <span>💾</span>
+                                            <span className="font-medium">{t('saveAsTemplate')}</span>
+                                        </button>
+                                    )}
+                                    <button
+                                        onClick={() => { setShowPromotions(true); fetchPromotions(); }}
+                                        className="relative flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-orange-400 dark:from-yellow-600 dark:to-orange-600 text-white px-4 py-2 rounded-xl hover:from-yellow-500 hover:to-orange-500 dark:hover:from-yellow-700 dark:hover:to-orange-700 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
+                                    >
+                                        <span className="text-lg">🏷️</span>
+                                        <span className="font-bold">{t('promotions')}</span>
+                                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full animate-pulse">
+                                            חם!
+                                        </span>
+                                    </button>
+                                </div>
+
+                                {/* Templates Panel */}
+                                {showTemplates && (
+                                    <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
+                                        <h3 className="font-bold text-purple-700 dark:text-purple-400 mb-3 flex items-center gap-2">
+                                            <span>📋</span> {t('myTemplates')}
+                                        </h3>
+                                        {templates.length === 0 ? (
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('noTemplatesSaved')}</p>
+                                        ) : (
+                                            <div className="grid gap-2">
+                                                {templates.map(template => (
+                                                    <div key={template.id} className="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded-lg">
+                                                        <div>
+                                                            <span className="font-medium">{template.name}</span>
+                                                            <span className="text-xs text-gray-500 mr-2">({template.items.length} {t('items')})</span>
+                                                        </div>
+                                                        <div className="flex gap-2">
+                                                            <button
+                                                                onClick={() => loadTemplate(template)}
+                                                                className="text-xs bg-purple-500 text-white px-3 py-1 rounded-lg hover:bg-purple-600"
+                                                            >
+                                                                {t('loadList')}
+                                                            </button>
+                                                            <button
+                                                                onClick={() => deleteTemplate(template.id)}
+                                                                className="text-xs bg-red-100 text-red-600 px-3 py-1 rounded-lg hover:bg-red-200"
+                                                            >
+                                                                {t('delete')}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Save Template Modal */}
+                                {showSaveTemplate && (
+                                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                                        <div className="glass rounded-2xl p-6 w-full max-w-md">
+                                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                                <span>💾</span> {t('saveAsTemplate')}
+                                            </h3>
+                                            <input
+                                                type="text"
+                                                value={newTemplateName}
+                                                onChange={(e) => setNewTemplateName(e.target.value)}
+                                                placeholder={t('templateNamePlaceholder')}
+                                                className="w-full p-3 border rounded-xl dark:bg-gray-700 dark:border-gray-600 mb-4"
+                                                autoFocus
+                                            />
+                                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                                                {t('itemsWillBeSaved').replace('{count}', items.filter(i => !i.purchased).length)}
+                                            </p>
+                                            <div className="flex gap-3">
+                                                <button
+                                                    onClick={() => { setShowSaveTemplate(false); setNewTemplateName(''); }}
+                                                    className="flex-1 px-4 py-2 border rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                >
+                                                    {t('cancel')}
+                                                </button>
+                                                <button
+                                                    onClick={() => saveAsTemplate(newTemplateName)}
+                                                    disabled={!newTemplateName.trim()}
+                                                    className="flex-1 btn-gradient text-white px-4 py-2 rounded-xl disabled:opacity-50"
+                                                >
+                                                    {t('save')}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {Object.entries(groupedItems).map(([category, categoryItems]) => (
+                                    <div key={category} className="mb-6">
+                                        <h3 className="sticky-category-header flex items-center gap-2 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
+                                            <span className="text-xl">{CATEGORIES[category]?.icon}</span>
+                                            <span className="text-base font-semibold text-gray-700 dark:text-gray-300">{t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}</span>
+                                            <span className="text-xs bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded-full font-medium">{categoryItems.length}</span>
+                                        </h3>
+                                        {categoryItems.map(item => (
+                                            <SwipeableItem
+                                                key={item.id}
+                                                className={`mb-3 ${exitingItems.has(item.id) ? 'item-exit' : 'item-enter'}`}
+                                                purchased={item.purchased}
+                                                onSwipeRight={() => !item.purchased && togglePurchasedWithAnimation(item.id, item.purchased)}
+                                                onSwipeLeft={() => !item.purchased && postponeItem(item.id)}
+                                            >
+                                                <div className={`product-card ${animatingItems.has(item.id) ? 'success-glow' : ''} ${item.purchased ? 'purchased' : ''}`}>
+                                                    {/* Clean single-row layout */}
+                                                    <div className="item-row" role="group" aria-label={`פריט: ${item.name}`}>
+                                                        {/* Checkbox */}
+                                                        <button
+                                                            onTouchStart={(e) => e.stopPropagation()}
+                                                            onClick={(e) => togglePurchasedWithAnimation(item.id, item.purchased, e)}
+                                                            aria-label={item.purchased ? `בטל סימון עבור ${item.name}` : `סמן ${item.name} כנקנה`}
+                                                            className={`item-checkbox ${item.purchased ? 'checked' : ''}`}
+                                                            style={{ touchAction: 'manipulation' }}
+                                                        >
+                                                            {item.purchased && (
+                                                                <svg className={`w-4 h-4 text-white ${animatingItems.has(item.id) ? 'check-animate' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                                                </svg>
+                                                            )}
+                                                        </button>
+
+                                                        {/* Product Name */}
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className={`item-name ${item.purchased ? 'purchased' : ''}`}>
+                                                                {getProductTranslation(item.name, language)}
+                                                            </div>
+                                                            {/* Status indicators */}
+                                                            <div className="flex items-center gap-2 flex-wrap">
+                                                                {/* On Sale Badge */}
+                                                                {!item.purchased && getItemPromotions(item.name).length > 0 && (
+                                                                    <span
+                                                                        className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold px-2 py-0.5 rounded-full animate-pulse cursor-pointer"
+                                                                        onClick={() => { setShowPromotions(true); fetchPromotions(); }}
+                                                                        title={getItemPromotions(item.name)[0]?.description}
+                                                                    >
+                                                                        🏷️ {t('onSale')}
+                                                                    </span>
+                                                                )}
+                                                                {item.note && (
+                                                                    <span className="item-note-badge" onClick={() => setEditingNote(item)}>
+                                                                        📝 {item.note.length > 15 ? item.note.substring(0, 15) + '...' : item.note}
+                                                                    </span>
+                                                                )}
+                                                                {item.postponedBy && !item.purchased && (
+                                                                    <span className="item-status postponed">{t('postponedStatus')}</span>
+                                                                )}
+                                                                {item.purchased && item.purchasedBy && (
+                                                                    <span className="item-status purchased-by">✓ {item.purchasedBy}</span>
+                                                                )}
+                                                                {item.outOfStock && (
+                                                                    <span className="item-status postponed">🚫 {t('outOfStockStatus')}</span>
+                                                                )}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Price display (read-only, calculated based on quantity) */}
+                                                        {(() => {
+                                                            const itemPrice = calculateItemPrice(item);
+                                                            return itemPrice > 0 ? (
+                                                                <span className="text-xs text-green-600 dark:text-green-400 font-medium px-2 py-1">
+                                                                    ₪{itemPrice.toFixed(2)}
+                                                                </span>
+                                                            ) : null;
+                                                        })()}
+
+                                                        {/* Quantity - compact stepper */}
+                                                        <div
+                                                            className="qty-stepper flex-shrink-0"
+                                                            role="group"
+                                                            aria-label={`כמות ${item.name}`}
+                                                            onTouchStart={(e) => e.stopPropagation()}
+                                                        >
+                                                            <button
+                                                                onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) - 1)}
+                                                                className="qty-btn"
+                                                                aria-label="הפחת"
+                                                                style={{ touchAction: 'manipulation' }}
+                                                            >−</button>
+                                                            <span className="qty-value">{getQuantityNumber(item.quantity)}</span>
+                                                            <button
+                                                                onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) + 1)}
+                                                                className="qty-btn"
+                                                                aria-label="הוסף"
+                                                                style={{ touchAction: 'manipulation' }}
+                                                            >+</button>
+                                                        </div>
+
+                                                        {/* Menu button */}
+                                                        <button
+                                                            type="button"
+                                                            onTouchStart={(e) => {
+                                                                e.stopPropagation();
+                                                            }}
+                                                            onTouchEnd={(e) => {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                setOpenItemMenu(openItemMenu === item.id ? null : item.id);
+                                                            }}
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                setOpenItemMenu(openItemMenu === item.id ? null : item.id);
+                                                            }}
+                                                            className="item-menu-btn touch-target"
+                                                            aria-label="תפריט פעולות"
+                                                            style={{ minWidth: '44px', minHeight: '44px', touchAction: 'manipulation' }}
+                                                        >
+                                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </SwipeableItem>
+                                        ))}
+                                    </div>
+                                ))}
+
+                                {/* Delete All Button - at the bottom of the list */}
+                                {items.length > 0 && (
+                                    <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                                        <button
+                                            onClick={() => setShowDeleteAllConfirm(true)}
+                                            className="w-full bg-gradient-to-r from-red-500 to-rose-500 text-white px-4 py-3 rounded-xl hover:from-red-600 hover:to-rose-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2"
+                                        >
+                                            <span>🗑️</span>
+                                            <span>{t('deleteAll')}</span>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {filteredItems.length === 0 && !searchTerm && (
+                            <div className="glass rounded-2xl shadow-xl p-12 text-center">
+                                <div className="text-7xl mb-6 float">🛒</div>
+                                <p className="text-2xl text-gradient font-bold mb-2">{t('emptyList')}</p>
+                                <p className="text-gray-500 dark:text-gray-400 mt-2">{t('addProductsBelow')}</p>
+                            </div>
+                        )}
+
+
                             {/* Quick Actions Bar - 5 icons in a row */}
                             <div className="grid grid-cols-5 gap-2 mb-4">
                                 <button
@@ -12037,304 +12335,6 @@ END:VCALENDAR`;
                                 </div>
                             </div>
                             </>
-                        )}
-
-                        {filteredItems.length > 0 && (
-                            <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-6 mb-6">
-                                <h2 className="text-2xl font-bold mb-4 dark:text-white flex items-center gap-3">
-                                    <span className="text-3xl">📝</span>
-                                    <span className="text-gradient">{t('myList')}</span>
-                                    <span className="btn-gradient text-white text-sm px-3 py-1 rounded-full">{filteredItems.length}</span>
-                                </h2>
-
-                                {/* Estimated Total & Templates */}
-                                <div className="flex flex-wrap items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
-                                    {(() => {
-                                        const unpurchasedItems = items.filter(i => !i.purchased);
-                                        const itemsWithPrice = unpurchasedItems.filter(i => calculateItemPrice(i) > 0);
-                                        // Show button if there are unpurchased items (even without prices)
-                                        return unpurchasedItems.length > 0 && (
-                                            <div className="flex flex-col gap-1">
-                                                <div
-                                                    className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-xl cursor-pointer hover:bg-green-100 dark:hover:bg-green-900/40 transition-all"
-                                                    onClick={() => setShowListComparison(true)}
-                                                    title={t('priceCompareHint')}
-                                                >
-                                                    <span>💰</span>
-                                                    <div className="flex flex-col">
-                                                        <span className="font-semibold">{t('estimatedTotal')}: ₪{estimatedTotal.toFixed(2)}</span>
-                                                        <span className="text-xs opacity-75">
-                                                            {itemsWithPrice.length} {t('itemsWithPrice')} {t('of')} {unpurchasedItems.length}
-                                                        </span>
-                                                    </div>
-                                                    <span className="text-lg">📊</span>
-                                                </div>
-                                                <div className="flex flex-col gap-0.5 px-1">
-                                                    <span className="text-xs text-gray-500 dark:text-gray-400">{t('priceDisclaimer')}</span>
-                                                    <button
-                                                        onClick={() => setShowListComparison(true)}
-                                                        className="text-xs text-orange-600 dark:text-orange-400 hover:underline text-right"
-                                                    >
-                                                        {t('priceCompareHint')}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        );
-                                    })()}
-                                    <button
-                                        onClick={() => setShowTemplates(!showTemplates)}
-                                        className="flex items-center gap-2 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 px-4 py-2 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-all"
-                                    >
-                                        <span>📋</span>
-                                        <span className="font-medium">{t('templates')}</span>
-                                    </button>
-                                    {items.filter(i => !i.purchased).length > 0 && (
-                                        <button
-                                            onClick={() => setShowSaveTemplate(true)}
-                                            className="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 px-4 py-2 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-all"
-                                        >
-                                            <span>💾</span>
-                                            <span className="font-medium">{t('saveAsTemplate')}</span>
-                                        </button>
-                                    )}
-                                    <button
-                                        onClick={() => { setShowPromotions(true); fetchPromotions(); }}
-                                        className="relative flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-orange-400 dark:from-yellow-600 dark:to-orange-600 text-white px-4 py-2 rounded-xl hover:from-yellow-500 hover:to-orange-500 dark:hover:from-yellow-700 dark:hover:to-orange-700 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
-                                    >
-                                        <span className="text-lg">🏷️</span>
-                                        <span className="font-bold">{t('promotions')}</span>
-                                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full animate-pulse">
-                                            חם!
-                                        </span>
-                                    </button>
-                                </div>
-
-                                {/* Templates Panel */}
-                                {showTemplates && (
-                                    <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
-                                        <h3 className="font-bold text-purple-700 dark:text-purple-400 mb-3 flex items-center gap-2">
-                                            <span>📋</span> {t('myTemplates')}
-                                        </h3>
-                                        {templates.length === 0 ? (
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('noTemplatesSaved')}</p>
-                                        ) : (
-                                            <div className="grid gap-2">
-                                                {templates.map(template => (
-                                                    <div key={template.id} className="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded-lg">
-                                                        <div>
-                                                            <span className="font-medium">{template.name}</span>
-                                                            <span className="text-xs text-gray-500 mr-2">({template.items.length} {t('items')})</span>
-                                                        </div>
-                                                        <div className="flex gap-2">
-                                                            <button
-                                                                onClick={() => loadTemplate(template)}
-                                                                className="text-xs bg-purple-500 text-white px-3 py-1 rounded-lg hover:bg-purple-600"
-                                                            >
-                                                                {t('loadList')}
-                                                            </button>
-                                                            <button
-                                                                onClick={() => deleteTemplate(template.id)}
-                                                                className="text-xs bg-red-100 text-red-600 px-3 py-1 rounded-lg hover:bg-red-200"
-                                                            >
-                                                                {t('delete')}
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-
-                                {/* Save Template Modal */}
-                                {showSaveTemplate && (
-                                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                                        <div className="glass rounded-2xl p-6 w-full max-w-md">
-                                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                                                <span>💾</span> {t('saveAsTemplate')}
-                                            </h3>
-                                            <input
-                                                type="text"
-                                                value={newTemplateName}
-                                                onChange={(e) => setNewTemplateName(e.target.value)}
-                                                placeholder={t('templateNamePlaceholder')}
-                                                className="w-full p-3 border rounded-xl dark:bg-gray-700 dark:border-gray-600 mb-4"
-                                                autoFocus
-                                            />
-                                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                                                {t('itemsWillBeSaved').replace('{count}', items.filter(i => !i.purchased).length)}
-                                            </p>
-                                            <div className="flex gap-3">
-                                                <button
-                                                    onClick={() => { setShowSaveTemplate(false); setNewTemplateName(''); }}
-                                                    className="flex-1 px-4 py-2 border rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700"
-                                                >
-                                                    {t('cancel')}
-                                                </button>
-                                                <button
-                                                    onClick={() => saveAsTemplate(newTemplateName)}
-                                                    disabled={!newTemplateName.trim()}
-                                                    className="flex-1 btn-gradient text-white px-4 py-2 rounded-xl disabled:opacity-50"
-                                                >
-                                                    {t('save')}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {Object.entries(groupedItems).map(([category, categoryItems]) => (
-                                    <div key={category} className="mb-6">
-                                        <h3 className="sticky-category-header flex items-center gap-2 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
-                                            <span className="text-xl">{CATEGORIES[category]?.icon}</span>
-                                            <span className="text-base font-semibold text-gray-700 dark:text-gray-300">{t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}</span>
-                                            <span className="text-xs bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded-full font-medium">{categoryItems.length}</span>
-                                        </h3>
-                                        {categoryItems.map(item => (
-                                            <SwipeableItem
-                                                key={item.id}
-                                                className={`mb-3 ${exitingItems.has(item.id) ? 'item-exit' : 'item-enter'}`}
-                                                purchased={item.purchased}
-                                                onSwipeRight={() => !item.purchased && togglePurchasedWithAnimation(item.id, item.purchased)}
-                                                onSwipeLeft={() => !item.purchased && postponeItem(item.id)}
-                                            >
-                                                <div className={`product-card ${animatingItems.has(item.id) ? 'success-glow' : ''} ${item.purchased ? 'purchased' : ''}`}>
-                                                    {/* Clean single-row layout */}
-                                                    <div className="item-row" role="group" aria-label={`פריט: ${item.name}`}>
-                                                        {/* Checkbox */}
-                                                        <button
-                                                            onTouchStart={(e) => e.stopPropagation()}
-                                                            onClick={(e) => togglePurchasedWithAnimation(item.id, item.purchased, e)}
-                                                            aria-label={item.purchased ? `בטל סימון עבור ${item.name}` : `סמן ${item.name} כנקנה`}
-                                                            className={`item-checkbox ${item.purchased ? 'checked' : ''}`}
-                                                            style={{ touchAction: 'manipulation' }}
-                                                        >
-                                                            {item.purchased && (
-                                                                <svg className={`w-4 h-4 text-white ${animatingItems.has(item.id) ? 'check-animate' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                                                </svg>
-                                                            )}
-                                                        </button>
-
-                                                        {/* Product Name */}
-                                                        <div className="flex-1 min-w-0">
-                                                            <div className={`item-name ${item.purchased ? 'purchased' : ''}`}>
-                                                                {getProductTranslation(item.name, language)}
-                                                            </div>
-                                                            {/* Status indicators */}
-                                                            <div className="flex items-center gap-2 flex-wrap">
-                                                                {/* On Sale Badge */}
-                                                                {!item.purchased && getItemPromotions(item.name).length > 0 && (
-                                                                    <span
-                                                                        className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold px-2 py-0.5 rounded-full animate-pulse cursor-pointer"
-                                                                        onClick={() => { setShowPromotions(true); fetchPromotions(); }}
-                                                                        title={getItemPromotions(item.name)[0]?.description}
-                                                                    >
-                                                                        🏷️ {t('onSale')}
-                                                                    </span>
-                                                                )}
-                                                                {item.note && (
-                                                                    <span className="item-note-badge" onClick={() => setEditingNote(item)}>
-                                                                        📝 {item.note.length > 15 ? item.note.substring(0, 15) + '...' : item.note}
-                                                                    </span>
-                                                                )}
-                                                                {item.postponedBy && !item.purchased && (
-                                                                    <span className="item-status postponed">{t('postponedStatus')}</span>
-                                                                )}
-                                                                {item.purchased && item.purchasedBy && (
-                                                                    <span className="item-status purchased-by">✓ {item.purchasedBy}</span>
-                                                                )}
-                                                                {item.outOfStock && (
-                                                                    <span className="item-status postponed">🚫 {t('outOfStockStatus')}</span>
-                                                                )}
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Price display (read-only, calculated based on quantity) */}
-                                                        {(() => {
-                                                            const itemPrice = calculateItemPrice(item);
-                                                            return itemPrice > 0 ? (
-                                                                <span className="text-xs text-green-600 dark:text-green-400 font-medium px-2 py-1">
-                                                                    ₪{itemPrice.toFixed(2)}
-                                                                </span>
-                                                            ) : null;
-                                                        })()}
-
-                                                        {/* Quantity - compact stepper */}
-                                                        <div
-                                                            className="qty-stepper flex-shrink-0"
-                                                            role="group"
-                                                            aria-label={`כמות ${item.name}`}
-                                                            onTouchStart={(e) => e.stopPropagation()}
-                                                        >
-                                                            <button
-                                                                onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) - 1)}
-                                                                className="qty-btn"
-                                                                aria-label="הפחת"
-                                                                style={{ touchAction: 'manipulation' }}
-                                                            >−</button>
-                                                            <span className="qty-value">{getQuantityNumber(item.quantity)}</span>
-                                                            <button
-                                                                onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) + 1)}
-                                                                className="qty-btn"
-                                                                aria-label="הוסף"
-                                                                style={{ touchAction: 'manipulation' }}
-                                                            >+</button>
-                                                        </div>
-
-                                                        {/* Menu button */}
-                                                        <button
-                                                            type="button"
-                                                            onTouchStart={(e) => {
-                                                                e.stopPropagation();
-                                                            }}
-                                                            onTouchEnd={(e) => {
-                                                                e.preventDefault();
-                                                                e.stopPropagation();
-                                                                setOpenItemMenu(openItemMenu === item.id ? null : item.id);
-                                                            }}
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                e.stopPropagation();
-                                                                setOpenItemMenu(openItemMenu === item.id ? null : item.id);
-                                                            }}
-                                                            className="item-menu-btn touch-target"
-                                                            aria-label="תפריט פעולות"
-                                                            style={{ minWidth: '44px', minHeight: '44px', touchAction: 'manipulation' }}
-                                                        >
-                                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                                                                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-
-                                                </div>
-                                            </SwipeableItem>
-                                        ))}
-                                    </div>
-                                ))}
-
-                                {/* Delete All Button - at the bottom of the list */}
-                                {items.length > 0 && (
-                                    <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                                        <button
-                                            onClick={() => setShowDeleteAllConfirm(true)}
-                                            className="w-full bg-gradient-to-r from-red-500 to-rose-500 text-white px-4 py-3 rounded-xl hover:from-red-600 hover:to-rose-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2"
-                                        >
-                                            <span>🗑️</span>
-                                            <span>{t('deleteAll')}</span>
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
-                        {filteredItems.length === 0 && !searchTerm && (
-                            <div className="glass rounded-2xl shadow-xl p-12 text-center">
-                                <div className="text-7xl mb-6 float">🛒</div>
-                                <p className="text-2xl text-gradient font-bold mb-2">{t('emptyList')}</p>
-                                <p className="text-gray-500 dark:text-gray-400 mt-2">{t('addProductsBelow')}</p>
-                            </div>
                         )}
 
                         {/* Bottom spacing for sticky bar */}
