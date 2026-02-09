@@ -7088,7 +7088,7 @@
 
             const estimatedTotal = React.useMemo(() => {
                 return items
-                    .filter(i => !i.purchased && i.price)
+                    .filter(i => !i.purchased)
                     .reduce((sum, i) => sum + calculateItemPrice(i), 0);
             }, [items]);
 
@@ -11817,6 +11817,15 @@ END:VCALENDAR`;
                                     </button>
                                 </div>
                             )}
+
+                            {/* Update App Button - Visible and Accessible */}
+                            <div className="mt-3">
+                                <button onClick={forceUpdateApp}
+                                    className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-4 py-2.5 rounded-lg hover:from-cyan-500 hover:to-blue-600 transition-all font-medium shadow-md hover:shadow-lg hover:scale-[1.01] flex items-center justify-center gap-2 text-sm">
+                                    <span>🔄</span>
+                                    <span>עדכון גרסה / רענון האפליקציה</span>
+                                </button>
+                            </div>
                         </div>
 
                         {searchTerm && (
@@ -11975,7 +11984,7 @@ END:VCALENDAR`;
                                 <div className="flex flex-wrap items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
                                     {(() => {
                                         const unpurchasedItems = items.filter(i => !i.purchased);
-                                        const itemsWithPrice = unpurchasedItems.filter(i => i.price);
+                                        const itemsWithPrice = unpurchasedItems.filter(i => calculateItemPrice(i) > 0);
                                         // Show button if there are unpurchased items (even without prices)
                                         return unpurchasedItems.length > 0 && (
                                             <div className="flex flex-col gap-1">
@@ -12175,11 +12184,14 @@ END:VCALENDAR`;
                                                         </div>
 
                                                         {/* Price display (read-only, calculated based on quantity) */}
-                                                        {item.price ? (
-                                                            <span className="text-xs text-green-600 dark:text-green-400 font-medium px-2 py-1">
-                                                                ₪{calculateItemPrice(item).toFixed(2)}
-                                                            </span>
-                                                        ) : null}
+                                                        {(() => {
+                                                            const itemPrice = calculateItemPrice(item);
+                                                            return itemPrice > 0 ? (
+                                                                <span className="text-xs text-green-600 dark:text-green-400 font-medium px-2 py-1">
+                                                                    ₪{itemPrice.toFixed(2)}
+                                                                </span>
+                                                            ) : null;
+                                                        })()}
 
                                                         {/* Quantity - compact stepper */}
                                                         <div
