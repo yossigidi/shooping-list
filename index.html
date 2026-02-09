@@ -11715,6 +11715,107 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="text-sm text-gray-500 dark:text-gray-400">
+                                    {currentList?.icon} {currentList?.name}
+                                </div>
+                                <button
+                                    onClick={() => document.getElementById('shopping-list-section')?.scrollIntoView({ behavior: 'smooth' })}
+                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl hover:shadow-lg transition-all border border-indigo-200/50 dark:border-indigo-700/50">
+                                    <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">פריטים</span>
+                                    <span className="text-xl font-bold text-gradient">{totalItems}</span>
+                                </button>
+                            </div>
+
+                            {totalItems > 0 && (
+                                <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 rounded-2xl p-4 mb-4">
+                                    <div className="flex justify-between mb-2 text-sm">
+                                        <span className="text-gray-600 dark:text-gray-300 font-medium">{t('shoppingProgress')}</span>
+                                        <span className="font-bold text-gradient">{purchasedCount} / {totalItems}</span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+                                        <div className="progress-animate h-2.5 rounded-full transition-all duration-700 ease-out"
+                                            style={{ width: `${totalItems > 0 ? (purchasedCount / totalItems) * 100 : 0}%` }} />
+                                    </div>
+                                    {purchasedCount === totalItems && totalItems > 0 && (
+                                        <div className="text-center mt-2 text-sm text-green-600 dark:text-green-400 font-medium">🎉 {t('allPurchased')}</div>
+                                    )}
+                                </div>
+                            )}
+
+
+                            {/* Quick Actions Bar - 5 icons in a row */}
+                            <div className="grid grid-cols-5 gap-2 mb-4">
+                                <button
+                                    onClick={() => setShowImportWhatsApp(true)}
+                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50 transition-all"
+                                >
+                                    <span className="text-2xl mb-1">📥</span>
+                                    <span className="text-xs font-medium">{t('importList')}</span>
+                                </button>
+                                <button
+                                    onClick={exportToWhatsApp}
+                                    disabled={items.filter(item => !item.purchased).length === 0}
+                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-all disabled:opacity-50"
+                                >
+                                    <span className="text-2xl mb-1">📤</span>
+                                    <span className="text-xs font-medium">{t('exportList')}</span>
+                                </button>
+                                <button
+                                    onClick={() => setShowSavedLists(true)}
+                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all relative"
+                                >
+                                    <span className="text-2xl mb-1">📋</span>
+                                    <span className="text-xs font-medium">{t('lists')}</span>
+                                    {savedLists.length > 0 && <span className="absolute top-1 right-1 bg-purple-500 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center">{savedLists.length}</span>}
+                                </button>
+                                <button
+                                    onClick={saveListForReuse}
+                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-all"
+                                >
+                                    <span className="text-2xl mb-1">💾</span>
+                                    <span className="text-xs font-medium">{t('save')}</span>
+                                </button>
+                                <button
+                                    onClick={startPriceScanner}
+                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 transition-all"
+                                >
+                                    <span className="text-2xl mb-1">📸</span>
+                                    <span className="text-xs font-medium">סרוק מוצר</span>
+                                </button>
+                            </div>
+
+                            {/* Holiday Recommendations Banner */}
+                            {getHolidayRecommendations().length > 0 && (
+                                <div className="mb-4 p-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 rounded-2xl border border-amber-200 dark:border-amber-700">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-xl">{getHolidayRecommendations()[0].icon}</span>
+                                            <span className="font-bold text-amber-800 dark:text-amber-200">{getHolidayRecommendations()[0].name} מתקרב!</span>
+                                        </div>
+                                        <button
+                                            onClick={() => setShowHolidayRecommendations(!showHolidayRecommendations)}
+                                            className="text-sm text-amber-600 dark:text-amber-400 hover:underline"
+                                        >
+                                            {showHolidayRecommendations ? 'הסתר' : 'הצג המלצות'}
+                                        </button>
+                                    </div>
+                                    {showHolidayRecommendations && (
+                                        <div className="flex flex-wrap gap-2 mt-2">
+                                            {getHolidayRecommendations()[0].products.map((product, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => addProduct(product)}
+                                                    className="px-3 py-1.5 bg-white dark:bg-gray-800 rounded-lg text-sm font-medium text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-all border border-amber-200 dark:border-amber-700"
+                                                >
+                                                    + {product}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
                         {filteredItems.length > 0 && (
                             <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-6 mb-6">
                                 <h2 className="text-2xl font-bold mb-4 dark:text-white flex items-center gap-3">
@@ -12023,107 +12124,6 @@ END:VCALENDAR`;
                                 <p className="text-gray-500 dark:text-gray-400 mt-2">{t('addProductsBelow')}</p>
                             </div>
                         )}
-
-
-                            {/* Quick Actions Bar - 5 icons in a row */}
-                            <div className="grid grid-cols-5 gap-2 mb-4">
-                                <button
-                                    onClick={() => setShowImportWhatsApp(true)}
-                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50 transition-all"
-                                >
-                                    <span className="text-2xl mb-1">📥</span>
-                                    <span className="text-xs font-medium">{t('importList')}</span>
-                                </button>
-                                <button
-                                    onClick={exportToWhatsApp}
-                                    disabled={items.filter(item => !item.purchased).length === 0}
-                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-all disabled:opacity-50"
-                                >
-                                    <span className="text-2xl mb-1">📤</span>
-                                    <span className="text-xs font-medium">{t('exportList')}</span>
-                                </button>
-                                <button
-                                    onClick={() => setShowSavedLists(true)}
-                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all relative"
-                                >
-                                    <span className="text-2xl mb-1">📋</span>
-                                    <span className="text-xs font-medium">{t('lists')}</span>
-                                    {savedLists.length > 0 && <span className="absolute top-1 right-1 bg-purple-500 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center">{savedLists.length}</span>}
-                                </button>
-                                <button
-                                    onClick={saveListForReuse}
-                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-all"
-                                >
-                                    <span className="text-2xl mb-1">💾</span>
-                                    <span className="text-xs font-medium">{t('save')}</span>
-                                </button>
-                                <button
-                                    onClick={startPriceScanner}
-                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 transition-all"
-                                >
-                                    <span className="text-2xl mb-1">📸</span>
-                                    <span className="text-xs font-medium">סרוק מוצר</span>
-                                </button>
-                            </div>
-
-                            {/* Holiday Recommendations Banner */}
-                            {getHolidayRecommendations().length > 0 && (
-                                <div className="mb-4 p-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 rounded-2xl border border-amber-200 dark:border-amber-700">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-xl">{getHolidayRecommendations()[0].icon}</span>
-                                            <span className="font-bold text-amber-800 dark:text-amber-200">{getHolidayRecommendations()[0].name} מתקרב!</span>
-                                        </div>
-                                        <button
-                                            onClick={() => setShowHolidayRecommendations(!showHolidayRecommendations)}
-                                            className="text-sm text-amber-600 dark:text-amber-400 hover:underline"
-                                        >
-                                            {showHolidayRecommendations ? 'הסתר' : 'הצג המלצות'}
-                                        </button>
-                                    </div>
-                                    {showHolidayRecommendations && (
-                                        <div className="flex flex-wrap gap-2 mt-2">
-                                            {getHolidayRecommendations()[0].products.map((product, idx) => (
-                                                <button
-                                                    key={idx}
-                                                    onClick={() => addProduct(product)}
-                                                    className="px-3 py-1.5 bg-white dark:bg-gray-800 rounded-lg text-sm font-medium text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-all border border-amber-200 dark:border-amber-700"
-                                                >
-                                                    + {product}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="text-sm text-gray-500 dark:text-gray-400">
-                                    {currentList?.icon} {currentList?.name}
-                                </div>
-                                <button
-                                    onClick={() => document.getElementById('shopping-list-section')?.scrollIntoView({ behavior: 'smooth' })}
-                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl hover:shadow-lg transition-all border border-indigo-200/50 dark:border-indigo-700/50">
-                                    <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">פריטים</span>
-                                    <span className="text-xl font-bold text-gradient">{totalItems}</span>
-                                </button>
-                            </div>
-
-                            {totalItems > 0 && (
-                                <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 rounded-2xl p-4 mb-4">
-                                    <div className="flex justify-between mb-2 text-sm">
-                                        <span className="text-gray-600 dark:text-gray-300 font-medium">{t('shoppingProgress')}</span>
-                                        <span className="font-bold text-gradient">{purchasedCount} / {totalItems}</span>
-                                    </div>
-                                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
-                                        <div className="progress-animate h-2.5 rounded-full transition-all duration-700 ease-out"
-                                            style={{ width: `${totalItems > 0 ? (purchasedCount / totalItems) * 100 : 0}%` }} />
-                                    </div>
-                                    {purchasedCount === totalItems && totalItems > 0 && (
-                                        <div className="text-center mt-2 text-sm text-green-600 dark:text-green-400 font-medium">🎉 {t('allPurchased')}</div>
-                                    )}
-                                </div>
-                            )}
 
                             <div className="grid grid-cols-4 gap-2">
                                 <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : alert(t('markPurchased'))}
