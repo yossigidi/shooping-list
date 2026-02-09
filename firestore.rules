@@ -1,0 +1,134 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isFamilyMember(familyId) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/families/$(familyId)) &&
+        request.auth.uid in get(/databases/$(database)/documents/families/$(familyId)).data.members;
+    }
+
+    function isFamilyAdmin(familyId) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/families/$(familyId)) &&
+        request.auth.uid == get(/databases/$(database)/documents/families/$(familyId)).data.adminId;
+    }
+
+    // Users collection - users can only read/write their own data
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Families collection
+    match /families/{familyId} {
+      // Anyone can read a family document (needed for join codes)
+      allow read: if isSignedIn();
+
+      // Only admin can update family settings
+      allow update: if isFamilyAdmin(familyId);
+
+      // Anyone signed in can create a family
+      allow create: if isSignedIn() &&
+        request.resource.data.adminId == request.auth.uid;
+
+      // Only admin can delete family
+      allow delete: if isFamilyAdmin(familyId);
+    }
+
+    // Shopping items - only family members can access
+    match /shopping-items/{itemId} {
+      allow read, write: if isSignedIn() &&
+        isFamilyMember(resource.data.familyId);
+
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId);
+    }
+
+    // Shopping lists - only family members can access
+    match /shopping-lists/{listId} {
+      allow read, write: if isSignedIn() &&
+        isFamilyMember(resource.data.familyId);
+
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId);
+    }
+
+    // Shopping history - only family members can access
+    match /shopping-history/{historyId} {
+      allow read, write: if isSignedIn() &&
+        isFamilyMember(resource.data.familyId);
+
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId);
+    }
+
+    // Chat messages - only family members can access
+    match /chat-messages/{messageId} {
+      allow read, write: if isSignedIn() &&
+        isFamilyMember(resource.data.familyId);
+
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId) &&
+        request.resource.data.userId == request.auth.uid;
+    }
+
+    // Activity log - only family members can access
+    match /activity-log/{logId} {
+      allow read: if isSignedIn() &&
+        isFamilyMember(resource.data.familyId);
+
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId);
+
+      // No update or delete for audit trail
+      allow update, delete: if false;
+    }
+
+    // Forgotten stats - only family members can access
+    match /forgotten-stats/{statsId} {
+      allow read, write: if isSignedIn() &&
+        statsId.matches(request.auth.uid + '_.*') ||
+        isFamilyMember(resource.data.familyId);
+
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId);
+    }
+
+    // Feedback - anyone signed in can create, only admins can read
+    match /feedback/{feedbackId} {
+      allow create: if isSignedIn();
+      allow read, update, delete: if false; // Admin SDK only
+    }
+
+    // Recipes - family members can access family recipes
+    match /recipes/{recipeId} {
+      allow read, write: if isSignedIn() &&
+        isFamilyMember(resource.data.familyId);
+
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId);
+    }
+
+    // Calendar events - family members can access
+    match /calendar-events/{eventId} {
+      allow read, write: if isSignedIn() &&
+        isFamilyMember(resource.data.familyId);
+
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId);
+    }
+
+    // Deny all other access by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

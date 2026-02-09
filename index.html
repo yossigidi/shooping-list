@@ -741,9 +741,30 @@
     </div>
     <div id="root"></div>
     <script>
-        // Global error handler for debugging
+        // Global error handler for debugging - XSS safe version
         window.onerror = function(msg, url, lineNo, columnNo, error) {
-            document.getElementById('root').innerHTML = '<div style="padding:20px;direction:rtl;font-family:Heebo,sans-serif;"><h2 style="color:red;">שגיאה:</h2><pre style="background:#f5f5f5;padding:10px;overflow:auto;font-size:12px;">' + msg + '\nLine: ' + lineNo + '</pre><button onclick="location.reload()" style="padding:10px 20px;margin-top:10px;">נסה שוב</button></div>';
+            var root = document.getElementById('root');
+            // Clear previous content safely
+            while (root.firstChild) root.removeChild(root.firstChild);
+            // Create elements safely (no innerHTML with user data)
+            var container = document.createElement('div');
+            container.style.cssText = 'padding:20px;direction:rtl;font-family:Heebo,sans-serif;';
+            var title = document.createElement('h2');
+            title.style.color = 'red';
+            title.textContent = 'שגיאה:';
+            var pre = document.createElement('pre');
+            pre.style.cssText = 'background:#f5f5f5;padding:10px;overflow:auto;font-size:12px;';
+            // Sanitize error message - only show safe portion
+            var safeMsg = String(msg).substring(0, 500).replace(/[<>]/g, '');
+            pre.textContent = safeMsg + '\nLine: ' + lineNo;
+            var btn = document.createElement('button');
+            btn.style.cssText = 'padding:10px 20px;margin-top:10px;';
+            btn.textContent = 'נסה שוב';
+            btn.onclick = function() { location.reload(); };
+            container.appendChild(title);
+            container.appendChild(pre);
+            container.appendChild(btn);
+            root.appendChild(container);
             return false;
         };
     </script>
@@ -950,7 +971,7 @@
                 error: 'שגיאה',
                 tryAgain: 'נסה שוב',
                 invalidEmail: 'אימייל לא תקין',
-                passwordTooShort: 'הסיסמה חייבת להכיל לפחות 6 תווים',
+                passwordTooShort: 'הסיסמה חייבת להכיל לפחות 8 תווים',
                 passwordsNoMatch: 'הסיסמאות לא תואמות',
                 codeNotFound: 'קוד לא נמצא',
                 alreadyMember: 'כבר חבר במשפחה זו',
@@ -965,7 +986,7 @@
                 enterEmailForReset: 'הזן את כתובת האימייל שלך ונשלח לך קישור לאיפוס',
                 displayName: 'שם תצוגה',
                 displayNamePlaceholder: 'השם שיוצג באפליקציה',
-                minChars: 'לפחות 6 תווים',
+                minChars: 'לפחות 8 תווים',
                 reenterPassword: 'הזן שוב את הסיסמה',
                 enterDisplayName: 'נא להזין שם תצוגה',
                 smartShoppingList: 'רשימת הקניות החכמה שלך',
@@ -1281,7 +1302,7 @@
                 error: 'Error',
                 tryAgain: 'Try Again',
                 invalidEmail: 'Invalid email',
-                passwordTooShort: 'Password must be at least 6 characters',
+                passwordTooShort: 'Password must be at least 8 characters',
                 passwordsNoMatch: 'Passwords do not match',
                 codeNotFound: 'Code not found',
                 alreadyMember: 'Already a member of this family',
@@ -1296,7 +1317,7 @@
                 enterEmailForReset: 'Enter your email and we will send you a reset link',
                 displayName: 'Display Name',
                 displayNamePlaceholder: 'Name shown in app',
-                minChars: 'At least 6 characters',
+                minChars: 'At least 8 characters',
                 reenterPassword: 'Re-enter password',
                 enterDisplayName: 'Please enter a display name',
                 smartShoppingList: 'Your smart shopping list',
@@ -1612,7 +1633,7 @@
                 error: 'Ошибка',
                 tryAgain: 'Попробовать снова',
                 invalidEmail: 'Неверный email',
-                passwordTooShort: 'Пароль должен содержать минимум 6 символов',
+                passwordTooShort: 'Пароль должен содержать минимум 8 символов',
                 passwordsNoMatch: 'Пароли не совпадают',
                 codeNotFound: 'Код не найден',
                 alreadyMember: 'Уже являетесь членом этой семьи',
@@ -1627,7 +1648,7 @@
                 enterEmailForReset: 'Введите email и мы отправим вам ссылку для сброса',
                 displayName: 'Отображаемое имя',
                 displayNamePlaceholder: 'Имя в приложении',
-                minChars: 'Минимум 6 символов',
+                minChars: 'Минимум 8 символов',
                 reenterPassword: 'Повторите пароль',
                 enterDisplayName: 'Пожалуйста, введите отображаемое имя',
                 smartShoppingList: 'Ваш умный список покупок',
@@ -1900,7 +1921,7 @@
                 error: 'خطأ',
                 tryAgain: 'حاول مرة أخرى',
                 invalidEmail: 'بريد إلكتروني غير صالح',
-                passwordTooShort: 'كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل',
+                passwordTooShort: 'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل',
                 passwordsNoMatch: 'كلمات المرور غير متطابقة',
                 codeNotFound: 'الرمز غير موجود',
                 alreadyMember: 'أنت عضو بالفعل في هذه العائلة',
@@ -1915,7 +1936,7 @@
                 enterEmailForReset: 'أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين',
                 displayName: 'اسم العرض',
                 displayNamePlaceholder: 'الاسم المعروض في التطبيق',
-                minChars: '6 أحرف على الأقل',
+                minChars: '8 أحرف على الأقل',
                 reenterPassword: 'أعد إدخال كلمة المرور',
                 enterDisplayName: 'يرجى إدخال اسم العرض',
                 smartShoppingList: 'قائمة التسوق الذكية الخاصة بك',
@@ -3043,7 +3064,7 @@
                 if (password !== confirmPassword) {
                     return setError(t('passwordsNoMatch'));
                 }
-                if (password.length < 6) {
+                if (password.length < 8) {
                     return setError(t('passwordTooShort'));
                 }
 
@@ -6969,6 +6990,47 @@
                 cursorSize: 'normal'
             });
 
+            // Escape key handler for closing modals
+            useEffect(() => {
+                const handleEscapeKey = (event) => {
+                    if (event.key === 'Escape') {
+                        // Close modals in order of priority (most recently opened first)
+                        if (showFeedback) { setShowFeedback(false); return; }
+                        if (showHelp) { setShowHelp(false); return; }
+                        if (showOnboarding) { setShowOnboarding(false); return; }
+                        if (showAIAssistant) { setShowAIAssistant(false); return; }
+                        if (showSaveTemplate) { setShowSaveTemplate(false); return; }
+                        if (showTemplates) { setShowTemplates(false); return; }
+                        if (showAccessibility) { setShowAccessibility(false); return; }
+                        if (showPromotions) { setShowPromotions(false); return; }
+                        if (showSmartAdd) { setShowSmartAdd(false); return; }
+                        if (showListComparison) { setShowListComparison(false); return; }
+                        if (showPriceScanner) { setShowPriceScanner(false); return; }
+                        if (showCalendar) { setShowCalendar(false); return; }
+                        if (showRegulars) { setShowRegulars(false); return; }
+                        if (showForgottenStats) { setShowForgottenStats(false); return; }
+                        if (showCamera) { setShowCamera(false); return; }
+                        if (showSettings) { setShowSettings(false); return; }
+                        if (showChat) { setShowChat(false); return; }
+                        if (showCreateList) { setShowCreateList(false); return; }
+                        if (showFamilySettings) { setShowFamilySettings(false); return; }
+                        if (showDeleteAllConfirm) { setShowDeleteAllConfirm(false); return; }
+                        if (showHistory) { setShowHistory(false); return; }
+                        if (showFinishShopping) { setShowFinishShopping(false); return; }
+                        if (showSavedLists) { setShowSavedLists(false); return; }
+                        if (showImportWhatsApp) { setShowImportWhatsApp(false); return; }
+                        if (showQuantitySelector) { setShowQuantitySelector(false); return; }
+                    }
+                };
+
+                document.addEventListener('keydown', handleEscapeKey);
+                return () => document.removeEventListener('keydown', handleEscapeKey);
+            }, [showFeedback, showHelp, showOnboarding, showAIAssistant, showSaveTemplate, showTemplates,
+                showAccessibility, showPromotions, showSmartAdd, showListComparison, showPriceScanner,
+                showCalendar, showRegulars, showForgottenStats, showCamera, showSettings, showChat,
+                showCreateList, showFamilySettings, showDeleteAllConfirm, showHistory, showFinishShopping,
+                showSavedLists, showImportWhatsApp, showQuantitySelector]);
+
             // English to Hebrew grocery translations
             const ENGLISH_TO_HEBREW = {
                 // Dairy
@@ -7166,11 +7228,27 @@
                 localStorage.setItem('voiceLang', newLang);
             };
 
-            // Shopping Mode - Keep screen awake
+            // Shopping Mode - Keep screen awake (with proper cleanup)
+            const wakeLockReleaseHandler = React.useCallback(() => {
+                setShoppingMode(false);
+                setWakeLock(null);
+            }, []);
+
+            // Cleanup wake lock on unmount
+            useEffect(() => {
+                return () => {
+                    if (wakeLock) {
+                        wakeLock.removeEventListener('release', wakeLockReleaseHandler);
+                        wakeLock.release().catch(() => {});
+                    }
+                };
+            }, [wakeLock, wakeLockReleaseHandler]);
+
             const toggleShoppingMode = async () => {
                 if (shoppingMode) {
                     // Turn off shopping mode
                     if (wakeLock) {
+                        wakeLock.removeEventListener('release', wakeLockReleaseHandler);
                         await wakeLock.release();
                         setWakeLock(null);
                     }
@@ -7181,10 +7259,7 @@
                         if ('wakeLock' in navigator) {
                             const lock = await navigator.wakeLock.request('screen');
                             setWakeLock(lock);
-                            lock.addEventListener('release', () => {
-                                setShoppingMode(false);
-                                setWakeLock(null);
-                            });
+                            lock.addEventListener('release', wakeLockReleaseHandler);
                         }
                         setShoppingMode(true);
                     } catch (err) {
@@ -9968,27 +10043,30 @@ END:VCALENDAR`;
                 }
             };
 
-            // Track forgotten items
+            // Track forgotten items - using transaction to prevent race conditions
             const trackForgottenItem = async (itemName) => {
                 try {
                     const monthKey = new Date().toISOString().slice(0, 7); // YYYY-MM
                     const docRef = window.firestore.doc(window.db, 'forgotten-stats', `${family.id}_${monthKey}`);
-                    const docSnap = await window.firestore.getDoc(docRef);
 
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        const items = data.items || {};
-                        items[itemName] = (items[itemName] || 0) + 1;
-                        await window.firestore.updateDoc(docRef, { items, updatedAt: new Date() });
-                    } else {
-                        await window.firestore.setDoc(docRef, {
-                            familyId: family.id,
-                            month: monthKey,
-                            items: { [itemName]: 1 },
-                            createdAt: new Date(),
-                            updatedAt: new Date()
-                        });
-                    }
+                    await window.firestore.runTransaction(window.db, async (transaction) => {
+                        const docSnap = await transaction.get(docRef);
+
+                        if (docSnap.exists()) {
+                            const data = docSnap.data();
+                            const items = data.items || {};
+                            items[itemName] = (items[itemName] || 0) + 1;
+                            transaction.update(docRef, { items, updatedAt: new Date() });
+                        } else {
+                            transaction.set(docRef, {
+                                familyId: family.id,
+                                month: monthKey,
+                                items: { [itemName]: 1 },
+                                createdAt: new Date(),
+                                updatedAt: new Date()
+                            });
+                        }
+                    });
                 } catch (error) {
                     console.error('Error tracking forgotten item:', error);
                 }
@@ -13398,6 +13476,65 @@ END:VCALENDAR`;
             return <ShoppingList />;
         }
 
+        // Error Boundary Component for catching React errors
+        class ErrorBoundary extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { hasError: false, error: null, errorInfo: null };
+            }
+
+            static getDerivedStateFromError(error) {
+                return { hasError: true };
+            }
+
+            componentDidCatch(error, errorInfo) {
+                this.setState({ error, errorInfo });
+                // Log error to console (in production, send to error tracking service)
+                console.error('React Error Boundary caught an error:', error, errorInfo);
+            }
+
+            render() {
+                if (this.state.hasError) {
+                    return (
+                        <div className="min-h-screen gradient-bg flex items-center justify-center p-4" dir="rtl">
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full text-center shadow-xl">
+                                <div className="text-6xl mb-4">😕</div>
+                                <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">משהו השתבש</h1>
+                                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                                    אירעה שגיאה בלתי צפויה. אנא נסה לרענן את הדף.
+                                </p>
+                                <div className="space-y-3">
+                                    <button
+                                        onClick={() => window.location.reload()}
+                                        className="w-full py-3 px-6 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors"
+                                    >
+                                        רענן את הדף
+                                    </button>
+                                    <button
+                                        onClick={() => this.setState({ hasError: false, error: null, errorInfo: null })}
+                                        className="w-full py-3 px-6 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-xl font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                                    >
+                                        נסה שוב
+                                    </button>
+                                </div>
+                                {process.env.NODE_ENV === 'development' && this.state.error && (
+                                    <details className="mt-6 text-left text-sm text-gray-500 dark:text-gray-400">
+                                        <summary className="cursor-pointer">פרטי השגיאה (למפתחים)</summary>
+                                        <pre className="mt-2 p-2 bg-gray-100 dark:bg-gray-900 rounded overflow-auto text-xs">
+                                            {this.state.error.toString()}
+                                            {this.state.errorInfo && this.state.errorInfo.componentStack}
+                                        </pre>
+                                    </details>
+                                )}
+                            </div>
+                        </div>
+                    );
+                }
+
+                return this.props.children;
+            }
+        }
+
         // Main App Component
         function App() {
             const { user, loading } = useAuth();
@@ -13428,11 +13565,13 @@ END:VCALENDAR`;
         }
 
         ReactDOM.render(
-            <LanguageProvider>
-                <AuthProvider>
-                    <App />
-                </AuthProvider>
-            </LanguageProvider>,
+            <ErrorBoundary>
+                <LanguageProvider>
+                    <AuthProvider>
+                        <App />
+                    </AuthProvider>
+                </LanguageProvider>
+            </ErrorBoundary>,
             document.getElementById('root'),
             () => {
                 // Hide loading skeleton after React renders
