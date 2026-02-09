@@ -1352,7 +1352,13 @@
                 enterYourName: 'הזן את שמך',
                 joining: 'מצטרף...',
                 invalidToken: 'קוד הזמנה לא תקין או פג תוקף',
-                joinSuccess: 'הצטרפת בהצלחה!'
+                joinSuccess: 'הצטרפת בהצלחה!',
+                // Teen/Older child role
+                teen: 'נער/ה בוגר/ת',
+                teenPermissions: 'יכול/ה להזמין חברים, ליצור ולערוך רשימות',
+                teenRole: 'נער בוגר',
+                canInviteMembers: 'יכול להזמין',
+                canManageLists: 'יכול לנהל רשימות'
             },
             en: {
                 // App name & general
@@ -1717,7 +1723,13 @@
                 enterYourName: 'Enter your name',
                 joining: 'Joining...',
                 invalidToken: 'Invalid or expired invite code',
-                joinSuccess: 'Joined successfully!'
+                joinSuccess: 'Joined successfully!',
+                // Teen/Older child role
+                teen: 'Teen',
+                teenPermissions: 'Can invite members, create and edit lists',
+                teenRole: 'Older Teen',
+                canInviteMembers: 'Can invite',
+                canManageLists: 'Can manage lists'
             },
             ru: {
                 // App name & general
@@ -2039,7 +2051,13 @@
                 enterYourName: 'Введите ваше имя',
                 joining: 'Присоединение...',
                 invalidToken: 'Недействительный или истёкший код приглашения',
-                joinSuccess: 'Успешно присоединились!'
+                joinSuccess: 'Успешно присоединились!',
+                // Teen/Older child role
+                teen: 'Подросток',
+                teenPermissions: 'Может приглашать участников, создавать и редактировать списки',
+                teenRole: 'Старший подросток',
+                canInviteMembers: 'Может приглашать',
+                canManageLists: 'Может управлять списками'
             },
             ar: {
                 // App name & general
@@ -2390,7 +2408,13 @@
                 enterYourName: 'أدخل اسمك',
                 joining: 'جاري الانضمام...',
                 invalidToken: 'رمز دعوة غير صالح أو منتهي الصلاحية',
-                joinSuccess: 'تم الانضمام بنجاح!'
+                joinSuccess: 'تم الانضمام بنجاح!',
+                // Teen/Older child role
+                teen: 'مراهق/ة',
+                teenPermissions: 'يمكنه دعوة أعضاء وإنشاء وتعديل القوائم',
+                teenRole: 'مراهق أكبر',
+                canInviteMembers: 'يمكنه الدعوة',
+                canManageLists: 'يمكنه إدارة القوائم'
             }
         };
 
@@ -2614,18 +2638,23 @@
                 }
 
                 const isParent = userRole.startsWith('parent');
-                const roleLabel = userRole === 'parent_father' ? 'אבא' : userRole === 'parent_mother' ? 'אמא' : 'ילד/ה';
+                const isTeen = userRole === 'teen';
+                const roleLabel = userRole === 'parent_father' ? 'אבא' :
+                                  userRole === 'parent_mother' ? 'אמא' :
+                                  userRole === 'teen' ? 'נער/ה בוגר/ת' : 'ילד/ה';
 
                 // Add user to family
+                // Roles: admin (parents), teen (older child with some permissions), member (child)
                 const newMember = {
                     userId: user.uid,
                     email: user.email,
                     displayName: user.displayName || user.email,
                     joinedAt: new Date(),
-                    role: isParent ? 'admin' : 'member',
+                    role: isParent ? 'admin' : (isTeen ? 'teen' : 'member'),
                     familyRole: userRole,
                     familyRoleLabel: roleLabel,
-                    isParent: isParent
+                    isParent: isParent,
+                    isTeen: isTeen
                 };
 
                 await window.firestore.updateDoc(
@@ -2928,7 +2957,12 @@
                 createList,
                 deleteList,
                 logActivity,
+                // Permission flags
                 isAdmin: family?.adminId === user?.uid,
+                isTeen: family?.members?.find(m => m.userId === user?.uid)?.isTeen || false,
+                canInvite: family?.adminId === user?.uid || family?.members?.find(m => m.userId === user?.uid)?.isTeen || false,
+                canManageLists: family?.adminId === user?.uid || family?.members?.find(m => m.userId === user?.uid)?.isTeen || false,
+                currentUserRole: family?.members?.find(m => m.userId === user?.uid)?.role || 'member',
                 // Child account methods
                 createChildAccount,
                 deleteChildAccount,
@@ -3164,7 +3198,7 @@
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('selectRole')}</label>
-                                    <div className="grid grid-cols-3 gap-2">
+                                    <div className="grid grid-cols-2 gap-2">
                                         <button
                                             type="button"
                                             onClick={() => setSelectedRole('parent_father')}
@@ -3193,6 +3227,19 @@
                                         </button>
                                         <button
                                             type="button"
+                                            onClick={() => setSelectedRole('teen')}
+                                            className={`p-3 rounded-xl border-2 transition-all flex flex-col items-center gap-1 ${
+                                                selectedRole === 'teen'
+                                                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30'
+                                                    : 'border-gray-200 dark:border-gray-600 hover:border-indigo-300'
+                                            }`}
+                                        >
+                                            <span className="text-2xl">🧑</span>
+                                            <span className="text-sm font-medium text-gray-800 dark:text-white">{t('teen')}</span>
+                                            <span className="text-xs text-blue-600">{t('canInviteMembers')}</span>
+                                        </button>
+                                        <button
+                                            type="button"
                                             onClick={() => setSelectedRole('child')}
                                             className={`p-3 rounded-xl border-2 transition-all flex flex-col items-center gap-1 ${
                                                 selectedRole === 'child'
@@ -3205,7 +3252,9 @@
                                             <span className="text-xs text-amber-600">{t('limited')}</span>
                                         </button>
                                     </div>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">{t('childPermissions')}</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+                                        {selectedRole === 'teen' ? t('teenPermissions') : t('childPermissions')}
+                                    </p>
                                 </div>
 
                                 <button type="submit" disabled={loading || !selectedRole} className="w-full btn-gradient text-white py-3 rounded-xl font-semibold disabled:opacity-50">
@@ -3242,7 +3291,7 @@
 
         // Family Settings Modal
         function FamilySettingsModal({ onClose }) {
-            const { family, leaveFamily, removeMember, isAdmin, deleteChildAccount } = useFamily();
+            const { family, leaveFamily, removeMember, isAdmin, canInvite, isTeen, deleteChildAccount } = useFamily();
             const { user } = useAuth();
             const { t, language } = useLanguage();
             const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
@@ -3388,12 +3437,12 @@
                                     <div key={idx} className="glass rounded-lg p-3 flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xl">
-                                                {member.familyRole === 'parent_father' ? '👨' : member.familyRole === 'parent_mother' ? '👩' : member.familyRole === 'child' ? '👦' : member.displayName?.charAt(0)?.toUpperCase() || '?'}
+                                                {member.familyRole === 'parent_father' ? '👨' : member.familyRole === 'parent_mother' ? '👩' : member.familyRole === 'teen' ? '🧑' : member.familyRole === 'child' ? '👦' : member.displayName?.charAt(0)?.toUpperCase() || '?'}
                                             </div>
                                             <div>
                                                 <div className="font-medium dark:text-white">{member.displayName}</div>
                                                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                                                    {member.familyRoleLabel || (member.role === 'admin' ? '👑 ' + t('admin') : t('child'))}
+                                                    {member.familyRoleLabel || (member.role === 'admin' ? '👑 ' + t('admin') : member.role === 'teen' ? '🧑 ' + t('teen') : t('child'))}
                                                     {(member.isParent || member.role === 'admin') && <span className="mr-1 text-green-600">• {t('admin')}</span>}
                                                 </div>
                                             </div>
