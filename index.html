@@ -11661,6 +11661,15 @@ END:VCALENDAR`;
                                                         </div>
                                                     </button>
                                                     <button
+                                                        onClick={() => { setShowHelp(true); setShowSettings(false); }}
+                                                        className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
+                                                    >
+                                                        <span className="text-xl">❓</span>
+                                                        <div className="flex-1">
+                                                            <div className="font-medium text-gray-800 dark:text-gray-200">{t('help')}</div>
+                                                        </div>
+                                                    </button>
+                                                    <button
                                                         onClick={() => { handleLogout(); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors border-t border-gray-100 dark:border-gray-700 text-red-600 dark:text-red-400"
                                                     >
@@ -11773,16 +11782,6 @@ END:VCALENDAR`;
                                 </button>
                             )}
 
-                            {/* AI Assistant Button */}
-                            <button
-                                onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
-                                className="w-full mb-4 flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
-                            >
-                                <span className="text-2xl">🤖</span>
-                                <span>עוזר קניות חכם - הצעות AI</span>
-                                <span className="text-lg">✨</span>
-                            </button>
-
                             {/* Holiday Recommendations Banner */}
                             {getHolidayRecommendations().length > 0 && (
                                 <div className="mb-4 p-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 rounded-2xl border border-amber-200 dark:border-amber-700">
@@ -11855,34 +11854,44 @@ END:VCALENDAR`;
                                     <div className="text-2xl mb-1">📊</div>
                                     <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('history')}</div>
                                 </button>
-                                <button onClick={() => setShowHelp(true)}
-                                    className="relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 p-3 rounded-xl border border-green-200/50 dark:border-green-700/50 card-hover group">
+                                <button onClick={() => setShowCalendar(true)}
+                                    className="relative overflow-hidden bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/30 dark:to-purple-900/30 p-3 rounded-xl border border-violet-200/50 dark:border-violet-700/50 card-hover group">
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1">❓</div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('help')}</div>
+                                    <div className="text-2xl mb-1">📅</div>
+                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('calendar')}</div>
                                 </button>
-                                <button onClick={() => setShowAccessibility(true)}
-                                    className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 p-3 rounded-xl border border-blue-200/50 dark:border-blue-700/50 card-hover group">
+                                <button onClick={() => setNotificationsEnabled(!notificationsEnabled)}
+                                    className={`relative overflow-hidden p-3 rounded-xl border card-hover group ${
+                                        notificationsEnabled
+                                            ? 'bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 border-green-200/50 dark:border-green-700/50'
+                                            : 'bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900/30 dark:to-gray-800/30 border-gray-200/50 dark:border-gray-700/50'
+                                    }`}>
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1">♿</div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('accessibility')}</div>
+                                    <div className="text-2xl mb-1">{notificationsEnabled ? '🔔' : '🔕'}</div>
+                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('notifications')}</div>
                                 </button>
                             </div>
 
+                            {/* AI Assistant Button */}
+                            <div className="mt-3">
+                                <button
+                                    onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
+                                    className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                >
+                                    <span className="text-2xl">🤖</span>
+                                    <span>עוזר קניות חכם</span>
+                                    <span className="text-lg">✨</span>
+                                </button>
+                            </div>
 
-                            <div className="mt-3 flex gap-2">
+                            <div className="mt-3">
                                 <button onClick={() => setShowForgottenStats(true)}
-                                    className="flex-1 bg-gradient-to-r from-rose-400 to-pink-500 text-white px-4 py-3 rounded-lg hover:from-rose-500 hover:to-pink-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
+                                    className="w-full bg-gradient-to-r from-rose-400 to-pink-500 text-white px-4 py-3 rounded-lg hover:from-rose-500 hover:to-pink-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
                                     <span>🧠</span>
                                     <span>{t('whatForgot')}</span>
                                     {shoppingStreak > 0 && (
                                         <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">🔥 {shoppingStreak}</span>
                                     )}
-                                </button>
-                                <button onClick={() => setShowCalendar(true)}
-                                    className="w-14 bg-gradient-to-r from-violet-400 to-purple-500 text-white rounded-lg hover:from-violet-500 hover:to-purple-600 transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center"
-                                    title={t('calendar')}>
-                                    📅
                                 </button>
                             </div>
 
@@ -12839,6 +12848,16 @@ END:VCALENDAR`;
                             </div>
                         </div>
                     )}
+
+                    {/* Sticky Accessibility Button */}
+                    <button
+                        onClick={() => setShowAccessibility(true)}
+                        className="fixed left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-blue-500 text-white shadow-lg hover:bg-blue-600 hover:scale-110 transition-all z-50 flex items-center justify-center"
+                        title={t('accessibility')}
+                        aria-label={t('accessibility')}
+                    >
+                        <span className="text-xl">♿</span>
+                    </button>
                     </main>
                 </div>
             );
