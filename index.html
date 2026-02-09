@@ -162,7 +162,7 @@
         .swipe-container { position: relative; overflow: hidden; touch-action: pan-y pinch-zoom; border-radius: 16px; }
         .swipe-background { position: absolute; top: 0; bottom: 0; width: 100%; display: flex; align-items: center; padding: 0 24px; border-radius: 16px; }
         .swipe-bg-right { right: 0; justify-content: flex-start; background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
-        .swipe-bg-left { left: 0; justify-content: flex-end; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .swipe-bg-left { left: 0; justify-content: flex-end; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
         .swipe-content { position: relative; z-index: 2; background: inherit; transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
         .swipe-content.swiping { transition: none; }
         .swipe-indicator { display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -6761,17 +6761,17 @@
                             </span>
                         </div>
                     </div>
-                    {/* Left swipe background (postpone - orange) */}
+                    {/* Left swipe background (delete - red) */}
                     <div
                         className="swipe-bg-left swipe-background"
                         style={{ opacity: leftProgress }}
                     >
                         <div className="swipe-indicator">
                             <span className={`swipe-icon swipe-icon-emoji ${showLeftIndicator ? 'visible' : ''}`} style={{ transform: `scale(${0.5 + leftProgress * 0.5})` }}>
-                                ⏭
+                                🗑️
                             </span>
                             <span className={`swipe-icon text-sm ${showLeftIndicator ? 'visible' : ''}`}>
-                                אח״כ
+                                מחק
                             </span>
                         </div>
                     </div>
@@ -12714,7 +12714,7 @@ END:VCALENDAR`;
                                                 className={`mb-3 ${exitingItems.has(item.id) ? 'item-exit' : 'item-enter'}`}
                                                 purchased={item.purchased}
                                                 onSwipeRight={() => !item.purchased && togglePurchasedWithAnimation(item.id, item.purchased)}
-                                                onSwipeLeft={() => !item.purchased && postponeItem(item.id)}
+                                                onSwipeLeft={() => deleteItem(item.id)}
                                             >
                                                 <div className={`product-card ${animatingItems.has(item.id) ? 'success-glow' : ''} ${item.purchased ? 'purchased' : ''}`}>
                                                     {/* Clean single-row layout */}
