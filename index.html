@@ -7495,9 +7495,9 @@
                         chain_id: 4, chain_name: 'Victory', chain_name_he: 'ויקטורי',
                         promo_url: CHAIN_PROMO_URLS[4],
                         promotions: [
-                            { description: 'מוצרי חלב שטראוס - קנה 3 שלם 2', end_date: '2026-02-22', keywords: ['חלב שטראוס', 'יוגורט שטראוס', 'שטראוס'] },
+                            { description: 'מוצרי חלב שטראוס - קנה 3 שלם 2', end_date: '2026-02-22', keywords: ['שטראוס'] },
                             { description: 'שימורי טונה - 4 ב-25₪', end_date: '2026-02-28', keywords: ['טונה'] },
-                            { description: 'במבה אסם - 3 ב-10₪', end_date: '2026-02-20', keywords: ['במבה', 'ביסלי', 'אסם'] },
+                            { description: 'במבה אסם - 3 ב-10₪', end_date: '2026-02-20', keywords: ['במבה', 'ביסלי'] },
                             { description: 'אורז תבואות - 2 ב-15₪', end_date: '2026-02-25', keywords: ['אורז'] },
                             { description: 'קורנפלקס קלוגס - 19.90₪', end_date: '2026-02-20', keywords: ['קורנפלקס קלוגס', 'פרוסטיז', 'קוקו פופס'] }
                         ]
@@ -7516,7 +7516,7 @@
                         chain_id: 6, chain_name: 'Carrefour', chain_name_he: 'קארפור',
                         promo_url: CHAIN_PROMO_URLS[6],
                         promotions: [
-                            { description: 'מוצרי חלב טרה - 25% הנחה', end_date: '2026-02-25', keywords: ['חלב טרה', 'יוגורט טרה', 'טרה'] },
+                            { description: 'מוצרי חלב טרה - 25% הנחה', end_date: '2026-02-25', keywords: ['טרה'] },
                             { description: 'פסטה ברילה 500 גרם - 2 ב-15₪', end_date: '2026-02-28', keywords: ['פסטה'] },
                             { description: 'קפה עלית - 1+1 מתנה', end_date: '2026-02-20', keywords: ['קפה', 'עלית', 'נס קפה'] },
                             { description: 'שמנת מתוקה - 5.90₪', end_date: '2026-02-22', keywords: ['שמנת'] },
@@ -7605,17 +7605,37 @@
                             const kwLower = kw.toLowerCase();
                             const kwWords = kwLower.split(/\s+/);
 
-                            // Multi-word keyword: must match exactly in product name
+                            // Multi-word keyword: check if all words appear in product name
                             if (kwWords.length > 1) {
-                                return nameLower.includes(kwLower) || kwLower.includes(nameLower);
+                                // All keyword words must appear in the product name
+                                const allWordsMatch = kwWords.every(kwWord =>
+                                    nameWords.some(nw => nw === kwWord || nw.startsWith(kwWord))
+                                );
+                                if (allWordsMatch) return true;
+
+                                // Also allow if product name contains the full keyword
+                                return nameLower.includes(kwLower);
                             }
 
-                            // Single word keyword: must be the FIRST word or exact match
-                            // This prevents "עוגן שוקולד" from matching "שוקולד פרה"
-                            const firstWord = nameWords[0];
-                            return firstWord === kwLower ||
-                                   nameLower === kwLower ||
-                                   (firstWord.startsWith(kwLower) && kwLower.length >= 4);
+                            // Single word keyword: STRICT matching rules
+                            // 1. Exact match only (product name equals keyword)
+                            if (nameLower === kwLower) return true;
+
+                            // 2. Product is ONE word that starts with keyword (min 4 chars)
+                            if (nameWords.length === 1 && nameLower.startsWith(kwLower) && kwLower.length >= 4) {
+                                return true;
+                            }
+
+                            // 3. For multi-word products, keyword must match a word EXACTLY
+                            //    AND keyword must be specific enough (5+ chars) or match first word exactly
+                            if (nameWords.length > 1) {
+                                const exactWordMatch = nameWords.some(nw => nw === kwLower);
+                                if (exactWordMatch && kwLower.length >= 5) return true;
+                                // First word exact match only for very specific keywords
+                                if (nameWords[0] === kwLower && kwLower.length >= 5) return true;
+                            }
+
+                            return false;
                         });
 
                         if (hasStrictMatch) {
