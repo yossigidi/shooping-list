@@ -491,6 +491,33 @@ const PRICE_DATABASE = {
     'חיתולים מידה 3': { shufersal: 48.90, rami_levy: 54.90, victory: 56.90, ybitan: 59.90, hatzi_hinam: 52.90, carrefour: 47.90 },
     'חיתולים מידה 4': { shufersal: 48.90, rami_levy: 54.90, victory: 56.90, ybitan: 59.90, hatzi_hinam: 52.90, carrefour: 54.90 },
     'מגבונים לתינוקות': { shufersal: 16.90, rami_levy: 13.90, victory: 15.50, ybitan: 18.90, hatzi_hinam: 11.50, carrefour: 10.90 },
+    // פורמולות - מטרנה
+    'מטרנה חלבי שלב 1': { shufersal: 56.90, rami_levy: 58.90, victory: 59.90, ybitan: 62.90, hatzi_hinam: 57.90, carrefour: 58.90 },
+    'מטרנה חלבי שלב 2': { shufersal: 56.90, rami_levy: 58.90, victory: 59.90, ybitan: 62.90, hatzi_hinam: 57.90, carrefour: 58.90 },
+    'מטרנה חלבי שלב 3': { shufersal: 56.90, rami_levy: 58.90, victory: 59.90, ybitan: 62.90, hatzi_hinam: 57.90, carrefour: 58.90 },
+    'מטרנה מהדרין שלב 1': { shufersal: 65.00, rami_levy: 67.00, victory: 68.00, ybitan: 70.00, hatzi_hinam: 66.00, carrefour: 67.00 },
+    'מטרנה מהדרין שלב 3': { shufersal: 65.00, rami_levy: 67.00, victory: 68.00, ybitan: 70.00, hatzi_hinam: 66.00, carrefour: 67.00 },
+    'מטרנה גולד שלב 1': { shufersal: 81.90, rami_levy: 84.90, victory: 86.90, ybitan: 89.90, hatzi_hinam: 83.90, carrefour: 84.90 },
+    'מטרנה גולד שלב 2': { shufersal: 81.90, rami_levy: 84.90, victory: 86.90, ybitan: 89.90, hatzi_hinam: 83.90, carrefour: 84.90 },
+    'מטרנה גולד שלב 3': { shufersal: 81.90, rami_levy: 84.90, victory: 86.90, ybitan: 89.90, hatzi_hinam: 83.90, carrefour: 84.90 },
+    'מטרנה אקסטרה קר שלב 1': { shufersal: 66.90, rami_levy: 69.90, victory: 71.90, ybitan: 74.90, hatzi_hinam: 68.90, carrefour: 69.90 },
+    'מטרנה אקסטרה קר שלב 2': { shufersal: 66.90, rami_levy: 69.90, victory: 71.90, ybitan: 74.90, hatzi_hinam: 68.90, carrefour: 69.90 },
+    'מטרנה אקסטרה קר שלב 3': { shufersal: 66.90, rami_levy: 69.90, victory: 71.90, ybitan: 74.90, hatzi_hinam: 68.90, carrefour: 69.90 },
+    'מטרנה קומפורט': { shufersal: 82.90, rami_levy: 85.90, victory: 87.90, ybitan: 90.90, hatzi_hinam: 84.90, carrefour: 85.90 },
+    'מטרנה צמחית': { shufersal: 71.90, rami_levy: 74.90, victory: 76.90, ybitan: 79.90, hatzi_hinam: 73.90, carrefour: 74.90 },
+    // פורמולות - סימילאק
+    'סימילאק גולד שלב 1': { shufersal: 72.60, rami_levy: 75.60, victory: 77.60, ybitan: 80.60, hatzi_hinam: 74.60, carrefour: 75.60 },
+    'סימילאק גולד שלב 2': { shufersal: 72.60, rami_levy: 75.60, victory: 77.60, ybitan: 80.60, hatzi_hinam: 74.60, carrefour: 75.60 },
+    'סימילאק גולד שלב 3': { shufersal: 72.60, rami_levy: 75.60, victory: 77.60, ybitan: 80.60, hatzi_hinam: 74.60, carrefour: 75.60 },
+    'סימילאק גולד+ שלב 1': { shufersal: 80.90, rami_levy: 83.90, victory: 85.90, ybitan: 88.90, hatzi_hinam: 82.90, carrefour: 83.90 },
+    'סימילאק גולד+ שלב 2': { shufersal: 80.90, rami_levy: 83.90, victory: 85.90, ybitan: 88.90, hatzi_hinam: 82.90, carrefour: 83.90 },
+    'סימילאק גולד+ שלב 3': { shufersal: 80.90, rami_levy: 83.90, victory: 85.90, ybitan: 88.90, hatzi_hinam: 82.90, carrefour: 83.90 },
+    'סימילאק קומפורט שלב 1': { shufersal: 107.90, rami_levy: 110.90, victory: 112.90, ybitan: 115.90, hatzi_hinam: 109.90, carrefour: 110.90 },
+    'סימילאק קומפורט שלב 2': { shufersal: 107.90, rami_levy: 110.90, victory: 112.90, ybitan: 115.90, hatzi_hinam: 109.90, carrefour: 110.90 },
+    // פורמולות - נוטרילון
+    'נוטרילון שלב 1': { shufersal: 74.90, rami_levy: 77.90, victory: 79.90, ybitan: 82.90, hatzi_hinam: 76.90, carrefour: 77.90 },
+    'נוטרילון שלב 2': { shufersal: 74.90, rami_levy: 77.90, victory: 79.90, ybitan: 82.90, hatzi_hinam: 76.90, carrefour: 77.90 },
+    'נוטרילון שלב 3': { shufersal: 74.90, rami_levy: 77.90, victory: 79.90, ybitan: 82.90, hatzi_hinam: 76.90, carrefour: 77.90 },
 
     // ===== חיות מחמד =====
     'מזון לכלבים': { shufersal: 49.90, rami_levy: 44.90, victory: 52.90, ybitan: 54.90, hatzi_hinam: 46.90, carrefour: 49.50 },
@@ -610,6 +637,7 @@ function findProduct(name) {
     if (!name) return null;
     const searchName = name.trim();
     const searchLower = searchName.toLowerCase();
+    const searchWords = searchLower.split(/\s+/).filter(w => w.length > 1);
 
     // 1. Exact match
     if (PRICE_DATABASE[searchName]) {
@@ -623,47 +651,60 @@ function findProduct(name) {
         }
     }
 
-    // 3. Starts with match
-    for (const [productName, prices] of Object.entries(PRICE_DATABASE)) {
-        if (productName.startsWith(searchName) || searchName.startsWith(productName)) {
-            return { name: productName, prices };
-        }
-    }
-
-    // 4. Contains match
-    for (const [productName, prices] of Object.entries(PRICE_DATABASE)) {
-        if (productName.includes(searchName) || searchName.includes(productName)) {
-            return { name: productName, prices };
-        }
-    }
-
-    // 5. Word-based matching
-    const searchWords = searchName.split(/\s+/).filter(w => w.length > 1);
+    // 3. Find best match based on word overlap (prioritize longer matches)
     let bestMatch = null;
     let bestScore = 0;
+    let bestLength = 0;
 
     for (const [productName, prices] of Object.entries(PRICE_DATABASE)) {
-        const productWords = productName.split(/\s+/);
+        const productLower = productName.toLowerCase();
+        const productWords = productLower.split(/\s+/);
         let score = 0;
 
+        // Exact word matches (highest priority)
+        for (const searchWord of searchWords) {
+            if (productWords.includes(searchWord)) {
+                score += 30;
+            }
+        }
+
+        // First word match (important for product identification)
+        if (searchWords.length > 0 && productWords.length > 0) {
+            if (searchWords[0] === productWords[0]) {
+                score += 50; // Strong bonus for matching first word
+            }
+        }
+
+        // Penalize partial word matches to avoid "חלבי" matching "חלב"
+        // Only allow contains match if it's a WHOLE word match
         for (const searchWord of searchWords) {
             for (const productWord of productWords) {
-                if (productWord.includes(searchWord) || searchWord.includes(productWord)) {
+                // Skip if words are too different in length (avoid חלבי->חלב)
+                if (Math.abs(searchWord.length - productWord.length) > 2) {
+                    continue;
+                }
+                // Exact word match already counted above
+                if (searchWord === productWord) continue;
+                // Starts-with match for similar length words
+                if (searchWord.startsWith(productWord) && productWord.length >= 4) {
                     score += 10;
                 }
-                if (productWord === searchWord) {
-                    score += 20;
+                if (productWord.startsWith(searchWord) && searchWord.length >= 4) {
+                    score += 10;
                 }
             }
         }
 
-        if (score > bestScore) {
+        // Prefer longer product names (more specific)
+        if (score > bestScore || (score === bestScore && productName.length > bestLength)) {
             bestScore = score;
             bestMatch = { name: productName, prices };
+            bestLength = productName.length;
         }
     }
 
-    if (bestMatch && bestScore >= 10) {
+    // Require minimum score to return a match
+    if (bestMatch && bestScore >= 30) {
         return bestMatch;
     }
 
