@@ -7433,7 +7433,8 @@
                 2: 'https://www.rami-levy.co.il/he/online/feed',
                 3: 'https://www.ybitan.co.il/specials',
                 4: 'https://victory.co.il/%D7%9E%D7%91%D7%A6%D7%A2%D7%99-%D7%94%D7%A9%D7%91%D7%95%D7%A2/',
-                5: 'https://shop.hazi-hinam.co.il/promotions/%D7%A2%D7%9C%D7%95%D7%9F-%D7%9E%D7%91%D7%A6%D7%A2%D7%99%D7%9D'
+                5: 'https://shop.hazi-hinam.co.il/promotions/%D7%A2%D7%9C%D7%95%D7%9F-%D7%9E%D7%91%D7%A6%D7%A2%D7%99%D7%9D',
+                6: 'https://www.carrefour.co.il/specials'
             };
 
             // Sample promotions data (fallback when API unavailable)
@@ -7484,6 +7485,15 @@
                         promotions: [
                             { description: 'כל מוצרי הניקיון - 1+1', end_date: '2026-02-20' },
                             { description: 'פירות וירקות טריים - 50% הנחה על השני', end_date: '2026-02-15' }
+                        ]
+                    },
+                    {
+                        chain_id: 6, chain_name: 'Carrefour', chain_name_he: 'קארפור',
+                        promo_url: CHAIN_PROMO_URLS[6],
+                        promotions: [
+                            { description: 'מוצרי חלב טרה - 25% הנחה', end_date: '2026-02-25' },
+                            { description: 'פסטה ברילה 500 גרם - 2 ב-15₪', end_date: '2026-02-28' },
+                            { description: 'קפה עלית - 1+1 מתנה', end_date: '2026-02-20' }
                         ]
                     }
                 ]
@@ -7544,6 +7554,7 @@
                     'ויקטורי': 'bg-orange-500',
                     'יינות ביתן': 'bg-purple-500',
                     'חצי חינם': 'bg-green-500',
+                    'קארפור': 'bg-sky-500',
                     'מגה': 'bg-cyan-500',
                     'אושר עד': 'bg-teal-500',
                     'טיב טעם': 'bg-amber-500',

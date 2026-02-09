@@ -67,6 +67,12 @@ CHAINS = {
         'type': 'hazihinam',
         'base_url': 'https://shop.hazi-hinam.co.il/Prices',
     },
+    6: {
+        'name': 'קארפור',
+        'name_en': 'Carrefour',
+        'type': 'carrefour',
+        'base_url': 'https://prices.carrefour.co.il',
+    },
 }
 
 
