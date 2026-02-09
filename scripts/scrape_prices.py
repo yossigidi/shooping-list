@@ -687,6 +687,184 @@ def fetch_hazihinam_prices(chain_id: int, chain_info: dict) -> List[dict]:
 # Promotion Scrapers
 # ============================================
 
+def fetch_hazihinam_promotions(chain_id: int, chain_info: dict) -> List[dict]:
+    """Fetch promotions from Hatzi Hinam."""
+    promotions = []
+    base_url = chain_info['base_url']
+
+    try:
+        session = requests.Session()
+        session.headers.update(HEADERS)
+
+        # Get the page without type filter to see all files including promos
+        resp = session.get(base_url, timeout=TIMEOUT)
+
+        if resp.status_code != 200:
+            print(f"  Failed to get page: HTTP {resp.status_code}")
+            return promotions
+
+        soup = BeautifulSoup(resp.text, 'html.parser')
+        tbody = soup.find('tbody')
+
+        if not tbody:
+            print("  Could not find file table")
+            return promotions
+
+        # Find Promo links (not PromoFull - Hatzi Hinam uses Promo files)
+        rows = tbody.find_all('tr')
+        promo_links = []
+        for row in rows:
+            link = row.find('a', href=True)
+            href = link.get('href', '') if link else ''
+            # Match Promo files but not PromoFull
+            if link and '/Promo' in href and 'PromoFull' not in href:
+                promo_links.append(href)
+
+        if not promo_links:
+            print("  No Promo files found")
+            return promotions
+
+        print(f"  Found {len(promo_links)} Promo files")
+
+        # Download first few files
+        for download_url in promo_links[:5]:
+            try:
+                download_resp = session.get(download_url, timeout=TIMEOUT)
+
+                if download_resp.status_code == 200:
+                    try:
+                        content = gzip.decompress(download_resp.content)
+                    except (OSError, gzip.BadGzipFile):
+                        content = download_resp.content
+
+                    root = parse_xml_content(content)
+                    if root:
+                        # Extract promotions from XML
+                        items = root.findall('.//Promotion') or root.findall('.//Sale')
+                        for item in items:
+                            promo_id = item.findtext('PromotionId', '') or item.findtext('SaleId', '')
+                            description = item.findtext('PromotionDescription', '') or item.findtext('SaleDescription', '')
+                            start_date = item.findtext('PromotionStartDate', '') or item.findtext('StartDate', '')
+                            end_date = item.findtext('PromotionEndDate', '') or item.findtext('EndDate', '')
+
+                            if description:
+                                promotions.append({
+                                    'chain_id': chain_id,
+                                    'promo_id': promo_id,
+                                    'description': description.strip(),
+                                    'start_date': start_date[:10] if start_date else None,
+                                    'end_date': end_date[:10] if end_date else None,
+                                })
+
+                        print(f"    Parsed {len(items)} promotions")
+
+            except Exception as e:
+                print(f"    Error downloading file: {e}")
+                continue
+
+        # Remove duplicates by description
+        seen = set()
+        unique_promos = []
+        for p in promotions:
+            if p['description'] not in seen:
+                seen.add(p['description'])
+                unique_promos.append(p)
+
+        print(f"  Total unique promotions: {len(unique_promos)}")
+        return unique_promos
+
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    return promotions
+
+
+def fetch_victory_promotions(chain_id: int, chain_info: dict) -> List[dict]:
+    """Fetch promotions from Victory via laibcatalog.co.il."""
+    promotions = []
+    base_url = chain_info['base_url']
+
+    try:
+        session = requests.Session()
+        session.headers.update(HEADERS)
+
+        resp = session.get(f'{base_url}/NBCompetitionRegulations.aspx', timeout=TIMEOUT)
+        if resp.status_code != 200:
+            print(f"  Failed to get page: HTTP {resp.status_code}")
+            return promotions
+
+        soup = BeautifulSoup(resp.text, 'html.parser')
+
+        # Find Promo links (not PromoFull)
+        links = soup.find_all('a', href=True)
+        promo_links = []
+        for l in links:
+            href = l.get('href', '')
+            if '/Promo' in href and 'PromoFull' not in href:
+                promo_links.append(href)
+
+        if not promo_links:
+            print("  No Promo files found")
+            return promotions
+
+        print(f"  Found {len(promo_links)} Promo files")
+
+        # Download first few files
+        for link in promo_links[:5]:
+            try:
+                # Fix path separators
+                link = link.replace('\\', '/')
+                download_url = f'{base_url}/{link}'
+                download_resp = session.get(download_url, timeout=TIMEOUT)
+
+                if download_resp.status_code == 200:
+                    try:
+                        content = gzip.decompress(download_resp.content)
+                    except (OSError, gzip.BadGzipFile):
+                        content = download_resp.content
+
+                    root = parse_xml_content(content)
+                    if root:
+                        # Extract promotions from XML
+                        items = root.findall('.//Promotion') or root.findall('.//Sale')
+                        for item in items:
+                            promo_id = item.findtext('PromotionId', '') or item.findtext('SaleId', '')
+                            description = item.findtext('PromotionDescription', '') or item.findtext('SaleDescription', '')
+                            start_date = item.findtext('PromotionStartDate', '') or item.findtext('StartDate', '')
+                            end_date = item.findtext('PromotionEndDate', '') or item.findtext('EndDate', '')
+
+                            if description:
+                                promotions.append({
+                                    'chain_id': chain_id,
+                                    'promo_id': promo_id,
+                                    'description': description.strip(),
+                                    'start_date': start_date[:10] if start_date else None,
+                                    'end_date': end_date[:10] if end_date else None,
+                                })
+
+                        print(f"    Parsed {len(items)} promotions")
+
+            except Exception as e:
+                print(f"    Error downloading file: {e}")
+                continue
+
+        # Remove duplicates by description
+        seen = set()
+        unique_promos = []
+        for p in promotions:
+            if p['description'] not in seen:
+                seen.add(p['description'])
+                unique_promos.append(p)
+
+        print(f"  Total unique promotions: {len(unique_promos)}")
+        return unique_promos
+
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    return promotions
+
+
 def fetch_shufersal_promotions(chain_info: dict) -> List[dict]:
     """Fetch promotions from Shufersal."""
     promotions = []
@@ -902,6 +1080,10 @@ def scrape_all_promotions() -> List[dict]:
                 promos = fetch_cerberus_promotions(chain_id, chain_info)
             elif chain_type == 'carrefour':
                 promos = fetch_carrefour_promotions(chain_id, chain_info)
+            elif chain_type == 'hazihinam':
+                promos = fetch_hazihinam_promotions(chain_id, chain_info)
+            elif chain_type == 'victory':
+                promos = fetch_victory_promotions(chain_id, chain_info)
             else:
                 print(f"  Promotions not supported for this chain type")
                 continue
