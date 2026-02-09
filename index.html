@@ -12041,42 +12041,30 @@ END:VCALENDAR`;
                                                 const hasPromo = promos.length > 0;
                                                 return (
                                                 <button key={idx} onClick={() => addProduct(product)}
-                                                    className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${hasPromo ? 'border-orange-300 dark:border-orange-600 ring-1 ring-orange-200 dark:ring-orange-700' : 'border-gray-100 dark:border-gray-700'} hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right`}
+                                                    className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${hasPromo ? 'border-amber-200 dark:border-amber-800/50' : 'border-gray-100 dark:border-gray-700'} hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right`}
                                                     style={{animationDelay: `${idx * 30}ms`}}
                                                 >
-                                                {/* Promotion Badge - More Prominent */}
+                                                {/* Subtle Promotion Indicator */}
                                                 {hasPromo && (
-                                                    <div className="absolute -top-3 -right-3 -left-3 z-10">
-                                                        <div className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white text-xs font-bold px-3 py-1.5 rounded-t-xl shadow-lg flex items-center justify-center gap-1">
-                                                            <span className="text-sm">🔥</span>
-                                                            <span className="truncate">{promos[0].description.length > 25 ? promos[0].description.substring(0, 25) + '...' : promos[0].description}</span>
-                                                        </div>
+                                                    <div className="absolute -top-1 -left-1 z-10">
+                                                        <span className="text-amber-500 text-sm animate-pulse" title={promos[0].description}>✨</span>
                                                     </div>
                                                 )}
-                                                <div className={`flex items-center justify-between gap-2 ${hasPromo ? 'mt-6' : ''}`}>
-                                                    <div className={`w-8 h-8 rounded-full ${hasPromo ? 'bg-orange-100 dark:bg-orange-900' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200`}>
-                                                        <svg className={`w-4 h-4 ${hasPromo ? 'text-orange-500' : 'text-gray-400'} group-hover:text-white transition-colors`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                <div className="flex items-center justify-between gap-2">
+                                                    <div className={`w-8 h-8 rounded-full ${hasPromo ? 'bg-amber-50 dark:bg-amber-900/30' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200`}>
+                                                        <svg className={`w-4 h-4 ${hasPromo ? 'text-amber-500' : 'text-gray-400'} group-hover:text-white transition-colors`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                                                         </svg>
                                                     </div>
                                                     <span className="flex-1 font-semibold text-gray-700 dark:text-gray-200 text-sm leading-tight">{getProductTranslation(product, language)}</span>
                                                 </div>
-                                                {/* Show promotion details */}
+                                                {/* Compact promotion info */}
                                                 {hasPromo && (
-                                                    <div className="mt-2 pt-2 border-t border-orange-200 dark:border-orange-800 space-y-1">
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-xs font-bold text-orange-600 dark:text-orange-400">{promos[0].chain}</span>
-                                                            {promos[0].end_date && (
-                                                                <span className="text-[10px] text-gray-400 bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">
-                                                                    עד {new Date(promos[0].end_date).toLocaleDateString('he-IL', {day: 'numeric', month: 'numeric'})}
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                        {promos.length > 1 && (
-                                                            <div className="text-[10px] text-gray-500 dark:text-gray-400">
-                                                                +{promos.length - 1} מבצעים נוספים ברשתות אחרות
-                                                            </div>
-                                                        )}
+                                                    <div className="mt-1.5 text-[10px] text-amber-600 dark:text-amber-400 leading-snug">
+                                                        <span className="font-medium">{promos[0].chain}</span>
+                                                        <span className="mx-1">•</span>
+                                                        <span className="opacity-80">{promos[0].description.length > 20 ? promos[0].description.substring(0, 20) + '...' : promos[0].description}</span>
+                                                        {promos.length > 1 && <span className="opacity-60"> +{promos.length - 1}</span>}
                                                     </div>
                                                 )}
                                             </button>
@@ -12284,20 +12272,19 @@ END:VCALENDAR`;
                                                             </div>
                                                             {/* Status indicators */}
                                                             <div className="flex items-center gap-2 flex-wrap">
-                                                                {/* On Sale Badge - Enhanced */}
+                                                                {/* Subtle promotion indicator */}
                                                                 {!item.purchased && getItemPromotions(item.name).length > 0 && (() => {
                                                                     const promo = getItemPromotions(item.name)[0];
                                                                     const promoCount = getItemPromotions(item.name).length;
                                                                     return (
                                                                         <div
-                                                                            className="flex items-center gap-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-lg cursor-pointer shadow-md hover:shadow-lg transition-shadow"
+                                                                            className="flex items-center gap-1 text-amber-600 dark:text-amber-400 text-[10px] cursor-pointer hover:text-amber-700 dark:hover:text-amber-300 transition-colors"
                                                                             onClick={() => { setShowPromotions(true); fetchPromotions(); }}
+                                                                            title={promo.description}
                                                                         >
-                                                                            <span>🔥</span>
-                                                                            <div className="flex flex-col leading-tight">
-                                                                                <span className="truncate max-w-[120px]">{promo.description.length > 20 ? promo.description.substring(0, 20) + '...' : promo.description}</span>
-                                                                                <span className="text-[9px] opacity-80">{promo.chain}{promoCount > 1 ? ` +${promoCount - 1}` : ''}</span>
-                                                                            </div>
+                                                                            <span className="text-xs">✨</span>
+                                                                            <span className="font-medium">{promo.chain}</span>
+                                                                            {promoCount > 1 && <span className="opacity-70">+{promoCount - 1}</span>}
                                                                         </div>
                                                                     );
                                                                 })()}
