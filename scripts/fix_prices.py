@@ -24,9 +24,19 @@ CORRECT_PRICES = {
     'חמאת בוטנים': 24.90,
     'ממרח שוקולד': 18.90,
 
-    # Dairy
+    # Dairy - REGULATED MILK PRICES (מחירים מפוקחים)
     'חלב 3%': 7.28,
     'חלב 1%': 7.28,
+    'חלב תנובה': 7.28,
+    'חלב תנובה 3%': 7.28,
+    'חלב תנובה 1%': 7.28,
+    'חלב תנובה 3% 1 ליטר': 7.28,
+    'חלב תנובה 1% 1 ליטר': 7.28,
+    'חלב תנובה דל שומן': 7.28,
+    'חלב תנובה דל שומן 1 ליטר': 7.28,
+    'חלב 3% 1 ליטר': 7.28,
+    'חלב 1% 1 ליטר': 7.28,
+    'חלב דל שומן 1 ליטר': 7.28,
     'יוגורט': 5.90,
     'קוטג\'': 8.90,
 
@@ -94,6 +104,9 @@ def fix_prices():
 
     print("Checking and fixing prices...\n")
 
+    # Regulated products need stricter tolerance (±15% instead of ±200%)
+    REGULATED_KEYWORDS = ['חלב תנובה', 'חלב 3%', 'חלב 1%', 'חלב דל שומן']
+
     for price_record in prices.data:
         product_id = price_record['product_id']
         current_price = price_record['price']
@@ -102,19 +115,30 @@ def fix_prices():
         # Check if price is suspiciously high
         needs_fix = False
         correct_price = None
+        is_regulated = any(kw in product_name for kw in REGULATED_KEYWORDS)
 
         # First check if we have a direct correction
         if product_name in CORRECT_PRICES:
             correct_price = CORRECT_PRICES[product_name]
-            if current_price > correct_price * 2 or current_price < correct_price * 0.3:
-                needs_fix = True
+            if is_regulated:
+                # Stricter tolerance for regulated products (±15%)
+                if current_price > correct_price * 1.15 or current_price < correct_price * 0.85:
+                    needs_fix = True
+            else:
+                if current_price > correct_price * 2 or current_price < correct_price * 0.3:
+                    needs_fix = True
         # Check partial matches
         else:
             for keyword, price in CORRECT_PRICES.items():
                 if keyword in product_name and len(keyword) >= 4:
                     correct_price = price
-                    if current_price > price * 3 or current_price < price * 0.2:
-                        needs_fix = True
+                    if is_regulated:
+                        # Stricter tolerance for regulated products
+                        if current_price > price * 1.15 or current_price < price * 0.85:
+                            needs_fix = True
+                    else:
+                        if current_price > price * 3 or current_price < price * 0.2:
+                            needs_fix = True
                     break
 
         # Also fix any price over threshold for non-luxury items
