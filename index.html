@@ -9651,15 +9651,14 @@
                 6: 'https://brand.carrefour.co.il/branches'
             };
 
-            // Chain logos - using emoji icons as reliable fallback
-            // Note: External logos often have CORS issues, using chain initials with colors instead
+            // Chain logos - real logos from official sources
             const CHAIN_LOGOS = {
-                1: null, // שופרסל - will use text fallback
-                2: null, // רמי לוי - will use text fallback
-                3: null, // יינות ביתן - will use text fallback
-                4: null, // ויקטורי - will use text fallback
-                5: null, // חצי חינם - will use text fallback
-                6: null  // קארפור - will use text fallback
+                1: 'https://res.cloudinary.com/shufersal/image/upload/f_auto,q_auto/v1551800922/prod/cmscontent/logo-online.png', // שופרסל
+                2: 'https://www.rami-levy.co.il/icons/512.png', // רמי לוי
+                3: 'https://play-lh.googleusercontent.com/Hn0O3khK_MJ-x59NFPKzNww1FI8pZ3VdPDvYBvW_7KmGmhaedFxLPPvPdVLKO7SJNw=w240-h480-rw', // יינות ביתן (Google Play icon)
+                4: 'https://victory.co.il/wp-content/uploads/2018/05/v-icon.png', // ויקטורי
+                5: 'https://play-lh.googleusercontent.com/z9h9TA-VxEQWWKshMZBq1Y-j2h1KJCrCFBWqXKibYnELqZFMlS0zRbRDLROpbzM1Sg=w240-h480-rw', // חצי חינם (Google Play icon)
+                6: 'https://images.seeklogo.com/logo-png/2/1/carrefour-logo-png_seeklogo-26546.png'  // קארפור
             };
 
             // Chain colors for styled badges
@@ -12572,9 +12571,12 @@ END:VCALENDAR`;
                                                         const searchTerms = items.filter(i => !i.purchased).map(i => i.name).join(' ');
                                                         window.open(`${chain.url}/search?q=${encodeURIComponent(searchTerms)}`, '_blank');
                                                     }}
-                                                    className={`w-full p-4 ${getChainColor(chain.chain_name_he)} text-white rounded-xl font-bold text-lg flex items-center justify-between hover:opacity-90 hover:scale-[1.02] transition-all shadow-lg`}
+                                                    className={`w-full p-4 ${getChainColor(chain.chain_name_he)} text-white rounded-xl font-bold text-lg flex items-center gap-3 hover:opacity-90 hover:scale-[1.02] transition-all shadow-lg`}
                                                 >
-                                                    <span>{chain.chain_name_he}</span>
+                                                    {CHAIN_LOGOS[chain.chain_id] && (
+                                                        <img src={CHAIN_LOGOS[chain.chain_id]} alt={chain.chain_name_he} className="w-8 h-8 rounded-lg object-contain bg-white shadow-md" />
+                                                    )}
+                                                    <span className="flex-1">{chain.chain_name_he}</span>
                                                     <span className="text-white/70">🔗</span>
                                                 </button>
                                             ))}
@@ -12622,7 +12624,9 @@ END:VCALENDAR`;
                                                         className={`w-full px-4 py-2 flex items-center gap-3 ${getChainColor(chain.chain_name_he || chain.chain_name)} hover:opacity-90 transition-all`}
                                                     >
                                                         {chain.is_cheapest && <span className="text-lg">🏆</span>}
-                                                        {CHAIN_COLORS[chain.chain_id] && (
+                                                        {CHAIN_LOGOS[chain.chain_id] ? (
+                                                            <img src={CHAIN_LOGOS[chain.chain_id]} alt={chain.chain_name_he} className="w-7 h-7 rounded-lg object-contain bg-white shadow-md" />
+                                                        ) : CHAIN_COLORS[chain.chain_id] && (
                                                             <span className={`w-7 h-7 ${CHAIN_COLORS[chain.chain_id].bg} rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-md`}>
                                                                 {CHAIN_COLORS[chain.chain_id].text}
                                                             </span>
@@ -12778,8 +12782,11 @@ END:VCALENDAR`;
                                             <div className="text-white/60 text-sm">תוכנית קניות מומלצת:</div>
                                             {listComparisonData.optimization.shopping_plan?.map((chainPlan, idx) => (
                                                 <div key={idx} className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-                                                    <div className={`${getChainColor(chainPlan.chain_name_he)} p-4 flex items-center justify-between`}>
-                                                        <div className="font-bold text-white text-lg">{chainPlan.chain_name_he}</div>
+                                                    <div className={`${getChainColor(chainPlan.chain_name_he)} p-4 flex items-center gap-3`}>
+                                                        {CHAIN_LOGOS[chainPlan.chain_id] && (
+                                                            <img src={CHAIN_LOGOS[chainPlan.chain_id]} alt={chainPlan.chain_name_he} className="w-8 h-8 rounded-lg object-contain bg-white shadow-md" />
+                                                        )}
+                                                        <div className="font-bold text-white text-lg flex-1">{chainPlan.chain_name_he}</div>
                                                         <div className="text-white/90">
                                                             {chainPlan.item_count} פריטים • ₪{chainPlan.subtotal?.toFixed(2)}
                                                         </div>
@@ -12914,7 +12921,9 @@ END:VCALENDAR`;
                                         {promotionsData.byChain.map((chain, idx) => (
                                             <div key={idx} className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
                                                 <div className={`${getChainColor(chain.chain_name_he)} p-3 flex items-center gap-3`}>
-                                                    {CHAIN_COLORS[chain.chain_id] && (
+                                                    {CHAIN_LOGOS[chain.chain_id] ? (
+                                                        <img src={CHAIN_LOGOS[chain.chain_id]} alt={chain.chain_name_he} className="w-7 h-7 rounded-lg object-contain bg-white shadow-md border border-white/30" />
+                                                    ) : CHAIN_COLORS[chain.chain_id] && (
                                                         <span className={`w-7 h-7 ${CHAIN_COLORS[chain.chain_id].bg} rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-md border border-white/30`}>
                                                             {CHAIN_COLORS[chain.chain_id].text}
                                                         </span>

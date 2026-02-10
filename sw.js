@@ -1,5 +1,5 @@
-const CACHE_NAME = 'listnest-v65';
-const STATIC_CACHE = 'listnest-static-v65';
+const CACHE_NAME = 'listnest-v66';
+const STATIC_CACHE = 'listnest-static-v66';
 
 // Core app files - use root paths for Vercel deployment
 const urlsToCache = [
