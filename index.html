@@ -9682,43 +9682,33 @@
             };
 
             // Chain promotion page URLs (verified February 2026)
+            // IDs: 1=shufersal, 2=rami_levy, 3=victory, 5=hatzi_hinam, 6=carrefour
             const CHAIN_PROMO_URLS = {
                 1: 'https://www.shufersal.co.il/online/he/promo/A',
                 2: 'https://www.rami-levy.co.il/he/online/feed',
-                3: 'https://www.ybitan.co.il/specials',
-                4: 'https://victory.co.il/%D7%9E%D7%91%D7%A6%D7%A2%D7%99-%D7%94%D7%A9%D7%91%D7%95%D7%A2/',
+                3: 'https://victory.co.il/%D7%9E%D7%91%D7%A6%D7%A2%D7%99-%D7%94%D7%A9%D7%91%D7%95%D7%A2/',
                 5: 'https://shop.hazi-hinam.co.il/promotions/%D7%A2%D7%9C%D7%95%D7%9F-%D7%9E%D7%91%D7%A6%D7%A2%D7%99%D7%9D',
                 6: 'https://www.carrefour.co.il/specials'
             };
 
             // Chain branch finder URLs (verified February 2026)
+            // IDs: 1=shufersal, 2=rami_levy, 3=victory, 5=hatzi_hinam, 6=carrefour
             const CHAIN_BRANCH_URLS = {
                 1: 'https://www.shufersal.co.il/corp/%D7%90%D7%99%D7%AA%D7%95%D7%A8-%D7%A1%D7%A0%D7%99%D7%A4%D7%99%D7%9D',
                 2: 'https://www.rami-levy.co.il/he/stores',
-                3: 'https://brand.carrefour.co.il/branches',
-                4: 'https://victory.co.il/branches/',
+                3: 'https://victory.co.il/branches/',
                 5: 'https://shop.hazi-hinam.co.il/branches',
                 6: 'https://brand.carrefour.co.il/branches'
             };
 
-            // Chain logos - real logos from official sources
-            // IDs match database: 1=shufersal, 2=rami_levy, 3=victory, 4=yeinot_bitan, 5=hatzi_hinam, 6=carrefour
-            const CHAIN_LOGOS = {
-                1: 'https://upload.wikimedia.org/wikipedia/he/thumb/4/4e/Shufersal_2021.svg/1200px-Shufersal_2021.svg.png', // שופרסל
-                2: 'https://www.rami-levy.co.il/icons/512.png', // רמי לוי
-                3: 'https://upload.wikimedia.org/wikipedia/he/thumb/a/a3/Victory-logo.svg/1200px-Victory-logo.svg.png', // ויקטורי
-                4: 'https://play-lh.googleusercontent.com/Hn0O3khK_MJ-x59NFPKzNww1FI8pZ3VdPDvYBvW_7KmGmhaedFxLPPvPdVLKO7SJNw=w240-h480-rw', // יינות ביתן
-                5: 'https://play-lh.googleusercontent.com/z9h9TA-VxEQWWKshMZBq1Y-j2h1KJCrCFBWqXKibYnELqZFMlS0zRbRDLROpbzM1Sg=w240-h480-rw', // חצי חינם
-                6: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Carrefour_logo.svg/1200px-Carrefour_logo.svg.png'  // קארפור
-            };
+            // Chain colors for styled badges (using colored letter badges instead of logos)
+            // IDs match database: 1=shufersal, 2=rami_levy, 3=victory, 5=hatzi_hinam, 6=carrefour
+            const CHAIN_LOGOS = {}; // Empty - using colored badges instead
 
-            // Chain colors for styled badges
-            // IDs match database: 1=shufersal, 2=rami_levy, 3=victory, 4=yeinot_bitan, 5=hatzi_hinam, 6=carrefour
             const CHAIN_COLORS = {
                 1: { bg: 'bg-red-600', text: 'ש' },      // שופרסל - אדום
                 2: { bg: 'bg-blue-600', text: 'ר' },     // רמי לוי - כחול
                 3: { bg: 'bg-orange-600', text: 'ו' },   // ויקטורי - כתום
-                4: { bg: 'bg-purple-600', text: 'י' },   // יינות ביתן - סגול
                 5: { bg: 'bg-green-600', text: 'ח' },    // חצי חינם - ירוק
                 6: { bg: 'bg-sky-600', text: 'ק' }       // קארפור - תכלת
             };
