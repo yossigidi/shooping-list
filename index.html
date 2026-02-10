@@ -5393,7 +5393,7 @@
         const PRODUCTS = {
             dairy: [
                 // מוצרים עם מבצעים (שמות מדויקים)
-                'חלב תנובה 3% 1 ליטר', 'חלב תנובה דל שומן 1 ליטר', 'חלב סויה', 'חלב שקדים',
+                'חלב תנובה 3% 1 ליטר', 'חלב תנובה דל שומן 1 ליטר',
                 'יוגורט', 'יוגורט יווני', 'יוגורט פירות', 'יופלה', 'גבינה לבנה 5%',
                 // חלב - לפי גודל
                 'חלב 3% 1 ליטר', 'חלב 1% 1 ליטר', 'חלב דל שומן 1 ליטר',
@@ -5671,13 +5671,13 @@
         // Price database - will be updated from API
         let PRODUCT_PRICES = {
             // Dairy - מוצרי חלב (expanded) - מחירים מפוקחים!
-            // חלב - מחירים מפוקחים (פיקוח ממשלתי)
-            // חלב בקרטון: 7.28₪, חלב בשקית: 6.21₪ (3%), 5.76₪ (1%)
-            'חלב 3%': 7.28, 'חלב 1%': 7.28, 'חלב דל שומן': 7.28, 'חלב תנובה': 7.28, 'חלב': 7.28,
-            'חלב תנובה 3%': 7.28, 'חלב תנובה 3% 1 ליטר': 7.28, 'חלב תנובה 1%': 7.28,
-            'חלב 3% 1 ליטר': 7.28, 'חלב 1% 1 ליטר': 7.28, 'חלב דל שומן 1 ליטר': 7.28,
-            'חלב בשקית 3% 1 ליטר': 6.21, 'חלב בשקית 1% 1 ליטר': 5.76,
-            'חלב 3% 0.5 ליטר': 4.50, 'חלב 1% 0.5 ליטר': 4.50,
+            // חלב - מחירים מפוקחים (פיקוח ממשלתי) - עודכן 2024
+            // חלב בקרטון 1 ליטר: 5.60₪, חלב בשקית: 5.20₪
+            'חלב 3%': 5.60, 'חלב 1%': 5.60, 'חלב דל שומן': 5.60, 'חלב תנובה': 5.60, 'חלב': 5.60,
+            'חלב תנובה 3%': 5.60, 'חלב תנובה 3% 1 ליטר': 5.60, 'חלב תנובה 1%': 5.60,
+            'חלב 3% 1 ליטר': 5.60, 'חלב 1% 1 ליטר': 5.60, 'חלב דל שומן 1 ליטר': 5.60,
+            'חלב בשקית 3% 1 ליטר': 5.20, 'חלב בשקית 1% 1 ליטר': 5.20,
+            'חלב 3% 0.5 ליטר': 3.50, 'חלב 1% 0.5 ליטר': 3.50,
             'חלב סויה': 12.90, 'חלב שקדים': 14.90,
             'חלב סויה 1 ליטר': 12.90, 'חלב שקדים 1 ליטר': 14.90, 'חלב קוקוס 1 ליטר': 14.90, 'חלב שיבולת שועל 1 ליטר': 13.90,
             'חלב קוקוס': 14.90, 'חלב שיבולת שועל': 13.90,
@@ -9815,8 +9815,9 @@
                 const snackKeywords = ['במבה', 'ביסלי', 'חטיף', 'חטיפים', 'אפרופו', 'צ\'יפס', 'שוקולד', 'ממתק', 'גומי', 'מלוח', 'מלוחים', 'מוצרים מלוחים', 'קרקר', 'פריכיות', 'נשנוש', 'אוסם', 'שטראוס חטיפים'];
                 const dairyKeywords = ['חלב', 'יוגורט', 'גבינה', 'קוטג', 'שמנת', 'לבן', 'תנובה', 'טרה', 'שטראוס מחלבות'];
                 const babyKeywords = ['מטרנה', 'סימילאק', 'נוטרילון', 'תינוק', 'פורמולה', 'תחליף חלב', 'מזון תינוקות'];
-                const meatKeywords = ['בשר', 'עוף', 'הודו', 'נקניק', 'פסטרמה', 'שניצל', 'קבב', 'המבורגר'];
+                const meatKeywords = ['בשר', 'עוף', 'הודו', 'נקניק', 'פסטרמה', 'שניצל', 'קבב', 'המבורגר', 'סלמי'];
                 const cleaningKeywords = ['ניקיון', 'כביסה', 'סבון', 'אקונומיקה', 'מרכך'];
+                const alcoholKeywords = ['יין', 'בירה', 'וודקה', 'וויסקי', 'ויסקי', 'ערק', 'שמפניה', 'קוניאק', 'ג\'ין', 'טקילה', 'רום', 'ליקר', 'בראנדי', 'אלכוהול', 'משקאות חריפים'];
 
                 // If product is dairy (milk), only show dairy-related promos
                 if (dairyKeywords.some(k => pName.includes(k)) && !babyKeywords.some(k => pName.includes(k))) {
@@ -9843,6 +9844,22 @@
                     if (dairyKeywords.some(k => pDesc.includes(k))) return false;
                     if (snackKeywords.some(k => pDesc.includes(k))) return false;
                     if (cleaningKeywords.some(k => pDesc.includes(k))) return false;
+                }
+
+                // If product is alcohol, don't show meat/dairy/snack/cleaning/baby promos
+                // This prevents "קוניאק" (cognac drink) from matching "נקניק קוניאק" (cognac sausage)
+                if (alcoholKeywords.some(k => pName.includes(k))) {
+                    // Check if the promo is for meat products (like cognac-flavored sausage)
+                    if (meatKeywords.some(k => pDesc.includes(k))) return false;
+                    if (dairyKeywords.some(k => pDesc.includes(k))) return false;
+                    if (babyKeywords.some(k => pDesc.includes(k))) return false;
+                    if (cleaningKeywords.some(k => pDesc.includes(k))) return false;
+                }
+
+                // If product is meat with a flavor name (like נקניק קוניאק), don't match alcohol promos
+                if (meatKeywords.some(k => pName.includes(k))) {
+                    // If promo description is purely alcohol (no meat keywords), skip it
+                    if (alcoholKeywords.some(k => pDesc.includes(k)) && !meatKeywords.some(k => pDesc.includes(k))) return false;
                 }
 
                 return true;
