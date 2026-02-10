@@ -14,11 +14,15 @@ import re
 import gzip
 import json
 import requests
+import urllib3
 import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 from supabase import create_client, Client
+
+# Disable SSL warnings for sites with certificate issues (Rami Levy)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # ============================================
 # Configuration
@@ -329,6 +333,7 @@ def fetch_cerberus_prices(chain_id: int, chain_info: dict) -> List[dict]:
     try:
         session = requests.Session()
         session.headers.update(HEADERS)
+        session.verify = False  # Disable SSL verification for Rami Levy
 
         # Step 1: Get login page and extract CSRF token
         login_page = session.get('https://url.publishedprices.co.il/login', timeout=TIMEOUT)
@@ -936,6 +941,7 @@ def fetch_cerberus_promotions(chain_id: int, chain_info: dict) -> List[dict]:
     try:
         session = requests.Session()
         session.headers.update(HEADERS)
+        session.verify = False  # Disable SSL verification for Rami Levy
 
         # Login process (same as price fetching)
         login_page = session.get('https://url.publishedprices.co.il/login', timeout=TIMEOUT)
