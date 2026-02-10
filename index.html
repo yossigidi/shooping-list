@@ -724,19 +724,19 @@
     <div id="aria-live-assertive" aria-live="assertive" aria-atomic="true" class="sr-only"></div>
 
     <!-- Loading skeleton - shows instantly while React loads -->
-    <div id="loading-skeleton" style="position:fixed;inset:0;z-index:99999;min-height:100vh;background:linear-gradient(135deg,#F97316 0%,#FB923C 50%,#FBBF24 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Heebo,sans-serif;direction:rtl;">
+    <div id="loading-skeleton" style="position:fixed;inset:0;z-index:99999;min-height:100vh;background:#f8fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Heebo,sans-serif;">
         <style>
-            @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+            @keyframes fadeIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
             @keyframes spin{to{transform:rotate(360deg)}}
-            .skeleton-pulse{animation:pulse 1.5s ease-in-out infinite}
-            .skeleton-spin{animation:spin 1s linear infinite}
+            .splash-fade{animation:fadeIn 0.5s ease-out}
+            .splash-spin{animation:spin 1s linear infinite}
         </style>
-        <div style="text-align:center;color:white;">
-            <div style="font-size:80px;margin-bottom:16px;" class="skeleton-pulse">🛒</div>
-            <h1 style="font-size:32px;font-weight:700;margin:0 0 8px 0;">ListNest</h1>
-            <p style="font-size:16px;opacity:0.9;margin:0 0 24px 0;">רשימת הקניות החכמה שלך</p>
-            <div style="width:48px;height:48px;border:3px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;margin:0 auto;" class="skeleton-spin"></div>
-            <p style="font-size:14px;opacity:0.7;margin-top:16px;">טוען...</p>
+        <div style="text-align:center;" class="splash-fade">
+            <img src="splash.png" alt="ListNest" style="max-width:90%;max-height:70vh;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.15);margin-bottom:24px;">
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px;color:#64748b;">
+                <div style="width:24px;height:24px;border:3px solid #e2e8f0;border-top-color:#F97316;border-radius:50%;" class="splash-spin"></div>
+                <span style="font-size:16px;">Loading...</span>
+            </div>
         </div>
     </div>
     <div id="root"></div>
