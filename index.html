@@ -72,12 +72,12 @@
             const skeleton = document.getElementById('loading-skeleton');
             if (skeleton && !skeleton.hiding) {
                 skeleton.hiding = true;
-                // Always wait 3 full seconds before fading out
+                // Always wait 2 full seconds before fading out
                 setTimeout(() => {
                     skeleton.style.transition = 'opacity 1s ease-out';
                     skeleton.style.opacity = '0';
                     setTimeout(() => skeleton.remove(), 1000);
-                }, 3000);
+                }, 2000);
             }
         };
 
