@@ -15242,8 +15242,26 @@ END:VCALENDAR`;
                                     </button>
                                 )}
 
+                                {/* Smart Shopping List Header */}
+                                {items.length > 0 && (
+                                    <div className="mb-4 text-center">
+                                        <div className="inline-flex items-center gap-3 bg-gradient-to-r from-teal-500/10 via-cyan-500/10 to-teal-500/10 dark:from-teal-500/20 dark:via-cyan-500/20 dark:to-teal-500/20 px-5 py-2.5 rounded-2xl border border-teal-200/50 dark:border-teal-700/50">
+                                            <span className="text-xl animate-bounce">🛒</span>
+                                            <div>
+                                                <h2 className="text-base font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
+                                                    רשימת קניות משפחתית חכמה
+                                                </h2>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                    {items.filter(i => !i.purchased).length} פריטים לקנייה
+                                                </p>
+                                            </div>
+                                            <span className="text-xl animate-pulse">✨</span>
+                                        </div>
+                                    </div>
+                                )}
+
                                 {/* Estimated Total & Templates */}
-                                <div className="flex flex-wrap items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+                                <div className="flex flex-wrap items-center gap-3 mb-4 pb-3 border-b border-gray-200 dark:border-gray-700">
                                     {(() => {
                                         const unpurchasedItems = items.filter(i => !i.purchased);
                                         const itemsWithPrice = unpurchasedItems.filter(i => calculateItemPrice(i) > 0);
@@ -15374,24 +15392,6 @@ END:VCALENDAR`;
                                                     {t('save')}
                                                 </button>
                                             </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Smart Shopping List Header */}
-                                {Object.keys(groupedItems).length > 0 && (
-                                    <div className="mb-6 text-center">
-                                        <div className="inline-flex items-center gap-3 bg-gradient-to-r from-teal-500/10 via-cyan-500/10 to-teal-500/10 dark:from-teal-500/20 dark:via-cyan-500/20 dark:to-teal-500/20 px-6 py-3 rounded-2xl border border-teal-200/50 dark:border-teal-700/50">
-                                            <span className="text-2xl animate-bounce">🛒</span>
-                                            <div>
-                                                <h2 className="text-lg font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
-                                                    רשימת קניות משפחתית חכמה
-                                                </h2>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                    {items.filter(i => !i.purchased).length} פריטים • {Object.keys(groupedItems).length} קטגוריות
-                                                </p>
-                                            </div>
-                                            <span className="text-2xl animate-pulse">✨</span>
                                         </div>
                                     </div>
                                 )}
@@ -16116,9 +16116,8 @@ END:VCALENDAR`;
                     </button>
 
                     {/* Footer - Creator Attribution */}
-                    <footer className="mt-4 mb-32 text-center text-gray-400 dark:text-gray-500 text-sm py-2">
-                        <p>© {new Date().getFullYear()} ListNest</p>
-                        <p className="mt-0.5">נוצר על ידי <span className="text-teal-600 dark:text-teal-400 font-medium">יוסף גידניאן</span></p>
+                    <footer className="text-center text-gray-400 dark:text-gray-500 text-xs py-2 mb-20">
+                        <p>© {new Date().getFullYear()} ListNest • נוצר על ידי <span className="text-teal-600 dark:text-teal-400 font-medium">יוסף גידניאן</span></p>
                     </footer>
                     </main>
                 </div>
