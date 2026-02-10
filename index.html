@@ -15378,6 +15378,24 @@ END:VCALENDAR`;
                                     </div>
                                 )}
 
+                                {/* Smart Shopping List Header */}
+                                {Object.keys(groupedItems).length > 0 && (
+                                    <div className="mb-6 text-center">
+                                        <div className="inline-flex items-center gap-3 bg-gradient-to-r from-teal-500/10 via-cyan-500/10 to-teal-500/10 dark:from-teal-500/20 dark:via-cyan-500/20 dark:to-teal-500/20 px-6 py-3 rounded-2xl border border-teal-200/50 dark:border-teal-700/50">
+                                            <span className="text-2xl animate-bounce">🛒</span>
+                                            <div>
+                                                <h2 className="text-lg font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
+                                                    רשימת קניות משפחתית חכמה
+                                                </h2>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                    {items.filter(i => !i.purchased).length} פריטים • {Object.keys(groupedItems).length} קטגוריות
+                                                </p>
+                                            </div>
+                                            <span className="text-2xl animate-pulse">✨</span>
+                                        </div>
+                                    </div>
+                                )}
+
                                 {Object.entries(groupedItems).map(([category, categoryItems]) => (
                                     <div key={category} className="mb-6">
                                         <h3 className="sticky-category-header flex items-center gap-2 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
