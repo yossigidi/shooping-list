@@ -67,16 +67,22 @@
             });
         };
 
-        // Remove loading skeleton when React app renders
+        // Remove loading skeleton when React app renders (with minimum display time)
+        window.splashMinTime = 2000; // Minimum 2 seconds
         window.hideLoadingSkeleton = function() {
             const skeleton = document.getElementById('loading-skeleton');
             if (skeleton) {
-                skeleton.style.transition = 'opacity 0.3s ease-out';
-                skeleton.style.opacity = '0';
-                setTimeout(() => skeleton.remove(), 300);
-                // Log performance
-                const loadTime = Math.round(performance.now() - window.appLoadStart);
-                console.log(`🚀 ListNest v3.1 loaded in ${loadTime}ms`);
+                const elapsed = performance.now() - window.appLoadStart;
+                const remainingTime = Math.max(0, window.splashMinTime - elapsed);
+
+                setTimeout(() => {
+                    skeleton.style.transition = 'opacity 0.5s ease-out';
+                    skeleton.style.opacity = '0';
+                    setTimeout(() => skeleton.remove(), 500);
+                    // Log performance
+                    const loadTime = Math.round(performance.now() - window.appLoadStart);
+                    console.log(`🚀 ListNest v3.1 loaded in ${loadTime}ms`);
+                }, remainingTime);
             }
         };
 
