@@ -28,10 +28,40 @@ def find_tnuva():
         print(f"❌ Error: {e}")
         return
 
-    # Get ALL products
-    products = supabase.table('products').select('id, name, category').execute()
-    prices = supabase.table('prices').select('id, product_id, chain_id, price').execute()
+    # Get ALL products with pagination
+    # Supabase has a default limit, so we need to fetch in batches
+    all_products = []
+    offset = 0
+    batch_size = 1000
+    while True:
+        batch = supabase.table('products').select('id, name, category').range(offset, offset + batch_size - 1).execute()
+        if not batch.data:
+            break
+        all_products.extend(batch.data)
+        if len(batch.data) < batch_size:
+            break
+        offset += batch_size
+
+    all_prices = []
+    offset = 0
+    while True:
+        batch = supabase.table('prices').select('id, product_id, chain_id, price').range(offset, offset + batch_size - 1).execute()
+        if not batch.data:
+            break
+        all_prices.extend(batch.data)
+        if len(batch.data) < batch_size:
+            break
+        offset += batch_size
+
     chains = supabase.table('chains').select('id, name').execute()
+
+    # Use the fetched data
+    class DataWrapper:
+        def __init__(self, data):
+            self.data = data
+
+    products = DataWrapper(all_products)
+    prices = DataWrapper(all_prices)
 
     chain_names = {c['id']: c['name'] for c in chains.data}
 

@@ -90,14 +90,46 @@ def fix_prices():
         print(f"❌ Error: {e}")
         return
 
-    # Get all products and prices
-    products = supabase.table('products').select('id, name').execute()
-    prices = supabase.table('prices').select('id, product_id, chain_id, price').execute()
+    # Get all products and prices with pagination (Supabase has default limits)
+    all_products = []
+    offset = 0
+    batch_size = 1000
+    while True:
+        batch = supabase.table('products').select('id, name').range(offset, offset + batch_size - 1).execute()
+        if not batch.data:
+            break
+        all_products.extend(batch.data)
+        print(f"Fetched {len(all_products)} products...")
+        if len(batch.data) < batch_size:
+            break
+        offset += batch_size
+
+    all_prices = []
+    offset = 0
+    while True:
+        batch = supabase.table('prices').select('id, product_id, chain_id, price').range(offset, offset + batch_size - 1).execute()
+        if not batch.data:
+            break
+        all_prices.extend(batch.data)
+        print(f"Fetched {len(all_prices)} prices...")
+        if len(batch.data) < batch_size:
+            break
+        offset += batch_size
+
     chains = supabase.table('chains').select('id, name').execute()
 
+    print(f"\nTotal: {len(all_products)} products, {len(all_prices)} prices\n")
+
     chain_names = {c['id']: c['name'] for c in chains.data}
-    product_names = {p['id']: p['name'] for p in products.data}
-    product_ids = {p['name']: p['id'] for p in products.data}
+    product_names = {p['id']: p['name'] for p in all_products}
+    product_ids = {p['name']: p['id'] for p in all_products}
+
+    # Wrap for compatibility
+    class DataWrapper:
+        def __init__(self, data):
+            self.data = data
+
+    prices = DataWrapper(all_prices)
 
     fixed_count = 0
     errors = []
