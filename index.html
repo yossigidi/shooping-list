@@ -15152,13 +15152,13 @@ END:VCALENDAR`;
                                 {/* Fixed Buttons at Bottom - Back + Price Compare */}
                                 <div className="fixed bottom-28 left-4 right-4 z-40 flex justify-center gap-3 pointer-events-none" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
                                     <button onClick={() => setSelectedCategory(null)}
-                                        className="pointer-events-auto btn-gradient text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
+                                        className="pointer-events-auto bg-gradient-to-r from-gray-600 to-gray-700 text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:from-gray-700 hover:to-gray-800 hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
                                         <span>←</span>
                                         <span>{t('backToCategories')}</span>
                                     </button>
                                     {items.filter(i => !i.purchased).length > 0 && (
                                         <button onClick={compareFullShoppingList}
-                                            className="pointer-events-auto bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
+                                            className="pointer-events-auto bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:from-orange-600 hover:to-amber-600 hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
                                             <span>📊</span>
                                             <span>{t('comparePrices')}</span>
                                             <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
@@ -15460,19 +15460,22 @@ END:VCALENDAR`;
                                                             const itemPrice = calculateItemPrice(item);
                                                             const chains = getProductChains(item.name);
                                                             return itemPrice > 0 ? (
-                                                                <div className="relative group flex items-center gap-1">
+                                                                <div className="relative flex items-center gap-1">
                                                                     <span className="text-xs text-green-600 dark:text-green-400 font-medium">
                                                                         ₪{itemPrice.toFixed(2)}*
                                                                     </span>
-                                                                    <span className="text-gray-400 dark:text-gray-500 cursor-help text-xs" title={chains.length > 0 ? `ממוצע מ: ${chains.join(', ')}` : 'מחיר ממוצע'}>
-                                                                        ⓘ
-                                                                    </span>
                                                                     {chains.length > 0 && (
-                                                                        <div className="absolute bottom-full right-0 mb-1 hidden group-hover:block z-50 bg-gray-800 text-white text-xs rounded-lg px-3 py-2 shadow-lg min-w-[150px] max-w-[250px]" style={{direction: 'rtl'}}>
-                                                                            <div className="font-semibold mb-1">מחיר ממוצע מ-{chains.length} רשתות:</div>
-                                                                            <div className="text-gray-300">{chains.join(' • ')}</div>
-                                                                            <div className="absolute top-full right-4 border-4 border-transparent border-t-gray-800"></div>
-                                                                        </div>
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                alert(`מחיר ממוצע מ-${chains.length} רשתות:\n${chains.join('\n')}`);
+                                                                            }}
+                                                                            className="text-blue-500 dark:text-blue-400 cursor-pointer text-xs hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
+                                                                            title="לחץ לפרטים"
+                                                                        >
+                                                                            ⓘ
+                                                                        </button>
                                                                     )}
                                                                 </div>
                                                             ) : null;
