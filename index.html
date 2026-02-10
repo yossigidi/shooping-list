@@ -11,7 +11,7 @@
         gtag('js', new Date());
         gtag('config', 'G-3TZHCPSK23');
     </script>
-    <meta name="theme-color" content="#F97316">
+    <meta name="theme-color" content="#14B8A6">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="ListNest">
@@ -86,19 +86,19 @@
         * { font-family: 'Heebo', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); }
         .dark .glass { background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .gradient-bg { background: linear-gradient(135deg, #F97316 0%, #FB923C 50%, #FBBF24 100%); }
-        .dark .gradient-bg { background: linear-gradient(135deg, #7C2D12 0%, #9A3412 50%, #B45309 100%); }
-        .btn-gradient { background: linear-gradient(135deg, #F97316 0%, #FB923C 100%); }
-        .btn-gradient:hover { background: linear-gradient(135deg, #EA580C 0%, #F97316 100%); transform: translateY(-2px); box-shadow: 0 10px 40px rgba(249, 115, 22, 0.4); }
+        .gradient-bg { background: linear-gradient(135deg, #14B8A6 0%, #2DD4BF 50%, #5EEAD4 100%); }
+        .dark .gradient-bg { background: linear-gradient(135deg, #0F766E 0%, #0D9488 50%, #14B8A6 100%); }
+        .btn-gradient { background: linear-gradient(135deg, #14B8A6 0%, #2DD4BF 100%); }
+        .btn-gradient:hover { background: linear-gradient(135deg, #0D9488 0%, #14B8A6 100%); transform: translateY(-2px); box-shadow: 0 10px 40px rgba(20, 184, 166, 0.4); }
         .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .card-hover:hover { transform: translateY(-4px) scale(1.02); }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         .float { animation: float 3s ease-in-out infinite; }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
         .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
-        .progress-animate { background: linear-gradient(90deg, #F97316, #FB923C, #FBBF24, #FB923C, #F97316); background-size: 200% 100%; animation: shimmer 2s linear infinite; }
-        .text-gradient { background: linear-gradient(135deg, #F97316 0%, #FBBF24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        input:focus { outline: none; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3); }
+        .progress-animate { background: linear-gradient(90deg, #14B8A6, #2DD4BF, #5EEAD4, #2DD4BF, #14B8A6); background-size: 200% 100%; animation: shimmer 2s linear infinite; }
+        .text-gradient { background: linear-gradient(135deg, #14B8A6 0%, #5EEAD4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        input:focus { outline: none; box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.3); }
         .scrollbar-thin::-webkit-scrollbar { width: 6px; }
         .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
         .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); border-radius: 3px; }
@@ -734,7 +734,7 @@
         <div style="text-align:center;" class="splash-fade">
             <img src="splash.png" alt="ListNest" style="max-width:90%;max-height:70vh;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.15);margin-bottom:24px;">
             <div style="display:flex;align-items:center;justify-content:center;gap:12px;color:#64748b;">
-                <div style="width:24px;height:24px;border:3px solid #e2e8f0;border-top-color:#F97316;border-radius:50%;" class="splash-spin"></div>
+                <div style="width:24px;height:24px;border:3px solid #e2e8f0;border-top-color:#14B8A6;border-radius:50%;" class="splash-spin"></div>
                 <span style="font-size:16px;">Loading...</span>
             </div>
         </div>
@@ -3281,7 +3281,7 @@
             ];
 
             return (
-                <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 flex items-center justify-center p-4">
+                <div className="min-h-screen bg-gradient-to-br from-teal-50 to-amber-100 flex items-center justify-center p-4">
                     <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full">
                         <div className="text-center mb-8">
                             <div className="text-6xl mb-4">🌍</div>
@@ -3293,11 +3293,11 @@
                                 <button
                                     key={lang.code}
                                     onClick={() => onSelect(lang.code)}
-                                    className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-100 hover:border-orange-400 hover:bg-orange-50 transition-all duration-200 group"
+                                    className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-100 hover:border-teal-400 hover:bg-teal-50 transition-all duration-200 group"
                                     dir={lang.dir}
                                 >
                                     <span className="text-3xl">{lang.flag}</span>
-                                    <span className="text-lg font-medium text-gray-700 group-hover:text-orange-600">{lang.name}</span>
+                                    <span className="text-lg font-medium text-gray-700 group-hover:text-teal-600">{lang.name}</span>
                                 </button>
                             ))}
                         </div>
@@ -4575,7 +4575,7 @@
                                     onClick={() => setStep('young')}
                                     className="w-full glass rounded-xl p-4 flex items-start gap-4 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors text-right"
                                 >
-                                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-3xl flex-shrink-0">
+                                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-teal-400 to-teal-500 flex items-center justify-center text-white text-3xl flex-shrink-0">
                                         👦
                                     </div>
                                     <div className="flex-1">
@@ -4948,7 +4948,7 @@
                         ) : timeLeft === 0 ? (
                             <div className="text-center py-8">
                                 <div className="text-4xl mb-4">⏰</div>
-                                <p className="text-orange-600 dark:text-orange-400 font-medium">{t('qrExpired')}</p>
+                                <p className="text-teal-600 dark:text-teal-400 font-medium">{t('qrExpired')}</p>
                                 <button
                                     onClick={onClose}
                                     className="mt-4 glass py-2 px-6 rounded-xl font-semibold"
@@ -5654,7 +5654,7 @@
                     )}
 
                     {lockedUntil && (
-                        <div className="bg-orange-100 dark:bg-orange-900/30 border-2 border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300 px-4 py-3 rounded-lg text-sm text-center">
+                        <div className="bg-teal-100 dark:bg-teal-900/30 border-2 border-teal-300 dark:border-teal-700 text-teal-700 dark:text-teal-300 px-4 py-3 rounded-lg text-sm text-center">
                             {t('tooManyAttempts').replace('{minutes}', getLockedMinutes())}
                         </div>
                     )}
@@ -10348,7 +10348,7 @@
                 const sites = [
                     { name: 'שופרסל', url: `https://www.shufersal.co.il/online/he/search?text=${encodedName}`, color: 'bg-red-500' },
                     { name: 'רמי לוי', url: `https://www.rami-levy.co.il/he/online/search?q=${encodedName}`, color: 'bg-blue-500' },
-                    { name: 'ויקטורי', url: `https://www.victoryonline.co.il/search?q=${encodedName}`, color: 'bg-orange-500' },
+                    { name: 'ויקטורי', url: `https://www.victoryonline.co.il/search?q=${encodedName}`, color: 'bg-teal-500' },
                     { name: 'יינות ביתן', url: `https://www.ybitan.co.il/search?q=${encodedName}`, color: 'bg-purple-500' },
                     { name: 'חצי חינם', url: `https://shop.hazi-hinam.co.il/search?q=${encodedName}`, color: 'bg-green-500' }
                 ];
@@ -10754,7 +10754,7 @@
                 const colors = {
                     'שופרסל': 'bg-red-500',
                     'רמי לוי': 'bg-blue-500',
-                    'ויקטורי': 'bg-orange-500',
+                    'ויקטורי': 'bg-teal-500',
                     'יינות ביתן': 'bg-purple-500',
                     'חצי חינם': 'bg-green-500',
                     'קארפור': 'bg-sky-500',
@@ -12777,7 +12777,7 @@ END:VCALENDAR`;
                 <div className="min-h-screen gradient-bg p-4 pb-20" role="application" aria-label="ListNest - רשימת קניות">
                     {/* Offline Banner */}
                     {!isOnline && (
-                        <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-red-500 to-orange-500 text-white py-3 px-4 z-50 shadow-lg">
+                        <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-red-500 to-teal-500 text-white py-3 px-4 z-50 shadow-lg">
                             <div className="flex items-center justify-center gap-3 max-w-lg mx-auto">
                                 <span className="text-xl">📡</span>
                                 <div className="text-center">
@@ -13047,7 +13047,7 @@ END:VCALENDAR`;
                                                 key={idx}
                                                 className={`p-4 rounded-xl border-2 transition-all ${
                                                     suggestion.isRecipe
-                                                        ? 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-amber-300 dark:border-amber-700'
+                                                        ? 'bg-gradient-to-r from-amber-50 to-teal-50 dark:from-amber-900/20 dark:to-teal-900/20 border-amber-300 dark:border-amber-700'
                                                         : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-violet-400 dark:hover:border-violet-500'
                                                 }`}
                                             >
@@ -13272,7 +13272,7 @@ END:VCALENDAR`;
                                     onClick={() => setComparisonViewMode('chains')}
                                     className={`flex-1 py-2 px-4 rounded-xl font-medium text-sm transition-all ${
                                         comparisonViewMode === 'chains'
-                                            ? 'bg-orange-500 text-white'
+                                            ? 'bg-teal-500 text-white'
                                             : 'bg-white/10 text-white/70 hover:bg-white/20'
                                     }`}
                                 >
@@ -13298,7 +13298,7 @@ END:VCALENDAR`;
                                         <div className="text-white text-lg font-medium mb-2">{t('comparingPrices')}</div>
                                         <div className="text-gray-400 text-sm">{t('checkingAllChains')}</div>
                                         <div className="mt-4 w-48 h-2 bg-white/20 rounded-full overflow-hidden">
-                                            <div className="h-full bg-gradient-to-r from-orange-500 to-yellow-500 progress-animate" style={{width: '100%'}}></div>
+                                            <div className="h-full bg-gradient-to-r from-teal-500 to-yellow-500 progress-animate" style={{width: '100%'}}></div>
                                         </div>
                                     </div>
                                 ) : listComparisonData?.error ? (
@@ -13308,7 +13308,7 @@ END:VCALENDAR`;
                                         <div className="text-gray-400 text-sm">{listComparisonData.message}</div>
                                         <button
                                             onClick={compareFullShoppingList}
-                                            className="mt-4 px-6 py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-all"
+                                            className="mt-4 px-6 py-3 bg-teal-500 text-white rounded-xl font-bold hover:bg-teal-600 transition-all"
                                         >
                                             נסה שוב
                                         </button>
@@ -13365,12 +13365,12 @@ END:VCALENDAR`;
                                                     ₪{listComparisonData.cheapest_chain?.total?.toFixed(2) || '0'}
                                                 </div>
                                             </div>
-                                            <div className="bg-gradient-to-br from-orange-500/20 to-orange-600/20 border border-orange-500/30 rounded-xl p-4">
-                                                <div className="text-orange-300 text-sm">{t('possibleSavings')}</div>
+                                            <div className="bg-gradient-to-br from-teal-500/20 to-teal-600/20 border border-teal-500/30 rounded-xl p-4">
+                                                <div className="text-teal-300 text-sm">{t('possibleSavings')}</div>
                                                 <div className="text-white font-bold text-xl mt-1">
                                                     ₪{listComparisonData.potential_savings?.toFixed(2) || '0'}
                                                 </div>
-                                                <div className="text-orange-400 text-sm">
+                                                <div className="text-teal-400 text-sm">
                                                     {listComparisonData.items_analyzed} פריטים
                                                 </div>
                                             </div>
@@ -13442,7 +13442,7 @@ END:VCALENDAR`;
                                                                 className={`flex-1 py-2.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] ${
                                                                     chain.is_cheapest
                                                                         ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
-                                                                        : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
+                                                                        : 'bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700'
                                                                 }`}
                                                             >
                                                                 <span>🛒</span>
@@ -13666,8 +13666,8 @@ END:VCALENDAR`;
 
                                         {/* Promotions in your list */}
                                         {items.filter(i => !i.purchased).some(item => getItemPromotions(item.name).length > 0) && (
-                                            <div className="bg-gradient-to-r from-orange-500/20 to-yellow-500/20 border border-orange-500/30 rounded-xl p-4 mb-4">
-                                                <div className="text-orange-300 font-medium mb-3 flex items-center gap-2">
+                                            <div className="bg-gradient-to-r from-teal-500/20 to-yellow-500/20 border border-teal-500/30 rounded-xl p-4 mb-4">
+                                                <div className="text-teal-300 font-medium mb-3 flex items-center gap-2">
                                                     <span>⭐</span>
                                                     <span>{t('promotionsInYourList')}</span>
                                                 </div>
@@ -13676,7 +13676,7 @@ END:VCALENDAR`;
                                                         <div key={idx} className="bg-black/20 rounded-lg p-3">
                                                             <div className="text-white font-medium">{item.name}</div>
                                                             {getItemPromotions(item.name).slice(0, 2).map((promo, pIdx) => (
-                                                                <div key={pIdx} className="text-orange-200 text-sm mt-1">
+                                                                <div key={pIdx} className="text-teal-200 text-sm mt-1">
                                                                     <span className="font-medium">{promo.chain}:</span> {promo.description}
                                                                 </div>
                                                             ))}
@@ -13726,7 +13726,7 @@ END:VCALENDAR`;
                                                             href={chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id]}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            className="flex-1 p-2.5 bg-gradient-to-r from-orange-500 to-red-500 text-white text-center font-bold text-xs hover:from-orange-600 hover:to-red-600 transition-all"
+                                                            className="flex-1 p-2.5 bg-gradient-to-r from-teal-500 to-red-500 text-white text-center font-bold text-xs hover:from-teal-600 hover:to-red-600 transition-all"
                                                         >
                                                             🏷️ מבצעים
                                                         </a>
@@ -13751,7 +13751,7 @@ END:VCALENDAR`;
                                         <div className="text-white text-lg font-medium">{t('noPromotions')}</div>
                                         <button
                                             onClick={fetchPromotions}
-                                            className="mt-4 px-6 py-3 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-all"
+                                            className="mt-4 px-6 py-3 bg-teal-500 text-white rounded-xl font-bold hover:bg-teal-600 transition-all"
                                         >
                                             טען מבצעים
                                         </button>
@@ -14073,18 +14073,18 @@ END:VCALENDAR`;
                                 </div>
 
                                 {/* Shopping Streak */}
-                                <div className="bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-2xl p-4 mb-6 border border-orange-200 dark:border-orange-800">
+                                <div className="bg-gradient-to-r from-teal-100 to-amber-100 dark:from-teal-900/30 dark:to-amber-900/30 rounded-2xl p-4 mb-6 border border-teal-200 dark:border-teal-800">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <div className="text-lg font-bold text-orange-800 dark:text-orange-200">🔥 {t('shoppingStreak')}</div>
-                                            <div className="text-sm text-orange-600 dark:text-orange-400">{t('shoppingWithoutForgetting')}</div>
+                                            <div className="text-lg font-bold text-teal-800 dark:text-teal-200">🔥 {t('shoppingStreak')}</div>
+                                            <div className="text-sm text-teal-600 dark:text-teal-400">{t('shoppingWithoutForgetting')}</div>
                                         </div>
-                                        <div className="text-4xl font-bold text-orange-600 dark:text-orange-400">
+                                        <div className="text-4xl font-bold text-teal-600 dark:text-teal-400">
                                             {shoppingStreak}
                                         </div>
                                     </div>
                                     {shoppingStreak >= 3 && (
-                                        <div className="mt-2 text-sm text-orange-700 dark:text-orange-300 animate-pulse">
+                                        <div className="mt-2 text-sm text-teal-700 dark:text-teal-300 animate-pulse">
                                             ⭐ מדהים! {shoppingStreak} קניות ברצף!
                                         </div>
                                     )}
@@ -14206,7 +14206,7 @@ END:VCALENDAR`;
 
                                         <button
                                             onClick={addRegularItems}
-                                            className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white px-6 py-4 rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02]"
+                                            className="w-full bg-gradient-to-r from-teal-500 to-teal-500 text-white px-6 py-4 rounded-xl hover:from-teal-600 hover:to-teal-600 transition-all font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02]"
                                         >
                                             ➕ הוסף את כולם לרשימה
                                         </button>
@@ -14297,7 +14297,7 @@ END:VCALENDAR`;
                                                     ${!day ? '' : 'cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700'}
                                                     ${isToday ? 'ring-2 ring-indigo-500 bg-indigo-50 dark:bg-indigo-900/30' : ''}
                                                     ${isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'}
-                                                    ${holiday ? 'bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 font-bold' : ''}
+                                                    ${holiday ? 'bg-gradient-to-br from-amber-100 to-teal-100 dark:from-amber-900/30 dark:to-teal-900/30 font-bold' : ''}
                                                 `}
                                             >
                                                 {day && (
@@ -14315,7 +14315,7 @@ END:VCALENDAR`;
 
                                 {/* Selected Holiday Details */}
                                 {selectedHoliday ? (
-                                    <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl p-4 border-2 border-amber-300 dark:border-amber-700 mb-4">
+                                    <div className="bg-gradient-to-r from-amber-50 to-teal-50 dark:from-amber-900/20 dark:to-teal-900/20 rounded-xl p-4 border-2 border-amber-300 dark:border-amber-700 mb-4">
                                         <div className="flex items-center gap-3 mb-3">
                                             <span className="text-3xl">{selectedHoliday.icon}</span>
                                             <div>
@@ -14920,7 +14920,7 @@ END:VCALENDAR`;
 
                             {/* Holiday Recommendations Banner */}
                             {getHolidayRecommendations().length > 0 && (
-                                <div className="mb-4 p-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 rounded-2xl border border-amber-200 dark:border-amber-700">
+                                <div className="mb-4 p-4 bg-gradient-to-r from-amber-50 to-teal-50 dark:from-amber-900/30 dark:to-teal-900/30 rounded-2xl border border-amber-200 dark:border-amber-700">
                                     <div className="flex items-center justify-between mb-2">
                                         <div className="flex items-center gap-2">
                                             <span className="text-xl">{getHolidayRecommendations()[0].icon}</span>
@@ -15008,7 +15008,7 @@ END:VCALENDAR`;
                             {regularItems.length > 0 && (
                                 <div className="mt-3">
                                     <button onClick={() => setShowRegulars(true)}
-                                        className="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-3 rounded-lg hover:from-amber-500 hover:to-orange-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
+                                        className="w-full bg-gradient-to-r from-teal-400 to-teal-500 text-white px-4 py-3 rounded-lg hover:from-teal-500 hover:to-teal-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
                                         <span>⭐</span>
                                         <span>{t('addMyRegulars')}</span>
                                         <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{regularItems.length}</span>
@@ -15067,7 +15067,7 @@ END:VCALENDAR`;
                             <div className="mb-6">
                                 <button
                                     onClick={() => { setShowPromotions(true); fetchPromotions(); }}
-                                    className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
+                                    className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-400 via-teal-500 to-red-500 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
                                 >
                                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')] opacity-50"></div>
                                     <div className="relative flex items-center justify-center gap-4">
@@ -15234,7 +15234,7 @@ END:VCALENDAR`;
                                                     <span className="text-xs text-gray-500 dark:text-gray-400">{t('priceDisclaimer')}</span>
                                                     <button
                                                         onClick={() => setShowListComparison(true)}
-                                                        className="text-xs text-orange-600 dark:text-orange-400 hover:underline text-right"
+                                                        className="text-xs text-teal-600 dark:text-teal-400 hover:underline text-right"
                                                     >
                                                         {t('priceCompareHint')}
                                                     </button>
@@ -15260,7 +15260,7 @@ END:VCALENDAR`;
                                     )}
                                     <button
                                         onClick={() => { setShowPromotions(true); fetchPromotions(); }}
-                                        className="relative flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-orange-400 dark:from-yellow-600 dark:to-orange-600 text-white px-4 py-2 rounded-xl hover:from-yellow-500 hover:to-orange-500 dark:hover:from-yellow-700 dark:hover:to-orange-700 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
+                                        className="relative flex items-center gap-2 bg-gradient-to-r from-teal-400 to-cyan-400 dark:from-teal-600 dark:to-cyan-600 text-white px-4 py-2 rounded-xl hover:from-teal-500 hover:to-cyan-500 dark:hover:from-teal-700 dark:hover:to-cyan-700 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
                                     >
                                         <span className="text-lg">🏷️</span>
                                         <span className="font-bold">{t('promotions')}</span>
@@ -15349,7 +15349,7 @@ END:VCALENDAR`;
                                         <h3 className="sticky-category-header flex items-center gap-2 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
                                             <span className="text-xl">{CATEGORIES[category]?.icon}</span>
                                             <span className="text-base font-semibold text-gray-700 dark:text-gray-300">{t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}</span>
-                                            <span className="text-xs bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded-full font-medium">{categoryItems.length}</span>
+                                            <span className="text-xs bg-teal-100 dark:bg-teal-900/40 text-teal-600 dark:text-teal-400 px-2 py-0.5 rounded-full font-medium">{categoryItems.length}</span>
                                         </h3>
                                         {categoryItems.map(item => (
                                             <SwipeableItem
@@ -15609,7 +15609,7 @@ END:VCALENDAR`;
                                         <button
                                             key={`supa-${i}`}
                                             onClick={() => addProduct(p.name)}
-                                            className="px-2.5 py-1.5 bg-gradient-to-r from-orange-100 to-amber-100 dark:from-orange-900/50 dark:to-amber-900/50 text-orange-700 dark:text-orange-300 rounded-lg text-xs font-medium hover:from-orange-200 hover:to-amber-200 dark:hover:from-orange-800 dark:hover:to-amber-800 transition-all expand-in border border-orange-200 dark:border-orange-700"
+                                            className="px-2.5 py-1.5 bg-gradient-to-r from-teal-100 to-cyan-100 dark:from-teal-900/50 dark:to-cyan-900/50 text-teal-700 dark:text-teal-300 rounded-lg text-xs font-medium hover:from-teal-200 hover:to-cyan-200 dark:hover:from-teal-800 dark:hover:to-cyan-800 transition-all expand-in border border-teal-200 dark:border-teal-700"
                                         >
                                             🏷️ {p.name}
                                         </button>
