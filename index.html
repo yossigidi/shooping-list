@@ -737,9 +737,9 @@
         <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;" class="splash-fade">
             <img src="splash.png" alt="ListNest" style="width:100%;height:100%;object-fit:contain;object-position:center;">
             <!-- Title at top -->
-            <div style="position:absolute;top:50px;text-align:center;">
-                <h1 style="font-size:32px;font-weight:700;color:#0d9488;margin:0;text-shadow:0 2px 10px rgba(13,148,136,0.2);">ListNest</h1>
-                <p style="font-size:14px;color:#14b8a6;margin:8px 0 0 0;font-weight:500;">רשימת קניות משפחתית חכמה</p>
+            <div style="position:absolute;top:50px;text-align:center;padding:0 20px;">
+                <h1 style="font-size:36px;font-weight:700;color:#0d9488;margin:0;text-shadow:0 2px 10px rgba(13,148,136,0.2);">ListNest</h1>
+                <p style="font-size:20px;color:#14b8a6;margin:12px 0 0 0;font-weight:600;">רשימת קניות משפחתית חכמה</p>
             </div>
             <!-- Loading at bottom -->
             <div style="position:absolute;bottom:60px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#14B8A6;">
@@ -5306,9 +5306,17 @@
 
                 try {
                     setLoading(true);
+                    if (!window.auth || !window.firebaseAuth) {
+                        throw new Error('Firebase not initialized');
+                    }
                     await window.firebaseAuth.signInWithEmailAndPassword(window.auth, email, password);
                 } catch (err) {
-                    setError(getErrorMessage(err.code));
+                    console.error('Login error:', err);
+                    if (err.message === 'Firebase not initialized') {
+                        setError('אנא רענן את הדף ונסה שוב');
+                    } else {
+                        setError(getErrorMessage(err.code) || err.message || 'אירעה שגיאה, נסה שוב');
+                    }
                 } finally {
                     setLoading(false);
                 }
