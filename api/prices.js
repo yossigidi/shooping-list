@@ -444,9 +444,16 @@ module.exports = async (req, res) => {
                 return res.json({ success: true, suggestions: suggestionsWithPrices });
 
             case 'avgprices':
-                // Return average prices for all products
+                // Return average prices for all products with chain info
                 const productsForAvg = await supabaseQuery('products', '', true);
                 const pricesForAvg = await supabaseQuery('prices', '', true);
+                const chainsForAvg = await supabaseQuery('chains', '?is_active=eq.true');
+
+                // Create chain lookup
+                const chainLookupForAvg = {};
+                chainsForAvg.forEach(c => {
+                    chainLookupForAvg[c.id] = c.name_he || c.name;
+                });
 
                 // Create product lookup for category info
                 const productLookup = {};
@@ -454,8 +461,9 @@ module.exports = async (req, res) => {
                     productLookup[p.id] = p;
                 });
 
-                // Collect all prices per product
+                // Collect all prices per product with chain info
                 const priceMap = {};
+                const chainMap = {}; // Track which chains have prices for each product
                 pricesForAvg.forEach(p => {
                     const product = productLookup[p.product_id];
                     if (!product) return;
@@ -467,12 +475,17 @@ module.exports = async (req, res) => {
 
                     if (!priceMap[p.product_id]) {
                         priceMap[p.product_id] = [];
+                        chainMap[p.product_id] = new Set();
                     }
                     priceMap[p.product_id].push(p.price);
+                    if (chainLookupForAvg[p.chain_id]) {
+                        chainMap[p.product_id].add(chainLookupForAvg[p.chain_id]);
+                    }
                 });
 
                 // Calculate MEDIAN price (more robust than average against outliers)
                 const productPrices = {};
+                const productChains = {}; // Store chain names per product
                 productsForAvg.forEach(p => {
                     if (priceMap[p.id] && priceMap[p.id].length > 0) {
                         const prices = priceMap[p.id].sort((a, b) => a - b);
@@ -486,6 +499,7 @@ module.exports = async (req, res) => {
                         if (validPrices.length > 0) {
                             const avg = validPrices.reduce((sum, pr) => sum + pr, 0) / validPrices.length;
                             productPrices[p.name] = Math.round(avg * 100) / 100;
+                            productChains[p.name] = Array.from(chainMap[p.id] || []);
                         }
                     }
                 });
@@ -493,6 +507,7 @@ module.exports = async (req, res) => {
                 return res.json({
                     success: true,
                     prices: productPrices,
+                    chains: productChains,
                     totalProducts: Object.keys(productPrices).length,
                     lastUpdated: new Date().toISOString()
                 });

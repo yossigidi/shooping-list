@@ -6994,6 +6994,8 @@
 
         // Flag to track if prices were loaded from API
         let pricesLoadedFromAPI = false;
+        // Store chain info for each product
+        let PRODUCT_CHAINS = {};
 
         // Fetch real average prices from Supabase
         const fetchPricesFromAPI = async () => {
@@ -7007,12 +7009,31 @@
                     // Replace local prices with real Supabase prices (Supabase takes priority)
                     PRODUCT_PRICES = { ...PRODUCT_PRICES, ...data.prices };
 
+                    // Store chain info if available
+                    if (data.chains) {
+                        PRODUCT_CHAINS = { ...PRODUCT_CHAINS, ...data.chains };
+                    }
+
                     pricesLoadedFromAPI = true;
                     console.log(`✅ Loaded ${data.totalProducts} real prices from Supabase`);
                 }
             } catch (error) {
                 console.log('⚠️ Using local prices (Supabase unavailable):', error.message);
             }
+        };
+
+        // Get chains for a product
+        const getProductChains = (productName) => {
+            if (!productName) return [];
+            // Direct match
+            if (PRODUCT_CHAINS[productName]) return PRODUCT_CHAINS[productName];
+            // Partial match
+            for (const [name, chains] of Object.entries(PRODUCT_CHAINS)) {
+                if (productName.includes(name) || name.includes(productName)) {
+                    return chains;
+                }
+            }
+            return [];
         };
 
         // Load real prices from Supabase on startup
@@ -15437,10 +15458,23 @@ END:VCALENDAR`;
                                                         {/* Price display (read-only, calculated based on quantity) */}
                                                         {(() => {
                                                             const itemPrice = calculateItemPrice(item);
+                                                            const chains = getProductChains(item.name);
                                                             return itemPrice > 0 ? (
-                                                                <span className="text-xs text-green-600 dark:text-green-400 font-medium px-2 py-1">
-                                                                    ₪{itemPrice.toFixed(2)}
-                                                                </span>
+                                                                <div className="relative group flex items-center gap-1">
+                                                                    <span className="text-xs text-green-600 dark:text-green-400 font-medium">
+                                                                        ₪{itemPrice.toFixed(2)}*
+                                                                    </span>
+                                                                    <span className="text-gray-400 dark:text-gray-500 cursor-help text-xs" title={chains.length > 0 ? `ממוצע מ: ${chains.join(', ')}` : 'מחיר ממוצע'}>
+                                                                        ⓘ
+                                                                    </span>
+                                                                    {chains.length > 0 && (
+                                                                        <div className="absolute bottom-full right-0 mb-1 hidden group-hover:block z-50 bg-gray-800 text-white text-xs rounded-lg px-3 py-2 shadow-lg min-w-[150px] max-w-[250px]" style={{direction: 'rtl'}}>
+                                                                            <div className="font-semibold mb-1">מחיר ממוצע מ-{chains.length} רשתות:</div>
+                                                                            <div className="text-gray-300">{chains.join(' • ')}</div>
+                                                                            <div className="absolute top-full right-4 border-4 border-transparent border-t-gray-800"></div>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
                                                             ) : null;
                                                         })()}
 
