@@ -2591,14 +2591,54 @@
         // Language Context
         const LanguageContext = createContext(null);
 
+        // Language Selection Screen - shown on first launch
+        function LanguageSelectionScreen({ onSelect }) {
+            const languages = [
+                { code: 'he', name: 'עברית', flag: '🇮🇱', dir: 'rtl' },
+                { code: 'en', name: 'English', flag: '🇺🇸', dir: 'ltr' },
+                { code: 'ru', name: 'Русский', flag: '🇷🇺', dir: 'ltr' },
+                { code: 'ar', name: 'العربية', flag: '🇸🇦', dir: 'rtl' }
+            ];
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full">
+                        <div className="text-center mb-8">
+                            <div className="text-6xl mb-4">🌍</div>
+                            <h1 className="text-2xl font-bold text-gray-800 mb-2">Welcome to ListNest</h1>
+                            <p className="text-gray-500">Choose your language</p>
+                        </div>
+                        <div className="space-y-3">
+                            {languages.map(lang => (
+                                <button
+                                    key={lang.code}
+                                    onClick={() => onSelect(lang.code)}
+                                    className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-100 hover:border-orange-400 hover:bg-orange-50 transition-all duration-200 group"
+                                    dir={lang.dir}
+                                >
+                                    <span className="text-3xl">{lang.flag}</span>
+                                    <span className="text-lg font-medium text-gray-700 group-hover:text-orange-600">{lang.name}</span>
+                                </button>
+                            ))}
+                        </div>
+                        <p className="text-center text-xs text-gray-400 mt-6">You can change this later in settings</p>
+                    </div>
+                </div>
+            );
+        }
+
         function LanguageProvider({ children }) {
             const [language, setLanguage] = useState(() => {
-                return localStorage.getItem('appLanguage') || 'he';
+                return localStorage.getItem('appLanguage') || null;
+            });
+            const [isFirstLaunch, setIsFirstLaunch] = useState(() => {
+                return !localStorage.getItem('appLanguage');
             });
 
             const changeLanguage = (lang) => {
                 setLanguage(lang);
                 localStorage.setItem('appLanguage', lang);
+                setIsFirstLaunch(false);
                 // Update document direction
                 document.documentElement.dir = (lang === 'he' || lang === 'ar') ? 'rtl' : 'ltr';
                 document.documentElement.lang = lang;
@@ -2606,11 +2646,18 @@
 
             // Set direction whenever language changes
             useEffect(() => {
-                document.documentElement.dir = (language === 'he' || language === 'ar') ? 'rtl' : 'ltr';
-                document.documentElement.lang = language;
+                if (language) {
+                    document.documentElement.dir = (language === 'he' || language === 'ar') ? 'rtl' : 'ltr';
+                    document.documentElement.lang = language;
+                }
             }, [language]);
 
             const t = (key) => TRANSLATIONS[language]?.[key] || TRANSLATIONS['he'][key] || key;
+
+            // Show language selection on first launch
+            if (isFirstLaunch) {
+                return <LanguageSelectionScreen onSelect={changeLanguage} />;
+            }
 
             return (
                 <LanguageContext.Provider value={{ language, changeLanguage, t }}>
