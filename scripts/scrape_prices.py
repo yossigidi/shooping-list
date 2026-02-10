@@ -37,6 +37,7 @@ HEADERS = {
 
 # Chain configurations
 CHAINS = {
+    # IDs must match database: 1=shufersal, 2=rami_levy, 3=victory, 4=yeinot_bitan, 5=hatzi_hinam, 6=carrefour
     1: {
         'name': 'שופרסל',
         'name_en': 'Shufersal',
@@ -50,16 +51,16 @@ CHAINS = {
         'username': 'RamiLevi',
     },
     3: {
-        'name': 'יינות ביתן',
-        'name_en': 'Yeinot Bitan',
-        'type': 'carrefour',
-        'base_url': 'https://prices.carrefour.co.il',
-    },
-    4: {
         'name': 'ויקטורי',
         'name_en': 'Victory',
         'type': 'victory',
         'base_url': 'https://laibcatalog.co.il',
+    },
+    4: {
+        'name': 'יינות ביתן',
+        'name_en': 'Yeinot Bitan',
+        'type': 'carrefour',
+        'base_url': 'https://prices.carrefour.co.il',
     },
     5: {
         'name': 'חצי חינם',
