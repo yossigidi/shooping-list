@@ -16266,6 +16266,7 @@ END:VCALENDAR`;
 
         // Main App Component
         function App() {
+            const { t } = useLanguage();
             const { user, loading: authLoading } = useAuth();
             const { childUser, loading: childLoading } = useChildAuth();
 
