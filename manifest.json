@@ -1,15 +1,13 @@
 {
-  "name": "ListNest - רשימת קניות משפחתית",
+  "name": "ListNest - Smart Family Shopping List",
   "short_name": "ListNest",
-  "description": "ListNest - הקן המשפחתי לרשימות קניות חכמות עם שיתוף בזמן אמת",
+  "description": "Smart family shopping list with real-time sharing, price comparison, and promotions",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#FFF7ED",
   "theme_color": "#F97316",
   "orientation": "portrait",
-  "dir": "rtl",
-  "lang": "he",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -79,7 +77,14 @@
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "מסך ראשי - רשימת קניות"
+      "label": "Main screen - Shopping list"
+    },
+    {
+      "src": "screenshots/screenshot2.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Price comparison"
     }
   ]
 }
