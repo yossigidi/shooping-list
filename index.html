@@ -68,21 +68,23 @@
         };
 
         // Remove loading skeleton when React app renders (with minimum display time)
-        window.splashMinTime = 3000; // Minimum 3 seconds
+        window.splashShown = Date.now();
         window.hideLoadingSkeleton = function() {
             const skeleton = document.getElementById('loading-skeleton');
-            if (skeleton) {
-                const elapsed = performance.now() - window.appLoadStart;
-                const remainingTime = Math.max(0, window.splashMinTime - elapsed);
+            if (skeleton && !skeleton.hiding) {
+                skeleton.hiding = true;
+                const minDisplayTime = 3000; // Always show for at least 3 seconds
+                const elapsed = Date.now() - window.splashShown;
+                const waitTime = Math.max(0, minDisplayTime - elapsed);
+
+                console.log(`Splash elapsed: ${elapsed}ms, waiting: ${waitTime}ms more`);
 
                 setTimeout(() => {
-                    skeleton.style.transition = 'opacity 0.5s ease-out';
+                    skeleton.style.transition = 'opacity 0.8s ease-out';
                     skeleton.style.opacity = '0';
-                    setTimeout(() => skeleton.remove(), 500);
-                    // Log performance
-                    const loadTime = Math.round(performance.now() - window.appLoadStart);
-                    console.log(`🚀 ListNest v3.1 loaded in ${loadTime}ms`);
-                }, remainingTime);
+                    setTimeout(() => skeleton.remove(), 800);
+                    console.log(`🚀 ListNest loaded!`);
+                }, waitTime);
             }
         };
 
