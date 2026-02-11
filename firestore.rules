@@ -13,7 +13,7 @@ service cloud.firestore {
     function isFamilyMember(familyId) {
       return isSignedIn() &&
         exists(/databases/$(database)/documents/families/$(familyId)) &&
-        request.auth.uid in get(/databases/$(database)/documents/families/$(familyId)).data.members;
+        request.auth.uid in get(/databases/$(database)/documents/families/$(familyId)).data.memberIds;
     }
 
     function isFamilyAdmin(familyId) {

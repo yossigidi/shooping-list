@@ -3483,6 +3483,21 @@
                         }
                     });
 
+                    // Auto-migrate: add memberIds if it doesn't exist
+                    if (userFamily && !userFamily.memberIds) {
+                        const memberIds = userFamily.members?.map(m => m.userId).filter(Boolean) || [];
+                        try {
+                            await window.firestore.updateDoc(
+                                window.firestore.doc(window.db, 'families', userFamily.id),
+                                { memberIds: memberIds }
+                            );
+                            userFamily.memberIds = memberIds;
+                            console.log('Migrated family to include memberIds');
+                        } catch (e) {
+                            console.error('Failed to migrate memberIds:', e);
+                        }
+                    }
+
                     setFamily(userFamily);
                     setLoading(false);
                 });
@@ -3559,6 +3574,7 @@
                     name: familyName,
                     code: code,
                     adminId: user?.uid,
+                    memberIds: [user?.uid],
                     members: [{
                         userId: user?.uid,
                         email: user?.email,
@@ -3641,7 +3657,10 @@
 
                 await window.firestore.updateDoc(
                     window.firestore.doc(window.db, 'families', familyDoc.id),
-                    { members: window.firestore.arrayUnion(newMember) }
+                    {
+                        members: window.firestore.arrayUnion(newMember),
+                        memberIds: window.firestore.arrayUnion(user?.uid)
+                    }
                 );
 
                 // Log activity
@@ -3677,7 +3696,10 @@
                     // Remove member
                     await window.firestore.updateDoc(
                         window.firestore.doc(window.db, 'families', family.id),
-                        { members: window.firestore.arrayRemove(memberToRemove) }
+                        {
+                            members: window.firestore.arrayRemove(memberToRemove),
+                            memberIds: window.firestore.arrayRemove(user?.uid)
+                        }
                     );
                 }
             };
@@ -3692,7 +3714,10 @@
 
                 await window.firestore.updateDoc(
                     window.firestore.doc(window.db, 'families', family.id),
-                    { members: window.firestore.arrayRemove(memberToRemove) }
+                    {
+                        members: window.firestore.arrayRemove(memberToRemove),
+                        memberIds: window.firestore.arrayRemove(memberUserId)
+                    }
                 );
             };
 
