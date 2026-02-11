@@ -16010,7 +16010,7 @@ END:VCALENDAR`;
                             <>
                                 {/* Fixed Buttons at Bottom - Back + Price Compare */}
                                 <div className="fixed bottom-28 left-4 right-4 z-40 flex justify-center gap-3 pointer-events-none" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
-                                    <button onClick={() => setSelectedCategory(null)}
+                                    <button onClick={() => { setSelectedCategory(null); setShowCategories(true); }}
                                         className="pointer-events-auto bg-gradient-to-r from-gray-600 to-gray-700 text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:from-gray-700 hover:to-gray-800 hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
                                         <span>←</span>
                                         <span>{t('backToCategories')}</span>
