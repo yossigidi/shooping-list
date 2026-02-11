@@ -9748,6 +9748,7 @@
             const [items, setItems] = useState([]);
             const prevItemIdsRef = React.useRef(new Set());
             const [selectedCategory, setSelectedCategory] = useState(null);
+            const [showCategories, setShowCategories] = useState(false);
             const [searchTerm, setSearchTerm] = useState('');
             const [loading, setLoading] = useState(true);
             const [darkMode, setDarkMode] = useState(false);
@@ -15797,40 +15798,53 @@ END:VCALENDAR`;
                         )}
 
                         {!selectedCategory && !searchTerm ? (
-                            <div className="glass rounded-2xl shadow-xl p-6 mb-6">
-                                <h2 className="text-2xl font-bold text-center mb-2 dark:text-white flex items-center justify-center gap-2">
-                                    <span className="text-3xl">🏷️</span>
-                                    <span className="text-gradient">{t('selectCategory')}</span>
-                                </h2>
-                                <p className="text-center text-gray-500 dark:text-gray-400 text-sm mb-6">{t('addItemsHint')}</p>
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                                    {Object.entries(CATEGORIES).map(([key, cat]) => {
-                                        const count = items.filter(item => item.category === key && !item.purchased).length;
-                                        return (
-                                            <button
-                                                key={key}
-                                                onClick={() => { setSelectedCategory(key); setTimeout(() => { const el = document.getElementById('products-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }}
-                                                className="group relative bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-xl hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200"
-                                            >
-                                                <div className="flex flex-col items-center text-center">
-                                                    <div className="w-14 h-14 rounded-2xl overflow-hidden mb-3 group-hover:scale-110 group-hover:shadow-lg transition-all duration-200">
-                                                        {cat.image ? (
-                                                            <img src={cat.image} alt={getCategoryName(key)} className="w-full h-full object-cover" loading="lazy" />
-                                                        ) : (
-                                                            <div className="w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-3xl">{cat.icon}</div>
-                                                        )}
+                            <div className="glass rounded-2xl shadow-xl p-4 mb-6">
+                                <button
+                                    onClick={() => setShowCategories(!showCategories)}
+                                    className="w-full flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-xl transition-colors"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-3xl">🏷️</span>
+                                        <div className="text-right">
+                                            <h2 className="text-xl font-bold dark:text-white">{t('selectCategory')}</h2>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('addItemsHint')}</p>
+                                        </div>
+                                    </div>
+                                    <div className={`text-2xl transition-transform duration-300 ${showCategories ? 'rotate-180' : ''}`}>
+                                        ▼
+                                    </div>
+                                </button>
+
+                                {showCategories && (
+                                    <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 animate-fadeIn">
+                                        {Object.entries(CATEGORIES).map(([key, cat]) => {
+                                            const count = items.filter(item => item.category === key && !item.purchased).length;
+                                            return (
+                                                <button
+                                                    key={key}
+                                                    onClick={() => { setSelectedCategory(key); setShowCategories(false); setTimeout(() => { const el = document.getElementById('products-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }}
+                                                    className="group relative bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-xl hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200"
+                                                >
+                                                    <div className="flex flex-col items-center text-center">
+                                                        <div className="w-14 h-14 rounded-2xl overflow-hidden mb-3 group-hover:scale-110 group-hover:shadow-lg transition-all duration-200">
+                                                            {cat.image ? (
+                                                                <img src={cat.image} alt={getCategoryName(key)} className="w-full h-full object-cover" loading="lazy" />
+                                                            ) : (
+                                                                <div className="w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-3xl">{cat.icon}</div>
+                                                            )}
+                                                        </div>
+                                                        <div className="text-sm font-semibold text-gray-700 dark:text-gray-200">{getCategoryName(key)}</div>
                                                     </div>
-                                                    <div className="text-sm font-semibold text-gray-700 dark:text-gray-200">{getCategoryName(key)}</div>
-                                                </div>
-                                                {count > 0 && (
-                                                    <div className="absolute -top-1 -left-1 bg-indigo-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-md">
-                                                        {count}
-                                                    </div>
-                                                )}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
+                                                    {count > 0 && (
+                                                        <div className="absolute -top-1 -left-1 bg-indigo-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-md">
+                                                            {count}
+                                                        </div>
+                                                    )}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
                             </div>
                         ) : selectedCategory && !searchTerm && (
                             <>
