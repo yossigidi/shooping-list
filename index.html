@@ -12734,7 +12734,7 @@ END:VCALENDAR`;
                 const existingUnit = existing?.unit || unit;
 
                 setSelectedProduct({ name: product, category, unitOptions, existingId: existing?.id, existingQty });
-                setSelectedQuantity(existingQty > 0 ? existingQty : 1); // Start with existing qty or 1
+                setSelectedQuantity(existingQty); // Start with existing qty or 0 for new products
                 setSelectedUnit(existingQty > 0 ? existingUnit : unit);
                 setShowQuantitySelector(true);
             };
@@ -15310,10 +15310,14 @@ END:VCALENDAR`;
                                 </div>
 
                                 {/* Preview */}
-                                <div className={`rounded-xl p-3 mb-6 text-center ${selectedQuantity === 0 ? 'bg-red-50 dark:bg-red-900/30' : 'bg-indigo-50 dark:bg-indigo-900/30'}`}>
-                                    <span className={`text-lg font-bold ${selectedQuantity === 0 ? 'text-red-600 dark:text-red-400' : 'text-indigo-700 dark:text-indigo-300'}`}>
+                                <div className={`rounded-xl p-3 mb-6 text-center ${selectedQuantity === 0 ? (selectedProduct.existingId ? 'bg-red-50 dark:bg-red-900/30' : 'bg-gray-50 dark:bg-gray-800/50') : 'bg-indigo-50 dark:bg-indigo-900/30'}`}>
+                                    <span className={`text-lg font-bold ${selectedQuantity === 0 ? (selectedProduct.existingId ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400') : 'text-indigo-700 dark:text-indigo-300'}`}>
                                         {selectedQuantity === 0 ? (
-                                            <>🗑️ הסר את {selectedProduct.name} מהסל</>
+                                            selectedProduct.existingId ? (
+                                                <>🗑️ הסר את {selectedProduct.name} מהסל</>
+                                            ) : (
+                                                <>👆 בחר כמות להוספה</>
+                                            )
                                         ) : (
                                             <>
                                                 {selectedProduct.name} - {selectedQuantity} {selectedUnit}
@@ -15326,12 +15330,20 @@ END:VCALENDAR`;
                                 {/* Buttons */}
                                 <div className="flex gap-3">
                                     {selectedQuantity === 0 && selectedProduct.existingId ? (
-                                        /* Remove button when quantity is 0 */
+                                        /* Remove button when quantity is 0 and item in cart */
                                         <button
                                             onClick={removeProductFromCart}
                                             className="flex-1 bg-red-500 hover:bg-red-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                                         >
                                             🗑️ הסר מהסל
+                                        </button>
+                                    ) : selectedQuantity === 0 ? (
+                                        /* Disabled add button when quantity is 0 and item not in cart */
+                                        <button
+                                            disabled
+                                            className="flex-1 bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 px-6 py-4 rounded-xl font-bold text-lg cursor-not-allowed"
+                                        >
+                                            בחר כמות להוספה
                                         </button>
                                     ) : selectedProduct.existingId ? (
                                         /* Update button when item exists */
