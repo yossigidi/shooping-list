@@ -67,6 +67,42 @@
             });
         };
 
+        // Lazy load QuaggaJS for barcode scanning
+        window.loadQuagga = function() {
+            return new Promise((resolve, reject) => {
+                if (window.Quagga) {
+                    resolve(window.Quagga);
+                    return;
+                }
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/@ericblade/quagga2@1.8.4/dist/quagga.min.js';
+                script.onload = () => resolve(window.Quagga);
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        };
+
+        // Fetch product info from Open Food Facts by barcode
+        window.fetchProductByBarcode = async function(barcode) {
+            try {
+                const response = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`);
+                const data = await response.json();
+                if (data.status === 1 && data.product) {
+                    return {
+                        name: data.product.product_name_he || data.product.product_name || data.product.generic_name || null,
+                        brand: data.product.brands || null,
+                        image: data.product.image_front_small_url || null,
+                        categories: data.product.categories_tags || [],
+                        found: true
+                    };
+                }
+                return { found: false };
+            } catch (err) {
+                console.error('Open Food Facts API error:', err);
+                return { found: false };
+            }
+        };
+
         // Remove loading skeleton - always show for 3 seconds after app is ready
         window.hideLoadingSkeleton = function() {
             const skeleton = document.getElementById('loading-skeleton');
@@ -841,12 +877,15 @@
             // Login child with PIN
             const loginChild = async (familyId, familyCode, childId, childName, pin) => {
                 try {
+                    console.log('Child login attempt:', { familyId, familyCode, childId });
+
                     // Get family document to validate PIN
                     const familyDoc = await window.firestore.getDoc(
                         window.firestore.doc(window.db, 'families', familyId)
                     );
 
                     if (!familyDoc.exists()) {
+                        console.error('Family not found:', familyId);
                         return { success: false, error: 'familyNotFound' };
                     }
 
@@ -854,12 +893,16 @@
                     const childAccount = familyData.childAccounts?.find(c => c.childId === childId);
 
                     if (!childAccount) {
+                        console.error('Child account not found:', childId);
                         return { success: false, error: 'childNotFound' };
                     }
 
                     // Verify PIN
                     const pinHash = await hashPin(pin, familyCode);
+                    console.log('PIN verification:', { computed: pinHash.substring(0, 10) + '...', stored: childAccount.pinHash?.substring(0, 10) + '...' });
+
                     if (pinHash !== childAccount.pinHash) {
+                        console.error('Invalid PIN');
                         return { success: false, error: 'invalidPin' };
                     }
 
@@ -877,21 +920,27 @@
                         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
                     };
 
-                    // Update lastLoginAt in Firestore
-                    const updatedChildAccounts = familyData.childAccounts.map(c =>
-                        c.childId === childId ? { ...c, lastLoginAt: new Date() } : c
-                    );
-                    await window.firestore.updateDoc(
-                        window.firestore.doc(window.db, 'families', familyId),
-                        { childAccounts: updatedChildAccounts }
-                    );
+                    // Try to update lastLoginAt in Firestore (don't fail if this fails)
+                    try {
+                        const updatedChildAccounts = familyData.childAccounts.map(c =>
+                            c.childId === childId ? { ...c, lastLoginAt: new Date() } : c
+                        );
+                        await window.firestore.updateDoc(
+                            window.firestore.doc(window.db, 'families', familyId),
+                            { childAccounts: updatedChildAccounts }
+                        );
+                    } catch (updateError) {
+                        console.warn('Could not update lastLoginAt:', updateError);
+                        // Continue anyway - login still works
+                    }
 
                     localStorage.setItem('childSession', JSON.stringify(session));
                     setChildUser(session);
+                    console.log('Child login successful');
                     return { success: true };
                 } catch (error) {
                     console.error('Child login error:', error);
-                    return { success: false, error: 'loginFailed' };
+                    return { success: false, error: 'loginFailed', details: error.message };
                 }
             };
 
@@ -1045,6 +1094,7 @@
                 shareWithFamily: 'שתף עם המשפחה',
                 shareOptions: 'אפשרויות שיתוף',
                 copyLink: 'העתק קישור',
+                sendChildLinkDesc: 'שלח קישור לילד - רק יבחר שם ויזין קוד',
                 scanQR: 'סרקו את הקוד או שתפו בכל דרך שנוחה לכם',
                 // Roles
                 selectRole: 'התפקיד שלך במשפחה',
@@ -1221,7 +1271,7 @@
                 deleteAllWarning: 'פעולה זו תמחק {count} מוצרים ולא ניתן לבטלה!',
                 deleteProduct: 'מחיקת מוצר',
                 deleteProductConfirm: 'האם אתה בטוח שברצונך למחוק מוצר זה?',
-                addProductPlaceholder: 'הוסף מוצר...',
+                addProductPlaceholder: 'חפש מוצר...',
                 // Categories
                 fruitsVeg: 'פירות וירקות',
                 dairyProducts: 'מוצרי חלב',
@@ -1290,6 +1340,12 @@
                 helpAndFeedback: 'עזרה ומשוב',
                 showTutorial: 'הצג הדרכה',
                 logoutButton: 'התנתקות',
+                deleteAccount: 'מחיקת חשבון',
+                deleteAccountTitle: 'מחיקת חשבון',
+                deleteAccountWarning: 'האם אתה בטוח שברצונך למחוק את החשבון?',
+                deleteAccountPermanent: 'פעולה זו אינה ניתנת לביטול!',
+                deleteAccountReauth: 'יש להתנתק ולהתחבר מחדש לפני מחיקת החשבון',
+                deleteAccountError: 'שגיאה במחיקת החשבון. נסה שוב.',
                 settings: 'הגדרות',
                 refreshApp: 'רענון האפליקציה',
                 shoppingModeTitle: 'מצב קניות',
@@ -1616,6 +1672,7 @@
                 shareWithFamily: 'Share with Family',
                 shareOptions: 'Share Options',
                 copyLink: 'Copy Link',
+                sendChildLinkDesc: 'Send link to child - they just choose name and enter PIN',
                 scanQR: 'Scan the code or share via any method you prefer',
                 // Roles
                 selectRole: 'Your role in the family',
@@ -1792,7 +1849,7 @@
                 deleteAllWarning: 'This will delete {count} items and cannot be undone!',
                 deleteProduct: 'Delete Product',
                 deleteProductConfirm: 'Are you sure you want to delete this product?',
-                addProductPlaceholder: 'Add product...',
+                addProductPlaceholder: 'Search product...',
                 // Categories
                 fruitsVeg: 'Fruits & Vegetables',
                 dairyProducts: 'Dairy',
@@ -1843,7 +1900,6 @@
                 loadToCart: 'Load to Cart',
                 bought: 'Bought',
                 later: 'Later',
-                addToList: 'Add to List',
                 removeFromList: 'Remove from List',
                 selectCategory: 'Select Category',
                 allCategories: 'All Categories',
@@ -1861,6 +1917,12 @@
                 helpAndFeedback: 'Help & Feedback',
                 showTutorial: 'Show Tutorial',
                 logoutButton: 'Logout',
+                deleteAccount: 'Delete Account',
+                deleteAccountTitle: 'Delete Account',
+                deleteAccountWarning: 'Are you sure you want to delete your account?',
+                deleteAccountPermanent: 'This action cannot be undone!',
+                deleteAccountReauth: 'Please log out and log in again before deleting your account',
+                deleteAccountError: 'Error deleting account. Please try again.',
                 settings: 'Settings',
                 refreshApp: 'Refresh App',
                 shoppingModeTitle: 'Shopping Mode',
@@ -2062,7 +2124,6 @@
                 cancelCamera: 'Cancel',
                 scanProduct: 'Scan Product',
                 // Search & Items
-                items: 'Items',
                 scanProductBtn: 'Scan Product',
                 searchResults: 'Search Results',
                 clearSearch: 'Clear Search',
@@ -2187,6 +2248,7 @@
                 shareWithFamily: 'Поделиться с семьёй',
                 shareOptions: 'Варианты отправки',
                 copyLink: 'Копировать ссылку',
+                sendChildLinkDesc: 'Отправить ссылку ребёнку - только выберет имя и введёт PIN',
                 scanQR: 'Отсканируйте код или поделитесь удобным способом',
                 // Roles
                 selectRole: 'Ваша роль в семье',
@@ -2388,7 +2450,7 @@
                 deleteAllWarning: 'Это удалит {count} товаров без возможности восстановления!',
                 deleteProduct: 'Удалить товар',
                 deleteProductConfirm: 'Вы уверены, что хотите удалить этот товар?',
-                addProductPlaceholder: 'Добавить товар...',
+                addProductPlaceholder: 'Поиск товара...',
                 // More UI strings
                 searchAddProduct: 'Добавить товар...',
                 emptyList: 'Список пуст',
@@ -2396,6 +2458,12 @@
                 familyNameExample: 'например: Семья Ивановых',
                 listNameExample: 'например: Покупки на выходные',
                 noteExample: 'например: Определенный бренд, верхняя полка...',
+                importExample: 'Молоко\nЯйца x2\n3 Хлеб\nСыр, Масло',
+                productSearchExample: 'например: молоко, творог, чипсы...',
+                tagExample: 'например: Свежий, Без глютена, Органический...',
+                recipeNameExample: 'Название рецепта (например: Шоколадный торт)',
+                ingredientsExample: 'Список ингредиентов (каждый с новой строки)',
+                feedbackPlaceholder: 'Расскажите, что случилось или что вы хотели бы видеть...',
                 priceComparison: 'Сравнение цен',
                 familySettings: 'Настройки семьи',
                 createNewFamily: 'Создать новую семью',
@@ -2417,13 +2485,18 @@
                 regularItems: 'Постоянные товары',
                 forgottenItems: 'Забытые товары',
                 shoppingStreak: 'Серия покупок',
-                darkMode: 'Темный режим',
                 lightMode: 'Светлый режим',
                 language: 'Язык',
                 accessibilitySettings: 'Настройки доступности',
                 helpAndFeedback: 'Помощь и отзывы',
                 showTutorial: 'Показать обучение',
                 logoutButton: 'Выйти',
+                deleteAccount: 'Удалить аккаунт',
+                deleteAccountTitle: 'Удаление аккаунта',
+                deleteAccountWarning: 'Вы уверены, что хотите удалить свой аккаунт?',
+                deleteAccountPermanent: 'Это действие нельзя отменить!',
+                deleteAccountReauth: 'Пожалуйста, выйдите и войдите снова перед удалением аккаунта',
+                deleteAccountError: 'Ошибка при удалении аккаунта. Попробуйте ещё раз.',
                 refreshApp: 'Обновить приложение',
                 shoppingModeTitle: 'Режим покупок',
                 total: 'Всего',
@@ -2556,7 +2629,6 @@
                 shareCodeWith: 'Поделитесь этим кодом с членами семьи:',
                 pageRefresh: 'Страница обновится автоматически...',
                 // Delete
-                deleteProduct: 'Удалить продукт',
                 confirmDelete: 'Вы уверены, что хотите удалить этот продукт?',
                 // Saved lists
                 savedLists: 'Сохранённые списки',
@@ -2627,7 +2699,6 @@
                 cancelCamera: 'Отмена',
                 scanProduct: 'Сканировать продукт',
                 // Search & Items
-                items: 'Товары',
                 scanProductBtn: 'Сканировать',
                 searchResults: 'Результаты поиска',
                 clearSearch: 'Очистить поиск',
@@ -2642,7 +2713,6 @@
                 contactUs: 'Связаться с нами',
                 accessibilityStatement: 'Заявление о доступности',
                 // Help
-                helpTitle: 'Помощь',
                 helpAddProducts: 'Выберите категорию и нажмите на продукт для добавления',
                 helpSwipeLeft: 'Свайп влево - отметить как "куплено"',
                 helpSwipeRight: 'Свайп вправо - удалить продукт',
@@ -2670,7 +2740,6 @@
                 // Onboarding
                 welcomeToListNest: 'Добро пожаловать в ListNest!',
                 smartListForFamily: 'Умный список покупок для всей семьи',
-                addingProducts: 'Добавление продуктов',
                 onboardCategories: 'Категории: выберите категорию и нажмите на продукт',
                 onboardSearch: 'Поиск: введите название продукта',
                 onboardVoice: 'Голос: нажмите микрофон и скажите продукт',
@@ -2752,6 +2821,7 @@
                 shareWithFamily: 'مشاركة مع العائلة',
                 shareOptions: 'خيارات المشاركة',
                 copyLink: 'نسخ الرابط',
+                sendChildLinkDesc: 'أرسل رابط للطفل - سيختار الاسم ويدخل الرمز فقط',
                 scanQR: 'امسح الرمز أو شارك بأي طريقة تفضلها',
                 // Roles
                 selectRole: 'دورك في العائلة',
@@ -2928,7 +2998,7 @@
                 deleteAllWarning: 'سيتم حذف {count} منتج ولا يمكن التراجع!',
                 deleteProduct: 'حذف المنتج',
                 deleteProductConfirm: 'هل أنت متأكد أنك تريد حذف هذا المنتج؟',
-                addProductPlaceholder: 'أضف منتج...',
+                addProductPlaceholder: 'بحث منتج...',
                 // Categories
                 fruitsVeg: 'فواكه وخضروات',
                 dairyProducts: 'منتجات الألبان',
@@ -2997,6 +3067,12 @@
                 helpAndFeedback: 'المساعدة والملاحظات',
                 showTutorial: 'عرض الإرشادات',
                 logoutButton: 'تسجيل الخروج',
+                deleteAccount: 'حذف الحساب',
+                deleteAccountTitle: 'حذف الحساب',
+                deleteAccountWarning: 'هل أنت متأكد أنك تريد حذف حسابك؟',
+                deleteAccountPermanent: 'لا يمكن التراجع عن هذا الإجراء!',
+                deleteAccountReauth: 'يرجى تسجيل الخروج وتسجيل الدخول مرة أخرى قبل حذف الحساب',
+                deleteAccountError: 'خطأ في حذف الحساب. حاول مرة أخرى.',
                 refreshApp: 'تحديث التطبيق',
                 shoppingModeTitle: 'وضع التسوق',
                 settings: 'الإعدادات',
@@ -3401,7 +3477,7 @@
                     let userFamily = null;
                     snapshot.forEach((doc) => {
                         const data = doc.data();
-                        const isMember = data.members?.some(m => m.userId === user.uid);
+                        const isMember = data.members?.some(m => m.userId === user?.uid);
                         if (isMember) {
                             userFamily = { id: doc.id, ...data };
                         }
@@ -3482,11 +3558,11 @@
                 const newFamily = {
                     name: familyName,
                     code: code,
-                    adminId: user.uid,
+                    adminId: user?.uid,
                     members: [{
-                        userId: user.uid,
-                        email: user.email,
-                        displayName: user.displayName || user.email,
+                        userId: user?.uid,
+                        email: user?.email,
+                        displayName: user?.displayName || user?.email || 'אנונימי',
                         joinedAt: new Date(),
                         role: 'admin',
                         familyRole: userRole,
@@ -3508,14 +3584,14 @@
                         familyId: familyRef.id,
                         name: 'רשימת קניות',
                         icon: '🛒',
-                        createdBy: user.uid,
+                        createdBy: user?.uid,
                         createdAt: new Date(),
                         isDefault: true
                     }
                 );
 
                 // Log activity
-                await logActivity('member_joined', { memberName: user.displayName || user.email }, familyRef.id);
+                await logActivity('member_joined', { memberName: user?.displayName || user?.email || 'אנונימי' }, familyRef.id);
 
                 return { id: familyRef.id, ...newFamily };
             };
@@ -3539,7 +3615,7 @@
                 const familyData = familyDoc.data();
 
                 // Check if already a member
-                if (familyData.members?.some(m => m.userId === user.uid)) {
+                if (familyData.members?.some(m => m.userId === user?.uid)) {
                     return { success: false, error: 'כבר חבר במשפחה זו' };
                 }
 
@@ -3552,9 +3628,9 @@
                 // Add user to family
                 // Roles: admin (parents), teen (older child with some permissions), member (child)
                 const newMember = {
-                    userId: user.uid,
-                    email: user.email,
-                    displayName: user.displayName || user.email,
+                    userId: user?.uid,
+                    email: user?.email,
+                    displayName: user?.displayName || user?.email || 'אנונימי',
                     joinedAt: new Date(),
                     role: isParent ? 'admin' : (isTeen ? 'teen' : 'member'),
                     familyRole: userRole,
@@ -3569,7 +3645,7 @@
                 );
 
                 // Log activity
-                await logActivity('member_joined', { memberName: user.displayName || user.email }, familyDoc.id);
+                await logActivity('member_joined', { memberName: user?.displayName || user?.email || 'אנונימי' }, familyDoc.id);
 
                 return { success: true };
             };
@@ -3578,11 +3654,11 @@
             const leaveFamily = async () => {
                 if (!family || !user) return;
 
-                const memberToRemove = family.members.find(m => m.userId === user.uid);
+                const memberToRemove = family.members.find(m => m.userId === user?.uid);
                 if (!memberToRemove) return;
 
                 // If admin and only member, delete family
-                if (family.adminId === user.uid && family.members.length === 1) {
+                if (family.adminId === user?.uid && family.members.length === 1) {
                     // Delete all lists
                     const listsSnapshot = await window.firestore.getDocs(
                         window.firestore.query(
@@ -3608,8 +3684,8 @@
 
             // Remove member (admin only)
             const removeMember = async (memberUserId) => {
-                if (!family || family.adminId !== user.uid) return;
-                if (memberUserId === user.uid) return; // Can't remove self
+                if (!family || family.adminId !== user?.uid) return;
+                if (memberUserId === user?.uid) return; // Can't remove self
 
                 const memberToRemove = family.members.find(m => m.userId === memberUserId);
                 if (!memberToRemove) return;
@@ -3630,7 +3706,7 @@
                         familyId: family.id,
                         name: name,
                         icon: icon,
-                        createdBy: user.uid,
+                        createdBy: user?.uid,
                         createdAt: new Date(),
                         isDefault: false
                     }
@@ -3662,8 +3738,8 @@
                         familyId: fid,
                         listId: currentList?.id || null,
                         type: type,
-                        userId: user.uid,
-                        userName: user.displayName || user.email,
+                        userId: user?.uid,
+                        userName: user?.displayName || user?.email || 'אנונימי',
                         timestamp: new Date(),
                         ...details
                     }
@@ -3681,7 +3757,7 @@
 
             // Create child account
             const createChildAccount = async (name, pin) => {
-                if (!family || !user || family.adminId !== user.uid) {
+                if (!family || !user || family.adminId !== user?.uid) {
                     return { success: false, error: 'notAdmin' };
                 }
 
@@ -3696,17 +3772,16 @@
                         displayName: name,
                         pinHash: pinHash,
                         createdAt: new Date(),
-                        createdBy: user.uid,
+                        createdBy: user?.uid,
                         lastLoginAt: null,
                         role: 'limited',
                         familyRole: 'child',
                         isChildAccount: true
                     };
 
-                    const currentChildAccounts = family.childAccounts || [];
                     await window.firestore.updateDoc(
                         window.firestore.doc(window.db, 'families', family.id),
-                        { childAccounts: [...currentChildAccounts, newChildAccount] }
+                        { childAccounts: window.firestore.arrayUnion(newChildAccount) }
                     );
 
                     await logActivity('child_account_created', { childName: name });
@@ -3719,7 +3794,7 @@
 
             // Delete child account
             const deleteChildAccount = async (childId) => {
-                if (!family || !user || family.adminId !== user.uid) {
+                if (!family || !user || family.adminId !== user?.uid) {
                     return { success: false, error: 'notAdmin' };
                 }
 
@@ -3745,7 +3820,7 @@
 
             // Reset child PIN
             const resetChildPin = async (childId, newPin) => {
-                if (!family || !user || family.adminId !== user.uid) {
+                if (!family || !user || family.adminId !== user?.uid) {
                     return { success: false, error: 'notAdmin' };
                 }
 
@@ -3775,7 +3850,7 @@
 
             // Generate child invite token
             const generateChildInviteToken = async () => {
-                if (!family || !user || family.adminId !== user.uid) {
+                if (!family || !user || family.adminId !== user?.uid) {
                     return { success: false, error: 'notAdmin' };
                 }
 
@@ -3789,18 +3864,19 @@
                         token: token,
                         expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
                         usedAt: null,
-                        createdBy: user.uid
+                        createdBy: user?.uid
                     };
 
+                    // First clean up expired/used tokens, then add new one
                     const currentTokens = family.childInviteTokens || [];
-                    // Clean up expired/used tokens
                     const validTokens = currentTokens.filter(t =>
                         !t.usedAt && new Date(t.expiresAt.toDate ? t.expiresAt.toDate() : t.expiresAt) > new Date()
                     );
+                    validTokens.push(newToken);
 
                     await window.firestore.updateDoc(
                         window.firestore.doc(window.db, 'families', family.id),
-                        { childInviteTokens: [...validTokens, newToken] }
+                        { childInviteTokens: validTokens }
                     );
 
                     return { success: true, token: token, expiresAt: newToken.expiresAt };
@@ -4202,6 +4278,7 @@
             const { t, language } = useLanguage();
             const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
             const [copied, setCopied] = useState(false);
+            const [childLinkCopied, setChildLinkCopied] = useState(false);
             const [showShareOptions, setShowShareOptions] = useState(false);
             const [qrCodeUrl, setQrCodeUrl] = useState('');
             const [showCreateChildModal, setShowCreateChildModal] = useState(false);
@@ -4211,6 +4288,18 @@
             const isRTL = language === 'he' || language === 'ar';
 
             const inviteLink = `https://yossigidi.github.io/shooping-list/?join=${family?.code}`;
+            const childJoinLink = `${window.location.origin}${window.location.pathname}?childJoin=${family?.code}`;
+
+            const copyChildLink = () => {
+                navigator.clipboard.writeText(childJoinLink);
+                setChildLinkCopied(true);
+                setTimeout(() => setChildLinkCopied(false), 2000);
+            };
+
+            const shareChildLinkWhatsApp = () => {
+                const text = encodeURIComponent(`היי! 👋\n\nהנה קישור להתחברות לרשימת הקניות של משפחת "${family.name}":\n\n${childJoinLink}\n\nפשוט לחץ/י על הקישור ובחר/י את השם שלך 😊`);
+                window.open(`https://wa.me/?text=${text}`, '_blank');
+            };
 
             const copyCode = () => {
                 navigator.clipboard.writeText(family.code);
@@ -4353,7 +4442,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {isAdmin && member.userId !== user.uid && (
+                                        {isAdmin && member.userId !== user?.uid && (
                                             <button
                                                 onClick={() => removeMember(member.userId)}
                                                 className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
@@ -4444,21 +4533,48 @@
                                 )}
 
                                 {/* Add child account buttons */}
-                                <div className="grid grid-cols-2 gap-2">
-                                    <button
-                                        onClick={() => setShowCreateChildModal(true)}
-                                        className="flex items-center justify-center gap-2 py-2 px-3 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-lg font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors text-sm"
-                                    >
-                                        <span>➕</span>
-                                        {t('addChildAccount')}
-                                    </button>
-                                    <button
-                                        onClick={() => setShowChildQRModal(true)}
-                                        className="flex items-center justify-center gap-2 py-2 px-3 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400 rounded-lg font-medium hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-colors text-sm"
-                                    >
-                                        <span>📱</span>
-                                        {t('generateChildQR')}
-                                    </button>
+                                <div className="space-y-2">
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <button
+                                            onClick={() => setShowCreateChildModal(true)}
+                                            className="flex items-center justify-center gap-2 py-2 px-3 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-lg font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors text-sm"
+                                        >
+                                            <span>➕</span>
+                                            {t('addChildAccount')}
+                                        </button>
+                                        <button
+                                            onClick={() => setShowChildQRModal(true)}
+                                            className="flex items-center justify-center gap-2 py-2 px-3 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400 rounded-lg font-medium hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-colors text-sm"
+                                        >
+                                            <span>📱</span>
+                                            {t('generateChildQR')}
+                                        </button>
+                                    </div>
+
+                                    {/* Send child join link */}
+                                    {family.childAccounts?.length > 0 && (
+                                        <div className="glass rounded-lg p-3 border-2 border-teal-200 dark:border-teal-800">
+                                            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 text-center">
+                                                {t('sendChildLinkDesc') || 'שלח קישור לילד - רק יבחר שם ויזין קוד'}
+                                            </p>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                <button
+                                                    onClick={copyChildLink}
+                                                    className="flex items-center justify-center gap-2 py-2 px-3 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 rounded-lg font-medium hover:bg-teal-200 dark:hover:bg-teal-900/50 transition-colors text-sm"
+                                                >
+                                                    <span>{childLinkCopied ? '✓' : '🔗'}</span>
+                                                    {childLinkCopied ? t('copied') : t('copyLink')}
+                                                </button>
+                                                <button
+                                                    onClick={shareChildLinkWhatsApp}
+                                                    className="flex items-center justify-center gap-2 py-2 px-3 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg font-medium hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors text-sm"
+                                                >
+                                                    <span>💬</span>
+                                                    WhatsApp
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )}
@@ -5506,7 +5622,72 @@
             const [step, setStep] = useState(1); // 1: enter code, 2: select child, 3: enter PIN
             const [attempts, setAttempts] = useState(0);
             const [lockedUntil, setLockedUntil] = useState(null);
+            const [autoSubmitting, setAutoSubmitting] = useState(false);
             const isRTL = language === 'he' || language === 'ar';
+
+            // Check for childJoin URL parameter and auto-populate family code
+            useEffect(() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const childJoinCode = urlParams.get('childJoin');
+                if (childJoinCode && /^[A-Z0-9]{6}$/.test(childJoinCode.toUpperCase())) {
+                    setFamilyCode(childJoinCode.toUpperCase());
+                    setAutoSubmitting(true);
+                    // Clean URL after reading parameter
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            }, []);
+
+            // Auto-submit when we have the family code from URL
+            useEffect(() => {
+                if (autoSubmitting && familyCode.length === 6 && step === 1) {
+                    const autoSubmit = async () => {
+                        setLoading(true);
+                        try {
+                            const q = window.firestore.query(
+                                window.firestore.collection(window.db, 'families'),
+                                window.firestore.where('code', '==', familyCode.toUpperCase())
+                            );
+                            const snapshot = await window.firestore.getDocs(q);
+
+                            if (snapshot.empty) {
+                                setError(t('codeNotFound'));
+                                setAutoSubmitting(false);
+                                setLoading(false);
+                                return;
+                            }
+
+                            const doc = snapshot.docs[0];
+                            const data = doc.data();
+
+                            if (!data.childAccounts || data.childAccounts.length === 0) {
+                                setError(t('noChildAccounts'));
+                                setAutoSubmitting(false);
+                                setLoading(false);
+                                return;
+                            }
+
+                            // Filter to only show children with PIN
+                            const childrenWithPin = data.childAccounts.filter(c => c.pinHash);
+                            if (childrenWithPin.length === 0) {
+                                setError(t('noChildAccounts'));
+                                setAutoSubmitting(false);
+                                setLoading(false);
+                                return;
+                            }
+
+                            setFamilyData({ id: doc.id, ...data });
+                            setChildAccounts(childrenWithPin);
+                            setStep(2);
+                        } catch (err) {
+                            console.error('Auto family lookup error:', err);
+                            setError(t('error'));
+                        }
+                        setAutoSubmitting(false);
+                        setLoading(false);
+                    };
+                    autoSubmit();
+                }
+            }, [autoSubmitting, familyCode, step]);
 
             // Check rate limit from localStorage
             useEffect(() => {
@@ -5642,10 +5823,15 @@
                     window.location.reload();
                 } else {
                     recordAttempt();
+                    console.error('Child login failed:', result.error);
                     if (result.error === 'invalidPin') {
                         setError(t('invalidPin'));
+                    } else if (result.error === 'familyNotFound') {
+                        setError('המשפחה לא נמצאה');
+                    } else if (result.error === 'childNotFound') {
+                        setError('חשבון הילד לא נמצא');
                     } else {
-                        setError(t('error'));
+                        setError('שגיאת התחברות - נסה שוב');
                     }
                 }
 
@@ -5960,6 +6146,14 @@
                     // Clean URL without reloading
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }
+
+                // Check for child join link (direct link to child login)
+                const childJoinCode = urlParams.get('childJoin');
+                if (childJoinCode && /^[A-Z0-9]{6}$/i.test(childJoinCode)) {
+                    // Switch directly to child login mode - ChildLoginForm will handle the code
+                    setMode('child-login');
+                    // Don't clean URL here - ChildLoginForm needs to read it
+                }
             }, []);
 
             const toggleDarkMode = () => {
@@ -6264,7 +6458,53 @@
 
             fish: ['סלמון טרי', 'סלמון קפוא', 'סלמון מעושן', 'פילה סלמון טרי', 'פילה סלמון קפוא', 'פילה אמנון טרי', 'פילה אמנון קפוא', 'פילה בורי טרי', 'פילה בורי קפוא', 'פילה דניס טרי', 'פילה דניס קפוא', 'טונה טרייה', 'דג שלם טרי', 'דג שלם קפוא', 'נסיכי ים', 'שרימפס קפוא', 'קלמארי קפוא', 'מולים', 'סרדינים', 'דג מעושן'],
 
-            desserts: ['מילקי', 'מילקי אוראו', 'מילקי שוקולד', 'מילקי וניל', 'מילקי קרמל', 'מילקי עוגיות', 'דנונה', 'דנונה שוקולד', 'יופלה', 'יופלה תות', 'יופלה פירות יער', 'יופלה אפרסק', 'דניאלה', 'דניאלה שוקולד', 'דניאלה וניל', 'דניאלה קרמל', 'מעדן וניל', 'מעדן שוקולד', 'מעדן קרמל', 'מעדן ביסקוויטים', 'מעדן לוטוס', 'מעדן עלית', 'מעדן שוקולד לבן', 'פטיט דנון', 'פטיט דנון תות', 'פטיט דנון שוקולד', 'אקטימל', 'אקטימל תות', 'אקטימל רימון', 'ביו דנון', 'ביו פירות', 'ביו תות', 'גו דנון', 'גו שוקולד', 'גו וניל', 'פרי גו', 'פרוטי', 'שוקו יטבתה', 'שוקו תנובה', 'מעדן יוגורט', 'מעדן תות', 'מעדן בננה', 'מוס שוקולד', 'מוס וניל', 'מוס קפה', 'מוס לימון', 'פרי גד', 'דן בראון', 'טירמיסו', 'קרם ברולה', 'פנה קוטה', 'אורז בחלב', 'סולת בחלב', 'גרידת אורז', 'סהרון', 'גו', 'מונטה', 'קינדר מילק', 'גבינה מתוקה', 'לבנה מתוקה'],
+            desserts: [
+                // מילקי
+                'מילקי', 'מילקי שוקולד', 'מילקי וניל', 'מילקי קרמל', 'מילקי עוגיות',
+                'מילקי מקופלת', 'מילקי תות', 'מילקי פיסטוק', 'מארז מילקי קייק',
+                'שמיניית מעדן מילקי עם קצפת',
+                // גמדים
+                'גמדים', 'גמדים סקוויז לדרך',
+                // דנונה ודני
+                'דנונה', 'דנונה שוקולד', 'יוגורט דנונה עם פצפוצים', 'יוגורט דנונה עם שוקולד',
+                'מעדן דני וניל', 'מעדן דני שוקולד',
+                'שמיניית מעדן דני וניל', 'שמיניית מעדן דני שוקולד',
+                'שמיניית מעדן יוגורט דנונה 3%', 'שמיניית מעדן דנונה 0%',
+                // יופלה
+                'יופלה', 'יופלה תות', 'יופלה פירות יער', 'יופלה אפרסק', 'יופלה 0%', 'יופלה 3%',
+                // דניאלה
+                'דניאלה', 'דניאלה וניל', 'דניאלה קרמל', 'מעדן דניאלה תות', 'מעדן דניאלה בננה',
+                // מעדנים כלליים
+                'מעדן וניל', 'מעדן שוקולד', 'מעדן קרמל', 'מעדן ביסקוויטים', 'מעדן לוטוס', 'מעדן שוקולד לבן',
+                'מעדן תות', 'מעדן בננה', 'מעדן יוגורט',
+                // טרה
+                'מעדן וניל טרה', 'מעדן שוקולד טרה',
+                // מולר
+                'יוגורט מולר אפרסק', 'יוגורט מולר תות', 'יוגורט מולר טבעי', 'מעדן מולר קציפה',
+                // הגולן
+                'מעדן הגולן וניל', 'מעדן הגולן שוקולד', 'מעדן הגולן קרמל',
+                // פרילי
+                'יוגורט פרילי תות', 'יוגורט פרילי אננס',
+                // יולו
+                'מעדן יולו שוקולד', 'מעדן יולו שוקולד מריר', 'מעדן יולו שוקולד לבן',
+                // קרלו
+                'מעדן קרלו וניל', 'מעדן קרלו שוקולד',
+                // ג׳לי
+                'מעדן ג׳לי תות', 'מעדן ג׳לי ענבים', 'מעדן ג׳לי לימון', 'מעדן ג׳לי אננס',
+                // מעדנים מיוחדים
+                'מעדן מלבי', 'מעדן ירח מתוק', 'מעדן סקי וניל',
+                // לבן
+                'אשל לבן 4.5%', 'גיל לבן 3%',
+                // שמנת
+                'שמנת חמוצה אורגינל 15%',
+                // באדי
+                'יוגורט באדי תות',
+                // אקטימל
+                'אקטימל', 'אקטימל תות',
+                // אחרים
+                'גו שוקולד', 'גו וניל', 'גו', 'פרוטי', 'שוקו יטבתה', 'שוקו תנובה',
+                'מוס שוקולד', 'מוס וניל', 'מוס קפה', 'מוס לימון', 'טירמיסו', 'קינדר מילק'
+            ],
 
             deli: [
                 // סלמי - לפי משקל
@@ -6771,10 +7011,57 @@
             'דבש': 29.90, 'דבש טהור': 34.90, 'סילאן': 19.90,
             'ממרח זיתים': 18.90, 'פסטו': 22.90,
 
-            // Desserts - קינוחים (expanded)
-            'מילקי': 5.90, 'דנונה': 5.50, 'יופלה': 5.90, 'שוקו יטבתה': 4.90,
-            'אגוזי לוטוס': 7.90, 'מעדן שוקולד': 6.90, 'קרם קרמל': 5.90,
-            'עוגת גבינה': 34.90, 'טירמיסו': 29.90, 'סופלה שוקולד': 24.90,
+            // Desserts - קינוחים ומעדנים
+            // מילקי
+            'מילקי': 5.90, 'מילקי שוקולד': 5.90, 'מילקי וניל': 5.90, 'מילקי קרמל': 5.90,
+            'מילקי עוגיות': 5.90, 'מילקי מקופלת': 6.90, 'מילקי תות': 5.90, 'מילקי פיסטוק': 6.90,
+            'מארז מילקי קייק': 24.90, 'שמיניית מעדן מילקי עם קצפת': 34.90,
+            // גמדים
+            'גמדים': 11.90, 'גמדים סקוויז לדרך': 13.90,
+            // דנונה ודני
+            'דנונה': 5.50, 'דנונה שוקולד': 5.50, 'יוגורט דנונה עם פצפוצים': 6.90,
+            'יוגורט דנונה עם שוקולד': 6.90, 'מעדן דני וניל': 5.90, 'מעדן דני שוקולד': 5.90,
+            'שמיניית מעדן דני וניל': 32.90, 'שמיניית מעדן דני שוקולד': 32.90,
+            'שמיניית מעדן יוגורט דנונה 3%': 29.90, 'שמיניית מעדן דנונה 0%': 29.90,
+            // יופלה
+            'יופלה': 5.90, 'יופלה תות': 5.90, 'יופלה פירות יער': 5.90,
+            'יופלה אפרסק': 5.90, 'יופלה 0%': 5.90, 'יופלה 3%': 5.90,
+            // דניאלה
+            'דניאלה': 6.90, 'דניאלה וניל': 6.90, 'דניאלה קרמל': 6.90,
+            'מעדן דניאלה תות': 6.90, 'מעדן דניאלה בננה': 6.90,
+            // טרה
+            'מעדן וניל טרה': 5.90, 'מעדן שוקולד טרה': 5.90,
+            // מולר
+            'יוגורט מולר אפרסק': 6.90, 'יוגורט מולר תות': 6.90,
+            'יוגורט מולר טבעי': 6.50, 'מעדן מולר קציפה': 7.90,
+            // הגולן
+            'מעדן הגולן וניל': 7.90, 'מעדן הגולן שוקולד': 7.90, 'מעדן הגולן קרמל': 7.90,
+            // פרילי
+            'יוגורט פרילי תות': 5.90, 'יוגורט פרילי אננס': 5.90,
+            // יולו
+            'מעדן יולו שוקולד': 6.90, 'מעדן יולו שוקולד מריר': 6.90, 'מעדן יולו שוקולד לבן': 6.90,
+            // קרלו
+            'מעדן קרלו וניל': 7.90, 'מעדן קרלו שוקולד': 7.90,
+            // ג׳לי
+            'מעדן ג׳לי תות': 4.90, 'מעדן ג׳לי ענבים': 4.90, 'מעדן ג׳לי לימון': 4.90, 'מעדן ג׳לי אננס': 4.90,
+            // מעדנים מיוחדים
+            'מעדן מלבי': 6.90, 'מעדן ירח מתוק': 5.90, 'מעדן סקי וניל': 5.90,
+            // לבן ושמנת
+            'אשל לבן 4.5%': 6.90, 'גיל לבן 3%': 5.90, 'שמנת חמוצה אורגינל 15%': 7.90,
+            // באדי
+            'יוגורט באדי תות': 5.90,
+            // אקטימל
+            'אקטימל': 6.90, 'אקטימל תות': 6.90,
+            // אחרים
+            'גו שוקולד': 5.90, 'גו וניל': 5.90, 'גו': 5.90, 'פרוטי': 4.90,
+            'שוקו יטבתה': 4.90, 'שוקו תנובה': 4.90,
+            'מעדן וניל': 5.90, 'מעדן שוקולד': 5.90, 'מעדן קרמל': 5.90,
+            'מעדן ביסקוויטים': 6.90, 'מעדן לוטוס': 7.90, 'מעדן שוקולד לבן': 6.90,
+            'מעדן תות': 5.90, 'מעדן בננה': 5.90, 'מעדן יוגורט': 5.90,
+            'מוס שוקולד': 8.90, 'מוס וניל': 8.90, 'מוס קפה': 8.90, 'מוס לימון': 8.90,
+            'טירמיסו': 29.90, 'קינדר מילק': 9.90,
+            'אגוזי לוטוס': 7.90, 'קרם קרמל': 5.90,
+            'עוגת גבינה': 34.90, 'סופלה שוקולד': 24.90,
             'פודינג': 9.90, 'ג\'לי': 4.90,
 
             // Pets - חיות מחמד
@@ -9397,6 +9684,7 @@
 
         function ShoppingList() {
             const { user } = useAuth();
+            const { childUser } = useChildAuth();
             const { family, lists, currentList, setCurrentList, logActivity } = useFamily();
             const { language, changeLanguage, t } = useLanguage();
             // Expose changeLanguage to window for accessibility modal buttons
@@ -9512,6 +9800,12 @@
             const [priceCompareResults, setPriceCompareResults] = useState(null);
             const priceVideoRef = React.useRef(null);
             const priceCanvasRef = React.useRef(null);
+            // Barcode scanner
+            const [scanMode, setScanMode] = useState('search'); // 'search', 'barcode', 'ocr'
+            const [barcodeScanning, setBarcodeScanning] = useState(false);
+            const [barcodeResult, setBarcodeResult] = useState(null);
+            const [barcodeError, setBarcodeError] = useState(null);
+            const barcodeVideoRef = React.useRef(null);
             // Full list price comparison
             const [showListComparison, setShowListComparison] = useState(false);
             const [listComparisonLoading, setListComparisonLoading] = useState(false);
@@ -9574,6 +9868,9 @@
                 highlightLinks: false,
                 cursorSize: 'normal'
             });
+            // Delete account
+            const [showDeleteAccount, setShowDeleteAccount] = useState(false);
+            const [deleteAccountLoading, setDeleteAccountLoading] = useState(false);
 
             // Escape key handler for closing modals
             useEffect(() => {
@@ -9590,7 +9887,7 @@
                         if (showPromotions) { setShowPromotions(false); return; }
                         if (showSmartAdd) { setShowSmartAdd(false); return; }
                         if (showListComparison) { setShowListComparison(false); return; }
-                        if (showPriceScanner) { setShowPriceScanner(false); return; }
+                        if (showPriceScanner) { stopPriceScanner(); return; }
                         if (showCalendar) { setShowCalendar(false); return; }
                         if (showRegulars) { setShowRegulars(false); return; }
                         if (showForgottenStats) { setShowForgottenStats(false); return; }
@@ -9859,7 +10156,7 @@
                 try {
                     await window.firestore.updateDoc(
                         window.firestore.doc(window.db, 'shopping-items', item.id),
-                        { outOfStock: true, outOfStockAt: new Date(), outOfStockBy: user.displayName || user.email }
+                        { outOfStock: true, outOfStockAt: new Date(), outOfStockBy: user?.displayName || user?.email || 'אנונימי' }
                     );
                     // Save to out of stock list for future reference
                     const newOutOfStock = [...outOfStockItems, { name: item.name, date: new Date() }];
@@ -9901,71 +10198,87 @@
             const importFromWhatsApp = async () => {
                 if (!whatsAppText.trim()) return;
 
-                // Parse WhatsApp text - split by newlines, commas, or bullet points
-                const lines = whatsAppText
-                    .split(/[\n,•\-\*]/)
-                    .map(line => line.trim())
-                    .filter(line => line.length > 0 && line.length < 50);
+                try {
+                    // Parse WhatsApp text - split by newlines, commas, or bullet points
+                    const lines = whatsAppText
+                        .split(/[\n,•\-\*]/)
+                        .map(line => line.trim())
+                        .filter(line => line.length > 0 && line.length < 50);
 
-                let addedCount = 0;
-                for (const line of lines) {
-                    // Try to extract quantity if present (e.g., "2 חלב" or "חלב x3" or "2 ק"ג בשר")
-                    let qty = 1;
-                    let productName = line;
+                    let addedCount = 0;
+                    const errors = [];
 
-                    // Match patterns like "2 חלב", "חלב x3", "2 ק"ג בשר"
-                    const qtyMatch = line.match(/^([\d.]+)\s*(.+)$/) || line.match(/^(.+?)\s*[xX×]\s*([\d.]+)$/);
-                    if (qtyMatch) {
-                        qty = parseFloat(qtyMatch[1]) || parseFloat(qtyMatch[2]) || 1;
-                        productName = (qtyMatch[2] || qtyMatch[1]).trim();
-                        // Remove unit from product name if it starts with a unit
-                        productName = productName.replace(/^(ק"ג|קג|גרם|ליטר|מ"ל|יח'|יחידות?)\s*/i, '').trim();
-                    }
+                    for (const line of lines) {
+                        try {
+                            // Try to extract quantity if present (e.g., "2 חלב" or "חלב x3" or "2 ק"ג בשר")
+                            let qty = 1;
+                            let productName = line;
 
-                    if (!productName) continue;
+                            // Match patterns like "2 חלב", "חלב x3", "2 ק"ג בשר"
+                            const qtyMatch = line.match(/^([\d.]+)\s*(.+)$/) || line.match(/^(.+?)\s*[xX×]\s*([\d.]+)$/);
+                            if (qtyMatch) {
+                                qty = parseFloat(qtyMatch[1]) || parseFloat(qtyMatch[2]) || 1;
+                                productName = (qtyMatch[2] || qtyMatch[1]).trim();
+                                // Remove unit from product name if it starts with a unit
+                                productName = productName.replace(/^(ק"ג|קג|גרם|ליטר|מ"ל|יח'|יחידות?)\s*/i, '').trim();
+                            }
 
-                    // Detect category and get appropriate unit
-                    const category = detectCategory(productName);
-                    const unit = CATEGORIES[category]?.unit || 'יח\'';
+                            if (!productName) continue;
 
-                    // Check if already exists
-                    const existing = items.find(item => item.name === productName && !item.purchased);
-                    if (existing) {
-                        // Update quantity - extract number if string
-                        let existingNum = existing.quantity;
-                        if (typeof existingNum === 'string') {
-                            const numMatch = existingNum.match(/^([\d.]+)/);
-                            existingNum = numMatch ? parseFloat(numMatch[1]) : 1;
+                            // Detect category and get appropriate unit
+                            const category = detectCategory(productName);
+                            const unit = CATEGORIES[category]?.unit || 'יח\'';
+
+                            // Check if already exists
+                            const existing = items.find(item => item.name === productName && !item.purchased);
+                            if (existing) {
+                                // Update quantity - extract number if string
+                                let existingNum = existing.quantity;
+                                if (typeof existingNum === 'string') {
+                                    const numMatch = existingNum.match(/^([\d.]+)/);
+                                    existingNum = numMatch ? parseFloat(numMatch[1]) : 1;
+                                }
+                                const newQty = (existingNum || 0) + qty;
+                                await window.firestore.updateDoc(
+                                    window.firestore.doc(window.db, 'shopping-items', existing.id),
+                                    { quantity: newQty, unit: unit, updatedAt: new Date() }
+                                );
+                            } else {
+                                // Add new item with correct unit
+                                const estimatedPrice = getEstimatedPrice(productName);
+                                await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                                    name: productName,
+                                    category: category,
+                                    quantity: qty,
+                                    unit: unit,
+                                    purchased: false,
+                                    familyId: family.id,
+                                    listId: currentList.id,
+                                    addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                                    addedByUid: childUser?.childId || user?.uid,
+                                    note: '',
+                                    price: estimatedPrice || null,
+                                    priceSource: estimatedPrice ? 'estimated' : null,
+                                    createdAt: new Date()
+                                });
+                            }
+                            addedCount++;
+                        } catch (itemError) {
+                            console.error('Error adding item:', line, itemError);
+                            errors.push(line);
                         }
-                        const newQty = (existingNum || 0) + qty;
-                        await window.firestore.updateDoc(
-                            window.firestore.doc(window.db, 'shopping-items', existing.id),
-                            { quantity: newQty, unit: unit, updatedAt: new Date() }
-                        );
-                    } else {
-                        // Add new item with correct unit
-                        const estimatedPrice = getEstimatedPrice(productName);
-                        await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
-                            name: productName,
-                            category: category,
-                            quantity: qty,
-                            unit: unit,
-                            purchased: false,
-                            familyId: family.id,
-                            listId: currentList.id,
-                            addedBy: user.displayName || user.email,
-                            addedByUid: user.uid,
-                            note: '',
-                            price: estimatedPrice || null,
-                            priceSource: estimatedPrice ? 'estimated' : null,
-                            createdAt: new Date()
-                        });
                     }
-                    addedCount++;
-                }
 
-                setWhatsAppText('');
-                setShowImportWhatsApp(false);
+                    if (errors.length > 0) {
+                        alert(`נוספו ${addedCount} מוצרים. ${errors.length} מוצרים נכשלו.`);
+                    }
+
+                    setWhatsAppText('');
+                    setShowImportWhatsApp(false);
+                } catch (error) {
+                    console.error('Error importing from WhatsApp:', error);
+                    alert('שגיאה בייבוא מוואטסאפ. נסה שוב.');
+                }
             };
 
             // ============================================
@@ -10020,8 +10333,8 @@
                                 purchased: false,
                                 familyId: family?.id,
                                 listId: currentList?.id,
-                                addedBy: user?.displayName || user?.email || 'אופליין',
-                                addedByUid: user?.uid,
+                                addedBy: childUser?.displayName || user?.displayName || user?.email || 'אופליין',
+                                addedByUid: childUser?.childId || user?.uid,
                                 note: op.note || '',
                                 price: op.price || null,
                                 priceSource: op.price ? 'estimated' : null,
@@ -10141,6 +10454,127 @@
                 }
                 setShowPriceScanner(false);
                 setScanningPrice(false);
+                // Also stop barcode scanner if running
+                stopBarcodeScanner();
+            };
+
+            // Start barcode scanner
+            const startBarcodeScanner = async () => {
+                setBarcodeScanning(true);
+                setBarcodeError(null);
+                setBarcodeResult(null);
+
+                try {
+                    // Load Quagga if needed
+                    if (!window.Quagga) {
+                        await window.loadQuagga();
+                    }
+
+                    // Start camera for barcode
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
+                    });
+
+                    if (barcodeVideoRef.current) {
+                        barcodeVideoRef.current.srcObject = stream;
+                    }
+
+                    // Initialize Quagga
+                    Quagga.init({
+                        inputStream: {
+                            type: 'LiveStream',
+                            target: barcodeVideoRef.current,
+                            constraints: {
+                                facingMode: 'environment',
+                                width: { ideal: 1280 },
+                                height: { ideal: 720 }
+                            }
+                        },
+                        decoder: {
+                            readers: ['ean_reader', 'ean_8_reader', 'upc_reader', 'upc_e_reader']
+                        },
+                        locate: true,
+                        locator: {
+                            halfSample: true,
+                            patchSize: 'medium'
+                        }
+                    }, (err) => {
+                        if (err) {
+                            console.error('Quagga init error:', err);
+                            setBarcodeError('שגיאה בהפעלת סורק הברקוד');
+                            setBarcodeScanning(false);
+                            return;
+                        }
+                        Quagga.start();
+                    });
+
+                    // Listen for barcode detection
+                    Quagga.onDetected(async (result) => {
+                        if (result && result.codeResult && result.codeResult.code) {
+                            const barcode = result.codeResult.code;
+                            console.log('Barcode detected:', barcode);
+
+                            // Stop scanning
+                            Quagga.stop();
+                            setBarcodeScanning(false);
+
+                            // Vibrate for feedback
+                            if (navigator.vibrate) navigator.vibrate(100);
+
+                            // Lookup product
+                            setBarcodeResult({ barcode, loading: true });
+                            const productInfo = await window.fetchProductByBarcode(barcode);
+
+                            if (productInfo.found && productInfo.name) {
+                                setBarcodeResult({
+                                    barcode,
+                                    loading: false,
+                                    found: true,
+                                    name: productInfo.name,
+                                    brand: productInfo.brand,
+                                    image: productInfo.image
+                                });
+                                setScannedProductName(productInfo.name);
+                            } else {
+                                setBarcodeResult({
+                                    barcode,
+                                    loading: false,
+                                    found: false
+                                });
+                                setBarcodeError('המוצר לא נמצא במאגר. נסה לחפש ידנית.');
+                            }
+
+                            // Stop camera
+                            if (barcodeVideoRef.current?.srcObject) {
+                                barcodeVideoRef.current.srcObject.getTracks().forEach(t => t.stop());
+                            }
+                        }
+                    });
+                } catch (err) {
+                    console.error('Barcode scanner error:', err);
+                    setBarcodeError('לא ניתן לגשת למצלמה');
+                    setBarcodeScanning(false);
+                }
+            };
+
+            // Stop barcode scanner
+            const stopBarcodeScanner = () => {
+                try {
+                    if (window.Quagga) {
+                        Quagga.offDetected(); // Remove listener to prevent memory leaks
+                        Quagga.stop();
+                    }
+                    if (barcodeVideoRef.current?.srcObject) {
+                        barcodeVideoRef.current.srcObject.getTracks().forEach(t => {
+                            t.enabled = false;
+                            t.stop();
+                        });
+                        barcodeVideoRef.current.srcObject = null;
+                    }
+                } catch (e) {}
+                setBarcodeScanning(false);
+                setBarcodeResult(null);
+                setBarcodeError(null);
             };
 
             // Get product suggestions for price search
@@ -10578,11 +11012,32 @@
                     const response = await fetch('/api/prices?action=promotions');
                     const data = await response.json();
                     if (data.success && data.total > 0) {
-                        setPromotionsData(data);
+                        // Filter out חצי חינם promotions (temporarily disabled)
+                        const isHaziHinam = (name) =>
+                            name?.includes('חצי חינם') ||
+                            name?.toLowerCase().includes('hatzi') ||
+                            name?.toLowerCase().includes('hazi');
+
+                        const filteredPromotions = (data.promotions || []).filter(promo =>
+                            !isHaziHinam(promo.chain_name) && !isHaziHinam(promo.chain_name_he)
+                        );
+
+                        // Also filter byChain array
+                        const filteredByChain = (data.byChain || []).filter(chain =>
+                            !isHaziHinam(chain.chain_name) && !isHaziHinam(chain.chain_name_he)
+                        );
+
+                        const filteredData = {
+                            ...data,
+                            promotions: filteredPromotions,
+                            byChain: filteredByChain,
+                            total: filteredPromotions.length
+                        };
+                        setPromotionsData(filteredData);
                         // Build lookup for product promotions - only by linked products (exact)
                         const promoLookup = {};
 
-                        (data.promotions || []).forEach(promo => {
+                        (filteredPromotions || []).forEach(promo => {
                             const promoData = {
                                 chain: promo.chain_name,
                                 description: promo.description,
@@ -10600,13 +11055,23 @@
                         });
                         setProductPromotions(promoLookup);
                     } else {
-                        // Use sample data as fallback
-                        setPromotionsData(SAMPLE_PROMOTIONS);
+                        // Use sample data as fallback (filter out חצי חינם)
+                        const filteredSample = {
+                            ...SAMPLE_PROMOTIONS,
+                            byChain: SAMPLE_PROMOTIONS.byChain.filter(c => c.chain_id !== 5),
+                            promotions: SAMPLE_PROMOTIONS.promotions.filter(p => p.chain_id !== 5)
+                        };
+                        setPromotionsData(filteredSample);
                     }
                 } catch (error) {
                     console.error('Failed to fetch promotions:', error);
-                    // Use sample data as fallback
-                    setPromotionsData(SAMPLE_PROMOTIONS);
+                    // Use sample data as fallback (filter out חצי חינם)
+                    const filteredSample = {
+                        ...SAMPLE_PROMOTIONS,
+                        byChain: SAMPLE_PROMOTIONS.byChain.filter(c => c.chain_id !== 5),
+                        promotions: SAMPLE_PROMOTIONS.promotions.filter(p => p.chain_id !== 5)
+                    };
+                    setPromotionsData(filteredSample);
                 } finally {
                     setPromotionsLoading(false);
                 }
@@ -10984,11 +11449,11 @@
             React.useEffect(() => {
                 if (!family?.id || !user) return;
 
-                const presenceRef = window.firestore.doc(window.db, 'families', family.id, 'presence', user.uid);
+                const presenceRef = window.firestore.doc(window.db, 'families', family.id, 'presence', user?.uid);
 
                 const updatePresence = () => {
                     window.firestore.setDoc(presenceRef, {
-                        name: user.displayName || user.email,
+                        name: user?.displayName || user?.email || 'אנונימי',
                         lastSeen: new Date(),
                         isActive: true
                     }, { merge: true });
@@ -11005,7 +11470,7 @@
                         const now = new Date();
                         snapshot.forEach(doc => {
                             const data = doc.data();
-                            if (doc.id !== user.uid && data.lastSeen) {
+                            if (doc.id !== user?.uid && data.lastSeen) {
                                 const lastSeen = data.lastSeen.toDate ? data.lastSeen.toDate() : new Date(data.lastSeen);
                                 if ((now - lastSeen) < 60000) { // Active in last minute
                                     editors.push(data.name);
@@ -11394,15 +11859,15 @@
                 if (!family || !user || !showChat) return;
 
                 const unreadMessages = chatMessages.filter(msg =>
-                    msg.senderUid !== user.uid &&
-                    (!msg.readBy || !msg.readBy.includes(user.uid))
+                    msg.senderUid !== user?.uid &&
+                    (!msg.readBy || !msg.readBy.includes(user?.uid))
                 );
 
                 for (const msg of unreadMessages) {
                     try {
                         await window.firestore.updateDoc(
                             window.firestore.doc(window.db, 'family-chat', msg.id),
-                            { readBy: window.firestore.arrayUnion(user.uid) }
+                            { readBy: window.firestore.arrayUnion(user?.uid) }
                         );
                     } catch (e) {
                         console.error('Error marking message as read:', e);
@@ -11444,7 +11909,7 @@
                     if (messages.length > 0 && user) {
                         const latestMessage = messages[messages.length - 1];
                         if (latestMessage.id !== lastMessageIdRef.current &&
-                            latestMessage.senderUid !== user.uid &&
+                            latestMessage.senderUid !== user?.uid &&
                             lastMessageIdRef.current !== null) {
                             // New message from someone else
                             showChatNotification(latestMessage);
@@ -11633,8 +12098,8 @@
                         quantity: 1,
                         unit,
                         purchased: false,
-                        addedBy: user.displayName || user.email,
-                        addedByUid: user.uid,
+                        addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                        addedByUid: childUser?.childId || user?.uid,
                         createdAt: new Date(),
                         updatedAt: new Date(),
                         familyId: family.id,
@@ -11862,8 +12327,8 @@
                                 purchased: false,
                                 familyId: family.id,
                                 listId: currentList.id,
-                                addedBy: user.displayName || user.email,
-                                addedByUid: user.uid,
+                                addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                                addedByUid: childUser?.childId || user?.uid,
                                 note: '🎤 נוסף בקול',
                                 price: estimatedPrice || null,
                                 priceSource: estimatedPrice ? 'estimated' : null,
@@ -11888,12 +12353,18 @@
             // Send chat message
             const sendChatMessage = async (text, photoUrl = null) => {
                 if (!text.trim() && !photoUrl) return;
+
+                // Get sender info - support both regular users and child accounts
+                const senderName = childUser?.displayName || user?.displayName || user?.email || 'אנונימי';
+                const senderUid = childUser?.childId || user?.uid || 'anonymous';
+
                 try {
                     await window.firestore.addDoc(window.firestore.collection(window.db, 'family-chat'), {
                         text: text.trim(),
                         photoUrl: photoUrl,
-                        senderName: user.displayName || user.email,
-                        senderUid: user.uid,
+                        senderName: senderName,
+                        senderUid: senderUid,
+                        isChildAccount: !!childUser && !user,
                         familyId: family.id,
                         createdAt: window.firestore.serverTimestamp()
                     });
@@ -12024,6 +12495,40 @@
                 } catch (error) {
                     console.error('שגיאה בהתנתקות:', error);
                 }
+            };
+
+            const handleDeleteAccount = async () => {
+                if (!user) return;
+
+                setDeleteAccountLoading(true);
+                try {
+                    // First, leave any family the user is part of
+                    if (family && leaveFamily) {
+                        await leaveFamily();
+                    }
+
+                    // Delete the user's Firebase Auth account (client-side method)
+                    // The user object has a delete() method in Firebase client SDK
+                    await user.delete();
+
+                    // Clear local storage
+                    localStorage.clear();
+
+                    // Reload the page
+                    window.location.reload();
+                } catch (error) {
+                    console.error('שגיאה במחיקת חשבון:', error);
+
+                    // If the error is due to requiring recent authentication
+                    if (error.code === 'auth/requires-recent-login') {
+                        alert(t('deleteAccountReauth') || 'יש להתנתק ולהתחבר מחדש לפני מחיקת החשבון');
+                        await handleLogout();
+                    } else {
+                        alert(t('deleteAccountError') || 'שגיאה במחיקת החשבון. נסה שוב.');
+                    }
+                }
+                setDeleteAccountLoading(false);
+                setShowDeleteAccount(false);
             };
 
             const toggleDarkMode = () => {
@@ -12222,8 +12727,8 @@ END:VCALENDAR`;
                     purchased: false,
                     familyId: family.id,
                     listId: currentList.id,
-                    addedBy: user.displayName || user.email,
-                    addedByUid: user.uid,
+                    addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                    addedByUid: childUser?.childId || user?.uid,
                     note: selectedNote || '',
                     price: estimatedPrice || null,
                     priceSource: estimatedPrice ? 'estimated' : null,
@@ -12261,7 +12766,7 @@ END:VCALENDAR`;
                             quantity: newItem.quantity,
                             unit: selectedUnit,
                             updatedAt: new Date(),
-                            updatedBy: user.displayName || user.email
+                            updatedBy: user?.displayName || user?.email || 'אנונימי'
                         };
                         if (selectedNote) {
                             updateData.note = existing.note ? `${existing.note}, ${selectedNote}` : selectedNote;
@@ -12281,8 +12786,8 @@ END:VCALENDAR`;
                             purchased: false,
                             familyId: family.id,
                             listId: currentList.id,
-                            addedBy: user.displayName || user.email,
-                            addedByUid: user.uid,
+                            addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                            addedByUid: childUser?.childId || user?.uid,
                             note: selectedNote || '',
                             price: estimatedPrice || null,
                             priceSource: estimatedPrice ? 'estimated' : null,
@@ -12369,8 +12874,8 @@ END:VCALENDAR`;
                         purchased: false,
                         familyId: family.id,
                         listId: currentList.id,
-                        addedBy: user.displayName || user.email,
-                        addedByUid: user.uid,
+                        addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                        addedByUid: childUser?.childId || user?.uid,
                         note: '',
                         price: estimatedPrice || null,
                         priceSource: estimatedPrice ? 'estimated' : null,
@@ -12403,8 +12908,8 @@ END:VCALENDAR`;
                                         purchased: false,
                                         familyId: family.id,
                                         listId: currentList.id,
-                                        addedBy: user.displayName || user.email,
-                                        addedByUid: user.uid,
+                                        addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                                        addedByUid: childUser?.childId || user?.uid,
                                         note: '',
                                         price: estimatedPrice || null,
                                         priceSource: estimatedPrice ? 'estimated' : null,
@@ -12431,8 +12936,8 @@ END:VCALENDAR`;
                 const item = items.find(i => i.id === id);
                 const updateData = {
                     purchased: !currentStatus,
-                    purchasedBy: !currentStatus ? (user.displayName || user.email) : null,
-                    purchasedByUid: !currentStatus ? user.uid : null,
+                    purchasedBy: !currentStatus ? (childUser?.displayName || user?.displayName || user?.email || 'אנונימי') : null,
+                    purchasedByUid: !currentStatus ? (childUser?.childId || user?.uid) : null,
                     purchasedAt: !currentStatus ? new Date() : null
                 };
 
@@ -12455,7 +12960,7 @@ END:VCALENDAR`;
                         const freshData = freshDoc.data();
 
                         // If someone else already marked it as purchased
-                        if (!currentStatus && freshData.purchased && freshData.purchasedBy !== (user.displayName || user.email)) {
+                        if (!currentStatus && freshData.purchased && freshData.purchasedBy !== (childUser?.displayName || user?.displayName || user?.email || 'אנונימי')) {
                             // Auto-unified: item already purchased by someone else
                             console.log(`Smart conflict resolved: ${item?.name} already marked by ${freshData.purchasedBy}`);
                             return; // No need to update, already done
@@ -12488,7 +12993,8 @@ END:VCALENDAR`;
                 const updateData = {
                     quantity: newQuantity,
                     updatedAt: new Date(),
-                    updatedBy: user.displayName || user.email
+                    updatedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                    updatedByUid: childUser?.childId || user?.uid
                 };
 
                 // Optimistically update local state
@@ -12532,7 +13038,7 @@ END:VCALENDAR`;
                     await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', editingItemId), {
                         name: editingItemName.trim(),
                         updatedAt: new Date(),
-                        updatedBy: user.displayName || user.email
+                        updatedBy: user?.displayName || user?.email || 'אנונימי'
                     });
                 } catch (error) {
                     console.error('שגיאה בעדכון שם:', error);
@@ -12586,16 +13092,24 @@ END:VCALENDAR`;
             const deleteAllItems = async () => {
                 try {
                     const itemCount = items.length;
-                    // Delete all items using Promise.all for parallel deletion
-                    await Promise.all(
+                    // Delete all items using Promise.allSettled for graceful partial failures
+                    const results = await Promise.allSettled(
                         items.map(item =>
                             window.firestore.deleteDoc(window.firestore.doc(window.db, 'shopping-items', item.id))
                         )
                     );
-                    await logActivity('all_items_deleted', { itemCount });
+
+                    const failedCount = results.filter(r => r.status === 'rejected').length;
+                    if (failedCount > 0) {
+                        console.error(`Failed to delete ${failedCount} items`);
+                        alert(`נמחקו ${itemCount - failedCount} מוצרים. ${failedCount} נכשלו.`);
+                    }
+
+                    await logActivity('all_items_deleted', { itemCount: itemCount - failedCount });
                     setShowDeleteAllConfirm(false);
                 } catch (error) {
                     console.error('Error deleting all items:', error);
+                    alert('שגיאה במחיקת המוצרים. נסה שוב.');
                     setShowDeleteAllConfirm(false);
                 }
             };
@@ -12606,7 +13120,7 @@ END:VCALENDAR`;
                     const item = items.find(i => i.id === id);
                     await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
                         postponedAt: new Date(),
-                        postponedBy: user.displayName || user.email
+                        postponedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי'
                     });
                     if (item) {
                         await logActivity('item_postponed', { itemName: item.name });
@@ -12671,7 +13185,7 @@ END:VCALENDAR`;
                     await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', itemId), {
                         note: note,
                         updatedAt: new Date(),
-                        updatedBy: user.displayName || user.email
+                        updatedBy: user?.displayName || user?.email || 'אנונימי'
                     });
                     if (item && note) {
                         await logActivity('note_added', { itemName: item.name });
@@ -12706,8 +13220,8 @@ END:VCALENDAR`;
                         items: purchasedItems,
                         totalAmount: parseFloat(totalAmount),
                         completedAt: new Date(),
-                        completedBy: user.displayName || user.email,
-                        completedByUid: user.uid,
+                        completedBy: user?.displayName || user?.email || 'אנונימי',
+                        completedByUid: user?.uid,
                         familyId: family.id,
                         listId: currentList.id,
                         forgottenCount: unpurchasedItems.length,
@@ -12812,7 +13326,7 @@ END:VCALENDAR`;
             };
 
             return (
-                <div className="min-h-screen gradient-bg p-4 pb-20" role="application" aria-label="ListNest - רשימת קניות">
+                <div className="min-h-screen gradient-bg p-4 pb-4" role="application" aria-label="ListNest - רשימת קניות">
                     {/* Offline Banner */}
                     {!isOnline && (
                         <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-red-500 to-teal-500 text-white py-3 px-4 z-50 shadow-lg">
@@ -13058,9 +13572,9 @@ END:VCALENDAR`;
                                         <p className="text-lg text-gray-600 dark:text-gray-300 font-medium">{t('aiThinking')}</p>
                                         <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">{t('aiAnalyzing')}</p>
                                         <div className="mt-4 flex justify-center gap-1">
-                                            <div className="w-2 h-2 bg-violet-500 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                                            <div className="w-2 h-2 bg-violet-500 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                                            <div className="w-2 h-2 bg-violet-500 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                                            <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                                            <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                                            <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                                         </div>
                                     </div>
                                 ) : aiSuggestions.length === 0 ? (
@@ -13139,6 +13653,30 @@ END:VCALENDAR`;
                                 <div className="w-10"></div>
                             </div>
 
+                            {/* Mode Tabs */}
+                            <div className="px-4 pb-2">
+                                <div className="flex bg-white/10 rounded-xl p-1">
+                                    <button
+                                        onClick={() => { setScanMode('search'); stopBarcodeScanner(); }}
+                                        className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'search' ? 'bg-white text-gray-800' : 'text-white/70'}`}
+                                    >
+                                        🔍 חיפוש
+                                    </button>
+                                    <button
+                                        onClick={() => { setScanMode('barcode'); startBarcodeScanner(); }}
+                                        className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'barcode' ? 'bg-white text-gray-800' : 'text-white/70'}`}
+                                    >
+                                        📊 ברקוד
+                                    </button>
+                                    <button
+                                        onClick={() => { setScanMode('ocr'); stopBarcodeScanner(); }}
+                                        className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'ocr' ? 'bg-white text-gray-800' : 'text-white/70'}`}
+                                    >
+                                        📷 צילום טקסט
+                                    </button>
+                                </div>
+                            </div>
+
                             <div className="flex-1 p-4 overflow-y-auto">
                                 {/* Search Input - Primary */}
                                 <div className="mb-4">
@@ -13194,8 +13732,8 @@ END:VCALENDAR`;
                                     </div>
                                 )}
 
-                                {/* Quick Popular Products */}
-                                {!scannedProductName && !priceCompareResults && (
+                                {/* Quick Popular Products - Only in search mode */}
+                                {scanMode === 'search' && !scannedProductName && !priceCompareResults && (
                                     <div className="mb-4">
                                         <div className="text-gray-400 text-sm mb-2">{t('popularProducts')}</div>
                                         <div className="flex flex-wrap gap-2">
@@ -13212,10 +13750,79 @@ END:VCALENDAR`;
                                     </div>
                                 )}
 
-                                {/* Camera Scan - Secondary Option */}
-                                {!priceCompareResults && (
-                                    <div className="mb-4 p-4 bg-white/10 rounded-xl border border-white/20">
-                                        <div className="text-white text-sm mb-3 text-center font-medium">{t('orScanProduct')}</div>
+                                {/* Barcode Scanner Mode */}
+                                {scanMode === 'barcode' && !priceCompareResults && (
+                                    <div className="mb-4 p-4 bg-white/10 rounded-xl border border-green-400/30">
+                                        <div className="text-white text-sm mb-3 text-center font-medium">📊 סרוק את הברקוד על המוצר</div>
+                                        <div className="relative aspect-video bg-black rounded-xl overflow-hidden mb-4">
+                                            <video ref={barcodeVideoRef} autoPlay playsInline className="w-full h-full object-cover" />
+                                            {/* Scanning overlay with guide lines */}
+                                            {barcodeScanning && (
+                                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                                    <div className="w-3/4 h-1/3 border-2 border-green-400 rounded-lg relative">
+                                                        <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-green-400 rounded-tl-lg"></div>
+                                                        <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-green-400 rounded-tr-lg"></div>
+                                                        <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-green-400 rounded-bl-lg"></div>
+                                                        <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-green-400 rounded-br-lg"></div>
+                                                        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-green-400/50 animate-pulse"></div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {/* Loading result overlay */}
+                                            {barcodeResult?.loading && (
+                                                <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
+                                                    <div className="text-center">
+                                                        <div className="text-3xl mb-2 animate-spin">⏳</div>
+                                                        <div className="text-white text-sm">מחפש מוצר במאגר...</div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        {/* Barcode result */}
+                                        {barcodeResult?.found && (
+                                            <div className="bg-green-500/20 border border-green-400/50 rounded-xl p-4 mb-3">
+                                                <div className="flex items-center gap-3">
+                                                    {barcodeResult.image && (
+                                                        <img src={barcodeResult.image} alt="" className="w-16 h-16 rounded-lg object-cover" />
+                                                    )}
+                                                    <div className="flex-1">
+                                                        <div className="text-white font-bold">{barcodeResult.name}</div>
+                                                        {barcodeResult.brand && <div className="text-green-300 text-sm">{barcodeResult.brand}</div>}
+                                                        <div className="text-gray-400 text-xs">ברקוד: {barcodeResult.barcode}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                        {/* Error message */}
+                                        {barcodeError && (
+                                            <div className="bg-red-500/20 border border-red-400/50 rounded-xl p-3 mb-3 text-red-300 text-sm text-center">
+                                                {barcodeError}
+                                            </div>
+                                        )}
+                                        {/* Start/Stop button */}
+                                        {!barcodeScanning ? (
+                                            <button
+                                                onClick={startBarcodeScanner}
+                                                className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                            >
+                                                📊 הפעל סורק ברקוד
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={stopBarcodeScanner}
+                                                className="w-full py-4 bg-gray-600 text-white rounded-xl font-bold text-lg"
+                                            >
+                                                ⏹ עצור סריקה
+                                            </button>
+                                        )}
+                                        <p className="text-gray-400 text-xs text-center mt-2">* כוון את הברקוד לתוך המסגרת הירוקה</p>
+                                    </div>
+                                )}
+
+                                {/* OCR Camera Scan Mode */}
+                                {scanMode === 'ocr' && !priceCompareResults && (
+                                    <div className="mb-4 p-4 bg-white/10 rounded-xl border border-cyan-400/30">
+                                        <div className="text-white text-sm mb-3 text-center font-medium">📷 צלם את שם המוצר</div>
                                         <div className="relative aspect-video bg-black rounded-xl overflow-hidden mb-4">
                                             <video ref={priceVideoRef} autoPlay playsInline className="w-full h-full object-cover" />
                                             <canvas ref={priceCanvasRef} className="hidden" />
@@ -14648,26 +15255,26 @@ END:VCALENDAR`;
                                         </div>
                                     ) : (
                                         chatMessages.map(msg => {
-                                            const isMe = msg.senderUid === user.uid;
+                                            const isMe = msg.senderUid === (childUser?.childId || user?.uid);
                                             return (
-                                                <div key={msg.id} className={`flex ${isMe ? 'justify-start' : 'justify-end'} items-end gap-2`}>
-                                                    {isMe && (
-                                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                                                <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'} items-end gap-2`}>
+                                                        {!isMe && (
+                                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                                                             {(msg.senderName || '?')[0]}
                                                         </div>
                                                     )}
-                                                    <div className={`max-w-[75%] ${isMe ? 'order-2' : ''}`}>
+                                                    <div className="max-w-[75%]">
                                                         {!isMe && <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 mr-2 font-medium">{msg.senderName}</p>}
                                                         <div className={`rounded-2xl p-3 shadow-sm ${
                                                             isMe
-                                                                ? 'bg-indigo-500 text-white rounded-bl-md'
-                                                                : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-white rounded-br-md border border-gray-100 dark:border-gray-600'
+                                                                ? 'bg-indigo-500 text-white rounded-br-md'
+                                                                : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-md border border-gray-100 dark:border-gray-600'
                                                         }`}>
                                                             {msg.photoUrl && (
                                                                 <img src={msg.photoUrl} alt="תמונה" className="rounded-xl mb-2 max-w-full cursor-pointer hover:opacity-90 shadow-sm" onClick={() => window.open(msg.photoUrl, '_blank')} />
                                                             )}
                                                             {msg.text && <p className="text-sm leading-relaxed">{msg.text}</p>}
-                                                            <div className={`flex items-center gap-1 mt-1.5 ${isMe ? 'justify-start' : 'justify-end'}`}>
+                                                            <div className={`flex items-center gap-1 mt-1.5 ${isMe ? 'justify-end' : 'justify-start'}`}>
                                                                 <p className={`text-xs ${isMe ? 'text-indigo-200' : 'text-gray-400'}`}>
                                                                     {msg.createdAt?.toDate?.().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }) || ''}
                                                                 </p>
@@ -14679,8 +15286,8 @@ END:VCALENDAR`;
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    {!isMe && (
-                                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                                                    {isMe && (
+                                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                                                             {(msg.senderName || '?')[0]}
                                                         </div>
                                                     )}
@@ -14721,8 +15328,8 @@ END:VCALENDAR`;
                                             onClick={() => sendChatMessage(chatInput, capturedPhoto)}
                                             className="w-11 h-11 bg-indigo-500 hover:bg-indigo-600 rounded-xl flex items-center justify-center text-white transition-all shadow-md hover:shadow-lg"
                                         >
-                                            <svg className="w-5 h-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l-7 7 7 7" />
                                             </svg>
                                         </button>
                                     </div>
@@ -14762,11 +15369,17 @@ END:VCALENDAR`;
                                     <div>
                                         <h1 className="text-2xl font-bold text-gradient">ListNest</h1>
                                         <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                            <button onClick={() => setShowFamilySettings(true)} className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300 hover:scale-105 transition-transform cursor-pointer">
-                                                👨‍👩‍👧‍👦 {family?.name}
-                                            </button>
+                                            {childUser ? (
+                                                <span className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300">
+                                                    👨‍👩‍👧‍👦 {family?.name}
+                                                </span>
+                                            ) : (
+                                                <button onClick={() => setShowFamilySettings(true)} className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300 hover:scale-105 transition-transform cursor-pointer">
+                                                    👨‍👩‍👧‍👦 {family?.name}
+                                                </button>
+                                            )}
                                             <span className="px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-                                                👤 {user.displayName || user.email}
+                                                👤 {childUser?.displayName || user?.displayName || user?.email || 'אנונימי'}
                                             </span>
                                         </div>
                                     </div>
@@ -14835,6 +15448,17 @@ END:VCALENDAR`;
                                                             <div className="font-medium">{t('logoutButton')}</div>
                                                         </div>
                                                     </button>
+                                                    {!childUser && (
+                                                        <button
+                                                            onClick={() => { setShowDeleteAccount(true); setShowSettings(false); }}
+                                                            className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors border-t border-gray-100 dark:border-gray-700 text-red-700 dark:text-red-500"
+                                                        >
+                                                            <span className="text-xl">🗑️</span>
+                                                            <div className="flex-1">
+                                                                <div className="font-medium">{t('deleteAccount')}</div>
+                                                            </div>
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </>
                                         )}
@@ -15011,7 +15635,7 @@ END:VCALENDAR`;
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                                     <div className="text-2xl mb-1 relative">
                                         💬
-                                        {chatMessages.some(msg => msg.senderUid !== user.uid && (!msg.readBy || !msg.readBy.includes(user.uid))) && (
+                                        {chatMessages.some(msg => msg.senderUid !== user?.uid && (!msg.readBy || !msg.readBy.includes(user?.uid))) && (
                                             <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
                                         )}
                                     </div>
@@ -15023,21 +15647,41 @@ END:VCALENDAR`;
                             <div className="mt-3">
                                 <button
                                     onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
-                                    className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                    className="w-full relative overflow-hidden bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
                                 >
-                                    <span className="text-2xl">🤖</span>
-                                    <span>{t('smartAssistant')}</span>
-                                    <span className="text-lg">✨</span>
+                                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')] opacity-50"></div>
+                                    <div className="relative flex items-center justify-center gap-4">
+                                        <span className="text-3xl">🤖</span>
+                                        <div className="text-center">
+                                            <div className="text-lg font-bold">{t('smartAssistant')}</div>
+                                            <div className="text-sm opacity-90">המלצות חכמות לרשימה שלך</div>
+                                        </div>
+                                        <span className="text-3xl">✨</span>
+                                    </div>
                                 </button>
                             </div>
 
                             <div className="mt-3">
                                 <button onClick={() => setShowForgottenStats(true)}
-                                    className="w-full bg-gradient-to-r from-rose-400 to-pink-500 text-white px-4 py-3 rounded-lg hover:from-rose-500 hover:to-pink-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
-                                    <span>🧠</span>
-                                    <span>{t('whatForgot')}</span>
+                                    className="w-full relative overflow-hidden bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
+                                >
+                                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')] opacity-50"></div>
+                                    <div className="relative flex items-center justify-center gap-4">
+                                        <span className="text-3xl">🧠</span>
+                                        <div className="text-center">
+                                            <div className="text-lg font-bold">{t('whatForgot')}</div>
+                                            <div className="text-sm opacity-90">תזכורות חכמות למוצרים קבועים</div>
+                                        </div>
+                                        {shoppingStreak > 0 ? (
+                                            <span className="text-2xl">🔥</span>
+                                        ) : (
+                                            <span className="text-3xl">💡</span>
+                                        )}
+                                    </div>
                                     {shoppingStreak > 0 && (
-                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">🔥 {shoppingStreak}</span>
+                                        <span className="absolute top-2 left-2 bg-white text-cyan-600 text-xs font-bold px-2 py-1 rounded-full">
+                                            {shoppingStreak} ברצף
+                                        </span>
                                     )}
                                 </button>
                             </div>
@@ -15299,7 +15943,19 @@ END:VCALENDAR`;
                                                     <span className="text-lg">📊</span>
                                                 </div>
                                                 <div className="flex flex-col gap-0.5 px-1">
-                                                    <span className="text-xs text-gray-500 dark:text-gray-400">{t('priceDisclaimer')}</span>
+                                                    <div className="flex items-center gap-1">
+                                                        <span className="text-xs text-gray-500 dark:text-gray-400">{t('priceDisclaimer')}</span>
+                                                        <button
+                                                            onClick={() => {
+                                                                const chains = ['שופרסל', 'רמי לוי', 'יינות ביתן', 'מגה', 'ויקטורי'];
+                                                                alert(`הרשתות שמהן נלקח הממוצע:\n\n${chains.map(c => '• ' + c).join('\n')}`);
+                                                            }}
+                                                            className="w-5 h-5 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-xs font-bold flex items-center justify-center hover:bg-teal-500 hover:text-white transition-all"
+                                                            title="מאיזה רשתות?"
+                                                        >
+                                                            i
+                                                        </button>
+                                                    </div>
                                                     <button
                                                         onClick={() => setShowListComparison(true)}
                                                         className="text-xs text-teal-600 dark:text-teal-400 hover:underline text-right"
@@ -15486,6 +16142,12 @@ END:VCALENDAR`;
                                                                 {item.outOfStock && (
                                                                     <span className="item-status postponed">🚫 {t('outOfStockStatus')}</span>
                                                                 )}
+                                                                {/* Show who added the item */}
+                                                                {item.addedBy && !item.purchased && (
+                                                                    <span className="text-[10px] text-gray-400 dark:text-gray-500">
+                                                                        👤 {item.addedBy}
+                                                                    </span>
+                                                                )}
                                                             </div>
                                                         </div>
 
@@ -15591,8 +16253,13 @@ END:VCALENDAR`;
                             </div>
                         )}
 
+                        {/* Footer - Creator Attribution */}
+                        <div className="text-center text-gray-400 dark:text-gray-500 text-xs py-3 mt-4">
+                            <p>© {new Date().getFullYear()} ListNest • נוצר על ידי <span className="text-teal-600 dark:text-teal-400 font-medium">יוסף גידניאן</span></p>
+                        </div>
+
                         {/* Bottom spacing for sticky bar */}
-                        <div className="h-24"></div>
+                        <div className="h-20"></div>
                     </div>
 
                     {/* Sticky Add Bar */}
@@ -15913,12 +16580,16 @@ END:VCALENDAR`;
                                         </ul>
                                     </div>
                                     <div className="bg-pink-50 dark:bg-pink-900/30 rounded-xl p-4">
-                                        <h3 className="font-bold text-pink-800 dark:text-pink-200 mb-2">👶 חשבונות ילדים</h3>
-                                        <ul className="text-sm text-pink-700 dark:text-pink-300 space-y-2 list-disc list-inside">
-                                            <li><strong>ילדים צעירים</strong> - התחברות עם קוד PIN בלי צורך במייל</li>
-                                            <li><strong>נערים בוגרים</strong> - התחברות עם מייל + הרשאות מורחבות</li>
-                                            <li>צור חשבון ילד מהגדרות המשפחה או שתף QR להצטרפות מהירה</li>
-                                        </ul>
+                                        <h3 className="font-bold text-pink-800 dark:text-pink-200 mb-2">👶 הוספת ילד בלי מייל</h3>
+                                        <div className="text-sm text-pink-700 dark:text-pink-300 space-y-1">
+                                            <p className="font-medium mb-2">איך מוסיפים ילד:</p>
+                                            <p>1️⃣ לחץ על שם המשפחה למעלה</p>
+                                            <p>2️⃣ גלול ל"חשבונות ילדים"</p>
+                                            <p>3️⃣ לחץ "➕ הוסף חשבון ילד"</p>
+                                            <p>4️⃣ הזן שם + קוד PIN (4 ספרות)</p>
+                                            <p>5️⃣ שלח קישור לילד בוואטסאפ</p>
+                                            <p className="mt-2 text-xs opacity-80">💡 הילד לוחץ על הקישור → בוחר שמו → מזין PIN → מחובר!</p>
+                                        </div>
                                     </div>
                                     <button onClick={() => { setShowHelp(false); setShowFeedback(true); }}
                                         className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold hover:opacity-90 transition-opacity">
@@ -16012,8 +16683,8 @@ END:VCALENDAR`;
                                             </ul>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(0)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">← הקודם</button>
-                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{t('next')} →</button>
+                                            <button onClick={() => setOnboardingStep(0)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">הקודם →</button>
+                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">← {t('next')}</button>
                                         </div>
                                     </div>
                                 )}
@@ -16030,8 +16701,8 @@ END:VCALENDAR`;
                                             </ul>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(1)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">← הקודם</button>
-                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{t('next')} →</button>
+                                            <button onClick={() => setOnboardingStep(1)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">הקודם →</button>
+                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">← {t('next')}</button>
                                         </div>
                                     </div>
                                 )}
@@ -16049,26 +16720,46 @@ END:VCALENDAR`;
                                             </ul>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">← הקודם</button>
-                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{t('next')} →</button>
+                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">הקודם →</button>
+                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">← {t('next')}</button>
                                         </div>
                                     </div>
                                 )}
                                 {onboardingStep === 4 && (
                                     <div className="p-6">
                                         <div className="text-4xl mb-3 text-center">👶</div>
-                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('childAccounts')}</h3>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">הוספת ילד בלי מייל</h3>
                                         <div className="bg-pink-50 dark:bg-pink-900/30 rounded-xl p-4 mb-4">
-                                            <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <li>👶 <strong>ילדים צעירים:</strong> התחברות עם קוד PIN בלבד (בלי מייל)</li>
-                                                <li>🧑 <strong>נערים בוגרים:</strong> התחברות עם מייל + הרשאות ניהול מורחבות</li>
-                                                <li>📱 <strong>QR מהיר:</strong> שתף QR לילד להצטרפות מיידית</li>
-                                                <li>🔒 <strong>אבטחה:</strong> איפוס PIN ומחיקת חשבון מהגדרות המשפחה</li>
-                                            </ul>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 text-center">ילדים יכולים להתחבר עם קוד PIN בלבד - בלי צורך במייל!</p>
+                                            <div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                                                <div className="flex items-start gap-2">
+                                                    <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">1</span>
+                                                    <span>לחץ על <strong>שם המשפחה</strong> למעלה</span>
+                                                </div>
+                                                <div className="flex items-start gap-2">
+                                                    <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">2</span>
+                                                    <span>גלול למטה ל<strong>"חשבונות ילדים"</strong></span>
+                                                </div>
+                                                <div className="flex items-start gap-2">
+                                                    <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">3</span>
+                                                    <span>לחץ <strong>"➕ הוסף חשבון ילד"</strong></span>
+                                                </div>
+                                                <div className="flex items-start gap-2">
+                                                    <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">4</span>
+                                                    <span>הזן <strong>שם הילד</strong> + <strong>קוד PIN</strong> (4 ספרות)</span>
+                                                </div>
+                                                <div className="flex items-start gap-2">
+                                                    <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">5</span>
+                                                    <span>שלח <strong>קישור לילד</strong> (WhatsApp/העתק)</span>
+                                                </div>
+                                            </div>
+                                            <div className="mt-3 p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-xs text-green-700 dark:text-green-300 text-center">
+                                                💡 הילד לוחץ על הקישור → בוחר את שמו → מזין PIN → מחובר!
+                                            </div>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">← הקודם</button>
-                                            <button onClick={() => setOnboardingStep(5)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{t('next')} →</button>
+                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">הקודם →</button>
+                                            <button onClick={() => setOnboardingStep(5)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">← {t('next')}</button>
                                         </div>
                                     </div>
                                 )}
@@ -16086,8 +16777,8 @@ END:VCALENDAR`;
                                             </ul>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">← הקודם</button>
-                                            <button onClick={() => setOnboardingStep(6)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{t('next')} →</button>
+                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">הקודם →</button>
+                                            <button onClick={() => setOnboardingStep(6)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">← {t('next')}</button>
                                         </div>
                                     </div>
                                 )}
@@ -16131,10 +16822,36 @@ END:VCALENDAR`;
                         <span className="text-lg opacity-70">♿</span>
                     </button>
 
-                    {/* Footer - Creator Attribution */}
-                    <footer className="text-center text-gray-400 dark:text-gray-500 text-xs py-2 mb-20">
-                        <p>© {new Date().getFullYear()} ListNest • נוצר על ידי <span className="text-teal-600 dark:text-teal-400 font-medium">יוסף גידניאן</span></p>
-                    </footer>
+                    {/* Delete Account Confirmation Modal */}
+                    {showDeleteAccount && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10003] flex items-center justify-center p-4" onClick={() => setShowDeleteAccount(false)}>
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm" onClick={e => e.stopPropagation()}>
+                                <div className="p-6 text-center">
+                                    <div className="text-5xl mb-4">⚠️</div>
+                                    <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{t('deleteAccountTitle')}</h2>
+                                    <p className="text-gray-600 dark:text-gray-300 mb-2">{t('deleteAccountWarning')}</p>
+                                    <p className="text-red-600 dark:text-red-400 text-sm font-medium mb-6">{t('deleteAccountPermanent')}</p>
+
+                                    <div className="flex gap-3">
+                                        <button
+                                            onClick={() => setShowDeleteAccount(false)}
+                                            className="flex-1 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                                        >
+                                            {t('cancel')}
+                                        </button>
+                                        <button
+                                            onClick={handleDeleteAccount}
+                                            disabled={deleteAccountLoading}
+                                            className="flex-1 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors disabled:opacity-50"
+                                        >
+                                            {deleteAccountLoading ? '⏳' : '🗑️'} {t('deleteAccount')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     </main>
                 </div>
             );
