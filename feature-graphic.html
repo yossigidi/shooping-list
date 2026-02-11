@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ListNest - Feature Graphic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heebo', sans-serif;
+        }
+
+        body {
+            background: #1a1a2e;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .instructions {
+            color: #a0a0a0;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Feature Graphic - exactly 1024x500 */
+        .feature-graphic {
+            width: 1024px;
+            height: 500px;
+            background: linear-gradient(135deg, #0D9488 0%, #14B8A6 50%, #2DD4BF 100%);
+            border-radius: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* Background pattern */
+        .feature-graphic::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
+
+        /* Floating icons */
+        .floating-icons {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .float-icon {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.15;
+        }
+
+        /* Content */
+        .fg-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            height: 100%;
+            align-items: center;
+            padding: 0 60px;
+        }
+
+        .fg-text {
+            flex: 1;
+            color: white;
+            text-align: right;
+        }
+
+        .fg-logo {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .fg-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+        }
+
+        .fg-subtitle {
+            font-size: 1.5rem;
+            font-weight: 500;
+            opacity: 0.95;
+            margin-bottom: 25px;
+        }
+
+        .fg-features {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .fg-feature {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Phone mockup */
+        .fg-phone {
+            width: 200px;
+            height: 400px;
+            background: linear-gradient(145deg, #2d2d44, #1a1a2e);
+            border-radius: 30px;
+            padding: 8px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            transform: rotate(-5deg);
+            margin-left: 40px;
+        }
+
+        .fg-phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #F0FDFA;
+            border-radius: 22px;
+            overflow: hidden;
+        }
+
+        .fg-phone-header {
+            background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+            padding: 30px 12px 10px;
+            color: white;
+        }
+
+        .fg-phone-header h3 {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .fg-phone-content {
+            padding: 10px;
+        }
+
+        .fg-item {
+            background: white;
+            border-radius: 10px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .fg-item-check {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #14B8A6;
+            border-radius: 50%;
+        }
+
+        .fg-item-check.done {
+            background: #14B8A6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.6rem;
+        }
+
+        .fg-item.purchased {
+            opacity: 0.5;
+        }
+
+        /* Alternative designs */
+        .design-selector {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .design-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .design-btn.active {
+            background: #14B8A6;
+        }
+
+        /* Design 2 */
+        .feature-graphic.design2 {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+        }
+
+        .feature-graphic.design2 .fg-feature {
+            background: rgba(20, 184, 166, 0.3);
+            border: 1px solid rgba(20, 184, 166, 0.5);
+        }
+
+        /* Design 3 */
+        .feature-graphic.design3 {
+            background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
+        }
+
+        .all-designs {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .design-label {
+            color: #a0a0a0;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🖼️ Feature Graphic לגוגל פליי</h1>
+    <p class="instructions">גודל: 1024 x 500 פיקסלים<br>השתמש ב-Cmd+Shift+4 (Mac) או Win+Shift+S (Windows) לצילום מסך</p>
+
+    <div class="all-designs">
+        <!-- Design 1: Teal gradient -->
+        <div>
+            <div class="design-label">עיצוב 1: טורקיז (מומלץ - מתאים לצבע האפליקציה)</div>
+            <div class="feature-graphic">
+                <div class="floating-icons">
+                    <span class="float-icon" style="top: 10%; left: 5%;">🛒</span>
+                    <span class="float-icon" style="top: 60%; left: 15%;">🥛</span>
+                    <span class="float-icon" style="top: 30%; left: 85%;">🍎</span>
+                    <span class="float-icon" style="top: 75%; left: 75%;">🥖</span>
+                    <span class="float-icon" style="top: 15%; left: 45%;">👨‍👩‍👧‍👦</span>
+                    <span class="float-icon" style="top: 80%; left: 45%;">💬</span>
+                </div>
+                <div class="fg-content">
+                    <div class="fg-text">
+                        <div class="fg-logo">🛒</div>
+                        <div class="fg-title">ListNest</div>
+                        <div class="fg-subtitle">רשימת קניות חכמה לכל המשפחה</div>
+                        <div class="fg-features">
+                            <div class="fg-feature">👨‍👩‍👧‍👦 שיתוף בזמן אמת</div>
+                            <div class="fg-feature">💰 השוואת מחירים</div>
+                            <div class="fg-feature">🎤 הוספה קולית</div>
+                            <div class="fg-feature">📱 עובד אופליין</div>
+                        </div>
+                    </div>
+                    <div class="fg-phone">
+                        <div class="fg-phone-screen">
+                            <div class="fg-phone-header">
+                                <h3>🏠 משפחת כהן</h3>
+                            </div>
+                            <div class="fg-phone-content">
+                                <div class="fg-item">
+                                    <div class="fg-item-check"></div>
+                                    <span>🥛</span>
+                                    <span>חלב</span>
+                                </div>
+                                <div class="fg-item">
+                                    <div class="fg-item-check"></div>
+                                    <span>🍞</span>
+                                    <span>לחם</span>
+                                </div>
+                                <div class="fg-item">
+                                    <div class="fg-item-check"></div>
+                                    <span>🧀</span>
+                                    <span>גבינה</span>
+                                </div>
+                                <div class="fg-item purchased">
+                                    <div class="fg-item-check done">✓</div>
+                                    <span>🥚</span>
+                                    <span style="text-decoration: line-through;">ביצים</span>
+                                </div>
+                                <div class="fg-item purchased">
+                                    <div class="fg-item-check done">✓</div>
+                                    <span>🧈</span>
+                                    <span style="text-decoration: line-through;">חמאה</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design 2: Dark blue -->
+        <div>
+            <div class="design-label">עיצוב 2: כחול כהה (פרמיום)</div>
+            <div class="feature-graphic design2">
+                <div class="floating-icons">
+                    <span class="float-icon" style="top: 10%; left: 5%;">🛒</span>
+                    <span class="float-icon" style="top: 60%; left: 15%;">🥛</span>
+                    <span class="float-icon" style="top: 30%; left: 85%;">🍎</span>
+                    <span class="float-icon" style="top: 75%; left: 75%;">🥖</span>
+                    <span class="float-icon" style="top: 15%; left: 45%;">👨‍👩‍👧‍👦</span>
+                    <span class="float-icon" style="top: 80%; left: 45%;">💬</span>
+                </div>
+                <div class="fg-content">
+                    <div class="fg-text">
+                        <div class="fg-logo">🛒</div>
+                        <div class="fg-title">ListNest</div>
+                        <div class="fg-subtitle">רשימת קניות חכמה לכל המשפחה</div>
+                        <div class="fg-features">
+                            <div class="fg-feature">👨‍👩‍👧‍👦 שיתוף בזמן אמת</div>
+                            <div class="fg-feature">💰 השוואת מחירים</div>
+                            <div class="fg-feature">🎤 הוספה קולית</div>
+                            <div class="fg-feature">📱 עובד אופליין</div>
+                        </div>
+                    </div>
+                    <div class="fg-phone">
+                        <div class="fg-phone-screen">
+                            <div class="fg-phone-header">
+                                <h3>🏠 משפחת כהן</h3>
+                            </div>
+                            <div class="fg-phone-content">
+                                <div class="fg-item">
+                                    <div class="fg-item-check"></div>
+                                    <span>🥛</span>
+                                    <span>חלב</span>
+                                </div>
+                                <div class="fg-item">
+                                    <div class="fg-item-check"></div>
+                                    <span>🍞</span>
+                                    <span>לחם</span>
+                                </div>
+                                <div class="fg-item">
+                                    <div class="fg-item-check"></div>
+                                    <span>🧀</span>
+                                    <span>גבינה</span>
+                                </div>
+                                <div class="fg-item purchased">
+                                    <div class="fg-item-check done">✓</div>
+                                    <span>🥚</span>
+                                    <span style="text-decoration: line-through;">ביצים</span>
+                                </div>
+                                <div class="fg-item purchased">
+                                    <div class="fg-item-check done">✓</div>
+                                    <span>🧈</span>
+                                    <span style="text-decoration: line-through;">חמאה</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design 3: Purple -->
+        <div>
+            <div class="design-label">עיצוב 3: סגול (יצירתי)</div>
+            <div class="feature-graphic design3">
+                <div class="floating-icons">
+                    <span class="float-icon" style="top: 10%; left: 5%;">🛒</span>
+                    <span class="float-icon" style="top: 60%; left: 15%;">🥛</span>
+                    <span class="float-icon" style="top: 30%; left: 85%;">🍎</span>
+                    <span class="float-icon" style="top: 75%; left: 75%;">🥖</span>
+                    <span class="float-icon" style="top: 15%; left: 45%;">👨‍👩‍👧‍👦</span>
+                    <span class="float-icon" style="top: 80%; left: 45%;">💬</span>
+                </div>
+                <div class="fg-content">
+                    <div class="fg-text">
+                        <div class="fg-logo">🛒</div>
+                        <div class="fg-title">ListNest</div>
+                        <div class="fg-subtitle">רשימת קניות חכמה לכל המשפחה</div>
+                        <div class="fg-features">
+                            <div class="fg-feature">👨‍👩‍👧‍👦 שיתוף בזמן אמת</div>
+                            <div class="fg-feature">💰 השוואת מחירים</div>
+                            <div class="fg-feature">🎤 הוספה קולית</div>
+                            <div class="fg-feature">📱 עובד אופליין</div>
+                        </div>
+                    </div>
+                    <div class="fg-phone">
+                        <div class="fg-phone-screen">
+                            <div class="fg-phone-header">
+                                <h3>🏠 משפחת כהן</h3>
+                            </div>
+                            <div class="fg-phone-content">
+                                <div class="fg-item">
+                                    <div class="fg-item-check"></div>
+                                    <span>🥛</span>
+                                    <span>חלב</span>
+                                </div>
+                                <div class="fg-item">
+                                    <div class="fg-item-check"></div>
+                                    <span>🍞</span>
+                                    <span>לחם</span>
+                                </div>
+                                <div class="fg-item">
+                                    <div class="fg-item-check"></div>
+                                    <span>🧀</span>
+                                    <span>גבינה</span>
+                                </div>
+                                <div class="fg-item purchased">
+                                    <div class="fg-item-check done">✓</div>
+                                    <span>🥚</span>
+                                    <span style="text-decoration: line-through;">ביצים</span>
+                                </div>
+                                <div class="fg-item purchased">
+                                    <div class="fg-item-check done">✓</div>
+                                    <span>🧈</span>
+                                    <span style="text-decoration: line-through;">חמאה</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p style="color: #6b7280; margin-top: 40px; text-align: center;">
+        💡 בחר את העיצוב שאתה מעדיף וצלם מסך של האזור בגודל 1024x500<br>
+        או השתמש בכלי כמו Figma/Canva לעריכה נוספת
+    </p>
+</body>
+</html>

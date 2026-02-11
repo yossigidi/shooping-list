@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ListNest - Screenshot Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heebo', sans-serif;
+        }
+
+        body {
+            background: #1a1a2e;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .instructions {
+            color: #a0a0a0;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1rem;
+        }
+
+        .screenshots-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .screenshot-container {
+            position: relative;
+        }
+
+        .screenshot-label {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Phone frame - Google Play size 1080x1920 scaled to 270x480 for display */
+        .phone-frame {
+            width: 270px;
+            height: 540px;
+            background: linear-gradient(145deg, #2d2d44, #1a1a2e);
+            border-radius: 36px;
+            padding: 8px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 20px;
+            background: #1a1a2e;
+            border-radius: 10px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #F0FDFA;
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* App UI Components */
+        .app-header {
+            background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+            padding: 35px 16px 12px;
+            color: white;
+        }
+
+        .app-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-header .subtitle {
+            font-size: 0.7rem;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        .app-content {
+            padding: 12px;
+            height: calc(100% - 80px);
+            overflow: hidden;
+        }
+
+        /* Shopping List Items */
+        .list-item {
+            background: white;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            font-size: 0.8rem;
+        }
+
+        .list-item.purchased {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        .item-checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #14B8A6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .item-checkbox.checked {
+            background: #14B8A6;
+            color: white;
+        }
+
+        .item-emoji {
+            font-size: 1.2rem;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .item-meta {
+            font-size: 0.65rem;
+            color: #6b7280;
+        }
+
+        .item-price {
+            font-size: 0.75rem;
+            color: #14B8A6;
+            font-weight: 600;
+        }
+
+        /* Category Header */
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.8rem;
+        }
+
+        /* Add Button */
+        .add-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.6rem;
+            color: #9ca3af;
+        }
+
+        .nav-item.active {
+            color: #14B8A6;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 2px;
+        }
+
+        /* QR Code */
+        .qr-container {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            background: white;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+        }
+
+        .qr-code svg {
+            width: 130px;
+            height: 130px;
+        }
+
+        .qr-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .qr-code-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #14B8A6;
+            margin-bottom: 8px;
+        }
+
+        .qr-hint {
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
+        /* Chat */
+        .chat-message {
+            max-width: 80%;
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .chat-message.sent {
+            background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+            color: white;
+            margin-right: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-message.received {
+            background: white;
+            color: #1f2937;
+            margin-left: auto;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .chat-sender {
+            font-size: 0.6rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            opacity: 0.8;
+        }
+
+        .chat-input {
+            position: absolute;
+            bottom: 60px;
+            left: 12px;
+            right: 12px;
+            background: white;
+            border-radius: 25px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .chat-input input {
+            flex: 1;
+            border: none;
+            font-size: 0.75rem;
+            outline: none;
+        }
+
+        .chat-input .send-btn {
+            width: 32px;
+            height: 32px;
+            background: #14B8A6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Price Comparison */
+        .price-card {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .price-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .price-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: #f3f4f6;
+        }
+
+        .price-product-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1f2937;
+        }
+
+        .store-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.75rem;
+        }
+
+        .store-price:last-child {
+            border-bottom: none;
+        }
+
+        .store-name {
+            color: #6b7280;
+        }
+
+        .store-price-value {
+            font-weight: 700;
+            color: #14B8A6;
+        }
+
+        .store-price-value.cheapest {
+            color: #10b981;
+            background: #d1fae5;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        /* Child Login */
+        .child-login {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .child-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .child-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        .pin-input {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pin-digit {
+            width: 45px;
+            height: 55px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .pin-digit.filled {
+            border-color: #14B8A6;
+            background: #f0fdfa;
+        }
+
+        .child-btn {
+            background: linear-gradient(135deg, #14B8A6 0%, #0D9488 100%);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Voice Input */
+        .voice-modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            width: 85%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .voice-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+        }
+
+        .voice-text {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .voice-result {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        /* Barcode Scanner */
+        .scanner-overlay {
+            position: absolute;
+            inset: 0;
+            background: #000;
+        }
+
+        .scanner-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 120px;
+            border: 3px solid #14B8A6;
+            border-radius: 12px;
+        }
+
+        .scanner-line {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            right: 10px;
+            height: 2px;
+            background: #ef4444;
+            animation: scan 2s infinite;
+        }
+
+        @keyframes scan {
+            0%, 100% { top: 20%; }
+            50% { top: 80%; }
+        }
+
+        .scanner-hint {
+            position: absolute;
+            bottom: 100px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        /* Marketing text overlay */
+        .marketing-banner {
+            position: absolute;
+            top: 0;
+            left: -20px;
+            right: -20px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            padding: 60px 20px 20px;
+            text-align: center;
+        }
+
+        .marketing-banner h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .marketing-banner p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* Screenshot with marketing frame */
+        .marketing-frame {
+            background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 50%, #1a1a2e 50%);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .marketing-frame h3 {
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .marketing-frame p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.7rem;
+            margin-bottom: 15px;
+        }
+
+        /* Download buttons */
+        .download-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #14B8A6;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .download-btn:hover {
+            background: #0D9488;
+        }
+
+        /* Individual screenshot for saving */
+        .save-screenshot {
+            width: 1080px;
+            height: 1920px;
+            position: fixed;
+            top: -9999px;
+            left: -9999px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🛒 ListNest - יצירת צילומי מסך</h1>
+    <p class="instructions">
+        לחץ לחיצה ימנית על כל צילום מסך ובחר "שמור תמונה" או השתמש בכלי צילום מסך<br>
+        גודל מומלץ לגוגל פליי: 1080x1920 | לאפל: 1284x2778
+    </p>
+
+    <div class="screenshots-grid">
+        <!-- Screenshot 1: Main List -->
+        <div class="screenshot-container">
+            <div class="screenshot-label">1. רשימת קניות ראשית</div>
+            <div class="marketing-frame">
+                <h3>🛒 ניהול רשימות בקלות</h3>
+                <p>הוסף, סמן ומחק מוצרים בהחלקה</p>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="app-header">
+                            <h2>🏠 משפחת כהן</h2>
+                            <div class="subtitle">5 מוצרים • 2 נקנו</div>
+                        </div>
+                        <div class="app-content">
+                            <div class="category-header">🥛 מוצרי חלב</div>
+                            <div class="list-item">
+                                <div class="item-checkbox"></div>
+                                <span class="item-emoji">🥛</span>
+                                <div class="item-details">
+                                    <div class="item-name">חלב תנובה 3%</div>
+                                    <div class="item-meta">כמות: 2 • הוסיף: אבא</div>
+                                </div>
+                                <div class="item-price">₪12.90</div>
+                            </div>
+                            <div class="list-item">
+                                <div class="item-checkbox"></div>
+                                <span class="item-emoji">🧀</span>
+                                <div class="item-details">
+                                    <div class="item-name">גבינה צהובה</div>
+                                    <div class="item-meta">כמות: 1 • הוסיף: אמא</div>
+                                </div>
+                                <div class="item-price">₪24.90</div>
+                            </div>
+
+                            <div class="category-header">🍞 לחם ומאפים</div>
+                            <div class="list-item">
+                                <div class="item-checkbox"></div>
+                                <span class="item-emoji">🍞</span>
+                                <div class="item-details">
+                                    <div class="item-name">לחם אחיד</div>
+                                    <div class="item-meta">כמות: 1 • הוסיף: דני</div>
+                                </div>
+                                <div class="item-price">₪8.90</div>
+                            </div>
+
+                            <div class="category-header">✅ נקנו</div>
+                            <div class="list-item purchased">
+                                <div class="item-checkbox checked">✓</div>
+                                <span class="item-emoji">🥚</span>
+                                <div class="item-details">
+                                    <div class="item-name">ביצים L</div>
+                                    <div class="item-meta">נקנה ע"י אמא</div>
+                                </div>
+                            </div>
+                            <div class="list-item purchased">
+                                <div class="item-checkbox checked">✓</div>
+                                <span class="item-emoji">🧈</span>
+                                <div class="item-details">
+                                    <div class="item-name">חמאה</div>
+                                    <div class="item-meta">נקנה ע"י אבא</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="add-button">+</div>
+                        <div class="bottom-nav">
+                            <div class="nav-item active">
+                                <span class="nav-icon">📝</span>
+                                <span>רשימה</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">💬</span>
+                                <span>צ'אט</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">💰</span>
+                                <span>מחירים</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">⚙️</span>
+                                <span>הגדרות</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshot 2: Family Sharing QR -->
+        <div class="screenshot-container">
+            <div class="screenshot-label">2. שיתוף משפחתי</div>
+            <div class="marketing-frame">
+                <h3>👨‍👩‍👧‍👦 שתפו עם המשפחה</h3>
+                <p>סרקו את הקוד והצטרפו לרשימה</p>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="app-header">
+                            <h2>📱 הזמן למשפחה</h2>
+                            <div class="subtitle">שתף את הקוד או QR</div>
+                        </div>
+                        <div class="app-content" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 40px;">
+                            <div class="qr-container">
+                                <div class="qr-title">סרקו להצטרפות</div>
+                                <div class="qr-code">
+                                    <!-- Simple QR representation -->
+                                    <svg viewBox="0 0 100 100">
+                                        <rect x="10" y="10" width="25" height="25" fill="#1f2937"/>
+                                        <rect x="65" y="10" width="25" height="25" fill="#1f2937"/>
+                                        <rect x="10" y="65" width="25" height="25" fill="#1f2937"/>
+                                        <rect x="15" y="15" width="15" height="15" fill="white"/>
+                                        <rect x="70" y="15" width="15" height="15" fill="white"/>
+                                        <rect x="15" y="70" width="15" height="15" fill="white"/>
+                                        <rect x="18" y="18" width="9" height="9" fill="#1f2937"/>
+                                        <rect x="73" y="18" width="9" height="9" fill="#1f2937"/>
+                                        <rect x="18" y="73" width="9" height="9" fill="#1f2937"/>
+                                        <rect x="40" y="10" width="5" height="5" fill="#1f2937"/>
+                                        <rect x="50" y="10" width="5" height="5" fill="#1f2937"/>
+                                        <rect x="40" y="20" width="5" height="5" fill="#1f2937"/>
+                                        <rect x="45" y="25" width="5" height="5" fill="#1f2937"/>
+                                        <rect x="40" y="40" width="20" height="20" fill="#1f2937"/>
+                                        <rect x="45" y="45" width="10" height="10" fill="white"/>
+                                        <rect x="48" y="48" width="4" height="4" fill="#1f2937"/>
+                                        <rect x="65" y="45" width="5" height="5" fill="#1f2937"/>
+                                        <rect x="75" y="55" width="5" height="5" fill="#1f2937"/>
+                                        <rect x="45" y="65" width="5" height="5" fill="#1f2937"/>
+                                        <rect x="55" y="70" width="5" height="5" fill="#1f2937"/>
+                                        <rect x="65" y="75" width="5" height="5" fill="#1f2937"/>
+                                        <rect x="80" y="70" width="5" height="5" fill="#1f2937"/>
+                                        <rect x="70" y="85" width="5" height="5" fill="#1f2937"/>
+                                    </svg>
+                                </div>
+                                <div class="qr-code-text">ABC123</div>
+                                <div class="qr-hint">או שתפו את הקוד בווטסאפ</div>
+                            </div>
+                            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                                <div style="background: #25D366; color: white; padding: 10px 20px; border-radius: 25px; font-size: 0.8rem; font-weight: 600;">
+                                    📱 שתף בווטסאפ
+                                </div>
+                                <div style="background: #e5e7eb; color: #1f2937; padding: 10px 20px; border-radius: 25px; font-size: 0.8rem; font-weight: 600;">
+                                    📋 העתק קוד
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom-nav">
+                            <div class="nav-item">
+                                <span class="nav-icon">📝</span>
+                                <span>רשימה</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">💬</span>
+                                <span>צ'אט</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">💰</span>
+                                <span>מחירים</span>
+                            </div>
+                            <div class="nav-item active">
+                                <span class="nav-icon">⚙️</span>
+                                <span>הגדרות</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshot 3: Family Chat -->
+        <div class="screenshot-container">
+            <div class="screenshot-label">3. צ'אט משפחתי</div>
+            <div class="marketing-frame">
+                <h3>💬 צ'אט משפחתי מובנה</h3>
+                <p>תקשורת בזמן אמת עם כל המשפחה</p>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="app-header">
+                            <h2>💬 צ'אט משפחתי</h2>
+                            <div class="subtitle">4 חברי משפחה מחוברים</div>
+                        </div>
+                        <div class="app-content" style="padding-bottom: 120px;">
+                            <div class="chat-message received">
+                                <div class="chat-sender">👩 אמא</div>
+                                מישהו יכול לקנות חלב בדרך הביתה?
+                            </div>
+                            <div class="chat-message sent">
+                                <div class="chat-sender">👨 אני</div>
+                                אני בדיוק ליד הסופר, אקנה!
+                            </div>
+                            <div class="chat-message received">
+                                <div class="chat-sender">👩 אמא</div>
+                                תודה! 🙏 אל תשכח גם ביצים
+                            </div>
+                            <div class="chat-message sent">
+                                <div class="chat-sender">👨 אני</div>
+                                הוספתי לרשימה ✅
+                            </div>
+                            <div class="chat-message received">
+                                <div class="chat-sender">👦 דני</div>
+                                אבא תביא גם במבה! 🥺
+                            </div>
+                            <div class="chat-message sent">
+                                <div class="chat-sender">👨 אני</div>
+                                טוב טוב, הוספתי 😄
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="כתוב הודעה..." disabled>
+                            <div class="send-btn">➤</div>
+                        </div>
+                        <div class="bottom-nav">
+                            <div class="nav-item">
+                                <span class="nav-icon">📝</span>
+                                <span>רשימה</span>
+                            </div>
+                            <div class="nav-item active">
+                                <span class="nav-icon">💬</span>
+                                <span>צ'אט</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">💰</span>
+                                <span>מחירים</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">⚙️</span>
+                                <span>הגדרות</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshot 4: Price Comparison -->
+        <div class="screenshot-container">
+            <div class="screenshot-label">4. השוואת מחירים</div>
+            <div class="marketing-frame">
+                <h3>💰 חסכו בכל קנייה</h3>
+                <p>השוואת מחירים ממגוון רשתות</p>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="app-header">
+                            <h2>💰 השוואת מחירים</h2>
+                            <div class="subtitle">מחירים מעודכנים מ-5 רשתות</div>
+                        </div>
+                        <div class="app-content">
+                            <div class="price-card">
+                                <div class="price-header">
+                                    <div style="width: 40px; height: 40px; background: #fef3c7; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🥛</div>
+                                    <div class="price-product-name">חלב תנובה 3% 1 ליטר</div>
+                                </div>
+                                <div class="store-price">
+                                    <span class="store-name">🏪 רמי לוי</span>
+                                    <span class="store-price-value cheapest">₪5.90 הכי זול!</span>
+                                </div>
+                                <div class="store-price">
+                                    <span class="store-name">🏪 שופרסל</span>
+                                    <span class="store-price-value">₪6.50</span>
+                                </div>
+                                <div class="store-price">
+                                    <span class="store-name">🏪 ויקטורי</span>
+                                    <span class="store-price-value">₪6.90</span>
+                                </div>
+                            </div>
+
+                            <div class="price-card">
+                                <div class="price-header">
+                                    <div style="width: 40px; height: 40px; background: #fef3c7; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🥚</div>
+                                    <div class="price-product-name">ביצים חופש L תבנית 12</div>
+                                </div>
+                                <div class="store-price">
+                                    <span class="store-name">🏪 יינות ביתן</span>
+                                    <span class="store-price-value cheapest">₪14.90 הכי זול!</span>
+                                </div>
+                                <div class="store-price">
+                                    <span class="store-name">🏪 שופרסל</span>
+                                    <span class="store-price-value">₪16.90</span>
+                                </div>
+                                <div class="store-price">
+                                    <span class="store-name">🏪 רמי לוי</span>
+                                    <span class="store-price-value">₪15.90</span>
+                                </div>
+                            </div>
+
+                            <div style="background: #d1fae5; border-radius: 12px; padding: 15px; text-align: center; margin-top: 10px;">
+                                <div style="font-size: 0.8rem; color: #065f46; margin-bottom: 5px;">💡 חיסכון פוטנציאלי</div>
+                                <div style="font-size: 1.5rem; font-weight: 800; color: #059669;">₪23.40</div>
+                                <div style="font-size: 0.7rem; color: #065f46;">אם תקנו במחירים הזולים</div>
+                            </div>
+                        </div>
+                        <div class="bottom-nav">
+                            <div class="nav-item">
+                                <span class="nav-icon">📝</span>
+                                <span>רשימה</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">💬</span>
+                                <span>צ'אט</span>
+                            </div>
+                            <div class="nav-item active">
+                                <span class="nav-icon">💰</span>
+                                <span>מחירים</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">⚙️</span>
+                                <span>הגדרות</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshot 5: Child Account Login -->
+        <div class="screenshot-container">
+            <div class="screenshot-label">5. התחברות ילדים עם PIN</div>
+            <div class="marketing-frame">
+                <h3>👦 חשבון ילדים בטוח</h3>
+                <p>ללא צורך באימייל - רק קוד PIN</p>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="app-header" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
+                            <h2>👦 כניסת ילדים</h2>
+                            <div class="subtitle">הזן את קוד ה-PIN שלך</div>
+                        </div>
+                        <div class="app-content">
+                            <div class="child-login">
+                                <div class="child-avatar">👦</div>
+                                <div class="child-title">שלום דני!</div>
+                                <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 20px;">
+                                    הזן את קוד ה-PIN בן 4 ספרות
+                                </div>
+                                <div class="pin-input">
+                                    <div class="pin-digit filled">1</div>
+                                    <div class="pin-digit filled">2</div>
+                                    <div class="pin-digit filled">3</div>
+                                    <div class="pin-digit">_</div>
+                                </div>
+                                <button class="child-btn">התחבר</button>
+                                <div style="margin-top: 20px; font-size: 0.7rem; color: #9ca3af;">
+                                    שכחת PIN? בקש מההורים לאפס
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshot 6: Voice Input -->
+        <div class="screenshot-container">
+            <div class="screenshot-label">6. הוספה קולית</div>
+            <div class="marketing-frame">
+                <h3>🎤 הוסיפו בקול</h3>
+                <p>פשוט אמרו מה צריך לקנות</p>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="app-header">
+                            <h2>🏠 משפחת כהן</h2>
+                            <div class="subtitle">5 מוצרים</div>
+                        </div>
+                        <div class="app-content" style="opacity: 0.3;">
+                            <div class="list-item">
+                                <div class="item-checkbox"></div>
+                                <span class="item-emoji">🥛</span>
+                                <div class="item-details">
+                                    <div class="item-name">חלב</div>
+                                </div>
+                            </div>
+                            <div class="list-item">
+                                <div class="item-checkbox"></div>
+                                <span class="item-emoji">🍞</span>
+                                <div class="item-details">
+                                    <div class="item-name">לחם</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="voice-modal">
+                            <div class="voice-icon">🎤</div>
+                            <div class="voice-text">מקשיב...</div>
+                            <div class="voice-result">"שני ליטר חלב ותריסר ביצים"</div>
+                            <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
+                                <div style="background: #e5e7eb; padding: 8px 20px; border-radius: 20px; font-size: 0.8rem;">ביטול</div>
+                                <div style="background: #14B8A6; color: white; padding: 8px 20px; border-radius: 20px; font-size: 0.8rem;">הוסף ✓</div>
+                            </div>
+                        </div>
+                        <div class="bottom-nav">
+                            <div class="nav-item active">
+                                <span class="nav-icon">📝</span>
+                                <span>רשימה</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">💬</span>
+                                <span>צ'אט</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">💰</span>
+                                <span>מחירים</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">⚙️</span>
+                                <span>הגדרות</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshot 7: Barcode Scanner -->
+        <div class="screenshot-container">
+            <div class="screenshot-label">7. סריקת ברקוד</div>
+            <div class="marketing-frame">
+                <h3>📷 סרקו והוסיפו</h3>
+                <p>סרקו כל מוצר להוספה מהירה</p>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="scanner-overlay">
+                            <div style="position: absolute; top: 35px; left: 0; right: 0; text-align: center; color: white;">
+                                <div style="font-size: 1rem; font-weight: 600;">📷 סריקת ברקוד</div>
+                            </div>
+                            <div class="scanner-frame">
+                                <div class="scanner-line"></div>
+                            </div>
+                            <div class="scanner-hint">
+                                מקמו את הברקוד בתוך המסגרת
+                            </div>
+                            <div style="position: absolute; bottom: 40px; left: 0; right: 0; display: flex; justify-content: center; gap: 20px;">
+                                <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 12px 25px; border-radius: 25px; color: white; font-size: 0.8rem;">
+                                    ❌ ביטול
+                                </div>
+                                <div style="background: #14B8A6; padding: 12px 25px; border-radius: 25px; color: white; font-size: 0.8rem;">
+                                    🔦 פנס
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshot 8: Multi-language -->
+        <div class="screenshot-container">
+            <div class="screenshot-label">8. תמיכה ב-4 שפות</div>
+            <div class="marketing-frame">
+                <h3>🌍 4 שפות נתמכות</h3>
+                <p>עברית, אנגלית, רוסית וערבית</p>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="app-header">
+                            <h2>⚙️ הגדרות</h2>
+                        </div>
+                        <div class="app-content">
+                            <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                                <div style="padding: 15px; font-weight: 600; color: #1f2937; border-bottom: 1px solid #f3f4f6;">
+                                    🌍 בחר שפה
+                                </div>
+                                <div style="padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f3f4f6; background: #f0fdfa;">
+                                    <span>🇮🇱 עברית</span>
+                                    <span style="color: #14B8A6;">✓</span>
+                                </div>
+                                <div style="padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f3f4f6;">
+                                    <span>🇺🇸 English</span>
+                                </div>
+                                <div style="padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f3f4f6;">
+                                    <span>🇷🇺 Русский</span>
+                                </div>
+                                <div style="padding: 12px 15px; display: flex; align-items: center; justify-content: space-between;">
+                                    <span>🇸🇦 العربية</span>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 20px; background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                                <div style="font-weight: 600; color: #1f2937; margin-bottom: 10px;">👨‍👩‍👧‍👦 חברי משפחה</div>
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                    <div style="background: #f0fdfa; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem;">👨 אבא (מנהל)</div>
+                                    <div style="background: #f3f4f6; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem;">👩 אמא</div>
+                                    <div style="background: #fef3c7; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem;">👦 דני (ילד)</div>
+                                    <div style="background: #fef3c7; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem;">👧 מיה (ילד)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom-nav">
+                            <div class="nav-item">
+                                <span class="nav-icon">📝</span>
+                                <span>רשימה</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">💬</span>
+                                <span>צ'אט</span>
+                            </div>
+                            <div class="nav-item">
+                                <span class="nav-icon">💰</span>
+                                <span>מחירים</span>
+                            </div>
+                            <div class="nav-item active">
+                                <span class="nav-icon">⚙️</span>
+                                <span>הגדרות</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="download-section">
+        <p style="color: #a0a0a0; margin-bottom: 20px;">
+            💡 טיפ: לחץ לחיצה ימנית על כל תמונה ← "שמור תמונה בשם" או השתמש בכלי צילום מסך של המחשב
+        </p>
+        <button class="download-btn" onclick="alert('השתמש בכלי צילום מסך של המערכת:\n\nMac: Cmd+Shift+4\nWindows: Win+Shift+S\n\nאו לחץ לחיצה ימנית על התמונה ובחר שמור')">
+            📥 הוראות שמירה
+        </button>
+    </div>
+
+    <div style="margin-top: 60px; text-align: center; color: #6b7280; font-size: 0.9rem;">
+        <h2 style="color: white; margin-bottom: 20px;">📐 גדלים נדרשים</h2>
+        <table style="margin: 0 auto; text-align: right; border-collapse: collapse;">
+            <tr style="border-bottom: 1px solid #333;">
+                <td style="padding: 10px 20px; color: #a0a0a0;">Google Play (טלפון)</td>
+                <td style="padding: 10px 20px; color: white;">1080 x 1920 px</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #333;">
+                <td style="padding: 10px 20px; color: #a0a0a0;">Google Play (טאבלט)</td>
+                <td style="padding: 10px 20px; color: white;">1920 x 1080 px</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #333;">
+                <td style="padding: 10px 20px; color: #a0a0a0;">Apple (6.5")</td>
+                <td style="padding: 10px 20px; color: white;">1284 x 2778 px</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #333;">
+                <td style="padding: 10px 20px; color: #a0a0a0;">Apple (5.5")</td>
+                <td style="padding: 10px 20px; color: white;">1242 x 2208 px</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px 20px; color: #a0a0a0;">Feature Graphic (Google)</td>
+                <td style="padding: 10px 20px; color: white;">1024 x 500 px</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

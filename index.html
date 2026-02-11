@@ -12728,10 +12728,103 @@ END:VCALENDAR`;
                     unit = 'גרם';
                 }
 
-                setSelectedProduct({ name: product, category, unitOptions });
-                setSelectedQuantity(1); // Always start at 1, user can adjust
-                setSelectedUnit(unit);
+                // Check if product already exists in cart
+                const existing = items.find(item => item.name === product && !item.purchased);
+                const existingQty = existing ? getQuantityNumber(existing.quantity) : 0;
+                const existingUnit = existing?.unit || unit;
+
+                setSelectedProduct({ name: product, category, unitOptions, existingId: existing?.id, existingQty });
+                setSelectedQuantity(existingQty > 0 ? existingQty : 1); // Start with existing qty or 1
+                setSelectedUnit(existingQty > 0 ? existingUnit : unit);
                 setShowQuantitySelector(true);
+            };
+
+            // Remove product from cart completely
+            const removeProductFromCart = async () => {
+                if (!selectedProduct?.existingId) return;
+
+                const itemId = selectedProduct.existingId;
+                const itemName = selectedProduct.name;
+
+                // Optimistic update
+                setItems(prev => prev.filter(i => i.id !== itemId));
+                setShowQuantitySelector(false);
+                setSelectedProduct(null);
+                setSelectedNote('');
+
+                if (!isOnline) {
+                    queueOperation({ type: 'delete', id: itemId });
+                    return;
+                }
+
+                try {
+                    await window.firestore.deleteDoc(
+                        window.firestore.doc(window.db, 'shopping-items', itemId)
+                    );
+                    await logActivity('item_removed', { itemName });
+                } catch (error) {
+                    console.error('שגיאה במחיקת מוצר:', error);
+                    // Rollback on error
+                    if (!navigator.onLine) {
+                        queueOperation({ type: 'delete', id: itemId });
+                    }
+                }
+            };
+
+            // Update product quantity in cart (can also decrease)
+            const updateProductQuantity = async (newQuantity) => {
+                if (!selectedProduct) return;
+
+                const { name: product, category, existingId } = selectedProduct;
+
+                // If quantity is 0 or less, remove the item
+                if (newQuantity <= 0) {
+                    if (existingId) {
+                        await removeProductFromCart();
+                    } else {
+                        setShowQuantitySelector(false);
+                        setSelectedProduct(null);
+                    }
+                    return;
+                }
+
+                // If item doesn't exist, add it
+                if (!existingId) {
+                    setSelectedQuantity(newQuantity);
+                    await addProductWithQuantity();
+                    return;
+                }
+
+                // Update existing item
+                const estimatedPrice = getEstimatedPrice(product);
+
+                // Optimistic update
+                setItems(prev => prev.map(i =>
+                    i.id === existingId
+                        ? { ...i, quantity: newQuantity, unit: selectedUnit }
+                        : i
+                ));
+
+                if (!isOnline) {
+                    queueOperation({ type: 'update', id: existingId, data: { quantity: newQuantity, unit: selectedUnit } });
+                    return;
+                }
+
+                try {
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'shopping-items', existingId),
+                        {
+                            quantity: newQuantity,
+                            unit: selectedUnit,
+                            updatedAt: new Date()
+                        }
+                    );
+                } catch (error) {
+                    console.error('שגיאה בעדכון כמות:', error);
+                    if (!navigator.onLine) {
+                        queueOperation({ type: 'update', id: existingId, data: { quantity: newQuantity, unit: selectedUnit } });
+                    }
+                }
             };
 
             // Actually add product with selected quantity
@@ -15126,6 +15219,13 @@ END:VCALENDAR`;
                                     <div className="text-4xl mb-2">{CATEGORIES[selectedProduct.category]?.icon || '🛒'}</div>
                                     <h2 className="text-xl font-bold text-gray-800 dark:text-white">{selectedProduct.name}</h2>
                                     <p className="text-sm text-gray-500 dark:text-gray-400">{CATEGORIES[selectedProduct.category]?.name}</p>
+                                    {/* Show if item is in cart */}
+                                    {selectedProduct.existingQty > 0 && (
+                                        <div className="mt-2 inline-flex items-center gap-2 bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300 px-3 py-1 rounded-full text-sm font-medium">
+                                            <span>🛒</span>
+                                            <span>בסל: {selectedProduct.existingQty}</span>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Quantity Selector */}
@@ -15133,18 +15233,26 @@ END:VCALENDAR`;
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-center">{t('quantity')}</label>
                                     <div className="flex items-center justify-center gap-4">
                                         <button
-                                            onClick={() => setSelectedQuantity(Math.max(0.5, selectedQuantity - (selectedUnit === 'גרם' ? 100 : selectedUnit === 'ק"ג' ? 0.5 : 1)))}
-                                            className="w-14 h-14 bg-gray-100 dark:bg-gray-700 rounded-2xl text-2xl font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all hover:scale-110"
+                                            onClick={() => {
+                                                const step = selectedUnit === 'גרם' ? 100 : selectedUnit === 'ק"ג' ? 0.5 : 1;
+                                                const newQty = selectedQuantity - step;
+                                                setSelectedQuantity(Math.max(0, newQty));
+                                            }}
+                                            className={`w-14 h-14 rounded-2xl text-2xl font-bold transition-all hover:scale-110 ${
+                                                selectedQuantity <= (selectedUnit === 'גרם' ? 100 : selectedUnit === 'ק"ג' ? 0.5 : 1)
+                                                    ? 'bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 hover:bg-red-200'
+                                                    : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                            }`}
                                         >
-                                            -
+                                            {selectedQuantity <= (selectedUnit === 'גרם' ? 100 : selectedUnit === 'ק"ג' ? 0.5 : 1) && selectedProduct.existingId ? '🗑️' : '-'}
                                         </button>
                                         <div className="text-center min-w-[80px]">
                                             <input
                                                 type="number"
                                                 value={selectedQuantity}
-                                                onChange={(e) => setSelectedQuantity(Math.max(0.1, parseFloat(e.target.value) || 1))}
+                                                onChange={(e) => setSelectedQuantity(Math.max(0, parseFloat(e.target.value) || 0))}
                                                 onFocus={(e) => e.target.select()}
-                                                className="w-20 text-center text-3xl font-bold bg-transparent border-none outline-none text-gradient"
+                                                className={`w-20 text-center text-3xl font-bold bg-transparent border-none outline-none ${selectedQuantity === 0 ? 'text-red-500' : 'text-gradient'}`}
                                                 step={selectedUnit === 'גרם' ? 100 : selectedUnit === 'ק"ג' ? 0.5 : 1}
                                             />
                                         </div>
@@ -15155,6 +15263,12 @@ END:VCALENDAR`;
                                             +
                                         </button>
                                     </div>
+                                    {/* Warning when quantity is 0 */}
+                                    {selectedQuantity === 0 && selectedProduct.existingId && (
+                                        <p className="text-center text-sm text-red-500 mt-2 animate-pulse">
+                                            ⚠️ כמות 0 תסיר את המוצר מהסל
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Unit Selector */}
@@ -15196,21 +15310,46 @@ END:VCALENDAR`;
                                 </div>
 
                                 {/* Preview */}
-                                <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-3 mb-6 text-center">
-                                    <span className="text-lg font-bold text-indigo-700 dark:text-indigo-300">
-                                        {selectedProduct.name} - {selectedQuantity} {selectedUnit}
-                                        {selectedNote && <span className="block text-sm mt-1">📝 {selectedNote}</span>}
+                                <div className={`rounded-xl p-3 mb-6 text-center ${selectedQuantity === 0 ? 'bg-red-50 dark:bg-red-900/30' : 'bg-indigo-50 dark:bg-indigo-900/30'}`}>
+                                    <span className={`text-lg font-bold ${selectedQuantity === 0 ? 'text-red-600 dark:text-red-400' : 'text-indigo-700 dark:text-indigo-300'}`}>
+                                        {selectedQuantity === 0 ? (
+                                            <>🗑️ הסר את {selectedProduct.name} מהסל</>
+                                        ) : (
+                                            <>
+                                                {selectedProduct.name} - {selectedQuantity} {selectedUnit}
+                                                {selectedNote && <span className="block text-sm mt-1">📝 {selectedNote}</span>}
+                                            </>
+                                        )}
                                     </span>
                                 </div>
 
                                 {/* Buttons */}
                                 <div className="flex gap-3">
-                                    <button
-                                        onClick={addProductWithQuantity}
-                                        className="flex-1 btn-gradient text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
-                                    >
-                                        ➕ הוסף לרשימה
-                                    </button>
+                                    {selectedQuantity === 0 && selectedProduct.existingId ? (
+                                        /* Remove button when quantity is 0 */
+                                        <button
+                                            onClick={removeProductFromCart}
+                                            className="flex-1 bg-red-500 hover:bg-red-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                        >
+                                            🗑️ הסר מהסל
+                                        </button>
+                                    ) : selectedProduct.existingId ? (
+                                        /* Update button when item exists */
+                                        <button
+                                            onClick={() => updateProductQuantity(selectedQuantity)}
+                                            className="flex-1 bg-teal-500 hover:bg-teal-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                        >
+                                            ✏️ עדכן כמות
+                                        </button>
+                                    ) : (
+                                        /* Add button when item doesn't exist */
+                                        <button
+                                            onClick={addProductWithQuantity}
+                                            className="flex-1 btn-gradient text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                        >
+                                            ➕ הוסף לסל
+                                        </button>
+                                    )}
                                     <button
                                         onClick={() => { setShowQuantitySelector(false); setSelectedProduct(null); setSelectedNote(''); }}
                                         className="px-6 py-4 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
@@ -15884,24 +16023,40 @@ END:VCALENDAR`;
                                             {PRODUCTS[selectedCategory]?.map((product, idx) => {
                                                 const promos = getItemPromotions(product);
                                                 const hasPromo = promos.length > 0;
+                                                const inCart = items.find(item => item.name === product && !item.purchased);
+                                                const cartQty = inCart ? getQuantityNumber(inCart.quantity) : 0;
                                                 return (
                                                 <button key={idx} onClick={() => addProduct(product)}
-                                                    className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${hasPromo ? 'border-amber-200 dark:border-amber-800/50' : 'border-gray-100 dark:border-gray-700'} hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right`}
+                                                    className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${inCart ? 'border-teal-400 dark:border-teal-600 ring-2 ring-teal-400/30' : hasPromo ? 'border-amber-200 dark:border-amber-800/50' : 'border-gray-100 dark:border-gray-700'} hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right`}
                                                     style={{animationDelay: `${idx * 30}ms`}}
                                                 >
+                                                {/* Cart Quantity Badge */}
+                                                {inCart && (
+                                                    <div className="absolute -top-2 -right-2 z-20">
+                                                        <span className="bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg min-w-[24px] inline-block text-center">
+                                                            {cartQty}{inCart.unit && inCart.unit !== 'יח\'' ? ` ${inCart.unit}` : ''}
+                                                        </span>
+                                                    </div>
+                                                )}
                                                 {/* Subtle Promotion Indicator */}
-                                                {hasPromo && (
+                                                {hasPromo && !inCart && (
                                                     <div className="absolute -top-1 -left-1 z-10">
                                                         <span className="text-amber-500 text-sm animate-pulse" title={promos[0].description}>✨</span>
                                                     </div>
                                                 )}
                                                 <div className="flex items-center justify-between gap-2">
-                                                    <div className={`w-8 h-8 rounded-full ${hasPromo ? 'bg-amber-50 dark:bg-amber-900/30' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200`}>
-                                                        <svg className={`w-4 h-4 ${hasPromo ? 'text-amber-500' : 'text-gray-400'} group-hover:text-white transition-colors`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                                                        </svg>
+                                                    <div className={`w-8 h-8 rounded-full ${inCart ? 'bg-teal-500 scale-110' : hasPromo ? 'bg-amber-50 dark:bg-amber-900/30' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200`}>
+                                                        {inCart ? (
+                                                            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                                            </svg>
+                                                        ) : (
+                                                            <svg className={`w-4 h-4 ${hasPromo ? 'text-amber-500' : 'text-gray-400'} group-hover:text-white transition-colors`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                                                            </svg>
+                                                        )}
                                                     </div>
-                                                    <span className="flex-1 font-semibold text-gray-700 dark:text-gray-200 text-sm leading-tight">{getProductTranslation(product, language)}</span>
+                                                    <span className={`flex-1 font-semibold ${inCart ? 'text-teal-700 dark:text-teal-300' : 'text-gray-700 dark:text-gray-200'} text-sm leading-tight`}>{getProductTranslation(product, language)}</span>
                                                 </div>
                                                 {/* Compact promotion info */}
                                                 {hasPromo && (
