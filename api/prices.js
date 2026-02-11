@@ -126,43 +126,56 @@ function getMaxReasonablePrice(productName, category) {
 
 // Fetch from Supabase with pagination support
 async function supabaseQuery(table, query = '', fetchAll = false) {
-    const baseUrl = `${SUPABASE_URL}/rest/v1/${table}${query}`;
+    try {
+        const baseUrl = `${SUPABASE_URL}/rest/v1/${table}${query}`;
 
-    if (!fetchAll) {
-        const response = await fetch(baseUrl, {
-            headers: {
-                'apikey': SUPABASE_KEY,
-                'Authorization': `Bearer ${SUPABASE_KEY}`,
-                'Content-Type': 'application/json'
+        if (!fetchAll) {
+            const response = await fetch(baseUrl, {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                console.error(`Supabase error for ${table}:`, response.status, response.statusText);
+                return [];
             }
-        });
-        return response.json();
-    }
+            return response.json();
+        }
 
-    // Fetch all rows with pagination
-    // Supabase REST API has a max of 1000 rows per request
-    let allRows = [];
-    let offset = 0;
-    const batchSize = 1000;
+        // Fetch all rows with pagination
+        // Supabase REST API has a max of 1000 rows per request
+        let allRows = [];
+        let offset = 0;
+        const batchSize = 1000;
 
-    while (true) {
-        const separator = query.includes('?') ? '&' : '?';
-        const url = `${baseUrl}${separator}offset=${offset}&limit=${batchSize}`;
-        const response = await fetch(url, {
-            headers: {
-                'apikey': SUPABASE_KEY,
-                'Authorization': `Bearer ${SUPABASE_KEY}`,
-                'Content-Type': 'application/json',
-                'Prefer': 'count=exact'
+        while (true) {
+            const separator = query.includes('?') ? '&' : '?';
+            const url = `${baseUrl}${separator}offset=${offset}&limit=${batchSize}`;
+            const response = await fetch(url, {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'count=exact'
+                }
+            });
+            if (!response.ok) {
+                console.error(`Supabase pagination error for ${table}:`, response.status);
+                break;
             }
-        });
-        const rows = await response.json();
-        if (!rows || rows.length === 0) break;
-        allRows = allRows.concat(rows);
-        if (rows.length < batchSize) break;
-        offset += batchSize;
+            const rows = await response.json();
+            if (!rows || !Array.isArray(rows) || rows.length === 0) break;
+            allRows = allRows.concat(rows);
+            if (rows.length < batchSize) break;
+            offset += batchSize;
+        }
+        return allRows;
+    } catch (error) {
+        console.error(`Supabase query error for ${table}:`, error.message);
+        return [];
     }
-    return allRows;
 }
 
 // Get all data (with pagination for prices)
@@ -308,7 +321,10 @@ async function compareList(items) {
 // Allowed origins for CORS
 const ALLOWED_ORIGINS = [
     'https://shooping-list.vercel.app',
+    'https://shooping-list-blue.vercel.app',
     'https://listnest.vercel.app',
+    'https://listnest.co.il',
+    'https://www.listnest.co.il',
     'http://localhost:3000',
     'http://localhost:5000',
     'http://127.0.0.1:3000',
@@ -316,11 +332,11 @@ const ALLOWED_ORIGINS = [
 ];
 
 module.exports = async (req, res) => {
-    // CORS headers - restrict to known origins
+    // CORS headers - allow all Vercel deployments
     const origin = req.headers.origin;
-    if (ALLOWED_ORIGINS.includes(origin)) {
+    if (ALLOWED_ORIGINS.includes(origin) || origin?.includes('vercel.app') || origin?.includes('listnest.co.il')) {
         res.setHeader('Access-Control-Allow-Origin', origin);
-    } else if (process.env.NODE_ENV === 'development') {
+    } else {
         res.setHeader('Access-Control-Allow-Origin', '*');
     }
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -331,15 +347,31 @@ module.exports = async (req, res) => {
         return res.status(200).end();
     }
 
+    const { action } = req.query;
+
+    // Simple health check that doesn't need Supabase
+    if (action === 'health') {
+        return res.json({
+            success: true,
+            timestamp: new Date().toISOString(),
+            env: {
+                hasSupabaseUrl: !!SUPABASE_URL,
+                hasSupabaseKey: !!SUPABASE_KEY
+            }
+        });
+    }
+
     // Check Supabase config
     if (!SUPABASE_URL || !SUPABASE_KEY) {
         return res.status(500).json({
             error: 'Supabase not configured',
-            message: 'Set SUPABASE_URL and SUPABASE_KEY in Vercel'
+            message: 'Set SUPABASE_URL and SUPABASE_KEY in Vercel',
+            env: {
+                hasSupabaseUrl: !!SUPABASE_URL,
+                hasSupabaseKey: !!SUPABASE_KEY
+            }
         });
     }
-
-    const { action } = req.query;
 
     try {
         switch (action) {
@@ -599,13 +631,13 @@ module.exports = async (req, res) => {
                 });
 
                 // Create lookups
-                const chainMap = {};
-                allChains.forEach(c => { chainMap[c.id] = c; });
+                const chainMapSearch = {};
+                allChains.forEach(c => { chainMapSearch[c.id] = c; });
                 const prodMap = {};
                 allProds.forEach(p => { prodMap[p.id] = p; });
 
                 const result = matchingPromos.map(p => ({
-                    chain_name: chainMap[p.chain_id]?.name_he || chainMap[p.chain_id]?.name,
+                    chain_name: chainMapSearch[p.chain_id]?.name_he || chainMapSearch[p.chain_id]?.name,
                     description: p.description,
                     end_date: p.end_date,
                     products: (p.product_ids || [])

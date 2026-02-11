@@ -29,8 +29,9 @@ service cloud.firestore {
 
     // Families collection
     match /families/{familyId} {
-      // Anyone can read a family document (needed for join codes and child login)
-      // Note: Child accounts use client-side reads for PIN validation
+      // Read access: open for join codes and child PIN login
+      // TODO: For production, implement Cloud Function for PIN verification
+      // to avoid exposing PIN hashes to clients
       allow read: if true;
 
       // Only admin can update family settings (including childAccounts and childInviteTokens)
@@ -79,6 +80,15 @@ service cloud.firestore {
       allow create: if isSignedIn() &&
         isFamilyMember(request.resource.data.familyId) &&
         request.resource.data.userId == request.auth.uid;
+    }
+
+    // Family chat (alternative collection used by app)
+    match /family-chat/{messageId} {
+      allow read, write: if isSignedIn() &&
+        isFamilyMember(resource.data.familyId);
+
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId);
     }
 
     // Activity log - only family members can access
