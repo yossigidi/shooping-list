@@ -2,21 +2,30 @@
 // Vercel Serverless Function - Cron Job
 // Runs every 15 minutes to check and send scheduled reminders
 
-import { initializeApp, cert, getApps } from 'firebase-admin/app';
-import { getFirestore, FieldValue } from 'firebase-admin/firestore';
+const admin = require('firebase-admin');
 
 // Initialize Firebase Admin SDK
-function getFirestoreAdmin() {
-    if (getApps().length === 0) {
-        // Parse the service account from environment variable
-        const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || '{}');
+let db = null;
 
-        initializeApp({
-            credential: cert(serviceAccount),
-            projectId: serviceAccount.project_id || process.env.FIREBASE_PROJECT_ID
-        });
+function getFirestoreAdmin() {
+    if (db) return db;
+
+    if (admin.apps.length === 0) {
+        try {
+            // Parse the service account from environment variable
+            const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || '{}');
+
+            admin.initializeApp({
+                credential: admin.credential.cert(serviceAccount),
+                projectId: serviceAccount.project_id || process.env.FIREBASE_PROJECT_ID
+            });
+        } catch (error) {
+            console.error('Firebase init error:', error);
+            throw error;
+        }
     }
-    return getFirestore();
+    db = admin.firestore();
+    return db;
 }
 
 // Check if current time matches a scheduled reminder
@@ -28,13 +37,12 @@ function isReminderDue(reminder, now) {
     const currentMinute = now.getMinutes();
 
     // Check if today is one of the scheduled days
-    if (!reminder.days.includes(currentDay)) return false;
+    if (!reminder.days || !reminder.days.includes(currentDay)) return false;
 
     // Parse reminder time (format: "HH:MM")
     const [reminderHour, reminderMinute] = reminder.time.split(':').map(Number);
 
     // Check if current time is within 15 minutes of the scheduled time
-    // This accounts for the cron running every 15 minutes
     const reminderMinutesSinceMidnight = reminderHour * 60 + reminderMinute;
     const currentMinutesSinceMidnight = currentHour * 60 + currentMinute;
 
@@ -43,7 +51,7 @@ function isReminderDue(reminder, now) {
     // Reminder is due if we're within 0-14 minutes after the scheduled time
     if (timeDiff < 0 || timeDiff >= 15) return false;
 
-    // Check if reminder was already sent today (within last 12 hours to be safe)
+    // Check if reminder was already sent today (within last 12 hours)
     if (reminder.lastSent) {
         const lastSentDate = reminder.lastSent.toDate ? reminder.lastSent.toDate() : new Date(reminder.lastSent);
         const hoursSinceLastSent = (now - lastSentDate) / (1000 * 60 * 60);
@@ -53,7 +61,7 @@ function isReminderDue(reminder, now) {
     return true;
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // Set CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -63,11 +71,11 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
 
-    // Verify this is a cron request (Vercel adds this header)
+    // Verify this is a cron request (Vercel adds authorization header)
     const authHeader = req.headers['authorization'];
     const cronSecret = process.env.CRON_SECRET;
 
-    // In production, verify the cron secret
+    // In production, verify the cron secret if set
     if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
         // Allow GET requests for testing without auth
         if (req.method !== 'GET' || !req.query.test) {
@@ -103,13 +111,13 @@ export default async function handler(req, res) {
                 try {
                     // Create a reminder message in family-chat
                     const chatMessage = {
-                        text: reminder.message || 'Don\'t forget to add items to the list!',
+                        text: reminder.message || 'אל תשכחו להוסיף דברים לרשימה!',
                         type: 'reminder',
-                        senderName: reminder.createdByName || 'System',
+                        senderName: reminder.createdByName || 'מערכת',
                         senderUid: 'system',
                         isScheduled: true,
                         familyId: familyId,
-                        createdAt: FieldValue.serverTimestamp()
+                        createdAt: admin.firestore.FieldValue.serverTimestamp()
                     };
 
                     await db.collection('family-chat').add(chatMessage);
@@ -131,7 +139,7 @@ export default async function handler(req, res) {
                         sentBy: reminder.createdBy,
                         sentByName: reminder.createdByName,
                         message: reminder.message,
-                        sentAt: FieldValue.serverTimestamp()
+                        sentAt: admin.firestore.FieldValue.serverTimestamp()
                     });
 
                     results.sent++;
@@ -161,7 +169,8 @@ export default async function handler(req, res) {
         console.error('Reminders cron error:', error);
         return res.status(500).json({
             success: false,
-            error: error.message
+            error: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
     }
-}
+};
