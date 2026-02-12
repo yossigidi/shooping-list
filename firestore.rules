@@ -137,6 +137,20 @@ service cloud.firestore {
         isFamilyMember(request.resource.data.familyId);
     }
 
+    // Reminder history - family members can read, system can write
+    match /reminder-history/{historyId} {
+      allow read: if isSignedIn() &&
+        isFamilyMember(resource.data.familyId);
+
+      // Only allow creates from family members (manual reminders)
+      // Scheduled reminders are created via Admin SDK (server-side)
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId);
+
+      // No update or delete for audit trail
+      allow update, delete: if false;
+    }
+
     // Deny all other access by default
     match /{document=**} {
       allow read, write: if false;
