@@ -5364,8 +5364,14 @@
                 timeOptions.push(`${h.toString().padStart(2, '0')}:30`);
             }
 
-            // Get family members excluding current user
-            const familyMembers = family?.members?.filter(m => m.userId !== currentUserId) || [];
+            // Get family members excluding current user (includes both regular members and child accounts)
+            const regularMembers = family?.members?.filter(m => m.userId !== currentUserId) || [];
+            const childMembers = family?.childAccounts?.filter(c => c.childId !== currentUserId)?.map(c => ({
+                userId: c.childId,
+                name: c.displayName,
+                isChild: true
+            })) || [];
+            const familyMembers = [...regularMembers, ...childMembers];
 
             const handleSendManualReminder = async () => {
                 if (sending) return;
@@ -5536,9 +5542,9 @@
                                     </div>
                                     <div className="flex flex-wrap gap-2">
                                         {familyMembers.length > 0 ? (
-                                            familyMembers.map(member => (
-                                                <span key={member.userId} className="inline-flex items-center gap-1 bg-white dark:bg-gray-800 px-2 py-1 rounded-lg text-sm">
-                                                    👤 {member.name || member.displayName || member.email}
+                                            familyMembers.map((member, idx) => (
+                                                <span key={member.userId || idx} className="inline-flex items-center gap-1 bg-white dark:bg-gray-800 px-2 py-1 rounded-lg text-sm">
+                                                    {member.isChild ? '👶' : '👤'} {member.name || member.displayName || member.email}
                                                 </span>
                                             ))
                                         ) : (
