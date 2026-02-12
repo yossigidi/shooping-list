@@ -5365,7 +5365,7 @@
             }
 
             // Get family members excluding current user
-            const familyMembers = family?.members?.filter(m => m.id !== currentUserId) || [];
+            const familyMembers = family?.members?.filter(m => m.userId !== currentUserId) || [];
 
             const handleSendManualReminder = async () => {
                 if (sending) return;
@@ -5537,8 +5537,8 @@
                                     <div className="flex flex-wrap gap-2">
                                         {familyMembers.length > 0 ? (
                                             familyMembers.map(member => (
-                                                <span key={member.id} className="inline-flex items-center gap-1 bg-white dark:bg-gray-800 px-2 py-1 rounded-lg text-sm">
-                                                    👤 {member.name}
+                                                <span key={member.userId} className="inline-flex items-center gap-1 bg-white dark:bg-gray-800 px-2 py-1 rounded-lg text-sm">
+                                                    👤 {member.name || member.displayName || member.email}
                                                 </span>
                                             ))
                                         ) : (
