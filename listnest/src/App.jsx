@@ -54,6 +54,8 @@ function AppRouter() {
   const { user, loading: authLoading } = useAuth();
   const { childUser, loading: childLoading } = useChildAuth();
 
+  console.log('AppRouter:', { authLoading, childLoading, user: user?.uid, childUser: childUser?.childId });
+
   // Show loading while checking auth state
   if (authLoading || childLoading) {
     return <LoadingScreen />;

@@ -5,18 +5,26 @@ import { useChildAuth } from '../../contexts/ChildAuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import SwipeableItem from '../common/SwipeableItem';
 import ConfettiBurst from '../common/ConfettiBurst';
+import VoiceInput from '../common/VoiceInput';
 import { CATEGORIES, PRODUCTS, CATEGORY_TO_TRANSLATION } from '../../data/categories';
+import { ISRAELI_HOLIDAYS, getUpcomingHolidays, getHolidayRecommendations } from '../../data/holidays';
 import { db, firestore, firebaseAuth, PriceComparisonAPI, loadTesseract, loadQuagga, fetchProductByBarcode } from '../../services/firebase';
+import { getEstimatedPrice, calculateItemPrice, getPriceSearchSuggestions } from '../../utils/priceUtils';
+import {
+  PriceComparisonModal,
+  PromotionsModal,
+  CalendarModal,
+  AIAssistantModal,
+  SavedListsModal,
+  AccessibilityModal,
+  CreateListModal,
+  ItemNoteModal,
+  ReminderModal
+} from '../modals';
+import { FamilyChat } from '../chat';
+import { FamilySettingsModal } from '../family';
 
-// Israeli holidays for calendar features
-const ISRAELI_HOLIDAYS = [
-  { name: 'פורים', dateObj: new Date(2026, 2, 17), reminder: 'זמן לקנות משלוח מנות!' },
-  { name: 'פסח', dateObj: new Date(2026, 3, 2), reminder: 'זמן להתחיל לקנות לפסח!' },
-  { name: 'יום העצמאות', dateObj: new Date(2026, 4, 2), reminder: 'זמן לקנות לברביקיו!' },
-  { name: 'שבועות', dateObj: new Date(2026, 4, 22), reminder: 'זמן לקנות גבינות!' },
-  { name: 'ראש השנה', dateObj: new Date(2026, 8, 13), reminder: 'זמן לקנות לראש השנה!' },
-  { name: 'חנוכה', dateObj: new Date(2026, 11, 26), reminder: 'זמן לקנות שמן וסופגניות!' }
-];
+// Note: ISRAELI_HOLIDAYS imported from '../../data/holidays'
 
 // English to Hebrew product translations
 const ENGLISH_TO_HEBREW = {
@@ -29,25 +37,7 @@ const ENGLISH_TO_HEBREW = {
   'water': 'מים', 'juice': 'מיץ', 'wine': 'יין', 'beer': 'בירה'
 };
 
-// Price estimation (rough estimates for Israel in NIS)
-const getEstimatedPrice = (productName) => {
-  const priceMap = {
-    'חלב': 7, 'ביצים': 28, 'לחם': 8, 'חמאה': 12, 'יוגורט': 5,
-    'גבינה צהובה': 25, 'עוף': 30, 'בשר': 60, 'אורז': 10, 'פסטה': 8
-  };
-  const nameLower = productName.toLowerCase();
-  for (const [key, price] of Object.entries(priceMap)) {
-    if (nameLower.includes(key)) return price;
-  }
-  return null;
-};
-
-// Calculate item price based on quantity
-const calculateItemPrice = (item) => {
-  if (!item.price) return 0;
-  const qty = typeof item.quantity === 'number' ? item.quantity : parseFloat(item.quantity) || 1;
-  return item.price * qty;
-};
+// Note: getEstimatedPrice and calculateItemPrice imported from '../../utils/priceUtils'
 
 // Get numeric quantity from string or number
 const getQuantityNumber = (qty) => {
@@ -108,6 +98,15 @@ function ShoppingList() {
   const [showFamilySettings, setShowFamilySettings] = useState(false);
   const [showCreateList, setShowCreateList] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showPriceComparison, setShowPriceComparison] = useState(false);
+  const [showPromotions, setShowPromotions] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const [showSavedListsModal, setShowSavedListsModal] = useState(false);
+  const [showAccessibility, setShowAccessibility] = useState(false);
+  const [showVoiceInput, setShowVoiceInput] = useState(false);
+  const [showReminder, setShowReminder] = useState(false);
+  const [priceCompareProduct, setPriceCompareProduct] = useState('');
 
   // Chat state
   const [showChat, setShowChat] = useState(false);
@@ -1660,6 +1659,89 @@ function ShoppingList() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* New Modals */}
+      <PriceComparisonModal
+        isOpen={showPriceComparison}
+        onClose={() => { setShowPriceComparison(false); setPriceCompareProduct(''); }}
+        items={items}
+        initialProduct={priceCompareProduct}
+      />
+
+      <PromotionsModal
+        isOpen={showPromotions}
+        onClose={() => setShowPromotions(false)}
+        items={items}
+      />
+
+      <CalendarModal
+        isOpen={showCalendar}
+        onClose={() => setShowCalendar(false)}
+        onAddItems={(newItems) => {
+          newItems.forEach(item => addProduct(item.name, item.quantity, item.unit));
+        }}
+      />
+
+      <AIAssistantModal
+        isOpen={showAIAssistant}
+        onClose={() => setShowAIAssistant(false)}
+        onAddItems={(newItems) => {
+          newItems.forEach(item => addProduct(item.name, item.quantity, item.unit));
+        }}
+        currentItems={items}
+      />
+
+      <SavedListsModal
+        isOpen={showSavedListsModal}
+        onClose={() => setShowSavedListsModal(false)}
+        onLoadList={(loadedItems) => {
+          loadedItems.forEach(item => addProduct(item.name, item.quantity, item.unit));
+        }}
+        currentItems={items}
+      />
+
+      <AccessibilityModal
+        isOpen={showAccessibility}
+        onClose={() => setShowAccessibility(false)}
+        onDarkModeChange={setDarkMode}
+      />
+
+      <VoiceInput
+        isOpen={showVoiceInput}
+        onClose={() => setShowVoiceInput(false)}
+        onResult={(text) => {
+          if (text) {
+            addProduct(text);
+            setShowVoiceInput(false);
+          }
+        }}
+      />
+
+      <FamilyChat
+        isOpen={showChat}
+        onClose={() => setShowChat(false)}
+      />
+
+      {showFamilySettings && (
+        <FamilySettingsModal
+          isOpen={showFamilySettings}
+          onClose={() => setShowFamilySettings(false)}
+        />
+      )}
+
+      {showCreateList && (
+        <CreateListModal
+          isOpen={showCreateList}
+          onClose={() => setShowCreateList(false)}
+        />
+      )}
+
+      {showReminder && (
+        <ReminderModal
+          isOpen={showReminder}
+          onClose={() => setShowReminder(false)}
+        />
       )}
     </div>
   );

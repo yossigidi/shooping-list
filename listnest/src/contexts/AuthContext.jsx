@@ -8,11 +8,25 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log('AuthContext: Setting up auth listener...');
+
+    // Timeout fallback - if Firebase doesn't respond in 5 seconds
+    const timeoutId = setTimeout(() => {
+      console.warn('AuthContext: Timeout - Firebase auth not responding, setting loading false');
+      setLoading(false);
+    }, 5000);
+
     const unsubscribe = firebaseAuth.onAuthStateChanged(auth, (user) => {
+      clearTimeout(timeoutId);
+      console.log('AuthContext: Auth state changed, user:', user?.uid || 'null');
       setUser(user);
       setLoading(false);
     });
-    return () => unsubscribe();
+
+    return () => {
+      clearTimeout(timeoutId);
+      unsubscribe();
+    };
   }, []);
 
   const signUp = async (email, password, displayName) => {
