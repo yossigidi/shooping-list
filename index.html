@@ -5824,13 +5824,17 @@
                 'auth/operation-not-allowed': 'פעולה לא מורשית',
                 'auth/weak-password': 'הסיסמה חלשה מדי (לפחות 6 תווים)',
                 'auth/user-disabled': 'המשתמש הושבת',
-                'auth/user-not-found': 'משתמש לא נמצא',
+                'auth/user-not-found': 'לא נמצא משתמש עם אימייל זה. יש להירשם תחילה.',
                 'auth/wrong-password': 'סיסמה שגויה',
                 'auth/too-many-requests': 'יותר מדי ניסיונות, נסה שוב מאוחר יותר',
                 'auth/invalid-credential': 'פרטי התחברות שגויים',
-                'auth/missing-password': 'נא להזין סיסמה'
+                'auth/missing-password': 'נא להזין סיסמה',
+                'auth/missing-email': 'נא להזין כתובת אימייל',
+                'auth/network-request-failed': 'שגיאת רשת - בדוק את החיבור לאינטרנט',
+                'auth/internal-error': 'שגיאה פנימית, נסה שוב'
             };
-            return messages[errorCode] || 'אירעה שגיאה, נסה שוב';
+            console.log('Auth error code:', errorCode);
+            return messages[errorCode] || `שגיאה: ${errorCode || 'לא ידוע'}`;
         }
 
         // Sign Up Form
@@ -6120,9 +6124,12 @@
 
                 try {
                     setLoading(true);
+                    console.log('Attempting password reset for:', email);
                     await window.firebaseAuth.sendPasswordResetEmail(window.auth, email);
+                    console.log('Password reset email sent successfully');
                     setSuccess(true);
                 } catch (err) {
+                    console.error('Password reset error:', err.code, err.message);
                     setError(getErrorMessage(err.code));
                 } finally {
                     setLoading(false);
