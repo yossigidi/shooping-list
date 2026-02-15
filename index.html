@@ -3600,9 +3600,14 @@
 
                 const unsubscribe = window.firestore.onSnapshot(q, async (snapshot) => {
                     let userFamily = null;
+                    console.log('FamilyProvider: Snapshot received, checking', snapshot.size, 'families for user:', user?.uid);
                     snapshot.forEach((doc) => {
                         const data = doc.data();
-                        const isMember = data.members?.some(m => m.userId === user?.uid);
+                        // Check both members array (objects with userId) and memberIds array (strings)
+                        const isMemberByObject = data.members?.some(m => m.userId === user?.uid);
+                        const isMemberById = data.memberIds?.includes(user?.uid);
+                        const isMember = isMemberByObject || isMemberById;
+                        console.log('FamilyProvider: Family', doc.id, '- isMemberByObject:', isMemberByObject, 'isMemberById:', isMemberById);
                         if (isMember) {
                             userFamily = { id: doc.id, ...data };
                         }
@@ -3804,8 +3809,10 @@
                         console.warn('joinFamily: Failed to log activity, but join succeeded:', activityErr);
                     }
 
-                    console.log('joinFamily: Successfully joined family');
-                    return { success: true };
+                    console.log('joinFamily: Successfully joined family, waiting for sync...');
+                    // Small delay to allow Firestore to sync
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    return { success: true, familyId: familyDoc.id };
                 } catch (err) {
                     console.error('joinFamily: Error:', err);
                     return { success: false, error: err.message || 'שגיאה בהצטרפות למשפחה' };
@@ -4205,6 +4212,9 @@
                     console.log('handleJoin: Result:', result);
                     if (!result.success) {
                         setError(result.error || t('errorJoining'));
+                    } else {
+                        // Show success and wait for family state to update
+                        setMode('joined');
                     }
                 } catch (err) {
                     console.error('handleJoin: Caught error:', err);
@@ -4438,6 +4448,25 @@
                                     📋 העתק קוד
                                 </button>
                                 <p className="text-xs text-gray-500 dark:text-gray-400">{t('pageRefresh')}</p>
+                            </div>
+                        )}
+
+                        {mode === 'joined' && (
+                            <div className="text-center space-y-4">
+                                <div className="text-6xl mb-4">🎉</div>
+                                <h2 className="text-xl font-bold text-gradient">הצטרפת בהצלחה!</h2>
+                                <p className="text-gray-600 dark:text-gray-400">ממתין לטעינת המשפחה...</p>
+                                <div className="flex items-center justify-center gap-2">
+                                    <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                                    <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                                    <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                                </div>
+                                <button
+                                    onClick={() => window.location.reload()}
+                                    className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors"
+                                >
+                                    רענן עמוד
+                                </button>
                             </div>
                         )}
                     </div>
