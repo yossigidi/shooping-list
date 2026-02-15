@@ -594,7 +594,10 @@
             signOut,
             onAuthStateChanged,
             updateProfile,
-            sendPasswordResetEmail
+            sendPasswordResetEmail,
+            browserLocalPersistence,
+            setPersistence,
+            indexedDBLocalPersistence
         } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
         const firebaseConfig = {
@@ -614,6 +617,12 @@
             })
         });
         window.auth = getAuth(app);
+        // Set explicit persistence for TWA compatibility
+        setPersistence(window.auth, indexedDBLocalPersistence).then(() => {
+            console.log('🔐 Firebase Auth persistence set to IndexedDB');
+        }).catch((err) => {
+            console.warn('⚠️ Could not set IndexedDB persistence, using default:', err);
+        });
         console.log('🔄 Firestore offline persistence enabled');
         window.firestore = { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, where, serverTimestamp, arrayUnion, arrayRemove, getDoc, setDoc };
         window.firebaseAuth = {
@@ -3730,59 +3739,77 @@
 
             // Join existing family
             const joinFamily = async (code, userRole = 'child') => {
-                if (!user) return { success: false, error: 'לא מחובר' };
-
-                const q = window.firestore.query(
-                    window.firestore.collection(window.db, 'families'),
-                    window.firestore.where('code', '==', code.toUpperCase())
-                );
-
-                const snapshot = await window.firestore.getDocs(q);
-
-                if (snapshot.empty) {
-                    return { success: false, error: 'קוד לא נמצא' };
+                if (!user) {
+                    console.error('joinFamily: No user logged in');
+                    return { success: false, error: 'לא מחובר' };
                 }
 
-                const familyDoc = snapshot.docs[0];
-                const familyData = familyDoc.data();
+                try {
+                    console.log('joinFamily: Searching for family with code:', code.toUpperCase());
+                    const q = window.firestore.query(
+                        window.firestore.collection(window.db, 'families'),
+                        window.firestore.where('code', '==', code.toUpperCase())
+                    );
 
-                // Check if already a member
-                if (familyData.members?.some(m => m.userId === user?.uid)) {
-                    return { success: false, error: 'כבר חבר במשפחה זו' };
-                }
+                    const snapshot = await window.firestore.getDocs(q);
 
-                const isParent = userRole.startsWith('parent');
-                const isTeen = userRole === 'teen';
-                const roleLabel = userRole === 'parent_father' ? 'אבא' :
-                                  userRole === 'parent_mother' ? 'אמא' :
-                                  userRole === 'teen' ? 'נער/ה בוגר/ת' : 'ילד/ה';
-
-                // Add user to family
-                // Roles: admin (parents), teen (older child with some permissions), member (child)
-                const newMember = {
-                    userId: user?.uid,
-                    email: user?.email,
-                    displayName: user?.displayName || user?.email || 'אנונימי',
-                    joinedAt: new Date(),
-                    role: isParent ? 'admin' : (isTeen ? 'teen' : 'member'),
-                    familyRole: userRole,
-                    familyRoleLabel: roleLabel,
-                    isParent: isParent,
-                    isTeen: isTeen
-                };
-
-                await window.firestore.updateDoc(
-                    window.firestore.doc(window.db, 'families', familyDoc.id),
-                    {
-                        members: window.firestore.arrayUnion(newMember),
-                        memberIds: window.firestore.arrayUnion(user?.uid)
+                    if (snapshot.empty) {
+                        console.log('joinFamily: Family not found');
+                        return { success: false, error: 'קוד לא נמצא' };
                     }
-                );
 
-                // Log activity
-                await logActivity('member_joined', { memberName: user?.displayName || user?.email || 'אנונימי' }, familyDoc.id);
+                    const familyDoc = snapshot.docs[0];
+                    const familyData = familyDoc.data();
+                    console.log('joinFamily: Found family:', familyDoc.id);
 
-                return { success: true };
+                    // Check if already a member
+                    if (familyData.members?.some(m => m.userId === user?.uid)) {
+                        console.log('joinFamily: User already a member');
+                        return { success: false, error: 'כבר חבר במשפחה זו' };
+                    }
+
+                    const isParent = userRole.startsWith('parent');
+                    const isTeen = userRole === 'teen';
+                    const roleLabel = userRole === 'parent_father' ? 'אבא' :
+                                      userRole === 'parent_mother' ? 'אמא' :
+                                      userRole === 'teen' ? 'נער/ה בוגר/ת' : 'ילד/ה';
+
+                    // Add user to family
+                    // Roles: admin (parents), teen (older child with some permissions), member (child)
+                    const newMember = {
+                        userId: user?.uid,
+                        email: user?.email,
+                        displayName: user?.displayName || user?.email || 'אנונימי',
+                        joinedAt: new Date(),
+                        role: isParent ? 'admin' : (isTeen ? 'teen' : 'member'),
+                        familyRole: userRole,
+                        familyRoleLabel: roleLabel,
+                        isParent: isParent,
+                        isTeen: isTeen
+                    };
+
+                    console.log('joinFamily: Adding member to family');
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'families', familyDoc.id),
+                        {
+                            members: window.firestore.arrayUnion(newMember),
+                            memberIds: window.firestore.arrayUnion(user?.uid)
+                        }
+                    );
+
+                    // Log activity (don't let this fail the join)
+                    try {
+                        await logActivity('member_joined', { memberName: user?.displayName || user?.email || 'אנונימי' }, familyDoc.id);
+                    } catch (activityErr) {
+                        console.warn('joinFamily: Failed to log activity, but join succeeded:', activityErr);
+                    }
+
+                    console.log('joinFamily: Successfully joined family');
+                    return { success: true };
+                } catch (err) {
+                    console.error('joinFamily: Error:', err);
+                    return { success: false, error: err.message || 'שגיאה בהצטרפות למשפחה' };
+                }
             };
 
             // Leave family
@@ -4159,6 +4186,9 @@
 
             const handleJoin = async (e) => {
                 e.preventDefault();
+                e.stopPropagation();
+                console.log('handleJoin: Starting join process');
+
                 if (!joinCode.trim() || joinCode.trim().length !== 6) {
                     setError(t('enterCode'));
                     return;
@@ -4170,12 +4200,15 @@
                 setLoading(true);
                 setError('');
                 try {
+                    console.log('handleJoin: Calling joinFamily with code:', joinCode.trim());
                     const result = await joinFamily(joinCode.trim(), selectedRole);
+                    console.log('handleJoin: Result:', result);
                     if (!result.success) {
-                        setError(result.error);
+                        setError(result.error || t('errorJoining'));
                     }
                 } catch (err) {
-                    setError(t('errorJoining'));
+                    console.error('handleJoin: Caught error:', err);
+                    setError(err.message || t('errorJoining'));
                 } finally {
                     setLoading(false);
                 }

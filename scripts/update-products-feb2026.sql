@@ -6,13 +6,13 @@
 -- =====================================================
 
 -- Add new egg products
-INSERT INTO products (name, name_normalized, category, subcategory, unit_type, unit_quantity)
+INSERT INTO products (name, category, subcategory, unit_type, unit_quantity)
 VALUES
-    ('ביצים L 30 יח׳', 'ביצים l 30', 'dairy', 'eggs', 'unit', 30),
-    ('ביצים XL 30 יח׳', 'ביצים xl 30', 'dairy', 'eggs', 'unit', 30),
-    ('ביצים M 30 יח׳', 'ביצים m 30', 'dairy', 'eggs', 'unit', 30),
-    ('ביצים M 12 יח׳', 'ביצים m 12', 'dairy', 'eggs', 'unit', 12)
-ON CONFLICT (name) DO NOTHING;
+    ('ביצים L 30 יח׳', 'dairy', 'eggs', 'unit', 30),
+    ('ביצים XL 30 יח׳', 'dairy', 'eggs', 'unit', 30),
+    ('ביצים M 30 יח׳', 'dairy', 'eggs', 'unit', 30),
+    ('ביצים M 12 יח׳', 'dairy', 'eggs', 'unit', 12)
+ON CONFLICT DO NOTHING;
 
 -- =====================================================
 -- 2. EGGS - Update prices (supervised prices from Shufersal)
@@ -67,13 +67,13 @@ ON CONFLICT (product_id, chain_id) DO UPDATE SET price = EXCLUDED.price, last_up
 -- =====================================================
 
 -- Add new Fanta products
-INSERT INTO products (name, name_normalized, category, subcategory, unit_type, unit_quantity)
+INSERT INTO products (name, category, subcategory, unit_type, unit_quantity)
 VALUES
-    ('פאנטה תפוזים 1.5 ליטר', 'פאנטה תפוזים 1.5 ליטר', 'beverages', 'soft_drinks', 'liter', 1.5),
-    ('פאנטה טרופי 1.5 ליטר', 'פאנטה טרופי 1.5 ליטר', 'beverages', 'soft_drinks', 'liter', 1.5),
-    ('פאנטה תפוזים פחית 330 מ"ל', 'פאנטה תפוזים פחית 330', 'beverages', 'soft_drinks', 'ml', 330),
-    ('פאנטה טרופי פחית 330 מ"ל', 'פאנטה טרופי פחית 330', 'beverages', 'soft_drinks', 'ml', 330)
-ON CONFLICT (name) DO NOTHING;
+    ('פאנטה תפוזים 1.5 ליטר', 'beverages', 'soft_drinks', 'liter', 1.5),
+    ('פאנטה טרופי 1.5 ליטר', 'beverages', 'soft_drinks', 'liter', 1.5),
+    ('פאנטה תפוזים פחית 330 מ"ל', 'beverages', 'soft_drinks', 'ml', 330),
+    ('פאנטה טרופי פחית 330 מ"ל', 'beverages', 'soft_drinks', 'ml', 330)
+ON CONFLICT DO NOTHING;
 
 -- Insert prices for new Fanta products
 INSERT INTO prices (product_id, chain_id, price, last_updated)

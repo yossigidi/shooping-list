@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3TZHCPSK23"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-3TZHCPSK23');
+    </script>
+
+    <meta name="theme-color" content="#14B8A6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ListNest">
+    <meta name="description" content="ListNest - Smart Family Shopping List with real-time sharing">
+
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <title>ListNest - Smart Family Shopping List</title>
+
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossorigin>
+
+    <!-- Critical font -->
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Critical inline styles for loading skeleton */
+        * { font-family: 'Heebo', sans-serif; box-sizing: border-box; }
+        body { margin: 0; }
+        #loading-skeleton {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: #f0fdfa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .splash-spin { animation: spin 1s linear infinite; }
+    </style>
+</head>
+<body>
+    <!-- WCAG 2.4.1 Skip Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-1/2 focus:-translate-x-1/2 focus:bg-indigo-500 focus:text-white focus:p-3 focus:rounded-b-lg focus:z-[99999]">
+        Skip to main content
+    </a>
+
+    <!-- WCAG Live Region -->
+    <div id="aria-live-region" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+    <!-- Loading skeleton -->
+    <div id="loading-skeleton">
+        <img src="/splash.png" alt="ListNest" style="width:100%;height:100%;object-fit:contain;object-position:center;position:absolute;inset:0;">
+        <div style="position:absolute;top:50px;text-align:center;padding:0 20px;">
+            <h1 style="font-size:36px;font-weight:700;color:#0d9488;margin:0;text-shadow:0 2px 10px rgba(13,148,136,0.2);">ListNest</h1>
+            <p style="font-size:20px;color:#14b8a6;margin:12px 0 0 0;font-weight:600;">Smart Family Shopping List</p>
+        </div>
+        <div style="position:absolute;bottom:60px;display:flex;flex-direction:column;align-items:center;gap:12px;color:#14B8A6;">
+            <div style="width:32px;height:32px;border:3px solid #99f6e4;border-top-color:#14B8A6;border-radius:50%;" class="splash-spin"></div>
+            <span style="font-size:16px;font-weight:500;">Loading...</span>
+        </div>
+    </div>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

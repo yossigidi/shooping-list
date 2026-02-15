@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "il.co.listnest.twa",
+    "sha256_cert_fingerprints": ["36:44:AF:55:9B:B1:57:FD:84:7A:C4:20:CE:73:84:02:9A:2C:B1:E9:67:37:52:CE:FA:D6:D7:8E:A1:D6:F4:CB"]
+  }
+}]
