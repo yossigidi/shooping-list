@@ -33,6 +33,11 @@
     <!-- Critical font with display swap for faster text rendering -->
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Preload critical scripts for faster loading -->
+    <link rel="preload" href="https://unpkg.com/react@18/umd/react.production.min.js" as="script" crossorigin>
+    <link rel="preload" href="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" as="script" crossorigin>
+    <link rel="preload" href="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js" as="script" crossorigin>
+
     <!-- Core libraries - loaded synchronously as they're critical -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
