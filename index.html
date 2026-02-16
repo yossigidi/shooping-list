@@ -7268,10 +7268,7 @@
                 try {
                     setLoading(true);
                     console.log('Attempting password reset for:', email);
-                    await window.firebaseAuth.sendPasswordResetEmail(window.auth, email, {
-                        url: window.location.origin + '/',
-                        handleCodeInApp: true
-                    });
+                    await window.firebaseAuth.sendPasswordResetEmail(window.auth, email);
                     console.log('Password reset email sent successfully');
                     setSuccess(true);
                 } catch (err) {
