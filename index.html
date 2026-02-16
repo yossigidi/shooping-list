@@ -1246,7 +1246,7 @@
                 error: 'שגיאה',
                 tryAgain: 'נסה שוב',
                 invalidEmail: 'אימייל לא תקין',
-                passwordTooShort: 'הסיסמה חייבת להכיל לפחות 8 תווים',
+                passwordTooShort: 'הסיסמה חייבת להכיל לפחות 6 תווים',
                 passwordsNoMatch: 'הסיסמאות לא תואמות',
                 codeNotFound: 'קוד לא נמצא',
                 alreadyMember: 'כבר חבר במשפחה זו',
@@ -1263,7 +1263,7 @@
                 enterEmailForReset: 'הזן את כתובת האימייל שלך ונשלח לך קישור לאיפוס',
                 displayName: 'שם תצוגה',
                 displayNamePlaceholder: 'השם שיוצג באפליקציה',
-                minChars: 'לפחות 8 תווים',
+                minChars: 'לפחות 6 תווים',
                 reenterPassword: 'הזן שוב את הסיסמה',
                 enterDisplayName: 'נא להזין שם תצוגה',
                 smartShoppingList: 'רשימת הקניות החכמה שלך',
@@ -1769,7 +1769,46 @@
                 noPromotionsAvailable: 'אין מבצעים זמינים כרגע',
                 // Request permission error
                 permissionRequestError: 'לא ניתן לבקש הרשאת התראות. נסה לרענן את הדף.',
-                notificationError: 'שגיאה בהפעלת התראות. נסה לרענן את הדף.'
+                notificationError: 'שגיאה בהפעלת התראות. נסה לרענן את הדף.',
+                // Notification strings
+                iosNotificationHint: 'כדי לקבל התראות באייפון, הוסף את האפליקציה למסך הבית (כפתור שיתוף ⬆️)',
+                browserNoNotifications: 'הדפדפן לא תומך בהתראות',
+                notificationsEnabled: 'התראות הופעלו',
+                notificationsDisabled: 'התראות כובו',
+                notificationsBlocked: 'ההתראות נחסמו. לחץ על המנעול 🔒 בשורת הכתובת',
+                enableNotifications: 'הפעל התראות',
+                newMessage: 'הודעה חדשה',
+                sentPhoto: 'שלח/ה תמונה',
+                familyChat: 'צ\'אט משפחתי',
+                stopRecording: 'הפסק הקלטה קולית',
+                // Auth errors
+                emailAlreadyInUse: 'כתובת האימייל כבר בשימוש',
+                operationNotAllowed: 'פעולה לא מורשית',
+                userDisabled: 'המשתמש הושבת',
+                userNotFound: 'לא נמצא משתמש עם אימייל זה',
+                wrongPassword: 'סיסמה שגויה',
+                tooManyRequests: 'יותר מדי ניסיונות, נסה שוב מאוחר יותר',
+                invalidCredential: 'פרטי התחברות שגויים',
+                missingPassword: 'נא להזין סיסמה',
+                missingEmail: 'נא להזין כתובת אימייל',
+                networkError: 'שגיאת רשת - בדוק את החיבור לאינטרנט',
+                internalError: 'שגיאה פנימית, נסה שוב',
+                unknown: 'לא ידוע',
+                refreshAndTryAgain: 'אנא רענן את הדף ונסה שוב',
+                // Sort options
+                sortByNewest: 'מיון לפי חדש ביותר',
+                sortByName: 'מיון לפי שם',
+                sortByCategory: 'מיון לפי קטגוריה',
+                sortByPurchased: 'מיון לפי נקנה',
+                // Chat features
+                deleteMessage: 'מחק הודעה',
+                editMessage: 'ערוך הודעה',
+                edited: 'נערך',
+                deleteMessageConfirm: 'למחוק את ההודעה?',
+                // PWA
+                installApp: 'התקן את האפליקציה',
+                installAppDesc: 'הוסף למסך הבית לחוויה מיטבית',
+                installDismiss: 'לא עכשיו'
             },
             en: {
                 // App name & general
@@ -1956,7 +1995,7 @@
                 error: 'Error',
                 tryAgain: 'Try Again',
                 invalidEmail: 'Invalid email',
-                passwordTooShort: 'Password must be at least 8 characters',
+                passwordTooShort: 'Password must be at least 6 characters',
                 passwordsNoMatch: 'Passwords do not match',
                 codeNotFound: 'Code not found',
                 alreadyMember: 'Already a member of this family',
@@ -1973,7 +2012,7 @@
                 enterEmailForReset: 'Enter your email and we will send you a reset link',
                 displayName: 'Display Name',
                 displayNamePlaceholder: 'Name shown in app',
-                minChars: 'At least 8 characters',
+                minChars: 'At least 6 characters',
                 reenterPassword: 'Re-enter password',
                 enterDisplayName: 'Please enter a display name',
                 smartShoppingList: 'Your smart shopping list',
@@ -2468,7 +2507,41 @@
                 exportRecipes: 'Export recipes',
                 noPromotionsAvailable: 'No promotions available right now',
                 permissionRequestError: 'Cannot request notification permission. Try refreshing.',
-                notificationError: 'Error enabling notifications. Try refreshing.'
+                notificationError: 'Error enabling notifications. Try refreshing.',
+                iosNotificationHint: 'To get notifications on iPhone, add app to home screen (Share ⬆️)',
+                browserNoNotifications: 'Browser does not support notifications',
+                notificationsEnabled: 'Notifications enabled',
+                notificationsDisabled: 'Notifications disabled',
+                notificationsBlocked: 'Notifications blocked. Click the lock icon 🔒 in address bar',
+                enableNotifications: 'Enable notifications',
+                newMessage: 'New message',
+                sentPhoto: 'Sent a photo',
+                familyChat: 'Family chat',
+                stopRecording: 'Stop recording',
+                emailAlreadyInUse: 'Email already in use',
+                operationNotAllowed: 'Operation not allowed',
+                userDisabled: 'User is disabled',
+                userNotFound: 'No user found with this email',
+                wrongPassword: 'Wrong password',
+                tooManyRequests: 'Too many attempts, try again later',
+                invalidCredential: 'Invalid credentials',
+                missingPassword: 'Please enter a password',
+                missingEmail: 'Please enter an email address',
+                networkError: 'Network error - check your internet connection',
+                internalError: 'Internal error, try again',
+                unknown: 'Unknown',
+                refreshAndTryAgain: 'Please refresh the page and try again',
+                sortByNewest: 'Sort by newest',
+                sortByName: 'Sort by name',
+                sortByCategory: 'Sort by category',
+                sortByPurchased: 'Sort by purchased',
+                deleteMessage: 'Delete message',
+                editMessage: 'Edit message',
+                edited: 'Edited',
+                deleteMessageConfirm: 'Delete this message?',
+                installApp: 'Install app',
+                installAppDesc: 'Add to home screen for the best experience',
+                installDismiss: 'Not now'
             },
             ru: {
                 // App name & general
@@ -2680,7 +2753,7 @@
                 error: 'Ошибка',
                 tryAgain: 'Попробовать снова',
                 invalidEmail: 'Неверный email',
-                passwordTooShort: 'Пароль должен содержать минимум 8 символов',
+                passwordTooShort: 'Пароль должен содержать минимум 6 символов',
                 passwordsNoMatch: 'Пароли не совпадают',
                 codeNotFound: 'Код не найден',
                 alreadyMember: 'Уже являетесь членом этой семьи',
@@ -2697,7 +2770,7 @@
                 enterEmailForReset: 'Введите email и мы отправим вам ссылку для сброса',
                 displayName: 'Отображаемое имя',
                 displayNamePlaceholder: 'Имя в приложении',
-                minChars: 'Минимум 8 символов',
+                minChars: 'Минимум 6 символов',
                 reenterPassword: 'Повторите пароль',
                 enterDisplayName: 'Пожалуйста, введите отображаемое имя',
                 smartShoppingList: 'Ваш умный список покупок',
@@ -3164,7 +3237,41 @@
                 exportRecipes: 'Экспорт рецептов',
                 noPromotionsAvailable: 'Нет доступных акций',
                 permissionRequestError: 'Не удалось запросить разрешение. Попробуйте обновить.',
-                notificationError: 'Ошибка уведомлений. Попробуйте обновить.'
+                notificationError: 'Ошибка уведомлений. Попробуйте обновить.',
+                iosNotificationHint: 'Для уведомлений на iPhone добавьте приложение на главный экран (кнопка «Поделиться» ⬆️)',
+                browserNoNotifications: 'Браузер не поддерживает уведомления',
+                notificationsEnabled: 'Уведомления включены',
+                notificationsDisabled: 'Уведомления отключены',
+                notificationsBlocked: 'Уведомления заблокированы. Нажмите на замок 🔒 в адресной строке',
+                enableNotifications: 'Включить уведомления',
+                newMessage: 'Новое сообщение',
+                sentPhoto: 'Отправил(а) фото',
+                familyChat: 'Семейный чат',
+                stopRecording: 'Остановить запись',
+                emailAlreadyInUse: 'Этот email уже используется',
+                operationNotAllowed: 'Операция не разрешена',
+                userDisabled: 'Пользователь отключён',
+                userNotFound: 'Пользователь с таким email не найден',
+                wrongPassword: 'Неверный пароль',
+                tooManyRequests: 'Слишком много попыток, попробуйте позже',
+                invalidCredential: 'Неверные данные для входа',
+                missingPassword: 'Введите пароль',
+                missingEmail: 'Введите адрес электронной почты',
+                networkError: 'Ошибка сети — проверьте подключение к интернету',
+                internalError: 'Внутренняя ошибка, попробуйте ещё раз',
+                unknown: 'Неизвестно',
+                refreshAndTryAgain: 'Обновите страницу и попробуйте снова',
+                sortByNewest: 'Сортировка по новизне',
+                sortByName: 'Сортировка по имени',
+                sortByCategory: 'Сортировка по категории',
+                sortByPurchased: 'Сортировка по купленным',
+                deleteMessage: 'Удалить сообщение',
+                editMessage: 'Редактировать сообщение',
+                edited: 'Изменено',
+                deleteMessageConfirm: 'Удалить это сообщение?',
+                installApp: 'Установить приложение',
+                installAppDesc: 'Добавьте на главный экран для лучшего опыта',
+                installDismiss: 'Не сейчас'
             },
             ar: {
                 // App name & general
@@ -3351,7 +3458,7 @@
                 error: 'خطأ',
                 tryAgain: 'حاول مرة أخرى',
                 invalidEmail: 'بريد إلكتروني غير صالح',
-                passwordTooShort: 'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل',
+                passwordTooShort: 'كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل',
                 passwordsNoMatch: 'كلمات المرور غير متطابقة',
                 codeNotFound: 'الرمز غير موجود',
                 alreadyMember: 'أنت عضو بالفعل في هذه العائلة',
@@ -3368,7 +3475,7 @@
                 enterEmailForReset: 'أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين',
                 displayName: 'اسم العرض',
                 displayNamePlaceholder: 'الاسم المعروض في التطبيق',
-                minChars: '8 أحرف على الأقل',
+                minChars: '6 أحرف على الأقل',
                 reenterPassword: 'أعد إدخال كلمة المرور',
                 enterDisplayName: 'يرجى إدخال اسم العرض',
                 smartShoppingList: 'قائمة التسوق الذكية الخاصة بك',
@@ -3864,7 +3971,41 @@
                 exportRecipes: 'تصدير الوصفات',
                 noPromotionsAvailable: 'لا توجد عروض متاحة حالياً',
                 permissionRequestError: 'تعذر طلب إذن الإشعارات. حاول التحديث.',
-                notificationError: 'خطأ في تفعيل الإشعارات. حاول التحديث.'
+                notificationError: 'خطأ في تفعيل الإشعارات. حاول التحديث.',
+                iosNotificationHint: 'للحصول على إشعارات على iPhone، أضف التطبيق إلى الشاشة الرئيسية (زر المشاركة ⬆️)',
+                browserNoNotifications: 'المتصفح لا يدعم الإشعارات',
+                notificationsEnabled: 'تم تفعيل الإشعارات',
+                notificationsDisabled: 'تم تعطيل الإشعارات',
+                notificationsBlocked: 'الإشعارات محظورة. اضغط على القفل 🔒 في شريط العنوان',
+                enableNotifications: 'تفعيل الإشعارات',
+                newMessage: 'رسالة جديدة',
+                sentPhoto: 'أرسل صورة',
+                familyChat: 'دردشة عائلية',
+                stopRecording: 'إيقاف التسجيل',
+                emailAlreadyInUse: 'البريد الإلكتروني مستخدم بالفعل',
+                operationNotAllowed: 'العملية غير مسموحة',
+                userDisabled: 'المستخدم معطّل',
+                userNotFound: 'لم يتم العثور على مستخدم بهذا البريد',
+                wrongPassword: 'كلمة المرور خاطئة',
+                tooManyRequests: 'محاولات كثيرة، حاول لاحقاً',
+                invalidCredential: 'بيانات تسجيل الدخول غير صحيحة',
+                missingPassword: 'يرجى إدخال كلمة المرور',
+                missingEmail: 'يرجى إدخال البريد الإلكتروني',
+                networkError: 'خطأ في الشبكة - تحقق من اتصال الإنترنت',
+                internalError: 'خطأ داخلي، حاول مرة أخرى',
+                unknown: 'غير معروف',
+                refreshAndTryAgain: 'يرجى تحديث الصفحة والمحاولة مرة أخرى',
+                sortByNewest: 'ترتيب حسب الأحدث',
+                sortByName: 'ترتيب حسب الاسم',
+                sortByCategory: 'ترتيب حسب الفئة',
+                sortByPurchased: 'ترتيب حسب المشتراة',
+                deleteMessage: 'حذف الرسالة',
+                editMessage: 'تعديل الرسالة',
+                edited: 'معدّل',
+                deleteMessageConfirm: 'حذف هذه الرسالة؟',
+                installApp: 'تثبيت التطبيق',
+                installAppDesc: 'أضف إلى الشاشة الرئيسية لأفضل تجربة',
+                installDismiss: 'ليس الآن'
             }
         };
 
@@ -4210,20 +4351,41 @@
                     }
 
                     console.log('joinFamily: Successfully joined family, waiting for sync...');
-                    // Wait for Firestore listener to pick up the change
-                    // The onSnapshot with memberIds filter will auto-detect the new membership
-                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    // Wait for Firestore to confirm the family data with a real-time listener
+                    await new Promise((resolve, reject) => {
+                        const timeoutId = setTimeout(() => {
+                            unsubSync();
+                            // Timeout fallback: manually fetch and set
+                            console.log('joinFamily: Listener timed out, manually fetching family');
+                            window.firestore.getDoc(
+                                window.firestore.doc(window.db, 'families', familyDoc.id)
+                            ).then(updatedDoc => {
+                                if (updatedDoc.exists()) {
+                                    setFamily({ id: updatedDoc.id, ...updatedDoc.data() });
+                                }
+                                resolve();
+                            }).catch(() => resolve());
+                        }, 5000);
 
-                    // Fallback: if listener didn't pick it up, manually set the family
-                    if (!family) {
-                        console.log('joinFamily: Listener did not pick up change, manually setting family');
-                        const updatedDoc = await window.firestore.getDoc(
-                            window.firestore.doc(window.db, 'families', familyDoc.id)
+                        const unsubSync = window.firestore.onSnapshot(
+                            window.firestore.doc(window.db, 'families', familyDoc.id),
+                            (doc) => {
+                                if (doc.exists() && doc.data().memberIds?.includes(user?.uid)) {
+                                    console.log('joinFamily: Listener confirmed membership');
+                                    clearTimeout(timeoutId);
+                                    unsubSync();
+                                    setFamily({ id: doc.id, ...doc.data() });
+                                    resolve();
+                                }
+                            },
+                            (err) => {
+                                console.warn('joinFamily: Listener error:', err);
+                                clearTimeout(timeoutId);
+                                unsubSync();
+                                resolve();
+                            }
                         );
-                        if (updatedDoc.exists()) {
-                            setFamily({ id: updatedDoc.id, ...updatedDoc.data() });
-                        }
-                    }
+                    });
                     return { success: true, familyId: familyDoc.id };
                 } catch (err) {
                     console.error('joinFamily: Error:', err);
@@ -4256,7 +4418,7 @@
                 const familyId = family.id;
 
                 // Clean up sub-documents (each step independent - don't block family deletion)
-                const cleanupCollections = ['shopping-items', 'lists', 'family-chat'];
+                const cleanupCollections = ['shopping-items', 'lists', 'shopping-lists', 'family-chat', 'chat-messages', 'shopping-history', 'activity-log', 'calendar-events', 'recipes', 'reminder-history', 'forgotten-stats'];
                 for (const collectionName of cleanupCollections) {
                     try {
                         const snapshot = await window.firestore.getDocs(
@@ -6282,8 +6444,26 @@
             );
         }
 
-        // Error message helper
-        function getErrorMessage(errorCode) {
+        // Error message helper (accepts t function for translations)
+        function getErrorMessage(errorCode, t) {
+            if (t) {
+                const messages = {
+                    'auth/email-already-in-use': t('emailAlreadyInUse'),
+                    'auth/invalid-email': t('invalidEmail'),
+                    'auth/operation-not-allowed': t('operationNotAllowed'),
+                    'auth/weak-password': t('passwordTooShort'),
+                    'auth/user-disabled': t('userDisabled'),
+                    'auth/user-not-found': t('userNotFound'),
+                    'auth/wrong-password': t('wrongPassword'),
+                    'auth/too-many-requests': t('tooManyRequests'),
+                    'auth/invalid-credential': t('invalidCredential'),
+                    'auth/missing-password': t('missingPassword'),
+                    'auth/missing-email': t('missingEmail'),
+                    'auth/network-request-failed': t('networkError'),
+                    'auth/internal-error': t('internalError')
+                };
+                return messages[errorCode] || `${t('error')}: ${errorCode || t('unknown')}`;
+            }
             const messages = {
                 'auth/email-already-in-use': 'כתובת האימייל כבר בשימוש',
                 'auth/invalid-email': 'כתובת אימייל לא תקינה',
@@ -6326,7 +6506,7 @@
                 if (password !== confirmPassword) {
                     return setError(t('passwordsNoMatch'));
                 }
-                if (password.length < 8) {
+                if (password.length < 6) {
                     return setError(t('passwordTooShort'));
                 }
 
@@ -6339,7 +6519,7 @@
                         displayName: displayName.trim()
                     });
                 } catch (err) {
-                    setError(getErrorMessage(err.code));
+                    setError(getErrorMessage(err.code, t));
                 } finally {
                     setLoading(false);
                 }
@@ -6485,9 +6665,9 @@
                 } catch (err) {
                     console.error('Login error:', err);
                     if (err.message === 'Firebase not initialized') {
-                        setError('אנא רענן את הדף ונסה שוב');
+                        setError(t('refreshAndTryAgain'));
                     } else {
-                        setError(getErrorMessage(err.code) || err.message || 'אירעה שגיאה, נסה שוב');
+                        setError(getErrorMessage(err.code, t) || err.message || t('error'));
                     }
                 } finally {
                     setLoading(false);
@@ -6596,7 +6776,7 @@
                     setSuccess(true);
                 } catch (err) {
                     console.error('Password reset error:', err.code, err.message);
-                    setError(getErrorMessage(err.code));
+                    setError(getErrorMessage(err.code, t));
                 } finally {
                     setLoading(false);
                 }
@@ -10817,6 +10997,7 @@
             const [selectedCategory, setSelectedCategory] = useState(null);
             const [showCategories, setShowCategories] = useState(false);
             const [searchTerm, setSearchTerm] = useState('');
+            const [sortBy, setSortBy] = useState('newest'); // newest, name, category, purchased
             const [loading, setLoading] = useState(true);
             const [darkMode, setDarkMode] = useState(false);
             const [showFinishShopping, setShowFinishShopping] = useState(false);
@@ -10842,6 +11023,8 @@
             const [showSettings, setShowSettings] = useState(false);
             const [chatMessages, setChatMessages] = useState([]);
             const [chatInput, setChatInput] = useState('');
+            const [chatContextMenu, setChatContextMenu] = useState(null); // { msgId, x, y }
+            const [editingMessageId, setEditingMessageId] = useState(null);
             const [showCamera, setShowCamera] = useState(false);
             const [capturedPhoto, setCapturedPhoto] = useState(null);
             const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
@@ -10952,6 +11135,8 @@
             const [showOnboarding, setShowOnboarding] = useState(false);
             const [onboardingStep, setOnboardingStep] = useState(0);
             const [showHelp, setShowHelp] = useState(false);
+            const [deferredInstallPrompt, setDeferredInstallPrompt] = useState(null);
+            const [showInstallBanner, setShowInstallBanner] = useState(false);
             const [showFeedback, setShowFeedback] = useState(false);
             const [feedbackText, setFeedbackText] = useState('');
             const [feedbackType, setFeedbackType] = useState('bug');
@@ -12162,35 +12347,32 @@
             const fetchPromotions = async () => {
                 setPromotionsLoading(true);
                 try {
-                    const response = await fetch('/api/prices?action=promotions');
-                    const data = await response.json();
+                    // Check sessionStorage cache (valid for 30 minutes)
+                    const cacheKey = 'listnest_promotions_cache';
+                    const cacheTimeKey = 'listnest_promotions_cache_time';
+                    let data;
+                    try {
+                        const cachedTime = sessionStorage.getItem(cacheTimeKey);
+                        const cachedData = sessionStorage.getItem(cacheKey);
+                        if (cachedData && cachedTime && (Date.now() - parseInt(cachedTime)) < 30 * 60 * 1000) {
+                            data = JSON.parse(cachedData);
+                        }
+                    } catch (e) { /* ignore cache errors */ }
+
+                    if (!data) {
+                        const response = await fetch('/api/prices?action=promotions');
+                        data = await response.json();
+                        try {
+                            sessionStorage.setItem(cacheKey, JSON.stringify(data));
+                            sessionStorage.setItem(cacheTimeKey, String(Date.now()));
+                        } catch (e) { /* ignore cache write errors */ }
+                    }
                     if (data.success && data.total > 0) {
-                        // Filter out חצי חינם promotions (temporarily disabled)
-                        const isHaziHinam = (name) =>
-                            name?.includes('חצי חינם') ||
-                            name?.toLowerCase().includes('hatzi') ||
-                            name?.toLowerCase().includes('hazi');
-
-                        const filteredPromotions = (data.promotions || []).filter(promo =>
-                            !isHaziHinam(promo.chain_name) && !isHaziHinam(promo.chain_name_he)
-                        );
-
-                        // Also filter byChain array
-                        const filteredByChain = (data.byChain || []).filter(chain =>
-                            !isHaziHinam(chain.chain_name) && !isHaziHinam(chain.chain_name_he)
-                        );
-
-                        const filteredData = {
-                            ...data,
-                            promotions: filteredPromotions,
-                            byChain: filteredByChain,
-                            total: filteredPromotions.length
-                        };
-                        setPromotionsData(filteredData);
+                        setPromotionsData(data);
                         // Build lookup for product promotions - only by linked products (exact)
                         const promoLookup = {};
 
-                        (filteredPromotions || []).forEach(promo => {
+                        (data.promotions || []).forEach(promo => {
                             const promoData = {
                                 chain: promo.chain_name,
                                 description: promo.description,
@@ -12659,6 +12841,21 @@
                 }
             }, []);
 
+            // PWA install prompt
+            useEffect(() => {
+                const handler = (e) => {
+                    e.preventDefault();
+                    setDeferredInstallPrompt(e);
+                    // Show install banner if user hasn't dismissed it
+                    const dismissed = localStorage.getItem('listnest_install_dismissed');
+                    if (!dismissed) {
+                        setTimeout(() => setShowInstallBanner(true), 3000);
+                    }
+                };
+                window.addEventListener('beforeinstallprompt', handler);
+                return () => window.removeEventListener('beforeinstallprompt', handler);
+            }, []);
+
             // Fetch promotions on mount
             useEffect(() => {
                 fetchPromotions();
@@ -12949,10 +13146,10 @@
                 const isReminder = message.type === 'reminder';
                 const title = isReminder
                     ? `🔔 ${t('reminderFromFamily')}`
-                    : `💬 ${message.senderName || 'הודעה חדשה'}`;
+                    : `💬 ${message.senderName || t('newMessage')}`;
                 const body = isReminder
                     ? message.text || t('dontForgetToAdd')
-                    : (message.photoUrl ? '📷 שלח/ה תמונה' : message.text || 'הודעה חדשה');
+                    : (message.photoUrl ? `📷 ${t('sentPhoto')}` : message.text || t('newMessage'));
 
                 try {
                     const notification = new Notification(title, {
@@ -12983,8 +13180,8 @@
                 if (Notification.permission !== 'granted') return;
                 if (document.visibilityState === 'visible') return; // Don't notify if app is visible
 
-                const title = `🛒 מוצר נוסף לרשימה`;
-                const body = `${addedByName} הוסיף/ה: ${item.name}`;
+                const title = `🛒 ${t('productAdded')}`;
+                const body = `${addedByName} ${t('addedBy')}: ${item.name}`;
 
                 try {
                     const notification = new Notification(title, {
@@ -13525,6 +13722,35 @@
                     setCapturedPhoto(null);
                 } catch (error) {
                     console.error('שגיאה בשליחת הודעה:', error);
+                }
+            };
+
+            // Delete chat message (own messages only)
+            const deleteChatMessage = async (msgId) => {
+                try {
+                    await window.firestore.deleteDoc(
+                        window.firestore.doc(window.db, 'family-chat', msgId)
+                    );
+                    setChatContextMenu(null);
+                } catch (error) {
+                    console.error('Error deleting message:', error);
+                    showToast(t('error'), 'error');
+                }
+            };
+
+            // Edit chat message (own messages only)
+            const editChatMessage = async (msgId, newText) => {
+                if (!newText.trim()) return;
+                try {
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'family-chat', msgId),
+                        { text: newText.trim(), editedAt: window.firestore.serverTimestamp() }
+                    );
+                    setEditingMessageId(null);
+                    setChatInput('');
+                } catch (error) {
+                    console.error('Error editing message:', error);
+                    showToast(t('error'), 'error');
                 }
             };
 
@@ -14613,7 +14839,25 @@ END:VCALENDAR`;
                 );
             }
 
-            const filteredItems = items;
+            const filteredItems = React.useMemo(() => {
+                let sorted = [...items];
+                switch (sortBy) {
+                    case 'name':
+                        sorted.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'he'));
+                        break;
+                    case 'category':
+                        sorted.sort((a, b) => (a.category || '').localeCompare(b.category || '', 'he'));
+                        break;
+                    case 'purchased':
+                        sorted.sort((a, b) => (a.purchased ? 1 : 0) - (b.purchased ? 1 : 0));
+                        break;
+                    case 'newest':
+                    default:
+                        // Already sorted by newest from Firestore listener
+                        break;
+                }
+                return sorted;
+            }, [items, sortBy]);
             const groupedItems = filteredItems.reduce((acc, item) => {
                 if (!acc[item.category]) acc[item.category] = [];
                 acc[item.category].push(item);
@@ -14633,7 +14877,7 @@ END:VCALENDAR`;
             };
 
             return (
-                <div className="min-h-screen gradient-bg p-4 pb-4" role="application" aria-label="ListNest - רשימת קניות">
+                <div className="min-h-screen gradient-bg p-4 pb-4" role="application" aria-label={`ListNest - ${t('appName')}`}>
                     {/* Offline Banner */}
                     {!isOnline && (
                         <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-red-500 to-teal-500 text-white py-3 px-4 z-50 shadow-lg">
@@ -14670,7 +14914,7 @@ END:VCALENDAR`;
                     )}
 
                     {/* Main content landmark for skip link */}
-                    <main id="main-content" role="main" aria-label="תוכן ראשי">
+                    <main id="main-content" role="main" aria-label={t('mainContent')}>
 
                     {/* Item Actions Menu - Bottom Sheet Modal */}
                     {openItemMenu && (() => {
@@ -15897,7 +16141,7 @@ END:VCALENDAR`;
                                         <div className="relative">
                                             <img
                                                 src={receiptPhoto}
-                                                alt="קבלה"
+                                                alt={t('receipt')}
                                                 className="w-full h-32 object-cover rounded-xl border-2 border-green-300"
                                             />
                                             <button
@@ -15939,10 +16183,16 @@ END:VCALENDAR`;
                                     <div className="flex items-center gap-2">
                                         {history.length > 0 && (
                                             <button onClick={() => {
-                                                const csv = ['Date,Items,Total,CompletedBy'];
+                                                const csv = ['Date,ItemName,Quantity,Price,Category,CompletedBy,SessionTotal'];
                                                 history.forEach(r => {
                                                     const date = r.completedAt?.toDate?.()?.toLocaleDateString('en-US') || '';
-                                                    csv.push(`"${date}",${r.items.length},${r.totalAmount.toFixed(2)},"${r.completedBy || ''}"`);
+                                                    if (r.items && r.items.length > 0) {
+                                                        r.items.forEach(item => {
+                                                            csv.push(`"${date}","${(item.name || '').replace(/"/g, '""')}",${item.quantity || 1},${item.price || 0},"${(item.category || '').replace(/"/g, '""')}","${r.completedBy || ''}",${r.totalAmount?.toFixed(2) || 0}`);
+                                                        });
+                                                    } else {
+                                                        csv.push(`"${date}","",0,0,"","${r.completedBy || ''}",${r.totalAmount?.toFixed(2) || 0}`);
+                                                    }
                                                 });
                                                 const blob = new Blob([csv.join('\n')], { type: 'text/csv' });
                                                 const url = URL.createObjectURL(blob);
@@ -16598,7 +16848,7 @@ END:VCALENDAR`;
                                         <div>
                                             <h2 className="font-bold text-gray-800 dark:text-white">{family?.name}</h2>
                                             <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                {activeEditors.length > 0 ? `${activeEditors[0]} מקליד/ה...` : 'צ\'אט משפחתי'}
+                                                {activeEditors.length > 0 ? `${activeEditors[0]} ${t('typingIndicator')}` : t('familyChat')}
                                             </p>
                                         </div>
                                     </div>
@@ -16608,18 +16858,14 @@ END:VCALENDAR`;
                                                 try {
                                                     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
                                                     const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-                                                    const isHebrew = t('language') === 'עברית';
-
                                                     // iOS Safari (not installed as PWA) - Notification API may exist but won't work
                                                     if (isIOS && !isStandalone) {
-                                                        showToast(isHebrew
-                                                            ? 'כדי לקבל התראות באייפון, הוסף את האפליקציה למסך הבית (כפתור שיתוף ⬆️)'
-                                                            : 'To get notifications on iPhone, add app to home screen (Share ⬆️)', 'warning', 5000);
+                                                        showToast(t('iosNotificationHint'), 'warning', 5000);
                                                         return;
                                                     }
 
                                                     if (!('Notification' in window)) {
-                                                        showToast(isHebrew ? 'הדפדפן לא תומך בהתראות' : 'Browser does not support notifications', 'warning');
+                                                        showToast(t('browserNoNotifications'), 'warning');
                                                         return;
                                                     }
 
@@ -16627,7 +16873,7 @@ END:VCALENDAR`;
                                                         const newVal = !notificationsEnabled;
                                                         setNotificationsEnabled(newVal);
                                                         localStorage.setItem('listnest_notifications', String(newVal));
-                                                        showToast(newVal ? (isHebrew ? 'התראות הופעלו' : 'Notifications enabled') : (isHebrew ? 'התראות כובו' : 'Notifications disabled'), 'success');
+                                                        showToast(newVal ? t('notificationsEnabled') : t('notificationsDisabled'), 'success');
                                                     } else if (Notification.permission === 'default') {
                                                         let permission;
                                                         try {
@@ -16641,12 +16887,12 @@ END:VCALENDAR`;
                                                         setNotificationsEnabled(enabled);
                                                         localStorage.setItem('listnest_notifications', String(enabled));
                                                         if (!enabled) {
-                                                            showToast(isHebrew ? 'ההתראות נחסמו. לחץ על המנעול 🔒 בשורת הכתובת' : 'Notifications blocked. Click the lock icon 🔒', 'warning', 5000);
+                                                            showToast(t('notificationsBlocked'), 'warning', 5000);
                                                         } else {
-                                                            showToast(isHebrew ? 'התראות הופעלו' : 'Notifications enabled', 'success');
+                                                            showToast(t('notificationsEnabled'), 'success');
                                                         }
                                                     } else {
-                                                        showToast(isHebrew ? 'ההתראות חסומות. לחץ על המנעול 🔒 בשורת הכתובת' : 'Notifications blocked. Click lock icon 🔒 in address bar', 'warning', 5000);
+                                                        showToast(t('notificationsBlocked'), 'warning', 5000);
                                                     }
                                                 } catch (err) {
                                                     console.error('Notification toggle error:', err);
@@ -16654,7 +16900,7 @@ END:VCALENDAR`;
                                                 }
                                             }}
                                             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${notificationsEnabled ? 'bg-green-100 dark:bg-green-900/50 text-green-600' : 'bg-gray-100 dark:bg-gray-700 text-gray-500'}`}
-                                            title={notificationsEnabled ? t('language') === 'עברית' ? 'התראות פעילות' : 'Notifications on' : t('language') === 'עברית' ? 'הפעל התראות' : 'Enable notifications'}
+                                            title={notificationsEnabled ? t('notificationsEnabled') : t('enableNotifications')}
                                         >
                                             {notificationsEnabled ? '🔔' : '🔕'}
                                         </button>
@@ -16703,26 +16949,30 @@ END:VCALENDAR`;
 
                                             // Regular message rendering
                                             return (
-                                                <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'} items-end gap-2`}>
+                                                <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'} items-end gap-2 relative group`}>
                                                         {!isMe && (
                                                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                                                             {(msg.senderName || '?')[0]}
                                                         </div>
                                                     )}
-                                                    <div className="max-w-[75%]">
+                                                    <div className="max-w-[75%] relative">
                                                         {!isMe && <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 mr-2 font-medium">{msg.senderName}</p>}
-                                                        <div className={`rounded-2xl p-3 shadow-sm ${
-                                                            isMe
-                                                                ? 'bg-indigo-500 text-white rounded-br-md'
-                                                                : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-md border border-gray-100 dark:border-gray-600'
-                                                        }`}>
+                                                        <div
+                                                            className={`rounded-2xl p-3 shadow-sm ${
+                                                                isMe
+                                                                    ? 'bg-indigo-500 text-white rounded-br-md'
+                                                                    : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-md border border-gray-100 dark:border-gray-600'
+                                                            } ${isMe ? 'cursor-pointer' : ''}`}
+                                                            onClick={() => isMe && setChatContextMenu(chatContextMenu?.msgId === msg.id ? null : { msgId: msg.id })}
+                                                        >
                                                             {msg.photoUrl && (
-                                                                <img src={msg.photoUrl} alt="תמונה" className="rounded-xl mb-2 max-w-full cursor-pointer hover:opacity-90 shadow-sm" onClick={() => window.open(msg.photoUrl, '_blank')} />
+                                                                <img src={msg.photoUrl} alt={t('imageAlt')} className="rounded-xl mb-2 max-w-full cursor-pointer hover:opacity-90 shadow-sm" onClick={(e) => { e.stopPropagation(); window.open(msg.photoUrl, '_blank'); }} />
                                                             )}
                                                             {msg.text && <p className="text-sm leading-relaxed">{msg.text}</p>}
                                                             <div className={`flex items-center gap-1 mt-1.5 ${isMe ? 'justify-end' : 'justify-start'}`}>
                                                                 <p className={`text-xs ${isMe ? 'text-indigo-200' : 'text-gray-400'}`}>
                                                                     {msg.createdAt?.toDate?.().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }) || ''}
+                                                                    {msg.editedAt && ` · ${t('edited')}`}
                                                                 </p>
                                                                 {isMe && (
                                                                     <span className={`text-xs ${msg.readBy && msg.readBy.some(uid => uid !== msg.senderUid) ? 'text-cyan-300' : 'text-indigo-300'}`}>
@@ -16731,6 +16981,21 @@ END:VCALENDAR`;
                                                                 )}
                                                             </div>
                                                         </div>
+                                                        {/* Context menu for own messages */}
+                                                        {isMe && chatContextMenu?.msgId === msg.id && (
+                                                            <div className="absolute bottom-full mb-1 right-0 bg-white dark:bg-gray-700 rounded-xl shadow-xl border border-gray-200 dark:border-gray-600 overflow-hidden z-10 animate-[fadeIn_0.15s_ease-out]">
+                                                                {msg.text && (
+                                                                    <button onClick={(e) => { e.stopPropagation(); setEditingMessageId(msg.id); setChatInput(msg.text); setChatContextMenu(null); }}
+                                                                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 w-full transition-colors">
+                                                                        <span>✏️</span> {t('editMessage')}
+                                                                    </button>
+                                                                )}
+                                                                <button onClick={(e) => { e.stopPropagation(); if (confirm(t('deleteMessageConfirm'))) deleteChatMessage(msg.id); }}
+                                                                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 w-full transition-colors">
+                                                                    <span>🗑️</span> {t('deleteMessage')}
+                                                                </button>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                     {isMe && (
                                                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
@@ -16747,7 +17012,7 @@ END:VCALENDAR`;
                                 {capturedPhoto && (
                                     <div className="px-4 py-3 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
                                         <div className="relative inline-block">
-                                            <img src={capturedPhoto} alt="תצוגה מקדימה" className="h-24 rounded-xl shadow-md" />
+                                            <img src={capturedPhoto} alt={t('previewAlt')} className="h-24 rounded-xl shadow-md" />
                                             <button onClick={() => setCapturedPhoto(null)} className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full text-sm flex items-center justify-center shadow-lg hover:bg-red-600 transition-colors">✕</button>
                                         </div>
                                     </div>
@@ -16755,28 +17020,52 @@ END:VCALENDAR`;
 
                                 {/* Chat Input - Modern Design */}
                                 <div className="p-4 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
+                                    {editingMessageId && (
+                                        <div className="flex items-center gap-2 mb-2 px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-xs text-indigo-600 dark:text-indigo-300">
+                                            <span>✏️ {t('editMessage')}</span>
+                                            <button onClick={() => { setEditingMessageId(null); setChatInput(''); }} className="ml-auto text-gray-400 hover:text-red-500">✕</button>
+                                        </div>
+                                    )}
                                     <div className="flex items-center gap-3">
-                                        <button onClick={startCamera} className="w-11 h-11 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all" title="צלם תמונה">
-                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
-                                        </button>
+                                        {!editingMessageId && (
+                                            <button onClick={startCamera} className="w-11 h-11 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all" title={t('scanProduct')}>
+                                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                </svg>
+                                            </button>
+                                        )}
                                         <input
                                             type="text"
                                             value={chatInput}
                                             onChange={e => setChatInput(e.target.value)}
-                                            onKeyPress={e => e.key === 'Enter' && sendChatMessage(chatInput, capturedPhoto)}
-                                            placeholder={t('typeMessagePlaceholder')}
-                                            className="flex-1 px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/50 transition-all text-sm"
+                                            onKeyPress={e => {
+                                                if (e.key === 'Enter') {
+                                                    if (editingMessageId) {
+                                                        editChatMessage(editingMessageId, chatInput);
+                                                    } else {
+                                                        sendChatMessage(chatInput, capturedPhoto);
+                                                    }
+                                                }
+                                            }}
+                                            placeholder={editingMessageId ? t('editMessage') : t('typeMessagePlaceholder')}
+                                            className={`flex-1 px-4 py-3 border rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 transition-all text-sm ${editingMessageId ? 'border-indigo-400 focus:border-indigo-500 focus:ring-indigo-200' : 'border-gray-200 dark:border-gray-600 focus:border-indigo-400 focus:ring-indigo-100 dark:focus:ring-indigo-900/50'}`}
                                         />
                                         <button
-                                            onClick={() => sendChatMessage(chatInput, capturedPhoto)}
-                                            className="w-11 h-11 bg-indigo-500 hover:bg-indigo-600 rounded-xl flex items-center justify-center text-white transition-all shadow-md hover:shadow-lg"
+                                            onClick={() => {
+                                                if (editingMessageId) {
+                                                    editChatMessage(editingMessageId, chatInput);
+                                                } else {
+                                                    sendChatMessage(chatInput, capturedPhoto);
+                                                }
+                                            }}
+                                            className={`w-11 h-11 rounded-xl flex items-center justify-center text-white transition-all shadow-md hover:shadow-lg ${editingMessageId ? 'bg-green-500 hover:bg-green-600' : 'bg-indigo-500 hover:bg-indigo-600'}`}
                                         >
-                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l-7 7 7 7" />
-                                            </svg>
+                                            {editingMessageId ? '✓' : (
+                                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l-7 7 7 7" />
+                                                </svg>
+                                            )}
                                         </button>
                                     </div>
                                 </div>
@@ -17365,11 +17654,28 @@ END:VCALENDAR`;
 
                         {filteredItems.length > 0 && (
                             <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-6 mb-6">
-                                <h2 className="text-2xl font-bold mb-4 dark:text-white flex items-center gap-3">
-                                    <span className="text-3xl">📝</span>
-                                    <span className="text-gradient">{t('myList')}</span>
-                                    <span className="btn-gradient text-white text-sm px-3 py-1 rounded-full">{filteredItems.length}</span>
-                                </h2>
+                                <div className="flex items-center justify-between mb-4">
+                                    <h2 className="text-2xl font-bold dark:text-white flex items-center gap-3">
+                                        <span className="text-3xl">📝</span>
+                                        <span className="text-gradient">{t('myList')}</span>
+                                        <span className="btn-gradient text-white text-sm px-3 py-1 rounded-full">{filteredItems.length}</span>
+                                    </h2>
+                                    <div className="flex items-center gap-1">
+                                        {[
+                                            { key: 'newest', icon: '🕐' },
+                                            { key: 'name', icon: '🔤' },
+                                            { key: 'category', icon: '📂' },
+                                            { key: 'purchased', icon: '✅' }
+                                        ].map(s => (
+                                            <button key={s.key} onClick={() => setSortBy(s.key)}
+                                                className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-all ${sortBy === s.key ? 'bg-indigo-500 text-white shadow-md scale-110' : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
+                                                title={t('sortBy' + s.key.charAt(0).toUpperCase() + s.key.slice(1))}
+                                            >
+                                                {s.icon}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
 
                                 {/* Full List Price Comparison Button */}
                                 {items.filter(i => !i.purchased).length > 0 && (
@@ -17575,7 +17881,7 @@ END:VCALENDAR`;
                                                         <button
                                                             onTouchStart={(e) => e.stopPropagation()}
                                                             onClick={(e) => togglePurchasedWithAnimation(item.id, item.purchased, e)}
-                                                            aria-label={item.purchased ? `בטל סימון עבור ${item.name}` : `סמן ${item.name} כנקנה`}
+                                                            aria-label={item.purchased ? `${t('cancelPurchase')} ${item.name}` : `${t('togglePurchase')} ${item.name}`}
                                                             className={`item-checkbox ${item.purchased ? 'checked' : ''}`}
                                                             style={{ touchAction: 'manipulation' }}
                                                         >
@@ -17697,7 +18003,7 @@ END:VCALENDAR`;
                                                                 setOpenItemMenu(openItemMenu === item.id ? null : item.id);
                                                             }}
                                                             className="item-menu-btn touch-target"
-                                                            aria-label="תפריט פעולות"
+                                                            aria-label={t('actionsMenu')}
                                                             style={{ minWidth: '44px', minHeight: '44px', touchAction: 'manipulation' }}
                                                         >
                                                             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -17763,7 +18069,7 @@ END:VCALENDAR`;
                                     <button
                                         onClick={() => setSearchTerm('')}
                                         className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 text-xl touch-target"
-                                        aria-label="נקה שדה חיפוש"
+                                        aria-label={t('clearSearchField')}
                                     >
                                         <span aria-hidden="true">✕</span>
                                     </button>
@@ -17777,7 +18083,7 @@ END:VCALENDAR`;
                                             ? 'bg-red-500 text-white animate-pulse'
                                             : 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200'
                                     }`}
-                                    aria-label={isListening ? 'הפסק הקלטה קולית' : 'התחל הקלטה קולית להוספת מוצרים'}
+                                    aria-label={isListening ? t('stopRecording') : t('startRecording')}
                                     aria-pressed={isListening}
                                 >
                                     <span aria-hidden="true">{isListening ? '⏹️' : '🎤'}</span>
@@ -17787,8 +18093,8 @@ END:VCALENDAR`;
                             <button
                                 onClick={() => setShowSmartAdd(true)}
                                 className="w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all touch-target bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl hover:scale-105"
-                                aria-label="הוספה חכמה עם AI"
-                                title="הוספה חכמה - כתוב משפט חופשי"
+                                aria-label={t('smartAddAI')}
+                                title={t('smartAddAI')}
                             >
                                 <span aria-hidden="true">✨</span>
                             </button>
@@ -17889,8 +18195,8 @@ END:VCALENDAR`;
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         className="fixed left-4 w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-[9998] hover:scale-110 transition-transform touch-target"
                         style={{ bottom: '100px' }}
-                        title="חזור לראש הדף"
-                        aria-label="חזור לראש הדף"
+                        title={t('backToTop')}
+                        aria-label={t('backToTop')}
                     >
                         <span aria-hidden="true">↑</span>
                     </button>
@@ -17900,7 +18206,7 @@ END:VCALENDAR`;
                         <div className="fixed inset-0 bg-black/50 z-[10000] flex items-start justify-center pt-10 overflow-y-auto" onClick={() => setShowAccessibility(false)}>
                             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 mb-10" onClick={e => e.stopPropagation()}>
                                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-                                    <button onClick={() => setShowAccessibility(false)} className="text-2xl text-gray-500 hover:text-gray-700 touch-target" aria-label="סגור תפריט נגישות"><span aria-hidden="true">✕</span></button>
+                                    <button onClick={() => setShowAccessibility(false)} className="text-2xl text-gray-500 hover:text-gray-700 touch-target" aria-label={t('closeAccessibility')}><span aria-hidden="true">✕</span></button>
                                     <h2 className="text-xl font-bold text-gray-800 dark:text-white">{t('accessibilityBar')}</h2>
                                     <div className="w-8"></div>
                                 </div>
@@ -18020,7 +18326,7 @@ END:VCALENDAR`;
                         <div className="fixed inset-0 bg-black/50 z-[10000] flex items-center justify-center p-4" onClick={() => setShowHelp(false)}>
                             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
                                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-800">
-                                    <button onClick={() => setShowHelp(false)} className="text-2xl text-gray-500 hover:text-gray-700 touch-target" aria-label="סגור חלון עזרה"><span aria-hidden="true">✕</span></button>
+                                    <button onClick={() => setShowHelp(false)} className="text-2xl text-gray-500 hover:text-gray-700 touch-target" aria-label={t('closeHelp')}><span aria-hidden="true">✕</span></button>
                                     <h2 className="text-xl font-bold text-gray-800 dark:text-white">{t('helpTitle')}</h2>
                                     <div className="w-8"></div>
                                 </div>
@@ -18364,6 +18670,42 @@ END:VCALENDAR`;
                                             {deleteAccountLoading ? '⏳' : '🗑️'} {t('deleteAccount')}
                                         </button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* PWA Install Banner */}
+                    {showInstallBanner && deferredInstallPrompt && (
+                        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[10005] w-[90%] max-w-sm animate-[fadeIn_0.3s_ease-out]">
+                            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-4 shadow-2xl text-white">
+                                <div className="flex items-start gap-3">
+                                    <span className="text-3xl">📲</span>
+                                    <div className="flex-1">
+                                        <p className="font-bold text-sm">{t('installApp')}</p>
+                                        <p className="text-xs text-indigo-100 mt-0.5">{t('installAppDesc')}</p>
+                                    </div>
+                                    <button onClick={() => { setShowInstallBanner(false); localStorage.setItem('listnest_install_dismissed', 'true'); }}
+                                        className="text-indigo-200 hover:text-white text-lg">✕</button>
+                                </div>
+                                <div className="flex gap-2 mt-3">
+                                    <button onClick={async () => {
+                                        try {
+                                            await deferredInstallPrompt.prompt();
+                                            const result = await deferredInstallPrompt.userChoice;
+                                            if (result.outcome === 'accepted') {
+                                                showToast(t('installApp') + ' ✓', 'success');
+                                            }
+                                        } catch (e) { console.warn('Install prompt error:', e); }
+                                        setShowInstallBanner(false);
+                                        setDeferredInstallPrompt(null);
+                                    }} className="flex-1 bg-white text-indigo-600 font-bold py-2 rounded-xl text-sm hover:bg-indigo-50 transition-colors">
+                                        {t('installApp')}
+                                    </button>
+                                    <button onClick={() => { setShowInstallBanner(false); localStorage.setItem('listnest_install_dismissed', 'true'); }}
+                                        className="px-4 py-2 bg-white/20 rounded-xl text-sm font-medium hover:bg-white/30 transition-colors">
+                                        {t('installDismiss')}
+                                    </button>
                                 </div>
                             </div>
                         </div>
