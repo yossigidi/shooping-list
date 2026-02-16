@@ -3955,6 +3955,7 @@
 
         function FamilyProvider({ children }) {
             const { user } = useAuth();
+            const { t } = useLanguage();
             const [family, setFamily] = useState(null);
             const [lists, setLists] = useState([]);
             const [currentList, setCurrentList] = useState(null);
