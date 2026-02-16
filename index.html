@@ -10522,7 +10522,9 @@
             const [chatInput, setChatInput] = useState('');
             const [showCamera, setShowCamera] = useState(false);
             const [capturedPhoto, setCapturedPhoto] = useState(null);
-            const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+            const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
+                try { return localStorage.getItem('listnest_notifications') === 'true'; } catch { return false; }
+            });
             const lastMessageIdRef = React.useRef(null);
             const videoRef = React.useRef(null);
             const canvasRef = React.useRef(null);
@@ -12575,19 +12577,23 @@
                 }
             };
 
-            // Request notification permission
+            // Sync notification permission with saved preference
             useEffect(() => {
-                const requestNotificationPermission = async () => {
-                    if ('Notification' in window) {
-                        if (Notification.permission === 'granted') {
+                if ('Notification' in window) {
+                    if (Notification.permission === 'granted') {
+                        // Permission granted - respect saved preference
+                        const saved = localStorage.getItem('listnest_notifications');
+                        if (saved === null) {
+                            // First time - enable by default
                             setNotificationsEnabled(true);
-                        } else if (Notification.permission !== 'denied') {
-                            const permission = await Notification.requestPermission();
-                            setNotificationsEnabled(permission === 'granted');
+                            localStorage.setItem('listnest_notifications', 'true');
                         }
+                    } else if (Notification.permission === 'denied') {
+                        // Permission denied by browser - disable
+                        setNotificationsEnabled(false);
+                        localStorage.setItem('listnest_notifications', 'false');
                     }
-                };
-                requestNotificationPermission();
+                }
             }, []);
 
             // Show chat notification
@@ -16211,19 +16217,65 @@ END:VCALENDAR`;
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={async () => {
-                                                if ('Notification' in window) {
-                                                    if (Notification.permission === 'granted') {
-                                                        setNotificationsEnabled(!notificationsEnabled);
-                                                    } else if (Notification.permission !== 'denied') {
-                                                        const permission = await Notification.requestPermission();
-                                                        setNotificationsEnabled(permission === 'granted');
-                                                    } else {
-                                                        alert('התראות חסומות. אנא אפשר התראות בהגדרות הדפדפן.');
+                                                try {
+                                                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                                                    const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+                                                    const isHebrew = t('language') === 'עברית';
+
+                                                    // iOS Safari (not installed as PWA) - Notification API may exist but won't work
+                                                    if (isIOS && !isStandalone) {
+                                                        alert(isHebrew
+                                                            ? 'כדי לקבל התראות באייפון:\n\n1. לחץ על כפתור השיתוף ⬆️ בתחתית המסך\n2. בחר "הוסף למסך הבית"\n3. פתח את האפליקציה ממסך הבית\n4. לחץ שוב על כפתור ההתראות'
+                                                            : 'To get notifications on iPhone:\n\n1. Tap the Share button ⬆️ at the bottom\n2. Select "Add to Home Screen"\n3. Open the app from home screen\n4. Tap the notification button again');
+                                                        return;
                                                     }
+
+                                                    if (!('Notification' in window)) {
+                                                        alert(isHebrew
+                                                            ? 'הדפדפן שלך לא תומך בהתראות.'
+                                                            : 'Your browser does not support notifications.');
+                                                        return;
+                                                    }
+
+                                                    if (Notification.permission === 'granted') {
+                                                        const newVal = !notificationsEnabled;
+                                                        setNotificationsEnabled(newVal);
+                                                        localStorage.setItem('listnest_notifications', String(newVal));
+                                                    } else if (Notification.permission === 'default') {
+                                                        let permission;
+                                                        try {
+                                                            permission = await Notification.requestPermission();
+                                                        } catch (permErr) {
+                                                            console.warn('requestPermission failed:', permErr);
+                                                            alert(isHebrew
+                                                                ? 'לא ניתן לבקש הרשאת התראות. נסה לרענן את הדף.'
+                                                                : 'Could not request notification permission. Try refreshing the page.');
+                                                            return;
+                                                        }
+                                                        const enabled = permission === 'granted';
+                                                        setNotificationsEnabled(enabled);
+                                                        localStorage.setItem('listnest_notifications', String(enabled));
+                                                        if (!enabled) {
+                                                            alert(isHebrew
+                                                                ? 'ההתראות נחסמו. לחץ על סמל המנעול 🔒 בשורת הכתובת כדי לאפשר.'
+                                                                : 'Notifications blocked. Click the lock icon 🔒 in the address bar to allow.');
+                                                        }
+                                                    } else {
+                                                        // denied
+                                                        alert(isHebrew
+                                                            ? 'ההתראות חסומות בדפדפן.\n\nכדי להפעיל:\n1. לחץ על סמל המנעול 🔒 בשורת הכתובת\n2. מצא "התראות" או "Notifications"\n3. שנה ל"אפשר"'
+                                                            : 'Notifications are blocked.\n\nTo enable:\n1. Click the lock icon 🔒 in the address bar\n2. Find "Notifications"\n3. Change to "Allow"');
+                                                    }
+                                                } catch (err) {
+                                                    console.error('Notification toggle error:', err);
+                                                    const isHebrew = t('language') === 'עברית';
+                                                    alert(isHebrew
+                                                        ? 'שגיאה בהפעלת התראות. נסה לרענן את הדף.'
+                                                        : 'Error enabling notifications. Try refreshing the page.');
                                                 }
                                             }}
                                             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${notificationsEnabled ? 'bg-green-100 dark:bg-green-900/50 text-green-600' : 'bg-gray-100 dark:bg-gray-700 text-gray-500'}`}
-                                            title={notificationsEnabled ? 'התראות פעילות' : 'הפעל התראות'}
+                                            title={notificationsEnabled ? t('language') === 'עברית' ? 'התראות פעילות' : 'Notifications on' : t('language') === 'עברית' ? 'הפעל התראות' : 'Enable notifications'}
                                         >
                                             {notificationsEnabled ? '🔔' : '🔕'}
                                         </button>
