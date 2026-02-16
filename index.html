@@ -4700,7 +4700,7 @@
                     members: [{
                         userId: user?.uid,
                         email: user?.email,
-                        displayName: user?.displayName || user?.email || 'אנונימי',
+                        displayName: user?.displayName || user?.email || t('anonymous'),
                         joinedAt: new Date(),
                         role: 'admin',
                         familyRole: userRole,
@@ -4729,7 +4729,7 @@
                 );
 
                 // Log activity
-                await logActivity('member_joined', { memberName: user?.displayName || user?.email || 'אנונימי' }, familyRef.id);
+                await logActivity('member_joined', { memberName: user?.displayName || user?.email || t('anonymous') }, familyRef.id);
 
                 return { id: familyRef.id, ...newFamily };
             };
@@ -4776,7 +4776,7 @@
                     const newMember = {
                         userId: user?.uid,
                         email: user?.email,
-                        displayName: user?.displayName || user?.email || 'אנונימי',
+                        displayName: user?.displayName || user?.email || t('anonymous'),
                         joinedAt: new Date(),
                         role: isParent ? 'admin' : (isTeen ? 'teen' : 'member'),
                         familyRole: userRole,
@@ -4796,7 +4796,7 @@
 
                     // Log activity (don't let this fail the join)
                     try {
-                        await logActivity('member_joined', { memberName: user?.displayName || user?.email || 'אנונימי' }, familyDoc.id);
+                        await logActivity('member_joined', { memberName: user?.displayName || user?.email || t('anonymous') }, familyDoc.id);
                     } catch (activityErr) {
                         console.warn('joinFamily: Failed to log activity, but join succeeded:', activityErr);
                     }
@@ -4960,7 +4960,7 @@
                         listId: currentList?.id || null,
                         type: type,
                         userId: user?.uid,
-                        userName: user?.displayName || user?.email || 'אנונימי',
+                        userName: user?.displayName || user?.email || t('anonymous'),
                         timestamp: new Date(),
                         ...details
                     }
@@ -5492,7 +5492,7 @@
                                     onClick={() => navigator.clipboard.writeText(createdCode)}
                                     className="text-indigo-600 dark:text-indigo-400 text-sm hover:underline flex items-center justify-center gap-2 mx-auto"
                                 >
-                                    📋 העתק קוד
+                                    📋 {t('copyFamilyCode')}
                                 </button>
                                 <p className="text-xs text-gray-500 dark:text-gray-400">{t('pageRefresh')}</p>
                             </div>
@@ -5501,8 +5501,8 @@
                         {mode === 'joined' && (
                             <div className="text-center space-y-4">
                                 <div className="text-6xl mb-4">🎉</div>
-                                <h2 className="text-xl font-bold text-gradient">הצטרפת בהצלחה!</h2>
-                                <p className="text-gray-600 dark:text-gray-400">ממתין לטעינת המשפחה...</p>
+                                <h2 className="text-xl font-bold text-gradient">{t('joinedSuccessfully')}</h2>
+                                <p className="text-gray-600 dark:text-gray-400">{t('waitingForFamily')}</p>
                                 <div className="flex items-center justify-center gap-2">
                                     <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
                                     <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
@@ -5512,7 +5512,7 @@
                                     onClick={() => window.location.reload()}
                                     className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors"
                                 >
-                                    רענן עמוד
+                                    {t('refreshPage')}
                                 </button>
                             </div>
                         )}
@@ -11935,7 +11935,7 @@
                 if (SpeechRecognition) {
                     setVoiceSupported(true);
                 } else {
-                    setVoiceStatus('הדפדפן לא תומך בזיהוי קול');
+                    setVoiceStatus(t('browserNoVoiceSupport'));
                 }
             }, []);
 
@@ -11963,18 +11963,18 @@
                 recognition.onstart = () => {
                     const isIOSSafari = isIOS && isSafari;
                     if (isIOSSafari && voiceLang === 'he-IL') {
-                        setVoiceStatus('מאזין... (ב-iPhone נסה לדבר באנגלית)');
+                        setVoiceStatus(t('listeningIphone'));
                     } else {
-                        setVoiceStatus(voiceLang === 'en-US' ? 'Listening... speak now' : 'מאזין... דבר עכשיו');
+                        setVoiceStatus(t('listeningNow'));
                     }
                 };
 
                 recognition.onaudiostart = () => {
-                    setVoiceStatus(voiceLang === 'en-US' ? 'Hearing audio...' : 'קולט שמע...');
+                    setVoiceStatus(t('capturingAudio'));
                 };
 
                 recognition.onspeechstart = () => {
-                    setVoiceStatus(voiceLang === 'en-US' ? 'Detecting speech...' : 'מזהה דיבור...');
+                    setVoiceStatus(t('detectingSpeech'));
                 };
 
                 recognition.onresult = (event) => {
@@ -11987,7 +11987,7 @@
                         .map(result => result[0].transcript)
                         .join('');
                     setVoiceTranscript(transcript);
-                    setVoiceStatus(voiceLang === 'en-US' ? 'Got it!' : 'קיבלתי!');
+                    setVoiceStatus(t('gotIt'));
 
                     // If final result, process it
                     if (event.results[0].isFinal) {
@@ -12005,9 +12005,9 @@
                         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
                         const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
                         if (isIOS && isSafari && voiceLang === 'he-IL') {
-                            setVoiceStatus('עברית לא נתמכת באייפון. נסה באנגלית או הקלד ידנית 🇺🇸');
+                            setVoiceStatus(t('hebrewNotSupportedIphone'));
                         } else {
-                            setVoiceStatus(voiceLang === 'en-US' ? 'No speech detected. Try again.' : 'לא זוהה דיבור. נסה שוב.');
+                            setVoiceStatus(t('noSpeechDetected'));
                         }
                     }
                 };
@@ -12021,23 +12021,23 @@
 
                     switch(event.error) {
                         case 'not-allowed':
-                            setVoiceStatus('נא לאפשר גישה למיקרופון בהגדרות הדפדפן');
+                            setVoiceStatus(t('allowMicAccess'));
                             showToast(t('allowMicAccess'), 'error', 5000);
                             break;
                         case 'no-speech':
-                            setVoiceStatus(voiceLang === 'en-US' ? 'No speech detected. Tap mic to try again.' : 'לא נשמע דיבור. לחץ שוב על המיקרופון.');
+                            setVoiceStatus(t('noSpeechTapMic'));
                             break;
                         case 'audio-capture':
-                            setVoiceStatus('לא נמצא מיקרופון. בדוק את החיבור.');
+                            setVoiceStatus(t('micNotFound'));
                             break;
                         case 'network':
-                            setVoiceStatus('בעיית רשת. בדוק את החיבור לאינטרנט.');
+                            setVoiceStatus(t('networkIssue'));
                             break;
                         case 'aborted':
-                            setVoiceStatus(voiceLang === 'en-US' ? 'Cancelled' : 'בוטל');
+                            setVoiceStatus(t('cancelled'));
                             break;
                         default:
-                            setVoiceStatus(`שגיאה: ${event.error}`);
+                            setVoiceStatus(t('voiceError') + ': ' + event.error);
                     }
                 };
 
@@ -12102,7 +12102,7 @@
                 try {
                     await window.firestore.updateDoc(
                         window.firestore.doc(window.db, 'shopping-items', item.id),
-                        { outOfStock: true, outOfStockAt: new Date(), outOfStockBy: user?.displayName || user?.email || 'אנונימי' }
+                        { outOfStock: true, outOfStockAt: new Date(), outOfStockBy: user?.displayName || user?.email || t('anonymous') }
                     );
                     // Save to out of stock list for future reference
                     const newOutOfStock = [...outOfStockItems, { name: item.name, date: new Date() }];
@@ -12173,7 +12173,7 @@
 
                             // Detect category and get appropriate unit
                             const category = detectCategory(productName);
-                            const unit = CATEGORIES[category]?.unit || 'יח\'';
+                            const unit = CATEGORIES[category]?.unit || t('unitPieces');
 
                             // Check if already exists
                             const existing = items.find(item => item.name === productName && !item.purchased);
@@ -12200,7 +12200,7 @@
                                     purchased: false,
                                     familyId: family.id,
                                     listId: currentList.id,
-                                    addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                                    addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
                                     addedByUid: childUser?.childId || user?.uid,
                                     note: '',
                                     price: estimatedPrice || null,
@@ -12277,7 +12277,7 @@
                                 name: op.name,
                                 category: op.category,
                                 quantity: op.quantity,
-                                unit: op.unit || 'יח\'',
+                                unit: op.unit || t('unitPieces'),
                                 purchased: false,
                                 familyId: family?.id,
                                 listId: currentList?.id,
@@ -13429,7 +13429,7 @@
 
                 const updatePresence = () => {
                     window.firestore.setDoc(presenceRef, {
-                        name: user?.displayName || user?.email || 'אנונימי',
+                        name: user?.displayName || user?.email || t('anonymous'),
                         lastSeen: new Date(),
                         isActive: true
                     }, { merge: true });
@@ -13619,11 +13619,11 @@
                         type: feedbackType,
                         message: feedbackText,
                         user_email: user?.email || 'לא מחובר',
-                        user_name: user?.displayName || 'אנונימי'
+                        user_name: user?.displayName || t('anonymous')
                     };
                     // Using a simple mailto link as fallback (opens email client)
                     const subject = encodeURIComponent(`[ListNest] ${feedbackType === 'bug' ? 'דיווח על בעיה' : feedbackType === 'feature' ? 'בקשת פיצ\'ר' : 'משוב כללי'}`);
-                    const body = encodeURIComponent(`סוג: ${feedbackType}\n\nהודעה:\n${feedbackText}\n\n---\nמשתמש: ${user?.displayName || 'אנונימי'}\nאימייל: ${user?.email || 'לא זמין'}`);
+                    const body = encodeURIComponent(`סוג: ${feedbackType}\n\nהודעה:\n${feedbackText}\n\n---\nמשתמש: ${user?.displayName || t('anonymous')}\nאימייל: ${user?.email || 'לא זמין'}`);
                     window.open(`mailto:shopinglist1979@gmail.com?subject=${subject}&body=${body}`, '_blank');
                     setFeedbackSent(true);
                     setFeedbackText('');
@@ -14090,7 +14090,7 @@
                         }
                     }
 
-                    const unit = CATEGORIES[category]?.unit || 'יח\'';
+                    const unit = CATEGORIES[category]?.unit || t('unitPieces');
                     const estimatedPrice = getEstimatedPrice(item.name);
 
                     await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
@@ -14099,7 +14099,7 @@
                         quantity: 1,
                         unit,
                         purchased: false,
-                        addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                        addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
                         addedByUid: childUser?.childId || user?.uid,
                         createdAt: new Date(),
                         updatedAt: new Date(),
@@ -14204,14 +14204,14 @@
                 }
 
                 setVoiceTranscript('');
-                setVoiceStatus(voiceLang === 'en-US' ? 'Starting...' : 'מתחיל...');
+                setVoiceStatus(t('starting'));
                 setIsListening(true);
 
                 // Create fresh recognition instance
                 const recognition = createRecognition();
                 if (!recognition) {
                     setIsListening(false);
-                    setVoiceStatus('הדפדפן לא תומך בזיהוי קול');
+                    setVoiceStatus(t('browserNoVoiceSupport'));
                     return;
                 }
 
@@ -14223,7 +14223,7 @@
                     // Auto-stop after 10 seconds if no result
                     voiceTimeoutRef.current = setTimeout(() => {
                         if (isListening) {
-                            setVoiceStatus(voiceLang === 'en-US' ? 'Timeout - try again' : 'זמן ההאזנה נגמר - נסה שוב');
+                            setVoiceStatus(t('listeningTimeout'));
                             try { recognition.stop(); } catch(e) {}
                             setIsListening(false);
                         }
@@ -14232,7 +14232,7 @@
                 } catch (e) {
                     console.error('Failed to start recognition:', e);
                     setIsListening(false);
-                    setVoiceStatus('שגיאה בהפעלת זיהוי קול: ' + e.message);
+                    setVoiceStatus(t('voiceActivationError') + ': ' + e.message);
                 }
             };
 
@@ -14246,7 +14246,7 @@
                     } catch(e) {}
                 }
                 setIsListening(false);
-                setVoiceStatus(voiceLang === 'en-US' ? 'Stopped' : 'הופסק');
+                setVoiceStatus(t('stopped'));
             };
 
             const processVoiceCommand = async (transcript, lang = 'he-IL') => {
@@ -14328,7 +14328,7 @@
                                 purchased: false,
                                 familyId: family.id,
                                 listId: currentList.id,
-                                addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                                addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
                                 addedByUid: childUser?.childId || user?.uid,
                                 note: '🎤 נוסף בקול',
                                 price: estimatedPrice || null,
@@ -14356,7 +14356,7 @@
                 if (!text.trim() && !photoUrl) return;
 
                 // Get sender info - support both regular users and child accounts
-                const senderName = childUser?.displayName || user?.displayName || user?.email || 'אנונימי';
+                const senderName = childUser?.displayName || user?.displayName || user?.email || t('anonymous');
                 const senderUid = childUser?.childId || user?.uid || 'anonymous';
 
                 try {
@@ -14407,7 +14407,7 @@
 
             // Send reminder to family chat (special message type)
             const sendReminder = async (message) => {
-                const senderName = childUser?.displayName || user?.displayName || user?.email || 'אנונימי';
+                const senderName = childUser?.displayName || user?.displayName || user?.email || t('anonymous');
                 const senderUid = childUser?.childId || user?.uid || 'anonymous';
 
                 try {
@@ -14752,7 +14752,7 @@ END:VCALENDAR`;
             // Open quantity selector before adding product
             const addProduct = (product) => {
                 const category = selectedCategory || detectCategory(product);
-                let unit = CATEGORIES[category]?.unit || 'יח\'';
+                let unit = CATEGORIES[category]?.unit || t('unitPieces');
                 let unitOptions = CATEGORIES[category]?.unitOptions || ['יח\''];
 
                 // Check if product name already contains size (packaged product)
@@ -14886,7 +14886,7 @@ END:VCALENDAR`;
                     purchased: false,
                     familyId: family.id,
                     listId: currentList.id,
-                    addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                    addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
                     addedByUid: childUser?.childId || user?.uid,
                     note: selectedNote || '',
                     price: estimatedPrice || null,
@@ -14925,7 +14925,7 @@ END:VCALENDAR`;
                             quantity: newItem.quantity,
                             unit: selectedUnit,
                             updatedAt: new Date(),
-                            updatedBy: user?.displayName || user?.email || 'אנונימי'
+                            updatedBy: user?.displayName || user?.email || t('anonymous')
                         };
                         if (selectedNote) {
                             updateData.note = existing.note ? `${existing.note}, ${selectedNote}` : selectedNote;
@@ -14945,7 +14945,7 @@ END:VCALENDAR`;
                             purchased: false,
                             familyId: family.id,
                             listId: currentList.id,
-                            addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                            addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
                             addedByUid: childUser?.childId || user?.uid,
                             note: selectedNote || '',
                             price: estimatedPrice || null,
@@ -15033,11 +15033,11 @@ END:VCALENDAR`;
                         name: item.name,
                         category: category,
                         quantity: existing ? (getQuantityNumber(existing.quantity) + item.quantity) : item.quantity,
-                        unit: item.unit || 'יח\'',
+                        unit: item.unit || t('unitPieces'),
                         purchased: false,
                         familyId: family.id,
                         listId: currentList.id,
-                        addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                        addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
                         addedByUid: childUser?.childId || user?.uid,
                         note: '',
                         price: estimatedPrice || null,
@@ -15067,11 +15067,11 @@ END:VCALENDAR`;
                                         name: item.name,
                                         category: category,
                                         quantity: item.quantity,
-                                        unit: item.unit || 'יח\'',
+                                        unit: item.unit || t('unitPieces'),
                                         purchased: false,
                                         familyId: family.id,
                                         listId: currentList.id,
-                                        addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                                        addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
                                         addedByUid: childUser?.childId || user?.uid,
                                         note: '',
                                         price: estimatedPrice || null,
@@ -15085,7 +15085,7 @@ END:VCALENDAR`;
                             console.error('Error adding smart item:', err);
                         }
                     } else {
-                        queueOperation({ type: 'add', name: item.name, category, quantity: item.quantity, unit: item.unit || 'יח\'', note: '', price: estimatedPrice });
+                        queueOperation({ type: 'add', name: item.name, category, quantity: item.quantity, unit: item.unit || t('unitPieces'), note: '', price: estimatedPrice });
                     }
                 }
 
@@ -15099,7 +15099,7 @@ END:VCALENDAR`;
                 const item = items.find(i => i.id === id);
                 const updateData = {
                     purchased: !currentStatus,
-                    purchasedBy: !currentStatus ? (childUser?.displayName || user?.displayName || user?.email || 'אנונימי') : null,
+                    purchasedBy: !currentStatus ? (childUser?.displayName || user?.displayName || user?.email || t('anonymous')) : null,
                     purchasedByUid: !currentStatus ? (childUser?.childId || user?.uid) : null,
                     purchasedAt: !currentStatus ? new Date() : null
                 };
@@ -15126,7 +15126,7 @@ END:VCALENDAR`;
                         const freshData = freshDoc.data();
 
                         // If someone else already marked it as purchased
-                        if (!currentStatus && freshData.purchased && freshData.purchasedBy !== (childUser?.displayName || user?.displayName || user?.email || 'אנונימי')) {
+                        if (!currentStatus && freshData.purchased && freshData.purchasedBy !== (childUser?.displayName || user?.displayName || user?.email || t('anonymous'))) {
                             // Auto-unified: item already purchased by someone else
                             console.log(`Smart conflict resolved: ${item?.name} already marked by ${freshData.purchasedBy}`);
                             return; // No need to update, already done
@@ -15159,7 +15159,7 @@ END:VCALENDAR`;
                 const updateData = {
                     quantity: newQuantity,
                     updatedAt: new Date(),
-                    updatedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+                    updatedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
                     updatedByUid: childUser?.childId || user?.uid
                 };
 
@@ -15204,7 +15204,7 @@ END:VCALENDAR`;
                     await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', editingItemId), {
                         name: editingItemName.trim(),
                         updatedAt: new Date(),
-                        updatedBy: user?.displayName || user?.email || 'אנונימי'
+                        updatedBy: user?.displayName || user?.email || t('anonymous')
                     });
                 } catch (error) {
                     console.error('שגיאה בעדכון שם:', error);
@@ -15304,7 +15304,7 @@ END:VCALENDAR`;
                     const item = items.find(i => i.id === id);
                     await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
                         postponedAt: new Date(),
-                        postponedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי'
+                        postponedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous')
                     });
                     if (item) {
                         await logActivity('item_postponed', { itemName: item.name });
@@ -15369,7 +15369,7 @@ END:VCALENDAR`;
                     await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', itemId), {
                         note: note,
                         updatedAt: new Date(),
-                        updatedBy: user?.displayName || user?.email || 'אנונימי'
+                        updatedBy: user?.displayName || user?.email || t('anonymous')
                     });
                     if (item && note) {
                         await logActivity('note_added', { itemName: item.name });
@@ -15404,7 +15404,7 @@ END:VCALENDAR`;
                         items: purchasedItems,
                         totalAmount: parseFloat(totalAmount),
                         completedAt: new Date(),
-                        completedBy: user?.displayName || user?.email || 'אנונימי',
+                        completedBy: user?.displayName || user?.email || t('anonymous'),
                         completedByUid: user?.uid,
                         familyId: family.id,
                         listId: currentList.id,
@@ -15843,19 +15843,19 @@ END:VCALENDAR`;
                                         onClick={() => { setScanMode('search'); stopBarcodeScanner(); }}
                                         className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'search' ? 'bg-white text-gray-800' : 'text-white/70'}`}
                                     >
-                                        🔍 חיפוש
+                                        🔍 {t('searchTab')}
                                     </button>
                                     <button
                                         onClick={() => { setScanMode('barcode'); startBarcodeScanner(); }}
                                         className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'barcode' ? 'bg-white text-gray-800' : 'text-white/70'}`}
                                     >
-                                        📊 ברקוד
+                                        📊 {t('barcodeTab')}
                                     </button>
                                     <button
                                         onClick={() => { setScanMode('ocr'); stopBarcodeScanner(); }}
                                         className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'ocr' ? 'bg-white text-gray-800' : 'text-white/70'}`}
                                     >
-                                        📷 צילום טקסט
+                                        📷 {t('ocrTab')}
                                     </button>
                                 </div>
                             </div>
@@ -15892,7 +15892,7 @@ END:VCALENDAR`;
                                             className="w-full mt-3 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold text-lg flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] transition-all"
                                         >
                                             <span>🛒</span>
-                                            <span>הוסף "{scannedProductName}" לרשימה</span>
+                                            <span>{t('addToListBtn').replace('{name}', scannedProductName)}</span>
                                         </button>
                                     )}
                                 </div>
@@ -15936,7 +15936,7 @@ END:VCALENDAR`;
                                 {/* Barcode Scanner Mode */}
                                 {scanMode === 'barcode' && !priceCompareResults && (
                                     <div className="mb-4 p-4 bg-white/10 rounded-xl border border-green-400/30">
-                                        <div className="text-white text-sm mb-3 text-center font-medium">📊 סרוק את הברקוד על המוצר</div>
+                                        <div className="text-white text-sm mb-3 text-center font-medium">{t('scanBarcodeInstruction')}</div>
                                         <div className="relative aspect-video bg-black rounded-xl overflow-hidden mb-4">
                                             <video ref={barcodeVideoRef} autoPlay playsInline className="w-full h-full object-cover" />
                                             {/* Scanning overlay with guide lines */}
@@ -15956,7 +15956,7 @@ END:VCALENDAR`;
                                                 <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
                                                     <div className="text-center">
                                                         <div className="text-3xl mb-2 animate-spin">⏳</div>
-                                                        <div className="text-white text-sm">מחפש מוצר במאגר...</div>
+                                                        <div className="text-white text-sm">{t('searchingInDB')}</div>
                                                     </div>
                                                 </div>
                                             )}
@@ -15971,7 +15971,7 @@ END:VCALENDAR`;
                                                     <div className="flex-1">
                                                         <div className="text-white font-bold">{barcodeResult.name}</div>
                                                         {barcodeResult.brand && <div className="text-green-300 text-sm">{barcodeResult.brand}</div>}
-                                                        <div className="text-gray-400 text-xs">ברקוד: {barcodeResult.barcode}</div>
+                                                        <div className="text-gray-400 text-xs">{t('barcodeLabel')}: {barcodeResult.barcode}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -15991,24 +15991,24 @@ END:VCALENDAR`;
                                                 onClick={startBarcodeScanner}
                                                 className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                                             >
-                                                📊 הפעל סורק ברקוד
+                                                📊 {t('startBarcodeScanner')}
                                             </button>
                                         ) : (
                                             <button
                                                 onClick={stopBarcodeScanner}
                                                 className="w-full py-4 bg-gray-600 text-white rounded-xl font-bold text-lg"
                                             >
-                                                ⏹ עצור סריקה
+                                                ⏹ {t('stopScanning')}
                                             </button>
                                         )}
-                                        <p className="text-gray-400 text-xs text-center mt-2">* כוון את הברקוד לתוך המסגרת הירוקה</p>
+                                        <p className="text-gray-400 text-xs text-center mt-2">{t('barcodeTip')}</p>
                                     </div>
                                 )}
 
                                 {/* OCR Camera Scan Mode */}
                                 {scanMode === 'ocr' && !priceCompareResults && (
                                     <div className="mb-4 p-4 bg-white/10 rounded-xl border border-cyan-400/30">
-                                        <div className="text-white text-sm mb-3 text-center font-medium">📷 צלם את שם המוצר</div>
+                                        <div className="text-white text-sm mb-3 text-center font-medium">{t('captureProductName')}</div>
                                         <div className="relative aspect-video bg-black rounded-xl overflow-hidden mb-4">
                                             <video ref={priceVideoRef} autoPlay playsInline className="w-full h-full object-cover" />
                                             <canvas ref={priceCanvasRef} className="hidden" />
@@ -17746,7 +17746,7 @@ END:VCALENDAR`;
                                                 </button>
                                             )}
                                             <span className="px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-                                                👤 {childUser?.displayName || user?.displayName || user?.email || 'אנונימי'}
+                                                👤 {childUser?.displayName || user?.displayName || user?.email || t('anonymous')}
                                             </span>
                                         </div>
                                     </div>
