@@ -2,204 +2,204 @@
 
 export const CATEGORIES = {
   fruits: {
-    name: 'Fruits & Vegetables',
-    nameHe: 'Fruits & Vegetables',
-    icon: '',
+    name: 'פירות וירקות',
+    nameHe: 'פירות וירקות',
+    icon: '🥬',
     image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&h=200&fit=crop',
     unit: 'kg',
-    unitOptions: ['kg', 'pcs', 'g']
+    unitOptions: ['ק"ג', 'יח\'', 'גרם']
   },
   dairy: {
-    name: 'Dairy & Eggs',
-    nameHe: 'Dairy & Eggs',
-    icon: '',
+    name: 'מוצרי חלב',
+    nameHe: 'מוצרי חלב',
+    icon: '🥛',
     image: 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g', 'ml', 'L']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם', 'מ"ל', 'ליטר']
   },
   desserts: {
-    name: 'Dairy Desserts',
-    nameHe: 'Dairy Desserts',
-    icon: '',
+    name: 'קינוחי חלב',
+    nameHe: 'קינוחי חלב',
+    icon: '🍮',
     image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם']
   },
   meat: {
-    name: 'Meat',
-    nameHe: 'Meat',
-    icon: '',
+    name: 'בשר ועוף',
+    nameHe: 'בשר ועוף',
+    icon: '🍗',
     image: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=200&h=200&fit=crop',
-    unit: 'kg',
-    unitOptions: ['kg', 'g', 'pcs']
+    unit: 'ק"ג',
+    unitOptions: ['ק"ג', 'גרם', 'יח\'']
   },
   fish: {
-    name: 'Fish',
-    nameHe: 'Fish',
-    icon: '',
+    name: 'דגים',
+    nameHe: 'דגים',
+    icon: '🐟',
     image: 'https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=200&h=200&fit=crop',
-    unit: 'kg',
-    unitOptions: ['kg', 'g', 'pcs']
+    unit: 'ק"ג',
+    unitOptions: ['ק"ג', 'גרם', 'יח\'']
   },
   deli: {
-    name: 'Deli',
-    nameHe: 'Deli',
-    icon: '',
+    name: 'נקניקים ומעדנייה',
+    nameHe: 'נקניקים ומעדנייה',
+    icon: '🥓',
     image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=200&h=200&fit=crop',
-    unit: 'g',
-    unitOptions: ['g', 'kg', 'pcs']
+    unit: 'גרם',
+    unitOptions: ['גרם', 'ק"ג', 'יח\'']
   },
   salads: {
-    name: 'Ready Salads',
-    nameHe: 'Ready Salads',
-    icon: '',
+    name: 'סלטים מוכנים',
+    nameHe: 'סלטים מוכנים',
+    icon: '🥗',
     image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם']
   },
   bakery: {
-    name: 'Bread & Bakery',
-    nameHe: 'Bread & Bakery',
-    icon: '',
+    name: 'לחם ומאפים',
+    nameHe: 'לחם ומאפים',
+    icon: '🍞',
     image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs']
+    unit: 'יח\'',
+    unitOptions: ['יח\'']
   },
   spreads: {
-    name: 'Spreads',
-    nameHe: 'Spreads',
-    icon: '',
+    name: 'ממרחים',
+    nameHe: 'ממרחים',
+    icon: '🫙',
     image: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם']
   },
   baking: {
-    name: 'Baking Products',
-    nameHe: 'Baking Products',
-    icon: '',
+    name: 'מוצרי אפייה',
+    nameHe: 'מוצרי אפייה',
+    icon: '🧁',
     image: 'https://images.unsplash.com/photo-1607478900766-efe13248b125?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g', 'kg']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם', 'ק"ג']
   },
   cereals: {
-    name: 'Cereals',
-    nameHe: 'Cereals',
-    icon: '',
+    name: 'דגנים',
+    nameHe: 'דגנים',
+    icon: '🥣',
     image: 'https://images.unsplash.com/photo-1521483451569-e33803c0330c?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם']
   },
   canned: {
-    name: 'Canned & Dry Foods',
-    nameHe: 'Canned & Dry Foods',
-    icon: '',
+    name: 'שימורים ומזון יבש',
+    nameHe: 'שימורים ומזון יבש',
+    icon: '🥫',
     image: 'https://images.unsplash.com/photo-1534483509719-3feaee7c30da?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם']
   },
   spices: {
-    name: 'Spices & Cooking',
-    nameHe: 'Spices & Cooking',
-    icon: '',
+    name: 'תבלינים ובישול',
+    nameHe: 'תבלינים ובישול',
+    icon: '🧂',
     image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=200&h=200&fit=crop',
-    unit: 'g',
-    unitOptions: ['g', 'pcs']
+    unit: 'גרם',
+    unitOptions: ['גרם', 'יח\'']
   },
   coffee: {
-    name: 'Coffee & Tea',
-    nameHe: 'Coffee & Tea',
-    icon: '',
+    name: 'קפה ותה',
+    nameHe: 'קפה ותה',
+    icon: '☕',
     image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם']
   },
   drinks: {
-    name: 'Soft Drinks',
-    nameHe: 'Soft Drinks',
-    icon: '',
+    name: 'משקאות',
+    nameHe: 'משקאות',
+    icon: '🥤',
     image: 'https://images.unsplash.com/photo-1527960471264-932f39eb5846?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'L', 'ml']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'ליטר', 'מ"ל']
   },
   wine: {
-    name: 'Wine & Alcohol',
-    nameHe: 'Wine & Alcohol',
-    icon: '',
+    name: 'יין ואלכוהול',
+    nameHe: 'יין ואלכוהול',
+    icon: '🍷',
     image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'ml']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'מ"ל']
   },
   snacks: {
-    name: 'Snacks & Candy',
-    nameHe: 'Snacks & Candy',
-    icon: '',
+    name: 'חטיפים וממתקים',
+    nameHe: 'חטיפים וממתקים',
+    icon: '🍿',
     image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם']
   },
   frozen: {
-    name: 'Frozen',
-    nameHe: 'Frozen',
-    icon: '',
+    name: 'קפואים',
+    nameHe: 'קפואים',
+    icon: '🧊',
     image: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'kg', 'g']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'ק"ג', 'גרם']
   },
   health: {
-    name: 'Diet & Protein',
-    nameHe: 'Diet & Protein',
-    icon: '',
+    name: 'דיאטה וחלבון',
+    nameHe: 'דיאטה וחלבון',
+    icon: '💪',
     image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם']
   },
   glutenFree: {
-    name: 'Gluten Free',
-    nameHe: 'Gluten Free',
-    icon: '',
+    name: 'ללא גלוטן',
+    nameHe: 'ללא גלוטן',
+    icon: '🌾',
     image: 'https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'g']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'גרם']
   },
   hygiene: {
-    name: 'Hygiene & Bath',
-    nameHe: 'Hygiene & Bath',
-    icon: '',
+    name: 'היגיינה ורחצה',
+    nameHe: 'היגיינה ורחצה',
+    icon: '🧴',
     image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs']
+    unit: 'יח\'',
+    unitOptions: ['יח\'']
   },
   cleaning: {
-    name: 'Cleaning',
-    nameHe: 'Cleaning',
-    icon: '',
+    name: 'ניקיון',
+    nameHe: 'ניקיון',
+    icon: '🧹',
     image: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'L']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'ליטר']
   },
   candles: {
-    name: 'Candles',
-    nameHe: 'Candles',
-    icon: '',
+    name: 'נרות',
+    nameHe: 'נרות',
+    icon: '🕯️',
     image: 'https://images.unsplash.com/photo-1602523961358-f9f03dd557db?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs']
+    unit: 'יח\'',
+    unitOptions: ['יח\'']
   },
   baby: {
-    name: 'Baby & Kids',
-    nameHe: 'Baby & Kids',
-    icon: '',
+    name: 'תינוקות וילדים',
+    nameHe: 'תינוקות וילדים',
+    icon: '👶',
     image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs']
+    unit: 'יח\'',
+    unitOptions: ['יח\'']
   },
   pets: {
-    name: 'Pets',
-    nameHe: 'Pets',
-    icon: '',
+    name: 'בעלי חיים',
+    nameHe: 'בעלי חיים',
+    icon: '🐾',
     image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200&h=200&fit=crop',
-    unit: 'pcs',
-    unitOptions: ['pcs', 'kg']
+    unit: 'יח\'',
+    unitOptions: ['יח\'', 'ק"ג']
   }
 };
 
@@ -232,145 +232,303 @@ export const CATEGORY_TO_TRANSLATION = {
   pets: 'pets'
 };
 
-// Products by category
+// Products by category - Hebrew names
 export const PRODUCTS = {
   dairy: [
-    'Milk 3%', 'Milk 1%', 'Skim Milk', 'Soy Milk', 'Almond Milk', 'Oat Milk',
-    'Yogurt', 'Greek Yogurt', 'Fruit Yogurt',
-    'Cottage Cheese 5%', 'Cottage Cheese 3%',
-    'White Cheese 5%', 'White Cheese 9%',
-    'Yellow Cheese', 'Mozzarella', 'Parmesan', 'Gouda', 'Feta',
-    'Eggs L 12', 'Eggs XL 12', 'Eggs M 12', 'Eggs 30',
-    'Butter', 'Margarine',
-    'Heavy Cream', 'Sour Cream', 'Whipping Cream',
-    'Cream Cheese', 'Ricotta', 'Mascarpone'
+    { name: 'חלב 3%', keywords: ['חלב', 'milk'] },
+    { name: 'חלב 1%', keywords: ['חלב דל', 'low fat'] },
+    { name: 'חלב סויה', keywords: ['סויה', 'soy'] },
+    { name: 'חלב שקדים', keywords: ['שקדים', 'almond'] },
+    { name: 'יוגורט', keywords: ['יוגורט', 'yogurt'] },
+    { name: 'יוגורט יווני', keywords: ['יווני', 'greek'] },
+    { name: 'קוטג׳ 5%', keywords: ['קוטג', 'cottage'] },
+    { name: 'קוטג׳ 3%', keywords: ['קוטג דל', 'cottage'] },
+    { name: 'גבינה לבנה 5%', keywords: ['גבינה לבנה', 'white cheese'] },
+    { name: 'גבינה לבנה 9%', keywords: ['גבינה שמנה'] },
+    { name: 'גבינה צהובה עמק', keywords: ['עמק', 'צהובה'] },
+    { name: 'גבינה צהובה גלבוע', keywords: ['גלבוע'] },
+    { name: 'מוצרלה', keywords: ['מוצרלה', 'mozzarella'] },
+    { name: 'פרמזן', keywords: ['פרמזן', 'parmesan'] },
+    { name: 'ביצים L 12 יח׳', keywords: ['ביצים', 'eggs'] },
+    { name: 'ביצים XL 12 יח׳', keywords: ['ביצים גדולות'] },
+    { name: 'חמאה', keywords: ['חמאה', 'butter'] },
+    { name: 'שמנת מתוקה', keywords: ['שמנת', 'cream'] },
+    { name: 'שמנת חמוצה', keywords: ['שמנת חמוצה', 'sour cream'] },
+    { name: 'לבן', keywords: ['לבן', 'leben'] },
+    { name: 'גבינת שמנת', keywords: ['פילדלפיה', 'cream cheese'] },
+    { name: 'גבינה בולגרית', keywords: ['בולגרית', 'bulgarian'] },
+    { name: 'צפתית', keywords: ['צפתית', 'tzfatit'] }
   ],
   fruits: [
-    'Tomatoes', 'Cherry Tomatoes', 'Cucumbers', 'Onions', 'Garlic',
-    'Red Pepper', 'Green Pepper', 'Yellow Pepper',
-    'Lettuce', 'Cabbage', 'Carrots', 'Potatoes', 'Sweet Potatoes',
-    'Zucchini', 'Eggplant', 'Broccoli', 'Cauliflower',
-    'Spinach', 'Parsley', 'Cilantro', 'Mint', 'Basil',
-    'Bananas', 'Apples', 'Oranges', 'Lemons', 'Avocados',
-    'Grapes', 'Strawberries', 'Blueberries', 'Watermelon', 'Mango'
+    { name: 'עגבניות', keywords: ['עגבניה', 'tomato'] },
+    { name: 'עגבניות שרי', keywords: ['שרי', 'cherry tomato'] },
+    { name: 'מלפפונים', keywords: ['מלפפון', 'cucumber'] },
+    { name: 'בצל', keywords: ['בצל', 'onion'] },
+    { name: 'בצל סגול', keywords: ['בצל אדום'] },
+    { name: 'שום', keywords: ['שום', 'garlic'] },
+    { name: 'פלפל אדום', keywords: ['פלפל', 'pepper'] },
+    { name: 'פלפל ירוק', keywords: ['פלפל ירוק'] },
+    { name: 'פלפל צהוב', keywords: ['פלפל צהוב'] },
+    { name: 'חסה', keywords: ['חסה', 'lettuce'] },
+    { name: 'כרוב', keywords: ['כרוב', 'cabbage'] },
+    { name: 'גזר', keywords: ['גזר', 'carrot'] },
+    { name: 'תפו״א אדום', keywords: ['תפוח אדמה', 'potato'] },
+    { name: 'בטטה', keywords: ['בטטה', 'sweet potato'] },
+    { name: 'קישוא', keywords: ['קישוא', 'zucchini'] },
+    { name: 'חציל', keywords: ['חציל', 'eggplant'] },
+    { name: 'ברוקולי', keywords: ['ברוקולי', 'broccoli'] },
+    { name: 'כרובית', keywords: ['כרובית', 'cauliflower'] },
+    { name: 'תרד', keywords: ['תרד', 'spinach'] },
+    { name: 'פטרוזיליה', keywords: ['פטרוזיליה', 'parsley'] },
+    { name: 'כוסברה', keywords: ['כוסברה', 'cilantro'] },
+    { name: 'נענע', keywords: ['נענע', 'mint'] },
+    { name: 'בננות', keywords: ['בננה', 'banana'] },
+    { name: 'תפוחים אדומים', keywords: ['תפוח', 'apple'] },
+    { name: 'תפוחים ירוקים', keywords: ['גרני סמית'] },
+    { name: 'תפוזים', keywords: ['תפוז', 'orange'] },
+    { name: 'לימון', keywords: ['לימון', 'lemon'] },
+    { name: 'אבוקדו', keywords: ['אבוקדו', 'avocado'] },
+    { name: 'מנגו', keywords: ['מנגו', 'mango'] },
+    { name: 'ענבים ירוקים', keywords: ['ענבים', 'grapes'] },
+    { name: 'תותים', keywords: ['תות', 'strawberry'] },
+    { name: 'אבטיח', keywords: ['אבטיח', 'watermelon'] }
   ],
   bakery: [
-    'Bread', 'Whole Wheat Bread', 'Rye Bread', 'Pita', 'Bagels',
-    'Hamburger Buns', 'Hot Dog Buns', 'Baguette', 'Ciabatta', 'Focaccia',
-    'Tortillas', 'Croissant', 'Muffins', 'Challah',
-    'Cookies', 'Chocolate Chip Cookies', 'Crackers'
+    { name: 'לחם', keywords: ['לחם', 'bread'] },
+    { name: 'לחם מלא', keywords: ['לחם מלא', 'whole wheat'] },
+    { name: 'לחם שיפון', keywords: ['שיפון', 'rye'] },
+    { name: 'חלה', keywords: ['חלה', 'challah'] },
+    { name: 'פיתות', keywords: ['פיתה', 'pita'] },
+    { name: 'פיתות מלאות', keywords: ['פיתה מלאה'] },
+    { name: 'לחמניות', keywords: ['לחמניה', 'roll'] },
+    { name: 'לחמניות המבורגר', keywords: ['המבורגר', 'burger bun'] },
+    { name: 'בגט', keywords: ['בגט', 'baguette'] },
+    { name: 'טורטייה', keywords: ['טורטיה', 'tortilla'] },
+    { name: 'לאפה', keywords: ['לאפה', 'laffa'] },
+    { name: 'קרואסון', keywords: ['קרואסון', 'croissant'] },
+    { name: 'בורקס גבינה', keywords: ['בורקס', 'bourekas'] },
+    { name: 'בורקס תפו״א', keywords: ['בורקס תפוח אדמה'] },
+    { name: 'עוגיות', keywords: ['עוגיה', 'cookie'] },
+    { name: 'עוגיות שוקולד צ\'יפס', keywords: ['שוקולד צ\'יפס'] },
+    { name: 'מצות', keywords: ['מצה', 'matza'] },
+    { name: 'קרקרים', keywords: ['קרקר', 'cracker'] }
   ],
   meat: [
-    'Whole Chicken', 'Chicken Breast', 'Chicken Thighs', 'Chicken Wings',
-    'Ground Chicken', 'Chicken Schnitzel',
-    'Turkey Breast', 'Ground Turkey',
-    'Ground Beef', 'Lean Ground Beef', 'Ribeye Steak', 'Sirloin',
-    'Beef Ribs', 'Stew Meat', 'Hamburger Patties',
-    'Hot Dogs', 'Sausages'
+    { name: 'עוף שלם טרי', keywords: ['עוף', 'chicken'] },
+    { name: 'חזה עוף טרי', keywords: ['חזה עוף', 'chicken breast'] },
+    { name: 'חזה עוף קפוא', keywords: ['חזה קפוא'] },
+    { name: 'כרעיים עוף', keywords: ['כרעיים', 'drumsticks'] },
+    { name: 'שוקיים עוף', keywords: ['שוקיים', 'thighs'] },
+    { name: 'כנפיים עוף', keywords: ['כנפיים', 'wings'] },
+    { name: 'עוף טחון', keywords: ['עוף טחון', 'ground chicken'] },
+    { name: 'פרגית', keywords: ['פרגית'] },
+    { name: 'חזה הודו', keywords: ['הודו', 'turkey'] },
+    { name: 'הודו טחון', keywords: ['הודו טחון', 'ground turkey'] },
+    { name: 'בשר טחון טרי', keywords: ['בשר טחון', 'ground beef'] },
+    { name: 'אנטריקוט', keywords: ['אנטריקוט', 'ribeye'] },
+    { name: 'סינטה', keywords: ['סינטה', 'sirloin'] },
+    { name: 'צלעות בקר', keywords: ['צלעות', 'ribs'] },
+    { name: 'גולש', keywords: ['גולש', 'stew'] },
+    { name: 'שניצל עוף', keywords: ['שניצל', 'schnitzel'] },
+    { name: 'המבורגר', keywords: ['המבורגר', 'burger'] },
+    { name: 'קבב', keywords: ['קבב', 'kebab'] },
+    { name: 'נקניקיות עוף', keywords: ['נקניקיות', 'sausage'] }
   ],
   fish: [
-    'Fresh Salmon', 'Salmon Fillet', 'Smoked Salmon',
-    'Tilapia Fillet', 'Sea Bass', 'Sea Bream',
-    'Cod Fillet', 'Shrimp',
-    'Canned Tuna', 'Tuna in Oil', 'Sardines'
+    { name: 'סלמון טרי', keywords: ['סלמון', 'salmon'] },
+    { name: 'פילה סלמון', keywords: ['פילה סלמון'] },
+    { name: 'סלמון מעושן', keywords: ['סלמון מעושן', 'smoked salmon'] },
+    { name: 'פילה אמנון', keywords: ['אמנון', 'tilapia'] },
+    { name: 'דניס', keywords: ['דניס', 'sea bream'] },
+    { name: 'לברק', keywords: ['לברק', 'sea bass'] },
+    { name: 'פילה בקלה', keywords: ['בקלה', 'cod'] },
+    { name: 'טונה', keywords: ['טונה', 'tuna'] },
+    { name: 'טונה בשמן', keywords: ['טונה בשמן'] },
+    { name: 'סרדינים', keywords: ['סרדין', 'sardines'] }
   ],
   deli: [
-    'Pastrami', 'Salami', 'Turkey Breast',
-    'Roast Beef', 'Ham', 'Mortadella',
-    'Liver Pate'
+    { name: 'פסטרמה', keywords: ['פסטרמה', 'pastrami'] },
+    { name: 'סלמי', keywords: ['סלמי', 'salami'] },
+    { name: 'חזה הודו מעושן', keywords: ['הודו מעושן', 'smoked turkey'] },
+    { name: 'רוסטביף', keywords: ['רוסטביף', 'roast beef'] },
+    { name: 'נקניק', keywords: ['נקניק'] },
+    { name: 'מורטדלה', keywords: ['מורטדלה', 'mortadella'] }
   ],
   spreads: [
-    'Nutella', 'Chocolate Spread', 'Peanut Butter',
-    'Almond Butter', 'Tahini', 'Halva',
-    'Strawberry Jam', 'Apricot Jam', 'Honey',
-    'Date Syrup', 'Hummus'
+    { name: 'נוטלה', keywords: ['נוטלה', 'nutella'] },
+    { name: 'ממרח שוקולד', keywords: ['ממרח שוקולד', 'chocolate spread'] },
+    { name: 'חמאת בוטנים', keywords: ['חמאת בוטנים', 'peanut butter'] },
+    { name: 'טחינה', keywords: ['טחינה', 'tahini'] },
+    { name: 'חלווה', keywords: ['חלוה', 'halva'] },
+    { name: 'ריבה תות', keywords: ['ריבה', 'jam'] },
+    { name: 'דבש', keywords: ['דבש', 'honey'] },
+    { name: 'סילאן', keywords: ['סילאן', 'date syrup'] },
+    { name: 'חומוס מוכן', keywords: ['חומוס', 'hummus'] }
   ],
   drinks: [
-    'Cola 1.5L', 'Cola Zero', 'Diet Cola',
-    'Sprite', 'Fanta', 'Tonic',
-    'Orange Juice', 'Apple Juice', 'Grape Juice',
-    'Mineral Water', 'Sparkling Water',
-    'Energy Drink', 'Sports Drink'
+    { name: 'קולה 1.5 ליטר', keywords: ['קולה', 'cola'] },
+    { name: 'קולה זירו 1.5 ליטר', keywords: ['קולה זירו', 'coke zero'] },
+    { name: 'ספרייט 1.5 ליטר', keywords: ['ספרייט', 'sprite'] },
+    { name: 'פאנטה 1.5 ליטר', keywords: ['פאנטה', 'fanta'] },
+    { name: 'מיץ תפוזים 1 ליטר', keywords: ['מיץ תפוזים', 'orange juice'] },
+    { name: 'מיץ תפוחים 1 ליטר', keywords: ['מיץ תפוחים', 'apple juice'] },
+    { name: 'מים מינרליים 1.5 ליטר', keywords: ['מים', 'water'] },
+    { name: 'סודה 1.5 ליטר', keywords: ['סודה', 'soda'] },
+    { name: 'XL פחית', keywords: ['אקסל', 'xl', 'energy'] },
+    { name: 'רד בול', keywords: ['רד בול', 'red bull'] }
   ],
   snacks: [
-    'Potato Chips', 'Tortilla Chips', 'Pretzels', 'Popcorn',
-    'Chocolate Bar', 'Milk Chocolate', 'Dark Chocolate',
-    'Candy', 'Gummy Bears', 'Cookies',
-    'Granola Bars', 'Protein Bars'
+    { name: 'במבה', keywords: ['במבה', 'bamba'] },
+    { name: 'במבה נוגט', keywords: ['במבה נוגט'] },
+    { name: 'ביסלי', keywords: ['ביסלי', 'bisli'] },
+    { name: 'תפוצ\'יפס', keywords: ['תפוצ\'יפס', 'chips'] },
+    { name: 'דוריטוס', keywords: ['דוריטוס', 'doritos'] },
+    { name: 'פרינגלס', keywords: ['פרינגלס', 'pringles'] },
+    { name: 'בייגלה', keywords: ['בייגלה', 'pretzel'] },
+    { name: 'שוקולד פרה', keywords: ['פרה', 'para'] },
+    { name: 'שוקולד מריר', keywords: ['שוקולד מריר', 'dark chocolate'] },
+    { name: 'סניקרס', keywords: ['סניקרס', 'snickers'] },
+    { name: 'קיטקט', keywords: ['קיטקט', 'kitkat'] },
+    { name: 'קינדר בואנו', keywords: ['קינדר', 'kinder'] },
+    { name: 'עוגיות אוראו', keywords: ['אוראו', 'oreo'] }
   ],
   coffee: [
-    'Ground Coffee', 'Instant Coffee', 'Coffee Beans',
-    'Espresso', 'Cappuccino Mix', 'Turkish Coffee',
-    'Black Tea', 'Green Tea', 'Herbal Tea', 'Chamomile Tea'
+    { name: 'קפה נמס', keywords: ['נמס', 'instant coffee'] },
+    { name: 'קפה טורקי', keywords: ['טורקי', 'turkish coffee'] },
+    { name: 'קפה טחון', keywords: ['קפה טחון', 'ground coffee'] },
+    { name: 'קפסולות נספרסו', keywords: ['נספרסו', 'nespresso'] },
+    { name: 'תה שחור', keywords: ['תה', 'tea'] },
+    { name: 'תה ירוק', keywords: ['תה ירוק', 'green tea'] },
+    { name: 'תה צמחים', keywords: ['תה צמחים', 'herbal tea'] },
+    { name: 'תה עם נענע', keywords: ['תה נענע'] }
   ],
   cereals: [
-    'Cornflakes', 'Granola', 'Muesli', 'Oatmeal',
-    'Rice Krispies', 'Chocolate Cereal', 'Fruit Loops'
+    { name: 'קורנפלקס', keywords: ['קורנפלקס', 'cornflakes'] },
+    { name: 'גרנולה', keywords: ['גרנולה', 'granola'] },
+    { name: 'מוזלי', keywords: ['מוזלי', 'muesli'] },
+    { name: 'שיבולת שועל', keywords: ['שיבולת שועל', 'oatmeal'] }
   ],
   canned: [
-    'Canned Tomatoes', 'Tomato Paste', 'Tomato Sauce',
-    'Canned Corn', 'Canned Peas', 'Canned Beans',
-    'Chickpeas', 'Lentils', 'Rice', 'Pasta',
-    'Olive Oil', 'Canola Oil', 'Vegetable Oil'
+    { name: 'עגבניות מרוסקות', keywords: ['עגבניות מרוסקות', 'crushed tomatoes'] },
+    { name: 'רסק עגבניות', keywords: ['רסק', 'tomato paste'] },
+    { name: 'רוטב עגבניות', keywords: ['רוטב', 'tomato sauce'] },
+    { name: 'תירס', keywords: ['תירס', 'corn'] },
+    { name: 'אפונה', keywords: ['אפונה', 'peas'] },
+    { name: 'שעועית', keywords: ['שעועית', 'beans'] },
+    { name: 'חומוס', keywords: ['חומוס', 'chickpeas'] },
+    { name: 'עדשים', keywords: ['עדשים', 'lentils'] },
+    { name: 'אורז', keywords: ['אורז', 'rice'] },
+    { name: 'אורז בסמטי', keywords: ['בסמטי', 'basmati'] },
+    { name: 'פסטה', keywords: ['פסטה', 'pasta'] },
+    { name: 'פסטה ספגטי', keywords: ['ספגטי', 'spaghetti'] },
+    { name: 'שמן זית', keywords: ['שמן זית', 'olive oil'] },
+    { name: 'שמן קנולה', keywords: ['שמן קנולה', 'canola oil'] }
   ],
   spices: [
-    'Salt', 'Black Pepper', 'Paprika', 'Cumin',
-    'Turmeric', 'Cinnamon', 'Oregano', 'Basil',
-    'Garlic Powder', 'Onion Powder', 'Curry Powder'
+    { name: 'מלח', keywords: ['מלח', 'salt'] },
+    { name: 'פלפל שחור', keywords: ['פלפל שחור', 'black pepper'] },
+    { name: 'פפריקה', keywords: ['פפריקה', 'paprika'] },
+    { name: 'כמון', keywords: ['כמון', 'cumin'] },
+    { name: 'כורכום', keywords: ['כורכום', 'turmeric'] },
+    { name: 'קינמון', keywords: ['קינמון', 'cinnamon'] },
+    { name: 'אבקת שום', keywords: ['אבקת שום', 'garlic powder'] },
+    { name: 'אבקת בצל', keywords: ['אבקת בצל', 'onion powder'] }
   ],
   frozen: [
-    'Frozen Pizza', 'Frozen Vegetables', 'Frozen Fruit',
-    'Ice Cream', 'Frozen Fries', 'Frozen Fish',
-    'Frozen Chicken Nuggets', 'Frozen Burgers'
+    { name: 'פיצה קפואה', keywords: ['פיצה', 'pizza'] },
+    { name: 'ירקות קפואים', keywords: ['ירקות קפואים', 'frozen vegetables'] },
+    { name: 'גלידה', keywords: ['גלידה', 'ice cream'] },
+    { name: 'גלידה וניל', keywords: ['וניל', 'vanilla'] },
+    { name: 'גלידה שוקולד', keywords: ['שוקולד', 'chocolate'] },
+    { name: 'שניצל קפוא', keywords: ['שניצל קפוא'] },
+    { name: 'נאגטס', keywords: ['נאגטס', 'nuggets'] },
+    { name: 'בצק עלים', keywords: ['בצק עלים', 'puff pastry'] },
+    { name: 'בצק פילו', keywords: ['פילו', 'phyllo'] }
   ],
   hygiene: [
-    'Shampoo', 'Conditioner', 'Body Wash', 'Soap',
-    'Toothpaste', 'Toothbrush', 'Mouthwash', 'Floss',
-    'Deodorant', 'Lotion', 'Razor', 'Shaving Cream'
+    { name: 'שמפו', keywords: ['שמפו', 'shampoo'] },
+    { name: 'מרכך שיער', keywords: ['מרכך', 'conditioner'] },
+    { name: 'סבון גוף', keywords: ['סבון', 'body wash'] },
+    { name: 'משחת שיניים', keywords: ['משחת שיניים', 'toothpaste'] },
+    { name: 'מברשת שיניים', keywords: ['מברשת שיניים', 'toothbrush'] },
+    { name: 'דאודורנט', keywords: ['דאודורנט', 'deodorant'] },
+    { name: 'קרם גוף', keywords: ['קרם', 'lotion'] }
   ],
   cleaning: [
-    'Dish Soap', 'Laundry Detergent', 'Fabric Softener',
-    'All Purpose Cleaner', 'Glass Cleaner', 'Bleach',
-    'Sponges', 'Paper Towels', 'Trash Bags',
-    'Toilet Paper', 'Tissues'
+    { name: 'נייר טואלט', keywords: ['נייר טואלט', 'toilet paper'] },
+    { name: 'מגבות נייר', keywords: ['מגבות נייר', 'paper towels'] },
+    { name: 'סבון כלים', keywords: ['סבון כלים', 'dish soap'] },
+    { name: 'טבליות למדיח', keywords: ['טבליות', 'dishwasher tablets'] },
+    { name: 'אבקת כביסה', keywords: ['אבקת כביסה', 'laundry detergent'] },
+    { name: 'מרכך כביסה', keywords: ['מרכך', 'fabric softener'] },
+    { name: 'אקונומיקה', keywords: ['אקונומיקה', 'bleach'] },
+    { name: 'שקיות אשפה', keywords: ['שקיות אשפה', 'trash bags'] },
+    { name: 'ספוגים', keywords: ['ספוג', 'sponge'] }
   ],
   baby: [
-    'Baby Formula', 'Baby Food', 'Baby Cereal',
-    'Diapers', 'Baby Wipes', 'Baby Shampoo',
-    'Baby Lotion', 'Baby Bottles', 'Pacifiers'
+    { name: 'חיתולים מידה 3', keywords: ['חיתולים', 'diapers'] },
+    { name: 'חיתולים מידה 4', keywords: ['חיתולים'] },
+    { name: 'חיתולים מידה 5', keywords: ['חיתולים'] },
+    { name: 'מגבונים לתינוקות', keywords: ['מגבונים', 'wipes'] },
+    { name: 'שמפו לתינוקות', keywords: ['שמפו תינוקות', 'baby shampoo'] },
+    { name: 'מזון תינוקות', keywords: ['מזון תינוקות', 'baby food'] },
+    { name: 'מטרנה', keywords: ['מטרנה', 'formula'] }
   ],
   pets: [
-    'Dog Food', 'Cat Food', 'Dog Treats', 'Cat Treats',
-    'Cat Litter', 'Pet Shampoo', 'Pet Toys'
+    { name: 'אוכל לכלבים', keywords: ['אוכל כלבים', 'dog food'] },
+    { name: 'אוכל לחתולים', keywords: ['אוכל חתולים', 'cat food'] },
+    { name: 'חול לחתולים', keywords: ['חול', 'cat litter'] },
+    { name: 'חטיפים לכלבים', keywords: ['חטיפים', 'dog treats'] }
   ],
   wine: [
-    'Red Wine', 'White Wine', 'Rose Wine',
-    'Beer', 'Vodka', 'Whiskey', 'Rum'
+    { name: 'יין אדום', keywords: ['יין אדום', 'red wine'] },
+    { name: 'יין לבן', keywords: ['יין לבן', 'white wine'] },
+    { name: 'בירה', keywords: ['בירה', 'beer'] },
+    { name: 'וודקה', keywords: ['וודקה', 'vodka'] },
+    { name: 'וויסקי', keywords: ['וויסקי', 'whiskey'] }
   ],
   candles: [
-    'Shabbat Candles', 'Hanukkah Candles', 'Memorial Candles',
-    'Birthday Candles', 'Scented Candles', 'Matches', 'Lighters'
+    { name: 'נרות שבת', keywords: ['נרות שבת', 'shabbat candles'] },
+    { name: 'נרות חנוכה', keywords: ['נרות חנוכה', 'hanukkah candles'] },
+    { name: 'נר נשמה', keywords: ['נר נשמה', 'memorial candle'] },
+    { name: 'גפרורים', keywords: ['גפרורים', 'matches'] },
+    { name: 'מצית', keywords: ['מצית', 'lighter'] }
   ],
   glutenFree: [
-    'Gluten Free Bread', 'Gluten Free Pasta', 'Gluten Free Flour',
-    'Gluten Free Cookies', 'Gluten Free Crackers', 'Rice Cakes'
+    { name: 'לחם ללא גלוטן', keywords: ['לחם ללא גלוטן', 'gluten free bread'] },
+    { name: 'פסטה ללא גלוטן', keywords: ['פסטה ללא גלוטן', 'gluten free pasta'] },
+    { name: 'קמח ללא גלוטן', keywords: ['קמח ללא גלוטן', 'gluten free flour'] }
   ],
   health: [
-    'Protein Powder', 'Protein Bars', 'Vitamins',
-    'Sugar Free Snacks', 'Low Calorie Drinks'
+    { name: 'אבקת חלבון', keywords: ['אבקת חלבון', 'protein powder'] },
+    { name: 'חטיפי חלבון', keywords: ['חטיף חלבון', 'protein bar'] },
+    { name: 'ויטמינים', keywords: ['ויטמין', 'vitamins'] }
   ],
   salads: [
-    'Hummus', 'Tehina Salad', 'Eggplant Salad',
-    'Coleslaw', 'Potato Salad', 'Tabbouleh'
+    { name: 'חומוס מוכן', keywords: ['חומוס', 'hummus'] },
+    { name: 'טחינה מוכנה', keywords: ['טחינה', 'tahini salad'] },
+    { name: 'סלט חצילים', keywords: ['חצילים', 'eggplant salad'] },
+    { name: 'קולסלאו', keywords: ['קולסלאו', 'coleslaw'] }
   ],
   desserts: [
-    'Chocolate Pudding', 'Vanilla Pudding', 'Rice Pudding',
-    'Jello', 'Chocolate Mousse', 'Tiramisu'
+    { name: 'מילקי', keywords: ['מילקי', 'milky'] },
+    { name: 'מילקי שוקולד', keywords: ['מילקי שוקולד'] },
+    { name: 'גמדים', keywords: ['גמדים'] },
+    { name: 'דנונה', keywords: ['דנונה', 'danone'] },
+    { name: 'מעדן וניל', keywords: ['מעדן', 'pudding'] },
+    { name: 'פודינג', keywords: ['פודינג', 'pudding'] },
+    { name: 'ג\'לי', keywords: ['ג\'לי', 'jello'] }
   ],
   baking: [
-    'Flour', 'Sugar', 'Brown Sugar', 'Powdered Sugar',
-    'Baking Powder', 'Baking Soda', 'Yeast',
-    'Vanilla Extract', 'Chocolate Chips', 'Cocoa Powder'
+    { name: 'קמח', keywords: ['קמח', 'flour'] },
+    { name: 'קמח מלא', keywords: ['קמח מלא', 'whole wheat flour'] },
+    { name: 'סוכר', keywords: ['סוכר', 'sugar'] },
+    { name: 'סוכר חום', keywords: ['סוכר חום', 'brown sugar'] },
+    { name: 'אבקת אפייה', keywords: ['אבקת אפייה', 'baking powder'] },
+    { name: 'שמרים', keywords: ['שמרים', 'yeast'] },
+    { name: 'וניל', keywords: ['וניל', 'vanilla'] },
+    { name: 'קקאו', keywords: ['קקאו', 'cocoa'] },
+    { name: 'שוקולד צ\'יפס', keywords: ['שוקולד צ\'יפס', 'chocolate chips'] }
   ]
 };
 
