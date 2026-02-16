@@ -16217,39 +16217,61 @@ END:VCALENDAR`;
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={async () => {
-                                                if (!('Notification' in window)) {
-                                                    // No notification support (old browser or iOS Safari not as PWA)
-                                                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-                                                    if (isIOS) {
-                                                        alert(t('language') === 'עברית'
-                                                            ? 'כדי לקבל התראות באייפון, יש להוסיף את האפליקציה למסך הבית:\nלחץ על כפתור השיתוף ⬆️ → "הוסף למסך הבית"'
-                                                            : 'To get notifications on iPhone, add the app to home screen:\nTap Share ⬆️ → "Add to Home Screen"');
-                                                    } else {
-                                                        alert(t('language') === 'עברית'
+                                                try {
+                                                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                                                    const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+                                                    const isHebrew = t('language') === 'עברית';
+
+                                                    // iOS Safari (not installed as PWA) - Notification API may exist but won't work
+                                                    if (isIOS && !isStandalone) {
+                                                        alert(isHebrew
+                                                            ? 'כדי לקבל התראות באייפון:\n\n1. לחץ על כפתור השיתוף ⬆️ בתחתית המסך\n2. בחר "הוסף למסך הבית"\n3. פתח את האפליקציה ממסך הבית\n4. לחץ שוב על כפתור ההתראות'
+                                                            : 'To get notifications on iPhone:\n\n1. Tap the Share button ⬆️ at the bottom\n2. Select "Add to Home Screen"\n3. Open the app from home screen\n4. Tap the notification button again');
+                                                        return;
+                                                    }
+
+                                                    if (!('Notification' in window)) {
+                                                        alert(isHebrew
                                                             ? 'הדפדפן שלך לא תומך בהתראות.'
                                                             : 'Your browser does not support notifications.');
+                                                        return;
                                                     }
-                                                    return;
-                                                }
-                                                if (Notification.permission === 'granted') {
-                                                    const newVal = !notificationsEnabled;
-                                                    setNotificationsEnabled(newVal);
-                                                    localStorage.setItem('listnest_notifications', String(newVal));
-                                                } else if (Notification.permission === 'default') {
-                                                    const permission = await Notification.requestPermission();
-                                                    const enabled = permission === 'granted';
-                                                    setNotificationsEnabled(enabled);
-                                                    localStorage.setItem('listnest_notifications', String(enabled));
-                                                    if (!enabled) {
-                                                        alert(t('language') === 'עברית'
-                                                            ? 'ההתראות נחסמו. לחץ על סמל המנעול 🔒 בשורת הכתובת כדי לאפשר.'
-                                                            : 'Notifications blocked. Click the lock icon 🔒 in the address bar to allow.');
+
+                                                    if (Notification.permission === 'granted') {
+                                                        const newVal = !notificationsEnabled;
+                                                        setNotificationsEnabled(newVal);
+                                                        localStorage.setItem('listnest_notifications', String(newVal));
+                                                    } else if (Notification.permission === 'default') {
+                                                        let permission;
+                                                        try {
+                                                            permission = await Notification.requestPermission();
+                                                        } catch (permErr) {
+                                                            console.warn('requestPermission failed:', permErr);
+                                                            alert(isHebrew
+                                                                ? 'לא ניתן לבקש הרשאת התראות. נסה לרענן את הדף.'
+                                                                : 'Could not request notification permission. Try refreshing the page.');
+                                                            return;
+                                                        }
+                                                        const enabled = permission === 'granted';
+                                                        setNotificationsEnabled(enabled);
+                                                        localStorage.setItem('listnest_notifications', String(enabled));
+                                                        if (!enabled) {
+                                                            alert(isHebrew
+                                                                ? 'ההתראות נחסמו. לחץ על סמל המנעול 🔒 בשורת הכתובת כדי לאפשר.'
+                                                                : 'Notifications blocked. Click the lock icon 🔒 in the address bar to allow.');
+                                                        }
+                                                    } else {
+                                                        // denied
+                                                        alert(isHebrew
+                                                            ? 'ההתראות חסומות בדפדפן.\n\nכדי להפעיל:\n1. לחץ על סמל המנעול 🔒 בשורת הכתובת\n2. מצא "התראות" או "Notifications"\n3. שנה ל"אפשר"'
+                                                            : 'Notifications are blocked.\n\nTo enable:\n1. Click the lock icon 🔒 in the address bar\n2. Find "Notifications"\n3. Change to "Allow"');
                                                     }
-                                                } else {
-                                                    // denied
-                                                    alert(t('language') === 'עברית'
-                                                        ? 'ההתראות חסומות בדפדפן.\n\nכדי להפעיל:\n1. לחץ על סמל המנעול 🔒 בשורת הכתובת\n2. מצא "התראות" או "Notifications"\n3. שנה ל"אפשר"'
-                                                        : 'Notifications are blocked.\n\nTo enable:\n1. Click the lock icon 🔒 in the address bar\n2. Find "Notifications"\n3. Change to "Allow"');
+                                                } catch (err) {
+                                                    console.error('Notification toggle error:', err);
+                                                    const isHebrew = t('language') === 'עברית';
+                                                    alert(isHebrew
+                                                        ? 'שגיאה בהפעלת התראות. נסה לרענן את הדף.'
+                                                        : 'Error enabling notifications. Try refreshing the page.');
                                                 }
                                             }}
                                             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${notificationsEnabled ? 'bg-green-100 dark:bg-green-900/50 text-green-600' : 'bg-gray-100 dark:bg-gray-700 text-gray-500'}`}
