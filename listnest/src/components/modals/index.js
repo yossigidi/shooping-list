@@ -10,3 +10,5 @@ export { default as CalendarModal } from './CalendarModal';
 export { default as AIAssistantModal } from './AIAssistantModal';
 export { default as SavedListsModal } from './SavedListsModal';
 export { default as AccessibilityModal } from './AccessibilityModal';
+export { default as BarcodeScannerModal } from './BarcodeScannerModal';
+export { default as ImportWhatsAppModal } from './ImportWhatsAppModal';

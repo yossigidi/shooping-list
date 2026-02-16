@@ -6,10 +6,11 @@ import qrcode from 'qrcode-generator';
 import { CreateChildAccountModal, ResetChildPinModal, GenerateChildQRModal } from '../modals';
 
 export default function FamilySettingsModal({ onClose }) {
-    const { family, leaveFamily, removeMember, isAdmin, canInvite, isTeen, deleteChildAccount } = useFamily();
+    const { family, leaveFamily, deleteEntireFamily, removeMember, isAdmin, canInvite, isTeen, deleteChildAccount } = useFamily();
     const { user } = useAuth();
     const { t, language } = useLanguage();
     const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+    const [showDeleteFamilyConfirm, setShowDeleteFamilyConfirm] = useState(false);
     const [copied, setCopied] = useState(false);
     const [childLinkCopied, setChildLinkCopied] = useState(false);
     const [showShareOptions, setShowShareOptions] = useState(false);
@@ -71,6 +72,11 @@ export default function FamilySettingsModal({ onClose }) {
 
     const handleLeave = async () => {
         await leaveFamily();
+        onClose();
+    };
+
+    const handleDeleteFamily = async () => {
+        await deleteEntireFamily();
         onClose();
     };
 
@@ -312,30 +318,61 @@ export default function FamilySettingsModal({ onClose }) {
                     </div>
                 )}
 
-                {/* Leave Family */}
-                {!showLeaveConfirm ? (
-                    <button
-                        onClick={() => setShowLeaveConfirm(true)}
-                        className="w-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 py-3 rounded-xl font-semibold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
-                    >
-                        {isAdmin && family.members?.length === 1 ? '🗑 ' + t('deleteFamily') : '🚪 ' + t('leaveFamily')}
-                    </button>
-                ) : (
-                    <div className="glass rounded-xl p-4 border-2 border-red-300 dark:border-red-700">
-                        <p className="text-center text-red-600 dark:text-red-400 mb-4 font-medium">
-                            {isAdmin && family.members?.length === 1
-                                ? 'המשפחה תימחק לצמיתות. להמשיך?'
-                                : 'בטוח שברצונך לעזוב?'}
-                        </p>
-                        <div className="flex gap-2">
-                            <button onClick={handleLeave} className="flex-1 bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600">
-                                {t('yes')}, {isAdmin && family.members?.length === 1 ? t('delete') : t('leaveFamily')}
-                            </button>
-                            <button onClick={() => setShowLeaveConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">
-                                {t('cancel')}
-                            </button>
+                {/* Delete Family - Admin only */}
+                {isAdmin && (
+                    !showDeleteFamilyConfirm ? (
+                        <button
+                            onClick={() => setShowDeleteFamilyConfirm(true)}
+                            className="w-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 py-3 rounded-xl font-semibold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+                        >
+                            {'🗑 ' + t('deleteFamily')}
+                        </button>
+                    ) : (
+                        <div className="glass rounded-xl p-4 border-2 border-red-300 dark:border-red-700">
+                            <p className="text-center text-red-600 dark:text-red-400 mb-2 font-bold text-lg">
+                                {t('deleteFamily')}
+                            </p>
+                            <p className="text-center text-red-500 dark:text-red-400 mb-4 text-sm">
+                                {family.members?.length > 1
+                                    ? `המשפחה כוללת ${family.members.length} חברים. כל הרשימות, הפריטים וההודעות יימחקו לצמיתות!`
+                                    : 'המשפחה תימחק לצמיתות כולל כל הרשימות והפריטים.'}
+                            </p>
+                            <div className="flex gap-2">
+                                <button onClick={handleDeleteFamily} className="flex-1 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700">
+                                    {t('yes')}, {t('deleteFamily')}
+                                </button>
+                                <button onClick={() => setShowDeleteFamilyConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">
+                                    {t('cancel')}
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    )
+                )}
+
+                {/* Leave Family - Non-admin members */}
+                {!isAdmin && (
+                    !showLeaveConfirm ? (
+                        <button
+                            onClick={() => setShowLeaveConfirm(true)}
+                            className="w-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 py-3 rounded-xl font-semibold hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors"
+                        >
+                            {'🚪 ' + t('leaveFamily')}
+                        </button>
+                    ) : (
+                        <div className="glass rounded-xl p-4 border-2 border-orange-300 dark:border-orange-700">
+                            <p className="text-center text-orange-600 dark:text-orange-400 mb-4 font-medium">
+                                בטוח שברצונך לעזוב את המשפחה?
+                            </p>
+                            <div className="flex gap-2">
+                                <button onClick={handleLeave} className="flex-1 bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-orange-600">
+                                    {t('yes')}, {t('leaveFamily')}
+                                </button>
+                                <button onClick={() => setShowLeaveConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">
+                                    {t('cancel')}
+                                </button>
+                            </div>
+                        </div>
+                    )
                 )}
             </div>
 

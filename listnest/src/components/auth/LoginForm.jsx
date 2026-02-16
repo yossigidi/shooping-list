@@ -22,7 +22,10 @@ export default function LoginForm({ onSwitchToSignUp, onSwitchToReset }) {
       await signIn(email, password);
     } catch (err) {
       console.error('Login error:', err);
-      setError(getErrorMessage(err.code) || err.message || 'An error occurred, please try again');
+      console.error('Error code:', err.code);
+      console.error('Error message:', err.message);
+      const errorMsg = getErrorMessage(err.code);
+      setError(errorMsg !== 'An error occurred, please try again' ? errorMsg : `${err.code || ''}: ${err.message || 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
