@@ -7998,9 +7998,9 @@
                     for (const [name, apiPrice] of Object.entries(data.prices)) {
                         const localPrice = PRODUCT_PRICES[name];
                         if (localPrice) {
-                            // Local price exists - only override if API price is within 0.2x-5x range
+                            // Local price exists - only override if API price is within 0.3x-4x range
                             const ratio = apiPrice / localPrice;
-                            if (ratio >= 0.2 && ratio <= 5) {
+                            if (ratio >= 0.3 && ratio <= 4) {
                                 PRODUCT_PRICES[name] = apiPrice;
                                 accepted++;
                             } else {
