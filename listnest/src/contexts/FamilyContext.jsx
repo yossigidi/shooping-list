@@ -378,19 +378,72 @@ export function FamilyProvider({ children }) {
   // Check if user is teen
   const isTeen = family?.members?.some(m => m.userId === user?.uid && m.isTeen);
 
-  // Leave family
+  // Leave family (non-admin, or admin leaving without deleting)
   const leaveFamily = async () => {
     if (!family || !user) return;
 
     const memberToRemove = family.members.find(m => m.userId === user.uid);
     if (!memberToRemove) return;
 
+    // Remove member from family
     await firestore.updateDoc(firestore.doc(db, 'families', family.id), {
       members: firestore.arrayRemove(memberToRemove),
       memberIds: firestore.arrayRemove(user.uid)
     });
 
     await logActivity('member_left', { memberName: user.displayName || user.email });
+  };
+
+  // Delete family entirely (admin only)
+  const deleteEntireFamily = async () => {
+    if (!family || !user) return;
+    if (family.adminId !== user.uid) return;
+
+    try {
+      // Delete all shopping items
+      const itemsSnapshot = await firestore.getDocs(
+        firestore.query(
+          firestore.collection(db, 'shopping-items'),
+          firestore.where('familyId', '==', family.id)
+        )
+      );
+      for (const doc of itemsSnapshot.docs) {
+        await firestore.deleteDoc(doc.ref);
+      }
+
+      // Delete all lists
+      const listsSnapshot = await firestore.getDocs(
+        firestore.query(
+          firestore.collection(db, 'lists'),
+          firestore.where('familyId', '==', family.id)
+        )
+      );
+      for (const doc of listsSnapshot.docs) {
+        await firestore.deleteDoc(doc.ref);
+      }
+
+      // Delete all chat messages
+      const chatSnapshot = await firestore.getDocs(
+        firestore.query(
+          firestore.collection(db, 'family-chat'),
+          firestore.where('familyId', '==', family.id)
+        )
+      );
+      for (const doc of chatSnapshot.docs) {
+        await firestore.deleteDoc(doc.ref);
+      }
+
+      // Delete the family document
+      await firestore.deleteDoc(
+        firestore.doc(db, 'families', family.id)
+      );
+
+      // Clear local state
+      setFamily(null);
+    } catch (error) {
+      console.error('Error deleting family:', error);
+      alert('שגיאה במחיקת המשפחה: ' + error.message);
+    }
   };
 
   // Remove member (admin only)
@@ -442,6 +495,7 @@ export function FamilyProvider({ children }) {
     deleteAllProducts,
     logActivity,
     leaveFamily,
+    deleteEntireFamily,
     removeMember,
     deleteChildAccount,
     hasFamily: !!family
