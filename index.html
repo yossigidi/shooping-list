@@ -3662,42 +3662,51 @@
 
                 setLoading(true);
 
-                // Query families where user is a member
+                // Query families where user is a member (filtered by memberIds for efficiency and security)
                 const q = window.firestore.query(
-                    window.firestore.collection(window.db, 'families')
+                    window.firestore.collection(window.db, 'families'),
+                    window.firestore.where('memberIds', 'array-contains', user.uid)
                 );
 
                 const unsubscribe = window.firestore.onSnapshot(q, async (snapshot) => {
                     let userFamily = null;
-                    console.log('FamilyProvider: Snapshot received, checking', snapshot.size, 'families for user:', user?.uid);
+                    console.log('FamilyProvider: Snapshot received, found', snapshot.size, 'families for user:', user?.uid);
                     snapshot.forEach((doc) => {
                         const data = doc.data();
-                        // Check both members array (objects with userId) and memberIds array (strings)
-                        const isMemberByObject = data.members?.some(m => m.userId === user?.uid);
-                        const isMemberById = data.memberIds?.includes(user?.uid);
-                        const isMember = isMemberByObject || isMemberById;
-                        console.log('FamilyProvider: Family', doc.id, '- isMemberByObject:', isMemberByObject, 'isMemberById:', isMemberById);
-                        if (isMember) {
-                            userFamily = { id: doc.id, ...data };
-                        }
+                        userFamily = { id: doc.id, ...data };
                     });
 
-                    // Auto-migrate: add memberIds if it doesn't exist
-                    if (userFamily && !userFamily.memberIds) {
-                        const memberIds = userFamily.members?.map(m => m.userId).filter(Boolean) || [];
+                    // If no family found via memberIds, check old families that only have members array (migration)
+                    if (!userFamily) {
                         try {
-                            await window.firestore.updateDoc(
-                                window.firestore.doc(window.db, 'families', userFamily.id),
-                                { memberIds: memberIds }
+                            const allFamiliesSnapshot = await window.firestore.getDocs(
+                                window.firestore.collection(window.db, 'families')
                             );
-                            userFamily.memberIds = memberIds;
-                            console.log('Migrated family to include memberIds');
+                            allFamiliesSnapshot.forEach((doc) => {
+                                const data = doc.data();
+                                if (!data.memberIds && data.members?.some(m => m.userId === user.uid)) {
+                                    userFamily = { id: doc.id, ...data };
+                                }
+                            });
+                            // Migrate old family to include memberIds
+                            if (userFamily) {
+                                const memberIds = userFamily.members?.map(m => m.userId).filter(Boolean) || [];
+                                await window.firestore.updateDoc(
+                                    window.firestore.doc(window.db, 'families', userFamily.id),
+                                    { memberIds: memberIds }
+                                );
+                                userFamily.memberIds = memberIds;
+                                console.log('Migrated old family to include memberIds');
+                            }
                         } catch (e) {
-                            console.error('Failed to migrate memberIds:', e);
+                            console.warn('FamilyProvider: Migration check failed:', e);
                         }
                     }
 
                     setFamily(userFamily);
+                    setLoading(false);
+                }, (error) => {
+                    console.error('FamilyProvider: Snapshot error:', error);
                     setLoading(false);
                 });
 
@@ -3879,8 +3888,20 @@
                     }
 
                     console.log('joinFamily: Successfully joined family, waiting for sync...');
-                    // Small delay to allow Firestore to sync
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    // Wait for Firestore listener to pick up the change
+                    // The onSnapshot with memberIds filter will auto-detect the new membership
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    // Fallback: if listener didn't pick it up, manually set the family
+                    if (!family) {
+                        console.log('joinFamily: Listener did not pick up change, manually setting family');
+                        const updatedDoc = await window.firestore.getDoc(
+                            window.firestore.doc(window.db, 'families', familyDoc.id)
+                        );
+                        if (updatedDoc.exists()) {
+                            setFamily({ id: updatedDoc.id, ...updatedDoc.data() });
+                        }
+                    }
                     return { success: true, familyId: familyDoc.id };
                 } catch (err) {
                     console.error('joinFamily: Error:', err);
