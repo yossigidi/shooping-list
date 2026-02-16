@@ -61,6 +61,12 @@ function AppRouter() {
     return <LoadingScreen />;
   }
 
+  // Check for password reset link - always show AuthScreen for reset
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('mode') === 'resetPassword' && urlParams.get('oobCode')) {
+    return <AuthScreen />;
+  }
+
   // Show auth screen if not logged in
   if (!user && !childUser) {
     return <AuthScreen />;

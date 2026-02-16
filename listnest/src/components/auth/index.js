@@ -4,3 +4,4 @@ export { default as SignUpForm } from './SignUpForm';
 export { default as PasswordResetForm } from './PasswordResetForm';
 export { default as ChildLoginForm } from './ChildLoginForm';
 export { default as ChildQRJoinScreen } from './ChildQRJoinScreen';
+export { default as ResetPasswordFromLink } from './ResetPasswordFromLink';

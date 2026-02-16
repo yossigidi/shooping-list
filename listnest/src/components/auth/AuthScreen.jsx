@@ -5,12 +5,14 @@ import SignUpForm from './SignUpForm';
 import PasswordResetForm from './PasswordResetForm';
 import ChildLoginForm from './ChildLoginForm';
 import ChildQRJoinScreen from './ChildQRJoinScreen';
+import ResetPasswordFromLink from './ResetPasswordFromLink';
 
 export default function AuthScreen() {
   const { t, language } = useLanguage();
   const [mode, setMode] = useState('login');
   const [darkMode, setDarkMode] = useState(false);
   const [childToken, setChildToken] = useState(null);
+  const [resetOobCode, setResetOobCode] = useState(null);
   const isRTL = language === 'he' || language === 'ar';
 
   useEffect(() => {
@@ -46,6 +48,14 @@ export default function AuthScreen() {
       // Switch directly to child login mode - ChildLoginForm will handle the code
       setMode('child-login');
       // Don't clean URL here - ChildLoginForm needs to read it
+    }
+
+    // Check for password reset link
+    const resetMode = urlParams.get('mode');
+    const oobCode = urlParams.get('oobCode');
+    if (resetMode === 'resetPassword' && oobCode) {
+      setResetOobCode(oobCode);
+      setMode('reset-from-link');
     }
   }, []);
 
@@ -103,6 +113,12 @@ export default function AuthScreen() {
           <ChildQRJoinScreen
             token={childToken}
             onBack={() => { setMode('login'); setChildToken(null); }}
+          />
+        )}
+        {mode === 'reset-from-link' && resetOobCode && (
+          <ResetPasswordFromLink
+            oobCode={resetOobCode}
+            onDone={() => { setResetOobCode(null); setMode('login'); }}
           />
         )}
       </div>

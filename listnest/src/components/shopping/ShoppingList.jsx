@@ -123,7 +123,7 @@ function ShoppingList() {
   const [showQuantitySelector, setShowQuantitySelector] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [selectedUnit, setSelectedUnit] = useState('יח\'');
+  const [selectedUnit, setSelectedUnit] = useState(t('unitPieces'));
   const [selectedNote, setSelectedNote] = useState('');
 
   // Voice recognition state
@@ -442,7 +442,7 @@ function ShoppingList() {
             name: op.name,
             category: op.category,
             quantity: op.quantity,
-            unit: op.unit || 'יח\'',
+            unit: op.unit || t('unitPieces'),
             purchased: false,
             familyId: family?.id,
             listId: currentList?.id,
@@ -580,14 +580,14 @@ function ShoppingList() {
 
   const addProduct = useCallback((product) => {
     const category = selectedCategory || detectCategory(product);
-    let unit = CATEGORIES[category]?.unit || 'יח\'';
-    let unitOptions = CATEGORIES[category]?.unitOptions || ['יח\''];
+    let unit = CATEGORIES[category]?.unit || t('unitPieces');
+    let unitOptions = CATEGORIES[category]?.unitOptions || [t('unitPieces')];
 
     // Check if product name already contains size (packaged product)
     const hasPackagedSize = /\d+\s*(גרם|מ"ל|מ״ל|ליטר|ק"ג|ק״ג|יח'|יח׳)/.test(product);
     if (hasPackagedSize) {
-      unit = 'יח\'';
-      unitOptions = ['יח\''];
+      unit = t('unitPieces');
+      unitOptions = [t('unitPieces')];
     }
 
     // Check if product already exists
@@ -618,7 +618,7 @@ function ShoppingList() {
       purchased: false,
       familyId: family.id,
       listId: currentList.id,
-      addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+      addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
       addedByUid: childUser?.childId || user?.uid,
       note: selectedNote || '',
       price: estimatedPrice || null,
@@ -655,7 +655,7 @@ function ShoppingList() {
           quantity: newItem.quantity,
           unit: selectedUnit,
           updatedAt: new Date(),
-          updatedBy: user?.displayName || user?.email || 'אנונימי'
+          updatedBy: user?.displayName || user?.email || t('anonymous')
         };
         if (selectedNote) {
           updateData.note = existing.note ? `${existing.note}, ${selectedNote}` : selectedNote;
@@ -671,7 +671,7 @@ function ShoppingList() {
           purchased: false,
           familyId: family.id,
           listId: currentList.id,
-          addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+          addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
           addedByUid: childUser?.childId || user?.uid,
           note: selectedNote || '',
           price: estimatedPrice || null,
@@ -697,7 +697,7 @@ function ShoppingList() {
     const item = items.find(i => i.id === id);
     const updateData = {
       purchased: !currentStatus,
-      purchasedBy: !currentStatus ? (childUser?.displayName || user?.displayName || user?.email || 'אנונימי') : null,
+      purchasedBy: !currentStatus ? (childUser?.displayName || user?.displayName || user?.email || t('anonymous')) : null,
       purchasedByUid: !currentStatus ? (childUser?.childId || user?.uid) : null,
       purchasedAt: !currentStatus ? new Date() : null
     };
@@ -778,7 +778,7 @@ function ShoppingList() {
     const updateData = {
       quantity: newQuantity,
       updatedAt: new Date(),
-      updatedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
+      updatedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
       updatedByUid: childUser?.childId || user?.uid
     };
 
@@ -844,7 +844,7 @@ function ShoppingList() {
         items: purchasedItems,
         totalAmount: parseFloat(totalAmount),
         completedAt: new Date(),
-        completedBy: user?.displayName || user?.email || 'אנונימי',
+        completedBy: user?.displayName || user?.email || t('anonymous'),
         completedByUid: user?.uid,
         familyId: family.id,
         listId: currentList.id,
@@ -909,7 +909,7 @@ function ShoppingList() {
   const sendChatMessage = useCallback(async (text, photoUrl = null) => {
     if (!text.trim() && !photoUrl) return;
 
-    const senderName = childUser?.displayName || user?.displayName || user?.email || 'אנונימי';
+    const senderName = childUser?.displayName || user?.displayName || user?.email || t('anonymous');
     const senderUid = childUser?.childId || user?.uid || 'anonymous';
 
     try {

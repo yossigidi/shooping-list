@@ -28,7 +28,9 @@ import {
   signOut,
   onAuthStateChanged,
   updateProfile,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  verifyPasswordResetCode,
+  confirmPasswordReset
 } from 'firebase/auth';
 
 // Firebase configuration - using environment variables in production
@@ -88,7 +90,9 @@ export const firebaseAuth = {
   signOut,
   onAuthStateChanged,
   updateProfile,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  verifyPasswordResetCode,
+  confirmPasswordReset
 };
 
 // Price Comparison API Service
