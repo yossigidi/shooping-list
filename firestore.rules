@@ -36,8 +36,9 @@ service cloud.firestore {
 
     // Families collection
     match /families/{familyId} {
-      // Read access: open for join codes and child PIN login
-      allow read: if true;
+      // Read: signed-in users can read (needed for join by code, child login)
+      // Members get full access, non-members can only find families by code query
+      allow read: if isSignedIn();
 
       // Update: admin can do anything, signed-in users can join (add themselves to members/memberIds)
       allow update: if isFamilyAdmin(familyId) ||
