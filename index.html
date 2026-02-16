@@ -1676,7 +1676,13 @@
                 whoWillReceive: 'מי יקבל:',
                 reminderSentBy: 'שלח תזכורת',
                 dontForgetToAdd: 'אל תשכחו להוסיף פריטים לרשימה!',
-                reminderFromFamily: 'תזכורת מהמשפחה'
+                reminderFromFamily: 'תזכורת מהמשפחה',
+                // External link popup
+                externalLinkTitle: 'מעבר לאתר חיצוני',
+                externalLinkMessage: 'אתה עומד לעבור לאתר של',
+                externalLinkConfirm: 'פתח',
+                externalLinkCancel: 'ביטול',
+                openInNewTab: 'האתר ייפתח בלשונית חדשה'
             },
             en: {
                 // App name & general
@@ -2291,7 +2297,13 @@
                 whoWillReceive: 'Who will receive:',
                 reminderSentBy: 'sent a reminder',
                 dontForgetToAdd: "Don't forget to add items to the list!",
-                reminderFromFamily: 'Reminder from family'
+                reminderFromFamily: 'Reminder from family',
+                // External link popup
+                externalLinkTitle: 'External Website',
+                externalLinkMessage: 'You are about to visit',
+                externalLinkConfirm: 'Open',
+                externalLinkCancel: 'Cancel',
+                openInNewTab: 'The site will open in a new tab'
             },
             ru: {
                 // App name & general
@@ -2903,7 +2915,13 @@
                 whoWillReceive: 'Кто получит:',
                 reminderSentBy: 'отправил напоминание',
                 dontForgetToAdd: 'Не забудьте добавить товары в список!',
-                reminderFromFamily: 'Напоминание от семьи'
+                reminderFromFamily: 'Напоминание от семьи',
+                // External link popup
+                externalLinkTitle: 'Внешний сайт',
+                externalLinkMessage: 'Вы переходите на сайт',
+                externalLinkConfirm: 'Открыть',
+                externalLinkCancel: 'Отмена',
+                openInNewTab: 'Сайт откроется в новой вкладке'
             },
             ar: {
                 // App name & general
@@ -3519,7 +3537,13 @@
                 whoWillReceive: 'من سيستلم:',
                 reminderSentBy: 'أرسل تذكيراً',
                 dontForgetToAdd: 'لا تنسوا إضافة عناصر إلى القائمة!',
-                reminderFromFamily: 'تذكير من العائلة'
+                reminderFromFamily: 'تذكير من العائلة',
+                // External link popup
+                externalLinkTitle: 'موقع خارجي',
+                externalLinkMessage: 'أنت على وشك الانتقال إلى موقع',
+                externalLinkConfirm: 'فتح',
+                externalLinkCancel: 'إلغاء',
+                openInNewTab: 'سيتم فتح الموقع في علامة تبويب جديدة'
             }
         };
 
@@ -10507,6 +10531,10 @@
             const [feedbackSent, setFeedbackSent] = useState(false);
             // Accessibility
             const [showAccessibility, setShowAccessibility] = useState(false);
+            // External link confirmation
+            const [pendingExternalUrl, setPendingExternalUrl] = useState(null);
+            const [pendingExternalName, setPendingExternalName] = useState('');
+            const [showExternalLinkPopup, setShowExternalLinkPopup] = useState(false);
             const [accessibilitySettings, setAccessibilitySettings] = useState({
                 fontSize: 'normal',
                 contrast: 'normal',
@@ -10522,6 +10550,7 @@
                 const handleEscapeKey = (event) => {
                     if (event.key === 'Escape') {
                         // Close modals in order of priority (most recently opened first)
+                        if (showExternalLinkPopup) { cancelExternalLink(); return; }
                         if (showFeedback) { setShowFeedback(false); return; }
                         if (showHelp) { setShowHelp(false); return; }
                         if (showOnboarding) { setShowOnboarding(false); return; }
@@ -10553,7 +10582,7 @@
 
                 document.addEventListener('keydown', handleEscapeKey);
                 return () => document.removeEventListener('keydown', handleEscapeKey);
-            }, [showFeedback, showHelp, showOnboarding, showAIAssistant, showSaveTemplate, showTemplates,
+            }, [showExternalLinkPopup, showFeedback, showHelp, showOnboarding, showAIAssistant, showSaveTemplate, showTemplates,
                 showAccessibility, showPromotions, showSmartAdd, showListComparison, showPriceScanner,
                 showCalendar, showRegulars, showForgottenStats, showCamera, showSettings, showChat,
                 showReminderModal, showCreateList, showFamilySettings, showDeleteAllConfirm, showHistory,
@@ -11474,8 +11503,29 @@
                 setPriceCompareResults(sites);
             };
 
-            const openPriceLink = (url) => {
-                window.open(url, '_blank');
+            const openExternalLink = (url, name) => {
+                setPendingExternalUrl(url);
+                setPendingExternalName(name || '');
+                setShowExternalLinkPopup(true);
+            };
+
+            const confirmExternalLink = () => {
+                if (pendingExternalUrl) {
+                    window.open(pendingExternalUrl, '_blank');
+                }
+                setShowExternalLinkPopup(false);
+                setPendingExternalUrl(null);
+                setPendingExternalName('');
+            };
+
+            const cancelExternalLink = () => {
+                setShowExternalLinkPopup(false);
+                setPendingExternalUrl(null);
+                setPendingExternalName('');
+            };
+
+            const openPriceLink = (url, name) => {
+                openExternalLink(url, name);
             };
 
             // Compare full shopping list across chains
@@ -14653,7 +14703,7 @@ END:VCALENDAR`;
                                         {priceCompareResults.map((site, idx) => (
                                             <button
                                                 key={idx}
-                                                onClick={() => openPriceLink(site.url)}
+                                                onClick={() => openPriceLink(site.url, site.name)}
                                                 className={`w-full p-4 ${site.color} text-white rounded-xl font-bold text-lg flex items-center justify-between hover:opacity-90 hover:scale-[1.02] transition-all`}
                                             >
                                                 <span>{site.name}</span>
@@ -14662,7 +14712,9 @@ END:VCALENDAR`;
                                         ))}
                                         <button
                                             onClick={() => {
-                                                priceCompareResults.forEach(site => window.open(site.url, '_blank'));
+                                                if (priceCompareResults.length > 0) {
+                                                    openExternalLink(priceCompareResults[0].url, priceCompareResults[0].name);
+                                                }
                                             }}
                                             className="w-full p-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold text-lg mt-2 hover:opacity-90 transition-all"
                                         >
@@ -14764,7 +14816,7 @@ END:VCALENDAR`;
                                                     key={idx}
                                                     onClick={() => {
                                                         const searchTerms = items.filter(i => !i.purchased).map(i => i.name).join(' ');
-                                                        window.open(`${chain.url}/search?q=${encodeURIComponent(searchTerms)}`, '_blank');
+                                                        openExternalLink(`${chain.url}/search?q=${encodeURIComponent(searchTerms)}`, chain.chain_name_he);
                                                     }}
                                                     className={`w-full p-4 ${getChainColor(chain.chain_name_he)} text-white rounded-xl font-bold text-lg flex items-center gap-3 hover:opacity-90 hover:scale-[1.02] transition-all shadow-lg`}
                                                 >
@@ -14863,7 +14915,7 @@ END:VCALENDAR`;
                                                                         'קארפור': 'https://www.carrefour.co.il/'
                                                                     };
                                                                     const chainName = chain.chain_name_he || chain.chain_name;
-                                                                    window.open(chainUrls[chainName] || 'https://www.google.com/search?q=' + encodeURIComponent(chainName + ' קניות אונליין'), '_blank');
+                                                                    openExternalLink(chainUrls[chainName] || 'https://www.google.com/search?q=' + encodeURIComponent(chainName + ' קניות אונליין'), chainName);
                                                                 }}
                                                                 className={`flex-1 py-2.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] ${
                                                                     chain.is_cheapest
@@ -14875,16 +14927,16 @@ END:VCALENDAR`;
                                                                 <span>{t('order')}</span>
                                                             </button>
                                                             {CHAIN_BRANCH_URLS[chain.chain_id] && (
-                                                                <a
-                                                                    href={CHAIN_BRANCH_URLS[chain.chain_id]}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    onClick={(e) => e.stopPropagation()}
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        openExternalLink(CHAIN_BRANCH_URLS[chain.chain_id], chain.chain_name_he || chain.chain_name);
+                                                                    }}
                                                                     className="px-4 py-2.5 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1"
                                                                 >
                                                                     <span>📍</span>
                                                                     <span>{t('branches')}</span>
-                                                                </a>
+                                                                </button>
                                                             )}
                                                         </div>
                                                     </div>
@@ -15040,7 +15092,7 @@ END:VCALENDAR`;
                                                     'חצי חינם': 'https://shop.hazi-hinam.co.il',
                                                     'אושר עד': 'https://www.osherad.co.il'
                                                 };
-                                                window.open(urls[name] || 'https://www.shufersal.co.il', '_blank');
+                                                openExternalLink(urls[name] || 'https://www.shufersal.co.il', name);
                                             }
                                         }}
                                         className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold hover:opacity-90 transition-all"
@@ -15148,24 +15200,20 @@ END:VCALENDAR`;
                                                 {/* Links to chain pages */}
                                                 <div className="flex gap-1">
                                                     {(chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id]) && (
-                                                        <a
-                                                            href={chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id]}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
+                                                        <button
+                                                            onClick={() => openExternalLink(chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id], chain.chain_name_he || chain.chain_name)}
                                                             className="flex-1 p-2.5 bg-gradient-to-r from-teal-500 to-red-500 text-white text-center font-bold text-xs hover:from-teal-600 hover:to-red-600 transition-all"
                                                         >
                                                             🏷️ מבצעים
-                                                        </a>
+                                                        </button>
                                                     )}
                                                     {CHAIN_BRANCH_URLS[chain.chain_id] && (
-                                                        <a
-                                                            href={CHAIN_BRANCH_URLS[chain.chain_id]}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
+                                                        <button
+                                                            onClick={() => openExternalLink(CHAIN_BRANCH_URLS[chain.chain_id], chain.chain_name_he || chain.chain_name)}
                                                             className="flex-1 p-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-center font-bold text-xs hover:from-blue-600 hover:to-indigo-600 transition-all"
                                                         >
                                                             📍 {t('branches')}
-                                                        </a>
+                                                        </button>
                                                     )}
                                                 </div>
                                             </div>
@@ -17714,6 +17762,37 @@ END:VCALENDAR`;
                         </div>
                         );
                     })()}
+
+                    {/* External Link Confirmation Popup */}
+                    {showExternalLinkPopup && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10003] flex items-center justify-center p-4" onClick={cancelExternalLink}>
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm animate-[fadeIn_0.2s_ease-out]" onClick={e => e.stopPropagation()}>
+                                <div className="p-6 text-center">
+                                    <div className="text-5xl mb-4">🔗</div>
+                                    <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{t('externalLinkTitle')}</h2>
+                                    <p className="text-gray-600 dark:text-gray-300 mb-1">
+                                        {t('externalLinkMessage')} <span className="font-bold text-teal-600 dark:text-teal-400">{pendingExternalName}</span>
+                                    </p>
+                                    <p className="text-gray-400 dark:text-gray-500 text-sm mb-6">{t('openInNewTab')}</p>
+
+                                    <div className="flex gap-3">
+                                        <button
+                                            onClick={cancelExternalLink}
+                                            className="flex-1 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                                        >
+                                            {t('externalLinkCancel')}
+                                        </button>
+                                        <button
+                                            onClick={confirmExternalLink}
+                                            className="flex-1 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white rounded-xl font-bold hover:opacity-90 transition-all"
+                                        >
+                                            {t('externalLinkConfirm')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Sticky Accessibility Button - Top Left, Subtle */}
                     <button
