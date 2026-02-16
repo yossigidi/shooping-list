@@ -493,6 +493,12 @@ module.exports = async (req, res) => {
                     productLookup[p.id] = p;
                 });
 
+                // Products that legitimately cost over 100₪ per unit
+                const EXPENSIVE_PRODUCT_RE = /אנטריקוט|סטייק|סינטה|פילה בקר|סלמון|לברק|דניס|ברמונדי|סימילאק|מטרנה|נוטרילון|מזון.*כלב|מזון.*חתול|יבוא|ארגנטיני|צרפתי|אנגוס/;
+
+                // Products that are likely per-kg from deli counter (not packaged)
+                const DELI_WEIGHT_RE = /^(גבינת |גבינה |פסטו |רוקפור|גאודה|קשקבל|מוצרלה|ברי|קממבר|פטה|רוסטביף|פסטרמה|סלמי)$/;
+
                 // Collect all prices per product with chain info
                 const priceMap = {};
                 const chainMap = {}; // Track which chains have prices for each product
@@ -518,6 +524,7 @@ module.exports = async (req, res) => {
                 // Calculate MEDIAN price (more robust than average against outliers)
                 const productPrices = {};
                 const productChains = {}; // Store chain names per product
+                let skippedPerKg = 0;
                 productsForAvg.forEach(p => {
                     if (priceMap[p.id] && priceMap[p.id].length > 0) {
                         const prices = priceMap[p.id].sort((a, b) => a - b);
@@ -530,7 +537,21 @@ module.exports = async (req, res) => {
 
                         if (validPrices.length > 0) {
                             const avg = validPrices.reduce((sum, pr) => sum + pr, 0) / validPrices.length;
-                            productPrices[p.name] = Math.round(avg * 100) / 100;
+                            const roundedAvg = Math.round(avg * 100) / 100;
+
+                            // Skip per-kg deli prices that would confuse the frontend
+                            // Short generic names (like "מוצרלה", "פסטו") with high prices are likely per-kg
+                            const isExpensive = EXPENSIVE_PRODUCT_RE.test(p.name);
+                            const isPackaged = isPackagedProduct(p.name);
+                            const isShortGenericName = !isPackaged && p.name.length < 20 && !p.name.match(/\d/);
+                            const isLikelyPerKg = isShortGenericName && roundedAvg > 80 && !isExpensive;
+
+                            if (isLikelyPerKg) {
+                                skippedPerKg++;
+                                return; // Skip this product
+                            }
+
+                            productPrices[p.name] = roundedAvg;
                             productChains[p.name] = Array.from(chainMap[p.id] || []);
                         }
                     }
@@ -541,6 +562,7 @@ module.exports = async (req, res) => {
                     prices: productPrices,
                     chains: productChains,
                     totalProducts: Object.keys(productPrices).length,
+                    skippedPerKg,
                     lastUpdated: new Date().toISOString()
                 });
 

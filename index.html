@@ -7992,8 +7992,32 @@
                 const data = await response.json();
 
                 if (data.success && data.prices) {
-                    // Replace local prices with real Supabase prices (Supabase takes priority)
-                    PRODUCT_PRICES = { ...PRODUCT_PRICES, ...data.prices };
+                    // Smart merge: only override local prices when API price is reasonable
+                    // This prevents per-kg deli prices from overwriting per-unit packaged prices
+                    let accepted = 0, skipped = 0;
+                    for (const [name, apiPrice] of Object.entries(data.prices)) {
+                        const localPrice = PRODUCT_PRICES[name];
+                        if (localPrice) {
+                            // Local price exists - only override if API price is within 0.2x-5x range
+                            const ratio = apiPrice / localPrice;
+                            if (ratio >= 0.2 && ratio <= 5) {
+                                PRODUCT_PRICES[name] = apiPrice;
+                                accepted++;
+                            } else {
+                                skipped++;
+                            }
+                        } else {
+                            // No local price - accept if under 100₪ (skip per-kg deli outliers)
+                            // Allow expensive items: meat cuts, fish, formula, pet food
+                            const isExpensiveCategory = /אנטריקוט|סטייק|סינטה|פילה בקר|סלמון|לברק|דניס|סימילאק|מטרנה|נוטרילון|מזון.*כלב|מזון.*חתול/.test(name);
+                            if (apiPrice <= 100 || isExpensiveCategory) {
+                                PRODUCT_PRICES[name] = apiPrice;
+                                accepted++;
+                            } else {
+                                skipped++;
+                            }
+                        }
+                    }
 
                     // Store chain info if available
                     if (data.chains) {
@@ -8001,7 +8025,7 @@
                     }
 
                     pricesLoadedFromAPI = true;
-                    console.log(`✅ Loaded ${data.totalProducts} real prices from Supabase`);
+                    console.log(`✅ Loaded ${accepted} real prices from Supabase (skipped ${skipped} outliers)`);
                 }
             } catch (error) {
                 console.log('⚠️ Using local prices (Supabase unavailable):', error.message);
