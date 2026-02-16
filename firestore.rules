@@ -70,6 +70,15 @@ service cloud.firestore {
         isFamilyMember(request.resource.data.familyId);
     }
 
+    // Lists (used by app) - only family members can access
+    match /lists/{listId} {
+      allow read, write: if isSignedIn() &&
+        isFamilyMember(resource.data.familyId);
+
+      allow create: if isSignedIn() &&
+        isFamilyMember(request.resource.data.familyId);
+    }
+
     // Shopping history - only family members can access
     match /shopping-history/{historyId} {
       allow read, write: if isSignedIn() &&

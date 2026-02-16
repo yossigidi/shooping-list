@@ -3931,45 +3931,32 @@
                 if (!family || !user) return;
                 if (family.adminId !== user?.uid) return;
 
+                const familyId = family.id;
+
+                // Clean up sub-documents (each step independent - don't block family deletion)
+                const cleanupCollections = ['shopping-items', 'lists', 'family-chat'];
+                for (const collectionName of cleanupCollections) {
+                    try {
+                        const snapshot = await window.firestore.getDocs(
+                            window.firestore.query(
+                                window.firestore.collection(window.db, collectionName),
+                                window.firestore.where('familyId', '==', familyId)
+                            )
+                        );
+                        for (const doc of snapshot.docs) {
+                            await window.firestore.deleteDoc(doc.ref);
+                        }
+                    } catch (e) {
+                        console.warn(`Could not clean up ${collectionName}:`, e.message);
+                        // Continue - don't block family deletion
+                    }
+                }
+
+                // Delete the family document itself
                 try {
-                    // Delete all shopping items
-                    const itemsSnapshot = await window.firestore.getDocs(
-                        window.firestore.query(
-                            window.firestore.collection(window.db, 'shopping-items'),
-                            window.firestore.where('familyId', '==', family.id)
-                        )
-                    );
-                    for (const doc of itemsSnapshot.docs) {
-                        await window.firestore.deleteDoc(doc.ref);
-                    }
-
-                    // Delete all lists
-                    const listsSnapshot = await window.firestore.getDocs(
-                        window.firestore.query(
-                            window.firestore.collection(window.db, 'lists'),
-                            window.firestore.where('familyId', '==', family.id)
-                        )
-                    );
-                    for (const doc of listsSnapshot.docs) {
-                        await window.firestore.deleteDoc(doc.ref);
-                    }
-
-                    // Delete all chat messages
-                    const chatSnapshot = await window.firestore.getDocs(
-                        window.firestore.query(
-                            window.firestore.collection(window.db, 'family-chat'),
-                            window.firestore.where('familyId', '==', family.id)
-                        )
-                    );
-                    for (const doc of chatSnapshot.docs) {
-                        await window.firestore.deleteDoc(doc.ref);
-                    }
-
-                    // Delete the family document
                     await window.firestore.deleteDoc(
-                        window.firestore.doc(window.db, 'families', family.id)
+                        window.firestore.doc(window.db, 'families', familyId)
                     );
-
                     // Clear local state
                     setFamily(null);
                 } catch (error) {
