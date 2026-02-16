@@ -1632,6 +1632,16 @@
                 onboardLogout: 'התנתקות: יציאה מהחשבון',
                 readyToShop: 'מוכנים לקניות!',
                 canReturnToGuide: 'תמיד אפשר לחזור להדרכה מהתפריט למטה',
+                previous: 'הקודם',
+                letsStart: 'בואו נתחיל!',
+                addChildNoEmail: 'הוספת ילד בלי מייל',
+                onboardChildDesc: 'ילדים יכולים להתחבר עם קוד PIN בלבד - בלי צורך במייל!',
+                onboardChildStep1: 'לחץ על שם המשפחה למעלה',
+                onboardChildStep2: 'גלול למטה ל"חשבונות ילדים"',
+                onboardChildStep3: 'לחץ "הוסף חשבון ילד"',
+                onboardChildStep4: 'הזן שם הילד + קוד PIN (4 ספרות)',
+                onboardChildStep5: 'שלח קישור לילד (WhatsApp/העתק)',
+                onboardChildTip: 'הילד לוחץ על הקישור, בוחר את שמו, מזין PIN ומחובר!',
                 // Error
                 somethingWentWrong: 'משהו השתבש',
                 errorDetails: 'פרטי השגיאה (למפתחים)',
@@ -2237,6 +2247,16 @@
                 onboardLogout: 'Logout: Exit from account',
                 readyToShop: 'Ready to shop!',
                 canReturnToGuide: 'You can always return to the guide from the menu below',
+                previous: 'Previous',
+                letsStart: "Let's start!",
+                addChildNoEmail: 'Adding a child without email',
+                onboardChildDesc: 'Children can log in with PIN code only - no email needed!',
+                onboardChildStep1: 'Click on the family name at the top',
+                onboardChildStep2: 'Scroll down to "Child Accounts"',
+                onboardChildStep3: 'Click "Add Child Account"',
+                onboardChildStep4: 'Enter child name + PIN code (4 digits)',
+                onboardChildStep5: 'Send link to child (WhatsApp/Copy)',
+                onboardChildTip: 'Child clicks the link, chooses their name, enters PIN and connected!',
                 // Error
                 somethingWentWrong: 'Something went wrong',
                 errorDetails: 'Error details (for developers)',
@@ -2839,6 +2859,16 @@
                 onboardLogout: 'Выход: выйти из аккаунта',
                 readyToShop: 'Готовы к покупкам!',
                 canReturnToGuide: 'Всегда можно вернуться к руководству из меню ниже',
+                previous: 'Назад',
+                letsStart: 'Начнём!',
+                addChildNoEmail: 'Добавление ребёнка без email',
+                onboardChildDesc: 'Дети могут входить только по PIN-коду - без email!',
+                onboardChildStep1: 'Нажмите на название семьи вверху',
+                onboardChildStep2: 'Прокрутите вниз к "Детские аккаунты"',
+                onboardChildStep3: 'Нажмите "Добавить детский аккаунт"',
+                onboardChildStep4: 'Введите имя ребёнка + PIN-код (4 цифры)',
+                onboardChildStep5: 'Отправьте ссылку ребёнку (WhatsApp/Копировать)',
+                onboardChildTip: 'Ребёнок нажимает ссылку, выбирает имя, вводит PIN и подключен!',
                 // Error
                 somethingWentWrong: 'Что-то пошло не так',
                 errorDetails: 'Детали ошибки (для разработчиков)',
@@ -3445,6 +3475,16 @@
                 onboardLogout: 'تسجيل الخروج: الخروج من الحساب',
                 readyToShop: 'جاهز للتسوق!',
                 canReturnToGuide: 'يمكنك دائماً العودة للدليل من القائمة أدناه',
+                previous: 'السابق',
+                letsStart: 'هيا نبدأ!',
+                addChildNoEmail: 'إضافة طفل بدون بريد إلكتروني',
+                onboardChildDesc: 'يمكن للأطفال تسجيل الدخول بالرقم السري فقط - بدون بريد إلكتروني!',
+                onboardChildStep1: 'اضغط على اسم العائلة في الأعلى',
+                onboardChildStep2: 'مرر للأسفل إلى "حسابات الأطفال"',
+                onboardChildStep3: 'اضغط "إضافة حساب طفل"',
+                onboardChildStep4: 'أدخل اسم الطفل + رمز PIN (4 أرقام)',
+                onboardChildStep5: 'أرسل رابط للطفل (WhatsApp/نسخ)',
+                onboardChildTip: 'الطفل يضغط الرابط، يختار اسمه، يدخل PIN ومتصل!',
                 // Error
                 somethingWentWrong: 'حدث خطأ ما',
                 errorDetails: 'تفاصيل الخطأ (للمطورين)',
@@ -17516,7 +17556,11 @@ END:VCALENDAR`;
                     )}
 
                     {/* Onboarding Modal */}
-                    {showOnboarding && (
+                    {showOnboarding && (() => {
+                        const isRTL = language === 'he' || language === 'ar';
+                        const prevArrow = isRTL ? ' →' : '← ';
+                        const nextArrow = isRTL ? '← ' : ' →';
+                        return (
                         <div className="fixed inset-0 bg-black/70 z-[10002] flex items-center justify-center p-4">
                             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
                                 {onboardingStep === 0 && (
@@ -17525,7 +17569,7 @@ END:VCALENDAR`;
                                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{t('welcomeToListNest')}</h2>
                                         <p className="text-gray-600 dark:text-gray-300 mb-6">{t('smartListForFamily')}</p>
                                         <button onClick={() => setOnboardingStep(1)} className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold">
-                                            בואו נתחיל! →
+                                            {t('letsStart')}{nextArrow}
                                         </button>
                                     </div>
                                 )}
@@ -17535,14 +17579,14 @@ END:VCALENDAR`;
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('addingProducts')}</h3>
                                         <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4 mb-4">
                                             <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <li>📂 <strong>קטגוריות:</strong> בחר קטגוריה ולחץ על מוצר</li>
-                                                <li>🔍 <strong>חיפוש:</strong> הקלד שם מוצר בשורת החיפוש</li>
-                                                <li>🎤 <strong>קולי:</strong> לחץ על המיקרופון ואמור את המוצר</li>
+                                                <li>📂 {t('onboardCategories')}</li>
+                                                <li>🔍 {t('onboardSearch')}</li>
+                                                <li>🎤 {t('onboardVoice')}</li>
                                             </ul>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(0)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">הקודם →</button>
-                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">← {t('next')}</button>
+                                            <button onClick={() => setOnboardingStep(0)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
+                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
                                         </div>
                                     </div>
                                 )}
@@ -17552,15 +17596,15 @@ END:VCALENDAR`;
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('managingList')}</h3>
                                         <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4 mb-4">
                                             <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <li>👈 <strong>החלקה שמאלה:</strong> סימון "נקנה" ✓</li>
-                                                <li>👉 <strong>החלקה ימינה:</strong> מחיקת מוצר</li>
-                                                <li>🔢 <strong>לחיצה על כמות:</strong> שינוי כמות</li>
-                                                <li>📝 <strong>לחיצה ארוכה:</strong> עריכת הערה</li>
+                                                <li>👈 {t('onboardSwipeLeft')}</li>
+                                                <li>👉 {t('onboardSwipeRight')}</li>
+                                                <li>🔢 {t('onboardQuantity')}</li>
+                                                <li>📝 {t('onboardNote')}</li>
                                             </ul>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(1)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">הקודם →</button>
-                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">← {t('next')}</button>
+                                            <button onClick={() => setOnboardingStep(1)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
+                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
                                         </div>
                                     </div>
                                 )}
@@ -17570,54 +17614,54 @@ END:VCALENDAR`;
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('familySharing')}</h3>
                                         <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4 mb-4">
                                             <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <li>📤 <strong>שיתוף:</strong> קוד, QR, WhatsApp או קישור</li>
-                                                <li>👨👩 <strong>הורים:</strong> אבא/אמא - הרשאות מנהל מלאות</li>
-                                                <li>👦 <strong>ילדים:</strong> יכולים להוסיף ולסמן מוצרים בלבד</li>
-                                                <li>🔔 <strong>התראות:</strong> קבל הודעה כשמישהו מוסיף מוצר</li>
-                                                <li>💬 <strong>צ'אט:</strong> תקשורת משפחתית בזמן אמת</li>
+                                                <li>📤 {t('onboardShare')}</li>
+                                                <li>👨‍👩‍👦 {t('onboardParents')}</li>
+                                                <li>👦 {t('onboardChildren')}</li>
+                                                <li>🔔 {t('onboardNotifications')}</li>
+                                                <li>💬 {t('onboardChat')}</li>
                                             </ul>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">הקודם →</button>
-                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">← {t('next')}</button>
+                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
+                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
                                         </div>
                                     </div>
                                 )}
                                 {onboardingStep === 4 && (
                                     <div className="p-6">
                                         <div className="text-4xl mb-3 text-center">👶</div>
-                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">הוספת ילד בלי מייל</h3>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('addChildNoEmail')}</h3>
                                         <div className="bg-pink-50 dark:bg-pink-900/30 rounded-xl p-4 mb-4">
-                                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 text-center">ילדים יכולים להתחבר עם קוד PIN בלבד - בלי צורך במייל!</p>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 text-center">{t('onboardChildDesc')}</p>
                                             <div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
                                                 <div className="flex items-start gap-2">
                                                     <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">1</span>
-                                                    <span>לחץ על <strong>שם המשפחה</strong> למעלה</span>
+                                                    <span>{t('onboardChildStep1')}</span>
                                                 </div>
                                                 <div className="flex items-start gap-2">
                                                     <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">2</span>
-                                                    <span>גלול למטה ל<strong>"חשבונות ילדים"</strong></span>
+                                                    <span>{t('onboardChildStep2')}</span>
                                                 </div>
                                                 <div className="flex items-start gap-2">
                                                     <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">3</span>
-                                                    <span>לחץ <strong>"➕ הוסף חשבון ילד"</strong></span>
+                                                    <span>{t('onboardChildStep3')}</span>
                                                 </div>
                                                 <div className="flex items-start gap-2">
                                                     <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">4</span>
-                                                    <span>הזן <strong>שם הילד</strong> + <strong>קוד PIN</strong> (4 ספרות)</span>
+                                                    <span>{t('onboardChildStep4')}</span>
                                                 </div>
                                                 <div className="flex items-start gap-2">
                                                     <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">5</span>
-                                                    <span>שלח <strong>קישור לילד</strong> (WhatsApp/העתק)</span>
+                                                    <span>{t('onboardChildStep5')}</span>
                                                 </div>
                                             </div>
                                             <div className="mt-3 p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-xs text-green-700 dark:text-green-300 text-center">
-                                                💡 הילד לוחץ על הקישור → בוחר את שמו → מזין PIN → מחובר!
+                                                💡 {t('onboardChildTip')}
                                             </div>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">הקודם →</button>
-                                            <button onClick={() => setOnboardingStep(5)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">← {t('next')}</button>
+                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
+                                            <button onClick={() => setOnboardingStep(5)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
                                         </div>
                                     </div>
                                 )}
@@ -17627,16 +17671,16 @@ END:VCALENDAR`;
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('settingsControl')}</h3>
                                         <div className="bg-gray-50 dark:bg-gray-900/30 rounded-xl p-4 mb-4">
                                             <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <li>⚙️ <strong>כפתור הגדרות:</strong> בפינה הימנית למעלה</li>
-                                                <li>🛒 <strong>מצב קניות:</strong> מונע כיבוי מסך בזמן קניה</li>
-                                                <li>🌙 <strong>מצב כהה/בהיר:</strong> התאמה לסביבה</li>
-                                                <li>🔄 <strong>רענון:</strong> עדכון גרסה חדשה</li>
-                                                <li>🚪 <strong>התנתקות:</strong> יציאה מהחשבון</li>
+                                                <li>⚙️ {t('onboardSettings')}</li>
+                                                <li>🛒 {t('onboardShoppingMode')}</li>
+                                                <li>🌙 {t('onboardDarkLight')}</li>
+                                                <li>🔄 {t('onboardRefresh')}</li>
+                                                <li>🚪 {t('onboardLogout')}</li>
                                             </ul>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">הקודם →</button>
-                                            <button onClick={() => setOnboardingStep(6)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">← {t('next')}</button>
+                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
+                                            <button onClick={() => setOnboardingStep(6)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
                                         </div>
                                     </div>
                                 )}
@@ -17649,14 +17693,14 @@ END:VCALENDAR`;
                                             <span>🌐 עברית | English | Русский | العربية</span>
                                         </div>
                                         <div className="flex gap-2 text-xs text-gray-500 dark:text-gray-400 justify-center mb-4">
-                                            <span>💬 צ'אט משפחתי</span>
+                                            <span>💬 {t('familyChat')}</span>
                                             <span>•</span>
-                                            <span>⚙️ הגדרות</span>
+                                            <span>⚙️ {t('settings')}</span>
                                             <span>•</span>
-                                            <span>♿ נגישות</span>
+                                            <span>♿ {t('accessibility')}</span>
                                         </div>
                                         <button onClick={completeOnboarding} className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold">
-                                            ✨ בואו נתחיל!
+                                            ✨ {t('letsStart')}
                                         </button>
                                     </div>
                                 )}
@@ -17668,7 +17712,8 @@ END:VCALENDAR`;
                                 </div>
                             </div>
                         </div>
-                    )}
+                        );
+                    })()}
 
                     {/* Sticky Accessibility Button - Top Left, Subtle */}
                     <button
