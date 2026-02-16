@@ -600,8 +600,6 @@
             onAuthStateChanged,
             updateProfile,
             sendPasswordResetEmail,
-            verifyPasswordResetCode,
-            confirmPasswordReset,
             browserLocalPersistence,
             setPersistence,
             indexedDBLocalPersistence
@@ -638,9 +636,7 @@
             signOut,
             onAuthStateChanged,
             updateProfile,
-            sendPasswordResetEmail,
-            verifyPasswordResetCode,
-            confirmPasswordReset
+            sendPasswordResetEmail
         };
 
         // ListNest Price Comparison API Service
@@ -1263,16 +1259,6 @@
                 sent: 'נשלח!',
                 resetLinkSent: 'קישור לאיפוס סיסמה נשלח ל-',
                 checkSpam: 'בדוק גם בתיקיית הספאם',
-                newPassword: 'סיסמה חדשה',
-                confirmNewPassword: 'אימות סיסמה חדשה',
-                setNewPassword: 'עדכן סיסמה',
-                passwordResetSuccess: 'הסיסמה שונתה בהצלחה!',
-                passwordResetSuccessDesc: 'עכשיו ניתן להתחבר עם הסיסמה החדשה',
-                resetLinkExpired: 'קישור האיפוס פג תוקף או כבר נוצל',
-                resetLinkExpiredDesc: 'חזור למסך ההתחברות ובקש קישור איפוס חדש',
-                passwordsDoNotMatch: 'הסיסמאות לא תואמות',
-                passwordMinLength: 'הסיסמה חייבת לכלול לפחות 6 תווים',
-                verifyingLink: 'מאמת קישור...',
                 backToLogin: 'חזור להתחברות',
                 enterEmailForReset: 'הזן את כתובת האימייל שלך ונשלח לך קישור לאיפוס',
                 displayName: 'שם תצוגה',
@@ -1822,167 +1808,7 @@
                 // PWA
                 installApp: 'התקן את האפליקציה',
                 installAppDesc: 'הוסף למסך הבית לחוויה מיטבית',
-                installDismiss: 'לא עכשיו',
-                // Roles
-                roleFather: 'אבא',
-                roleMother: 'אמא',
-                roleParent: 'הורה',
-                roleTeen: 'נער/ה בוגר/ת',
-                roleChild: 'ילד/ה',
-                anonymous: 'אנונימי',
-                defaultUser: 'משתמש',
-                defaultListName: 'רשימת קניות',
-                notLoggedIn: 'לא מחובר',
-                joinFamilyError: 'שגיאה בהצטרפות למשפחה',
-                offlineUser: 'אופליין',
-                notAvailable: 'לא זמין',
-                someone: 'מישהו',
-                // Join success
-                joinSuccess: 'הצטרפת בהצלחה!',
-                // Voice
-                browserNoVoiceSupport: 'הדפדפן לא תומך בזיהוי קול',
-                listeningIphone: 'מאזין... (ב-iPhone נסה לדבר באנגלית)',
-                listeningNow: 'מאזין... דבר עכשיו',
-                capturingAudio: 'קולט שמע...',
-                detectingSpeech: 'מזהה דיבור...',
-                gotIt: 'קיבלתי!',
-                hebrewNotSupportedIphone: 'עברית לא נתמכת באייפון. נסה באנגלית או הקלד ידנית',
-                noSpeechDetected: 'לא זוהה דיבור. נסה שוב.',
-                noSpeechTapMic: 'לא נשמע דיבור. לחץ שוב על המיקרופון.',
-                micNotFound: 'לא נמצא מיקרופון. בדוק את החיבור.',
-                networkIssue: 'בעיית רשת. בדוק את החיבור לאינטרנט.',
-                cancelled: 'בוטל',
-                voiceError: 'שגיאה',
-                starting: 'מתחיל...',
-                listeningTimeout: 'זמן ההאזנה נגמר - נסה שוב',
-                voiceActivationError: 'שגיאה בהפעלת זיהוי קול',
-                stopped: 'הופסק',
-                listening: 'מקשיב...',
-                addedByVoice: '🎤 נוסף בקול',
-                // Scanner
-                barcodeScannerError: 'שגיאה בהפעלת סורק הברקוד',
-                productNotFoundInDB: 'המוצר לא נמצא במאגר. נסה לחפש ידנית.',
-                scanBarcodeInstruction: '📊 סרוק את הברקוד על המוצר',
-                searchingInDB: 'מחפש מוצר במאגר...',
-                barcodeLabel: 'ברקוד',
-                barcodeTip: '* כוון את הברקוד לתוך המסגרת הירוקה',
-                captureProductName: '📷 צלם את שם המוצר',
-                analyzingImage: '⏳ מנתח...',
-                tapToCapture: '📸 לחץ לצילום וזיהוי',
-                cameraTip: '* כוון את המצלמה לשם המוצר ולחץ על הכפתור',
-                // Price comparison
-                cannotCompareNow: 'לא ניתן להשוות כרגע',
-                cannotOptimizeNow: 'לא ניתן לייעל כרגע',
-                priceCompareError: 'שגיאה בהשוואת מחירים. נסה שוב.',
-                entireList: 'כל הרשימה',
-                perUnit: 'ליח\'',
-                singleChainStrategy: '🏪 רשת אחת',
-                balancedStrategy: '⚖️ מאוזן',
-                // Units
-                unitPieces: 'יח\'',
-                unitGrams: 'גרם',
-                unitKg: 'ק"ג',
-                // Gamification
-                perfectWeek: 'שבוע מושלם',
-                onTheRightTrack: 'על הדרך הנכונה',
-                memoryChampion: 'אלוף הזיכרון',
-                forgotNothingMonth: 'לא שכחת כלום החודש!',
-                perfectScore: 'מושלם!',
-                happenedOnce: 'קרה פעם אחת',
-                oopsAgain: 'אופס, שוב?',
-                threeTimes: 'שלוש פעמים...',
-                letsSetReminder: 'בואו נשים תזכורת!',
-                nTimes: 'פעמים',
-                // Smart suggestions
-                complementsItem: 'משלים',
-                basicItemReason: 'מוצר בסיסי שכדאי שיהיה בבית',
-                forShabbat: 'לקראת שבת',
-                suitableForSummer: 'מתאים לקיץ',
-                suitableForWinter: 'מתאים לחורף',
-                allIngredientsInList: 'כל המרכיבים ברשימה',
-                // Calendar
-                unknownDate: 'תאריך לא ידוע',
-                holidaysThisMonth: '📅 חגים בחודש זה:',
-                upcomingHolidays: '🎉 חגים קרובים:',
-                approaching: 'מתקרב!',
-                hideLabel: 'הסתר',
-                showRecommendations: 'הצג המלצות',
-                shoppingBefore: '🛒 קניות לפני',
-                reminderFromApp: 'תזכורת מאפליקציית ListNest',
-                // Product detail
-                inCartLabel: 'בסל',
-                addNoteOptional: '📝 הוסף הערה (אופציונלי):',
-                removeFromCart: 'הסר מהסל',
-                selectQuantityToAdd: 'בחר כמות להוספה',
-                addToCart: 'הוסף לסל',
-                updateQuantity: 'עדכן כמות',
-                // Share
-                shoppingListShareHeader: '🛒 רשימת קניות:\n\n',
-                shoppingListTitle: 'רשימת קניות',
-                pendingChanges: 'שינויים ממתינים לסנכרון',
-                changesSavedOffline: 'השינויים יישמרו ויסונכרנו כשהחיבור יחזור',
-                // Smart add
-                identifiedProducts: 'זיהיתי מוצרים',
-                smartAddExample1: '2 חלב, 12 ביצים, לחם',
-                smartAddExample2: 'פירות וירקות לסלט',
-                smartAddExample3: 'דברים לארוחת בוקר',
-                // Recommendations
-                smartRecommendationsSubtitle: 'המלצות חכמות לרשימה שלך',
-                smartRemindersSubtitle: 'תזכורות חכמות למוצרים קבועים',
-                // Saved lists
-                itemsCount: 'פריטים',
-                loadToCart: 'טען לעגלה',
-                // Child login
-                familyNotFound: 'המשפחה לא נמצאה',
-                childAccountNotFound: 'חשבון הילד לא נמצא',
-                loginErrorRetry: 'שגיאת התחברות - נסה שוב',
-                // Feedback
-                updateConfirmMsg: 'גרסה חדשה זמינה. לעדכן?',
-                bugReport: 'דיווח על בעיה',
-                featureRequest: 'בקשת פיצ\'ר',
-                generalFeedback: 'משוב כללי',
-                // Help section
-                helpHowToUse: '🛒 איך להשתמש באפליקציה',
-                helpSelectCategory: 'בחר קטגוריה ולחץ על מוצר להוספה לרשימה',
-                helpSwipeLeft: 'החלק שמאלה על מוצר לסימון "נקנה"',
-                helpSwipeRight: 'החלק ימינה למחיקת מוצר מהרשימה',
-                helpSearchVoice: 'השתמש בחיפוש או הקלטה קולית להוספה מהירה',
-                helpSaveLists: 'שמור רשימות לשימוש חוזר',
-                helpFamilySharing: '👨‍👩‍👧‍👦 שיתוף עם המשפחה',
-                helpShareOptions: 'שתף קוד, QR, קישור או WhatsApp',
-                helpParentRole: 'הורים (אבא/אמא) - הרשאות מנהל מלאות',
-                helpChildRole: 'ילדים - יכולים להוסיף ולסמן מוצרים בלבד',
-                helpNotifications: 'קבל התראות כשמישהו מוסיף מוצר',
-                helpChatBuiltin: 'צ\'אט מובנה לתיאום הקניות',
-                helpSmartScan: '📷 סריקה חכמה',
-                helpScanRecipe: 'סרוק מתכון להוספת מרכיבים אוטומטית',
-                helpScanProduct: 'צלם מוצר לזיהוי והשוואת מחירים',
-                helpLanguagesAccess: '🌐 שפות ונגישות',
-                helpSupportedLangs: 'תמיכה בעברית, אנגלית, רוסית וערבית',
-                helpChangeLang: 'החלף שפה בכפתור הנגישות (♿)',
-                helpDarkModeEtc: 'מצב כהה/בהיר, הגדלת טקסט ועוד',
-                helpAddChildTitle: '👶 הוספת ילד בלי מייל',
-                helpHowToAddChild: 'איך מוסיפים ילד:',
-                helpStep1: '1️⃣ לחץ על שם המשפחה למעלה',
-                helpStep2: '2️⃣ גלול ל"חשבונות ילדים"',
-                helpStep3: '3️⃣ לחץ "➕ הוסף חשבון ילד"',
-                helpStep4: '4️⃣ הזן שם + קוד PIN (4 ספרות)',
-                helpStep5: '5️⃣ שלח קישור לילד בוואטסאפ',
-                helpChildTip: '💡 הילד לוחץ על הקישור → בוחר שמו → מזין PIN → מחובר!',
-                // Stats
-                generalStats: 'סטטיסטיקה כללית',
-                monthlyStatsTitle: 'סטטיסטיקה חודשית',
-                achievementsTitle: 'הישגים החודש',
-                shoppingModeActive: 'מצב קניות פעיל',
-                editingNow: 'עורך/ת כרגע',
-                receiptAttachedLabel: 'קבלה צורפה',
-                finishAndSave: 'סיים ושמור',
-                // Misc
-                close: 'סגור',
-                deleteLabel: 'מחק',
-                cancelLabel: 'ביטול',
-                importToList: 'יבא לרשימה',
-                hotPromo: 'חם!'
+                installDismiss: 'לא עכשיו'
             },
             en: {
                 // App name & general
@@ -2182,16 +2008,6 @@
                 sent: 'Sent!',
                 resetLinkSent: 'Password reset link sent to',
                 checkSpam: 'Check your spam folder too',
-                newPassword: 'New Password',
-                confirmNewPassword: 'Confirm New Password',
-                setNewPassword: 'Set New Password',
-                passwordResetSuccess: 'Password changed successfully!',
-                passwordResetSuccessDesc: 'You can now sign in with your new password',
-                resetLinkExpired: 'Reset link expired or already used',
-                resetLinkExpiredDesc: 'Go back to login and request a new reset link',
-                passwordsDoNotMatch: 'Passwords do not match',
-                passwordMinLength: 'Password must be at least 6 characters',
-                verifyingLink: 'Verifying link...',
                 backToLogin: 'Back to login',
                 enterEmailForReset: 'Enter your email and we will send you a reset link',
                 displayName: 'Display Name',
@@ -2725,148 +2541,7 @@
                 deleteMessageConfirm: 'Delete this message?',
                 installApp: 'Install app',
                 installAppDesc: 'Add to home screen for the best experience',
-                installDismiss: 'Not now',
-                roleFather: 'Dad',
-                roleMother: 'Mom',
-                roleParent: 'Parent',
-                roleTeen: 'Teen',
-                roleChild: 'Child',
-                anonymous: 'Anonymous',
-                defaultUser: 'User',
-                defaultListName: 'Shopping List',
-                notLoggedIn: 'Not logged in',
-                joinFamilyError: 'Error joining family',
-                offlineUser: 'Offline',
-                notAvailable: 'Not available',
-                someone: 'Someone',
-                joinSuccess: 'Joined successfully!',
-                browserNoVoiceSupport: 'Browser does not support voice recognition',
-                listeningIphone: 'Listening... (On iPhone try speaking English)',
-                listeningNow: 'Listening... Speak now',
-                capturingAudio: 'Capturing audio...',
-                detectingSpeech: 'Detecting speech...',
-                gotIt: 'Got it!',
-                hebrewNotSupportedIphone: 'Hebrew not supported on iPhone. Try English or type manually',
-                noSpeechDetected: 'No speech detected. Try again.',
-                noSpeechTapMic: 'No speech heard. Tap the microphone again.',
-                micNotFound: 'Microphone not found. Check the connection.',
-                networkIssue: 'Network issue. Check your internet connection.',
-                cancelled: 'Cancelled',
-                voiceError: 'Error',
-                starting: 'Starting...',
-                listeningTimeout: 'Listening timed out - try again',
-                voiceActivationError: 'Voice recognition error',
-                stopped: 'Stopped',
-                listening: 'Listening...',
-                addedByVoice: '🎤 Added by voice',
-                barcodeScannerError: 'Barcode scanner error',
-                productNotFoundInDB: 'Product not found in database. Try searching manually.',
-                scanBarcodeInstruction: '📊 Scan the barcode on the product',
-                searchingInDB: 'Searching product in database...',
-                barcodeLabel: 'Barcode',
-                barcodeTip: '* Point the barcode inside the green frame',
-                captureProductName: '📷 Capture the product name',
-                analyzingImage: '⏳ Analyzing...',
-                tapToCapture: '📸 Tap to capture and identify',
-                cameraTip: '* Point the camera at the product name and tap the button',
-                cannotCompareNow: 'Cannot compare right now',
-                cannotOptimizeNow: 'Cannot optimize right now',
-                priceCompareError: 'Price comparison error. Try again.',
-                entireList: 'Entire list',
-                perUnit: '/unit',
-                singleChainStrategy: '🏪 Single chain',
-                balancedStrategy: '⚖️ Balanced',
-                unitPieces: 'pcs',
-                unitGrams: 'g',
-                unitKg: 'kg',
-                perfectWeek: 'Perfect week',
-                onTheRightTrack: 'On the right track',
-                memoryChampion: 'Memory champion',
-                forgotNothingMonth: 'You forgot nothing this month!',
-                perfectScore: 'Perfect!',
-                happenedOnce: 'Happened once',
-                oopsAgain: 'Oops, again?',
-                threeTimes: 'Three times...',
-                letsSetReminder: 'Let\'s set a reminder!',
-                nTimes: 'times',
-                complementsItem: 'Complements',
-                basicItemReason: 'A basic item to have at home',
-                forShabbat: 'For Shabbat',
-                suitableForSummer: 'Suitable for summer',
-                suitableForWinter: 'Suitable for winter',
-                allIngredientsInList: 'All ingredients in the list',
-                unknownDate: 'Unknown date',
-                holidaysThisMonth: '📅 Holidays this month:',
-                upcomingHolidays: '🎉 Upcoming holidays:',
-                approaching: 'Approaching!',
-                hideLabel: 'Hide',
-                showRecommendations: 'Show recommendations',
-                shoppingBefore: '🛒 Shopping before',
-                reminderFromApp: 'Reminder from ListNest',
-                inCartLabel: 'In cart',
-                addNoteOptional: '📝 Add note (optional):',
-                removeFromCart: 'Remove from cart',
-                selectQuantityToAdd: 'Select quantity to add',
-                addToCart: 'Add to cart',
-                updateQuantity: 'Update quantity',
-                shoppingListShareHeader: '🛒 Shopping List:\n\n',
-                shoppingListTitle: 'Shopping List',
-                pendingChanges: 'changes pending sync',
-                changesSavedOffline: 'Changes will be saved and synced when connection is restored',
-                identifiedProducts: 'Identified products',
-                smartAddExample1: '2 milk, 12 eggs, bread',
-                smartAddExample2: 'Fruits and vegetables for salad',
-                smartAddExample3: 'Things for breakfast',
-                smartRecommendationsSubtitle: 'Smart recommendations for your list',
-                smartRemindersSubtitle: 'Smart reminders for regular items',
-                itemsCount: 'items',
-                loadToCart: 'Load to cart',
-                familyNotFound: 'Family not found',
-                childAccountNotFound: 'Child account not found',
-                loginErrorRetry: 'Login error - try again',
-                updateConfirmMsg: 'New version available. Update?',
-                bugReport: 'Bug report',
-                featureRequest: 'Feature request',
-                generalFeedback: 'General feedback',
-                helpHowToUse: '🛒 How to use the app',
-                helpSelectCategory: 'Select a category and tap a product to add to list',
-                helpSwipeLeft: 'Swipe left on an item to mark as purchased',
-                helpSwipeRight: 'Swipe right to delete an item from the list',
-                helpSearchVoice: 'Use search or voice recording for quick adding',
-                helpSaveLists: 'Save lists for reuse',
-                helpFamilySharing: '👨‍👩‍👧‍👦 Family sharing',
-                helpShareOptions: 'Share via code, QR, link, or WhatsApp',
-                helpParentRole: 'Parents (Dad/Mom) - full admin permissions',
-                helpChildRole: 'Children - can add and mark items only',
-                helpNotifications: 'Get notifications when someone adds a product',
-                helpChatBuiltin: 'Built-in chat for shopping coordination',
-                helpSmartScan: '📷 Smart scanning',
-                helpScanRecipe: 'Scan a recipe to automatically add ingredients',
-                helpScanProduct: 'Photograph a product for identification and price comparison',
-                helpLanguagesAccess: '🌐 Languages & accessibility',
-                helpSupportedLangs: 'Support for Hebrew, English, Russian, and Arabic',
-                helpChangeLang: 'Change language via the accessibility button (♿)',
-                helpDarkModeEtc: 'Dark/light mode, text enlargement, and more',
-                helpAddChildTitle: '👶 Adding a child without email',
-                helpHowToAddChild: 'How to add a child:',
-                helpStep1: '1️⃣ Tap the family name at the top',
-                helpStep2: '2️⃣ Scroll to "Child Accounts"',
-                helpStep3: '3️⃣ Tap "➕ Add Child Account"',
-                helpStep4: '4️⃣ Enter name + PIN code (4 digits)',
-                helpStep5: '5️⃣ Send link to child via WhatsApp',
-                helpChildTip: '💡 Child taps link → picks name → enters PIN → connected!',
-                generalStats: 'General Statistics',
-                monthlyStatsTitle: 'Monthly Statistics',
-                achievementsTitle: 'Achievements This Month',
-                shoppingModeActive: 'Shopping mode active',
-                editingNow: 'Editing now',
-                receiptAttachedLabel: 'Receipt attached',
-                finishAndSave: 'Finish & save',
-                close: 'Close',
-                deleteLabel: 'Delete',
-                cancelLabel: 'Cancel',
-                importToList: 'Import to list',
-                hotPromo: 'Hot!'
+                installDismiss: 'Not now'
             },
             ru: {
                 // App name & general
@@ -3091,16 +2766,6 @@
                 sent: 'Отправлено!',
                 resetLinkSent: 'Ссылка для сброса пароля отправлена на',
                 checkSpam: 'Проверьте также папку спам',
-                newPassword: 'Новый пароль',
-                confirmNewPassword: 'Подтвердите новый пароль',
-                setNewPassword: 'Установить новый пароль',
-                passwordResetSuccess: 'Пароль успешно изменён!',
-                passwordResetSuccessDesc: 'Теперь вы можете войти с новым паролем',
-                resetLinkExpired: 'Ссылка для сброса истекла или уже использована',
-                resetLinkExpiredDesc: 'Вернитесь к входу и запросите новую ссылку для сброса',
-                passwordsDoNotMatch: 'Пароли не совпадают',
-                passwordMinLength: 'Пароль должен содержать минимум 6 символов',
-                verifyingLink: 'Проверка ссылки...',
                 backToLogin: 'Вернуться к входу',
                 enterEmailForReset: 'Введите email и мы отправим вам ссылку для сброса',
                 displayName: 'Отображаемое имя',
@@ -3606,83 +3271,7 @@
                 deleteMessageConfirm: 'Удалить это сообщение?',
                 installApp: 'Установить приложение',
                 installAppDesc: 'Добавьте на главный экран для лучшего опыта',
-                installDismiss: 'Не сейчас',
-                roleFather: 'Папа', roleMother: 'Мама', roleParent: 'Родитель', roleTeen: 'Подросток', roleChild: 'Ребёнок',
-                anonymous: 'Аноним', defaultUser: 'Пользователь', defaultListName: 'Список покупок',
-                notLoggedIn: 'Не авторизован', joinFamilyError: 'Ошибка присоединения к семье',
-                offlineUser: 'Офлайн', notAvailable: 'Недоступно', someone: 'Кто-то',
-                joinSuccess: 'Успешно присоединились!',
-                browserNoVoiceSupport: 'Браузер не поддерживает распознавание голоса',
-                listeningIphone: 'Слушаю... (На iPhone попробуйте говорить по-английски)',
-                listeningNow: 'Слушаю... Говорите', capturingAudio: 'Захват аудио...',
-                detectingSpeech: 'Распознавание речи...', gotIt: 'Понял!',
-                hebrewNotSupportedIphone: 'Иврит не поддерживается на iPhone. Попробуйте английский или введите вручную',
-                noSpeechDetected: 'Речь не обнаружена. Попробуйте ещё раз.',
-                noSpeechTapMic: 'Речь не слышна. Нажмите на микрофон снова.',
-                micNotFound: 'Микрофон не найден. Проверьте подключение.',
-                networkIssue: 'Проблема с сетью. Проверьте интернет.',
-                cancelled: 'Отменено', voiceError: 'Ошибка', starting: 'Запуск...',
-                listeningTimeout: 'Время прослушивания истекло — попробуйте ещё раз',
-                voiceActivationError: 'Ошибка распознавания голоса',
-                stopped: 'Остановлено', listening: 'Слушаю...', addedByVoice: '🎤 Добавлено голосом',
-                barcodeScannerError: 'Ошибка сканера штрих-кода',
-                productNotFoundInDB: 'Товар не найден в базе. Попробуйте поиск вручную.',
-                scanBarcodeInstruction: '📊 Наведите штрих-код на товар',
-                searchingInDB: 'Поиск товара в базе...', barcodeLabel: 'Штрих-код',
-                barcodeTip: '* Наведите штрих-код в зелёную рамку',
-                captureProductName: '📷 Сфотографируйте название товара',
-                analyzingImage: '⏳ Анализ...', tapToCapture: '📸 Нажмите для съёмки и распознавания',
-                cameraTip: '* Наведите камеру на название товара и нажмите кнопку',
-                cannotCompareNow: 'Сравнение сейчас недоступно', cannotOptimizeNow: 'Оптимизация сейчас недоступна',
-                priceCompareError: 'Ошибка сравнения цен. Попробуйте ещё раз.',
-                entireList: 'Весь список', perUnit: '/шт',
-                singleChainStrategy: '🏪 Одна сеть', balancedStrategy: '⚖️ Сбалансировано',
-                unitPieces: 'шт', unitGrams: 'г', unitKg: 'кг',
-                perfectWeek: 'Идеальная неделя', onTheRightTrack: 'На верном пути',
-                memoryChampion: 'Чемпион памяти', forgotNothingMonth: 'Ничего не забыли в этом месяце!',
-                perfectScore: 'Отлично!', happenedOnce: 'Случилось раз', oopsAgain: 'Ой, опять?',
-                threeTimes: 'Три раза...', letsSetReminder: 'Давайте установим напоминание!', nTimes: 'раз',
-                complementsItem: 'Дополняет', basicItemReason: 'Базовый товар для дома',
-                forShabbat: 'К Шаббату', suitableForSummer: 'Подходит для лета', suitableForWinter: 'Подходит для зимы',
-                allIngredientsInList: 'Все ингредиенты в списке',
-                unknownDate: 'Неизвестная дата', holidaysThisMonth: '📅 Праздники в этом месяце:',
-                upcomingHolidays: '🎉 Ближайшие праздники:', approaching: 'Приближается!',
-                hideLabel: 'Скрыть', showRecommendations: 'Показать рекомендации',
-                shoppingBefore: '🛒 Покупки перед', reminderFromApp: 'Напоминание от ListNest',
-                inCartLabel: 'В корзине', addNoteOptional: '📝 Добавить заметку (необязательно):',
-                removeFromCart: 'Удалить из корзины', selectQuantityToAdd: 'Выберите количество',
-                addToCart: 'Добавить в корзину', updateQuantity: 'Обновить количество',
-                shoppingListShareHeader: '🛒 Список покупок:\n\n', shoppingListTitle: 'Список покупок',
-                pendingChanges: 'изменений ожидают синхронизации',
-                changesSavedOffline: 'Изменения сохранятся и синхронизируются при восстановлении связи',
-                identifiedProducts: 'Найдено товаров', smartAddExample1: '2 молока, 12 яиц, хлеб',
-                smartAddExample2: 'Фрукты и овощи для салата', smartAddExample3: 'Продукты для завтрака',
-                smartRecommendationsSubtitle: 'Умные рекомендации для вашего списка',
-                smartRemindersSubtitle: 'Умные напоминания о постоянных товарах',
-                itemsCount: 'товаров', loadToCart: 'Загрузить в корзину',
-                familyNotFound: 'Семья не найдена', childAccountNotFound: 'Аккаунт ребёнка не найден',
-                loginErrorRetry: 'Ошибка входа — попробуйте снова',
-                updateConfirmMsg: 'Доступна новая версия. Обновить?',
-                bugReport: 'Сообщение об ошибке', featureRequest: 'Запрос функции', generalFeedback: 'Общий отзыв',
-                helpHowToUse: '🛒 Как пользоваться', helpSelectCategory: 'Выберите категорию и нажмите на товар для добавления',
-                helpSwipeLeft: 'Проведите влево для отметки «куплено»', helpSwipeRight: 'Проведите вправо для удаления',
-                helpSearchVoice: 'Используйте поиск или голосовой ввод', helpSaveLists: 'Сохраняйте списки для повторного использования',
-                helpFamilySharing: '👨‍👩‍👧‍👦 Семейный доступ', helpShareOptions: 'Поделитесь кодом, QR, ссылкой или WhatsApp',
-                helpParentRole: 'Родители — полные права администратора', helpChildRole: 'Дети — могут добавлять и отмечать товары',
-                helpNotifications: 'Получайте уведомления при добавлении товаров', helpChatBuiltin: 'Встроенный чат для координации покупок',
-                helpSmartScan: '📷 Умное сканирование', helpScanRecipe: 'Сканируйте рецепт для автоматического добавления ингредиентов',
-                helpScanProduct: 'Сфотографируйте товар для идентификации и сравнения цен',
-                helpLanguagesAccess: '🌐 Языки и доступность', helpSupportedLangs: 'Поддержка иврита, английского, русского и арабского',
-                helpChangeLang: 'Сменить язык через кнопку доступности (♿)', helpDarkModeEtc: 'Тёмный/светлый режим, увеличение текста и др.',
-                helpAddChildTitle: '👶 Добавление ребёнка без email', helpHowToAddChild: 'Как добавить ребёнка:',
-                helpStep1: '1️⃣ Нажмите на имя семьи вверху', helpStep2: '2️⃣ Прокрутите до «Аккаунты детей»',
-                helpStep3: '3️⃣ Нажмите «➕ Добавить аккаунт ребёнка»', helpStep4: '4️⃣ Введите имя + PIN (4 цифры)',
-                helpStep5: '5️⃣ Отправьте ссылку ребёнку в WhatsApp',
-                helpChildTip: '💡 Ребёнок нажимает ссылку → выбирает имя → вводит PIN → подключён!',
-                generalStats: 'Общая статистика', monthlyStatsTitle: 'Месячная статистика',
-                achievementsTitle: 'Достижения за месяц', shoppingModeActive: 'Режим покупок активен',
-                editingNow: 'Редактирует сейчас', receiptAttachedLabel: 'Чек прикреплён', finishAndSave: 'Завершить и сохранить',
-                close: 'Закрыть', deleteLabel: 'Удалить', cancelLabel: 'Отмена', importToList: 'Импорт в список', hotPromo: 'Горячо!'
+                installDismiss: 'Не сейчас'
             },
             ar: {
                 // App name & general
@@ -3882,16 +3471,6 @@
                 sent: 'تم الإرسال!',
                 resetLinkSent: 'تم إرسال رابط إعادة تعيين كلمة المرور إلى',
                 checkSpam: 'تحقق من مجلد البريد العشوائي أيضًا',
-                newPassword: 'كلمة مرور جديدة',
-                confirmNewPassword: 'تأكيد كلمة المرور الجديدة',
-                setNewPassword: 'تعيين كلمة المرور الجديدة',
-                passwordResetSuccess: 'تم تغيير كلمة المرور بنجاح!',
-                passwordResetSuccessDesc: 'يمكنك الآن تسجيل الدخول بكلمة المرور الجديدة',
-                resetLinkExpired: 'انتهت صلاحية رابط إعادة التعيين أو تم استخدامه بالفعل',
-                resetLinkExpiredDesc: 'عد إلى تسجيل الدخول واطلب رابط إعادة تعيين جديد',
-                passwordsDoNotMatch: 'كلمات المرور غير متطابقة',
-                passwordMinLength: 'كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل',
-                verifyingLink: 'جاري التحقق من الرابط...',
                 backToLogin: 'العودة لتسجيل الدخول',
                 enterEmailForReset: 'أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين',
                 displayName: 'اسم العرض',
@@ -4426,83 +4005,7 @@
                 deleteMessageConfirm: 'حذف هذه الرسالة؟',
                 installApp: 'تثبيت التطبيق',
                 installAppDesc: 'أضف إلى الشاشة الرئيسية لأفضل تجربة',
-                installDismiss: 'ليس الآن',
-                roleFather: 'أب', roleMother: 'أم', roleParent: 'والد', roleTeen: 'مراهق', roleChild: 'طفل',
-                anonymous: 'مجهول', defaultUser: 'مستخدم', defaultListName: 'قائمة التسوق',
-                notLoggedIn: 'غير مسجل', joinFamilyError: 'خطأ في الانضمام للعائلة',
-                offlineUser: 'غير متصل', notAvailable: 'غير متاح', someone: 'شخص ما',
-                joinSuccess: 'تم الانضمام بنجاح!',
-                browserNoVoiceSupport: 'المتصفح لا يدعم التعرف على الصوت',
-                listeningIphone: 'أستمع... (على iPhone حاول التحدث بالإنجليزية)',
-                listeningNow: 'أستمع... تحدث الآن', capturingAudio: 'التقاط صوت...',
-                detectingSpeech: 'التعرف على الكلام...', gotIt: 'تم!',
-                hebrewNotSupportedIphone: 'العبرية غير مدعومة على iPhone. حاول بالإنجليزية أو اكتب يدوياً',
-                noSpeechDetected: 'لم يتم اكتشاف كلام. حاول مرة أخرى.',
-                noSpeechTapMic: 'لم يُسمع كلام. اضغط على الميكروفون مرة أخرى.',
-                micNotFound: 'لم يتم العثور على ميكروفون. تحقق من التوصيل.',
-                networkIssue: 'مشكلة في الشبكة. تحقق من الإنترنت.',
-                cancelled: 'ملغى', voiceError: 'خطأ', starting: 'جارٍ البدء...',
-                listeningTimeout: 'انتهى وقت الاستماع - حاول مرة أخرى',
-                voiceActivationError: 'خطأ في التعرف على الصوت',
-                stopped: 'متوقف', listening: 'أستمع...', addedByVoice: '🎤 أُضيف بالصوت',
-                barcodeScannerError: 'خطأ في ماسح الباركود',
-                productNotFoundInDB: 'المنتج غير موجود في القاعدة. حاول البحث يدوياً.',
-                scanBarcodeInstruction: '📊 امسح الباركود على المنتج',
-                searchingInDB: 'البحث في القاعدة...', barcodeLabel: 'باركود',
-                barcodeTip: '* وجّه الباركود داخل الإطار الأخضر',
-                captureProductName: '📷 التقط اسم المنتج',
-                analyzingImage: '⏳ تحليل...', tapToCapture: '📸 اضغط للتصوير والتعرف',
-                cameraTip: '* وجّه الكاميرا نحو اسم المنتج واضغط الزر',
-                cannotCompareNow: 'لا يمكن المقارنة الآن', cannotOptimizeNow: 'لا يمكن التحسين الآن',
-                priceCompareError: 'خطأ في مقارنة الأسعار. حاول مرة أخرى.',
-                entireList: 'القائمة بأكملها', perUnit: '/وحدة',
-                singleChainStrategy: '🏪 سلسلة واحدة', balancedStrategy: '⚖️ متوازن',
-                unitPieces: 'قطعة', unitGrams: 'غرام', unitKg: 'كغ',
-                perfectWeek: 'أسبوع مثالي', onTheRightTrack: 'على الطريق الصحيح',
-                memoryChampion: 'بطل الذاكرة', forgotNothingMonth: 'لم تنسَ شيئاً هذا الشهر!',
-                perfectScore: 'مثالي!', happenedOnce: 'حدث مرة', oopsAgain: 'أوبس، مرة أخرى؟',
-                threeTimes: 'ثلاث مرات...', letsSetReminder: 'لنضع تذكيراً!', nTimes: 'مرات',
-                complementsItem: 'مكمّل', basicItemReason: 'منتج أساسي للبيت',
-                forShabbat: 'للسبت', suitableForSummer: 'مناسب للصيف', suitableForWinter: 'مناسب للشتاء',
-                allIngredientsInList: 'كل المكونات في القائمة',
-                unknownDate: 'تاريخ غير معروف', holidaysThisMonth: '📅 أعياد هذا الشهر:',
-                upcomingHolidays: '🎉 أعياد قادمة:', approaching: 'يقترب!',
-                hideLabel: 'إخفاء', showRecommendations: 'عرض التوصيات',
-                shoppingBefore: '🛒 تسوق قبل', reminderFromApp: 'تذكير من ListNest',
-                inCartLabel: 'في السلة', addNoteOptional: '📝 أضف ملاحظة (اختياري):',
-                removeFromCart: 'إزالة من السلة', selectQuantityToAdd: 'اختر الكمية للإضافة',
-                addToCart: 'أضف إلى السلة', updateQuantity: 'تحديث الكمية',
-                shoppingListShareHeader: '🛒 قائمة التسوق:\n\n', shoppingListTitle: 'قائمة التسوق',
-                pendingChanges: 'تغييرات بانتظار المزامنة',
-                changesSavedOffline: 'سيتم حفظ التغييرات ومزامنتها عند عودة الاتصال',
-                identifiedProducts: 'تم التعرف على منتجات', smartAddExample1: '2 حليب، 12 بيضة، خبز',
-                smartAddExample2: 'فواكه وخضروات للسلطة', smartAddExample3: 'أغراض للفطور',
-                smartRecommendationsSubtitle: 'توصيات ذكية لقائمتك',
-                smartRemindersSubtitle: 'تذكيرات ذكية للمنتجات المعتادة',
-                itemsCount: 'منتجات', loadToCart: 'تحميل إلى السلة',
-                familyNotFound: 'العائلة غير موجودة', childAccountNotFound: 'حساب الطفل غير موجود',
-                loginErrorRetry: 'خطأ في تسجيل الدخول - حاول مرة أخرى',
-                updateConfirmMsg: 'إصدار جديد متاح. تحديث؟',
-                bugReport: 'إبلاغ عن خطأ', featureRequest: 'طلب ميزة', generalFeedback: 'ملاحظات عامة',
-                helpHowToUse: '🛒 كيفية الاستخدام', helpSelectCategory: 'اختر فئة واضغط على منتج لإضافته',
-                helpSwipeLeft: 'اسحب يساراً لتحديد «تم الشراء»', helpSwipeRight: 'اسحب يميناً لحذف منتج',
-                helpSearchVoice: 'استخدم البحث أو التسجيل الصوتي', helpSaveLists: 'احفظ القوائم لإعادة الاستخدام',
-                helpFamilySharing: '👨‍👩‍👧‍👦 مشاركة عائلية', helpShareOptions: 'شارك بالكود أو QR أو رابط أو واتساب',
-                helpParentRole: 'الوالدان — صلاحيات إدارة كاملة', helpChildRole: 'الأطفال — يمكنهم الإضافة والتحديد فقط',
-                helpNotifications: 'احصل على إشعارات عند إضافة منتج', helpChatBuiltin: 'دردشة مدمجة لتنسيق التسوق',
-                helpSmartScan: '📷 مسح ذكي', helpScanRecipe: 'امسح وصفة لإضافة المكونات تلقائياً',
-                helpScanProduct: 'صوّر منتجاً للتعرف ومقارنة الأسعار',
-                helpLanguagesAccess: '🌐 اللغات وإمكانية الوصول', helpSupportedLangs: 'دعم العبرية والإنجليزية والروسية والعربية',
-                helpChangeLang: 'غيّر اللغة عبر زر إمكانية الوصول (♿)', helpDarkModeEtc: 'وضع داكن/فاتح، تكبير النص والمزيد',
-                helpAddChildTitle: '👶 إضافة طفل بدون بريد', helpHowToAddChild: 'كيفية إضافة طفل:',
-                helpStep1: '1️⃣ اضغط على اسم العائلة في الأعلى', helpStep2: '2️⃣ مرر إلى «حسابات الأطفال»',
-                helpStep3: '3️⃣ اضغط «➕ إضافة حساب طفل»', helpStep4: '4️⃣ أدخل الاسم + رمز PIN (4 أرقام)',
-                helpStep5: '5️⃣ أرسل الرابط للطفل عبر واتساب',
-                helpChildTip: '💡 الطفل يضغط الرابط ← يختار اسمه ← يدخل PIN ← متصل!',
-                generalStats: 'إحصائيات عامة', monthlyStatsTitle: 'إحصائيات شهرية',
-                achievementsTitle: 'إنجازات هذا الشهر', shoppingModeActive: 'وضع التسوق نشط',
-                editingNow: 'يحرر الآن', receiptAttachedLabel: 'إيصال مرفق', finishAndSave: 'إنهاء وحفظ',
-                close: 'إغلاق', deleteLabel: 'حذف', cancelLabel: 'إلغاء', importToList: 'استيراد للقائمة', hotPromo: 'حار!'
+                installDismiss: 'ليس الآن'
             }
         };
 
@@ -4746,7 +4249,7 @@
                     members: [{
                         userId: user?.uid,
                         email: user?.email,
-                        displayName: user?.displayName || user?.email || t('anonymous'),
+                        displayName: user?.displayName || user?.email || 'אנונימי',
                         joinedAt: new Date(),
                         role: 'admin',
                         familyRole: userRole,
@@ -4775,7 +4278,7 @@
                 );
 
                 // Log activity
-                await logActivity('member_joined', { memberName: user?.displayName || user?.email || t('anonymous') }, familyRef.id);
+                await logActivity('member_joined', { memberName: user?.displayName || user?.email || 'אנונימי' }, familyRef.id);
 
                 return { id: familyRef.id, ...newFamily };
             };
@@ -4822,7 +4325,7 @@
                     const newMember = {
                         userId: user?.uid,
                         email: user?.email,
-                        displayName: user?.displayName || user?.email || t('anonymous'),
+                        displayName: user?.displayName || user?.email || 'אנונימי',
                         joinedAt: new Date(),
                         role: isParent ? 'admin' : (isTeen ? 'teen' : 'member'),
                         familyRole: userRole,
@@ -4842,7 +4345,7 @@
 
                     // Log activity (don't let this fail the join)
                     try {
-                        await logActivity('member_joined', { memberName: user?.displayName || user?.email || t('anonymous') }, familyDoc.id);
+                        await logActivity('member_joined', { memberName: user?.displayName || user?.email || 'אנונימי' }, familyDoc.id);
                     } catch (activityErr) {
                         console.warn('joinFamily: Failed to log activity, but join succeeded:', activityErr);
                     }
@@ -5006,7 +4509,7 @@
                         listId: currentList?.id || null,
                         type: type,
                         userId: user?.uid,
-                        userName: user?.displayName || user?.email || t('anonymous'),
+                        userName: user?.displayName || user?.email || 'אנונימי',
                         timestamp: new Date(),
                         ...details
                     }
@@ -7344,172 +6847,6 @@
             );
         }
 
-        // Reset Password From Email Link - handles oobCode from URL
-        function ResetPasswordFromLink({ oobCode, onDone }) {
-            const { t, language } = useLanguage();
-            const [newPassword, setNewPassword] = useState('');
-            const [confirmPassword, setConfirmPassword] = useState('');
-            const [error, setError] = useState('');
-            const [loading, setLoading] = useState(false);
-            const [verifying, setVerifying] = useState(true);
-            const [verified, setVerified] = useState(false);
-            const [success, setSuccess] = useState(false);
-            const [email, setEmail] = useState('');
-            const isRTL = language === 'he' || language === 'ar';
-
-            useEffect(() => {
-                // Verify the oobCode is valid
-                window.firebaseAuth.verifyPasswordResetCode(window.auth, oobCode)
-                    .then((userEmail) => {
-                        setEmail(userEmail);
-                        setVerified(true);
-                        setVerifying(false);
-                    })
-                    .catch((err) => {
-                        console.error('Invalid reset code:', err);
-                        setVerified(false);
-                        setVerifying(false);
-                    });
-            }, [oobCode]);
-
-            const handleSubmit = async (e) => {
-                e.preventDefault();
-                setError('');
-
-                if (newPassword.length < 6) {
-                    setError(t('passwordMinLength'));
-                    return;
-                }
-                if (newPassword !== confirmPassword) {
-                    setError(t('passwordsDoNotMatch'));
-                    return;
-                }
-
-                try {
-                    setLoading(true);
-                    await window.firebaseAuth.confirmPasswordReset(window.auth, oobCode, newPassword);
-                    setSuccess(true);
-                    // Clean URL params
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                } catch (err) {
-                    console.error('Password reset error:', err);
-                    if (err.code === 'auth/expired-action-code' || err.code === 'auth/invalid-action-code') {
-                        setError(t('resetLinkExpired'));
-                    } else if (err.code === 'auth/weak-password') {
-                        setError(t('passwordMinLength'));
-                    } else {
-                        setError(getErrorMessage(err.code, t));
-                    }
-                } finally {
-                    setLoading(false);
-                }
-            };
-
-            // Loading state
-            if (verifying) {
-                return (
-                    <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="text-6xl animate-pulse">🔐</div>
-                        <p className="text-gray-600 dark:text-gray-400">{t('verifyingLink')}</p>
-                    </div>
-                );
-            }
-
-            // Invalid/expired code
-            if (!verified) {
-                return (
-                    <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="text-6xl">⚠️</div>
-                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('resetLinkExpired')}</h2>
-                        <p className="text-gray-600 dark:text-gray-400">{t('resetLinkExpiredDesc')}</p>
-                        <button
-                            onClick={onDone}
-                            className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline"
-                        >
-                            {t('backToLogin')}
-                        </button>
-                    </div>
-                );
-            }
-
-            // Success state
-            if (success) {
-                return (
-                    <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="text-6xl">✅</div>
-                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('passwordResetSuccess')}</h2>
-                        <p className="text-gray-600 dark:text-gray-400">{t('passwordResetSuccessDesc')}</p>
-                        <button
-                            onClick={onDone}
-                            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all"
-                        >
-                            {t('backToLogin')}
-                        </button>
-                    </div>
-                );
-            }
-
-            // Password reset form
-            return (
-                <form onSubmit={handleSubmit} className="space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white text-center mb-2">{t('resetPassword')}</h2>
-                    <p className="text-center text-gray-600 dark:text-gray-400 text-sm mb-4" dir="ltr">
-                        {email}
-                    </p>
-
-                    {error && (
-                        <div className="bg-red-100 dark:bg-red-900/30 border-2 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
-                            {error}
-                        </div>
-                    )}
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('newPassword')}</label>
-                        <input
-                            type="password"
-                            value={newPassword}
-                            onChange={e => setNewPassword(e.target.value)}
-                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
-                            dir="ltr"
-                            minLength={6}
-                            required
-                            autoFocus
-                        />
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('passwordMinLength')}</p>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('confirmNewPassword')}</label>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={e => setConfirmPassword(e.target.value)}
-                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
-                            dir="ltr"
-                            minLength={6}
-                            required
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {loading ? '...' : t('setNewPassword')}
-                    </button>
-
-                    <button
-                        type="button"
-                        onClick={onDone}
-                        className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline"
-                    >
-                        {t('backToLogin')}
-                    </button>
-                </form>
-            );
-        }
-
         // Child Login Form - PIN-based login for children
         function ChildLoginForm({ onSwitchToLogin }) {
             const { t, language } = useLanguage();
@@ -8020,7 +7357,6 @@
             const [mode, setMode] = useState('login');
             const [darkMode, setDarkMode] = useState(false);
             const [childToken, setChildToken] = useState(null);
-            const [resetOobCode, setResetOobCode] = useState(null);
             const isRTL = language === 'he' || language === 'ar';
 
             useEffect(() => {
@@ -8039,15 +7375,6 @@
                     setMode('signup');
                     // Clean URL without reloading
                     window.history.replaceState({}, document.title, window.location.pathname);
-                }
-
-                // Check for password reset link from email
-                const urlMode = urlParams.get('mode');
-                const oobCode = urlParams.get('oobCode');
-                if (urlMode === 'resetPassword' && oobCode) {
-                    setResetOobCode(oobCode);
-                    setMode('reset-from-link');
-                    return; // Don't clean URL yet - component handles it after reset
                 }
 
                 // Check for child token from QR code
@@ -8114,16 +7441,6 @@
                         )}
                         {mode === 'reset' && (
                             <PasswordResetForm onSwitchToLogin={() => setMode('login')} />
-                        )}
-                        {mode === 'reset-from-link' && resetOobCode && (
-                            <ResetPasswordFromLink
-                                oobCode={resetOobCode}
-                                onDone={() => {
-                                    setResetOobCode(null);
-                                    setMode('login');
-                                    window.history.replaceState({}, document.title, window.location.pathname);
-                                }}
-                            />
                         )}
                         {mode === 'child-login' && (
                             <ChildLoginForm onSwitchToLogin={() => setMode('login')} />
@@ -11987,7 +11304,7 @@
                 if (SpeechRecognition) {
                     setVoiceSupported(true);
                 } else {
-                    setVoiceStatus(t('browserNoVoiceSupport'));
+                    setVoiceStatus('הדפדפן לא תומך בזיהוי קול');
                 }
             }, []);
 
@@ -12015,7 +11332,7 @@
                 recognition.onstart = () => {
                     const isIOSSafari = isIOS && isSafari;
                     if (isIOSSafari && voiceLang === 'he-IL') {
-                        setVoiceStatus(t('listeningIphone'));
+                        setVoiceStatus('מאזין... (ב-iPhone נסה לדבר באנגלית)');
                     } else {
                         setVoiceStatus(voiceLang === 'en-US' ? 'Listening... speak now' : 'מאזין... דבר עכשיו');
                     }
@@ -12039,7 +11356,7 @@
                         .map(result => result[0].transcript)
                         .join('');
                     setVoiceTranscript(transcript);
-                    setVoiceStatus(t('gotIt'));
+                    setVoiceStatus(voiceLang === 'en-US' ? 'Got it!' : 'קיבלתי!');
 
                     // If final result, process it
                     if (event.results[0].isFinal) {
@@ -12057,7 +11374,7 @@
                         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
                         const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
                         if (isIOS && isSafari && voiceLang === 'he-IL') {
-                            setVoiceStatus(t('hebrewNotSupportedIphone'));
+                            setVoiceStatus('עברית לא נתמכת באייפון. נסה באנגלית או הקלד ידנית 🇺🇸');
                         } else {
                             setVoiceStatus(voiceLang === 'en-US' ? 'No speech detected. Try again.' : 'לא זוהה דיבור. נסה שוב.');
                         }
@@ -12073,20 +11390,20 @@
 
                     switch(event.error) {
                         case 'not-allowed':
-                            setVoiceStatus(t('allowMicAccess'));
+                            setVoiceStatus('נא לאפשר גישה למיקרופון בהגדרות הדפדפן');
                             showToast(t('allowMicAccess'), 'error', 5000);
                             break;
                         case 'no-speech':
                             setVoiceStatus(voiceLang === 'en-US' ? 'No speech detected. Tap mic to try again.' : 'לא נשמע דיבור. לחץ שוב על המיקרופון.');
                             break;
                         case 'audio-capture':
-                            setVoiceStatus(t('micNotFound'));
+                            setVoiceStatus('לא נמצא מיקרופון. בדוק את החיבור.');
                             break;
                         case 'network':
-                            setVoiceStatus(t('networkIssue'));
+                            setVoiceStatus('בעיית רשת. בדוק את החיבור לאינטרנט.');
                             break;
                         case 'aborted':
-                            setVoiceStatus(t('cancelled'));
+                            setVoiceStatus(voiceLang === 'en-US' ? 'Cancelled' : 'בוטל');
                             break;
                         default:
                             setVoiceStatus(`שגיאה: ${event.error}`);
@@ -12154,7 +11471,7 @@
                 try {
                     await window.firestore.updateDoc(
                         window.firestore.doc(window.db, 'shopping-items', item.id),
-                        { outOfStock: true, outOfStockAt: new Date(), outOfStockBy: user?.displayName || user?.email || t('anonymous') }
+                        { outOfStock: true, outOfStockAt: new Date(), outOfStockBy: user?.displayName || user?.email || 'אנונימי' }
                     );
                     // Save to out of stock list for future reference
                     const newOutOfStock = [...outOfStockItems, { name: item.name, date: new Date() }];
@@ -12225,7 +11542,7 @@
 
                             // Detect category and get appropriate unit
                             const category = detectCategory(productName);
-                            const unit = CATEGORIES[category]?.unit || t('unitPieces');
+                            const unit = CATEGORIES[category]?.unit || 'יח\'';
 
                             // Check if already exists
                             const existing = items.find(item => item.name === productName && !item.purchased);
@@ -12252,7 +11569,7 @@
                                     purchased: false,
                                     familyId: family.id,
                                     listId: currentList.id,
-                                    addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                                    addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
                                     addedByUid: childUser?.childId || user?.uid,
                                     note: '',
                                     price: estimatedPrice || null,
@@ -12329,7 +11646,7 @@
                                 name: op.name,
                                 category: op.category,
                                 quantity: op.quantity,
-                                unit: op.unit || t('unitPieces'),
+                                unit: op.unit || 'יח\'',
                                 purchased: false,
                                 familyId: family?.id,
                                 listId: currentList?.id,
@@ -13461,7 +12778,7 @@
 
                 const updatePresence = () => {
                     window.firestore.setDoc(presenceRef, {
-                        name: user?.displayName || user?.email || t('anonymous'),
+                        name: user?.displayName || user?.email || 'אנונימי',
                         lastSeen: new Date(),
                         isActive: true
                     }, { merge: true });
@@ -13651,11 +12968,11 @@
                         type: feedbackType,
                         message: feedbackText,
                         user_email: user?.email || 'לא מחובר',
-                        user_name: user?.displayName || t('anonymous')
+                        user_name: user?.displayName || 'אנונימי'
                     };
                     // Using a simple mailto link as fallback (opens email client)
                     const subject = encodeURIComponent(`[ListNest] ${feedbackType === 'bug' ? 'דיווח על בעיה' : feedbackType === 'feature' ? 'בקשת פיצ\'ר' : 'משוב כללי'}`);
-                    const body = encodeURIComponent(`סוג: ${feedbackType}\n\nהודעה:\n${feedbackText}\n\n---\nמשתמש: ${user?.displayName || t('anonymous')}\nאימייל: ${user?.email || 'לא זמין'}`);
+                    const body = encodeURIComponent(`סוג: ${feedbackType}\n\nהודעה:\n${feedbackText}\n\n---\nמשתמש: ${user?.displayName || 'אנונימי'}\nאימייל: ${user?.email || 'לא זמין'}`);
                     window.open(`mailto:shopinglist1979@gmail.com?subject=${subject}&body=${body}`, '_blank');
                     setFeedbackSent(true);
                     setFeedbackText('');
@@ -14122,7 +13439,7 @@
                         }
                     }
 
-                    const unit = CATEGORIES[category]?.unit || t('unitPieces');
+                    const unit = CATEGORIES[category]?.unit || 'יח\'';
                     const estimatedPrice = getEstimatedPrice(item.name);
 
                     await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
@@ -14131,7 +13448,7 @@
                         quantity: 1,
                         unit,
                         purchased: false,
-                        addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                        addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
                         addedByUid: childUser?.childId || user?.uid,
                         createdAt: new Date(),
                         updatedAt: new Date(),
@@ -14236,14 +13553,14 @@
                 }
 
                 setVoiceTranscript('');
-                setVoiceStatus(t('starting'));
+                setVoiceStatus(voiceLang === 'en-US' ? 'Starting...' : 'מתחיל...');
                 setIsListening(true);
 
                 // Create fresh recognition instance
                 const recognition = createRecognition();
                 if (!recognition) {
                     setIsListening(false);
-                    setVoiceStatus(t('browserNoVoiceSupport'));
+                    setVoiceStatus('הדפדפן לא תומך בזיהוי קול');
                     return;
                 }
 
@@ -14264,7 +13581,7 @@
                 } catch (e) {
                     console.error('Failed to start recognition:', e);
                     setIsListening(false);
-                    setVoiceStatus(t('voiceActivationError') + ': ' + e.message);
+                    setVoiceStatus('שגיאה בהפעלת זיהוי קול: ' + e.message);
                 }
             };
 
@@ -14278,7 +13595,7 @@
                     } catch(e) {}
                 }
                 setIsListening(false);
-                setVoiceStatus(t('stopped'));
+                setVoiceStatus(voiceLang === 'en-US' ? 'Stopped' : 'הופסק');
             };
 
             const processVoiceCommand = async (transcript, lang = 'he-IL') => {
@@ -14360,7 +13677,7 @@
                                 purchased: false,
                                 familyId: family.id,
                                 listId: currentList.id,
-                                addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                                addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
                                 addedByUid: childUser?.childId || user?.uid,
                                 note: '🎤 נוסף בקול',
                                 price: estimatedPrice || null,
@@ -14388,7 +13705,7 @@
                 if (!text.trim() && !photoUrl) return;
 
                 // Get sender info - support both regular users and child accounts
-                const senderName = childUser?.displayName || user?.displayName || user?.email || t('anonymous');
+                const senderName = childUser?.displayName || user?.displayName || user?.email || 'אנונימי';
                 const senderUid = childUser?.childId || user?.uid || 'anonymous';
 
                 try {
@@ -14439,7 +13756,7 @@
 
             // Send reminder to family chat (special message type)
             const sendReminder = async (message) => {
-                const senderName = childUser?.displayName || user?.displayName || user?.email || t('anonymous');
+                const senderName = childUser?.displayName || user?.displayName || user?.email || 'אנונימי';
                 const senderUid = childUser?.childId || user?.uid || 'anonymous';
 
                 try {
@@ -14784,7 +14101,7 @@ END:VCALENDAR`;
             // Open quantity selector before adding product
             const addProduct = (product) => {
                 const category = selectedCategory || detectCategory(product);
-                let unit = CATEGORIES[category]?.unit || t('unitPieces');
+                let unit = CATEGORIES[category]?.unit || 'יח\'';
                 let unitOptions = CATEGORIES[category]?.unitOptions || ['יח\''];
 
                 // Check if product name already contains size (packaged product)
@@ -14918,7 +14235,7 @@ END:VCALENDAR`;
                     purchased: false,
                     familyId: family.id,
                     listId: currentList.id,
-                    addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                    addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
                     addedByUid: childUser?.childId || user?.uid,
                     note: selectedNote || '',
                     price: estimatedPrice || null,
@@ -14957,7 +14274,7 @@ END:VCALENDAR`;
                             quantity: newItem.quantity,
                             unit: selectedUnit,
                             updatedAt: new Date(),
-                            updatedBy: user?.displayName || user?.email || t('anonymous')
+                            updatedBy: user?.displayName || user?.email || 'אנונימי'
                         };
                         if (selectedNote) {
                             updateData.note = existing.note ? `${existing.note}, ${selectedNote}` : selectedNote;
@@ -14977,7 +14294,7 @@ END:VCALENDAR`;
                             purchased: false,
                             familyId: family.id,
                             listId: currentList.id,
-                            addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                            addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
                             addedByUid: childUser?.childId || user?.uid,
                             note: selectedNote || '',
                             price: estimatedPrice || null,
@@ -15065,11 +14382,11 @@ END:VCALENDAR`;
                         name: item.name,
                         category: category,
                         quantity: existing ? (getQuantityNumber(existing.quantity) + item.quantity) : item.quantity,
-                        unit: item.unit || t('unitPieces'),
+                        unit: item.unit || 'יח\'',
                         purchased: false,
                         familyId: family.id,
                         listId: currentList.id,
-                        addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                        addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
                         addedByUid: childUser?.childId || user?.uid,
                         note: '',
                         price: estimatedPrice || null,
@@ -15099,11 +14416,11 @@ END:VCALENDAR`;
                                         name: item.name,
                                         category: category,
                                         quantity: item.quantity,
-                                        unit: item.unit || t('unitPieces'),
+                                        unit: item.unit || 'יח\'',
                                         purchased: false,
                                         familyId: family.id,
                                         listId: currentList.id,
-                                        addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                                        addedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
                                         addedByUid: childUser?.childId || user?.uid,
                                         note: '',
                                         price: estimatedPrice || null,
@@ -15117,7 +14434,7 @@ END:VCALENDAR`;
                             console.error('Error adding smart item:', err);
                         }
                     } else {
-                        queueOperation({ type: 'add', name: item.name, category, quantity: item.quantity, unit: item.unit || t('unitPieces'), note: '', price: estimatedPrice });
+                        queueOperation({ type: 'add', name: item.name, category, quantity: item.quantity, unit: item.unit || 'יח\'', note: '', price: estimatedPrice });
                     }
                 }
 
@@ -15131,7 +14448,7 @@ END:VCALENDAR`;
                 const item = items.find(i => i.id === id);
                 const updateData = {
                     purchased: !currentStatus,
-                    purchasedBy: !currentStatus ? (childUser?.displayName || user?.displayName || user?.email || t('anonymous')) : null,
+                    purchasedBy: !currentStatus ? (childUser?.displayName || user?.displayName || user?.email || 'אנונימי') : null,
                     purchasedByUid: !currentStatus ? (childUser?.childId || user?.uid) : null,
                     purchasedAt: !currentStatus ? new Date() : null
                 };
@@ -15158,7 +14475,7 @@ END:VCALENDAR`;
                         const freshData = freshDoc.data();
 
                         // If someone else already marked it as purchased
-                        if (!currentStatus && freshData.purchased && freshData.purchasedBy !== (childUser?.displayName || user?.displayName || user?.email || t('anonymous'))) {
+                        if (!currentStatus && freshData.purchased && freshData.purchasedBy !== (childUser?.displayName || user?.displayName || user?.email || 'אנונימי')) {
                             // Auto-unified: item already purchased by someone else
                             console.log(`Smart conflict resolved: ${item?.name} already marked by ${freshData.purchasedBy}`);
                             return; // No need to update, already done
@@ -15191,7 +14508,7 @@ END:VCALENDAR`;
                 const updateData = {
                     quantity: newQuantity,
                     updatedAt: new Date(),
-                    updatedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                    updatedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי',
                     updatedByUid: childUser?.childId || user?.uid
                 };
 
@@ -15236,7 +14553,7 @@ END:VCALENDAR`;
                     await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', editingItemId), {
                         name: editingItemName.trim(),
                         updatedAt: new Date(),
-                        updatedBy: user?.displayName || user?.email || t('anonymous')
+                        updatedBy: user?.displayName || user?.email || 'אנונימי'
                     });
                 } catch (error) {
                     console.error('שגיאה בעדכון שם:', error);
@@ -15336,7 +14653,7 @@ END:VCALENDAR`;
                     const item = items.find(i => i.id === id);
                     await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', id), {
                         postponedAt: new Date(),
-                        postponedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous')
+                        postponedBy: childUser?.displayName || user?.displayName || user?.email || 'אנונימי'
                     });
                     if (item) {
                         await logActivity('item_postponed', { itemName: item.name });
@@ -15401,7 +14718,7 @@ END:VCALENDAR`;
                     await window.firestore.updateDoc(window.firestore.doc(window.db, 'shopping-items', itemId), {
                         note: note,
                         updatedAt: new Date(),
-                        updatedBy: user?.displayName || user?.email || t('anonymous')
+                        updatedBy: user?.displayName || user?.email || 'אנונימי'
                     });
                     if (item && note) {
                         await logActivity('note_added', { itemName: item.name });
@@ -15436,7 +14753,7 @@ END:VCALENDAR`;
                         items: purchasedItems,
                         totalAmount: parseFloat(totalAmount),
                         completedAt: new Date(),
-                        completedBy: user?.displayName || user?.email || t('anonymous'),
+                        completedBy: user?.displayName || user?.email || 'אנונימי',
                         completedByUid: user?.uid,
                         familyId: family.id,
                         listId: currentList.id,
@@ -17797,7 +17114,7 @@ END:VCALENDAR`;
                                                 </button>
                                             )}
                                             <span className="px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-                                                👤 {childUser?.displayName || user?.displayName || user?.email || t('anonymous')}
+                                                👤 {childUser?.displayName || user?.displayName || user?.email || 'אנונימי'}
                                             </span>
                                         </div>
                                     </div>
@@ -19634,14 +18951,6 @@ END:VCALENDAR`;
             const { t } = useLanguage();
             const { user, loading: authLoading } = useAuth();
             const { childUser, loading: childLoading } = useChildAuth();
-
-            // Check if this is a password reset link - show reset form even if logged in
-            const urlParams = new URLSearchParams(window.location.search);
-            const urlMode = urlParams.get('mode');
-            const oobCode = urlParams.get('oobCode');
-            if (urlMode === 'resetPassword' && oobCode) {
-                return <AuthScreen />;
-            }
 
             if (authLoading || childLoading) {
                 return (
