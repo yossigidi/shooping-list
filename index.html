@@ -34,13 +34,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Preload critical scripts for faster loading -->
-    <link rel="preload" href="https://unpkg.com/react@18/umd/react.production.min.js" as="script" crossorigin>
-    <link rel="preload" href="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" as="script" crossorigin>
+    <link rel="preload" href="https://unpkg.com/react@18.2.0/umd/react.production.min.js" as="script" crossorigin>
+    <link rel="preload" href="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js" as="script" crossorigin>
     <link rel="preload" href="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js" as="script" crossorigin>
 
     <!-- Core libraries - loaded synchronously as they're critical -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -11741,6 +11741,26 @@
                     .reduce((sum, i) => sum + calculateItemPrice(i), 0);
             }, [items]);
 
+            const filteredItems = React.useMemo(() => {
+                let sorted = [...items];
+                switch (sortBy) {
+                    case 'name':
+                        sorted.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'he'));
+                        break;
+                    case 'category':
+                        sorted.sort((a, b) => (a.category || '').localeCompare(b.category || '', 'he'));
+                        break;
+                    case 'purchased':
+                        sorted.sort((a, b) => (a.purchased ? 1 : 0) - (b.purchased ? 1 : 0));
+                        break;
+                    case 'newest':
+                    default:
+                        // Already sorted by newest from Firestore listener
+                        break;
+                }
+                return sorted;
+            }, [items, sortBy]);
+
             // Price comparison scanner functions
             const startPriceScanner = async () => {
                 setShowPriceScanner(true);
@@ -14839,25 +14859,6 @@ END:VCALENDAR`;
                 );
             }
 
-            const filteredItems = React.useMemo(() => {
-                let sorted = [...items];
-                switch (sortBy) {
-                    case 'name':
-                        sorted.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'he'));
-                        break;
-                    case 'category':
-                        sorted.sort((a, b) => (a.category || '').localeCompare(b.category || '', 'he'));
-                        break;
-                    case 'purchased':
-                        sorted.sort((a, b) => (a.purchased ? 1 : 0) - (b.purchased ? 1 : 0));
-                        break;
-                    case 'newest':
-                    default:
-                        // Already sorted by newest from Firestore listener
-                        break;
-                }
-                return sorted;
-            }, [items, sortBy]);
             const groupedItems = filteredItems.reduce((acc, item) => {
                 if (!acc[item.category]) acc[item.category] = [];
                 acc[item.category].push(item);
