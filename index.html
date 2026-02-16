@@ -600,6 +600,8 @@
             onAuthStateChanged,
             updateProfile,
             sendPasswordResetEmail,
+            verifyPasswordResetCode,
+            confirmPasswordReset,
             browserLocalPersistence,
             setPersistence,
             indexedDBLocalPersistence
@@ -636,7 +638,9 @@
             signOut,
             onAuthStateChanged,
             updateProfile,
-            sendPasswordResetEmail
+            sendPasswordResetEmail,
+            verifyPasswordResetCode,
+            confirmPasswordReset
         };
 
         // ListNest Price Comparison API Service
@@ -1259,6 +1263,16 @@
                 sent: 'נשלח!',
                 resetLinkSent: 'קישור לאיפוס סיסמה נשלח ל-',
                 checkSpam: 'בדוק גם בתיקיית הספאם',
+                newPassword: 'סיסמה חדשה',
+                confirmNewPassword: 'אימות סיסמה חדשה',
+                setNewPassword: 'עדכן סיסמה',
+                passwordResetSuccess: 'הסיסמה שונתה בהצלחה!',
+                passwordResetSuccessDesc: 'עכשיו ניתן להתחבר עם הסיסמה החדשה',
+                resetLinkExpired: 'קישור האיפוס פג תוקף או כבר נוצל',
+                resetLinkExpiredDesc: 'חזור למסך ההתחברות ובקש קישור איפוס חדש',
+                passwordsDoNotMatch: 'הסיסמאות לא תואמות',
+                passwordMinLength: 'הסיסמה חייבת לכלול לפחות 6 תווים',
+                verifyingLink: 'מאמת קישור...',
                 backToLogin: 'חזור להתחברות',
                 enterEmailForReset: 'הזן את כתובת האימייל שלך ונשלח לך קישור לאיפוס',
                 displayName: 'שם תצוגה',
@@ -2008,6 +2022,16 @@
                 sent: 'Sent!',
                 resetLinkSent: 'Password reset link sent to',
                 checkSpam: 'Check your spam folder too',
+                newPassword: 'New Password',
+                confirmNewPassword: 'Confirm New Password',
+                setNewPassword: 'Set New Password',
+                passwordResetSuccess: 'Password changed successfully!',
+                passwordResetSuccessDesc: 'You can now sign in with your new password',
+                resetLinkExpired: 'Reset link expired or already used',
+                resetLinkExpiredDesc: 'Go back to login and request a new reset link',
+                passwordsDoNotMatch: 'Passwords do not match',
+                passwordMinLength: 'Password must be at least 6 characters',
+                verifyingLink: 'Verifying link...',
                 backToLogin: 'Back to login',
                 enterEmailForReset: 'Enter your email and we will send you a reset link',
                 displayName: 'Display Name',
@@ -2766,6 +2790,16 @@
                 sent: 'Отправлено!',
                 resetLinkSent: 'Ссылка для сброса пароля отправлена на',
                 checkSpam: 'Проверьте также папку спам',
+                newPassword: 'Новый пароль',
+                confirmNewPassword: 'Подтвердите новый пароль',
+                setNewPassword: 'Установить новый пароль',
+                passwordResetSuccess: 'Пароль успешно изменён!',
+                passwordResetSuccessDesc: 'Теперь можно войти с новым паролем',
+                resetLinkExpired: 'Ссылка для сброса истекла или уже использована',
+                resetLinkExpiredDesc: 'Вернитесь на экран входа и запросите новую ссылку',
+                passwordsDoNotMatch: 'Пароли не совпадают',
+                passwordMinLength: 'Пароль должен содержать минимум 6 символов',
+                verifyingLink: 'Проверка ссылки...',
                 backToLogin: 'Вернуться к входу',
                 enterEmailForReset: 'Введите email и мы отправим вам ссылку для сброса',
                 displayName: 'Отображаемое имя',
@@ -3471,6 +3505,16 @@
                 sent: 'تم الإرسال!',
                 resetLinkSent: 'تم إرسال رابط إعادة تعيين كلمة المرور إلى',
                 checkSpam: 'تحقق من مجلد البريد العشوائي أيضًا',
+                newPassword: 'كلمة مرور جديدة',
+                confirmNewPassword: 'تأكيد كلمة المرور الجديدة',
+                setNewPassword: 'تعيين كلمة المرور الجديدة',
+                passwordResetSuccess: 'تم تغيير كلمة المرور بنجاح!',
+                passwordResetSuccessDesc: 'يمكنك الآن تسجيل الدخول بكلمة المرور الجديدة',
+                resetLinkExpired: 'انتهت صلاحية رابط إعادة التعيين أو تم استخدامه',
+                resetLinkExpiredDesc: 'عد إلى شاشة تسجيل الدخول واطلب رابطًا جديدًا',
+                passwordsDoNotMatch: 'كلمات المرور غير متطابقة',
+                passwordMinLength: 'كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل',
+                verifyingLink: 'جارٍ التحقق من الرابط...',
                 backToLogin: 'العودة لتسجيل الدخول',
                 enterEmailForReset: 'أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين',
                 displayName: 'اسم العرض',
@@ -6847,6 +6891,166 @@
             );
         }
 
+        function ResetPasswordFromLink({ oobCode, onDone }) {
+            const { t, language } = useLanguage();
+            const [newPassword, setNewPassword] = useState('');
+            const [confirmPassword, setConfirmPassword] = useState('');
+            const [error, setError] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [verifying, setVerifying] = useState(true);
+            const [verified, setVerified] = useState(false);
+            const [success, setSuccess] = useState(false);
+            const [email, setEmail] = useState('');
+            const isRTL = language === 'he' || language === 'ar';
+
+            useEffect(() => {
+                window.firebaseAuth.verifyPasswordResetCode(window.auth, oobCode)
+                    .then((userEmail) => {
+                        setEmail(userEmail);
+                        setVerified(true);
+                        setVerifying(false);
+                    })
+                    .catch((err) => {
+                        console.error('Invalid reset code:', err);
+                        setVerified(false);
+                        setVerifying(false);
+                    });
+            }, [oobCode]);
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setError('');
+
+                if (newPassword.length < 6) {
+                    setError(t('passwordMinLength'));
+                    return;
+                }
+                if (newPassword !== confirmPassword) {
+                    setError(t('passwordsDoNotMatch'));
+                    return;
+                }
+
+                try {
+                    setLoading(true);
+                    await window.firebaseAuth.confirmPasswordReset(window.auth, oobCode, newPassword);
+                    try { await window.firebaseAuth.signOut(window.auth); } catch(e) {}
+                    setSuccess(true);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } catch (err) {
+                    console.error('Password reset error:', err);
+                    if (err.code === 'auth/expired-action-code' || err.code === 'auth/invalid-action-code') {
+                        setError(t('resetLinkExpired'));
+                    } else if (err.code === 'auth/weak-password') {
+                        setError(t('passwordMinLength'));
+                    } else {
+                        setError(getErrorMessage(err.code, t));
+                    }
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            if (verifying) {
+                return (
+                    <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className="text-6xl animate-pulse">🔐</div>
+                        <p className="text-gray-600 dark:text-gray-400">{t('verifyingLink')}</p>
+                    </div>
+                );
+            }
+
+            if (!verified) {
+                return (
+                    <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className="text-6xl">⚠️</div>
+                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('resetLinkExpired')}</h2>
+                        <p className="text-gray-600 dark:text-gray-400">{t('resetLinkExpiredDesc')}</p>
+                        <button
+                            onClick={onDone}
+                            className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline"
+                        >
+                            {t('backToLogin')}
+                        </button>
+                    </div>
+                );
+            }
+
+            if (success) {
+                return (
+                    <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className="text-6xl">✅</div>
+                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('passwordResetSuccess')}</h2>
+                        <p className="text-gray-600 dark:text-gray-400">{t('passwordResetSuccessDesc')}</p>
+                        <button
+                            onClick={onDone}
+                            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all"
+                        >
+                            {t('backToLogin')}
+                        </button>
+                    </div>
+                );
+            }
+
+            return (
+                <form onSubmit={handleSubmit} className="space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white text-center mb-2">{t('resetPassword')}</h2>
+                    <p className="text-center text-gray-600 dark:text-gray-400 text-sm mb-4" dir="ltr">
+                        {email}
+                    </p>
+
+                    {error && (
+                        <div className="bg-red-100 dark:bg-red-900/30 border-2 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
+                            {error}
+                        </div>
+                    )}
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('newPassword')}</label>
+                        <input
+                            type="password"
+                            value={newPassword}
+                            onChange={e => setNewPassword(e.target.value)}
+                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
+                            dir="ltr"
+                            minLength={6}
+                            required
+                            autoFocus
+                        />
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('passwordMinLength')}</p>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('confirmNewPassword')}</label>
+                        <input
+                            type="password"
+                            value={confirmPassword}
+                            onChange={e => setConfirmPassword(e.target.value)}
+                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
+                            dir="ltr"
+                            minLength={6}
+                            required
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {loading ? '...' : t('setNewPassword')}
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={onDone}
+                        className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline"
+                    >
+                        {t('backToLogin')}
+                    </button>
+                </form>
+            );
+        }
+
         // Child Login Form - PIN-based login for children
         function ChildLoginForm({ onSwitchToLogin }) {
             const { t, language } = useLanguage();
@@ -7357,6 +7561,7 @@
             const [mode, setMode] = useState('login');
             const [darkMode, setDarkMode] = useState(false);
             const [childToken, setChildToken] = useState(null);
+            const [resetOobCode, setResetOobCode] = useState(null);
             const isRTL = language === 'he' || language === 'ar';
 
             useEffect(() => {
@@ -7375,6 +7580,15 @@
                     setMode('signup');
                     // Clean URL without reloading
                     window.history.replaceState({}, document.title, window.location.pathname);
+                }
+
+                // Check for password reset link from email
+                const urlMode = urlParams.get('mode');
+                const oobCode = urlParams.get('oobCode');
+                if (urlMode === 'resetPassword' && oobCode) {
+                    setResetOobCode(oobCode);
+                    setMode('reset-from-link');
+                    return;
                 }
 
                 // Check for child token from QR code
@@ -7441,6 +7655,16 @@
                         )}
                         {mode === 'reset' && (
                             <PasswordResetForm onSwitchToLogin={() => setMode('login')} />
+                        )}
+                        {mode === 'reset-from-link' && resetOobCode && (
+                            <ResetPasswordFromLink
+                                oobCode={resetOobCode}
+                                onDone={() => {
+                                    setResetOobCode(null);
+                                    setMode('login');
+                                    window.history.replaceState({}, document.title, window.location.pathname);
+                                }}
+                            />
                         )}
                         {mode === 'child-login' && (
                             <ChildLoginForm onSwitchToLogin={() => setMode('login')} />
@@ -18952,6 +19176,14 @@ END:VCALENDAR`;
             const { t } = useLanguage();
             const { user, loading: authLoading } = useAuth();
             const { childUser, loading: childLoading } = useChildAuth();
+
+            // Check if this is a password reset link - show reset form even if logged in
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlMode = urlParams.get('mode');
+            const oobCode = urlParams.get('oobCode');
+            if (urlMode === 'resetPassword' && oobCode) {
+                return <AuthScreen />;
+            }
 
             if (authLoading || childLoading) {
                 return (
