@@ -11717,17 +11717,32 @@ import { createRoot } from 'react-dom/client';
 
                     for (const line of lines) {
                         try {
-                            // Try to extract quantity if present (e.g., "2 חלב" or "חלב x3" or "2 ק"ג בשר")
+                            // Try to extract quantity if present
                             let qty = 1;
                             let productName = line;
 
-                            // Match patterns like "2 חלב", "חלב x3", "2 ק"ג בשר"
-                            const qtyMatch = line.match(/^([\d.]+)\s*(.+)$/) || line.match(/^(.+?)\s*[xX×]\s*([\d.]+)$/);
-                            if (qtyMatch) {
-                                qty = parseFloat(qtyMatch[1]) || parseFloat(qtyMatch[2]) || 1;
-                                productName = (qtyMatch[2] || qtyMatch[1]).trim();
+                            // Pattern A: Number first — "2 חלב", "2.5 ק"ג בשר"
+                            const patternA = line.match(/^([\d.]+)\s+(.+)$/);
+                            // Pattern B: x-notation — "חלב x3", "חלב ×2"
+                            const patternB = line.match(/^(.+?)\s*[xX×]\s*([\d.]+)$/);
+                            // Pattern C: Trailing number ± unit — "חלב 2", "בשר 2 ק"ג"
+                            const patternC = line.match(/^(.+?)\s+(\d+)\s*(ק"ג|קילו|גרם|ליטר|מ"ל|יח'|יחידות?|חבילות?|שקיות?|קופסאות?|בקבוקים?)?\s*$/);
+
+                            if (patternA) {
+                                qty = parseFloat(patternA[1]) || 1;
+                                productName = patternA[2].trim();
                                 // Remove unit from product name if it starts with a unit
                                 productName = productName.replace(/^(ק"ג|קג|גרם|ליטר|מ"ל|יח'|יחידות?)\s*/i, '').trim();
+                            } else if (patternB) {
+                                qty = parseFloat(patternB[2]) || 1;
+                                productName = patternB[1].trim();
+                            } else if (patternC) {
+                                // Guard: if word before the number is a size/tray descriptor, keep number as part of name
+                                const sizeDescriptors = /(?:תבנית|גודל|מידה|סוג|דגם|מספר)\s*$/;
+                                if (!sizeDescriptors.test(patternC[1])) {
+                                    qty = parseFloat(patternC[2]) || 1;
+                                    productName = patternC[1].trim();
+                                }
                             }
 
                             if (!productName) continue;
