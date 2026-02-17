@@ -4,6 +4,9 @@
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
+// Import regulated prices utilities
+const { fetchGovPrices, buildAppRegulatedPrices, matchRegulatedPrice } = require('./_lib/gov-prices');
+
 // Hebrew synonym dictionary for better product matching
 const HEBREW_SYNONYMS = {
     // משקאות
@@ -557,11 +560,44 @@ module.exports = async (req, res) => {
                     }
                 });
 
+                // Fetch regulated prices from data.gov.il and apply as caps
+                let regulatedPriceMap = {};
+                let regulatedCapped = 0;
+                try {
+                    const govPrices = await fetchGovPrices();
+                    const { regulatedPrices: appRegPrices } = buildAppRegulatedPrices(govPrices);
+                    regulatedPriceMap = appRegPrices;
+
+                    // Cap Supabase-sourced prices with regulated prices
+                    for (const [productName, avgPrice] of Object.entries(productPrices)) {
+                        // First try exact match from app name mapping
+                        if (regulatedPriceMap[productName] && avgPrice > regulatedPriceMap[productName]) {
+                            productPrices[productName] = regulatedPriceMap[productName];
+                            regulatedCapped++;
+                        } else {
+                            // Try fuzzy matching for Supabase product names
+                            const regPrice = matchRegulatedPrice(productName, govPrices);
+                            if (regPrice !== null) {
+                                regulatedPriceMap[productName] = regPrice;
+                                if (avgPrice > regPrice) {
+                                    productPrices[productName] = regPrice;
+                                    regulatedCapped++;
+                                }
+                            }
+                        }
+                    }
+                    console.log(`✅ Applied ${regulatedCapped} regulated price caps`);
+                } catch (regError) {
+                    console.error('⚠️ Failed to fetch regulated prices:', regError.message);
+                }
+
                 return res.json({
                     success: true,
                     prices: productPrices,
                     chains: productChains,
+                    regulatedPrices: regulatedPriceMap,
                     totalProducts: Object.keys(productPrices).length,
+                    regulatedCapped,
                     skippedPerKg,
                     lastUpdated: new Date().toISOString()
                 });

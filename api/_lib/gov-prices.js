@@ -1,0 +1,242 @@
+// Shared utility for fetching regulated prices from data.gov.il
+// Used by api/regulated-prices.js and api/prices.js
+
+const GOV_API_URL = 'https://data.gov.il/api/3/action/datastore_search';
+const GOV_RESOURCE_ID = '0a760550-0426-4eb7-acf6-2ee919bf12e7';
+
+// Mapping from data.gov.il product names → app product names
+// Each gov product maps to all the app name variations it should regulate
+const GOV_TO_APP_NAMES = {
+    'שמנת חמוצה 15% שומן רגילה': [
+        'שמנת חמוצה', 'שמנת חמוצה 200 גרם', 'שמנת חמוצה אורגינל 15%'
+    ],
+    'שמנת מתוקה 38% שומן': [
+        'שמנת מתוקה', 'שמנת מתוקה 200 מ"ל', 'שמנת מתוקה 38%'
+    ],
+    'חלב טרי בקרטון 3% שומן (רגיל)': [
+        'חלב', 'חלב 3%', 'חלב תנובה', 'חלב תנובה 3%', 'חלב תנובה 3% 1 ליטר',
+        'חלב טרי 3%', 'חלב טרי 3% 1 ליטר'
+    ],
+    'חלב טרי בקרטון 1% שומן (רגיל)': [
+        'חלב 1%', 'חלב דל שומן', 'חלב תנובה 1%', 'חלב תנובה דל שומן 1 ליטר'
+    ],
+    'חלב טרי בשקית 3% שומן (רגיל)': [
+        'חלב בשקית 3%', 'חלב שקית 3%'
+    ],
+    'חלב טרי בשקית 1% שומן (רגיל)': [
+        'חלב בשקית 1%', 'חלב שקית 1%'
+    ],
+    'גבינה לבנה 5%': [
+        'גבינה לבנה 5%', 'גבינה לבנה 5% 250 גרם'
+    ],
+    'ביצי מאכל - גודל גדול (L)': [
+        'ביצים L', 'ביצים L 12 יח׳'
+    ],
+    'ביצי מאכל - גודל מדיום (M)': [
+        'ביצים M', 'ביצים M 12 יח׳'
+    ],
+    'ביצי מאכל- גודל ענק (XL)': [
+        'ביצים XL', 'ביצים XL 12 יח׳'
+    ],
+    'אשל 4.5% שומן': [
+        'אשל לבן 4.5%'
+    ],
+    'גיל 3% שומן': [
+        'גיל לבן 3%'
+    ],
+    'חלה או מאפה שמרים': [
+        'חלה'
+    ],
+    'לחם אחיד (כהה)': [
+        'לחם אחיד', 'לחם אחיד כהה'
+    ],
+    'לחם אחיד (כהה) פרוס וארוז': [
+        'לחם אחיד פרוס', 'לחם כהה פרוס'
+    ],
+    'לחם לבן': [
+        'לחם', 'לחם לבן'
+    ],
+    'לחם לבן פרוס וארוז': [
+        'לחם פרוס'
+    ],
+    'מלח מטבח רגיל, מלח מטבח מעולה': [
+        'מלח', 'מלח שולחן 500 גרם'
+    ],
+    'מלח שולחן מעולה ומלח שולחן מעולה גס': [
+        'מלח שולחן 500 גרם'
+    ],
+};
+
+// Regex matchers for fuzzy-matching Supabase product names to regulated products
+// Used by avgprices to cap prices for products in the database
+const REGULATED_MATCHERS = [
+    {
+        govName: 'שמנת חמוצה 15% שומן רגילה',
+        match: (name) => /שמנת/.test(name) && /חמוצה/.test(name) &&
+            !/מתוקה/.test(name) && !/להקצפה/.test(name) && !/לקצפת/.test(name) &&
+            !/500/.test(name) && !/ליטר/.test(name),
+    },
+    {
+        govName: 'שמנת מתוקה 38% שומן',
+        match: (name) => /שמנת/.test(name) && /מתוקה/.test(name) &&
+            !/500/.test(name) && !/ליטר/.test(name),
+    },
+    {
+        govName: 'חלב טרי בקרטון 3% שומן (רגיל)',
+        match: (name) => /חלב/.test(name) && !/(שקית|1%|שוקו|סויה|שקדים|קוקוס|עזים|אורז)/.test(name),
+    },
+    {
+        govName: 'חלב טרי בקרטון 1% שומן (רגיל)',
+        match: (name) => /חלב/.test(name) && /1%/.test(name) && !/שקית/.test(name) &&
+            !/(שוקו|סויה|שקדים|קוקוס|עזים|אורז)/.test(name),
+    },
+    {
+        govName: 'חלב טרי בשקית 3% שומן (רגיל)',
+        match: (name) => /חלב/.test(name) && /שקית/.test(name) && !/1%/.test(name),
+    },
+    {
+        govName: 'חלב טרי בשקית 1% שומן (רגיל)',
+        match: (name) => /חלב/.test(name) && /שקית/.test(name) && /1%/.test(name),
+    },
+    {
+        govName: 'גבינה לבנה 5%',
+        match: (name) => /גבינה/.test(name) && /לבנה/.test(name) && /5%/.test(name),
+    },
+    {
+        govName: 'ביצי מאכל - גודל גדול (L)',
+        match: (name) => (/ביצים/.test(name) || /ביצי/.test(name)) &&
+            (/\bL\b/.test(name) || /גדול/.test(name)) && !/30/.test(name),
+    },
+    {
+        govName: 'ביצי מאכל - גודל מדיום (M)',
+        match: (name) => (/ביצים/.test(name) || /ביצי/.test(name)) &&
+            (/\bM\b/.test(name) || /מדיום/.test(name)) && !/30/.test(name),
+    },
+    {
+        govName: 'ביצי מאכל- גודל ענק (XL)',
+        match: (name) => (/ביצים/.test(name) || /ביצי/.test(name)) &&
+            (/XL/.test(name) || /ענק/.test(name)) && !/30/.test(name),
+    },
+    {
+        govName: 'אשל 4.5% שומן',
+        match: (name) => /אשל/.test(name) && /4\.?5/.test(name),
+    },
+    {
+        govName: 'גיל 3% שומן',
+        match: (name) => /\bגיל\b/.test(name) && /3%/.test(name),
+    },
+    {
+        govName: 'חלה או מאפה שמרים',
+        match: (name) => /\bחלה\b/.test(name) && !/מלאה/.test(name) && !/מתוקה/.test(name) && !/שוקולד/.test(name),
+    },
+    {
+        govName: 'לחם אחיד (כהה)',
+        match: (name) => /לחם/.test(name) && /אחיד/.test(name) && !/פרוס/.test(name),
+    },
+    {
+        govName: 'לחם אחיד (כהה) פרוס וארוז',
+        match: (name) => /לחם/.test(name) && /אחיד/.test(name) && /פרוס/.test(name),
+    },
+    {
+        govName: 'לחם לבן',
+        match: (name) => {
+            if (!/\bלחם\b/.test(name)) return false;
+            if (/פרוס|מלא|כהה|שיפון|כוסמין|דגנים|גלוטן|אחיד|חלה/.test(name)) return false;
+            return /לבן/.test(name) || name.trim() === 'לחם';
+        },
+    },
+    {
+        govName: 'לחם לבן פרוס וארוז',
+        match: (name) => /לחם/.test(name) && /פרוס/.test(name) && !/מלא/.test(name) && !/כהה/.test(name) && !/אחיד/.test(name),
+    },
+    {
+        govName: 'מלח מטבח רגיל, מלח מטבח מעולה',
+        match: (name) => /\bמלח\b/.test(name) && !/(ים|גס|מדיח|ברזל|לימון|הימלאיה)/.test(name),
+    },
+];
+
+// Parse date in DD/MM/YYYY format from data.gov.il
+function parseGovDate(dateStr) {
+    if (!dateStr) return new Date(0);
+    const parts = dateStr.split('/');
+    if (parts.length === 3) {
+        return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+    }
+    return new Date(dateStr);
+}
+
+// Fetch all records from data.gov.il, return latest price per product
+async function fetchGovPrices() {
+    const url = `${GOV_API_URL}?resource_id=${GOV_RESOURCE_ID}&limit=500`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`data.gov.il API returned ${response.status}`);
+
+    const data = await response.json();
+    if (!data.success || !data.result?.records) {
+        throw new Error('Invalid response from data.gov.il');
+    }
+
+    const records = data.result.records;
+
+    // Group by product, keep only the latest record for each
+    const latestByProduct = {};
+    for (const record of records) {
+        const product = record.product;
+        const date = parseGovDate(record['update date']);
+        const price = parseFloat(record['consumers price includes VAT']);
+
+        if (isNaN(price) || price <= 0) continue;
+
+        if (!latestByProduct[product] || date > latestByProduct[product].date) {
+            latestByProduct[product] = {
+                date,
+                price,
+                updateDate: record['update date']
+            };
+        }
+    }
+
+    return latestByProduct;
+}
+
+// Build regulated price map for app product names
+function buildAppRegulatedPrices(govPrices) {
+    const regulatedPrices = {};
+    const govProducts = [];
+
+    for (const [govName, data] of Object.entries(govPrices)) {
+        const appNames = GOV_TO_APP_NAMES[govName] || [];
+
+        govProducts.push({
+            govName,
+            price: data.price,
+            updateDate: data.updateDate,
+            mappedTo: appNames
+        });
+
+        for (const appName of appNames) {
+            regulatedPrices[appName] = data.price;
+        }
+    }
+
+    return { regulatedPrices, govProducts };
+}
+
+// Match a product name against regulated product patterns
+// Returns the gov price if matched, null otherwise
+function matchRegulatedPrice(productName, govPrices) {
+    for (const matcher of REGULATED_MATCHERS) {
+        if (matcher.match(productName) && govPrices[matcher.govName]) {
+            return govPrices[matcher.govName].price;
+        }
+    }
+    return null;
+}
+
+module.exports = {
+    GOV_TO_APP_NAMES,
+    REGULATED_MATCHERS,
+    fetchGovPrices,
+    buildAppRegulatedPrices,
+    matchRegulatedPrice,
+};
