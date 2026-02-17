@@ -8155,7 +8155,7 @@ import { createRoot } from 'react-dom/client';
             'ביצים אורגניות 12 יח׳': 34.90, 'ביצים חופשיות 12 יח׳': 32.90,
             // חמאה ושמנת
             'חמאה': 14.90, 'חמאה 200 גרם': 14.90, 'חמאה מלוחה': 15.90, 'חמאה מלוחה 200 גרם': 15.90,
-            'שמנת מתוקה': 7.56, 'שמנת מתוקה 200 מ"ל': 7.56, 'שמנת מתוקה 500 מ"ל': 18.90, 'שמנת מתוקה 38%': 7.56,
+            'שמנת': 7.56, 'שמנת מתוקה': 7.56, 'שמנת מתוקה 200 מ"ל': 7.56, 'שמנת מתוקה 500 מ"ל': 18.90, 'שמנת מתוקה 38%': 7.56,
             'שמנת חמוצה': 2.81, 'שמנת חמוצה 200 גרם': 2.81, 'שמנת לקצפת': 11.90, 'שמנת לקצפת 500 מ"ל': 11.90,
             'מרגרינה': 9.90, 'מרגרינה 250 גרם': 9.90, 'טופו': 18.90, 'טופו 300 גרם': 18.90,
 
@@ -8874,9 +8874,13 @@ import { createRoot } from 'react-dom/client';
                 const productWords = productLower.split(/\s+/).filter(w => w.length > 1);
                 let score = 0;
 
-                // Exact product name contains full search term
-                if (productLower.includes(nameLower)) {
-                    score = 500 + (1 / product.length) * 100; // Prefer shorter matches
+                // Product name starts with search term (prefix match — best fuzzy)
+                if (productLower.startsWith(nameLower + ' ') || productLower === nameLower) {
+                    score = 600 + (1 / product.length) * 100; // Prefer shorter matches
+                }
+                // Exact product name contains full search term (non-prefix)
+                else if (productLower.includes(nameLower)) {
+                    score = 500 + (1 / product.length) * 100;
                 }
                 // Search term contains full product name
                 else if (nameLower.includes(productLower) && productLower.length >= 4) {
