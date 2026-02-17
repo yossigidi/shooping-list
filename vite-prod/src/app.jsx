@@ -17751,7 +17751,7 @@ END:VCALENDAR`;
 
                         {!selectedCategory && !searchTerm ? (
                             <div className="mb-6">
-                                {/* Category Selection Header */}
+                                {/* Categories Toggle Button */}
                                 <button
                                     onClick={() => setShowCategories(!showCategories)}
                                     className="w-full flex items-center justify-between px-4 py-3 mb-3 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm transition-all active:scale-[0.98]"
@@ -17772,28 +17772,34 @@ END:VCALENDAR`;
                                     </svg>
                                 </button>
 
+                                {/* Categories Grid */}
                                 {showCategories && (
-                                    <div className="grid grid-cols-3 gap-2.5 animate-fadeIn">
-                                        {Object.entries(CATEGORIES).map(([key, cat]) => {
-                                            const count = items.filter(item => item.category === key && !item.purchased).length;
-                                            return (
-                                                <button
-                                                    key={key}
-                                                    onClick={() => { setSelectedCategory(key); setShowCategories(false); setTimeout(() => { const el = document.getElementById('products-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }}
-                                                    className={`category-grid-card ${count > 0 ? 'active' : ''}`}
-                                                >
-                                                    <div className={`w-12 h-12 rounded-xl overflow-hidden mb-2 ${count > 0 ? 'ring-2 ring-teal-400/30' : ''}`}>
-                                                        {cat.image ? (
-                                                            <img src={cat.image} alt={getCategoryName(key)} className="w-full h-full object-cover" loading="lazy" />
-                                                        ) : (
-                                                            <div className={`w-full h-full flex items-center justify-center text-2xl ${count > 0 ? 'bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900/50 dark:to-teal-800/50' : 'bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600'}`}>{cat.icon}</div>
-                                                        )}
+                                    <div className="grid grid-cols-2 gap-3 animate-fadeIn">
+                                        {Object.entries(CATEGORIES)
+                                            .map(([key, cat]) => ({ key, cat, count: items.filter(item => item.category === key && !item.purchased).length }))
+                                            .sort((a, b) => b.count - a.count)
+                                            .map(({ key, cat, count }) => (
+                                            <button
+                                                key={key}
+                                                onClick={() => { setSelectedCategory(key); setShowCategories(false); setTimeout(() => { const el = document.getElementById('products-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }}
+                                                className={`relative overflow-hidden rounded-2xl h-28 transition-all active:scale-[0.97] ${count > 0 ? 'ring-2 ring-teal-400 shadow-md shadow-teal-100 dark:shadow-teal-900/30' : 'shadow-sm'}`}
+                                            >
+                                                {cat.image ? (
+                                                    <img src={cat.image} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                                                ) : (
+                                                    <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-5xl">{cat.icon}</div>
+                                                )}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                                                <div className="absolute bottom-0 left-0 right-0 p-3">
+                                                    <div className="text-white text-sm font-bold leading-tight drop-shadow-md">{getCategoryName(key)}</div>
+                                                </div>
+                                                {count > 0 && (
+                                                    <div className="absolute top-2 left-2 bg-teal-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg min-w-[24px] text-center">
+                                                        {count}
                                                     </div>
-                                                    <div className={`text-xs font-semibold leading-tight text-center ${count > 0 ? 'text-teal-700 dark:text-teal-300' : 'text-gray-600 dark:text-gray-300'}`}>{getCategoryName(key)}</div>
-                                                    {count > 0 && <div className="category-grid-badge">{count}</div>}
-                                                </button>
-                                            );
-                                        })}
+                                                )}
+                                            </button>
+                                        ))}
                                     </div>
                                 )}
                             </div>
@@ -17869,23 +17875,26 @@ END:VCALENDAR`;
                                 </div>
                             </div>
 
-                                {/* Sticky Bottom Buttons - Back + Price Compare */}
-                                <div className="sticky bottom-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-200/50 dark:border-gray-700/50 rounded-b-2xl px-4 py-3 flex justify-center gap-3 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
-                                    <button onClick={() => { setSelectedCategory(null); setShowCategories(true); }}
-                                        className="bg-gray-700 dark:bg-gray-600 text-white px-5 py-2.5 rounded-full font-bold shadow-lg transition-all active:scale-95 flex items-center gap-2 text-sm">
-                                        <span>←</span>
-                                        <span>{t('backToCategories')}</span>
-                                    </button>
-                                    {items.filter(i => !i.purchased).length > 0 && (
-                                        <button onClick={compareFullShoppingList}
-                                            className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 py-2.5 rounded-full font-bold shadow-lg transition-all active:scale-95 flex items-center gap-2 text-sm">
-                                            <span>📊</span>
-                                            <span>{t('comparePrices')}</span>
-                                            <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
-                                        </button>
-                                    )}
-                                </div>
                             </>
+                        )}
+
+                        {/* Fixed Bottom Buttons - Back + Price Compare */}
+                        {selectedCategory && !searchTerm && (
+                            <div className="fixed bottom-20 left-0 right-0 z-[9989] flex justify-center gap-3 px-4">
+                                <button onClick={() => { setSelectedCategory(null); setShowCategories(true); }}
+                                    className="bg-gray-800 dark:bg-gray-700 text-white px-5 py-3 rounded-full font-bold shadow-2xl transition-all active:scale-95 flex items-center gap-2 text-sm border border-gray-600">
+                                    <span>←</span>
+                                    <span>{t('backToCategories')}</span>
+                                </button>
+                                {items.filter(i => !i.purchased).length > 0 && (
+                                    <button onClick={compareFullShoppingList}
+                                        className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 py-3 rounded-full font-bold shadow-2xl transition-all active:scale-95 flex items-center gap-2 text-sm">
+                                        <span>📊</span>
+                                        <span>{t('comparePrices')}</span>
+                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
+                                    </button>
+                                )}
+                            </div>
                         )}
 
                         {filteredItems.length > 0 && (
@@ -18297,9 +18306,10 @@ END:VCALENDAR`;
                             <p>© {new Date().getFullYear()} ListNest • {t('copyrightBy')} <span className="text-teal-600 dark:text-teal-400 font-medium">Yosef Gidanian</span></p>
                         </div>
 
+                    </div>
+
                         {/* Bottom spacing for sticky bar */}
                         <div className="h-20"></div>
-                    </div>
 
                     {/* Sticky Add Bar */}
                     <div className="sticky-add-bar">
@@ -18442,11 +18452,22 @@ END:VCALENDAR`;
                         )}
                     </div>
 
-                    {/* Back to Top Button - Sticky */}
+                    {/* Accessibility FAB */}
+                    <button
+                        onClick={() => setShowAccessibility(true)}
+                        className="fixed right-4 w-12 h-12 rounded-full bg-blue-600 text-white shadow-lg z-[9998] flex items-center justify-center hover:scale-110 transition-transform touch-target"
+                        style={{ bottom: '80px' }}
+                        title={t('accessibility')}
+                        aria-label={t('accessibility')}
+                    >
+                        <span className="text-xl">♿</span>
+                    </button>
+
+                    {/* Back to Top Button */}
                     <button
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         className="fixed left-4 w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-[9998] hover:scale-110 transition-transform touch-target"
-                        style={{ bottom: '100px' }}
+                        style={{ bottom: '80px' }}
                         title={t('backToTop')}
                         aria-label={t('backToTop')}
                     >
@@ -18887,15 +18908,6 @@ END:VCALENDAR`;
                         </div>
                     )}
 
-                    {/* Sticky Accessibility Button - Top Left, Subtle */}
-                    <button
-                        onClick={() => setShowAccessibility(true)}
-                        className="fixed left-4 top-20 w-10 h-10 rounded-full bg-gray-200/60 dark:bg-gray-700/60 text-gray-500 dark:text-gray-400 shadow-sm hover:bg-gray-300/80 dark:hover:bg-gray-600/80 hover:text-gray-700 dark:hover:text-gray-200 hover:scale-110 transition-all z-50 flex items-center justify-center backdrop-blur-sm border border-gray-300/30 dark:border-gray-600/30"
-                        title={t('accessibility')}
-                        aria-label={t('accessibility')}
-                    >
-                        <span className="text-lg opacity-70">♿</span>
-                    </button>
 
                     {/* Delete Account Confirmation Modal */}
                     {showDeleteAccount && (
