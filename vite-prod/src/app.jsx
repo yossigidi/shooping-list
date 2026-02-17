@@ -11192,8 +11192,7 @@ import { createRoot } from 'react-dom/client';
             const prevItemIdsRef = React.useRef(new Set());
             const [selectedCategory, setSelectedCategory] = useState(null);
             const [showCategories, setShowCategories] = useState(false);
-            const [categoryFilter, setCategoryFilter] = useState(null);
-            const [showCategoryGrid, setShowCategoryGrid] = useState(false);
+
             const [searchTerm, setSearchTerm] = useState('');
             const [sortBy, setSortBy] = useState('newest'); // newest, name, category, purchased
             const [loading, setLoading] = useState(true);
@@ -11956,9 +11955,6 @@ import { createRoot } from 'react-dom/client';
 
             const filteredItems = React.useMemo(() => {
                 let sorted = [...items];
-                if (categoryFilter) {
-                    sorted = sorted.filter(item => item.category === categoryFilter);
-                }
                 switch (sortBy) {
                     case 'name':
                         sorted.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'he'));
@@ -11975,7 +11971,7 @@ import { createRoot } from 'react-dom/client';
                         break;
                 }
                 return sorted;
-            }, [items, sortBy, categoryFilter]);
+            }, [items, sortBy]);
 
             // Price comparison scanner functions
             const startPriceScanner = async () => {
@@ -13078,17 +13074,30 @@ import { createRoot } from 'react-dom/client';
             }, []);
 
             // PWA install prompt
+            const [showIOSInstallBanner, setShowIOSInstallBanner] = useState(false);
             useEffect(() => {
+                // Check if already installed as PWA
+                const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+                if (isStandalone) return;
+
+                const dismissed = localStorage.getItem('listnest_install_dismissed');
+                if (dismissed) return;
+
+                // Chrome/Edge/Android - use native beforeinstallprompt
                 const handler = (e) => {
                     e.preventDefault();
                     setDeferredInstallPrompt(e);
-                    // Show install banner if user hasn't dismissed it
-                    const dismissed = localStorage.getItem('listnest_install_dismissed');
-                    if (!dismissed) {
-                        setTimeout(() => setShowInstallBanner(true), 3000);
-                    }
+                    setTimeout(() => setShowInstallBanner(true), 3000);
                 };
                 window.addEventListener('beforeinstallprompt', handler);
+
+                // iOS Safari - show custom instructions banner
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                const isSafari = /Safari/.test(navigator.userAgent) && !/CriOS|FxiOS|Chrome/.test(navigator.userAgent);
+                if (isIOS && isSafari) {
+                    setTimeout(() => setShowIOSInstallBanner(true), 3000);
+                }
+
                 return () => window.removeEventListener('beforeinstallprompt', handler);
             }, []);
 
@@ -16311,79 +16320,6 @@ END:VCALENDAR`;
                         </div>
                     )}
 
-                    {/* Category Grid Screen */}
-                    {showCategoryGrid && (
-                        <div className="fixed inset-0 z-50 bg-gray-50 dark:bg-gray-900 overflow-y-auto">
-                            {/* Header */}
-                            <div className="sticky top-0 z-10 bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-800 dark:to-emerald-700 shadow-lg">
-                                <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-3">
-                                    <button
-                                        onClick={() => setShowCategoryGrid(false)}
-                                        className="w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 text-white transition-all"
-                                    >
-                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </button>
-                                    <h2 className="text-xl font-bold text-white">{t('allCategories') || 'כל הקטגוריות'}</h2>
-                                    <span className="bg-white/20 text-white text-sm px-3 py-1 rounded-full font-bold mr-auto">
-                                        {Object.keys(CATEGORIES).length}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Grid */}
-                            <div className="max-w-2xl mx-auto p-4">
-                                {/* Categories with items */}
-                                {Object.keys(groupedItems).length > 0 && (
-                                    <div className="mb-6">
-                                        <h3 className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-3 px-1">{t('inYourList') || 'ברשימה שלך'}</h3>
-                                        <div className="grid grid-cols-3 gap-3">
-                                            {Object.entries(groupedItems).map(([cat, catItems]) => (
-                                                <button
-                                                    key={cat}
-                                                    onClick={() => { setCategoryFilter(cat); setShowCategoryGrid(false); }}
-                                                    className="category-grid-card active"
-                                                >
-                                                    {CATEGORIES[cat]?.image ? (
-                                                        <img src={CATEGORIES[cat].image} alt="" className="w-14 h-14 rounded-2xl object-cover ring-2 ring-teal-200 shadow-md mb-2" loading="lazy" />
-                                                    ) : (
-                                                        <span className="text-3xl mb-2">{CATEGORIES[cat]?.icon}</span>
-                                                    )}
-                                                    <span className="text-xs font-bold text-gray-800 dark:text-gray-200 text-center leading-tight">{t(CATEGORY_TO_TRANSLATION[cat]) || CATEGORIES[cat]?.name}</span>
-                                                    <span className="category-grid-badge">{catItems.length} {t('items') || 'פריטים'}</span>
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* All other categories */}
-                                <div>
-                                    <h3 className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-3 px-1">{t('allCategoriesList') || 'כל הקטגוריות'}</h3>
-                                    <div className="grid grid-cols-3 gap-3">
-                                        {Object.entries(CATEGORIES).filter(([cat]) => !groupedItems[cat]).map(([cat, info]) => (
-                                            <button
-                                                key={cat}
-                                                onClick={() => { setCategoryFilter(cat); setShowCategoryGrid(false); }}
-                                                className="category-grid-card"
-                                            >
-                                                {info.image ? (
-                                                    <img src={info.image} alt="" className="w-14 h-14 rounded-2xl object-cover opacity-60 mb-2" loading="lazy" />
-                                                ) : (
-                                                    <span className="text-3xl mb-2 opacity-60">{info.icon}</span>
-                                                )}
-                                                <span className="text-xs font-medium text-gray-500 dark:text-gray-400 text-center leading-tight">{t(CATEGORY_TO_TRANSLATION[cat]) || info.name}</span>
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div className="h-20"></div>
-                            </div>
-                        </div>
-                    )}
-
                     {showFinishShopping && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                             <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
@@ -17814,48 +17750,47 @@ END:VCALENDAR`;
                         )}
 
                         {!selectedCategory && !searchTerm ? (
-                            <div className="glass rounded-2xl shadow-xl p-4 mb-6">
+                            <div className="mb-6">
+                                {/* Category Selection Header */}
                                 <button
                                     onClick={() => setShowCategories(!showCategories)}
-                                    className="w-full flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-xl transition-colors"
+                                    className="w-full flex items-center justify-between px-4 py-3 mb-3 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm transition-all active:scale-[0.98]"
                                 >
                                     <div className="flex items-center gap-3">
-                                        <span className="text-3xl">🏷️</span>
+                                        <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center">
+                                            <svg className="w-5 h-5 text-teal-600 dark:text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                            </svg>
+                                        </div>
                                         <div className="text-right">
-                                            <h2 className="text-xl font-bold dark:text-white">{t('selectCategory')}</h2>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('addItemsHint')}</p>
+                                            <h2 className="text-base font-bold text-gray-800 dark:text-white">{t('selectCategory')}</h2>
+                                            <p className="text-xs text-gray-400 dark:text-gray-500">{t('addItemsHint')}</p>
                                         </div>
                                     </div>
-                                    <div className={`text-2xl transition-transform duration-300 ${showCategories ? 'rotate-180' : ''}`}>
-                                        ▼
-                                    </div>
+                                    <svg className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${showCategories ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                    </svg>
                                 </button>
 
                                 {showCategories && (
-                                    <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 animate-fadeIn">
+                                    <div className="grid grid-cols-3 gap-2.5 animate-fadeIn">
                                         {Object.entries(CATEGORIES).map(([key, cat]) => {
                                             const count = items.filter(item => item.category === key && !item.purchased).length;
                                             return (
                                                 <button
                                                     key={key}
                                                     onClick={() => { setSelectedCategory(key); setShowCategories(false); setTimeout(() => { const el = document.getElementById('products-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }}
-                                                    className="group relative bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-xl hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200"
+                                                    className={`category-grid-card ${count > 0 ? 'active' : ''}`}
                                                 >
-                                                    <div className="flex flex-col items-center text-center">
-                                                        <div className="w-14 h-14 rounded-2xl overflow-hidden mb-3 group-hover:scale-110 group-hover:shadow-lg transition-all duration-200">
-                                                            {cat.image ? (
-                                                                <img src={cat.image} alt={getCategoryName(key)} className="w-full h-full object-cover" loading="lazy" />
-                                                            ) : (
-                                                                <div className="w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-3xl">{cat.icon}</div>
-                                                            )}
-                                                        </div>
-                                                        <div className="text-sm font-semibold text-gray-700 dark:text-gray-200">{getCategoryName(key)}</div>
+                                                    <div className={`w-12 h-12 rounded-xl overflow-hidden mb-2 ${count > 0 ? 'ring-2 ring-teal-400/30' : ''}`}>
+                                                        {cat.image ? (
+                                                            <img src={cat.image} alt={getCategoryName(key)} className="w-full h-full object-cover" loading="lazy" />
+                                                        ) : (
+                                                            <div className={`w-full h-full flex items-center justify-center text-2xl ${count > 0 ? 'bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900/50 dark:to-teal-800/50' : 'bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600'}`}>{cat.icon}</div>
+                                                        )}
                                                     </div>
-                                                    {count > 0 && (
-                                                        <div className="absolute -top-1 -left-1 bg-indigo-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-md">
-                                                            {count}
-                                                        </div>
-                                                    )}
+                                                    <div className={`text-xs font-semibold leading-tight text-center ${count > 0 ? 'text-teal-700 dark:text-teal-300' : 'text-gray-600 dark:text-gray-300'}`}>{getCategoryName(key)}</div>
+                                                    {count > 0 && <div className="category-grid-badge">{count}</div>}
                                                 </button>
                                             );
                                         })}
@@ -17864,23 +17799,6 @@ END:VCALENDAR`;
                             </div>
                         ) : selectedCategory && !searchTerm && (
                             <>
-                                {/* Fixed Buttons at Bottom - Back + Price Compare */}
-                                <div className="fixed bottom-28 left-4 right-4 z-40 flex justify-center gap-3 pointer-events-none" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
-                                    <button onClick={() => { setSelectedCategory(null); setShowCategories(true); }}
-                                        className="pointer-events-auto bg-gradient-to-r from-gray-600 to-gray-700 text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:from-gray-700 hover:to-gray-800 hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
-                                        <span>←</span>
-                                        <span>{t('backToCategories')}</span>
-                                    </button>
-                                    {items.filter(i => !i.purchased).length > 0 && (
-                                        <button onClick={compareFullShoppingList}
-                                            className="pointer-events-auto bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:from-orange-600 hover:to-amber-600 hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
-                                            <span>📊</span>
-                                            <span>{t('comparePrices')}</span>
-                                            <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
-                                        </button>
-                                    )}
-                                </div>
-
                                 <div id="products-section" className="glass rounded-2xl shadow-xl mb-6 overflow-visible">
                                     {/* Category Header - Sticky */}
                                     <div className="sticky top-0 z-30 p-4 border-b border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md rounded-t-2xl">
@@ -17950,6 +17868,23 @@ END:VCALENDAR`;
                                     </div>
                                 </div>
                             </div>
+
+                                {/* Sticky Bottom Buttons - Back + Price Compare */}
+                                <div className="sticky bottom-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-200/50 dark:border-gray-700/50 rounded-b-2xl px-4 py-3 flex justify-center gap-3 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+                                    <button onClick={() => { setSelectedCategory(null); setShowCategories(true); }}
+                                        className="bg-gray-700 dark:bg-gray-600 text-white px-5 py-2.5 rounded-full font-bold shadow-lg transition-all active:scale-95 flex items-center gap-2 text-sm">
+                                        <span>←</span>
+                                        <span>{t('backToCategories')}</span>
+                                    </button>
+                                    {items.filter(i => !i.purchased).length > 0 && (
+                                        <button onClick={compareFullShoppingList}
+                                            className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 py-2.5 rounded-full font-bold shadow-lg transition-all active:scale-95 flex items-center gap-2 text-sm">
+                                            <span>📊</span>
+                                            <span>{t('comparePrices')}</span>
+                                            <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
+                                        </button>
+                                    )}
+                                </div>
                             </>
                         )}
 
@@ -18153,41 +18088,6 @@ END:VCALENDAR`;
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
-                                )}
-
-                                {/* Category Chips Bar */}
-                                {items.length > 0 && (
-                                    <div className="category-chips-bar mb-4">
-                                        <button
-                                            onClick={() => setCategoryFilter(null)}
-                                            className={`category-chip ${!categoryFilter ? 'active' : ''}`}
-                                        >
-                                            <span>📋</span>
-                                            <span>{t('all') || 'הכל'}</span>
-                                        </button>
-                                        {Object.entries(groupedItems).map(([cat, catItems]) => (
-                                            <button
-                                                key={cat}
-                                                onClick={() => setCategoryFilter(categoryFilter === cat ? null : cat)}
-                                                className={`category-chip ${categoryFilter === cat ? 'active' : ''}`}
-                                            >
-                                                {CATEGORIES[cat]?.image ? (
-                                                    <img src={CATEGORIES[cat].image} alt="" className="w-5 h-5 rounded-full object-cover" />
-                                                ) : (
-                                                    <span>{CATEGORIES[cat]?.icon}</span>
-                                                )}
-                                                <span>{t(CATEGORY_TO_TRANSLATION[cat]) || CATEGORIES[cat]?.name}</span>
-                                                <span className="category-chip-count">{catItems.length}</span>
-                                            </button>
-                                        ))}
-                                        <button
-                                            onClick={() => setShowCategoryGrid(true)}
-                                            className="category-chip category-chip-more"
-                                        >
-                                            <span>⊞</span>
-                                            <span>{t('allCategories') || 'כל הקטגוריות'}</span>
-                                        </button>
                                     </div>
                                 )}
 
@@ -19059,6 +18959,33 @@ END:VCALENDAR`;
                                         {t('installDismiss')}
                                     </button>
                                 </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* iOS Install Banner */}
+                    {showIOSInstallBanner && (
+                        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[10005] w-[90%] max-w-sm animate-[fadeIn_0.3s_ease-out]">
+                            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-4 shadow-2xl text-white">
+                                <div className="flex items-start gap-3">
+                                    <span className="text-3xl">📲</span>
+                                    <div className="flex-1">
+                                        <p className="font-bold text-sm">{t('installApp')}</p>
+                                        <p className="text-xs text-indigo-100 mt-1 leading-relaxed">
+                                            {language === 'he' ? (
+                                                <>לחץ על <span className="inline-flex items-center mx-1 bg-white/20 px-1.5 py-0.5 rounded text-xs"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg></span> ואז <span className="font-bold">"הוסף למסך הבית"</span></>
+                                            ) : (
+                                                <>Tap <span className="inline-flex items-center mx-1 bg-white/20 px-1.5 py-0.5 rounded text-xs"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg></span> then <span className="font-bold">"Add to Home Screen"</span></>
+                                            )}
+                                        </p>
+                                    </div>
+                                    <button onClick={() => { setShowIOSInstallBanner(false); localStorage.setItem('listnest_install_dismissed', 'true'); }}
+                                        className="text-indigo-200 hover:text-white text-lg">✕</button>
+                                </div>
+                                <button onClick={() => { setShowIOSInstallBanner(false); localStorage.setItem('listnest_install_dismissed', 'true'); }}
+                                    className="w-full mt-3 px-4 py-2 bg-white/20 rounded-xl text-sm font-medium hover:bg-white/30 transition-colors">
+                                    {t('installDismiss')}
+                                </button>
                             </div>
                         </div>
                     )}
