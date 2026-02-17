@@ -1,7 +1,7 @@
-const CACHE_NAME = 'listnest-v137';
-const STATIC_CACHE = 'listnest-static-v137';
+const CACHE_NAME = 'listnest-v138';
+const STATIC_CACHE = 'listnest-static-v138';
 
-// Core app files - use root paths for Vercel deployment
+// Core app files
 const urlsToCache = [
   '/',
   '/index.html',
@@ -10,11 +10,6 @@ const urlsToCache = [
 
 // CDN assets to cache for faster loading
 const cdnUrlsToCache = [
-  'https://unpkg.com/react@18.2.0/umd/react.production.min.js',
-  'https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js',
-  'https://unpkg.com/@babel/standalone/babel.min.js',
-  'https://cdn.tailwindcss.com',
-  'https://unpkg.com/qrcode-generator@1.4.4/qrcode.js',
   'https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap'
 ];
 
