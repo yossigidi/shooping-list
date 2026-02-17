@@ -67,6 +67,14 @@ const GOV_TO_APP_NAMES = {
     ],
 };
 
+// Products whose regulated price is derived proportionally from a 12-unit base
+// data.gov.il prices are per tray of 12 eggs; 30-egg trays = price * 30/12
+const PROPORTIONAL_PRODUCTS = {
+    'ביצים L 30 יח׳': { govName: 'ביצי מאכל - גודל גדול (L)', factor: 30 / 12 },
+    'ביצים XL 30 יח׳': { govName: 'ביצי מאכל- גודל ענק (XL)', factor: 30 / 12 },
+    'ביצים M 30 יח׳': { govName: 'ביצי מאכל - גודל מדיום (M)', factor: 30 / 12 },
+};
+
 // Regex matchers for fuzzy-matching Supabase product names to regulated products
 // Used by avgprices to cap prices for products in the database
 const REGULATED_MATCHERS = [
@@ -116,6 +124,25 @@ const REGULATED_MATCHERS = [
         govName: 'ביצי מאכל- גודל ענק (XL)',
         match: (name) => (/ביצים/.test(name) || /ביצי/.test(name)) &&
             (/XL/.test(name) || /ענק/.test(name)) && !/30/.test(name),
+    },
+    // 30-egg trays - proportional price (x2.5 of 12-egg regulated price)
+    {
+        govName: 'ביצי מאכל - גודל גדול (L)',
+        factor: 30 / 12,
+        match: (name) => (/ביצים/.test(name) || /ביצי/.test(name)) &&
+            (/\bL\b/.test(name) || /גדול/.test(name)) && /30/.test(name),
+    },
+    {
+        govName: 'ביצי מאכל - גודל מדיום (M)',
+        factor: 30 / 12,
+        match: (name) => (/ביצים/.test(name) || /ביצי/.test(name)) &&
+            (/\bM\b/.test(name) || /מדיום/.test(name)) && /30/.test(name),
+    },
+    {
+        govName: 'ביצי מאכל- גודל ענק (XL)',
+        factor: 30 / 12,
+        match: (name) => (/ביצים/.test(name) || /ביצי/.test(name)) &&
+            (/XL/.test(name) || /ענק/.test(name)) && /30/.test(name),
     },
     {
         govName: 'אשל 4.5% שומן',
@@ -219,15 +246,26 @@ function buildAppRegulatedPrices(govPrices) {
         }
     }
 
+    // Add proportional products (e.g. 30-egg trays derived from 12-egg regulated price)
+    for (const [appName, config] of Object.entries(PROPORTIONAL_PRODUCTS)) {
+        if (govPrices[config.govName]) {
+            const basePrice = govPrices[config.govName].price;
+            const proportionalPrice = Math.round(basePrice * config.factor * 100) / 100;
+            regulatedPrices[appName] = proportionalPrice;
+        }
+    }
+
     return { regulatedPrices, govProducts };
 }
 
 // Match a product name against regulated product patterns
-// Returns the gov price if matched, null otherwise
+// Returns the gov price if matched (with proportional factor applied), null otherwise
 function matchRegulatedPrice(productName, govPrices) {
     for (const matcher of REGULATED_MATCHERS) {
         if (matcher.match(productName) && govPrices[matcher.govName]) {
-            return govPrices[matcher.govName].price;
+            const basePrice = govPrices[matcher.govName].price;
+            const factor = matcher.factor || 1;
+            return Math.round(basePrice * factor * 100) / 100;
         }
     }
     return null;
