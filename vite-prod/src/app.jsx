@@ -11051,6 +11051,7 @@ import { createRoot } from 'react-dom/client';
 
         // Swipeable Item Component
         function SwipeableItem({ children, onSwipeRight, onSwipeLeft, className, purchased }) {
+            const { t } = useLanguage();
             const [touchStart, setTouchStart] = useState(null);
             const [touchDelta, setTouchDelta] = useState(0);
             const [isSwiping, setIsSwiping] = useState(false);
@@ -11113,7 +11114,7 @@ import { createRoot } from 'react-dom/client';
                                 ✓
                             </span>
                             <span className={`swipe-icon text-sm ${showRightIndicator ? 'visible' : ''}`}>
-                                נקנה
+                                {t('bought')}
                             </span>
                         </div>
                     </div>
