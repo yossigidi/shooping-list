@@ -11192,6 +11192,8 @@ import { createRoot } from 'react-dom/client';
             const prevItemIdsRef = React.useRef(new Set());
             const [selectedCategory, setSelectedCategory] = useState(null);
             const [showCategories, setShowCategories] = useState(false);
+            const [categoryFilter, setCategoryFilter] = useState(null);
+            const [showCategoryGrid, setShowCategoryGrid] = useState(false);
             const [searchTerm, setSearchTerm] = useState('');
             const [sortBy, setSortBy] = useState('newest'); // newest, name, category, purchased
             const [loading, setLoading] = useState(true);
@@ -11954,6 +11956,9 @@ import { createRoot } from 'react-dom/client';
 
             const filteredItems = React.useMemo(() => {
                 let sorted = [...items];
+                if (categoryFilter) {
+                    sorted = sorted.filter(item => item.category === categoryFilter);
+                }
                 switch (sortBy) {
                     case 'name':
                         sorted.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'he'));
@@ -11970,7 +11975,7 @@ import { createRoot } from 'react-dom/client';
                         break;
                 }
                 return sorted;
-            }, [items, sortBy]);
+            }, [items, sortBy, categoryFilter]);
 
             // Price comparison scanner functions
             const startPriceScanner = async () => {
@@ -16306,6 +16311,79 @@ END:VCALENDAR`;
                         </div>
                     )}
 
+                    {/* Category Grid Screen */}
+                    {showCategoryGrid && (
+                        <div className="fixed inset-0 z-50 bg-gray-50 dark:bg-gray-900 overflow-y-auto">
+                            {/* Header */}
+                            <div className="sticky top-0 z-10 bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-800 dark:to-emerald-700 shadow-lg">
+                                <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-3">
+                                    <button
+                                        onClick={() => setShowCategoryGrid(false)}
+                                        className="w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 text-white transition-all"
+                                    >
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                    <h2 className="text-xl font-bold text-white">{t('allCategories') || 'כל הקטגוריות'}</h2>
+                                    <span className="bg-white/20 text-white text-sm px-3 py-1 rounded-full font-bold mr-auto">
+                                        {Object.keys(CATEGORIES).length}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Grid */}
+                            <div className="max-w-2xl mx-auto p-4">
+                                {/* Categories with items */}
+                                {Object.keys(groupedItems).length > 0 && (
+                                    <div className="mb-6">
+                                        <h3 className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-3 px-1">{t('inYourList') || 'ברשימה שלך'}</h3>
+                                        <div className="grid grid-cols-3 gap-3">
+                                            {Object.entries(groupedItems).map(([cat, catItems]) => (
+                                                <button
+                                                    key={cat}
+                                                    onClick={() => { setCategoryFilter(cat); setShowCategoryGrid(false); }}
+                                                    className="category-grid-card active"
+                                                >
+                                                    {CATEGORIES[cat]?.image ? (
+                                                        <img src={CATEGORIES[cat].image} alt="" className="w-14 h-14 rounded-2xl object-cover ring-2 ring-teal-200 shadow-md mb-2" loading="lazy" />
+                                                    ) : (
+                                                        <span className="text-3xl mb-2">{CATEGORIES[cat]?.icon}</span>
+                                                    )}
+                                                    <span className="text-xs font-bold text-gray-800 dark:text-gray-200 text-center leading-tight">{t(CATEGORY_TO_TRANSLATION[cat]) || CATEGORIES[cat]?.name}</span>
+                                                    <span className="category-grid-badge">{catItems.length} {t('items') || 'פריטים'}</span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* All other categories */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-3 px-1">{t('allCategoriesList') || 'כל הקטגוריות'}</h3>
+                                    <div className="grid grid-cols-3 gap-3">
+                                        {Object.entries(CATEGORIES).filter(([cat]) => !groupedItems[cat]).map(([cat, info]) => (
+                                            <button
+                                                key={cat}
+                                                onClick={() => { setCategoryFilter(cat); setShowCategoryGrid(false); }}
+                                                className="category-grid-card"
+                                            >
+                                                {info.image ? (
+                                                    <img src={info.image} alt="" className="w-14 h-14 rounded-2xl object-cover opacity-60 mb-2" loading="lazy" />
+                                                ) : (
+                                                    <span className="text-3xl mb-2 opacity-60">{info.icon}</span>
+                                                )}
+                                                <span className="text-xs font-medium text-gray-500 dark:text-gray-400 text-center leading-tight">{t(CATEGORY_TO_TRANSLATION[cat]) || info.name}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="h-20"></div>
+                            </div>
+                        </div>
+                    )}
+
                     {showFinishShopping && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                             <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
@@ -18075,6 +18153,41 @@ END:VCALENDAR`;
                                                 </button>
                                             </div>
                                         </div>
+                                    </div>
+                                )}
+
+                                {/* Category Chips Bar */}
+                                {items.length > 0 && (
+                                    <div className="category-chips-bar mb-4">
+                                        <button
+                                            onClick={() => setCategoryFilter(null)}
+                                            className={`category-chip ${!categoryFilter ? 'active' : ''}`}
+                                        >
+                                            <span>📋</span>
+                                            <span>{t('all') || 'הכל'}</span>
+                                        </button>
+                                        {Object.entries(groupedItems).map(([cat, catItems]) => (
+                                            <button
+                                                key={cat}
+                                                onClick={() => setCategoryFilter(categoryFilter === cat ? null : cat)}
+                                                className={`category-chip ${categoryFilter === cat ? 'active' : ''}`}
+                                            >
+                                                {CATEGORIES[cat]?.image ? (
+                                                    <img src={CATEGORIES[cat].image} alt="" className="w-5 h-5 rounded-full object-cover" />
+                                                ) : (
+                                                    <span>{CATEGORIES[cat]?.icon}</span>
+                                                )}
+                                                <span>{t(CATEGORY_TO_TRANSLATION[cat]) || CATEGORIES[cat]?.name}</span>
+                                                <span className="category-chip-count">{catItems.length}</span>
+                                            </button>
+                                        ))}
+                                        <button
+                                            onClick={() => setShowCategoryGrid(true)}
+                                            className="category-chip category-chip-more"
+                                        >
+                                            <span>⊞</span>
+                                            <span>{t('allCategories') || 'כל הקטגוריות'}</span>
+                                        </button>
                                     </div>
                                 )}
 
