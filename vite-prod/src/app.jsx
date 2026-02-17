@@ -1140,6 +1140,38 @@ import { createRoot } from 'react-dom/client';
                 childAccountNotFound: 'חשבון הילד לא נמצא',
                 loginErrorRetry: 'שגיאת התחברות - נסה שוב',
                 updateConfirmMsg: 'גרסה חדשה זמינה. לעדכן?',
+                invitedToJoinMsg: 'הוזמנת להצטרף למשפחה! בחר את תפקידך והצטרף',
+                whatsappChildShareMsg: 'היי! 👋\n\nהנה קישור להתחברות לרשימת הקניות של משפחת "{familyName}":\n\n{link}\n\nפשוט לחץ/י על הקישור ובחר/י את השם שלך 😊',
+                whatsappFamilyShareMsg: 'הצטרף/י למשפחת "{familyName}" באפליקציית רשימת הקניות שלנו!\n\nקוד הצטרפות: {code}\n\nאו לחץ על הקישור:\n{link}',
+                emailInviteSubject: 'הזמנה להצטרף למשפחת {familyName}',
+                emailInviteBody: 'שלום!\n\nאני מזמין אותך להצטרף למשפחת "{familyName}" באפליקציית רשימת הקניות המשותפת שלנו.\n\nקוד הצטרפות: {code}\n\nאו לחץ על הקישור הבא:\n{link}\n\nנתראה ברשימה!',
+                // Holiday names
+                holidayPurim: 'פורים', holidayPassover: 'פסח', holidayHolocaustDay: 'יום השואה',
+                holidayMemorialDay: 'יום הזיכרון', holidayIndependenceDay: 'יום העצמאות',
+                holidayLagBaomer: 'ל"ג בעומר', holidayJerusalemDay: 'יום ירושלים',
+                holidayShavuot: 'שבועות', holidayRoshHashana: 'ראש השנה',
+                holidayYomKippur: 'יום כיפור', holidaySukkot: 'סוכות',
+                holidaySimchatTorah: 'שמחת תורה', holidayHanukkah: 'חנוכה',
+                holidayNewYearsEve: 'סילבסטר', holidayCivilNewYear: 'ראש השנה האזרחית',
+                holidayTuBishvat: 'ט"ו בשבט',
+                // Holiday reminders
+                reminderPurim: 'זמן לקנות משלוחי מנות ואוזני המן',
+                reminderPassover: 'זמן לקנות מצות, יין, חרוסת ומצרכים לחג',
+                reminderHolocaustDay: 'יום הזיכרון לשואה ולגבורה',
+                reminderMemorialDay: 'יום זיכרון לחללי צה"ל',
+                reminderIndependenceDay: 'זמן לקנות בשר, נקניקיות וציוד למנגל!',
+                reminderLagBaomer: 'זמן לקנות בשר ונקניקיות למדורה',
+                reminderJerusalemDay: 'יום ירושלים',
+                reminderShavuot: 'זמן לקנות מוצרי חלב ועוגות גבינה',
+                reminderRoshHashana: 'זמן לקנות דבש, תפוחים, רימונים ודגים',
+                reminderYomKippur: 'זמן להכין אוכל לפני ואחרי הצום',
+                reminderSukkot: 'זמן לקנות ארבעת המינים ואוכל לחג',
+                reminderSimchatTorah: 'זמן להכין כיבוד וממתקים',
+                reminderHanukkah: 'זמן לקנות שמן, נרות, סופגניות ולביבות',
+                reminderNewYearsEve: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה',
+                reminderCivilNewYear: 'שנה אזרחית חדשה!',
+                reminderTuBishvat: 'זמן לקנות פירות יבשים ופירות הארץ',
+                downloadToCalendar: '📥 הורד ליומן (iPhone/מחשב)',
                 // Help
                 helpHowToUse: '🛒 איך להשתמש באפליקציה',
                 helpSelectCategory: 'בחר קטגוריה ולחץ על מוצר להוספה לרשימה',
@@ -1192,7 +1224,37 @@ import { createRoot } from 'react-dom/client';
                 deleteLabel: 'מחק',
                 cancelLabel: 'ביטול',
                 importToList: 'יבא לרשימה',
-                hotPromo: 'חם!'
+                hotPromo: 'חם!',
+                // Accessibility menu
+                enlargeText: 'הגדלת טקסט',
+                reduceText: 'הקטנת טקסט',
+                lowContrast: 'ניגודיות עדינה',
+                normalContrast: 'ניגודיות רגילה',
+                largeCursorBlack: 'סמן גדול שחור',
+                normalCursorLabel: 'סמן רגיל',
+                largeCursorWhite: 'סמן גדול לבן',
+                resetAllSettings: 'איפוס כל ההגדרות',
+                langSelectorLabel: '🌐 שפה / Language',
+                // Shopping status
+                activeShoppingMode: 'מצב קניות פעיל',
+                inARow: 'ברצף',
+                amazingStreak: 'מדהים! {count} קניות ברצף!',
+                purchasedNTimes: 'נקנה {count} פעמים',
+                bugLabel: '🐛 באג',
+                featureRequest: '💡 בקשה',
+                otherFeedback: '💬 אחר',
+                entireListLabel: 'כל הרשימה',
+                byChainLabel: '📍 לפי רשת',
+                singleChainLabel: '🏪 רשת אחת',
+                balancedLabel: '⚖️ מאוזן',
+                refreshLabel: '🔄 רענן',
+                orderFromChain: '🛒 הזמן מ',
+                theChain: 'הרשת',
+                pendingSyncCount: '{count} שינויים ממתינים לסנכרון',
+                syncWhenOnline: 'השינויים יישמרו ויסונכרנו כשהחיבור יחזור',
+                importHelpText: 'נתמך: שורות נפרדות, פסיקים, מספרים (2 חלב או חלב x2)',
+                morePromotions: '+{count} מבצעים נוספים',
+                loadPromotions: 'טען מבצעים'
             },
             en: {
                 // App name & general
@@ -2025,6 +2087,36 @@ import { createRoot } from 'react-dom/client';
                 familyNotFound: 'Family not found', childAccountNotFound: 'Child account not found',
                 loginErrorRetry: 'Login error - try again',
                 updateConfirmMsg: 'New version available. Update?',
+                invitedToJoinMsg: 'You\'ve been invited to join a family! Choose your role and join',
+                whatsappChildShareMsg: 'Hey! 👋\n\nHere\'s a link to join the shopping list of the "{familyName}" family:\n\n{link}\n\nJust tap the link and choose your name 😊',
+                whatsappFamilyShareMsg: 'Join the "{familyName}" family on our shopping list app!\n\nJoin code: {code}\n\nOr tap the link:\n{link}',
+                emailInviteSubject: 'Invitation to join the {familyName} family',
+                emailInviteBody: 'Hello!\n\nI\'m inviting you to join the "{familyName}" family on our shared shopping list app.\n\nJoin code: {code}\n\nOr click the link:\n{link}\n\nSee you on the list!',
+                holidayPurim: 'Purim', holidayPassover: 'Passover', holidayHolocaustDay: 'Holocaust Remembrance Day',
+                holidayMemorialDay: 'Memorial Day', holidayIndependenceDay: 'Independence Day',
+                holidayLagBaomer: 'Lag B\'Omer', holidayJerusalemDay: 'Jerusalem Day',
+                holidayShavuot: 'Shavuot', holidayRoshHashana: 'Rosh Hashana',
+                holidayYomKippur: 'Yom Kippur', holidaySukkot: 'Sukkot',
+                holidaySimchatTorah: 'Simchat Torah', holidayHanukkah: 'Hanukkah',
+                holidayNewYearsEve: 'New Year\'s Eve', holidayCivilNewYear: 'New Year',
+                holidayTuBishvat: 'Tu BiShvat',
+                reminderPurim: 'Time to buy Mishloach Manot and Hamantaschen',
+                reminderPassover: 'Time to buy matzah, wine, charoset and holiday supplies',
+                reminderHolocaustDay: 'Holocaust and Heroism Remembrance Day',
+                reminderMemorialDay: 'Memorial Day for fallen soldiers',
+                reminderIndependenceDay: 'Time to buy meat, sausages and BBQ supplies!',
+                reminderLagBaomer: 'Time to buy meat and sausages for the bonfire',
+                reminderJerusalemDay: 'Jerusalem Day',
+                reminderShavuot: 'Time to buy dairy products and cheesecakes',
+                reminderRoshHashana: 'Time to buy honey, apples, pomegranates and fish',
+                reminderYomKippur: 'Time to prepare food before and after the fast',
+                reminderSukkot: 'Time to buy the Four Species and holiday food',
+                reminderSimchatTorah: 'Time to prepare treats and snacks',
+                reminderHanukkah: 'Time to buy oil, candles, donuts and latkes',
+                reminderNewYearsEve: 'New Year\'s party - time to buy snacks and drinks',
+                reminderCivilNewYear: 'Happy New Year!',
+                reminderTuBishvat: 'Time to buy dried fruits and fruits of the land',
+                downloadToCalendar: '📥 Download to calendar (iPhone/PC)',
                 helpHowToUse: '🛒 How to use the app',
                 helpSelectCategory: 'Select a category and tap a product to add to list',
                 helpFamilySharing: '👨‍👩‍👧‍👦 Family sharing',
@@ -2060,7 +2152,23 @@ import { createRoot } from 'react-dom/client';
                 addForgottenTip: 'Add frequently forgotten items so you won\'t forget them',
                 frequentProductsDesc: 'Products you buy often - add them to the list with one click',
                 daysCount: 'days', holidayLegend: 'Holiday',
-                deleteLabel: 'Delete', cancelLabel: 'Cancel', importToList: 'Import to list', hotPromo: 'Hot!'
+                deleteLabel: 'Delete', cancelLabel: 'Cancel', importToList: 'Import to list', hotPromo: 'Hot!',
+                enlargeText: 'Enlarge text', reduceText: 'Reduce text',
+                lowContrast: 'Low contrast', normalContrast: 'Normal contrast',
+                largeCursorBlack: 'Large black cursor', normalCursorLabel: 'Normal cursor', largeCursorWhite: 'Large white cursor',
+                resetAllSettings: 'Reset all settings', langSelectorLabel: '🌐 Language',
+                activeShoppingMode: 'Active shopping mode', inARow: 'in a row',
+                amazingStreak: 'Amazing! {count} purchases in a row!',
+                purchasedNTimes: 'Purchased {count} times',
+                bugLabel: '🐛 Bug', featureRequest: '💡 Feature', otherFeedback: '💬 Other',
+                entireListLabel: 'Entire list', byChainLabel: '📍 By chain',
+                singleChainLabel: '🏪 Single chain', balancedLabel: '⚖️ Balanced',
+                refreshLabel: '🔄 Refresh', orderFromChain: '🛒 Order from', theChain: 'the chain',
+                pendingSyncCount: '{count} changes pending sync',
+                syncWhenOnline: 'Changes will be saved and synced when connection is restored',
+                importHelpText: 'Supported: separate lines, commas, numbers (2 milk or milk x2)',
+                morePromotions: '+{count} more promotions',
+                loadPromotions: 'Load promotions'
             },
             ru: {
                 // App name & general
@@ -2890,6 +2998,36 @@ import { createRoot } from 'react-dom/client';
                 familyNotFound: 'Семья не найдена', childAccountNotFound: 'Аккаунт ребёнка не найден',
                 loginErrorRetry: 'Ошибка входа — попробуйте снова',
                 updateConfirmMsg: 'Доступна новая версия. Обновить?',
+                invitedToJoinMsg: 'Вас пригласили в семью! Выберите роль и присоединяйтесь',
+                whatsappChildShareMsg: 'Привет! 👋\n\nВот ссылка на список покупок семьи «{familyName}»:\n\n{link}\n\nПросто нажмите и выберите своё имя 😊',
+                whatsappFamilyShareMsg: 'Присоединяйтесь к семье «{familyName}» в нашем приложении!\n\nКод: {code}\n\nИли нажмите на ссылку:\n{link}',
+                emailInviteSubject: 'Приглашение в семью {familyName}',
+                emailInviteBody: 'Здравствуйте!\n\nПриглашаю вас в семью «{familyName}» в нашем приложении для списка покупок.\n\nКод: {code}\n\nИли перейдите по ссылке:\n{link}\n\nДо встречи в списке!',
+                holidayPurim: 'Пурим', holidayPassover: 'Песах', holidayHolocaustDay: 'День Катастрофы',
+                holidayMemorialDay: 'День памяти', holidayIndependenceDay: 'День Независимости',
+                holidayLagBaomer: 'Лаг ба-Омер', holidayJerusalemDay: 'День Иерусалима',
+                holidayShavuot: 'Шавуот', holidayRoshHashana: 'Рош ха-Шана',
+                holidayYomKippur: 'Йом Кипур', holidaySukkot: 'Суккот',
+                holidaySimchatTorah: 'Симхат Тора', holidayHanukkah: 'Ханука',
+                holidayNewYearsEve: 'Новогодняя ночь', holidayCivilNewYear: 'Новый год',
+                holidayTuBishvat: 'Ту би-Шват',
+                reminderPurim: 'Время купить мишлоах манот и уши Амана',
+                reminderPassover: 'Время купить мацу, вино, харосет и продукты к празднику',
+                reminderHolocaustDay: 'День памяти Катастрофы и героизма',
+                reminderMemorialDay: 'День памяти павших солдат',
+                reminderIndependenceDay: 'Время купить мясо, сосиски и всё для барбекю!',
+                reminderLagBaomer: 'Время купить мясо и сосиски для костра',
+                reminderJerusalemDay: 'День Иерусалима',
+                reminderShavuot: 'Время купить молочные продукты и чизкейки',
+                reminderRoshHashana: 'Время купить мёд, яблоки, гранаты и рыбу',
+                reminderYomKippur: 'Время приготовить еду до и после поста',
+                reminderSukkot: 'Время купить четыре вида растений и еду к празднику',
+                reminderSimchatTorah: 'Время приготовить угощения и сладости',
+                reminderHanukkah: 'Время купить масло, свечи, пончики и латкес',
+                reminderNewYearsEve: 'Новогодняя вечеринка — время купить закуски и напитки',
+                reminderCivilNewYear: 'С Новым годом!',
+                reminderTuBishvat: 'Время купить сухофрукты и плоды земли',
+                downloadToCalendar: '📥 Скачать в календарь (iPhone/ПК)',
                 helpHowToUse: '🛒 Как пользоваться', helpSelectCategory: 'Выберите категорию и нажмите на товар для добавления',
                 helpFamilySharing: '👨‍👩‍👧‍👦 Семейный доступ',
                 helpParentRole: 'Родители — полные права администратора', helpChildRole: 'Дети — могут добавлять и отмечать товары',
@@ -2915,7 +3053,23 @@ import { createRoot } from 'react-dom/client';
                 addForgottenTip: 'Добавьте часто забываемые товары чтобы не забывать их',
                 frequentProductsDesc: 'Товары которые вы покупаете часто - добавьте в список одним нажатием',
                 daysCount: 'дней', holidayLegend: 'Праздник',
-                deleteLabel: 'Удалить', cancelLabel: 'Отмена', importToList: 'Импорт в список', hotPromo: 'Горячо!'
+                deleteLabel: 'Удалить', cancelLabel: 'Отмена', importToList: 'Импорт в список', hotPromo: 'Горячо!',
+                enlargeText: 'Увеличить текст', reduceText: 'Уменьшить текст',
+                lowContrast: 'Низкий контраст', normalContrast: 'Обычный контраст',
+                largeCursorBlack: 'Большой чёрный курсор', normalCursorLabel: 'Обычный курсор', largeCursorWhite: 'Большой белый курсор',
+                resetAllSettings: 'Сбросить все настройки', langSelectorLabel: '🌐 Язык',
+                activeShoppingMode: 'Активный режим покупок', inARow: 'подряд',
+                amazingStreak: 'Потрясающе! {count} покупок подряд!',
+                purchasedNTimes: 'Куплено {count} раз',
+                bugLabel: '🐛 Баг', featureRequest: '💡 Запрос', otherFeedback: '💬 Другое',
+                entireListLabel: 'Весь список', byChainLabel: '📍 По сети',
+                singleChainLabel: '🏪 Одна сеть', balancedLabel: '⚖️ Сбалансировано',
+                refreshLabel: '🔄 Обновить', orderFromChain: '🛒 Заказать из', theChain: 'сети',
+                pendingSyncCount: '{count} изменений ожидают синхронизации',
+                syncWhenOnline: 'Изменения сохранятся и синхронизируются при восстановлении связи',
+                importHelpText: 'Поддерживается: отдельные строки, запятые, числа (2 молока или молоко x2)',
+                morePromotions: '+{count} акций ещё',
+                loadPromotions: 'Загрузить акции'
             },
             ar: {
                 // App name & general
@@ -3749,6 +3903,36 @@ import { createRoot } from 'react-dom/client';
                 familyNotFound: 'العائلة غير موجودة', childAccountNotFound: 'حساب الطفل غير موجود',
                 loginErrorRetry: 'خطأ في تسجيل الدخول - حاول مرة أخرى',
                 updateConfirmMsg: 'إصدار جديد متاح. تحديث؟',
+                invitedToJoinMsg: 'تمت دعوتك للانضمام إلى عائلة! اختر دورك وانضم',
+                whatsappChildShareMsg: 'مرحباً! 👋\n\nهذا رابط للانضمام إلى قائمة التسوق لعائلة "{familyName}":\n\n{link}\n\nاضغط على الرابط واختر اسمك 😊',
+                whatsappFamilyShareMsg: 'انضم إلى عائلة "{familyName}" في تطبيق قائمة التسوق!\n\nرمز الانضمام: {code}\n\nأو اضغط على الرابط:\n{link}',
+                emailInviteSubject: 'دعوة للانضمام إلى عائلة {familyName}',
+                emailInviteBody: 'مرحباً!\n\nأدعوك للانضمام إلى عائلة "{familyName}" في تطبيق قائمة التسوق المشتركة.\n\nرمز الانضمام: {code}\n\nأو اضغط على الرابط:\n{link}\n\nنراك في القائمة!',
+                holidayPurim: 'بوريم', holidayPassover: 'عيد الفصح', holidayHolocaustDay: 'يوم الذكرى',
+                holidayMemorialDay: 'يوم الذكرى', holidayIndependenceDay: 'يوم الاستقلال',
+                holidayLagBaomer: 'لاغ بعومر', holidayJerusalemDay: 'يوم القدس',
+                holidayShavuot: 'شافوعوت', holidayRoshHashana: 'رأس السنة العبرية',
+                holidayYomKippur: 'يوم كيبور', holidaySukkot: 'سوكوت',
+                holidaySimchatTorah: 'سمحات توراة', holidayHanukkah: 'حانوكا',
+                holidayNewYearsEve: 'ليلة رأس السنة', holidayCivilNewYear: 'رأس السنة',
+                holidayTuBishvat: 'طو بشفاط',
+                reminderPurim: 'وقت شراء مشلوح مانوت وأذني هامان',
+                reminderPassover: 'وقت شراء المصة والنبيذ ومستلزمات العيد',
+                reminderHolocaustDay: 'يوم ذكرى الكارثة والبطولة',
+                reminderMemorialDay: 'يوم ذكرى الجنود',
+                reminderIndependenceDay: 'وقت شراء اللحم والنقانق ومستلزمات الشواء!',
+                reminderLagBaomer: 'وقت شراء اللحم والنقانق للنار',
+                reminderJerusalemDay: 'يوم القدس',
+                reminderShavuot: 'وقت شراء منتجات الألبان وكعك الجبن',
+                reminderRoshHashana: 'وقت شراء العسل والتفاح والرمان والسمك',
+                reminderYomKippur: 'وقت تحضير الطعام قبل وبعد الصيام',
+                reminderSukkot: 'وقت شراء الأنواع الأربعة وطعام العيد',
+                reminderSimchatTorah: 'وقت تحضير الحلويات والمقرمشات',
+                reminderHanukkah: 'وقت شراء الزيت والشموع والسفنج واللبيبوت',
+                reminderNewYearsEve: 'حفلة نهاية العام - وقت شراء المقرمشات والمشروبات',
+                reminderCivilNewYear: 'سنة جديدة سعيدة!',
+                reminderTuBishvat: 'وقت شراء الفواكه المجففة وثمار الأرض',
+                downloadToCalendar: '📥 تنزيل للتقويم (iPhone/كمبيوتر)',
                 helpHowToUse: '🛒 كيفية الاستخدام', helpSelectCategory: 'اختر فئة واضغط على منتج لإضافته',
                 helpFamilySharing: '👨‍👩‍👧‍👦 مشاركة عائلية',
                 helpParentRole: 'الوالدان — صلاحيات إدارة كاملة', helpChildRole: 'الأطفال — يمكنهم الإضافة والتحديد فقط',
@@ -3774,7 +3958,23 @@ import { createRoot } from 'react-dom/client';
                 addForgottenTip: 'أضف المنتجات التي تنسى كثيرًا حتى لا تنساها',
                 frequentProductsDesc: 'منتجات تشتريها كثيرًا - أضفها للقائمة بنقرة واحدة',
                 daysCount: 'أيام', holidayLegend: 'عيد',
-                deleteLabel: 'حذف', cancelLabel: 'إلغاء', importToList: 'استيراد للقائمة', hotPromo: 'حار!'
+                deleteLabel: 'حذف', cancelLabel: 'إلغاء', importToList: 'استيراد للقائمة', hotPromo: 'حار!',
+                enlargeText: 'تكبير النص', reduceText: 'تصغير النص',
+                lowContrast: 'تباين منخفض', normalContrast: 'تباين عادي',
+                largeCursorBlack: 'مؤشر كبير أسود', normalCursorLabel: 'مؤشر عادي', largeCursorWhite: 'مؤشر كبير أبيض',
+                resetAllSettings: 'إعادة تعيين جميع الإعدادات', langSelectorLabel: '🌐 اللغة',
+                activeShoppingMode: 'وضع التسوق النشط', inARow: 'متتالية',
+                amazingStreak: 'مذهل! {count} مشتريات متتالية!',
+                purchasedNTimes: 'تم شراؤه {count} مرات',
+                bugLabel: '🐛 خلل', featureRequest: '💡 طلب', otherFeedback: '💬 أخرى',
+                entireListLabel: 'القائمة بأكملها', byChainLabel: '📍 حسب السلسلة',
+                singleChainLabel: '🏪 سلسلة واحدة', balancedLabel: '⚖️ متوازن',
+                refreshLabel: '🔄 تحديث', orderFromChain: '🛒 اطلب من', theChain: 'السلسلة',
+                pendingSyncCount: '{count} تغييرات بانتظار المزامنة',
+                syncWhenOnline: 'سيتم حفظ التغييرات ومزامنتها عند عودة الاتصال',
+                importHelpText: 'مدعوم: أسطر منفصلة، فواصل، أرقام (2 حليب أو حليب x2)',
+                morePromotions: '+{count} عروض إضافية',
+                loadPromotions: 'تحميل العروض'
             }
         };
 
@@ -4009,7 +4209,7 @@ import { createRoot } from 'react-dom/client';
                 if (!user) return null;
 
                 const code = generateCode();
-                const roleLabel = userRole === 'parent_father' ? 'אבא' : userRole === 'parent_mother' ? 'אמא' : 'הורה';
+                const roleLabel = userRole === 'parent_father' ? t('roleFather') : userRole === 'parent_mother' ? t('roleMother') : t('roleParent');
                 const newFamily = {
                     name: familyName,
                     code: code,
@@ -4038,7 +4238,7 @@ import { createRoot } from 'react-dom/client';
                     window.firestore.collection(window.db, 'lists'),
                     {
                         familyId: familyRef.id,
-                        name: 'רשימת קניות',
+                        name: t('defaultListName'),
                         icon: '🛒',
                         createdBy: user?.uid,
                         createdAt: new Date(),
@@ -4056,7 +4256,7 @@ import { createRoot } from 'react-dom/client';
             const joinFamily = async (code, userRole = 'child') => {
                 if (!user) {
                     console.error('joinFamily: No user logged in');
-                    return { success: false, error: 'לא מחובר' };
+                    return { success: false, error: t('notLoggedIn') };
                 }
 
                 try {
@@ -4070,7 +4270,7 @@ import { createRoot } from 'react-dom/client';
 
                     if (snapshot.empty) {
                         console.log('joinFamily: Family not found');
-                        return { success: false, error: 'קוד לא נמצא' };
+                        return { success: false, error: t('codeNotFound') };
                     }
 
                     const familyDoc = snapshot.docs[0];
@@ -4080,14 +4280,14 @@ import { createRoot } from 'react-dom/client';
                     // Check if already a member
                     if (familyData.members?.some(m => m.userId === user?.uid)) {
                         console.log('joinFamily: User already a member');
-                        return { success: false, error: 'כבר חבר במשפחה זו' };
+                        return { success: false, error: t('alreadyMember') };
                     }
 
                     const isParent = userRole.startsWith('parent');
                     const isTeen = userRole === 'teen';
-                    const roleLabel = userRole === 'parent_father' ? 'אבא' :
-                                      userRole === 'parent_mother' ? 'אמא' :
-                                      userRole === 'teen' ? 'נער/ה בוגר/ת' : 'ילד/ה';
+                    const roleLabel = userRole === 'parent_father' ? t('roleFather') :
+                                      userRole === 'parent_mother' ? t('roleMother') :
+                                      userRole === 'teen' ? t('roleTeen') : t('roleChild');
 
                     // Add user to family
                     // Roles: admin (parents), teen (older child with some permissions), member (child)
@@ -4158,7 +4358,7 @@ import { createRoot } from 'react-dom/client';
                     return { success: true, familyId: familyDoc.id };
                 } catch (err) {
                     console.error('joinFamily: Error:', err);
-                    return { success: false, error: err.message || 'שגיאה בהצטרפות למשפחה' };
+                    return { success: false, error: err.message || t('joinFamilyError') };
                 }
             };
 
@@ -4610,12 +4810,12 @@ import { createRoot } from 'react-dom/client';
                         </button>
 
                         <button onClick={handleLogout} className="absolute top-6 right-6 p-2.5 rounded-xl bg-red-100 dark:bg-red-900/50 text-sm text-red-600 dark:text-red-400 hover:scale-105 transition-all">
-                            התנתק
+                            {t('logout')}
                         </button>
 
                         <div className="text-center mb-8 pt-8">
                             <div className="text-7xl mb-4 float">👨‍👩‍👧‍👦</div>
-                            <h1 className="text-2xl font-bold text-gradient mb-2">{t('welcome')}, {user?.displayName || 'משתמש'}!</h1>
+                            <h1 className="text-2xl font-bold text-gradient mb-2">{t('welcome')}, {user?.displayName || t('defaultUser')}!</h1>
                             <p className="text-gray-500 dark:text-gray-400 text-sm">{t('createNewFamily')} / {t('joinExistingFamily')}</p>
                         </div>
 
@@ -4691,7 +4891,7 @@ import { createRoot } from 'react-dom/client';
                                 </button>
 
                                 <button type="button" onClick={() => { setMode('choose'); setError(''); setSelectedRole(''); }} className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline">
-                                    חזור
+                                    {t('back')}
                                 </button>
                             </form>
                         )}
@@ -4702,7 +4902,7 @@ import { createRoot } from 'react-dom/client';
 
                                 {pendingInvite && (
                                     <div className="bg-green-100 dark:bg-green-900/30 border-2 border-green-300 dark:border-green-700 text-green-700 dark:text-green-300 px-4 py-3 rounded-lg text-sm text-center mb-2">
-                                        הוזמנת להצטרף למשפחה! בחר את תפקידך והצטרף
+                                        {t('invitedToJoinMsg')}
                                     </div>
                                 )}
 
@@ -4866,7 +5066,7 @@ import { createRoot } from 'react-dom/client';
             };
 
             const shareChildLinkWhatsApp = () => {
-                const text = encodeURIComponent(`היי! 👋\n\nהנה קישור להתחברות לרשימת הקניות של משפחת "${family.name}":\n\n${childJoinLink}\n\nפשוט לחץ/י על הקישור ובחר/י את השם שלך 😊`);
+                const text = encodeURIComponent(t('whatsappChildShareMsg').replace('{familyName}', family.name).replace('{link}', childJoinLink));
                 window.open(`https://wa.me/?text=${text}`, '_blank');
             };
 
@@ -4895,13 +5095,13 @@ import { createRoot } from 'react-dom/client';
             };
 
             const shareViaWhatsApp = () => {
-                const text = encodeURIComponent(`הצטרף/י למשפחת "${family.name}" באפליקציית רשימת הקניות שלנו!\n\nקוד הצטרפות: ${family.code}\n\nאו לחץ על הקישור:\n${inviteLink}`);
+                const text = encodeURIComponent(t('whatsappFamilyShareMsg').replace('{familyName}', family.name).replace('{code}', family.code).replace('{link}', inviteLink));
                 window.open(`https://wa.me/?text=${text}`, '_blank');
             };
 
             const shareViaEmail = () => {
-                const subject = encodeURIComponent(`הזמנה להצטרף למשפחת ${family.name}`);
-                const body = encodeURIComponent(`שלום!\n\nאני מזמין אותך להצטרף למשפחת "${family.name}" באפליקציית רשימת הקניות המשותפת שלנו.\n\nקוד הצטרפות: ${family.code}\n\nאו לחץ על הקישור הבא:\n${inviteLink}\n\nנתראה ברשימה!`);
+                const subject = encodeURIComponent(t('emailInviteSubject').replace('{familyName}', family.name));
+                const body = encodeURIComponent(t('emailInviteBody').replace('{familyName}', family.name).replace('{code}', family.code).replace('{link}', inviteLink));
                 window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
             };
 
@@ -5129,7 +5329,7 @@ import { createRoot } from 'react-dom/client';
                                     {family.childAccounts?.length > 0 && (
                                         <div className="glass rounded-lg p-3 border-2 border-teal-200 dark:border-teal-800">
                                             <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 text-center">
-                                                {t('sendChildLinkDesc') || 'שלח קישור לילד - רק יבחר שם ויזין קוד'}
+                                                {t('sendChildLinkDesc')}
                                             </p>
                                             <div className="grid grid-cols-2 gap-2">
                                                 <button
@@ -6215,41 +6415,23 @@ import { createRoot } from 'react-dom/client';
 
         // Error message helper (accepts t function for translations)
         function getErrorMessage(errorCode, t) {
-            if (t) {
-                const messages = {
-                    'auth/email-already-in-use': t('emailAlreadyInUse'),
-                    'auth/invalid-email': t('invalidEmail'),
-                    'auth/operation-not-allowed': t('operationNotAllowed'),
-                    'auth/weak-password': t('passwordTooShort'),
-                    'auth/user-disabled': t('userDisabled'),
-                    'auth/user-not-found': t('userNotFound'),
-                    'auth/wrong-password': t('wrongPassword'),
-                    'auth/too-many-requests': t('tooManyRequests'),
-                    'auth/invalid-credential': t('invalidCredential'),
-                    'auth/missing-password': t('missingPassword'),
-                    'auth/missing-email': t('missingEmail'),
-                    'auth/network-request-failed': t('networkError'),
-                    'auth/internal-error': t('internalError')
-                };
-                return messages[errorCode] || `${t('error')}: ${errorCode || t('unknown')}`;
-            }
+            const translate = t || ((key) => TRANSLATIONS['he']?.[key] || key);
             const messages = {
-                'auth/email-already-in-use': 'כתובת האימייל כבר בשימוש',
-                'auth/invalid-email': 'כתובת אימייל לא תקינה',
-                'auth/operation-not-allowed': 'פעולה לא מורשית',
-                'auth/weak-password': 'הסיסמה חלשה מדי (לפחות 6 תווים)',
-                'auth/user-disabled': 'המשתמש הושבת',
-                'auth/user-not-found': 'לא נמצא משתמש עם אימייל זה. יש להירשם תחילה.',
-                'auth/wrong-password': 'סיסמה שגויה',
-                'auth/too-many-requests': 'יותר מדי ניסיונות, נסה שוב מאוחר יותר',
-                'auth/invalid-credential': 'פרטי התחברות שגויים',
-                'auth/missing-password': 'נא להזין סיסמה',
-                'auth/missing-email': 'נא להזין כתובת אימייל',
-                'auth/network-request-failed': 'שגיאת רשת - בדוק את החיבור לאינטרנט',
-                'auth/internal-error': 'שגיאה פנימית, נסה שוב'
+                'auth/email-already-in-use': translate('emailAlreadyInUse'),
+                'auth/invalid-email': translate('invalidEmail'),
+                'auth/operation-not-allowed': translate('operationNotAllowed'),
+                'auth/weak-password': translate('passwordTooShort'),
+                'auth/user-disabled': translate('userDisabled'),
+                'auth/user-not-found': translate('userNotFound'),
+                'auth/wrong-password': translate('wrongPassword'),
+                'auth/too-many-requests': translate('tooManyRequests'),
+                'auth/invalid-credential': translate('invalidCredential'),
+                'auth/missing-password': translate('missingPassword'),
+                'auth/missing-email': translate('missingEmail'),
+                'auth/network-request-failed': translate('networkError'),
+                'auth/internal-error': translate('internalError')
             };
-            console.log('Auth error code:', errorCode);
-            return messages[errorCode] || `שגיאה: ${errorCode || 'לא ידוע'}`;
+            return messages[errorCode] || `${translate('error')}: ${errorCode || translate('unknown')}`;
         }
 
         // Sign Up Form
@@ -6995,11 +7177,11 @@ import { createRoot } from 'react-dom/client';
                     if (result.error === 'invalidPin') {
                         setError(t('invalidPin'));
                     } else if (result.error === 'familyNotFound') {
-                        setError('המשפחה לא נמצאה');
+                        setError(t('familyNotFound'));
                     } else if (result.error === 'childNotFound') {
-                        setError('חשבון הילד לא נמצא');
+                        setError(t('childAccountNotFound'));
                     } else {
-                        setError('שגיאת התחברות - נסה שוב');
+                        setError(t('loginErrorRetry'));
                     }
                 }
 
@@ -7565,6 +7747,36 @@ import { createRoot } from 'react-dom/client';
             { name: 'חנוכה', icon: '🕎', date: '21-28.12.2030', dateObj: new Date('2030-12-21'), reminder: 'זמן לקנות שמן, נרות, סופגניות ולביבות', type: 'jewish' },
             { name: 'סילבסטר', icon: '🥂', date: '31.12.2030', dateObj: new Date('2030-12-31'), reminder: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה', type: 'civil' }
         ];
+
+        // Holiday name translation keys
+        const HOLIDAY_NAME_KEYS = {
+            'פורים': 'holidayPurim', 'פסח': 'holidayPassover', 'יום השואה': 'holidayHolocaustDay',
+            'יום הזיכרון': 'holidayMemorialDay', 'יום העצמאות': 'holidayIndependenceDay',
+            'ל"ג בעומר': 'holidayLagBaomer', 'יום ירושלים': 'holidayJerusalemDay',
+            'שבועות': 'holidayShavuot', 'ראש השנה': 'holidayRoshHashana',
+            'יום כיפור': 'holidayYomKippur', 'סוכות': 'holidaySukkot',
+            'שמחת תורה': 'holidaySimchatTorah', 'חנוכה': 'holidayHanukkah',
+            'סילבסטר': 'holidayNewYearsEve', 'ראש השנה האזרחית': 'holidayCivilNewYear',
+            'ט"ו בשבט': 'holidayTuBishvat'
+        };
+        const HOLIDAY_REMINDER_KEYS = {
+            'זמן לקנות משלוחי מנות ואוזני המן': 'reminderPurim',
+            'זמן לקנות מצות, יין, חרוסת ומצרכים לחג': 'reminderPassover',
+            'יום הזיכרון לשואה ולגבורה': 'reminderHolocaustDay',
+            'יום זיכרון לחללי צה"ל': 'reminderMemorialDay',
+            'זמן לקנות בשר, נקניקיות וציוד למנגל!': 'reminderIndependenceDay',
+            'זמן לקנות בשר ונקניקיות למדורה': 'reminderLagBaomer',
+            'יום ירושלים': 'reminderJerusalemDay',
+            'זמן לקנות מוצרי חלב ועוגות גבינה': 'reminderShavuot',
+            'זמן לקנות דבש, תפוחים, רימונים ודגים': 'reminderRoshHashana',
+            'זמן להכין אוכל לפני ואחרי הצום': 'reminderYomKippur',
+            'זמן לקנות ארבעת המינים ואוכל לחג': 'reminderSukkot',
+            'זמן להכין כיבוד וממתקים': 'reminderSimchatTorah',
+            'זמן לקנות שמן, נרות, סופגניות ולביבות': 'reminderHanukkah',
+            'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה': 'reminderNewYearsEve',
+            'שנה אזרחית חדשה!': 'reminderCivilNewYear',
+            'זמן לקנות פירות יבשים ופירות הארץ': 'reminderTuBishvat'
+        };
 
         const PRODUCTS = {
             dairy: [
@@ -13994,8 +14206,10 @@ import { createRoot } from 'react-dom/client';
                 const endDate = new Date(reminderDate);
                 endDate.setDate(endDate.getDate() + 1);
 
-                const title = encodeURIComponent(`🛒 קניות לפני ${holiday.name}`);
-                const details = encodeURIComponent(`${holiday.reminder}\n\nתזכורת מאפליקציית ListNest`);
+                const holidayDisplayName = HOLIDAY_NAME_KEYS[holiday.name] ? t(HOLIDAY_NAME_KEYS[holiday.name]) : holiday.name;
+                const holidayDisplayReminder = HOLIDAY_REMINDER_KEYS[holiday.reminder] ? t(HOLIDAY_REMINDER_KEYS[holiday.reminder]) : holiday.reminder;
+                const title = encodeURIComponent(`${t('shoppingBefore')} ${holidayDisplayName}`);
+                const details = encodeURIComponent(`${holidayDisplayReminder}\n\n${t('reminderFromApp')}`);
                 const startStr = formatDateForGoogle(reminderDate);
                 const endStr = formatDateForGoogle(endDate);
 
@@ -14018,8 +14232,8 @@ PRODID:-//ListNest//Shopping Reminder//HE
 BEGIN:VEVENT
 DTSTART;VALUE=DATE:${formatICSDate(reminderDate)}
 DTEND;VALUE=DATE:${formatICSDate(endDate)}
-SUMMARY:🛒 קניות לפני ${holiday.name}
-DESCRIPTION:${holiday.reminder}\\n\\nתזכורת מאפליקציית ListNest
+SUMMARY:${t('shoppingBefore')} ${HOLIDAY_NAME_KEYS[holiday.name] ? t(HOLIDAY_NAME_KEYS[holiday.name]) : holiday.name}
+DESCRIPTION:${HOLIDAY_REMINDER_KEYS[holiday.reminder] ? t(HOLIDAY_REMINDER_KEYS[holiday.reminder]) : holiday.reminder}\\n\\n${t('reminderFromApp')}
 END:VEVENT
 END:VCALENDAR`;
 
@@ -14027,7 +14241,7 @@ END:VCALENDAR`;
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = `shopping-reminder-${holiday.name}.ics`;
+                link.download = `shopping-reminder-${HOLIDAY_NAME_KEYS[holiday.name] ? t(HOLIDAY_NAME_KEYS[holiday.name]) : holiday.name}.ics`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -14867,8 +15081,8 @@ END:VCALENDAR`;
                                     <div className="font-bold">{t('noInternet')}</div>
                                     <div className="text-xs opacity-90">
                                         {pendingOperations.length > 0
-                                            ? `${pendingOperations.length} שינויים ממתינים לסנכרון`
-                                            : 'השינויים יישמרו ויסונכרנו כשהחיבור יחזור'}
+                                            ? t('pendingSyncCount').replace('{count}', pendingOperations.length)
+                                            : t('syncWhenOnline')}
                                     </div>
                                 </div>
                             </div>
@@ -15009,14 +15223,14 @@ END:VCALENDAR`;
                                     dir="rtl"
                                 />
                                 <div className="text-xs text-gray-400 dark:text-gray-500 mb-4">
-                                    נתמך: שורות נפרדות, פסיקים, מספרים (2 חלב או חלב x2)
+                                    {t('importHelpText')}
                                 </div>
                                 <div className="flex gap-3">
                                     <button
                                         onClick={importFromWhatsApp}
                                         className="flex-1 btn-gradient text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
                                     >
-                                        יבא לרשימה
+                                        {t('importToList')}
                                     </button>
                                     <button
                                         onClick={() => { setShowImportWhatsApp(false); setWhatsAppText(''); }}
@@ -15069,7 +15283,7 @@ END:VCALENDAR`;
                                                     onClick={() => loadSavedList(list)}
                                                     className="w-full py-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg font-medium hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-all text-sm"
                                                 >
-                                                    טען לעגלה
+                                                    {t('loadToCart')}
                                                 </button>
                                             </div>
                                         ))}
@@ -15442,7 +15656,7 @@ END:VCALENDAR`;
                                 </button>
                                 <h2 className="text-white font-bold text-lg flex items-center gap-2">
                                     <span>📊</span>
-                                    <span>{t('priceComparison')} - כל הרשימה</span>
+                                    <span>{t('priceComparison')} - {t('entireListLabel')}</span>
                                 </h2>
                                 <div className="w-10"></div>
                             </div>
@@ -15457,7 +15671,7 @@ END:VCALENDAR`;
                                             : 'bg-white/10 text-white/70 hover:bg-white/20'
                                     }`}
                                 >
-                                    📍 לפי רשת
+                                    {t('byChainLabel')}
                                 </button>
                                 <button
                                     onClick={() => { setComparisonViewMode('optimal'); optimizeShoppingBasket('optimal'); }}
@@ -15662,7 +15876,7 @@ END:VCALENDAR`;
                                                                             <div className="text-left">
                                                                                 <span className="text-white font-medium">₪{item.total?.toFixed(2)}</span>
                                                                                 {item.quantity > 1 && (
-                                                                                    <span className="text-white/40 text-xs mr-1">(₪{item.price?.toFixed(2)} ליח')</span>
+                                                                                    <span className="text-white/40 text-xs mr-1">(₪{item.price?.toFixed(2)} {t('perUnit')})</span>
                                                                                 )}
                                                                             </div>
                                                                         </div>
@@ -15675,7 +15889,7 @@ END:VCALENDAR`;
                                                     {chain.items_not_found?.length > 0 && (
                                                         <div className="px-4 py-2 bg-red-500/10 border-t border-red-500/20">
                                                             <div className="text-red-400 text-xs">
-                                                                לא נמצאו: {chain.items_not_found.slice(0, 3).join(', ')}
+                                                                {t('notFoundItems')} {chain.items_not_found.slice(0, 3).join(', ')}
                                                                 {chain.items_not_found.length > 3 && ` (+${chain.items_not_found.length - 3})`}
                                                             </div>
                                                         </div>
@@ -15720,8 +15934,8 @@ END:VCALENDAR`;
                                                             : 'bg-white/10 text-white/70 hover:bg-white/20'
                                                     }`}
                                                 >
-                                                    {strategy === 'single' && '🏪 רשת אחת'}
-                                                    {strategy === 'optimal' && '⚖️ מאוזן'}
+                                                    {strategy === 'single' && t('singleChainLabel')}
+                                                    {strategy === 'optimal' && t('balancedLabel')}
                                                     {strategy === 'split' && `💸 ${t('cheapest')}`}
                                                 </button>
                                             ))}
@@ -15781,7 +15995,7 @@ END:VCALENDAR`;
                                         onClick={compareFullShoppingList}
                                         className="flex-1 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-all"
                                     >
-                                        🔄 רענן
+                                        {t('refreshLabel')}
                                     </button>
                                     <button
                                         onClick={() => {
@@ -15800,7 +16014,7 @@ END:VCALENDAR`;
                                         }}
                                         className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold hover:opacity-90 transition-all"
                                     >
-                                        🛒 {t('order')} מ{listComparisonData.cheapest_chain?.chain_name_he || 'הרשת'}
+                                        {t('orderFromChain')} {listComparisonData.cheapest_chain?.chain_name_he || t('theChain')}
                                     </button>
                                 </div>
                             )}
@@ -15880,7 +16094,7 @@ END:VCALENDAR`;
                                                     )}
                                                     <span className="text-white font-bold">{chain.chain_name_he}</span>
                                                     <span className="mr-auto bg-white/20 text-white text-sm px-2 py-0.5 rounded-full">
-                                                        {chain.promotions.length} מבצעים
+                                                        {chain.promotions.length} {t('promotions')}
                                                     </span>
                                                 </div>
                                                 <div className="p-3 max-h-48 overflow-y-auto">
@@ -15896,7 +16110,7 @@ END:VCALENDAR`;
                                                     ))}
                                                     {chain.promotions.length > 10 && (
                                                         <div className="text-white/40 text-xs text-center pt-2">
-                                                            +{chain.promotions.length - 10} מבצעים נוספים
+                                                            {t('morePromotions').replace('{count}', chain.promotions.length - 10)}
                                                         </div>
                                                     )}
                                                 </div>
@@ -15907,7 +16121,7 @@ END:VCALENDAR`;
                                                             onClick={() => openExternalLink(chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id], chain.chain_name_he || chain.chain_name)}
                                                             className="flex-1 p-2.5 bg-gradient-to-r from-teal-500 to-red-500 text-white text-center font-bold text-xs hover:from-teal-600 hover:to-red-600 transition-all"
                                                         >
-                                                            🏷️ מבצעים
+                                                            🏷️ {t('promotions')}
                                                         </button>
                                                     )}
                                                     {CHAIN_BRANCH_URLS[chain.chain_id] && (
@@ -15930,7 +16144,7 @@ END:VCALENDAR`;
                                             onClick={fetchPromotions}
                                             className="mt-4 px-6 py-3 bg-teal-500 text-white rounded-xl font-bold hover:bg-teal-600 transition-all"
                                         >
-                                            טען מבצעים
+                                            {t('loadPromotions')}
                                         </button>
                                     </div>
                                 )}
@@ -15962,10 +16176,10 @@ END:VCALENDAR`;
                                     {/* Explanation */}
                                     <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-4 mb-4 border border-purple-500/30">
                                         <p className="text-white/90 text-sm leading-relaxed">
-                                            כתוב מה שאתה צריך בטקסט חופשי והבינה המלאכותית תזהה את המוצרים והכמויות אוטומטית.
+                                            {t('smartAddDesc')}
                                         </p>
                                         <p className="text-white/60 text-xs mt-2">
-                                            לדוגמה: "תביא 2 חלב, ביצים, ו-3 לחמים"
+                                            {t('smartAddExampleFull')}
                                         </p>
                                     </div>
 
@@ -16141,7 +16355,7 @@ END:VCALENDAR`;
                                     <button onClick={finishShopping}
                                         disabled={uploadingReceipt}
                                         className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                                        ✓ סיים ושמור
+                                        ✓ {t('finishAndSave')}
                                     </button>
                                     <button onClick={() => { setShowFinishShopping(false); setTotalAmount(''); setReceiptPhoto(null); }}
                                         className="px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105 transition-all">
@@ -16234,7 +16448,7 @@ END:VCALENDAR`;
                                         <div className="glass rounded-xl p-5 border-2 border-indigo-200/50 dark:border-indigo-700/50">
                                             <h3 className="font-bold text-gradient mb-4 flex items-center gap-2">
                                                 <span className="text-xl">📈</span>
-                                                סטטיסטיקה כללית
+                                                {t('generalStats')}
                                             </h3>
                                             <div className="space-y-3">
                                                 <div className="flex justify-between text-gray-700 dark:text-gray-300 bg-gray-50/50 dark:bg-gray-800/50 p-3 rounded-lg">
@@ -16287,7 +16501,7 @@ END:VCALENDAR`;
                                     </div>
                                     {shoppingStreak >= 3 && (
                                         <div className="mt-2 text-sm text-teal-700 dark:text-teal-300 animate-pulse">
-                                            ⭐ מדהים! {shoppingStreak} קניות ברצף!
+                                            ⭐ {t('amazingStreak').replace('{count}', shoppingStreak)}
                                         </div>
                                     )}
                                 </div>
@@ -16335,7 +16549,7 @@ END:VCALENDAR`;
                                                                 <span className="font-medium text-gray-800 dark:text-gray-200">{item}</span>
                                                             </div>
                                                             <div className="text-left">
-                                                                <div className="font-bold text-gray-700 dark:text-gray-300">{count} פעמים</div>
+                                                                <div className="font-bold text-gray-700 dark:text-gray-300">{count} {t('timesCount')}</div>
                                                                 <div className="text-xs text-gray-500">{msg.text}</div>
                                                             </div>
                                                         </div>
@@ -16382,7 +16596,7 @@ END:VCALENDAR`;
                                 </div>
 
                                 <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
-                                    מוצרים שאתה קונה לעתים קרובות, לפי ההיסטוריה שלך:
+                                    {t('frequentProductsDesc')}
                                 </p>
 
                                 {regularItems.length === 0 ? (
@@ -16401,7 +16615,7 @@ END:VCALENDAR`;
                                                         <span className="font-medium text-gray-800 dark:text-gray-200 capitalize">{getProductTranslation(item.name, language)}</span>
                                                     </div>
                                                     <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                        נקנה {item.count} פעמים
+                                                        {t('purchasedNTimes').replace('{count}', item.count)}
                                                     </div>
                                                 </div>
                                             ))}
@@ -16522,11 +16736,11 @@ END:VCALENDAR`;
                                         <div className="flex items-center gap-3 mb-3">
                                             <span className="text-3xl">{selectedHoliday.icon}</span>
                                             <div>
-                                                <h3 className="font-bold text-lg text-gray-800 dark:text-white">{selectedHoliday.name}</h3>
+                                                <h3 className="font-bold text-lg text-gray-800 dark:text-white">{HOLIDAY_NAME_KEYS[selectedHoliday.name] ? t(HOLIDAY_NAME_KEYS[selectedHoliday.name]) : selectedHoliday.name}</h3>
                                                 <p className="text-sm text-amber-700 dark:text-amber-300">{selectedHoliday.date}</p>
                                             </div>
                                         </div>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{selectedHoliday.reminder}</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{HOLIDAY_REMINDER_KEYS[selectedHoliday.reminder] ? t(HOLIDAY_REMINDER_KEYS[selectedHoliday.reminder]) : selectedHoliday.reminder}</p>
 
                                         {/* Reminder Days Selector */}
                                         <div className="mb-4">
@@ -16542,7 +16756,7 @@ END:VCALENDAR`;
                                                                 : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
                                                         }`}
                                                     >
-                                                        {days} ימים
+                                                        {days} {t('daysCount')}
                                                     </button>
                                                 ))}
                                             </div>
@@ -16563,7 +16777,7 @@ END:VCALENDAR`;
                                                 onClick={() => downloadICSFile(selectedHoliday, reminderDays)}
                                                 className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-3 rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-all font-medium"
                                             >
-                                                📥 הורד ליומן (iPhone/מחשב)
+                                                {t('downloadToCalendar')}
                                             </button>
                                         </div>
                                     </div>
@@ -16577,7 +16791,7 @@ END:VCALENDAR`;
                                             );
                                             return monthHolidays.length > 0 && (
                                                 <div className="space-y-2 mb-4">
-                                                    <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-2">📅 חגים בחודש זה:</h3>
+                                                    <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-2">{t('holidaysThisMonth')}</h3>
                                                     {monthHolidays.map((holiday, idx) => (
                                                         <button
                                                             key={idx}
@@ -16586,7 +16800,7 @@ END:VCALENDAR`;
                                                         >
                                                             <span className="text-xl">{holiday.icon}</span>
                                                             <div className="flex-1">
-                                                                <div className="font-medium text-amber-800 dark:text-amber-200">{holiday.name}</div>
+                                                                <div className="font-medium text-amber-800 dark:text-amber-200">{HOLIDAY_NAME_KEYS[holiday.name] ? t(HOLIDAY_NAME_KEYS[holiday.name]) : holiday.name}</div>
                                                                 <div className="text-xs text-amber-600 dark:text-amber-400">{holiday.date}</div>
                                                             </div>
                                                         </button>
@@ -16597,7 +16811,7 @@ END:VCALENDAR`;
 
                                         {/* Upcoming Holidays List */}
                                         <div className="space-y-2">
-                                            <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-2">🎉 חגים קרובים:</h3>
+                                            <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-2">{t('upcomingHolidays')}</h3>
                                             {ISRAELI_HOLIDAYS
                                                 .filter(h => h.dateObj >= new Date())
                                                 .sort((a, b) => a.dateObj - b.dateObj)
@@ -16615,7 +16829,7 @@ END:VCALENDAR`;
                                                         >
                                                             <span className="text-xl">{holiday.icon}</span>
                                                             <div className="flex-1">
-                                                                <div className="font-medium text-gray-800 dark:text-white">{holiday.name}</div>
+                                                                <div className="font-medium text-gray-800 dark:text-white">{HOLIDAY_NAME_KEYS[holiday.name] ? t(HOLIDAY_NAME_KEYS[holiday.name]) : holiday.name}</div>
                                                                 <div className="text-xs text-gray-500">{holiday.date}</div>
                                                             </div>
                                                             <span className={`text-xs px-2 py-1 rounded-full ${
@@ -16623,7 +16837,7 @@ END:VCALENDAR`;
                                                                 daysUntil <= 30 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300' :
                                                                 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
                                                             }`}>
-                                                                {daysUntil} ימים
+                                                                {daysUntil} {t('daysCount')}
                                                             </span>
                                                         </button>
                                                     );
@@ -17213,13 +17427,13 @@ END:VCALENDAR`;
                                     {shoppingMode && (
                                         <div className="flex items-center gap-2 px-3 py-1.5 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 rounded-full text-sm font-medium">
                                             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                                            מצב קניות פעיל
+                                            {t('activeShoppingMode')}
                                         </div>
                                     )}
                                     {activeEditors.length > 0 && (
                                         <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-full text-sm">
                                             <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                                            {activeEditors.join(', ')} עורך/ת כרגע
+                                            {activeEditors.join(', ')} {t('editingNow')}
                                         </div>
                                     )}
                                 </div>
@@ -17301,7 +17515,7 @@ END:VCALENDAR`;
                                     <div className="flex items-center justify-between mb-2">
                                         <div className="flex items-center gap-2">
                                             <span className="text-xl">{getHolidayRecommendations()[0].icon}</span>
-                                            <span className="font-bold text-amber-800 dark:text-amber-200">{getHolidayRecommendations()[0].name} {t('approaching')}</span>
+                                            <span className="font-bold text-amber-800 dark:text-amber-200">{HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name] ? t(HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name]) : getHolidayRecommendations()[0].name} {t('approaching')}</span>
                                         </div>
                                         <button
                                             onClick={() => setShowHolidayRecommendations(!showHolidayRecommendations)}
@@ -17401,7 +17615,7 @@ END:VCALENDAR`;
                                     </div>
                                     {shoppingStreak > 0 && (
                                         <span className="absolute top-2 left-2 bg-white text-cyan-600 text-xs font-bold px-2 py-1 rounded-full">
-                                            {shoppingStreak} ברצף
+                                            {shoppingStreak} {t('inARow')}
                                         </span>
                                     )}
                                 </button>
@@ -17676,7 +17890,7 @@ END:VCALENDAR`;
                                             <span className="text-xl animate-bounce">🛒</span>
                                             <div>
                                                 <h2 className="text-base font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
-                                                    רשימת קניות משפחתית חכמה
+                                                    {t('smartFamilyList')}
                                                 </h2>
                                                 <p className="text-xs text-gray-500 dark:text-gray-400">
                                                     {items.filter(i => !i.purchased).length} {t('items')}
@@ -18209,7 +18423,7 @@ END:VCALENDAR`;
                                     {/* Skip to content */}
                                     <button onClick={() => { document.querySelector('main, [role="main"], .max-w-4xl')?.scrollIntoView(); setShowAccessibility(false); }}
                                         className="w-full py-3 bg-gray-100 dark:bg-gray-700 rounded-xl font-medium text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                                        דלג לתוכן העמוד
+                                        {t('skipToContent')}
                                     </button>
 
                                     {/* Font Size */}
@@ -18218,15 +18432,15 @@ END:VCALENDAR`;
                                         <div className="flex gap-2">
                                             <button onClick={() => updateAccessibility('fontSize', 'large')}
                                                 className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.fontSize === 'large' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
-                                                הגדלת טקסט
+                                                {t('enlargeText')}
                                             </button>
                                             <button onClick={() => updateAccessibility('fontSize', 'small')}
                                                 className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.fontSize === 'small' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
-                                                הקטנת טקסט
+                                                {t('reduceText')}
                                             </button>
                                             <button onClick={() => updateAccessibility('highlightLinks', !accessibilitySettings.highlightLinks)}
                                                 className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.highlightLinks ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
-                                                הדגש קישורים
+                                                {t('highlightLinks')}
                                             </button>
                                         </div>
                                     </div>
@@ -18237,15 +18451,15 @@ END:VCALENDAR`;
                                         <div className="flex gap-2">
                                             <button onClick={() => updateAccessibility('contrast', 'low')}
                                                 className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.contrast === 'low' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
-                                                ניגודיות עדינה
+                                                {t('lowContrast')}
                                             </button>
                                             <button onClick={() => updateAccessibility('contrast', 'normal')}
                                                 className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.contrast === 'normal' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
-                                                ניגודיות רגילה
+                                                {t('normalContrast')}
                                             </button>
                                             <button onClick={() => updateAccessibility('contrast', 'high')}
                                                 className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.contrast === 'high' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
-                                                ניגודיות גבוהה
+                                                {t('highContrast')}
                                             </button>
                                         </div>
                                     </div>
@@ -18256,22 +18470,22 @@ END:VCALENDAR`;
                                         <div className="flex gap-2">
                                             <button onClick={() => updateAccessibility('cursorSize', 'large-black')}
                                                 className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.cursorSize === 'large-black' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
-                                                סמן גדול שחור
+                                                {t('largeCursorBlack')}
                                             </button>
                                             <button onClick={() => updateAccessibility('cursorSize', 'normal')}
                                                 className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.cursorSize === 'normal' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
-                                                סמן רגיל
+                                                {t('normalCursorLabel')}
                                             </button>
                                             <button onClick={() => updateAccessibility('cursorSize', 'large-white')}
                                                 className={`flex-1 py-2 rounded-xl font-medium transition-colors ${accessibilitySettings.cursorSize === 'large-white' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
-                                                סמן גדול לבן
+                                                {t('largeCursorWhite')}
                                             </button>
                                         </div>
                                     </div>
 
                                     {/* Language Selector */}
                                     <div>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 text-center">🌐 שפה / Language</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 text-center">{t('langSelectorLabel')}</p>
                                         <div className="grid grid-cols-4 gap-2">
                                             <button onClick={() => { if(window.changeAppLanguage) window.changeAppLanguage('he'); }}
                                                 className={`py-2 rounded-xl font-medium transition-colors ${localStorage.getItem('appLanguage') === 'he' || !localStorage.getItem('appLanguage') ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white'}`}>
@@ -18295,7 +18509,7 @@ END:VCALENDAR`;
                                     {/* Reset */}
                                     <button onClick={resetAccessibility}
                                         className="w-full py-3 bg-gray-200 dark:bg-gray-600 rounded-xl font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">
-                                        איפוס כל ההגדרות
+                                        {t('resetAllSettings')}
                                     </button>
 
                                     {/* Update App */}
@@ -18408,15 +18622,15 @@ END:VCALENDAR`;
                                             <div className="flex gap-2">
                                                 <button onClick={() => setFeedbackType('bug')}
                                                     className={`flex-1 py-2 rounded-xl font-medium transition-colors ${feedbackType === 'bug' ? 'bg-red-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}>
-                                                    🐛 באג
+                                                    {t('bugLabel')}
                                                 </button>
                                                 <button onClick={() => setFeedbackType('feature')}
                                                     className={`flex-1 py-2 rounded-xl font-medium transition-colors ${feedbackType === 'feature' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}>
-                                                    💡 בקשה
+                                                    {t('featureRequest')}
                                                 </button>
                                                 <button onClick={() => setFeedbackType('other')}
                                                     className={`flex-1 py-2 rounded-xl font-medium transition-colors ${feedbackType === 'other' ? 'bg-purple-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}>
-                                                    💬 אחר
+                                                    {t('otherFeedback')}
                                                 </button>
                                             </div>
                                         </div>
