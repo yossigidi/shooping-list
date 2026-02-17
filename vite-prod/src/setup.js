@@ -7,7 +7,6 @@ import {
   initializeFirestore,
   persistentLocalCache,
   persistentMultipleTabManager,
-  memoryLocalCache,
   collection,
   addDoc,
   updateDoc,
@@ -49,19 +48,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// Enable offline persistence with multi-tab support, fallback to memory cache for incognito/restricted contexts
-try {
-  window.db = initializeFirestore(app, {
-    localCache: persistentLocalCache({
-      tabManager: persistentMultipleTabManager()
-    })
-  });
-} catch (e) {
-  console.warn('Persistent cache failed (likely incognito mode), using memory cache:', e);
-  window.db = initializeFirestore(app, {
-    localCache: memoryLocalCache()
-  });
-}
+// Enable offline persistence with multi-tab support
+window.db = initializeFirestore(app, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager()
+  })
+});
 
 window.auth = getAuth(app);
 
