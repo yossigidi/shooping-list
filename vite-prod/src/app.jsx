@@ -17488,6 +17488,44 @@ END:VCALENDAR`;
                             )}
 
 
+                            {/* Holiday Recommendations Banner */}
+                            {getHolidayRecommendations().length > 0 && (
+                                <div className="mb-4 rounded-2xl overflow-hidden shadow-lg border border-purple-200/50 dark:border-purple-700/50">
+                                    <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 p-4">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-3xl">{getHolidayRecommendations()[0].icon}</span>
+                                                <div>
+                                                    <div className="font-bold text-white text-base">{HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name] ? t(HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name]) : getHolidayRecommendations()[0].name} {t('approaching')}</div>
+                                                    <div className="text-white/80 text-xs mt-0.5">{HOLIDAY_REMINDER_KEYS[getHolidayRecommendations()[0].reminder] ? t(HOLIDAY_REMINDER_KEYS[getHolidayRecommendations()[0].reminder]) : getHolidayRecommendations()[0].reminder}</div>
+                                                </div>
+                                            </div>
+                                            <button
+                                                onClick={() => setShowHolidayRecommendations(!showHolidayRecommendations)}
+                                                className="bg-white/20 hover:bg-white/30 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm transition-all"
+                                            >
+                                                {showHolidayRecommendations ? t('hideLabel') : t('showRecommendations')}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {showHolidayRecommendations && (
+                                        <div className="bg-purple-50 dark:bg-purple-900/20 p-3">
+                                            <div className="flex flex-wrap gap-2">
+                                                {getHolidayRecommendations()[0].products.map((product, idx) => (
+                                                    <button
+                                                        key={idx}
+                                                        onClick={() => addProduct(product)}
+                                                        className="px-3 py-1.5 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-800/50 transition-all border border-purple-200 dark:border-purple-700 shadow-sm"
+                                                    >
+                                                        + {product}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
                             {/* Quick Actions Bar - 5 icons in a row */}
                             <div className="grid grid-cols-5 gap-2 mb-4">
                                 <button
@@ -17529,36 +17567,7 @@ END:VCALENDAR`;
                                 </button>
                             </div>
 
-                            {/* Holiday Recommendations Banner */}
-                            {getHolidayRecommendations().length > 0 && (
-                                <div className="mb-4 p-4 bg-gradient-to-r from-amber-50 to-teal-50 dark:from-amber-900/30 dark:to-teal-900/30 rounded-2xl border border-amber-200 dark:border-amber-700">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-xl">{getHolidayRecommendations()[0].icon}</span>
-                                            <span className="font-bold text-amber-800 dark:text-amber-200">{HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name] ? t(HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name]) : getHolidayRecommendations()[0].name} {t('approaching')}</span>
-                                        </div>
-                                        <button
-                                            onClick={() => setShowHolidayRecommendations(!showHolidayRecommendations)}
-                                            className="text-sm text-amber-600 dark:text-amber-400 hover:underline"
-                                        >
-                                            {showHolidayRecommendations ? t('hideLabel') : t('showRecommendations')}
-                                        </button>
-                                    </div>
-                                    {showHolidayRecommendations && (
-                                        <div className="flex flex-wrap gap-2 mt-2">
-                                            {getHolidayRecommendations()[0].products.map((product, idx) => (
-                                                <button
-                                                    key={idx}
-                                                    onClick={() => addProduct(product)}
-                                                    className="px-3 py-1.5 bg-white dark:bg-gray-800 rounded-lg text-sm font-medium text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-all border border-amber-200 dark:border-amber-700"
-                                                >
-                                                    + {product}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+                            {/* Holiday Recommendations Banner - moved to after progress bar */}
 
                             <div className="grid grid-cols-5 gap-2">
                                 <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : showToast(t('markPurchased'), 'info')}
