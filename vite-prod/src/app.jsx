@@ -14248,8 +14248,8 @@ END:VCALENDAR`;
                 URL.revokeObjectURL(url);
             };
 
-            const HEBREW_MONTHS = t('calendarMonths');
-            const HEBREW_DAYS = t('calendarDays');
+            const HEBREW_MONTHS = Array.isArray(t('calendarMonths')) ? t('calendarMonths') : ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+            const HEBREW_DAYS = Array.isArray(t('calendarDays')) ? t('calendarDays') : ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'];
 
             // Smart category detection with partial matching
             const detectCategory = (productName) => {
