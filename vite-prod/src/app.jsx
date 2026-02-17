@@ -18070,20 +18070,21 @@ END:VCALENDAR`;
                                 )}
 
                                 {Object.entries(groupedItems).map(([category, categoryItems]) => (
-                                    <div key={category} className="mb-8">
-                                        <h3 className="sticky-category-header">
+                                    <div key={category} className="category-box mb-6">
+                                        <h3 className="category-box-header">
                                             {CATEGORIES[category]?.image ? (
-                                                <img src={CATEGORIES[category].image} alt="" className="w-9 h-9 rounded-xl object-cover shadow-sm ring-2 ring-teal-200/50" loading="lazy" />
+                                                <img src={CATEGORIES[category].image} alt="" className="w-9 h-9 rounded-xl object-cover ring-2 ring-white/60 shadow-sm" loading="lazy" />
                                             ) : (
-                                                <span className="text-2xl drop-shadow-sm">{CATEGORIES[category]?.icon}</span>
+                                                <span className="text-xl">{CATEGORIES[category]?.icon}</span>
                                             )}
-                                            <span className="font-bold text-gray-800 dark:text-gray-200 tracking-tight">{t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}</span>
-                                            <span className="text-xs bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-2.5 py-0.5 rounded-full font-semibold shadow-sm">{categoryItems.length}</span>
+                                            <span className="font-bold text-sm text-white">{t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}</span>
+                                            <span className="text-xs bg-white/25 text-white px-2 py-0.5 rounded-full font-bold">{categoryItems.length}</span>
                                         </h3>
+                                        <div className="category-box-body">
                                         {categoryItems.map(item => (
                                             <SwipeableItem
                                                 key={item.id}
-                                                className={`mb-3.5 ${exitingItems.has(item.id) ? 'item-exit' : 'item-enter'}`}
+                                                className={`mb-2 ${exitingItems.has(item.id) ? 'item-exit' : 'item-enter'}`}
                                                 purchased={item.purchased}
                                                 onSwipeRight={() => !item.purchased && togglePurchasedWithAnimation(item.id, item.purchased)}
                                                 onSwipeLeft={() => deleteItem(item.id)}
@@ -18112,7 +18113,7 @@ END:VCALENDAR`;
                                                                 {getProductTranslation(item.name, language)}
                                                             </div>
                                                             {/* Price + Quantity row */}
-                                                            <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                                                            <div className="flex items-center gap-2 mt-1 flex-wrap">
                                                                 {/* Price display (read-only, calculated based on quantity) */}
                                                                 {(() => {
                                                                     const itemPrice = calculateItemPrice(item);
@@ -18243,6 +18244,7 @@ END:VCALENDAR`;
                                                 </div>
                                             </SwipeableItem>
                                         ))}
+                                        </div>
                                     </div>
                                 ))}
 
@@ -18251,7 +18253,7 @@ END:VCALENDAR`;
                                     <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
                                         <button
                                             onClick={() => setShowDeleteAllConfirm(true)}
-                                            className="w-full bg-gradient-to-r from-red-500 to-rose-500 text-white px-4 py-3 rounded-xl hover:from-red-600 hover:to-rose-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2"
+                                            className="w-full bg-red-500 text-white px-4 py-3 rounded-xl hover:bg-red-600 transition-all font-semibold shadow-sm flex items-center justify-center gap-2"
                                         >
                                             <span>🗑️</span>
                                             <span>{t('deleteAll')}</span>

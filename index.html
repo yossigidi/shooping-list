@@ -25,10 +25,10 @@
     <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossorigin>
     <!-- Critical font -->
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/index--GIZS4j9.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/react-vendor-F9Y4d3HK.js">
-  <link rel="modulepreload" crossorigin href="/assets/firebase-NbkISCiA.js">
-  <link rel="stylesheet" crossorigin href="/assets/index-CiGToXcA.css">
+  <script type="module" crossorigin src="/assets/index-BVWfALfr.js?v=151"></script>
+  <link rel="modulepreload" crossorigin href="/assets/react-vendor-F9Y4d3HK.js?v=151">
+  <link rel="modulepreload" crossorigin href="/assets/firebase-NbkISCiA.js?v=151">
+  <link rel="stylesheet" crossorigin href="/assets/index-CYmEblO-.css?v=151">
 </head>
 <body>
     <!-- WCAG 2.4.1 Skip Link -->
@@ -90,7 +90,22 @@
     <!-- Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {
+            // Force clear all old caches on load
+            caches.keys().then(names => {
+                names.forEach(name => {
+                    if (!name.includes('v151')) {
+                        caches.delete(name);
+                        console.log('Deleted old cache:', name);
+                    }
+                });
+            });
             window.addEventListener('load', () => {
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    registrations.forEach(reg => {
+                        reg.update();
+                        console.log('SW update triggered');
+                    });
+                });
                 navigator.serviceWorker.register('sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registered:', registration.scope);
