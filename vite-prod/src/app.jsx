@@ -777,6 +777,50 @@ import { createRoot } from 'react-dom/client';
                 helpYoungChildren: 'ילדים צעירים - התחברות עם קוד PIN בלי צורך במייל',
                 helpOlderTeens: 'נערים בוגרים - התחברות עם מייל + הרשאות מורחבות',
                 helpCreateChild: 'צור חשבון ילד מהגדרות המשפחה או שתף QR להצטרפות מהירה',
+                helpSendFeedback: '📧 שלח משוב או דיווח על בעיה',
+                helpShowTutorial: '🎓 הצג הדרכה מחדש',
+                // Voice UI
+                voiceTipText: '💡 טיפ: דבר ברור ואמור "הוסף חלב וביצים"',
+                // Regulated price
+                regulatedPriceMsg: 'מחיר מפוקח: ₪{price} (מקור: data.gov.il)',
+                regulatedBadge: 'מפוקח',
+                regulatedPriceTitle: 'מחיר מפוקח',
+                clickForDetails: 'לחץ לפרטים',
+                // Force update
+                confirmAppUpdate: 'האם לעדכן את האפליקציה לגרסה החדשה?\n\nהפעולה תרענן את האפליקציה ותטען את כל השינויים האחרונים.',
+                // Recipe suggestions
+                recipePastaSuggestion: '🍝 אפשר להכין פסטה ברוטב עגבניות!',
+                recipeOmeletteSuggestion: '🍳 אפשר להכין חביתה עם גבינה!',
+                // Calendar
+                calendarMonths: ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'],
+                calendarDays: ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'],
+                // Price scanner
+                scanAnalyzing: '⏳ מנתח...',
+                // Shopping summary
+                itemsFoundCount: '{found}/{total} פריטים נמצאו',
+                savingsDisplay: 'חוסך ₪{amount}',
+                purchaseItemsSummary: '🛒 {count} פריטים • ממוצע: ₪{avg} לפריט',
+                // Achievement descriptions
+                achievementZeroForgets: '0 פעמים שכחת {item} החודש',
+                achievementStreakDesc: '{count} קניות ברצף בלי לשכוח!',
+                // Feedback email
+                feedbackSubjectBug: 'דיווח על בעיה',
+                feedbackSubjectFeature: 'בקשת פיצ\'ר',
+                feedbackSubjectGeneral: 'משוב כללי',
+                feedbackTypeLabel: 'סוג',
+                feedbackMessageLabel: 'הודעה',
+                feedbackUserLabel: 'משתמש',
+                feedbackEmailLabel: 'אימייל',
+                feedbackEmailNA: 'לא זמין',
+                // AI Assistant
+                basedOnYourList: 'בהתבסס על הרשימה שלך, הנה כמה הצעות:',
+                newSuggestions: '🔄 הצעות חדשות',
+                imDone: '✓ סיימתי',
+                addToCart: 'הוסף לסל',
+                addAllRegulars: 'הוסף את כולם לרשימה',
+                forgottenItemsTip: 'הוסף את הפריטים שנשכחים לעתים קרובות לרשימה קבועה, או הגדר תזכורת בטלפון',
+                addToGoogleCalendar: 'הוסף ל-Google Calendar',
+                priceCompareErrorMsg: 'שגיאה בהשוואת מחירים. נסה שוב.',
                 // Feedback
                 sendFeedback: 'שלח משוב',
                 thanksFeedback: 'תודה על המשוב!',
@@ -911,6 +955,7 @@ import { createRoot } from 'react-dom/client';
                 achievementsThisMonth: 'הישגים החודש',
                 monthlyStats: 'סטטיסטיקה חודשית',
                 previousYear: 'שנה קודמת',
+                nextYear: 'שנה הבאה',
                 holiday: 'חג',
                 today: 'היום',
                 inCart: 'בסל',
@@ -1691,6 +1736,40 @@ import { createRoot } from 'react-dom/client';
                 helpYoungChildren: 'Young children - PIN login without email',
                 helpOlderTeens: 'Older teens - email login + extended permissions',
                 helpCreateChild: 'Create child account from family settings or share QR for quick join',
+                helpSendFeedback: '📧 Send feedback or report a problem',
+                helpShowTutorial: '🎓 Show tutorial again',
+                voiceTipText: '💡 Tip: Speak clearly and say "add milk and eggs"',
+                regulatedPriceMsg: 'Regulated price: ₪{price} (source: data.gov.il)',
+                regulatedBadge: 'Regulated',
+                regulatedPriceTitle: 'Regulated price',
+                clickForDetails: 'Click for details',
+                confirmAppUpdate: 'Update the app to the new version?\n\nThis will refresh the app and load all the latest changes.',
+                recipePastaSuggestion: '🍝 You can make pasta with tomato sauce!',
+                recipeOmeletteSuggestion: '🍳 You can make a cheese omelette!',
+                calendarMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                calendarDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                scanAnalyzing: '⏳ Analyzing...',
+                itemsFoundCount: '{found}/{total} items found',
+                savingsDisplay: 'Save ₪{amount}',
+                purchaseItemsSummary: '🛒 {count} items • Average: ₪{avg} per item',
+                achievementZeroForgets: '0 times you forgot {item} this month',
+                achievementStreakDesc: '{count} purchases in a row without forgetting!',
+                feedbackSubjectBug: 'Bug report',
+                feedbackSubjectFeature: 'Feature request',
+                feedbackSubjectGeneral: 'General feedback',
+                feedbackTypeLabel: 'Type',
+                feedbackMessageLabel: 'Message',
+                feedbackUserLabel: 'User',
+                feedbackEmailLabel: 'Email',
+                feedbackEmailNA: 'Not available',
+                basedOnYourList: 'Based on your list, here are some suggestions:',
+                newSuggestions: '🔄 New suggestions',
+                imDone: '✓ Done',
+                addToCart: 'Add to cart',
+                addAllRegulars: 'Add all to list',
+                forgottenItemsTip: 'Add frequently forgotten items to a regular list, or set a phone reminder',
+                addToGoogleCalendar: 'Add to Google Calendar',
+                priceCompareErrorMsg: 'Price comparison error. Try again.',
                 // Feedback
                 sendFeedback: 'Send Feedback',
                 thanksFeedback: 'Thank you for your feedback!',
@@ -1821,6 +1900,7 @@ import { createRoot } from 'react-dom/client';
                 achievementsThisMonth: 'Achievements this month',
                 monthlyStats: 'Monthly statistics',
                 previousYear: 'Previous year',
+                nextYear: 'Next year',
                 holiday: 'Holiday',
                 today: 'Today',
                 inCart: 'In cart',
@@ -2522,6 +2602,40 @@ import { createRoot } from 'react-dom/client';
                 helpYoungChildren: 'Маленькие дети - вход по PIN без email',
                 helpOlderTeens: 'Подростки - вход с email + расширенные права',
                 helpCreateChild: 'Создайте аккаунт ребёнка в настройках семьи',
+                helpSendFeedback: '📧 Отправить отзыв или сообщить о проблеме',
+                helpShowTutorial: '🎓 Показать обучение заново',
+                voiceTipText: '💡 Совет: говорите чётко, например "добавь молоко и яйца"',
+                regulatedPriceMsg: 'Регулируемая цена: ₪{price} (источник: data.gov.il)',
+                regulatedBadge: 'Рег.',
+                regulatedPriceTitle: 'Регулируемая цена',
+                clickForDetails: 'Нажмите для деталей',
+                confirmAppUpdate: 'Обновить приложение до новой версии?\n\nПриложение обновится и загрузит все последние изменения.',
+                recipePastaSuggestion: '🍝 Можно приготовить пасту с томатным соусом!',
+                recipeOmeletteSuggestion: '🍳 Можно приготовить омлет с сыром!',
+                calendarMonths: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+                calendarDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                scanAnalyzing: '⏳ Анализ...',
+                itemsFoundCount: '{found}/{total} товаров найдено',
+                savingsDisplay: 'Экономия ₪{amount}',
+                purchaseItemsSummary: '🛒 {count} товаров • Среднее: ₪{avg} за товар',
+                achievementZeroForgets: '0 раз забыли {item} в этом месяце',
+                achievementStreakDesc: '{count} покупок подряд без забываний!',
+                feedbackSubjectBug: 'Сообщение о проблеме',
+                feedbackSubjectFeature: 'Запрос функции',
+                feedbackSubjectGeneral: 'Общий отзыв',
+                feedbackTypeLabel: 'Тип',
+                feedbackMessageLabel: 'Сообщение',
+                feedbackUserLabel: 'Пользователь',
+                feedbackEmailLabel: 'Эл. почта',
+                feedbackEmailNA: 'Недоступно',
+                basedOnYourList: 'На основе вашего списка, вот несколько предложений:',
+                newSuggestions: '🔄 Новые предложения',
+                imDone: '✓ Готово',
+                addToCart: 'В корзину',
+                addAllRegulars: 'Добавить всё в список',
+                forgottenItemsTip: 'Добавьте часто забываемые товары в постоянный список или установите напоминание',
+                addToGoogleCalendar: 'Добавить в Google Calendar',
+                priceCompareErrorMsg: 'Ошибка сравнения цен. Попробуйте снова.',
                 // Feedback
                 sendFeedback: 'Отправить отзыв',
                 thanksFeedback: 'Спасибо за отзыв!',
@@ -2651,6 +2765,7 @@ import { createRoot } from 'react-dom/client';
                 achievementsThisMonth: 'Достижения за месяц',
                 monthlyStats: 'Месячная статистика',
                 previousYear: 'Предыдущий год',
+                nextYear: 'Следующий год',
                 holiday: 'Праздник',
                 today: 'Сегодня',
                 inCart: 'В корзине',
@@ -3345,6 +3460,40 @@ import { createRoot } from 'react-dom/client';
                 helpYoungChildren: 'الأطفال الصغار - تسجيل دخول بـ PIN بدون بريد إلكتروني',
                 helpOlderTeens: 'المراهقون - تسجيل دخول بالبريد + صلاحيات موسعة',
                 helpCreateChild: 'أنشئ حساب طفل من إعدادات العائلة أو شارك QR للانضمام السريع',
+                helpSendFeedback: '📧 إرسال ملاحظات أو الإبلاغ عن مشكلة',
+                helpShowTutorial: '🎓 عرض الشرح مرة أخرى',
+                voiceTipText: '💡 نصيحة: تحدث بوضوح وقل "أضف حليب وبيض"',
+                regulatedPriceMsg: 'سعر مراقب: ₪{price} (المصدر: data.gov.il)',
+                regulatedBadge: 'مراقب',
+                regulatedPriceTitle: 'سعر مراقب',
+                clickForDetails: 'اضغط للتفاصيل',
+                confirmAppUpdate: 'تحديث التطبيق للإصدار الجديد؟\n\nسيتم تحديث التطبيق وتحميل جميع التغييرات الأخيرة.',
+                recipePastaSuggestion: '🍝 يمكنك تحضير باستا بصلصة الطماطم!',
+                recipeOmeletteSuggestion: '🍳 يمكنك تحضير عجة بالجبن!',
+                calendarMonths: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                calendarDays: ['أح', 'إث', 'ثل', 'أر', 'خم', 'جم', 'سب'],
+                scanAnalyzing: '⏳ جاري التحليل...',
+                itemsFoundCount: '{found}/{total} منتجات تم العثور عليها',
+                savingsDisplay: 'توفير ₪{amount}',
+                purchaseItemsSummary: '🛒 {count} منتجات • المتوسط: ₪{avg} لكل منتج',
+                achievementZeroForgets: '0 مرات نسيت {item} هذا الشهر',
+                achievementStreakDesc: '{count} مشتريات متتالية بدون نسيان!',
+                feedbackSubjectBug: 'إبلاغ عن مشكلة',
+                feedbackSubjectFeature: 'طلب ميزة',
+                feedbackSubjectGeneral: 'ملاحظات عامة',
+                feedbackTypeLabel: 'النوع',
+                feedbackMessageLabel: 'الرسالة',
+                feedbackUserLabel: 'المستخدم',
+                feedbackEmailLabel: 'البريد الإلكتروني',
+                feedbackEmailNA: 'غير متاح',
+                basedOnYourList: 'بناءً على قائمتك، إليك بعض الاقتراحات:',
+                newSuggestions: '🔄 اقتراحات جديدة',
+                imDone: '✓ انتهيت',
+                addToCart: 'أضف للسلة',
+                addAllRegulars: 'أضف الكل للقائمة',
+                forgottenItemsTip: 'أضف المنتجات التي تنسى كثيرًا لقائمة ثابتة أو اضبط تذكيرًا',
+                addToGoogleCalendar: 'أضف إلى Google Calendar',
+                priceCompareErrorMsg: 'خطأ في مقارنة الأسعار. حاول مرة أخرى.',
                 // Feedback
                 sendFeedback: 'إرسال ملاحظات',
                 thanksFeedback: 'شكراً على ملاحظاتك!',
@@ -3475,6 +3624,7 @@ import { createRoot } from 'react-dom/client';
                 achievementsThisMonth: 'إنجازات هذا الشهر',
                 monthlyStats: 'إحصائيات شهرية',
                 previousYear: 'السنة السابقة',
+                nextYear: 'السنة القادمة',
                 holiday: 'عطلة',
                 today: 'اليوم',
                 inCart: 'في السلة',
@@ -10765,7 +10915,7 @@ import { createRoot } from 'react-dom/client';
                                 🗑️
                             </span>
                             <span className={`swipe-icon text-sm ${showLeftIndicator ? 'visible' : ''}`}>
-                                מחק
+                                {t('delete')}
                             </span>
                         </div>
                     </div>
@@ -11667,7 +11817,7 @@ import { createRoot } from 'react-dom/client';
                     }, (err) => {
                         if (err) {
                             console.error('Quagga init error:', err);
-                            setBarcodeError('שגיאה בהפעלת סורק הברקוד');
+                            setBarcodeError(t('barcodeScannerError'));
                             setBarcodeScanning(false);
                             return;
                         }
@@ -11707,7 +11857,7 @@ import { createRoot } from 'react-dom/client';
                                     loading: false,
                                     found: false
                                 });
-                                setBarcodeError('המוצר לא נמצא במאגר. נסה לחפש ידנית.');
+                                setBarcodeError(t('productNotFoundInDB'));
                             }
 
                             // Stop camera
@@ -11718,7 +11868,7 @@ import { createRoot } from 'react-dom/client';
                     });
                 } catch (err) {
                     console.error('Barcode scanner error:', err);
-                    setBarcodeError('לא ניתן לגשת למצלמה');
+                    setBarcodeError(t('cameraAccessDenied'));
                     setBarcodeScanning(false);
                 }
             };
@@ -12038,7 +12188,7 @@ import { createRoot } from 'react-dom/client';
                     console.error('Price comparison failed:', error);
                     setListComparisonData({
                         error: true,
-                        message: 'שגיאה בהשוואת מחירים. נסה שוב.'
+                        message: t('priceCompareErrorMsg')
                     });
                 } finally {
                     setListComparisonLoading(false);
@@ -12506,7 +12656,7 @@ import { createRoot } from 'react-dom/client';
                                         suggestions.push({
                                             type: 'complementary',
                                             name: suggestion,
-                                            reason: `משלים ל${item.name}`,
+                                            reason: `${t('complementsItem')} ${item.name}`,
                                             icon: '🧩'
                                         });
                                     }
@@ -12523,7 +12673,7 @@ import { createRoot } from 'react-dom/client';
                                 suggestions.push({
                                     type: 'basic',
                                     name: basic,
-                                    reason: 'מוצר בסיסי שכדאי שיהיה בבית',
+                                    reason: t('basicItemReason'),
                                     icon: '🏠'
                                 });
                             }
@@ -12539,7 +12689,7 @@ import { createRoot } from 'react-dom/client';
                                 suggestions.push({
                                     type: 'shabbat',
                                     name: item,
-                                    reason: 'לקראת שבת',
+                                    reason: t('forShabbat'),
                                     icon: '🕯️'
                                 });
                             }
@@ -12555,7 +12705,7 @@ import { createRoot } from 'react-dom/client';
                                 suggestions.push({
                                     type: 'seasonal',
                                     name: item,
-                                    reason: 'מתאים לקיץ',
+                                    reason: t('suitableForSummer'),
                                     icon: '☀️'
                                 });
                             }
@@ -12567,7 +12717,7 @@ import { createRoot } from 'react-dom/client';
                                 suggestions.push({
                                     type: 'seasonal',
                                     name: item,
-                                    reason: 'מתאים לחורף',
+                                    reason: t('suitableForWinter'),
                                     icon: '❄️'
                                 });
                             }
@@ -12579,8 +12729,8 @@ import { createRoot } from 'react-dom/client';
                         currentItems.some(ci => ci.includes('רוטב') || ci.includes('עגבני'))) {
                         suggestions.unshift({
                             type: 'recipe',
-                            name: '🍝 אפשר להכין פסטה ברוטב עגבניות!',
-                            reason: 'כל המרכיבים ברשימה',
+                            name: t('recipePastaSuggestion'),
+                            reason: t('allIngredientsInList'),
                             icon: '👨‍🍳',
                             isRecipe: true
                         });
@@ -12590,8 +12740,8 @@ import { createRoot } from 'react-dom/client';
                         currentItems.some(ci => ci.includes('גבינ'))) {
                         suggestions.unshift({
                             type: 'recipe',
-                            name: '🍳 אפשר להכין חביתה עם גבינה!',
-                            reason: 'כל המרכיבים ברשימה',
+                            name: t('recipeOmeletteSuggestion'),
+                            reason: t('allIngredientsInList'),
                             icon: '👨‍🍳',
                             isRecipe: true
                         });
@@ -12775,7 +12925,7 @@ import { createRoot } from 'react-dom/client';
             // Force update app - clear cache and reload
             const forceUpdateApp = async () => {
                 try {
-                    const confirmed = confirm('האם לעדכן את האפליקציה לגרסה החדשה?\n\nהפעולה תרענן את האפליקציה ותטען את כל השינויים האחרונים.');
+                    const confirmed = confirm(t('confirmAppUpdate'));
                     if (!confirmed) return;
 
                     // Unregister all service workers
@@ -12816,12 +12966,12 @@ import { createRoot } from 'react-dom/client';
                     const templateParams = {
                         type: feedbackType,
                         message: feedbackText,
-                        user_email: user?.email || 'לא מחובר',
+                        user_email: user?.email || t('notLoggedIn'),
                         user_name: user?.displayName || t('anonymous')
                     };
                     // Using a simple mailto link as fallback (opens email client)
-                    const subject = encodeURIComponent(`[ListNest] ${feedbackType === 'bug' ? 'דיווח על בעיה' : feedbackType === 'feature' ? 'בקשת פיצ\'ר' : 'משוב כללי'}`);
-                    const body = encodeURIComponent(`סוג: ${feedbackType}\n\nהודעה:\n${feedbackText}\n\n---\nמשתמש: ${user?.displayName || t('anonymous')}\nאימייל: ${user?.email || 'לא זמין'}`);
+                    const subject = encodeURIComponent(`[ListNest] ${feedbackType === 'bug' ? t('feedbackSubjectBug') : feedbackType === 'feature' ? t('feedbackSubjectFeature') : t('feedbackSubjectGeneral')}`);
+                    const body = encodeURIComponent(`${t('feedbackTypeLabel')}: ${feedbackType}\n\n${t('feedbackMessageLabel')}:\n${feedbackText}\n\n---\n${t('feedbackUserLabel')}: ${user?.displayName || t('anonymous')}\n${t('feedbackEmailLabel')}: ${user?.email || t('feedbackEmailNA')}`);
                     window.open(`mailto:shopinglist1979@gmail.com?subject=${subject}&body=${body}`, '_blank');
                     setFeedbackSent(true);
                     setFeedbackText('');
@@ -12907,7 +13057,7 @@ import { createRoot } from 'react-dom/client';
                                 // New item detected
                                 if (item.addedByUid && item.addedByUid !== user?.uid) {
                                     // Added by another user - show notification
-                                    showProductNotification(item, item.addedBy || 'מישהו');
+                                    showProductNotification(item, item.addedBy || t('someone'));
                                 }
                             }
                         });
@@ -13186,7 +13336,7 @@ import { createRoot } from 'react-dom/client';
                         newAchievements.push({
                             name: `${item} Master`,
                             emoji: '🏆',
-                            description: `0 פעמים שכחת ${item} החודש`
+                            description: t('achievementZeroForgets').replace('{item}', item)
                         });
                         perfectCount++;
                     }
@@ -13195,24 +13345,24 @@ import { createRoot } from 'react-dom/client';
                 // Perfect week achievement
                 if (shoppingStreak >= 7) {
                     newAchievements.push({
-                        name: 'שבוע מושלם',
+                        name: t('perfectWeek'),
                         emoji: '⭐',
-                        description: `${shoppingStreak} קניות ברצף בלי לשכוח!`
+                        description: t('achievementStreakDesc').replace('{count}', shoppingStreak)
                     });
                 } else if (shoppingStreak >= 3) {
                     newAchievements.push({
-                        name: 'על הדרך הנכונה',
+                        name: t('onTheRightTrack'),
                         emoji: '🌟',
-                        description: `${shoppingStreak} קניות ברצף!`
+                        description: `${shoppingStreak} ${t('consecutivePurchases')}`
                     });
                 }
 
                 // Memory champion
                 if (Object.keys(forgottenStats).length === 0 || Object.values(forgottenStats).every(v => v === 0)) {
                     newAchievements.push({
-                        name: 'אלוף הזיכרון',
+                        name: t('memoryChampion'),
                         emoji: '🧠',
-                        description: 'לא שכחת כלום החודש!'
+                        description: t('forgotNothingMonth')
                     });
                 }
 
@@ -13379,12 +13529,12 @@ import { createRoot } from 'react-dom/client';
 
             // Get playful message for forgotten count
             const getForgottenMessage = (count) => {
-                if (count === 0) return { emoji: '👌', text: 'מושלם!' };
-                if (count === 1) return { emoji: '😅', text: 'קרה פעם אחת' };
-                if (count === 2) return { emoji: '🙈', text: 'אופס, שוב?' };
-                if (count === 3) return { emoji: '😬', text: 'שלוש פעמים...' };
-                if (count >= 4) return { emoji: '🤦', text: 'בואו נשים תזכורת!' };
-                return { emoji: '📊', text: `${count} פעמים` };
+                if (count === 0) return { emoji: '👌', text: t('perfectScore') };
+                if (count === 1) return { emoji: '😅', text: t('happenedOnce') };
+                if (count === 2) return { emoji: '🙈', text: t('oopsAgain') };
+                if (count === 3) return { emoji: '😬', text: t('threeTimes') };
+                if (count >= 4) return { emoji: '🤦', text: t('letsSetReminder') };
+                return { emoji: '📊', text: `${count} ${t('nTimes')}` };
             };
 
             // Voice recognition functions
@@ -13528,7 +13678,7 @@ import { createRoot } from 'react-dom/client';
                                 listId: currentList.id,
                                 addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
                                 addedByUid: childUser?.childId || user?.uid,
-                                note: '🎤 נוסף בקול',
+                                note: t('addedByVoice'),
                                 price: estimatedPrice || null,
                                 priceSource: estimatedPrice ? 'estimated' : null,
                                 createdAt: new Date()
@@ -13884,8 +14034,8 @@ END:VCALENDAR`;
                 URL.revokeObjectURL(url);
             };
 
-            const HEBREW_MONTHS = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
-            const HEBREW_DAYS = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'];
+            const HEBREW_MONTHS = t('calendarMonths');
+            const HEBREW_DAYS = t('calendarDays');
 
             // Smart category detection with partial matching
             const detectCategory = (productName) => {
@@ -14636,7 +14786,7 @@ END:VCALENDAR`;
 
             const exportToWhatsApp = async () => {
                 const unpurchased = items.filter(item => !item.purchased);
-                let text = '🛒 רשימת קניות:\n\n';
+                let text = t('shoppingListShareHeader');
                 Object.entries(CATEGORIES).forEach(([key, cat]) => {
                     const categoryItems = unpurchased.filter(item => item.category === key);
                     if (categoryItems.length > 0) {
@@ -14652,7 +14802,7 @@ END:VCALENDAR`;
                 if (navigator.share) {
                     try {
                         await navigator.share({
-                            title: 'רשימת קניות',
+                            title: t('shoppingListTitle'),
                             text: text
                         });
                     } catch (err) {
@@ -14812,11 +14962,11 @@ END:VCALENDAR`;
                                 <div className="flex gap-3">
                                     <button onClick={() => deleteItem(showDeleteConfirm)}
                                         className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all">
-                                        מחק
+                                        {t('deleteLabel')}
                                     </button>
                                     <button onClick={() => setShowDeleteConfirm(null)}
                                         className="flex-1 px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105 transition-all">
-                                        ביטול
+                                        {t('cancelLabel')}
                                     </button>
                                 </div>
                             </div>
@@ -14872,7 +15022,7 @@ END:VCALENDAR`;
                                         onClick={() => { setShowImportWhatsApp(false); setWhatsAppText(''); }}
                                         className="px-6 py-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
                                     >
-                                        ביטול
+                                        {t('cancel')}
                                     </button>
                                 </div>
                             </div>
@@ -14901,7 +15051,7 @@ END:VCALENDAR`;
                                                 <div className="flex items-center justify-between mb-2">
                                                     <span className="font-semibold text-gray-800 dark:text-white">{list.name}</span>
                                                     <div className="flex items-center gap-2">
-                                                        <span className="text-xs text-gray-400">{list.items.length} פריטים</span>
+                                                        <span className="text-xs text-gray-400">{list.items.length} {t('itemsCount')}</span>
                                                         <button
                                                             onClick={() => deleteSavedList(list.id)}
                                                             className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 flex items-center justify-center hover:bg-red-200 dark:hover:bg-red-900/50 transition-all text-sm"
@@ -14929,7 +15079,7 @@ END:VCALENDAR`;
                                     onClick={() => setShowSavedLists(false)}
                                     className="w-full py-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
                                 >
-                                    סגור
+                                    {t('close')}
                                 </button>
                             </div>
                         </div>
@@ -14967,13 +15117,13 @@ END:VCALENDAR`;
                                             onClick={generateAISuggestions}
                                             className="mt-6 px-6 py-3 bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 rounded-xl font-medium hover:bg-violet-200 transition-all"
                                         >
-                                            🔄 נסה שוב
+                                            🔄 {t('tryAgain')}
                                         </button>
                                     </div>
                                 ) : (
                                     <div className="space-y-3">
                                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                                            בהתבסס על הרשימה שלך, הנה כמה הצעות:
+                                            {t('basedOnYourList')}
                                         </p>
                                         {aiSuggestions.map((suggestion, idx) => (
                                             <div
@@ -14997,7 +15147,7 @@ END:VCALENDAR`;
                                                             onClick={() => addAISuggestion(suggestion)}
                                                             className="px-4 py-2 bg-violet-500 text-white rounded-xl text-sm font-medium hover:bg-violet-600 transition-all"
                                                         >
-                                                            ➕ הוסף
+                                                            ➕ {t('add')}
                                                         </button>
                                                     )}
                                                 </div>
@@ -15009,13 +15159,13 @@ END:VCALENDAR`;
                                                 onClick={generateAISuggestions}
                                                 className="flex-1 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
                                             >
-                                                🔄 הצעות חדשות
+                                                {t('newSuggestions')}
                                             </button>
                                             <button
                                                 onClick={() => setShowAIAssistant(false)}
                                                 className="flex-1 py-3 btn-gradient text-white rounded-xl font-medium"
                                             >
-                                                ✓ סיימתי
+                                                {t('imDone')}
                                             </button>
                                         </div>
                                     </div>
@@ -15235,9 +15385,9 @@ END:VCALENDAR`;
                                             disabled={scanningPrice}
                                             className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-bold text-lg shadow-lg disabled:opacity-50 hover:shadow-xl hover:scale-[1.02] transition-all"
                                         >
-                                            {scanningPrice ? '⏳ מנתח...' : '📸 לחץ לצילום וזיהוי'}
+                                            {scanningPrice ? t('scanAnalyzing') : t('tapToCapture')}
                                         </button>
-                                        <p className="text-gray-400 text-xs text-center mt-2">* כוון את המצלמה לשם המוצר ולחץ על הכפתור</p>
+                                        <p className="text-gray-400 text-xs text-center mt-2">{t('cameraTip')}</p>
                                     </div>
                                 )}
 
@@ -15250,7 +15400,7 @@ END:VCALENDAR`;
                                                 onClick={() => { setPriceCompareResults(null); }}
                                                 className="text-cyan-400 text-sm hover:underline"
                                             >
-                                                חיפוש חדש
+                                                {t('newSearch')}
                                             </button>
                                         </div>
                                         {priceCompareResults.map((site, idx) => (
@@ -15271,7 +15421,7 @@ END:VCALENDAR`;
                                             }}
                                             className="w-full p-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold text-lg mt-2 hover:opacity-90 transition-all"
                                         >
-                                            🚀 פתח הכל בו-זמנית
+                                            🚀 {t('openAllSimultaneously')}
                                         </button>
                                     </div>
                                 )}
@@ -15341,7 +15491,7 @@ END:VCALENDAR`;
                                             onClick={compareFullShoppingList}
                                             className="mt-4 px-6 py-3 bg-teal-500 text-white rounded-xl font-bold hover:bg-teal-600 transition-all"
                                         >
-                                            נסה שוב
+                                            {t('tryAgain')}
                                         </button>
                                     </div>
                                 ) : listComparisonData?.fallback ? (
@@ -15353,14 +15503,14 @@ END:VCALENDAR`;
                                                 <div>
                                                     <div className="text-yellow-200 font-medium">{t('manualCompareMode')}</div>
                                                     <div className="text-yellow-200/70 text-sm mt-1">
-                                                        השרת לא זמין כרגע. לחץ על כל רשת כדי לחפש את המוצרים שלך ישירות.
+                                                        {t('serverUnavailableMsg')}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="text-white/60 text-sm mb-2">
-                                            {items.filter(i => !i.purchased).length} פריטים להשוואה
+                                            {items.filter(i => !i.purchased).length} {t('itemsToCompare')}
                                         </div>
 
                                         <div className="space-y-3">
@@ -15402,7 +15552,7 @@ END:VCALENDAR`;
                                                     ₪{listComparisonData.potential_savings?.toFixed(2) || '0'}
                                                 </div>
                                                 <div className="text-teal-400 text-sm">
-                                                    {listComparisonData.items_analyzed} פריטים
+                                                    {listComparisonData.items_analyzed} {t('itemsAnalyzed')}
                                                 </div>
                                             </div>
                                         </div>
@@ -15441,7 +15591,7 @@ END:VCALENDAR`;
                                                     <div className={`p-4 ${chain.is_cheapest ? 'bg-green-500/10' : 'bg-white/5'}`}>
                                                         <div className="flex items-center justify-between">
                                                             <div className="text-gray-400 text-sm">
-                                                                {chain.items_found}/{listComparisonData.items_analyzed} פריטים נמצאו
+                                                                {t('itemsFoundCount').replace('{found}', chain.items_found).replace('{total}', listComparisonData.items_analyzed)}
                                                             </div>
                                                             <div className="text-left">
                                                                 <div className={`font-bold text-2xl ${chain.is_cheapest ? 'text-green-400' : 'text-white'}`}>
@@ -15449,7 +15599,7 @@ END:VCALENDAR`;
                                                                 </div>
                                                                 {chain.savings_vs_expensive > 0 && (
                                                                     <div className="text-green-400 text-sm font-medium">
-                                                                        חוסך ₪{chain.savings_vs_expensive.toFixed(2)}
+                                                                        {t('savingsDisplay').replace('{amount}', chain.savings_vs_expensive.toFixed(2))}
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -15588,7 +15738,7 @@ END:VCALENDAR`;
                                                         )}
                                                         <div className="font-bold text-white text-lg flex-1">{chainPlan.chain_name_he}</div>
                                                         <div className="text-white/90">
-                                                            {chainPlan.item_count} פריטים • ₪{chainPlan.subtotal?.toFixed(2)}
+                                                            {chainPlan.item_count} {t('itemsCount')} • ₪{chainPlan.subtotal?.toFixed(2)}
                                                         </div>
                                                     </div>
                                                     <div className="p-3 max-h-40 overflow-y-auto">
@@ -15857,7 +16007,7 @@ END:VCALENDAR`;
                                                 <>
                                                     <h3 className="text-white font-bold mb-3 flex items-center gap-2">
                                                         <span>🛒</span>
-                                                        <span>זיהיתי {smartAddResults.length} מוצרים:</span>
+                                                        <span>{t('identifiedProducts').replace('{count}', smartAddResults.length)}</span>
                                                     </h3>
                                                     <div className="space-y-2 mb-4">
                                                         {smartAddResults.map((item, index) => (
@@ -15905,7 +16055,7 @@ END:VCALENDAR`;
                                         <div className="mt-6">
                                             <h4 className="text-white/60 text-sm mb-2">{t('examples')}</h4>
                                             <div className="space-y-2">
-                                                {['2 חלב, 12 ביצים, לחם', 'פירות וירקות לסלט', 'דברים לארוחת בוקר'].map((example) => (
+                                                {[t('smartAddExample1'), t('smartAddExample2'), t('smartAddExample3')].map((example) => (
                                                     <button
                                                         key={example}
                                                         onClick={() => setSmartAddText(example)}
@@ -15981,7 +16131,7 @@ END:VCALENDAR`;
                                                 ✕
                                             </button>
                                             <div className="absolute bottom-2 right-2 bg-green-500 text-white px-2 py-1 rounded-lg text-xs flex items-center gap-1">
-                                                <span>✓</span> קבלה צורפה
+                                                <span>✓</span> {t('receiptAttachedLabel')}
                                             </div>
                                         </div>
                                     )}
@@ -15995,7 +16145,7 @@ END:VCALENDAR`;
                                     </button>
                                     <button onClick={() => { setShowFinishShopping(false); setTotalAmount(''); setReceiptPhoto(null); }}
                                         className="px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105 transition-all">
-                                        ביטול
+                                        {t('cancel')}
                                     </button>
                                 </div>
                             </div>
@@ -16052,12 +16202,12 @@ END:VCALENDAR`;
                                                     <div>
                                                         <div className="text-sm text-gray-600 dark:text-gray-400 font-semibold flex items-center gap-2">
                                                             <span className="text-lg">📅</span>
-                                                            {record.completedAt?.toDate?.()?.toLocaleDateString('he-IL', {
+                                                            {record.completedAt?.toDate?.()?.toLocaleDateString(language === 'he' ? 'he-IL' : language === 'ar' ? 'ar-SA' : language === 'ru' ? 'ru-RU' : 'en-US', {
                                                                 year: 'numeric',
                                                                 month: 'long',
                                                                 day: 'numeric',
                                                                 weekday: 'long'
-                                                            }) || 'תאריך לא ידוע'}
+                                                            }) || t('unknownDate')}
                                                         </div>
                                                         <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">👤 {record.completedBy}</div>
                                                     </div>
@@ -16066,7 +16216,7 @@ END:VCALENDAR`;
                                                     </div>
                                                 </div>
                                                 <div className="text-sm text-gray-700 dark:text-gray-300 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-lg p-3">
-                                                    🛒 {record.items.length} פריטים • ממוצע: ₪{(record.totalAmount / record.items.length).toFixed(2)} לפריט
+                                                    {t('purchaseItemsSummary').replace('{count}', record.items.length).replace('{avg}', (record.totalAmount / record.items.length).toFixed(2))}
                                                 </div>
                                                 {record.receiptPhoto && (
                                                     <div className="mt-3">
@@ -16146,7 +16296,7 @@ END:VCALENDAR`;
                                 {achievements.length > 0 && (
                                     <div className="mb-6">
                                         <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
-                                            <span>🏆</span> הישגים החודש
+                                            <span>🏆</span> {t('achievementsTitle')}
                                         </h3>
                                         <div className="grid grid-cols-2 gap-2">
                                             {achievements.map((achievement, idx) => (
@@ -16163,7 +16313,7 @@ END:VCALENDAR`;
                                 {/* Monthly Stats */}
                                 <div className="mb-4">
                                     <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
-                                        <span>📅</span> סטטיסטיקה חודשית - {new Date().toLocaleDateString('he-IL', { month: 'long', year: 'numeric' })}
+                                        <span>📅</span> {t('monthlyStatsTitle')} - {new Date().toLocaleDateString(language === 'he' ? 'he-IL' : language === 'ar' ? 'ar-SA' : language === 'ru' ? 'ru-RU' : 'en-US', { month: 'long', year: 'numeric' })}
                                     </h3>
 
                                     {Object.keys(forgottenStats).length === 0 ? (
@@ -16203,7 +16353,7 @@ END:VCALENDAR`;
                                             <div>
                                                 <div className="font-bold text-blue-800 dark:text-blue-200 text-sm">{t('tip')}</div>
                                                 <div className="text-xs text-blue-600 dark:text-blue-400">
-                                                    הוסף את הפריטים שנשכחים לעתים קרובות לרשימה קבועה, או הגדר תזכורת בטלפון
+                                                    {t('forgottenItemsTip')}
                                                 </div>
                                             </div>
                                         </div>
@@ -16261,7 +16411,7 @@ END:VCALENDAR`;
                                             onClick={addRegularItems}
                                             className="w-full bg-gradient-to-r from-teal-500 to-teal-500 text-white px-6 py-4 rounded-xl hover:from-teal-600 hover:to-teal-600 transition-all font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02]"
                                         >
-                                            ➕ הוסף את כולם לרשימה
+                                            ➕ {t('addAllRegulars')}
                                         </button>
                                     </>
                                 )}
@@ -16289,19 +16439,19 @@ END:VCALENDAR`;
                                         onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear() + 1, calendarMonth.getMonth()))}
                                         className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center gap-1"
                                     >
-                                        <span>«</span> שנה קודמת
+                                        <span>«</span> {t('previousYear')}
                                     </button>
                                     <button
                                         onClick={() => setCalendarMonth(new Date())}
                                         className="px-3 py-1 text-sm bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-all"
                                     >
-                                        היום
+                                        {t('today')}
                                     </button>
                                     <button
                                         onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear() - 1, calendarMonth.getMonth()))}
                                         className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center gap-1"
                                     >
-                                        שנה הבאה <span>»</span>
+                                        {t('nextYear')} <span>»</span>
                                     </button>
                                 </div>
 
@@ -16407,7 +16557,7 @@ END:VCALENDAR`;
                                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                                                     <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm6.369 8.648l-1.816 1.244c-.216.148-.504.087-.641-.138l-.858-1.416c-.137-.226-.451-.297-.698-.158l-1.674.938c-.247.139-.547.048-.669-.203l-.795-1.628c-.122-.25-.413-.365-.65-.255l-1.66.77c-.236.11-.512-.018-.616-.284l-.703-1.78c-.103-.267-.391-.401-.642-.3l-1.692.682c-.25.1-.528-.048-.618-.331L6.37 4.107c-.09-.282-.373-.44-.631-.353L4 4.42v14.16c0 .552.448 1 1 1h14c.552 0 1-.448 1-1V8.42l-1.631.228z"/>
                                                 </svg>
-                                                הוסף ל-Google Calendar
+                                                {t('addToGoogleCalendar')}
                                             </button>
                                             <button
                                                 onClick={() => downloadICSFile(selectedHoliday, reminderDays)}
@@ -16486,10 +16636,10 @@ END:VCALENDAR`;
                                 <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
                                     <div className="text-xs text-gray-500 dark:text-gray-400 flex flex-wrap gap-3">
                                         <span className="flex items-center gap-1">
-                                            <span className="w-3 h-3 rounded bg-amber-200 dark:bg-amber-700"></span> חג
+                                            <span className="w-3 h-3 rounded bg-amber-200 dark:bg-amber-700"></span> {t('holiday')}
                                         </span>
                                         <span className="flex items-center gap-1">
-                                            <span className="w-3 h-3 rounded ring-2 ring-indigo-500"></span> היום
+                                            <span className="w-3 h-3 rounded ring-2 ring-indigo-500"></span> {t('today')}
                                         </span>
                                         <span className="flex items-center gap-1">
                                             <span className="text-blue-600">ש׳</span> {t('saturday')}
@@ -16512,7 +16662,7 @@ END:VCALENDAR`;
                                     {selectedProduct.existingQty > 0 && (
                                         <div className="mt-2 inline-flex items-center gap-2 bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300 px-3 py-1 rounded-full text-sm font-medium">
                                             <span>🛒</span>
-                                            <span>בסל: {selectedProduct.existingQty}</span>
+                                            <span>{t('inCartLabel')}: {selectedProduct.existingQty}</span>
                                         </div>
                                     )}
                                 </div>
@@ -16555,7 +16705,7 @@ END:VCALENDAR`;
                                     {/* Warning when quantity is 0 */}
                                     {selectedQuantity === 0 && selectedProduct.existingId && (
                                         <p className="text-center text-sm text-red-500 mt-2 animate-pulse">
-                                            ⚠️ כמות 0 תסיר את המוצר מהסל
+                                            ⚠️ {t('zeroRemovesItem')}
                                         </p>
                                     )}
                                 </div>
@@ -16588,7 +16738,7 @@ END:VCALENDAR`;
 
                                 {/* Note Input */}
                                 <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">📝 הוסף הערה (אופציונלי):</label>
+                                    <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{t('addNoteOptional')}</label>
                                     <input
                                         type="text"
                                         value={selectedNote}
@@ -16603,9 +16753,9 @@ END:VCALENDAR`;
                                     <span className={`text-lg font-bold ${selectedQuantity === 0 ? (selectedProduct.existingId ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400') : 'text-indigo-700 dark:text-indigo-300'}`}>
                                         {selectedQuantity === 0 ? (
                                             selectedProduct.existingId ? (
-                                                <>🗑️ הסר את {selectedProduct.name} מהסל</>
+                                                <>🗑️ {t('removeFromCart')} {selectedProduct.name}</>
                                             ) : (
-                                                <>👆 בחר כמות להוספה</>
+                                                <>👆 {t('selectQuantityToAdd')}</>
                                             )
                                         ) : (
                                             <>
@@ -16624,7 +16774,7 @@ END:VCALENDAR`;
                                             onClick={removeProductFromCart}
                                             className="flex-1 bg-red-500 hover:bg-red-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                                         >
-                                            🗑️ הסר מהסל
+                                            🗑️ {t('removeFromCart')}
                                         </button>
                                     ) : selectedQuantity === 0 ? (
                                         /* Disabled add button when quantity is 0 and item not in cart */
@@ -16632,7 +16782,7 @@ END:VCALENDAR`;
                                             disabled
                                             className="flex-1 bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 px-6 py-4 rounded-xl font-bold text-lg cursor-not-allowed"
                                         >
-                                            בחר כמות להוספה
+                                            {t('selectQuantityToAdd')}
                                         </button>
                                     ) : selectedProduct.existingId ? (
                                         /* Update button when item exists */
@@ -16640,7 +16790,7 @@ END:VCALENDAR`;
                                             onClick={() => updateProductQuantity(selectedQuantity)}
                                             className="flex-1 bg-teal-500 hover:bg-teal-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                                         >
-                                            ✏️ עדכן כמות
+                                            ✏️ {t('updateQuantity')}
                                         </button>
                                     ) : (
                                         /* Add button when item doesn't exist */
@@ -16648,14 +16798,14 @@ END:VCALENDAR`;
                                             onClick={addProductWithQuantity}
                                             className="flex-1 btn-gradient text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                                         >
-                                            ➕ הוסף לסל
+                                            ➕ {t('addToCart')}
                                         </button>
                                     )}
                                     <button
                                         onClick={() => { setShowQuantitySelector(false); setSelectedProduct(null); setSelectedNote(''); }}
                                         className="px-6 py-4 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
                                     >
-                                        ביטול
+                                        {t('cancel')}
                                     </button>
                                 </div>
                             </div>
@@ -17151,13 +17301,13 @@ END:VCALENDAR`;
                                     <div className="flex items-center justify-between mb-2">
                                         <div className="flex items-center gap-2">
                                             <span className="text-xl">{getHolidayRecommendations()[0].icon}</span>
-                                            <span className="font-bold text-amber-800 dark:text-amber-200">{getHolidayRecommendations()[0].name} מתקרב!</span>
+                                            <span className="font-bold text-amber-800 dark:text-amber-200">{getHolidayRecommendations()[0].name} {t('approaching')}</span>
                                         </div>
                                         <button
                                             onClick={() => setShowHolidayRecommendations(!showHolidayRecommendations)}
                                             className="text-sm text-amber-600 dark:text-amber-400 hover:underline"
                                         >
-                                            {showHolidayRecommendations ? 'הסתר' : 'הצג המלצות'}
+                                            {showHolidayRecommendations ? t('hideLabel') : t('showRecommendations')}
                                         </button>
                                     </div>
                                     {showHolidayRecommendations && (
@@ -17225,7 +17375,7 @@ END:VCALENDAR`;
                                         <span className="text-3xl">🤖</span>
                                         <div className="text-center">
                                             <div className="text-lg font-bold">{t('smartAssistant')}</div>
-                                            <div className="text-sm opacity-90">המלצות חכמות לרשימה שלך</div>
+                                            <div className="text-sm opacity-90">{t('smartRecommendationsSubtitle')}</div>
                                         </div>
                                         <span className="text-3xl">✨</span>
                                     </div>
@@ -17241,7 +17391,7 @@ END:VCALENDAR`;
                                         <span className="text-3xl">🧠</span>
                                         <div className="text-center">
                                             <div className="text-lg font-bold">{t('whatForgot')}</div>
-                                            <div className="text-sm opacity-90">תזכורות חכמות למוצרים קבועים</div>
+                                            <div className="text-sm opacity-90">{t('smartRemindersSubtitle')}</div>
                                         </div>
                                         {shoppingStreak > 0 ? (
                                             <span className="text-2xl">🔥</span>
@@ -17529,7 +17679,7 @@ END:VCALENDAR`;
                                                     רשימת קניות משפחתית חכמה
                                                 </h2>
                                                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                    {items.filter(i => !i.purchased).length} פריטים לקנייה
+                                                    {items.filter(i => !i.purchased).length} {t('items')}
                                                 </p>
                                             </div>
                                             <span className="text-xl animate-pulse">✨</span>
@@ -17784,12 +17934,12 @@ END:VCALENDAR`;
                                                                                 type="button"
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
-                                                                                    showToast(`מחיר מפוקח: ₪${regulatedPrice.toFixed(2)} (מקור: data.gov.il)`, 'info', 5000);
+                                                                                    showToast(t('regulatedPriceMsg').replace('{price}', regulatedPrice.toFixed(2)), 'info', 5000);
                                                                                 }}
                                                                                 className="text-[9px] bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1 rounded cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-800/40 transition-colors leading-tight"
-                                                                                title="מחיר מפוקח"
+                                                                                title={t('regulatedPriceTitle')}
                                                                             >
-                                                                                מפוקח
+                                                                                {t('regulatedBadge')}
                                                                             </button>
                                                                         ) : chains.length > 0 ? (
                                                                             <button
@@ -17799,7 +17949,7 @@ END:VCALENDAR`;
                                                                                     showToast(t('avgFromChains').replace('{count}', chains.length) + ': ' + chains.join(', '), 'info', 5000);
                                                                                 }}
                                                                                 className="text-blue-500 dark:text-blue-400 cursor-pointer text-xs hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
-                                                                                title="לחץ לפרטים"
+                                                                                title={t('clickForDetails')}
                                                                             >
                                                                                 ⓘ
                                                                             </button>
@@ -17826,7 +17976,7 @@ END:VCALENDAR`;
                                                             <button
                                                                 onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) + 1)}
                                                                 className="qty-btn"
-                                                                aria-label="הוסף"
+                                                                aria-label={t('add')}
                                                                 style={{ touchAction: 'manipulation' }}
                                                             >+</button>
                                                         </div>
@@ -17887,7 +18037,7 @@ END:VCALENDAR`;
 
                         {/* Footer - Creator Attribution */}
                         <div className="text-center text-gray-400 dark:text-gray-500 text-xs py-3 mt-4">
-                            <p>© {new Date().getFullYear()} ListNest • נוצר על ידי <span className="text-teal-600 dark:text-teal-400 font-medium">יוסף גידניאן</span></p>
+                            <p>© {new Date().getFullYear()} ListNest • {t('copyrightBy')} <span className="text-teal-600 dark:text-teal-400 font-medium">Yosef Gidanian</span></p>
                         </div>
 
                         {/* Bottom spacing for sticky bar */}
@@ -17957,7 +18107,7 @@ END:VCALENDAR`;
                                                 <span className="sound-wave"></span>
                                             </div>
                                             <span className="text-sm font-bold text-purple-700 dark:text-purple-300">
-                                                {voiceStatus || (voiceLang === 'en-US' ? 'Listening...' : 'מקשיב...')}
+                                                {voiceStatus || t('listeningNow')}
                                             </span>
                                         </div>
                                         <button onClick={toggleVoiceLang} className="text-xs px-3 py-1 bg-white dark:bg-gray-800 rounded-full shadow-sm font-medium">
@@ -17972,14 +18122,14 @@ END:VCALENDAR`;
                                         </div>
                                     )}
                                     <p className="text-xs text-purple-500 dark:text-purple-400 mt-2 text-center">
-                                        💡 טיפ: דבר ברור ואמור "הוסף חלב וביצים"
+                                        {t('voiceTipText')}
                                     </p>
                                 </div>
                             </div>
                         )}
 
                         {/* Voice status message (when not listening) */}
-                        {!isListening && voiceStatus && voiceStatus !== 'מתחיל...' && (
+                        {!isListening && voiceStatus && voiceStatus !== t('starting') && (
                             <div className="max-w-2xl mx-auto mt-2 text-center">
                                 <p className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-lg py-2 px-4 inline-block">
                                     {voiceStatus}
@@ -18177,59 +18327,59 @@ END:VCALENDAR`;
                                 </div>
                                 <div className="p-4 space-y-4">
                                     <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4">
-                                        <h3 className="font-bold text-indigo-800 dark:text-indigo-200 mb-2">🛒 איך להשתמש באפליקציה</h3>
+                                        <h3 className="font-bold text-indigo-800 dark:text-indigo-200 mb-2">{t('helpHowToUse')}</h3>
                                         <ul className="text-sm text-indigo-700 dark:text-indigo-300 space-y-2 list-disc list-inside">
-                                            <li>בחר קטגוריה ולחץ על מוצר להוספה לרשימה</li>
-                                            <li>החלק שמאלה על מוצר לסימון "נקנה"</li>
-                                            <li>החלק ימינה למחיקת מוצר מהרשימה</li>
-                                            <li>השתמש בחיפוש או הקלטה קולית להוספה מהירה</li>
-                                            <li>שמור רשימות לשימוש חוזר</li>
+                                            <li>{t('helpAddProducts')}</li>
+                                            <li>{t('helpSwipeLeft')}</li>
+                                            <li>{t('helpSwipeRight')}</li>
+                                            <li>{t('helpSearchVoice')}</li>
+                                            <li>{t('helpSaveLists')}</li>
                                         </ul>
                                     </div>
                                     <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4">
-                                        <h3 className="font-bold text-purple-800 dark:text-purple-200 mb-2">👨‍👩‍👧‍👦 שיתוף עם המשפחה</h3>
+                                        <h3 className="font-bold text-purple-800 dark:text-purple-200 mb-2">{t('helpFamilySharing')}</h3>
                                         <ul className="text-sm text-purple-700 dark:text-purple-300 space-y-2 list-disc list-inside">
-                                            <li>שתף קוד, QR, קישור או WhatsApp</li>
-                                            <li><strong>הורים (אבא/אמא)</strong> - הרשאות מנהל מלאות</li>
-                                            <li><strong>ילדים</strong> - יכולים להוסיף ולסמן מוצרים בלבד</li>
-                                            <li>קבל התראות כשמישהו מוסיף מוצר</li>
-                                            <li>צ'אט מובנה לתיאום הקניות</li>
+                                            <li>{t('helpShareOptions')}</li>
+                                            <li><strong>{t('helpParentsAdmin')}</strong></li>
+                                            <li><strong>{t('helpChildrenLimited')}</strong></li>
+                                            <li>{t('helpNotifications')}</li>
+                                            <li>{t('helpChat')}</li>
                                         </ul>
                                     </div>
                                     <div className="bg-amber-50 dark:bg-amber-900/30 rounded-xl p-4">
-                                        <h3 className="font-bold text-amber-800 dark:text-amber-200 mb-2">📷 סריקה חכמה</h3>
+                                        <h3 className="font-bold text-amber-800 dark:text-amber-200 mb-2">{t('helpSmartScan')}</h3>
                                         <ul className="text-sm text-amber-700 dark:text-amber-300 space-y-2 list-disc list-inside">
-                                            <li>סרוק מתכון להוספת מרכיבים אוטומטית</li>
-                                            <li>צלם מוצר לזיהוי והשוואת מחירים</li>
+                                            <li>{t('helpScanRecipe')}</li>
+                                            <li>{t('helpScanProduct')}</li>
                                         </ul>
                                     </div>
                                     <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4">
-                                        <h3 className="font-bold text-green-800 dark:text-green-200 mb-2">🌐 שפות ונגישות</h3>
+                                        <h3 className="font-bold text-green-800 dark:text-green-200 mb-2">{t('helpLanguagesAccess')}</h3>
                                         <ul className="text-sm text-green-700 dark:text-green-300 space-y-2 list-disc list-inside">
-                                            <li>תמיכה בעברית, אנגלית, רוסית וערבית</li>
-                                            <li>החלף שפה בכפתור הנגישות (♿)</li>
-                                            <li>מצב כהה/בהיר, הגדלת טקסט ועוד</li>
+                                            <li>{t('helpLanguages')}</li>
+                                            <li>{t('helpChangeLanguage')}</li>
+                                            <li>{t('helpDarkMode')}</li>
                                         </ul>
                                     </div>
                                     <div className="bg-pink-50 dark:bg-pink-900/30 rounded-xl p-4">
-                                        <h3 className="font-bold text-pink-800 dark:text-pink-200 mb-2">👶 הוספת ילד בלי מייל</h3>
+                                        <h3 className="font-bold text-pink-800 dark:text-pink-200 mb-2">{t('helpAddChildTitle')}</h3>
                                         <div className="text-sm text-pink-700 dark:text-pink-300 space-y-1">
-                                            <p className="font-medium mb-2">איך מוסיפים ילד:</p>
-                                            <p>1️⃣ לחץ על שם המשפחה למעלה</p>
-                                            <p>2️⃣ גלול ל"חשבונות ילדים"</p>
-                                            <p>3️⃣ לחץ "➕ הוסף חשבון ילד"</p>
-                                            <p>4️⃣ הזן שם + קוד PIN (4 ספרות)</p>
-                                            <p>5️⃣ שלח קישור לילד בוואטסאפ</p>
-                                            <p className="mt-2 text-xs opacity-80">💡 הילד לוחץ על הקישור → בוחר שמו → מזין PIN → מחובר!</p>
+                                            <p className="font-medium mb-2">{t('helpHowToAddChild')}</p>
+                                            <p>{t('helpStep1')}</p>
+                                            <p>{t('helpStep2')}</p>
+                                            <p>{t('helpStep3')}</p>
+                                            <p>{t('helpStep4')}</p>
+                                            <p>{t('helpStep5')}</p>
+                                            <p className="mt-2 text-xs opacity-80">{t('helpChildTip')}</p>
                                         </div>
                                     </div>
                                     <button onClick={() => { setShowHelp(false); setShowFeedback(true); }}
                                         className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold hover:opacity-90 transition-opacity">
-                                        📧 שלח משוב או דיווח על בעיה
+                                        {t('helpSendFeedback')}
                                     </button>
                                     <button onClick={() => { localStorage.removeItem('hasSeenOnboarding'); setShowHelp(false); setShowOnboarding(true); setOnboardingStep(0); }}
                                         className="w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                                        🎓 הצג הדרכה מחדש
+                                        {t('helpShowTutorial')}
                                     </button>
                                 </div>
                             </div>
