@@ -563,6 +563,18 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     color: #2dd4bf;
 }
 
+/* Category Toggle Button */
+.category-toggle-btn {
+    box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3), 0 1px 3px rgba(0, 0, 0, 0.08);
+    -webkit-tap-highlight-color: transparent;
+}
+.category-toggle-btn:hover {
+    box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4), 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.dark .category-toggle-btn {
+    box-shadow: 0 4px 15px rgba(13, 148, 136, 0.25), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
 /* Category Grid Screen */
 .category-grid-card {
     display: flex;

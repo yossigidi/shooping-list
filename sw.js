@@ -1,4 +1,4 @@
-const CACHE_NAME = 'listnest-v163';
+const CACHE_NAME = 'listnest-v164';
 const STATIC_CACHE = 'listnest-static-v162';
 
 // Core app files
