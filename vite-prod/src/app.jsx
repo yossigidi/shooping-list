@@ -18087,13 +18087,51 @@ END:VCALENDAR`;
                                                             )}
                                                         </button>
 
-                                                        {/* Product Name */}
+                                                        {/* Product Name & Details */}
                                                         <div className="flex-1 min-w-0">
                                                             <div className={`item-name ${item.purchased ? 'purchased' : ''}`}>
                                                                 {getProductTranslation(item.name, language)}
                                                             </div>
-                                                            {/* Status indicators */}
-                                                            <div className="flex items-center gap-2 flex-wrap">
+                                                            {/* Price + Quantity row */}
+                                                            <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                                                                {/* Price display (read-only, calculated based on quantity) */}
+                                                                {(() => {
+                                                                    const itemPrice = calculateItemPrice(item);
+                                                                    const chains = getProductChains(item.name);
+                                                                    const regulatedPrice = getRegulatedPrice(item.name);
+                                                                    return itemPrice > 0 ? (
+                                                                        <div className="flex items-center gap-1">
+                                                                            <span className="text-sm text-emerald-600 dark:text-emerald-400 font-bold tabular-nums">
+                                                                                ₪{itemPrice.toFixed(2)}{regulatedPrice ? '' : '*'}
+                                                                            </span>
+                                                                            {regulatedPrice ? (
+                                                                                <button
+                                                                                    type="button"
+                                                                                    onClick={(e) => {
+                                                                                        e.stopPropagation();
+                                                                                        showToast(t('regulatedPriceMsg').replace('{price}', regulatedPrice.toFixed(2)), 'info', 5000);
+                                                                                    }}
+                                                                                    className="text-[9px] bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1 rounded cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-800/40 transition-colors leading-tight"
+                                                                                    title={t('regulatedPriceTitle')}
+                                                                                >
+                                                                                    {t('regulatedBadge')}
+                                                                                </button>
+                                                                            ) : chains.length > 0 ? (
+                                                                                <button
+                                                                                    type="button"
+                                                                                    onClick={(e) => {
+                                                                                        e.stopPropagation();
+                                                                                        showToast(t('avgFromChains').replace('{count}', chains.length) + ': ' + chains.join(', '), 'info', 5000);
+                                                                                    }}
+                                                                                    className="text-blue-500 dark:text-blue-400 cursor-pointer text-xs hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
+                                                                                    title={t('clickForDetails')}
+                                                                                >
+                                                                                    ⓘ
+                                                                                </button>
+                                                                            ) : null}
+                                                                        </div>
+                                                                    ) : null;
+                                                                })()}
                                                                 {/* Subtle promotion indicator */}
                                                                 {!item.purchased && getItemPromotions(item.name).length > 0 && (() => {
                                                                     const promo = getItemPromotions(item.name)[0];
@@ -18110,6 +18148,30 @@ END:VCALENDAR`;
                                                                         </div>
                                                                     );
                                                                 })()}
+                                                                {/* Quantity - compact stepper */}
+                                                                <div
+                                                                    className="qty-stepper flex-shrink-0"
+                                                                    role="group"
+                                                                    aria-label={`כמות ${item.name}`}
+                                                                    onTouchStart={(e) => e.stopPropagation()}
+                                                                >
+                                                                    <button
+                                                                        onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) - 1)}
+                                                                        className="qty-btn"
+                                                                        aria-label="הפחת"
+                                                                        style={{ touchAction: 'manipulation' }}
+                                                                    >−</button>
+                                                                    <span className="qty-value">{getQuantityNumber(item.quantity)}</span>
+                                                                    <button
+                                                                        onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) + 1)}
+                                                                        className="qty-btn"
+                                                                        aria-label={t('add')}
+                                                                        style={{ touchAction: 'manipulation' }}
+                                                                    >+</button>
+                                                                </div>
+                                                            </div>
+                                                            {/* Status indicators */}
+                                                            <div className="flex items-center gap-2 flex-wrap">
                                                                 {item.note && (
                                                                     <span className="item-note-badge" onClick={() => setEditingNote(item)}>
                                                                         📝 {item.note.length > 15 ? item.note.substring(0, 15) + '...' : item.note}
@@ -18131,69 +18193,6 @@ END:VCALENDAR`;
                                                                     </span>
                                                                 )}
                                                             </div>
-                                                        </div>
-
-                                                        {/* Price display (read-only, calculated based on quantity) */}
-                                                        {(() => {
-                                                            const itemPrice = calculateItemPrice(item);
-                                                            const chains = getProductChains(item.name);
-                                                            const regulatedPrice = getRegulatedPrice(item.name);
-                                                            return itemPrice > 0 ? (
-                                                                <div className="relative flex flex-col items-end gap-0.5">
-                                                                    <div className="flex items-center gap-1">
-                                                                        <span className="text-sm text-emerald-600 dark:text-emerald-400 font-bold tabular-nums">
-                                                                            ₪{itemPrice.toFixed(2)}{regulatedPrice ? '' : '*'}
-                                                                        </span>
-                                                                        {regulatedPrice ? (
-                                                                            <button
-                                                                                type="button"
-                                                                                onClick={(e) => {
-                                                                                    e.stopPropagation();
-                                                                                    showToast(t('regulatedPriceMsg').replace('{price}', regulatedPrice.toFixed(2)), 'info', 5000);
-                                                                                }}
-                                                                                className="text-[9px] bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1 rounded cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-800/40 transition-colors leading-tight"
-                                                                                title={t('regulatedPriceTitle')}
-                                                                            >
-                                                                                {t('regulatedBadge')}
-                                                                            </button>
-                                                                        ) : chains.length > 0 ? (
-                                                                            <button
-                                                                                type="button"
-                                                                                onClick={(e) => {
-                                                                                    e.stopPropagation();
-                                                                                    showToast(t('avgFromChains').replace('{count}', chains.length) + ': ' + chains.join(', '), 'info', 5000);
-                                                                                }}
-                                                                                className="text-blue-500 dark:text-blue-400 cursor-pointer text-xs hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
-                                                                                title={t('clickForDetails')}
-                                                                            >
-                                                                                ⓘ
-                                                                            </button>
-                                                                        ) : null}
-                                                                    </div>
-                                                                </div>
-                                                            ) : null;
-                                                        })()}
-
-                                                        {/* Quantity - compact stepper */}
-                                                        <div
-                                                            className="qty-stepper flex-shrink-0"
-                                                            role="group"
-                                                            aria-label={`כמות ${item.name}`}
-                                                            onTouchStart={(e) => e.stopPropagation()}
-                                                        >
-                                                            <button
-                                                                onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) - 1)}
-                                                                className="qty-btn"
-                                                                aria-label="הפחת"
-                                                                style={{ touchAction: 'manipulation' }}
-                                                            >−</button>
-                                                            <span className="qty-value">{getQuantityNumber(item.quantity)}</span>
-                                                            <button
-                                                                onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) + 1)}
-                                                                className="qty-btn"
-                                                                aria-label={t('add')}
-                                                                style={{ touchAction: 'manipulation' }}
-                                                            >+</button>
                                                         </div>
 
                                                         {/* Menu button */}
