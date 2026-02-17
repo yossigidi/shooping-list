@@ -18050,20 +18050,20 @@ END:VCALENDAR`;
                                 )}
 
                                 {Object.entries(groupedItems).map(([category, categoryItems]) => (
-                                    <div key={category} className="mb-6">
-                                        <h3 className="sticky-category-header flex items-center gap-2 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
+                                    <div key={category} className="mb-8">
+                                        <h3 className="sticky-category-header">
                                             {CATEGORIES[category]?.image ? (
-                                                <img src={CATEGORIES[category].image} alt="" className="w-7 h-7 rounded-lg object-cover" loading="lazy" />
+                                                <img src={CATEGORIES[category].image} alt="" className="w-9 h-9 rounded-xl object-cover shadow-sm ring-2 ring-teal-200/50" loading="lazy" />
                                             ) : (
-                                                <span className="text-xl">{CATEGORIES[category]?.icon}</span>
+                                                <span className="text-2xl drop-shadow-sm">{CATEGORIES[category]?.icon}</span>
                                             )}
-                                            <span className="text-base font-semibold text-gray-700 dark:text-gray-300">{t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}</span>
-                                            <span className="text-xs bg-teal-100 dark:bg-teal-900/40 text-teal-600 dark:text-teal-400 px-2 py-0.5 rounded-full font-medium">{categoryItems.length}</span>
+                                            <span className="font-bold text-gray-800 dark:text-gray-200 tracking-tight">{t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}</span>
+                                            <span className="text-xs bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-2.5 py-0.5 rounded-full font-semibold shadow-sm">{categoryItems.length}</span>
                                         </h3>
                                         {categoryItems.map(item => (
                                             <SwipeableItem
                                                 key={item.id}
-                                                className={`mb-3 ${exitingItems.has(item.id) ? 'item-exit' : 'item-enter'}`}
+                                                className={`mb-3.5 ${exitingItems.has(item.id) ? 'item-exit' : 'item-enter'}`}
                                                 purchased={item.purchased}
                                                 onSwipeRight={() => !item.purchased && togglePurchasedWithAnimation(item.id, item.purchased)}
                                                 onSwipeLeft={() => deleteItem(item.id)}
@@ -18099,7 +18099,7 @@ END:VCALENDAR`;
                                                                     const promoCount = getItemPromotions(item.name).length;
                                                                     return (
                                                                         <div
-                                                                            className="flex items-center gap-1 text-amber-600 dark:text-amber-400 text-[10px] cursor-pointer hover:text-amber-700 dark:hover:text-amber-300 transition-colors"
+                                                                            className="flex items-center gap-1 text-amber-600 dark:text-amber-400 text-[10px] cursor-pointer hover:text-amber-700 dark:hover:text-amber-300 transition-colors bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded-md"
                                                                             onClick={() => { setShowPromotions(true); fetchPromotions(); }}
                                                                             title={promo.description}
                                                                         >
@@ -18125,7 +18125,7 @@ END:VCALENDAR`;
                                                                 )}
                                                                 {/* Show who added the item */}
                                                                 {item.addedBy && !item.purchased && (
-                                                                    <span className="text-[10px] text-gray-400 dark:text-gray-500">
+                                                                    <span className="text-[10px] text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800/50 px-2 py-0.5 rounded-md">
                                                                         👤 {item.addedBy}
                                                                     </span>
                                                                 )}
@@ -18140,7 +18140,7 @@ END:VCALENDAR`;
                                                             return itemPrice > 0 ? (
                                                                 <div className="relative flex flex-col items-end gap-0.5">
                                                                     <div className="flex items-center gap-1">
-                                                                        <span className="text-xs text-green-600 dark:text-green-400 font-medium">
+                                                                        <span className="text-sm text-emerald-600 dark:text-emerald-400 font-bold tabular-nums">
                                                                             ₪{itemPrice.toFixed(2)}{regulatedPrice ? '' : '*'}
                                                                         </span>
                                                                         {regulatedPrice ? (
@@ -18215,7 +18215,7 @@ END:VCALENDAR`;
                                                             aria-label={t('actionsMenu')}
                                                             style={{ minWidth: '44px', minHeight: '44px', touchAction: 'manipulation' }}
                                                         >
-                                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                                 <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                                                             </svg>
                                                         </button>
