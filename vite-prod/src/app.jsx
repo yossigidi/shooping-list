@@ -16951,7 +16951,7 @@ END:VCALENDAR`;
 
                     {/* Quantity Selector Modal */}
                     {showQuantitySelector && selectedProduct && (
-                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[10005] p-4">
                             <div className="glass rounded-3xl p-6 max-w-sm w-full shadow-2xl">
                                 <div className="text-center mb-6">
                                     <div className="text-4xl mb-2">{CATEGORIES[selectedProduct.category]?.icon || '🛒'}</div>
