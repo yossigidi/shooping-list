@@ -11222,6 +11222,7 @@ import { createRoot } from 'react-dom/client';
             };
             const [items, setItems] = useState([]);
             const prevItemIdsRef = React.useRef(new Set());
+            const deletingItemsRef = React.useRef(new Set());
             const [selectedCategory, setSelectedCategory] = useState(null);
             const [showCategories, setShowCategories] = useState(false);
 
@@ -13341,12 +13342,23 @@ import { createRoot } from 'react-dom/client';
                         });
                         prevItemIdsRef.current = currentIds;
 
-                        setItems(itemsData);
+                        // Filter out items that are currently being deleted (optimistic delete)
+                        const filteredItems = deletingItemsRef.current.size > 0
+                            ? itemsData.filter(item => !deletingItemsRef.current.has(item.id))
+                            : itemsData;
+                        // Clean up deletingItemsRef: remove IDs no longer in server data
+                        if (deletingItemsRef.current.size > 0) {
+                            const serverIds = new Set(itemsData.map(item => item.id));
+                            deletingItemsRef.current.forEach(id => {
+                                if (!serverIds.has(id)) deletingItemsRef.current.delete(id);
+                            });
+                        }
+                        setItems(filteredItems);
                         setLoading(false);
 
                         // Cache items for offline use (only if from server, not cache)
                         if (!snapshot.metadata.fromCache) {
-                            cacheItems(itemsData);
+                            cacheItems(filteredItems);
                             console.log('💾 Cached', itemsData.length, 'items from server');
                         } else {
                             console.log('📱 Loaded', itemsData.length, 'items from Firestore cache');
@@ -14414,6 +14426,9 @@ END:VCALENDAR`;
                 const itemId = selectedProduct.existingId;
                 const itemName = selectedProduct.name;
 
+                // Track as deleting so onSnapshot won't restore it
+                deletingItemsRef.current.add(itemId);
+
                 // Optimistic update
                 setItems(prev => prev.filter(i => i.id !== itemId));
                 setShowQuantitySelector(false);
@@ -14843,6 +14858,9 @@ END:VCALENDAR`;
             const deleteItem = async (id, skipAnimation = false) => {
                 const item = items.find(i => i.id === id);
 
+                // Track this item as being deleted so onSnapshot won't restore it
+                deletingItemsRef.current.add(id);
+
                 // Add exit animation
                 if (!skipAnimation) {
                     setExitingItems(prev => new Set([...prev, id]));
@@ -14860,7 +14878,8 @@ END:VCALENDAR`;
                 // Show undo toast
                 if (item) {
                     showUndoToast(t('itemDeleted') + ': ' + item.name, async () => {
-                        // Undo: re-add item to Firestore
+                        // Undo: remove from deleting set and re-add item
+                        deletingItemsRef.current.delete(id);
                         try {
                             const { id: _id, ...itemData } = item;
                             const docRef = await window.firestore.addDoc(
