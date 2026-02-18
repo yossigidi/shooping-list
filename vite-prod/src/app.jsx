@@ -17592,67 +17592,53 @@ END:VCALENDAR`;
                             )}
 
                             {/* Quick Actions Grid - Compact 5x2 */}
-                            <div className="grid grid-cols-5 gap-1 mb-1">
-                                <button onClick={() => setShowImportWhatsApp(true)}
-                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-green-50 dark:bg-green-900/30 border border-green-100 dark:border-green-800/50 transition-all active:scale-95">
-                                    <span className="text-base">📥</span>
-                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('importList')}</span>
-                                </button>
-                                <button onClick={exportToWhatsApp} disabled={items.filter(item => !item.purchased).length === 0}
-                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/50 transition-all active:scale-95 disabled:opacity-50">
-                                    <span className="text-base">📤</span>
-                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('exportList')}</span>
-                                </button>
-                                <button onClick={() => setShowSavedLists(true)}
-                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/50 transition-all active:scale-95 relative">
-                                    <span className="text-base">📋</span>
-                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('lists')}</span>
-                                    {savedLists.length > 0 && <span className="absolute -top-0.5 -right-0.5 bg-purple-500 text-white w-3.5 h-3.5 rounded-full text-[8px] flex items-center justify-center">{savedLists.length}</span>}
-                                </button>
-                                <button onClick={saveListForReuse}
-                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-amber-50 dark:bg-amber-900/30 border border-amber-100 dark:border-amber-800/50 transition-all active:scale-95">
-                                    <span className="text-base">💾</span>
-                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('save')}</span>
-                                </button>
-                                <button onClick={startPriceScanner}
-                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-100 dark:border-cyan-800/50 transition-all active:scale-95">
-                                    <span className="text-base">📸</span>
-                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('scanProductBtn')}</span>
-                                </button>
-                            </div>
-
-                            <div className="grid grid-cols-5 gap-1">
-                                <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : showToast(t('markPurchased'), 'info')}
-                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/50 transition-all active:scale-95">
-                                    <span className="text-base">✅</span>
-                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('finishShopping')}</span>
-                                </button>
-                                <button onClick={() => setShowHistory(true)}
-                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/50 transition-all active:scale-95">
-                                    <span className="text-base">📊</span>
-                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('history')}</span>
-                                </button>
-                                <button onClick={() => setShowCalendar(true)}
-                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-violet-50 dark:bg-violet-900/30 border border-violet-100 dark:border-violet-800/50 transition-all active:scale-95">
-                                    <span className="text-base">📅</span>
-                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('calendar')}</span>
-                                </button>
-                                <button onClick={() => setShowChat(true)}
-                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50 transition-all active:scale-95">
-                                    <span className="text-base relative">
-                                        💬
+                            {(() => {
+                                const qaBtnClass = "flex flex-col items-center justify-center h-14 rounded-lg border border-gray-200/60 dark:border-gray-700/60 bg-gray-50/80 dark:bg-gray-800/50 transition-all active:scale-95";
+                                const qaIconClass = "w-6 h-6 flex items-center justify-center text-[15px] leading-none";
+                                const qaLabelClass = "text-[9px] font-medium text-gray-500 dark:text-gray-400 leading-tight mt-0.5 text-center";
+                                return (
+                                <>
+                                <div className="grid grid-cols-5 gap-1 mb-1">
+                                    <button onClick={() => setShowImportWhatsApp(true)} className={qaBtnClass}>
+                                        <span className={qaIconClass}>📥</span><span className={qaLabelClass}>{t('importList')}</span>
+                                    </button>
+                                    <button onClick={exportToWhatsApp} disabled={items.filter(item => !item.purchased).length === 0} className={`${qaBtnClass} disabled:opacity-50`}>
+                                        <span className={qaIconClass}>📤</span><span className={qaLabelClass}>{t('exportList')}</span>
+                                    </button>
+                                    <button onClick={() => setShowSavedLists(true)} className={`${qaBtnClass} relative`}>
+                                        <span className={qaIconClass}>📋</span><span className={qaLabelClass}>{t('lists')}</span>
+                                        {savedLists.length > 0 && <span className="absolute -top-0.5 -right-0.5 bg-purple-500 text-white w-3.5 h-3.5 rounded-full text-[8px] flex items-center justify-center">{savedLists.length}</span>}
+                                    </button>
+                                    <button onClick={saveListForReuse} className={qaBtnClass}>
+                                        <span className={qaIconClass}>💾</span><span className={qaLabelClass}>{t('save')}</span>
+                                    </button>
+                                    <button onClick={startPriceScanner} className={qaBtnClass}>
+                                        <span className={qaIconClass}>📸</span><span className={qaLabelClass}>{t('scanProductBtn')}</span>
+                                    </button>
+                                </div>
+                                <div className="grid grid-cols-5 gap-1">
+                                    <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : showToast(t('markPurchased'), 'info')} className={qaBtnClass}>
+                                        <span className={qaIconClass}>✅</span><span className={qaLabelClass}>{t('finishShopping')}</span>
+                                    </button>
+                                    <button onClick={() => setShowHistory(true)} className={qaBtnClass}>
+                                        <span className={qaIconClass}>📊</span><span className={qaLabelClass}>{t('history')}</span>
+                                    </button>
+                                    <button onClick={() => setShowCalendar(true)} className={qaBtnClass}>
+                                        <span className={qaIconClass}>📅</span><span className={qaLabelClass}>{t('calendar')}</span>
+                                    </button>
+                                    <button onClick={() => setShowChat(true)} className={`${qaBtnClass} relative`}>
+                                        <span className={qaIconClass}>💬</span><span className={qaLabelClass}>{t('familyChat')}</span>
                                         {chatMessages.some(msg => msg.senderUid !== user?.uid && (!msg.readBy || !msg.readBy.includes(user?.uid))) && (
-                                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                                            <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                                         )}
-                                    </span>
-                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('familyChat')}</span>
-                                </button>
-                                <button onClick={() => setShowReminderModal(true)}
-                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-amber-50 dark:bg-amber-900/30 border border-amber-100 dark:border-amber-800/50 transition-all active:scale-95">
-                                    <span className="text-base">🔔</span>
-                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('sendReminder')}</span>
-                                </button>
-                            </div>
+                                    </button>
+                                    <button onClick={() => setShowReminderModal(true)} className={qaBtnClass}>
+                                        <span className={qaIconClass}>🔔</span><span className={qaLabelClass}>{t('sendReminder')}</span>
+                                    </button>
+                                </div>
+                                </>
+                                );
+                            })()}
 
                             {/* AI Assistant Button */}
                             <div className="mt-2">
