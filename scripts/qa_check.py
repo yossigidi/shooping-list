@@ -2,10 +2,14 @@
 """QA Check: Compare product names between app and database"""
 
 from supabase import create_client
+import os
 import re
 
-SUPABASE_URL = "https://uegcgdanmufoilxgxnjm.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVlZ2NnZGFubXVmb2lseGd4bmptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1MTk2NTcsImV4cCI6MjA4NjA5NTY1N30.vcyH3-ve7ol9t4d16HpAyK8rUSpkZPZwG4pRu6LB2Qs"
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise ValueError("Missing SUPABASE_URL or SUPABASE_KEY environment variables")
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
