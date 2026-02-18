@@ -18406,63 +18406,64 @@ END:VCALENDAR`;
                         <span aria-hidden="true">↑</span>
                     </button>
 
-                    {/* Categories Modal */}
+                    {/* Categories Modal - Full Screen */}
                     {showCategories && (
-                        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] flex items-start justify-center pt-8 overflow-y-auto" onClick={() => setShowCategories(false)}>
-                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 mb-8 animate-fadeIn" onClick={e => e.stopPropagation()}>
-                                {/* Header with banner image */}
-                                <div className="relative overflow-hidden rounded-t-2xl h-28">
-                                    <img src="/category-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70"></div>
-                                    <div className="absolute inset-0 category-shimmer-sweep"></div>
-                                    <div className="relative z-10 flex items-center justify-between h-full px-5">
-                                        <div></div>
-                                        <div className="text-center">
-                                            <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{t('selectCategory')}</h2>
-                                            <p className="text-sm text-white/80 mt-1">{Object.keys(CATEGORIES).length} {t('selectCategory').includes('קטגוריה') ? 'קטגוריות' : 'categories'}</p>
-                                        </div>
-                                        <button onClick={() => setShowCategories(false)} className="bg-white/20 backdrop-blur-sm rounded-full w-8 h-8 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
-                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                        </button>
+                        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-[9999] flex flex-col animate-fadeIn">
+                            {/* Header with banner image */}
+                            <div className="relative overflow-hidden h-32 flex-shrink-0">
+                                <img src="/category-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+                                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70"></div>
+                                <div className="absolute inset-0 category-shimmer-sweep"></div>
+                                <div className="relative z-10 flex items-end justify-between h-full px-5 pb-4">
+                                    <div className="w-9"></div>
+                                    <div className="text-center flex-1">
+                                        <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{t('selectCategory')}</h2>
+                                        <p className="text-sm text-white/80 mt-0.5">{Object.keys(CATEGORIES).length} {t('selectCategory').includes('קטגוריה') ? 'קטגוריות' : 'categories'}</p>
                                     </div>
-                                </div>
-                                {/* Categories Grid */}
-                                <div className="p-4">
-                                    <div className="grid grid-cols-3 gap-2.5">
-                                        {Object.entries(CATEGORIES)
-                                            .map(([key, cat]) => ({ key, cat, count: items.filter(item => item.category === key && !item.purchased).length }))
-                                            .sort((a, b) => b.count - a.count)
-                                            .map(({ key, cat, count }) => (
-                                            <button
-                                                key={key}
-                                                onClick={() => { setSelectedCategory(key); setShowCategories(false); setTimeout(() => { const el = document.getElementById('products-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }}
-                                                className={`relative overflow-hidden rounded-xl h-24 transition-all active:scale-[0.95] hover:scale-[1.02] ${count > 0 ? 'ring-2 ring-teal-400 shadow-md shadow-teal-100 dark:shadow-teal-900/30' : 'shadow-sm border border-gray-100 dark:border-gray-700'}`}
-                                            >
-                                                {cat.image ? (
-                                                    <img src={cat.image} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-                                                ) : (
-                                                    <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-5xl">{cat.icon}</div>
-                                                )}
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                                                <div className="absolute bottom-0 left-0 right-0 p-2">
-                                                    <div className="text-white text-xs font-bold leading-tight drop-shadow-md text-center">{getCategoryName(key)}</div>
-                                                </div>
-                                                {count > 0 && (
-                                                    <div className="absolute top-1.5 left-1.5 bg-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg min-w-[20px] text-center">
-                                                        {count}
-                                                    </div>
-                                                )}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    {/* Show All button */}
-                                    <button
-                                        onClick={() => { setSelectedCategory(null); setShowCategories(false); }}
-                                        className="w-full mt-4 py-3 bg-gray-100 dark:bg-gray-700 rounded-xl font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm"
-                                    >
-                                        {t('allCategories') || 'הצג את כל המוצרים'}
+                                    <button onClick={() => setShowCategories(false)} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </button>
                                 </div>
+                            </div>
+                            {/* Categories Grid - Scrollable */}
+                            <div className="flex-1 overflow-y-auto p-4">
+                                <div className="grid grid-cols-3 gap-2.5">
+                                    {Object.entries(CATEGORIES)
+                                        .map(([key, cat]) => ({ key, cat, count: items.filter(item => item.category === key && !item.purchased).length }))
+                                        .sort((a, b) => b.count - a.count)
+                                        .map(({ key, cat, count }) => (
+                                        <button
+                                            key={key}
+                                            onClick={() => { setSelectedCategory(key); setShowCategories(false); }}
+                                            className={`relative overflow-hidden rounded-xl h-24 transition-all active:scale-[0.95] hover:scale-[1.02] ${count > 0 ? 'ring-2 ring-teal-400 shadow-md shadow-teal-100 dark:shadow-teal-900/30' : 'shadow-sm border border-gray-100 dark:border-gray-700'}`}
+                                        >
+                                            {cat.image ? (
+                                                <img src={cat.image} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                                            ) : (
+                                                <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-5xl">{cat.icon}</div>
+                                            )}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                                            <div className="absolute bottom-0 left-0 right-0 p-2">
+                                                <div className="text-white text-xs font-bold leading-tight drop-shadow-md text-center">{getCategoryName(key)}</div>
+                                            </div>
+                                            {count > 0 && (
+                                                <div className="absolute top-1.5 left-1.5 bg-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg min-w-[20px] text-center">
+                                                    {count}
+                                                </div>
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            {/* Bottom Button */}
+                            <div className="flex-shrink-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 p-4 flex justify-center">
+                                <button
+                                    onClick={() => { setSelectedCategory(null); setShowCategories(false); }}
+                                    className="bg-gray-800 dark:bg-gray-700 text-white px-6 py-3 rounded-full font-bold shadow-lg transition-all active:scale-95 flex items-center gap-2 text-sm border border-gray-600"
+                                >
+                                    <span>←</span>
+                                    <span>{t('allCategories') || 'הצג את כל המוצרים'}</span>
+                                </button>
                             </div>
                         </div>
                     )}
