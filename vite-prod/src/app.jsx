@@ -17373,7 +17373,7 @@ END:VCALENDAR`;
                     )}
 
                     <div className="max-w-4xl mx-auto">
-                        <div className="glass rounded-3xl shadow-xl p-6 mb-6 relative overflow-hidden">
+                        <div className="glass rounded-3xl shadow-xl p-6 mb-2 relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-4">
@@ -17641,7 +17641,7 @@ END:VCALENDAR`;
                             })()}
 
                             {/* AI Assistant Button */}
-                            <div className="mt-2">
+                            <div className="mt-3">
                                 <button
                                     onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
                                     className="w-full relative overflow-hidden bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-3 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
