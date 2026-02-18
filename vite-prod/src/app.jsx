@@ -831,8 +831,8 @@ import { createRoot } from 'react-dom/client';
                 welcomeToListNest: 'ברוכים הבאים ל-ListNest!',
                 smartListForFamily: 'רשימת קניות חכמה לכל המשפחה',
                 addingProducts: 'הוספת מוצרים',
-                onboardCategories: 'קטגוריות: בחר קטגוריה ולחץ על מוצר',
-                onboardSearch: 'חיפוש: הקלד שם מוצר בשורת החיפוש',
+                onboardCategories: 'באנר קטגוריות: לחץ על הבאנר ובחר קטגוריה מתוך כרטיסי תמונות',
+                onboardSearch: 'חיפוש: שורת חיפוש קבועה בתחתית המסך',
                 onboardVoice: 'קולי: לחץ על המיקרופון ואמור את המוצר',
                 next: 'הבא',
                 managingList: 'ניהול הרשימה',
@@ -840,6 +840,11 @@ import { createRoot } from 'react-dom/client';
                 onboardSwipeRight: 'החלקה ימינה: מחיקת מוצר',
                 onboardQuantity: 'לחיצה על כמות: שינוי כמות',
                 onboardNote: 'לחיצה ארוכה: עריכת הערה',
+                smartFeatures: 'פיצ\'רים חכמים',
+                onboardHotDeals: 'מבצעים חמים: צפה במבצעים הכי שווים ברשתות',
+                onboardPriceCompare: 'השוואת מחירים: השווה מחירים בין רשתות השיווק',
+                onboardHoliday: 'המלצות חג: קבל הצעות מוצרים לפי חגים קרובים',
+                onboardScanProduct: 'סריקת מוצר: סרוק ברקוד להוספה מהירה',
                 familySharing: 'שיתוף משפחתי',
                 onboardShare: 'שיתוף: קוד, QR, WhatsApp או קישור',
                 onboardParents: 'הורים: אבא/אמא - הרשאות מנהל מלאות',
@@ -850,10 +855,13 @@ import { createRoot } from 'react-dom/client';
                 onboardYoungChild: 'ילדים צעירים: התחברות עם קוד PIN בלבד (בלי מייל)',
                 onboardOlderTeen: 'נערים בוגרים: התחברות עם מייל + הרשאות ניהול מורחבות',
                 onboardSecurity: 'אבטחה: איפוס PIN ומחיקת חשבון מהגדרות המשפחה',
-                settingsControl: 'הגדרות ובקרה',
-                onboardSettings: 'כפתור הגדרות: בפינה הימנית למעלה',
+                toolsAndMore: 'כלים ונגישות',
+                onboardQuickActions: 'סרגל כלים: ייבוא/ייצוא רשימות, שמירה, צ\'אט, סטטיסטיקות ועוד',
+                onboardAccessibility: 'נגישות: כפתור נגישות כחול לנוחות שימוש מקסימלית',
                 onboardShoppingMode: 'מצב קניות: מונע כיבוי מסך בזמן קניה',
                 onboardDarkLight: 'מצב כהה/בהיר: התאמה לסביבה',
+                settingsControl: 'הגדרות ובקרה',
+                onboardSettings: 'כפתור הגדרות: בפינה הימנית למעלה',
                 onboardRefresh: 'רענון: עדכון גרסה חדשה',
                 onboardLogout: 'התנתקות: יציאה מהחשבון',
                 readyToShop: 'מוכנים לקניות!',
@@ -1842,8 +1850,8 @@ import { createRoot } from 'react-dom/client';
                 welcomeToListNest: 'Welcome to ListNest!',
                 smartListForFamily: 'Smart shopping list for the whole family',
                 addingProducts: 'Adding Products',
-                onboardCategories: 'Categories: Select a category and click on a product',
-                onboardSearch: 'Search: Type product name in the search bar',
+                onboardCategories: 'Category banner: Tap the banner and select from image cards',
+                onboardSearch: 'Search: Fixed search bar at the bottom of the screen',
                 onboardVoice: 'Voice: Click the microphone and say the product',
                 next: 'Next',
                 managingList: 'Managing the List',
@@ -1851,6 +1859,11 @@ import { createRoot } from 'react-dom/client';
                 onboardSwipeRight: 'Swipe right: Delete product',
                 onboardQuantity: 'Click on quantity: Change quantity',
                 onboardNote: 'Long press: Edit note',
+                smartFeatures: 'Smart Features',
+                onboardHotDeals: 'Hot Deals: View the best promotions from stores',
+                onboardPriceCompare: 'Price Compare: Compare prices across supermarket chains',
+                onboardHoliday: 'Holiday Tips: Product suggestions for upcoming holidays',
+                onboardScanProduct: 'Scan Product: Scan a barcode for quick addition',
                 familySharing: 'Family Sharing',
                 onboardShare: 'Share: Code, QR, WhatsApp or link',
                 onboardParents: 'Parents: Dad/Mom - full admin permissions',
@@ -1861,10 +1874,13 @@ import { createRoot } from 'react-dom/client';
                 onboardYoungChild: 'Young children: PIN login only (no email)',
                 onboardOlderTeen: 'Older teens: Email login + extended management permissions',
                 onboardSecurity: 'Security: Reset PIN and delete account from family settings',
-                settingsControl: 'Settings and Control',
-                onboardSettings: 'Settings button: In the top right corner',
+                toolsAndMore: 'Tools & Accessibility',
+                onboardQuickActions: 'Toolbar: Import/export lists, save, chat, statistics and more',
+                onboardAccessibility: 'Accessibility: Blue accessibility button for maximum comfort',
                 onboardShoppingMode: 'Shopping mode: Prevents screen from turning off while shopping',
                 onboardDarkLight: 'Dark/light mode: Adapt to environment',
+                settingsControl: 'Settings and Control',
+                onboardSettings: 'Settings button: In the top right corner',
                 onboardRefresh: 'Refresh: Update to new version',
                 onboardLogout: 'Logout: Exit from account',
                 readyToShop: 'Ready to shop!',
@@ -2753,8 +2769,8 @@ import { createRoot } from 'react-dom/client';
                 // Onboarding
                 welcomeToListNest: 'Добро пожаловать в ListNest!',
                 smartListForFamily: 'Умный список покупок для всей семьи',
-                onboardCategories: 'Категории: выберите категорию и нажмите на продукт',
-                onboardSearch: 'Поиск: введите название продукта',
+                onboardCategories: 'Баннер категорий: нажмите на баннер и выберите из карточек',
+                onboardSearch: 'Поиск: фиксированная строка поиска внизу экрана',
                 onboardVoice: 'Голос: нажмите микрофон и скажите продукт',
                 next: 'Далее',
                 managingList: 'Управление списком',
@@ -2762,6 +2778,11 @@ import { createRoot } from 'react-dom/client';
                 onboardSwipeRight: 'Свайп вправо: удалить продукт',
                 onboardQuantity: 'Нажатие на количество: изменить количество',
                 onboardNote: 'Долгое нажатие: редактировать заметку',
+                smartFeatures: 'Умные функции',
+                onboardHotDeals: 'Горячие акции: лучшие предложения из магазинов',
+                onboardPriceCompare: 'Сравнение цен: сравните цены в разных сетях',
+                onboardHoliday: 'Праздничные советы: предложения товаров к праздникам',
+                onboardScanProduct: 'Сканирование: отсканируйте штрих-код для быстрого добавления',
                 familySharing: 'Семейный доступ',
                 onboardShare: 'Поделиться: код, QR, WhatsApp или ссылка',
                 onboardParents: 'Родители: полные права администратора',
@@ -2772,10 +2793,13 @@ import { createRoot } from 'react-dom/client';
                 onboardYoungChild: 'Маленькие дети: вход только по PIN (без email)',
                 onboardOlderTeen: 'Подростки: вход с email + расширенные права',
                 onboardSecurity: 'Безопасность: сброс PIN в настройках семьи',
-                settingsControl: 'Настройки и управление',
-                onboardSettings: 'Кнопка настроек: в правом верхнем углу',
+                toolsAndMore: 'Инструменты и доступность',
+                onboardQuickActions: 'Панель инструментов: импорт/экспорт списков, чат, статистика',
+                onboardAccessibility: 'Доступность: синяя кнопка доступности для удобства',
                 onboardShoppingMode: 'Режим покупок: экран не выключается',
                 onboardDarkLight: 'Тёмный/светлый режим: адаптация к окружению',
+                settingsControl: 'Настройки и управление',
+                onboardSettings: 'Кнопка настроек: в правом верхнем углу',
                 onboardRefresh: 'Обновление: получить новую версию',
                 onboardLogout: 'Выход: выйти из аккаунта',
                 readyToShop: 'Готовы к покупкам!',
@@ -3658,8 +3682,8 @@ import { createRoot } from 'react-dom/client';
                 welcomeToListNest: 'مرحباً بك في ListNest!',
                 smartListForFamily: 'قائمة تسوق ذكية لكل العائلة',
                 addingProducts: 'إضافة المنتجات',
-                onboardCategories: 'الفئات: اختر فئة واضغط على منتج',
-                onboardSearch: 'البحث: اكتب اسم المنتج في شريط البحث',
+                onboardCategories: 'بانر الفئات: اضغط على البانر واختر فئة من بطاقات الصور',
+                onboardSearch: 'البحث: شريط بحث ثابت في أسفل الشاشة',
                 onboardVoice: 'صوتي: اضغط على الميكروفون وقل المنتج',
                 next: 'التالي',
                 managingList: 'إدارة القائمة',
@@ -3667,6 +3691,11 @@ import { createRoot } from 'react-dom/client';
                 onboardSwipeRight: 'سحب لليمين: حذف المنتج',
                 onboardQuantity: 'الضغط على الكمية: تغيير الكمية',
                 onboardNote: 'ضغط مطول: تعديل الملاحظة',
+                smartFeatures: 'ميزات ذكية',
+                onboardHotDeals: 'عروض ساخنة: شاهد أفضل العروض من المتاجر',
+                onboardPriceCompare: 'مقارنة أسعار: قارن الأسعار بين سلاسل السوبرماركت',
+                onboardHoliday: 'اقتراحات الأعياد: اقتراحات منتجات للأعياد القادمة',
+                onboardScanProduct: 'مسح المنتج: امسح الباركود للإضافة السريعة',
                 familySharing: 'المشاركة العائلية',
                 onboardShare: 'المشاركة: رمز، QR، WhatsApp أو رابط',
                 onboardParents: 'الوالدان: صلاحيات مدير كاملة',
@@ -3677,10 +3706,13 @@ import { createRoot } from 'react-dom/client';
                 onboardYoungChild: 'الأطفال الصغار: تسجيل دخول بـ PIN فقط (بدون بريد)',
                 onboardOlderTeen: 'المراهقون: تسجيل دخول بالبريد + صلاحيات إدارة موسعة',
                 onboardSecurity: 'الأمان: إعادة تعيين PIN وحذف الحساب من إعدادات العائلة',
-                settingsControl: 'الإعدادات والتحكم',
-                onboardSettings: 'زر الإعدادات: في الزاوية العلوية اليمنى',
+                toolsAndMore: 'الأدوات وإمكانية الوصول',
+                onboardQuickActions: 'شريط الأدوات: استيراد/تصدير القوائم، حفظ، دردشة، إحصائيات والمزيد',
+                onboardAccessibility: 'إمكانية الوصول: زر أزرق لإمكانية الوصول لراحة قصوى',
                 onboardShoppingMode: 'وضع التسوق: يمنع إيقاف الشاشة أثناء التسوق',
                 onboardDarkLight: 'الوضع الداكن/الفاتح: التكيف مع البيئة',
+                settingsControl: 'الإعدادات والتحكم',
+                onboardSettings: 'زر الإعدادات: في الزاوية العلوية اليمنى',
                 onboardRefresh: 'التحديث: الحصول على إصدار جديد',
                 onboardLogout: 'تسجيل الخروج: الخروج من الحساب',
                 readyToShop: 'جاهز للتسوق!',
@@ -18726,153 +18758,199 @@ END:VCALENDAR`;
                         const isRTL = language === 'he' || language === 'ar';
                         const prevArrow = isRTL ? ' →' : '← ';
                         const nextArrow = isRTL ? '← ' : ' →';
+                        const navButtons = (prev, next) => (
+                            <div className="flex gap-2">
+                                <button onClick={() => setOnboardingStep(prev)} className="flex-1 py-2.5 bg-gray-100 dark:bg-gray-700 rounded-xl font-medium text-gray-700 dark:text-gray-200">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
+                                <button onClick={() => setOnboardingStep(next)} className="flex-1 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-medium">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
+                            </div>
+                        );
                         return (
                         <div className="fixed inset-0 bg-black/70 z-[10002] flex items-center justify-center p-4">
-                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden max-h-[90vh] overflow-y-auto">
+                                {/* Step 0: Welcome */}
                                 {onboardingStep === 0 && (
                                     <div className="p-6 text-center">
-                                        <div className="text-6xl mb-4">🛒</div>
+                                        <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg">
+                                            <span className="text-4xl">🛒</span>
+                                        </div>
                                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{t('welcomeToListNest')}</h2>
                                         <p className="text-gray-600 dark:text-gray-300 mb-6">{t('smartListForFamily')}</p>
-                                        <button onClick={() => setOnboardingStep(1)} className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold">
+                                        <button onClick={() => setOnboardingStep(1)} className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold shadow-lg">
                                             {t('letsStart')}{nextArrow}
                                         </button>
                                     </div>
                                 )}
+                                {/* Step 1: Adding Products */}
                                 {onboardingStep === 1 && (
                                     <div className="p-6">
-                                        <div className="text-4xl mb-3 text-center">📱</div>
-                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('addingProducts')}</h3>
-                                        <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4 mb-4">
-                                            <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <li>📂 {t('onboardCategories')}</li>
-                                                <li>🔍 {t('onboardSearch')}</li>
-                                                <li>🎤 {t('onboardVoice')}</li>
-                                            </ul>
+                                        <div className="text-4xl mb-3 text-center">🏪</div>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('addingProducts')}</h3>
+                                        <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4 mb-4 space-y-3">
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center text-lg flex-shrink-0">🖼️</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardCategories')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center text-lg flex-shrink-0">🔍</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardSearch')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center text-lg flex-shrink-0">🎤</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardVoice')}</span>
+                                            </div>
                                         </div>
-                                        <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(0)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
-                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
-                                        </div>
+                                        {navButtons(0, 2)}
                                     </div>
                                 )}
+                                {/* Step 2: Managing List */}
                                 {onboardingStep === 2 && (
                                     <div className="p-6">
                                         <div className="text-4xl mb-3 text-center">👆</div>
-                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('managingList')}</h3>
-                                        <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4 mb-4">
-                                            <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <li>👈 {t('onboardSwipeLeft')}</li>
-                                                <li>👉 {t('onboardSwipeRight')}</li>
-                                                <li>🔢 {t('onboardQuantity')}</li>
-                                                <li>📝 {t('onboardNote')}</li>
-                                            </ul>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('managingList')}</h3>
+                                        <div className="bg-green-50 dark:bg-green-900/30 rounded-xl p-4 mb-4 space-y-3">
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-800 flex items-center justify-center text-lg flex-shrink-0">👈</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardSwipeLeft')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-800 flex items-center justify-center text-lg flex-shrink-0">👉</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardSwipeRight')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-800 flex items-center justify-center text-lg flex-shrink-0">🔢</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardQuantity')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-800 flex items-center justify-center text-lg flex-shrink-0">📝</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardNote')}</span>
+                                            </div>
                                         </div>
-                                        <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(1)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
-                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
-                                        </div>
+                                        {navButtons(1, 3)}
                                     </div>
                                 )}
+                                {/* Step 3: Smart Features (NEW) */}
                                 {onboardingStep === 3 && (
                                     <div className="p-6">
-                                        <div className="text-4xl mb-3 text-center">👨‍👩‍👧‍👦</div>
-                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('familySharing')}</h3>
-                                        <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4 mb-4">
-                                            <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <li>📤 {t('onboardShare')}</li>
-                                                <li>👨‍👩‍👦 {t('onboardParents')}</li>
-                                                <li>👦 {t('onboardChildren')}</li>
-                                                <li>🔔 {t('onboardNotifications')}</li>
-                                                <li>💬 {t('onboardChat')}</li>
-                                            </ul>
+                                        <div className="text-4xl mb-3 text-center">✨</div>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('smartFeatures')}</h3>
+                                        <div className="bg-amber-50 dark:bg-amber-900/30 rounded-xl p-4 mb-4 space-y-3">
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-800 flex items-center justify-center text-lg flex-shrink-0">🔥</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardHotDeals')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-800 flex items-center justify-center text-lg flex-shrink-0">📊</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardPriceCompare')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-800 flex items-center justify-center text-lg flex-shrink-0">🎉</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardHoliday')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-800 flex items-center justify-center text-lg flex-shrink-0">📷</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardScanProduct')}</span>
+                                            </div>
                                         </div>
-                                        <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(2)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
-                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
-                                        </div>
+                                        {navButtons(2, 4)}
                                     </div>
                                 )}
+                                {/* Step 4: Family Sharing */}
                                 {onboardingStep === 4 && (
                                     <div className="p-6">
+                                        <div className="text-4xl mb-3 text-center">👨‍👩‍👧‍👦</div>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('familySharing')}</h3>
+                                        <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4 mb-4 space-y-3">
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">📤</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardShare')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">👨‍👩‍👦</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardParents')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">👦</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardChildren')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">🔔</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardNotifications')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">💬</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardChat')}</span>
+                                            </div>
+                                        </div>
+                                        {navButtons(3, 5)}
+                                    </div>
+                                )}
+                                {/* Step 5: Child Accounts */}
+                                {onboardingStep === 5 && (
+                                    <div className="p-6">
                                         <div className="text-4xl mb-3 text-center">👶</div>
-                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('addChildNoEmail')}</h3>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('addChildNoEmail')}</h3>
                                         <div className="bg-pink-50 dark:bg-pink-900/30 rounded-xl p-4 mb-4">
                                             <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 text-center">{t('onboardChildDesc')}</p>
                                             <div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <div className="flex items-start gap-2">
-                                                    <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">1</span>
-                                                    <span>{t('onboardChildStep1')}</span>
-                                                </div>
-                                                <div className="flex items-start gap-2">
-                                                    <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">2</span>
-                                                    <span>{t('onboardChildStep2')}</span>
-                                                </div>
-                                                <div className="flex items-start gap-2">
-                                                    <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">3</span>
-                                                    <span>{t('onboardChildStep3')}</span>
-                                                </div>
-                                                <div className="flex items-start gap-2">
-                                                    <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">4</span>
-                                                    <span>{t('onboardChildStep4')}</span>
-                                                </div>
-                                                <div className="flex items-start gap-2">
-                                                    <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">5</span>
-                                                    <span>{t('onboardChildStep5')}</span>
-                                                </div>
+                                                {[t('onboardChildStep1'), t('onboardChildStep2'), t('onboardChildStep3'), t('onboardChildStep4'), t('onboardChildStep5')].map((step, i) => (
+                                                    <div key={i} className="flex items-start gap-2">
+                                                        <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">{i + 1}</span>
+                                                        <span>{step}</span>
+                                                    </div>
+                                                ))}
                                             </div>
                                             <div className="mt-3 p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-xs text-green-700 dark:text-green-300 text-center">
                                                 💡 {t('onboardChildTip')}
                                             </div>
                                         </div>
-                                        <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(3)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
-                                            <button onClick={() => setOnboardingStep(5)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
-                                        </div>
+                                        {navButtons(4, 6)}
                                     </div>
                                 )}
-                                {onboardingStep === 5 && (
-                                    <div className="p-6">
-                                        <div className="text-4xl mb-3 text-center">⚙️</div>
-                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 text-center">{t('settingsControl')}</h3>
-                                        <div className="bg-gray-50 dark:bg-gray-900/30 rounded-xl p-4 mb-4">
-                                            <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-                                                <li>⚙️ {t('onboardSettings')}</li>
-                                                <li>🛒 {t('onboardShoppingMode')}</li>
-                                                <li>🌙 {t('onboardDarkLight')}</li>
-                                                <li>🔄 {t('onboardRefresh')}</li>
-                                                <li>🚪 {t('onboardLogout')}</li>
-                                            </ul>
-                                        </div>
-                                        <div className="flex gap-2">
-                                            <button onClick={() => setOnboardingStep(4)} className="flex-1 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
-                                            <button onClick={() => setOnboardingStep(6)} className="flex-1 py-2 bg-indigo-500 text-white rounded-xl">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
-                                        </div>
-                                    </div>
-                                )}
+                                {/* Step 6: Tools & Accessibility (NEW) */}
                                 {onboardingStep === 6 && (
+                                    <div className="p-6">
+                                        <div className="text-4xl mb-3 text-center">🧰</div>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('toolsAndMore')}</h3>
+                                        <div className="bg-cyan-50 dark:bg-cyan-900/30 rounded-xl p-4 mb-4 space-y-3">
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-800 flex items-center justify-center text-lg flex-shrink-0">📋</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardQuickActions')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-800 flex items-center justify-center text-lg flex-shrink-0">♿</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardAccessibility')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-800 flex items-center justify-center text-lg flex-shrink-0">🛒</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardShoppingMode')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <span className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-800 flex items-center justify-center text-lg flex-shrink-0">🌙</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardDarkLight')}</span>
+                                            </div>
+                                        </div>
+                                        {navButtons(5, 7)}
+                                    </div>
+                                )}
+                                {/* Step 7: Ready! */}
+                                {onboardingStep === 7 && (
                                     <div className="p-6 text-center">
-                                        <div className="text-6xl mb-4">🎉</div>
+                                        <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-lg">
+                                            <span className="text-4xl">🎉</span>
+                                        </div>
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{t('readyToShop')}</h3>
                                         <p className="text-gray-600 dark:text-gray-300 mb-4">{t('canReturnToGuide')}</p>
                                         <div className="flex flex-wrap gap-2 text-xs text-gray-500 dark:text-gray-400 justify-center mb-4">
                                             <span>🌐 עברית | English | Русский | العربية</span>
                                         </div>
-                                        <div className="flex gap-2 text-xs text-gray-500 dark:text-gray-400 justify-center mb-4">
-                                            <span>💬 {t('familyChat')}</span>
-                                            <span>•</span>
-                                            <span>⚙️ {t('settings')}</span>
-                                            <span>•</span>
-                                            <span>♿ {t('accessibility')}</span>
-                                        </div>
-                                        <button onClick={completeOnboarding} className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold">
+                                        <button onClick={completeOnboarding} className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold shadow-lg">
                                             ✨ {t('letsStart')}
                                         </button>
                                     </div>
                                 )}
                                 {/* Progress dots */}
                                 <div className="flex justify-center gap-2 pb-4">
-                                    {[0, 1, 2, 3, 4, 5, 6].map(step => (
+                                    {[0, 1, 2, 3, 4, 5, 6, 7].map(step => (
                                         <div key={step} className={`w-2 h-2 rounded-full transition-colors ${onboardingStep === step ? 'bg-indigo-500' : 'bg-gray-300 dark:bg-gray-600'}`} />
                                     ))}
                                 </div>
