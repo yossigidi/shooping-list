@@ -17591,84 +17591,66 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
-                            {/* Quick Actions Bar - 5 icons in a row */}
-                            <div className="grid grid-cols-5 gap-2 mb-4">
-                                <button
-                                    onClick={() => setShowImportWhatsApp(true)}
-                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/50 transition-all"
-                                >
-                                    <span className="text-2xl mb-1">📥</span>
-                                    <span className="text-xs font-medium">{t('importList')}</span>
+                            {/* Quick Actions Grid - Compact 5x2 */}
+                            <div className="grid grid-cols-5 gap-1.5 mb-1.5">
+                                <button onClick={() => setShowImportWhatsApp(true)}
+                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-green-50 dark:bg-green-900/30 border border-green-100 dark:border-green-800/50 transition-all active:scale-95">
+                                    <span className="text-xl mb-0.5">📥</span>
+                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('importList')}</span>
                                 </button>
-                                <button
-                                    onClick={exportToWhatsApp}
-                                    disabled={items.filter(item => !item.purchased).length === 0}
-                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-all disabled:opacity-50"
-                                >
-                                    <span className="text-2xl mb-1">📤</span>
-                                    <span className="text-xs font-medium">{t('exportList')}</span>
+                                <button onClick={exportToWhatsApp} disabled={items.filter(item => !item.purchased).length === 0}
+                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/50 transition-all active:scale-95 disabled:opacity-50">
+                                    <span className="text-xl mb-0.5">📤</span>
+                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('exportList')}</span>
                                 </button>
-                                <button
-                                    onClick={() => setShowSavedLists(true)}
-                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all relative"
-                                >
-                                    <span className="text-2xl mb-1">📋</span>
-                                    <span className="text-xs font-medium">{t('lists')}</span>
-                                    {savedLists.length > 0 && <span className="absolute top-1 right-1 bg-purple-500 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center">{savedLists.length}</span>}
+                                <button onClick={() => setShowSavedLists(true)}
+                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/50 transition-all active:scale-95 relative">
+                                    <span className="text-xl mb-0.5">📋</span>
+                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('lists')}</span>
+                                    {savedLists.length > 0 && <span className="absolute top-0.5 right-0.5 bg-purple-500 text-white w-4 h-4 rounded-full text-[9px] flex items-center justify-center">{savedLists.length}</span>}
                                 </button>
-                                <button
-                                    onClick={saveListForReuse}
-                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-all"
-                                >
-                                    <span className="text-2xl mb-1">💾</span>
-                                    <span className="text-xs font-medium">{t('save')}</span>
+                                <button onClick={saveListForReuse}
+                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-amber-50 dark:bg-amber-900/30 border border-amber-100 dark:border-amber-800/50 transition-all active:scale-95">
+                                    <span className="text-xl mb-0.5">💾</span>
+                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('save')}</span>
                                 </button>
-                                <button
-                                    onClick={startPriceScanner}
-                                    className="flex flex-col items-center justify-center py-3 rounded-xl bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 transition-all"
-                                >
-                                    <span className="text-2xl mb-1">📸</span>
-                                    <span className="text-xs font-medium">{t('scanProductBtn')}</span>
+                                <button onClick={startPriceScanner}
+                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-100 dark:border-cyan-800/50 transition-all active:scale-95">
+                                    <span className="text-xl mb-0.5">📸</span>
+                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('scanProductBtn')}</span>
                                 </button>
                             </div>
 
-                            {/* Holiday Recommendations Banner - moved to after progress bar */}
-
-                            <div className="grid grid-cols-5 gap-2">
+                            <div className="grid grid-cols-5 gap-1.5">
                                 <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : showToast(t('markPurchased'), 'info')}
-                                    className="relative overflow-hidden bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/30 dark:to-green-900/30 p-3 rounded-xl border border-emerald-200/50 dark:border-emerald-700/50 card-hover group">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1">✅</div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('finishShopping')}</div>
+                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/50 transition-all active:scale-95">
+                                    <span className="text-xl mb-0.5">✅</span>
+                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('finishShopping')}</span>
                                 </button>
                                 <button onClick={() => setShowHistory(true)}
-                                    className="relative overflow-hidden bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-3 rounded-xl border border-purple-200/50 dark:border-purple-700/50 card-hover group">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1">📊</div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('history')}</div>
+                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/50 transition-all active:scale-95">
+                                    <span className="text-xl mb-0.5">📊</span>
+                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('history')}</span>
                                 </button>
                                 <button onClick={() => setShowCalendar(true)}
-                                    className="relative overflow-hidden bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/30 dark:to-purple-900/30 p-3 rounded-xl border border-violet-200/50 dark:border-violet-700/50 card-hover group">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1">📅</div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('calendar')}</div>
+                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-violet-50 dark:bg-violet-900/30 border border-violet-100 dark:border-violet-800/50 transition-all active:scale-95">
+                                    <span className="text-xl mb-0.5">📅</span>
+                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('calendar')}</span>
                                 </button>
                                 <button onClick={() => setShowChat(true)}
-                                    className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 p-3 rounded-xl border border-blue-200/50 dark:border-blue-700/50 card-hover group">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1 relative">
+                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50 transition-all active:scale-95">
+                                    <span className="text-xl mb-0.5 relative">
                                         💬
                                         {chatMessages.some(msg => msg.senderUid !== user?.uid && (!msg.readBy || !msg.readBy.includes(user?.uid))) && (
-                                            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+                                            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></span>
                                         )}
-                                    </div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('familyChat')}</div>
+                                    </span>
+                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('familyChat')}</span>
                                 </button>
                                 <button onClick={() => setShowReminderModal(true)}
-                                    className="relative overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 p-3 rounded-xl border border-amber-200/50 dark:border-amber-700/50 card-hover group">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                                    <div className="text-2xl mb-1">🔔</div>
-                                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{t('sendReminder')}</div>
+                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-amber-50 dark:bg-amber-900/30 border border-amber-100 dark:border-amber-800/50 transition-all active:scale-95">
+                                    <span className="text-xl mb-0.5">🔔</span>
+                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('sendReminder')}</span>
                                 </button>
                             </div>
 
