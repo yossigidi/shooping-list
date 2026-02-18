@@ -574,6 +574,28 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .dark .category-toggle-btn {
     box-shadow: 0 4px 15px rgba(13, 148, 136, 0.25), 0 1px 3px rgba(0, 0, 0, 0.2);
 }
+@keyframes categoryShimmerSweep {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+.category-shimmer-sweep {
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+    animation: categoryShimmerSweep 3s ease-in-out infinite;
+}
+@keyframes categoryPulseSlow {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+.category-pulse-slow {
+    animation: categoryPulseSlow 3s ease-in-out infinite;
+}
+@keyframes categoryIconBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+.category-icon-bounce {
+    animation: categoryIconBounce 2s ease-in-out infinite;
+}
 
 /* Category Grid Screen */
 .category-grid-card {

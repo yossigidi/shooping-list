@@ -17754,58 +17754,26 @@ END:VCALENDAR`;
                                 {/* Categories Toggle Button */}
                                 <button
                                     onClick={() => setShowCategories(!showCategories)}
-                                    className="category-toggle-btn w-full relative overflow-hidden mb-3 rounded-2xl transition-all active:scale-[0.98]"
+                                    className="w-full relative overflow-hidden text-white rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.01] transition-all active:scale-[0.98] mb-3"
+                                    style={{height: '90px'}}
                                 >
-                                    {/* Background gradient */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-teal-600 via-teal-500 to-emerald-500 dark:from-teal-700 dark:via-teal-600 dark:to-emerald-600"></div>
-                                    {/* Shimmer overlay */}
-                                    <div className="absolute inset-0 shimmer opacity-30"></div>
-                                    {/* Decorative circles */}
-                                    <div className="absolute -top-4 -left-4 w-24 h-24 bg-white/10 rounded-full"></div>
-                                    <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-white/5 rounded-full"></div>
-
+                                    {/* Background image */}
+                                    <img src="/category-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+                                    {/* Dark overlay for readability */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/50 to-black/60"></div>
+                                    {/* Shimmer sweep */}
+                                    <div className="absolute inset-0 category-shimmer-sweep"></div>
                                     {/* Content */}
-                                    <div className="relative z-10 px-4 py-4">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-11 h-11 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-inner">
-                                                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                                                    </svg>
-                                                </div>
-                                                <div className="text-right">
-                                                    <h2 className="text-base font-bold text-white drop-shadow-sm">{t('selectCategory')}</h2>
-                                                    <p className="text-xs text-teal-100/80">{t('addItemsHint')}</p>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-xs font-medium text-teal-100/90 bg-white/15 px-2.5 py-1 rounded-full">
-                                                    {Object.keys(CATEGORIES).length} {t('selectCategory').includes('קטגוריה') ? 'קטגוריות' : 'categories'}
-                                                </span>
-                                                <svg className={`w-5 h-5 text-white/80 transition-transform duration-300 ${showCategories ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                            </div>
+                                    <div className="relative z-10 flex items-center justify-center gap-3 h-full px-4">
+                                        <div className="text-center">
+                                            <div className="text-2xl font-extrabold drop-shadow-lg tracking-wide">{t('selectCategory')}</div>
+                                            <div className="text-sm font-medium text-white/85 drop-shadow mt-1">{Object.keys(CATEGORIES).length} {t('selectCategory').includes('קטגוריה') ? 'קטגוריות לבחירה' : 'categories to choose'}</div>
                                         </div>
-
-                                        {/* Category preview strip */}
-                                        {!showCategories && (
-                                            <div className="flex items-center gap-1.5 mt-3 overflow-hidden">
-                                                {Object.entries(CATEGORIES).slice(0, 8).map(([key, cat]) => (
-                                                    <div key={key} className="w-9 h-9 rounded-lg overflow-hidden ring-1 ring-white/30 flex-shrink-0 shadow-sm">
-                                                        {cat.image ? (
-                                                            <img src={cat.image} alt="" className="w-full h-full object-cover" loading="lazy" />
-                                                        ) : (
-                                                            <div className="w-full h-full bg-white/20 flex items-center justify-center text-lg">{cat.icon}</div>
-                                                        )}
-                                                    </div>
-                                                ))}
-                                                <div className="w-9 h-9 rounded-lg bg-white/15 flex-shrink-0 flex items-center justify-center">
-                                                    <span className="text-white/70 text-xs font-bold">+{Object.keys(CATEGORIES).length - 8}</span>
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
+                                    {/* Chevron indicator */}
+                                    <span className={`absolute top-3 left-3 bg-white/20 backdrop-blur-sm rounded-full w-7 h-7 flex items-center justify-center transition-transform duration-300 ${showCategories ? 'rotate-180' : ''}`}>
+                                        <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                                    </span>
                                 </button>
 
                                 {/* Categories Grid */}
