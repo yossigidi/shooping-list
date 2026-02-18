@@ -17827,99 +17827,7 @@ END:VCALENDAR`;
                                     </span>
                                 </button>
                             </div>
-                        ) : selectedCategory && !searchTerm && (
-                            <>
-                                <div id="products-section" className="glass rounded-2xl shadow-xl mb-6 overflow-visible">
-                                    {/* Category Header - Sticky */}
-                                    <div className="sticky top-0 z-30 p-4 border-b border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md rounded-t-2xl">
-                                        <h2 className="text-xl font-bold flex items-center justify-center gap-3 dark:text-white">
-                                            {CATEGORIES[selectedCategory].image ? (
-                                                <img src={CATEGORIES[selectedCategory].image} alt="" className="w-10 h-10 rounded-xl object-cover" />
-                                            ) : (
-                                                <span className="text-3xl">{CATEGORIES[selectedCategory].icon}</span>
-                                            )}
-                                            <span className="text-gradient">{t(CATEGORY_TO_TRANSLATION[selectedCategory]) || getCategoryName(selectedCategory)}</span>
-                                        </h2>
-                                    </div>
-
-                                    {/* Products Grid */}
-                                    <div className="p-4">
-                                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                                            {PRODUCTS[selectedCategory]?.map((product, idx) => {
-                                                const promos = getItemPromotions(product);
-                                                const hasPromo = promos.length > 0;
-                                                const inCart = items.find(item => item.name === product && !item.purchased);
-                                                const cartQty = inCart ? getQuantityNumber(inCart.quantity) : 0;
-                                                return (
-                                                <button key={idx} onClick={() => addProduct(product)}
-                                                    className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${inCart ? 'border-teal-400 dark:border-teal-600 ring-2 ring-teal-400/30' : hasPromo ? 'border-amber-200 dark:border-amber-800/50' : 'border-gray-100 dark:border-gray-700'} hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right`}
-                                                    style={{animationDelay: `${idx * 30}ms`}}
-                                                >
-                                                {/* Cart Quantity Badge */}
-                                                {inCart && (
-                                                    <div className="absolute -top-2 -right-2 z-20">
-                                                        <span className="bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg min-w-[24px] inline-block text-center">
-                                                            {cartQty}{inCart.unit && inCart.unit !== 'יח\'' ? ` ${inCart.unit}` : ''}
-                                                        </span>
-                                                    </div>
-                                                )}
-                                                {/* Subtle Promotion Indicator */}
-                                                {hasPromo && !inCart && (
-                                                    <div className="absolute -top-1 -left-1 z-10">
-                                                        <span className="text-amber-500 text-sm animate-pulse" title={promos[0].description}>✨</span>
-                                                    </div>
-                                                )}
-                                                <div className="flex items-center justify-between gap-2">
-                                                    <div className={`w-8 h-8 rounded-full ${inCart ? 'bg-teal-500 scale-110' : hasPromo ? 'bg-amber-50 dark:bg-amber-900/30' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200`}>
-                                                        {inCart ? (
-                                                            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                                            </svg>
-                                                        ) : (
-                                                            <svg className={`w-4 h-4 ${hasPromo ? 'text-amber-500' : 'text-gray-400'} group-hover:text-white transition-colors`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                                                            </svg>
-                                                        )}
-                                                    </div>
-                                                    <span className={`flex-1 font-semibold ${inCart ? 'text-teal-700 dark:text-teal-300' : 'text-gray-700 dark:text-gray-200'} text-sm leading-tight`}>{getProductTranslation(product, language)}</span>
-                                                </div>
-                                                {/* Compact promotion info */}
-                                                {hasPromo && (
-                                                    <div className="mt-1.5 text-[10px] text-amber-600 dark:text-amber-400 leading-snug">
-                                                        <span className="font-medium">{promos[0].chain}</span>
-                                                        <span className="mx-1">•</span>
-                                                        <span className="opacity-80">{promos[0].description.length > 20 ? promos[0].description.substring(0, 20) + '...' : promos[0].description}</span>
-                                                        {promos.length > 1 && <span className="opacity-60"> +{promos.length - 1}</span>}
-                                                    </div>
-                                                )}
-                                            </button>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
-
-                            </>
-                        )}
-
-                        {/* Fixed Bottom Buttons - Back + Price Compare */}
-                        {selectedCategory && !searchTerm && (
-                            <div className="fixed bottom-36 left-0 right-0 z-[9989] flex justify-center gap-3 px-4">
-                                <button onClick={() => { setSelectedCategory(null); setShowCategories(true); }}
-                                    className="bg-gray-800 dark:bg-gray-700 text-white px-6 py-3.5 rounded-full font-bold shadow-2xl transition-all active:scale-95 flex items-center gap-2 text-base border border-gray-600">
-                                    <span>←</span>
-                                    <span>{t('backToCategories')}</span>
-                                </button>
-                                {items.filter(i => !i.purchased).length > 0 && (
-                                    <button onClick={compareFullShoppingList}
-                                        className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-6 py-3.5 rounded-full font-bold shadow-2xl transition-all active:scale-95 flex items-center gap-2 text-base">
-                                        <span>📊</span>
-                                        <span>{t('comparePrices')}</span>
-                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
-                                    </button>
-                                )}
-                            </div>
-                        )}
+                        ) : null}
 
                         {filteredItems.length > 0 && (
                             <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-6 mb-6">
@@ -18555,6 +18463,104 @@ END:VCALENDAR`;
                                         {t('allCategories') || 'הצג את כל המוצרים'}
                                     </button>
                                 </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Category Products Modal */}
+                    {selectedCategory && !searchTerm && CATEGORIES[selectedCategory] && (
+                        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-[9998] flex flex-col animate-fadeIn">
+                            {/* Header with category image */}
+                            <div className="relative overflow-hidden h-32 flex-shrink-0">
+                                {CATEGORIES[selectedCategory].image ? (
+                                    <img src={CATEGORIES[selectedCategory].image} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                                ) : (
+                                    <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500"></div>
+                                )}
+                                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70"></div>
+                                <div className="absolute inset-0 category-shimmer-sweep"></div>
+                                <div className="relative z-10 flex items-end justify-between h-full px-5 pb-4">
+                                    <button onClick={() => { setSelectedCategory(null); setShowCategories(true); }}
+                                        className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label={t('backToCategories')}>
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                    </button>
+                                    <div className="text-center flex-1">
+                                        <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{t(CATEGORY_TO_TRANSLATION[selectedCategory]) || getCategoryName(selectedCategory)}</h2>
+                                        <p className="text-sm text-white/80 mt-0.5">{PRODUCTS[selectedCategory]?.length || 0} {t('selectCategory').includes('קטגוריה') ? 'מוצרים' : 'products'}</p>
+                                    </div>
+                                    <button onClick={() => { setSelectedCategory(null); }}
+                                        className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            {/* Products Grid - Scrollable */}
+                            <div className="flex-1 overflow-y-auto p-4 pb-24">
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                    {PRODUCTS[selectedCategory]?.map((product, idx) => {
+                                        const promos = getItemPromotions(product);
+                                        const hasPromo = promos.length > 0;
+                                        const inCart = items.find(item => item.name === product && !item.purchased);
+                                        const cartQty = inCart ? getQuantityNumber(inCart.quantity) : 0;
+                                        return (
+                                        <button key={idx} onClick={() => addProduct(product)}
+                                            className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${inCart ? 'border-teal-400 dark:border-teal-600 ring-2 ring-teal-400/30' : hasPromo ? 'border-amber-200 dark:border-amber-800/50' : 'border-gray-100 dark:border-gray-700'} hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right`}
+                                            style={{animationDelay: `${idx * 30}ms`}}
+                                        >
+                                        {inCart && (
+                                            <div className="absolute -top-2 -right-2 z-20">
+                                                <span className="bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg min-w-[24px] inline-block text-center">
+                                                    {cartQty}{inCart.unit && inCart.unit !== 'יח\'' ? ` ${inCart.unit}` : ''}
+                                                </span>
+                                            </div>
+                                        )}
+                                        {hasPromo && !inCart && (
+                                            <div className="absolute -top-1 -left-1 z-10">
+                                                <span className="text-amber-500 text-sm animate-pulse" title={promos[0].description}>✨</span>
+                                            </div>
+                                        )}
+                                        <div className="flex items-center justify-between gap-2">
+                                            <div className={`w-8 h-8 rounded-full ${inCart ? 'bg-teal-500 scale-110' : hasPromo ? 'bg-amber-50 dark:bg-amber-900/30' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200`}>
+                                                {inCart ? (
+                                                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg className={`w-4 h-4 ${hasPromo ? 'text-amber-500' : 'text-gray-400'} group-hover:text-white transition-colors`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                                                    </svg>
+                                                )}
+                                            </div>
+                                            <span className={`flex-1 font-semibold ${inCart ? 'text-teal-700 dark:text-teal-300' : 'text-gray-700 dark:text-gray-200'} text-sm leading-tight`}>{getProductTranslation(product, language)}</span>
+                                        </div>
+                                        {hasPromo && (
+                                            <div className="mt-1.5 text-[10px] text-amber-600 dark:text-amber-400 leading-snug">
+                                                <span className="font-medium">{promos[0].chain}</span>
+                                                <span className="mx-1">•</span>
+                                                <span className="opacity-80">{promos[0].description.length > 20 ? promos[0].description.substring(0, 20) + '...' : promos[0].description}</span>
+                                                {promos.length > 1 && <span className="opacity-60"> +{promos.length - 1}</span>}
+                                            </div>
+                                        )}
+                                        </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                            {/* Bottom Buttons */}
+                            <div className="flex-shrink-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 p-4 flex justify-center gap-3">
+                                <button onClick={() => { setSelectedCategory(null); setShowCategories(true); }}
+                                    className="bg-gray-800 dark:bg-gray-700 text-white px-6 py-3 rounded-full font-bold shadow-lg transition-all active:scale-95 flex items-center gap-2 text-sm border border-gray-600">
+                                    <span>←</span>
+                                    <span>{t('backToCategories')}</span>
+                                </button>
+                                {items.filter(i => !i.purchased).length > 0 && (
+                                    <button onClick={compareFullShoppingList}
+                                        className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-6 py-3 rounded-full font-bold shadow-lg transition-all active:scale-95 flex items-center gap-2 text-sm">
+                                        <span>📊</span>
+                                        <span>{t('comparePrices')}</span>
+                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
+                                    </button>
+                                )}
                             </div>
                         </div>
                     )}
