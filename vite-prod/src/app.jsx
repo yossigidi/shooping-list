@@ -17904,15 +17904,15 @@ END:VCALENDAR`;
 
                         {/* Fixed Bottom Buttons - Back + Price Compare */}
                         {selectedCategory && !searchTerm && (
-                            <div className="fixed bottom-20 left-0 right-0 z-[9989] flex justify-center gap-3 px-4">
+                            <div className="fixed bottom-36 left-0 right-0 z-[9989] flex justify-center gap-3 px-4">
                                 <button onClick={() => { setSelectedCategory(null); setShowCategories(true); }}
-                                    className="bg-gray-800 dark:bg-gray-700 text-white px-5 py-3 rounded-full font-bold shadow-2xl transition-all active:scale-95 flex items-center gap-2 text-sm border border-gray-600">
+                                    className="bg-gray-800 dark:bg-gray-700 text-white px-6 py-3.5 rounded-full font-bold shadow-2xl transition-all active:scale-95 flex items-center gap-2 text-base border border-gray-600">
                                     <span>←</span>
                                     <span>{t('backToCategories')}</span>
                                 </button>
                                 {items.filter(i => !i.purchased).length > 0 && (
                                     <button onClick={compareFullShoppingList}
-                                        className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 py-3 rounded-full font-bold shadow-2xl transition-all active:scale-95 flex items-center gap-2 text-sm">
+                                        className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-6 py-3.5 rounded-full font-bold shadow-2xl transition-all active:scale-95 flex items-center gap-2 text-base">
                                         <span>📊</span>
                                         <span>{t('comparePrices')}</span>
                                         <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
