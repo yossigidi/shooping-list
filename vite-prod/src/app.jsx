@@ -18492,7 +18492,7 @@ END:VCALENDAR`;
                     <button
                         onClick={() => setShowAccessibility(true)}
                         className="fixed right-4 w-12 h-12 rounded-full bg-blue-600 text-white shadow-lg z-[9998] flex items-center justify-center hover:scale-110 transition-transform touch-target"
-                        style={{ bottom: '80px' }}
+                        style={{ bottom: '140px' }}
                         title={t('accessibility')}
                         aria-label={t('accessibility')}
                     >
@@ -18503,7 +18503,7 @@ END:VCALENDAR`;
                     <button
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         className="fixed left-4 w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-[9998] hover:scale-110 transition-transform touch-target"
-                        style={{ bottom: '80px' }}
+                        style={{ bottom: '140px' }}
                         title={t('backToTop')}
                         aria-label={t('backToTop')}
                     >
