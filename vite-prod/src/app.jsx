@@ -17481,7 +17481,7 @@ END:VCALENDAR`;
                             </div>
 
                             {/* List Selector - Wrapping Grid */}
-                            <div className="flex flex-wrap gap-2 mb-4">
+                            <div className="flex flex-wrap gap-1.5 mb-2">
                                 {lists.map(list => (
                                     <button
                                         key={list.id}
@@ -17508,7 +17508,7 @@ END:VCALENDAR`;
 
                             {/* Active Editors & Shopping Mode Indicator */}
                             {(activeEditors.length > 0 || shoppingMode) && (
-                                <div className="flex items-center gap-3 mb-4 flex-wrap">
+                                <div className="flex items-center gap-2 mb-2 flex-wrap">
                                     {shoppingMode && (
                                         <div className="flex items-center gap-2 px-3 py-1.5 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 rounded-full text-sm font-medium">
                                             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
@@ -17524,30 +17524,30 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
-                            <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center justify-between mb-2">
                                 <div className="text-sm text-gray-500 dark:text-gray-400">
                                     {currentList?.icon} {currentList?.name}
                                 </div>
                                 <button
                                     onClick={() => document.getElementById('shopping-list-section')?.scrollIntoView({ behavior: 'smooth' })}
-                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl hover:shadow-lg transition-all border border-indigo-200/50 dark:border-indigo-700/50">
+                                    className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl hover:shadow-lg transition-all border border-indigo-200/50 dark:border-indigo-700/50">
                                     <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">{t('items')}</span>
-                                    <span className="text-xl font-bold text-gradient">{totalItems}</span>
+                                    <span className="text-lg font-bold text-gradient">{totalItems}</span>
                                 </button>
                             </div>
 
                             {totalItems > 0 && (
-                                <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 rounded-2xl p-4 mb-4">
-                                    <div className="flex justify-between mb-2 text-sm">
+                                <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 rounded-xl p-2.5 mb-2">
+                                    <div className="flex justify-between mb-1 text-xs">
                                         <span className="text-gray-600 dark:text-gray-300 font-medium">{t('shoppingProgress')}</span>
                                         <span className="font-bold text-gradient">{purchasedCount} / {totalItems}</span>
                                     </div>
-                                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
-                                        <div className="progress-animate h-2.5 rounded-full transition-all duration-700 ease-out"
+                                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                                        <div className="progress-animate h-2 rounded-full transition-all duration-700 ease-out"
                                             style={{ width: `${totalItems > 0 ? (purchasedCount / totalItems) * 100 : 0}%` }} />
                                     </div>
                                     {purchasedCount === totalItems && totalItems > 0 && (
-                                        <div className="text-center mt-2 text-sm text-green-600 dark:text-green-400 font-medium">🎉 {t('allPurchased')}</div>
+                                        <div className="text-center mt-1 text-xs text-green-600 dark:text-green-400 font-medium">🎉 {t('allPurchased')}</div>
                                     )}
                                 </div>
                             )}
@@ -17555,19 +17555,19 @@ END:VCALENDAR`;
 
                             {/* Holiday Recommendations Banner */}
                             {getHolidayRecommendations().length > 0 && (
-                                <div className="mb-4 rounded-2xl overflow-hidden shadow-lg border border-purple-200/50 dark:border-purple-700/50">
-                                    <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 p-4">
+                                <div className="mb-2 rounded-xl overflow-hidden shadow-md border border-purple-200/50 dark:border-purple-700/50">
+                                    <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 px-3 py-2">
                                         <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-3xl">{getHolidayRecommendations()[0].icon}</span>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-xl">{getHolidayRecommendations()[0].icon}</span>
                                                 <div>
-                                                    <div className="font-bold text-white text-base">{HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name] ? t(HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name]) : getHolidayRecommendations()[0].name} {t('approaching')}</div>
-                                                    <div className="text-white/80 text-xs mt-0.5">{HOLIDAY_REMINDER_KEYS[getHolidayRecommendations()[0].reminder] ? t(HOLIDAY_REMINDER_KEYS[getHolidayRecommendations()[0].reminder]) : getHolidayRecommendations()[0].reminder}</div>
+                                                    <div className="font-bold text-white text-sm">{HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name] ? t(HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name]) : getHolidayRecommendations()[0].name} {t('approaching')}</div>
+                                                    <div className="text-white/80 text-[10px]">{HOLIDAY_REMINDER_KEYS[getHolidayRecommendations()[0].reminder] ? t(HOLIDAY_REMINDER_KEYS[getHolidayRecommendations()[0].reminder]) : getHolidayRecommendations()[0].reminder}</div>
                                                 </div>
                                             </div>
                                             <button
                                                 onClick={() => setShowHolidayRecommendations(!showHolidayRecommendations)}
-                                                className="bg-white/20 hover:bg-white/30 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm transition-all"
+                                                className="bg-white/20 hover:bg-white/30 text-white text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm transition-all"
                                             >
                                                 {showHolidayRecommendations ? t('hideLabel') : t('showRecommendations')}
                                             </button>
@@ -17592,105 +17592,103 @@ END:VCALENDAR`;
                             )}
 
                             {/* Quick Actions Grid - Compact 5x2 */}
-                            <div className="grid grid-cols-5 gap-1.5 mb-1.5">
+                            <div className="grid grid-cols-5 gap-1 mb-1">
                                 <button onClick={() => setShowImportWhatsApp(true)}
-                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-green-50 dark:bg-green-900/30 border border-green-100 dark:border-green-800/50 transition-all active:scale-95">
-                                    <span className="text-xl mb-0.5">📥</span>
-                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('importList')}</span>
+                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-green-50 dark:bg-green-900/30 border border-green-100 dark:border-green-800/50 transition-all active:scale-95">
+                                    <span className="text-base">📥</span>
+                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('importList')}</span>
                                 </button>
                                 <button onClick={exportToWhatsApp} disabled={items.filter(item => !item.purchased).length === 0}
-                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/50 transition-all active:scale-95 disabled:opacity-50">
-                                    <span className="text-xl mb-0.5">📤</span>
-                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('exportList')}</span>
+                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/50 transition-all active:scale-95 disabled:opacity-50">
+                                    <span className="text-base">📤</span>
+                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('exportList')}</span>
                                 </button>
                                 <button onClick={() => setShowSavedLists(true)}
-                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/50 transition-all active:scale-95 relative">
-                                    <span className="text-xl mb-0.5">📋</span>
-                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('lists')}</span>
-                                    {savedLists.length > 0 && <span className="absolute top-0.5 right-0.5 bg-purple-500 text-white w-4 h-4 rounded-full text-[9px] flex items-center justify-center">{savedLists.length}</span>}
+                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/50 transition-all active:scale-95 relative">
+                                    <span className="text-base">📋</span>
+                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('lists')}</span>
+                                    {savedLists.length > 0 && <span className="absolute -top-0.5 -right-0.5 bg-purple-500 text-white w-3.5 h-3.5 rounded-full text-[8px] flex items-center justify-center">{savedLists.length}</span>}
                                 </button>
                                 <button onClick={saveListForReuse}
-                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-amber-50 dark:bg-amber-900/30 border border-amber-100 dark:border-amber-800/50 transition-all active:scale-95">
-                                    <span className="text-xl mb-0.5">💾</span>
-                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('save')}</span>
+                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-amber-50 dark:bg-amber-900/30 border border-amber-100 dark:border-amber-800/50 transition-all active:scale-95">
+                                    <span className="text-base">💾</span>
+                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('save')}</span>
                                 </button>
                                 <button onClick={startPriceScanner}
-                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-100 dark:border-cyan-800/50 transition-all active:scale-95">
-                                    <span className="text-xl mb-0.5">📸</span>
-                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('scanProductBtn')}</span>
+                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-100 dark:border-cyan-800/50 transition-all active:scale-95">
+                                    <span className="text-base">📸</span>
+                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('scanProductBtn')}</span>
                                 </button>
                             </div>
 
-                            <div className="grid grid-cols-5 gap-1.5">
+                            <div className="grid grid-cols-5 gap-1">
                                 <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : showToast(t('markPurchased'), 'info')}
-                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/50 transition-all active:scale-95">
-                                    <span className="text-xl mb-0.5">✅</span>
-                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('finishShopping')}</span>
+                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/50 transition-all active:scale-95">
+                                    <span className="text-base">✅</span>
+                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('finishShopping')}</span>
                                 </button>
                                 <button onClick={() => setShowHistory(true)}
-                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/50 transition-all active:scale-95">
-                                    <span className="text-xl mb-0.5">📊</span>
-                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('history')}</span>
+                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800/50 transition-all active:scale-95">
+                                    <span className="text-base">📊</span>
+                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('history')}</span>
                                 </button>
                                 <button onClick={() => setShowCalendar(true)}
-                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-violet-50 dark:bg-violet-900/30 border border-violet-100 dark:border-violet-800/50 transition-all active:scale-95">
-                                    <span className="text-xl mb-0.5">📅</span>
-                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('calendar')}</span>
+                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-violet-50 dark:bg-violet-900/30 border border-violet-100 dark:border-violet-800/50 transition-all active:scale-95">
+                                    <span className="text-base">📅</span>
+                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('calendar')}</span>
                                 </button>
                                 <button onClick={() => setShowChat(true)}
-                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50 transition-all active:scale-95">
-                                    <span className="text-xl mb-0.5 relative">
+                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50 transition-all active:scale-95">
+                                    <span className="text-base relative">
                                         💬
                                         {chatMessages.some(msg => msg.senderUid !== user?.uid && (!msg.readBy || !msg.readBy.includes(user?.uid))) && (
-                                            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></span>
+                                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                                         )}
                                     </span>
-                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('familyChat')}</span>
+                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('familyChat')}</span>
                                 </button>
                                 <button onClick={() => setShowReminderModal(true)}
-                                    className="flex flex-col items-center justify-center py-2 rounded-xl bg-amber-50 dark:bg-amber-900/30 border border-amber-100 dark:border-amber-800/50 transition-all active:scale-95">
-                                    <span className="text-xl mb-0.5">🔔</span>
-                                    <span className="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight">{t('sendReminder')}</span>
+                                    className="flex flex-col items-center justify-center py-1.5 rounded-lg bg-amber-50 dark:bg-amber-900/30 border border-amber-100 dark:border-amber-800/50 transition-all active:scale-95">
+                                    <span className="text-base">🔔</span>
+                                    <span className="text-[9px] font-medium text-gray-600 dark:text-gray-400 leading-tight mt-0.5">{t('sendReminder')}</span>
                                 </button>
                             </div>
 
                             {/* AI Assistant Button */}
-                            <div className="mt-3">
+                            <div className="mt-2">
                                 <button
                                     onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
-                                    className="w-full relative overflow-hidden bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
+                                    className="w-full relative overflow-hidden bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-3 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
                                 >
-                                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')] opacity-50"></div>
-                                    <div className="relative flex items-center justify-center gap-4">
-                                        <span className="text-3xl">🤖</span>
+                                    <div className="relative flex items-center justify-center gap-3">
+                                        <span className="text-xl">🤖</span>
                                         <div className="text-center">
-                                            <div className="text-lg font-bold">{t('smartAssistant')}</div>
-                                            <div className="text-sm opacity-90">{t('smartRecommendationsSubtitle')}</div>
+                                            <div className="text-sm font-bold">{t('smartAssistant')}</div>
+                                            <div className="text-[10px] opacity-90">{t('smartRecommendationsSubtitle')}</div>
                                         </div>
-                                        <span className="text-3xl">✨</span>
+                                        <span className="text-xl">✨</span>
                                     </div>
                                 </button>
                             </div>
 
-                            <div className="mt-3">
+                            <div className="mt-1.5">
                                 <button onClick={() => setShowForgottenStats(true)}
-                                    className="w-full relative overflow-hidden bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
+                                    className="w-full relative overflow-hidden bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 text-white px-3 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
                                 >
-                                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')] opacity-50"></div>
-                                    <div className="relative flex items-center justify-center gap-4">
-                                        <span className="text-3xl">🧠</span>
+                                    <div className="relative flex items-center justify-center gap-3">
+                                        <span className="text-xl">🧠</span>
                                         <div className="text-center">
-                                            <div className="text-lg font-bold">{t('whatForgot')}</div>
-                                            <div className="text-sm opacity-90">{t('smartRemindersSubtitle')}</div>
+                                            <div className="text-sm font-bold">{t('whatForgot')}</div>
+                                            <div className="text-[10px] opacity-90">{t('smartRemindersSubtitle')}</div>
                                         </div>
                                         {shoppingStreak > 0 ? (
-                                            <span className="text-2xl">🔥</span>
+                                            <span className="text-lg">🔥</span>
                                         ) : (
-                                            <span className="text-3xl">💡</span>
+                                            <span className="text-xl">💡</span>
                                         )}
                                     </div>
                                     {shoppingStreak > 0 && (
-                                        <span className="absolute top-2 left-2 bg-white text-cyan-600 text-xs font-bold px-2 py-1 rounded-full">
+                                        <span className="absolute top-1 left-1 bg-white text-cyan-600 text-[9px] font-bold px-1.5 py-0.5 rounded-full">
                                             {shoppingStreak} {t('inARow')}
                                         </span>
                                     )}
@@ -17699,7 +17697,7 @@ END:VCALENDAR`;
 
                             {/* Add Regulars Button */}
                             {regularItems.length > 0 && (
-                                <div className="mt-3">
+                                <div className="mt-1.5">
                                     <button onClick={() => setShowRegulars(true)}
                                         className="w-full bg-gradient-to-r from-teal-400 to-teal-500 text-white px-4 py-3 rounded-lg hover:from-teal-500 hover:to-teal-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
                                         <span>⭐</span>
@@ -17761,21 +17759,20 @@ END:VCALENDAR`;
 
                         {/* Promotions Banner - Always at top */}
                         {!selectedCategory && !searchTerm && (
-                            <div className="mb-6">
+                            <div className="mb-2">
                                 <button
                                     onClick={() => { setShowPromotions(true); fetchPromotions(); }}
-                                    className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-400 via-teal-500 to-red-500 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
+                                    className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-400 via-teal-500 to-red-500 text-white px-3 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
                                 >
-                                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz48L3N2Zz4=')] opacity-50"></div>
-                                    <div className="relative flex items-center justify-center gap-4">
-                                        <span className="text-4xl animate-bounce">🏷️</span>
+                                    <div className="relative flex items-center justify-center gap-3">
+                                        <span className="text-xl animate-bounce">🏷️</span>
                                         <div className="text-center">
-                                            <div className="text-xl font-bold">{t('hotDeals')}</div>
-                                            <div className="text-sm opacity-90">{t('hotDealsDesc')}</div>
+                                            <div className="text-sm font-bold">{t('hotDeals')}</div>
+                                            <div className="text-[10px] opacity-90">{t('hotDealsDesc')}</div>
                                         </div>
-                                        <span className="text-4xl animate-bounce" style={{animationDelay: '0.1s'}}>🔥</span>
+                                        <span className="text-xl animate-bounce" style={{animationDelay: '0.1s'}}>🔥</span>
                                     </div>
-                                    <span className="absolute top-2 left-2 bg-white text-red-500 text-xs font-bold px-2 py-1 rounded-full animate-pulse">
+                                    <span className="absolute top-1 left-1 bg-white text-red-500 text-[9px] font-bold px-1.5 py-0.5 rounded-full animate-pulse">
                                         {t('newBadge')}
                                     </span>
                                 </button>
@@ -17783,12 +17780,12 @@ END:VCALENDAR`;
                         )}
 
                         {!selectedCategory && !searchTerm ? (
-                            <div className="mb-6">
+                            <div className="mb-2">
                                 {/* Categories Toggle Button */}
                                 <button
                                     onClick={() => setShowCategories(true)}
-                                    className="w-full relative overflow-hidden text-white rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.01] transition-all active:scale-[0.98] mb-3"
-                                    style={{height: '90px'}}
+                                    className="w-full relative overflow-hidden text-white rounded-xl shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+                                    style={{height: '70px'}}
                                 >
                                     {/* Background image */}
                                     <img src="/category-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />

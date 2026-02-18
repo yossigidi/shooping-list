@@ -1,5 +1,5 @@
-const CACHE_NAME = 'listnest-v180';
-const STATIC_CACHE = 'listnest-static-v167';
+const CACHE_NAME = 'listnest-v181';
+const STATIC_CACHE = 'listnest-static-v168';
 
 // Core app files
 const urlsToCache = [
