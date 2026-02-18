@@ -17810,7 +17810,7 @@ END:VCALENDAR`;
 
                                 {/* Categories Grid */}
                                 {showCategories && (
-                                    <div className="grid grid-cols-3 gap-2 animate-fadeIn">
+                                    <div className="grid grid-cols-4 gap-1.5 animate-fadeIn">
                                         {Object.entries(CATEGORIES)
                                             .map(([key, cat]) => ({ key, cat, count: items.filter(item => item.category === key && !item.purchased).length }))
                                             .sort((a, b) => b.count - a.count)
@@ -17818,7 +17818,7 @@ END:VCALENDAR`;
                                             <button
                                                 key={key}
                                                 onClick={() => { setSelectedCategory(key); setShowCategories(false); setTimeout(() => { const el = document.getElementById('products-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }}
-                                                className={`relative overflow-hidden rounded-xl h-24 transition-all active:scale-[0.97] ${count > 0 ? 'ring-2 ring-teal-400 shadow-md shadow-teal-100 dark:shadow-teal-900/30' : 'shadow-sm'}`}
+                                                className={`relative overflow-hidden rounded-lg h-20 transition-all active:scale-[0.97] ${count > 0 ? 'ring-2 ring-teal-400 shadow-md shadow-teal-100 dark:shadow-teal-900/30' : 'shadow-sm'}`}
                                             >
                                                 {cat.image ? (
                                                     <img src={cat.image} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
@@ -17826,11 +17826,11 @@ END:VCALENDAR`;
                                                     <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-5xl">{cat.icon}</div>
                                                 )}
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                                                <div className="absolute bottom-0 left-0 right-0 p-2">
-                                                    <div className="text-white text-xs font-bold leading-tight drop-shadow-md text-center">{getCategoryName(key)}</div>
+                                                <div className="absolute bottom-0 left-0 right-0 p-1.5">
+                                                    <div className="text-white text-[10px] font-bold leading-tight drop-shadow-md text-center">{getCategoryName(key)}</div>
                                                 </div>
                                                 {count > 0 && (
-                                                    <div className="absolute top-1.5 left-1.5 bg-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg min-w-[20px] text-center">
+                                                    <div className="absolute top-1 left-1 bg-teal-500 text-white text-[9px] font-bold w-5 h-5 rounded-full shadow-lg flex items-center justify-center">
                                                         {count}
                                                     </div>
                                                 )}
