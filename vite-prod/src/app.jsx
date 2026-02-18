@@ -1,6 +1,5 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, Calendar, MessageCircle, Bell, Bot, Sparkles, Brain, Tag, Flame, Clock, Type, FolderOpen, Check, FileText, ShoppingCart, Sun, Moon, User, Users, Crown, Trash2, Plus, QrCode, Link, Mail, Copy, Share2, Key, Smartphone, X, AlertTriangle, Lock, Mic, ScanBarcode, Store, Scale, RefreshCw, MapPin, Globe, Bug, Lightbulb, MessageSquare, GraduationCap, Baby, ChevronDown, Search, Pencil, Heart, Leaf, Coffee, Wine, Snowflake, Cookie, Wheat, Package, Candy, Dog, Bath, CakeSlice, Egg, Beef, Fish, Salad, Croissant, CircleDot, Flame as FlameIcon, BookOpen, Landmark, PartyPopper, TreePine, Scroll } from 'lucide-react';
         const { useState, useEffect, createContext, useContext } = React;
 
         // Auth Context
@@ -330,7 +329,6 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 shoppingMode: 'מצב קניות',
                 shoppingModeActive: 'מצב קניות פעיל - המסך לא יכבה',
                 enableShoppingMode: 'הפעל מצב קניות',
-                quickActions: 'פעולות מהירות',
                 // Finish shopping
                 finishShopping: 'סיום קנייה',
                 totalAmount: 'סכום כולל',
@@ -779,10 +777,10 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 helpYoungChildren: 'ילדים צעירים - התחברות עם קוד PIN בלי צורך במייל',
                 helpOlderTeens: 'נערים בוגרים - התחברות עם מייל + הרשאות מורחבות',
                 helpCreateChild: 'צור חשבון ילד מהגדרות המשפחה או שתף QR להצטרפות מהירה',
-                helpSendFeedback: 'שלח משוב או דיווח על בעיה',
-                helpShowTutorial: 'הצג הדרכה מחדש',
+                helpSendFeedback: '📧 שלח משוב או דיווח על בעיה',
+                helpShowTutorial: '🎓 הצג הדרכה מחדש',
                 // Voice UI
-                voiceTipText: 'טיפ: דבר ברור ואמור "הוסף חלב וביצים"',
+                voiceTipText: '💡 טיפ: דבר ברור ואמור "הוסף חלב וביצים"',
                 // Regulated price
                 regulatedPriceMsg: 'מחיר מפוקח: ₪{price} (מקור: data.gov.il)',
                 regulatedBadge: 'מפוקח',
@@ -791,8 +789,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 // Force update
                 confirmAppUpdate: 'האם לעדכן את האפליקציה לגרסה החדשה?\n\nהפעולה תרענן את האפליקציה ותטען את כל השינויים האחרונים.',
                 // Recipe suggestions
-                recipePastaSuggestion: 'אפשר להכין פסטה ברוטב עגבניות!',
-                recipeOmeletteSuggestion: 'אפשר להכין חביתה עם גבינה!',
+                recipePastaSuggestion: '🍝 אפשר להכין פסטה ברוטב עגבניות!',
+                recipeOmeletteSuggestion: '🍳 אפשר להכין חביתה עם גבינה!',
                 // Calendar
                 calendarMonths: ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'],
                 calendarDays: ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'],
@@ -801,7 +799,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 // Shopping summary
                 itemsFoundCount: '{found}/{total} פריטים נמצאו',
                 savingsDisplay: 'חוסך ₪{amount}',
-                purchaseItemsSummary: '{count} פריטים • ממוצע: ₪{avg} לפריט',
+                purchaseItemsSummary: '🛒 {count} פריטים • ממוצע: ₪{avg} לפריט',
                 // Achievement descriptions
                 achievementZeroForgets: '0 פעמים שכחת {item} החודש',
                 achievementStreakDesc: '{count} קניות ברצף בלי לשכוח!',
@@ -816,8 +814,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 feedbackEmailNA: 'לא זמין',
                 // AI Assistant
                 basedOnYourList: 'בהתבסס על הרשימה שלך, הנה כמה הצעות:',
-                newSuggestions: 'הצעות חדשות',
-                imDone: 'סיימתי',
+                newSuggestions: '🔄 הצעות חדשות',
+                imDone: '✓ סיימתי',
                 addToCart: 'הוסף לסל',
                 addAllRegulars: 'הוסף את כולם לרשימה',
                 forgottenItemsTip: 'הוסף את הפריטים שנשכחים לעתים קרובות לרשימה קבועה, או הגדר תזכורת בטלפון',
@@ -1077,16 +1075,16 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 listeningTimeout: 'זמן ההאזנה נגמר - נסה שוב',
                 voiceActivationError: 'שגיאה בהפעלת זיהוי קול',
                 stopped: 'הופסק',
-                addedByVoice: 'נוסף בקול',
+                addedByVoice: '🎤 נוסף בקול',
                 // Scanner
                 barcodeScannerError: 'שגיאה בהפעלת סורק הברקוד',
                 productNotFoundInDB: 'המוצר לא נמצא במאגר. נסה לחפש ידנית.',
-                scanBarcodeInstruction: 'סרוק את הברקוד על המוצר',
+                scanBarcodeInstruction: '📊 סרוק את הברקוד על המוצר',
                 searchingInDB: 'מחפש מוצר במאגר...',
                 barcodeLabel: 'ברקוד',
                 barcodeTip: '* כוון את הברקוד לתוך המסגרת הירוקה',
-                captureProductName: 'צלם את שם המוצר',
-                tapToCapture: 'לחץ לצילום וזיהוי',
+                captureProductName: '📷 צלם את שם המוצר',
+                tapToCapture: '📸 לחץ לצילום וזיהוי',
                 cameraTip: '* כוון את המצלמה לשם המוצר ולחץ על הכפתור',
                 // Price comparison
                 cannotCompareNow: 'לא ניתן להשוות כרגע',
@@ -1094,8 +1092,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 priceCompareError: 'שגיאה בהשוואת מחירים. נסה שוב.',
                 entireList: 'כל הרשימה',
                 perUnit: 'ליח\'',
-                singleChainStrategy: 'רשת אחת',
-                balancedStrategy: 'מאוזן',
+                singleChainStrategy: '🏪 רשת אחת',
+                balancedStrategy: '⚖️ מאוזן',
                 // Units
                 unitPieces: 'יח\'',
                 unitGrams: 'גרם',
@@ -1120,21 +1118,21 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 allIngredientsInList: 'כל המרכיבים ברשימה',
                 // Calendar
                 unknownDate: 'תאריך לא ידוע',
-                holidaysThisMonth: 'חגים בחודש זה:',
-                upcomingHolidays: 'חגים קרובים:',
+                holidaysThisMonth: '📅 חגים בחודש זה:',
+                upcomingHolidays: '🎉 חגים קרובים:',
                 approaching: 'מתקרב!',
                 hideLabel: 'הסתר',
                 showRecommendations: 'הצג המלצות',
-                shoppingBefore: 'קניות לפני',
+                shoppingBefore: '🛒 קניות לפני',
                 reminderFromApp: 'תזכורת מאפליקציית ListNest',
                 // Product detail
                 inCartLabel: 'בסל',
-                addNoteOptional: 'הוסף הערה (אופציונלי):',
+                addNoteOptional: '📝 הוסף הערה (אופציונלי):',
                 removeFromCart: 'הסר מהסל',
                 selectQuantityToAdd: 'בחר כמות להוספה',
                 updateQuantity: 'עדכן כמות',
                 // Share
-                shoppingListShareHeader: 'רשימת קניות:\n\n',
+                shoppingListShareHeader: '🛒 רשימת קניות:\n\n',
                 shoppingListTitle: 'רשימת קניות',
                 pendingChanges: 'שינויים ממתינים לסנכרון',
                 changesSavedOffline: 'השינויים יישמרו ויסונכרנו כשהחיבור יחזור',
@@ -1181,27 +1179,27 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 reminderNewYearsEve: 'מסיבת סוף שנה - זמן לקנות חטיפים ושתייה',
                 reminderCivilNewYear: 'שנה אזרחית חדשה!',
                 reminderTuBishvat: 'זמן לקנות פירות יבשים ופירות הארץ',
-                downloadToCalendar: 'הורד ליומן (iPhone/מחשב)',
+                downloadToCalendar: '📥 הורד ליומן (iPhone/מחשב)',
                 // Help
-                helpHowToUse: 'איך להשתמש באפליקציה',
+                helpHowToUse: '🛒 איך להשתמש באפליקציה',
                 helpSelectCategory: 'בחר קטגוריה ולחץ על מוצר להוספה לרשימה',
-                helpFamilySharing: 'שיתוף עם המשפחה',
+                helpFamilySharing: '👨‍👩‍👧‍👦 שיתוף עם המשפחה',
                 helpParentRole: 'הורים (אבא/אמא) - הרשאות מנהל מלאות',
                 helpChildRole: 'ילדים - יכולים להוסיף ולסמן מוצרים בלבד',
                 helpChatBuiltin: 'צ\'אט מובנה לתיאום הקניות',
-                helpSmartScan: 'סריקה חכמה',
-                helpLanguagesAccess: 'שפות ונגישות',
+                helpSmartScan: '📷 סריקה חכמה',
+                helpLanguagesAccess: '🌐 שפות ונגישות',
                 helpSupportedLangs: 'תמיכה בעברית, אנגלית, רוסית וערבית',
                 helpChangeLang: 'החלף שפה בכפתור הנגישות (♿)',
                 helpDarkModeEtc: 'מצב כהה/בהיר, הגדלת טקסט ועוד',
-                helpAddChildTitle: 'הוספת ילד בלי מייל',
+                helpAddChildTitle: '👶 הוספת ילד בלי מייל',
                 helpHowToAddChild: 'איך מוסיפים ילד:',
                 helpStep1: '1️⃣ לחץ על שם המשפחה למעלה',
                 helpStep2: '2️⃣ גלול ל"חשבונות ילדים"',
                 helpStep3: '3️⃣ לחץ "➕ הוסף חשבון ילד"',
                 helpStep4: '4️⃣ הזן שם + קוד PIN (4 ספרות)',
                 helpStep5: '5️⃣ שלח קישור לילד בוואטסאפ',
-                helpChildTip: 'הילד לוחץ על הקישור → בוחר שמו → מזין PIN → מחובר!',
+                helpChildTip: '💡 הילד לוחץ על הקישור → בוחר שמו → מזין PIN → מחובר!',
                 // Stats
                 generalStats: 'סטטיסטיקה כללית',
                 monthlyStatsTitle: 'סטטיסטיקה חודשית',
@@ -1244,21 +1242,21 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 normalCursorLabel: 'סמן רגיל',
                 largeCursorWhite: 'סמן גדול לבן',
                 resetAllSettings: 'איפוס כל ההגדרות',
-                langSelectorLabel: 'שפה / Language',
+                langSelectorLabel: '🌐 שפה / Language',
                 // Shopping status
                 activeShoppingMode: 'מצב קניות פעיל',
                 inARow: 'ברצף',
                 amazingStreak: 'מדהים! {count} קניות ברצף!',
                 purchasedNTimes: 'נקנה {count} פעמים',
-                bugLabel: 'באג',
-                featureRequest: 'בקשה',
-                otherFeedback: 'אחר',
+                bugLabel: '🐛 באג',
+                featureRequest: '💡 בקשה',
+                otherFeedback: '💬 אחר',
                 entireListLabel: 'כל הרשימה',
-                byChainLabel: 'לפי רשת',
-                singleChainLabel: 'רשת אחת',
-                balancedLabel: 'מאוזן',
-                refreshLabel: 'רענן',
-                orderFromChain: 'הזמן מ',
+                byChainLabel: '📍 לפי רשת',
+                singleChainLabel: '🏪 רשת אחת',
+                balancedLabel: '⚖️ מאוזן',
+                refreshLabel: '🔄 רענן',
+                orderFromChain: '🛒 הזמן מ',
                 theChain: 'הרשת',
                 pendingSyncCount: '{count} שינויים ממתינים לסנכרון',
                 syncWhenOnline: 'השינויים יישמרו ויסונכרנו כשהחיבור יחזור',
@@ -1362,7 +1360,6 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 shoppingMode: 'Shopping Mode',
                 shoppingModeActive: 'Shopping mode active - screen stays on',
                 enableShoppingMode: 'Enable Shopping Mode',
-                quickActions: 'Quick Actions',
                 // Finish shopping
                 finishShopping: 'Finish Shopping',
                 totalAmount: 'Total Amount',
@@ -1809,22 +1806,22 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 helpYoungChildren: 'Young children - PIN login without email',
                 helpOlderTeens: 'Older teens - email login + extended permissions',
                 helpCreateChild: 'Create child account from family settings or share QR for quick join',
-                helpSendFeedback: 'Send feedback or report a problem',
-                helpShowTutorial: 'Show tutorial again',
-                voiceTipText: 'Tip: Speak clearly and say "add milk and eggs"',
+                helpSendFeedback: '📧 Send feedback or report a problem',
+                helpShowTutorial: '🎓 Show tutorial again',
+                voiceTipText: '💡 Tip: Speak clearly and say "add milk and eggs"',
                 regulatedPriceMsg: 'Regulated price: ₪{price} (source: data.gov.il)',
                 regulatedBadge: 'Regulated',
                 regulatedPriceTitle: 'Regulated price',
                 clickForDetails: 'Click for details',
                 confirmAppUpdate: 'Update the app to the new version?\n\nThis will refresh the app and load all the latest changes.',
-                recipePastaSuggestion: 'You can make pasta with tomato sauce!',
-                recipeOmeletteSuggestion: 'You can make a cheese omelette!',
+                recipePastaSuggestion: '🍝 You can make pasta with tomato sauce!',
+                recipeOmeletteSuggestion: '🍳 You can make a cheese omelette!',
                 calendarMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 calendarDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 scanAnalyzing: '⏳ Analyzing...',
                 itemsFoundCount: '{found}/{total} items found',
                 savingsDisplay: 'Save ₪{amount}',
-                purchaseItemsSummary: '{count} items • Average: ₪{avg} per item',
+                purchaseItemsSummary: '🛒 {count} items • Average: ₪{avg} per item',
                 achievementZeroForgets: '0 times you forgot {item} this month',
                 achievementStreakDesc: '{count} purchases in a row without forgetting!',
                 feedbackSubjectBug: 'Bug report',
@@ -1836,8 +1833,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 feedbackEmailLabel: 'Email',
                 feedbackEmailNA: 'Not available',
                 basedOnYourList: 'Based on your list, here are some suggestions:',
-                newSuggestions: 'New suggestions',
-                imDone: 'Done',
+                newSuggestions: '🔄 New suggestions',
+                imDone: '✓ Done',
                 addToCart: 'Add to cart',
                 addAllRegulars: 'Add all to list',
                 forgottenItemsTip: 'Add frequently forgotten items to a regular list, or set a phone reminder',
@@ -2068,19 +2065,19 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 cancelled: 'Cancelled', voiceError: 'Error', starting: 'Starting...',
                 listeningTimeout: 'Listening timed out - try again',
                 voiceActivationError: 'Voice recognition error',
-                stopped: 'Stopped', addedByVoice: 'Added by voice',
+                stopped: 'Stopped', addedByVoice: '🎤 Added by voice',
                 barcodeScannerError: 'Barcode scanner error',
                 productNotFoundInDB: 'Product not found in database. Try searching manually.',
-                scanBarcodeInstruction: 'Scan the barcode on the product',
+                scanBarcodeInstruction: '📊 Scan the barcode on the product',
                 searchingInDB: 'Searching product in database...', barcodeLabel: 'Barcode',
                 barcodeTip: '* Point the barcode inside the green frame',
-                captureProductName: 'Capture the product name',
-                tapToCapture: 'Tap to capture and identify',
+                captureProductName: '📷 Capture the product name',
+                tapToCapture: '📸 Tap to capture and identify',
                 cameraTip: '* Point the camera at the product name and tap the button',
                 cannotCompareNow: 'Cannot compare right now', cannotOptimizeNow: 'Cannot optimize right now',
                 priceCompareError: 'Price comparison error. Try again.',
                 entireList: 'Entire list', perUnit: '/unit',
-                singleChainStrategy: 'Single chain', balancedStrategy: 'Balanced',
+                singleChainStrategy: '🏪 Single chain', balancedStrategy: '⚖️ Balanced',
                 unitPieces: 'pcs', unitGrams: 'g', unitKg: 'kg',
                 perfectWeek: 'Perfect week', onTheRightTrack: 'On the right track',
                 memoryChampion: 'Memory champion', forgotNothingMonth: 'You forgot nothing this month!',
@@ -2089,14 +2086,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 complementsItem: 'Complements', basicItemReason: 'A basic item to have at home',
                 forShabbat: 'For Shabbat', suitableForSummer: 'Suitable for summer', suitableForWinter: 'Suitable for winter',
                 allIngredientsInList: 'All ingredients in the list',
-                unknownDate: 'Unknown date', holidaysThisMonth: 'Holidays this month:',
-                upcomingHolidays: 'Upcoming holidays:', approaching: 'Approaching!',
+                unknownDate: 'Unknown date', holidaysThisMonth: '📅 Holidays this month:',
+                upcomingHolidays: '🎉 Upcoming holidays:', approaching: 'Approaching!',
                 hideLabel: 'Hide', showRecommendations: 'Show recommendations',
-                shoppingBefore: 'Shopping before', reminderFromApp: 'Reminder from ListNest',
-                inCartLabel: 'In cart', addNoteOptional: 'Add note (optional):',
+                shoppingBefore: '🛒 Shopping before', reminderFromApp: 'Reminder from ListNest',
+                inCartLabel: 'In cart', addNoteOptional: '📝 Add note (optional):',
                 removeFromCart: 'Remove from cart', selectQuantityToAdd: 'Select quantity to add',
                 updateQuantity: 'Update quantity',
-                shoppingListShareHeader: 'Shopping List:\n\n', shoppingListTitle: 'Shopping List',
+                shoppingListShareHeader: '🛒 Shopping List:\n\n', shoppingListTitle: 'Shopping List',
                 pendingChanges: 'changes pending sync',
                 changesSavedOffline: 'Changes will be saved and synced when connection is restored',
                 smartAddExample1: '2 milk, 12 eggs, bread',
@@ -2135,26 +2132,26 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 reminderNewYearsEve: 'New Year\'s party - time to buy snacks and drinks',
                 reminderCivilNewYear: 'Happy New Year!',
                 reminderTuBishvat: 'Time to buy dried fruits and fruits of the land',
-                downloadToCalendar: 'Download to calendar (iPhone/PC)',
-                helpHowToUse: 'How to use the app',
+                downloadToCalendar: '📥 Download to calendar (iPhone/PC)',
+                helpHowToUse: '🛒 How to use the app',
                 helpSelectCategory: 'Select a category and tap a product to add to list',
-                helpFamilySharing: 'Family sharing',
+                helpFamilySharing: '👨‍👩‍👧‍👦 Family sharing',
                 helpParentRole: 'Parents (Dad/Mom) - full admin permissions',
                 helpChildRole: 'Children - can add and mark items only',
                 helpChatBuiltin: 'Built-in chat for shopping coordination',
-                helpSmartScan: 'Smart scanning',
-                helpLanguagesAccess: 'Languages & accessibility',
+                helpSmartScan: '📷 Smart scanning',
+                helpLanguagesAccess: '🌐 Languages & accessibility',
                 helpSupportedLangs: 'Support for Hebrew, English, Russian, and Arabic',
                 helpChangeLang: 'Change language via the accessibility button (♿)',
                 helpDarkModeEtc: 'Dark/light mode, text enlargement, and more',
-                helpAddChildTitle: 'Adding a child without email',
+                helpAddChildTitle: '👶 Adding a child without email',
                 helpHowToAddChild: 'How to add a child:',
                 helpStep1: '1️⃣ Tap the family name at the top',
                 helpStep2: '2️⃣ Scroll to "Child Accounts"',
                 helpStep3: '3️⃣ Tap "➕ Add Child Account"',
                 helpStep4: '4️⃣ Enter name + PIN code (4 digits)',
                 helpStep5: '5️⃣ Send link to child via WhatsApp',
-                helpChildTip: 'Child taps link → picks name → enters PIN → connected!',
+                helpChildTip: '💡 Child taps link → picks name → enters PIN → connected!',
                 generalStats: 'General Statistics', monthlyStatsTitle: 'Monthly Statistics',
                 achievementsTitle: 'Achievements This Month',
                 editingNow: 'Editing now', receiptAttachedLabel: 'Receipt attached', finishAndSave: 'Finish & save',
@@ -2175,14 +2172,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 enlargeText: 'Enlarge text', reduceText: 'Reduce text',
                 lowContrast: 'Low contrast', normalContrast: 'Normal contrast',
                 largeCursorBlack: 'Large black cursor', normalCursorLabel: 'Normal cursor', largeCursorWhite: 'Large white cursor',
-                resetAllSettings: 'Reset all settings', langSelectorLabel: 'Language',
+                resetAllSettings: 'Reset all settings', langSelectorLabel: '🌐 Language',
                 activeShoppingMode: 'Active shopping mode', inARow: 'in a row',
                 amazingStreak: 'Amazing! {count} purchases in a row!',
                 purchasedNTimes: 'Purchased {count} times',
-                bugLabel: 'Bug', featureRequest: 'Feature', otherFeedback: 'Other',
-                entireListLabel: 'Entire list', byChainLabel: 'By chain',
-                singleChainLabel: 'Single chain', balancedLabel: 'Balanced',
-                refreshLabel: 'Refresh', orderFromChain: 'Order from', theChain: 'the chain',
+                bugLabel: '🐛 Bug', featureRequest: '💡 Feature', otherFeedback: '💬 Other',
+                entireListLabel: 'Entire list', byChainLabel: '📍 By chain',
+                singleChainLabel: '🏪 Single chain', balancedLabel: '⚖️ Balanced',
+                refreshLabel: '🔄 Refresh', orderFromChain: '🛒 Order from', theChain: 'the chain',
                 pendingSyncCount: '{count} changes pending sync',
                 syncWhenOnline: 'Changes will be saved and synced when connection is restored',
                 importHelpText: 'Supported: separate lines, commas, numbers (2 milk or milk x2)',
@@ -2310,7 +2307,6 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 shoppingMode: 'Режим покупок',
                 shoppingModeActive: 'Режим покупок активен - экран не выключится',
                 enableShoppingMode: 'Включить режим покупок',
-                quickActions: 'Быстрые действия',
                 // Finish shopping
                 finishShopping: 'Завершить покупки',
                 totalAmount: 'Общая сумма',
@@ -2730,22 +2726,22 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 helpYoungChildren: 'Маленькие дети - вход по PIN без email',
                 helpOlderTeens: 'Подростки - вход с email + расширенные права',
                 helpCreateChild: 'Создайте аккаунт ребёнка в настройках семьи',
-                helpSendFeedback: 'Отправить отзыв или сообщить о проблеме',
-                helpShowTutorial: 'Показать обучение заново',
-                voiceTipText: 'Совет: говорите чётко, например "добавь молоко и яйца"',
+                helpSendFeedback: '📧 Отправить отзыв или сообщить о проблеме',
+                helpShowTutorial: '🎓 Показать обучение заново',
+                voiceTipText: '💡 Совет: говорите чётко, например "добавь молоко и яйца"',
                 regulatedPriceMsg: 'Регулируемая цена: ₪{price} (источник: data.gov.il)',
                 regulatedBadge: 'Рег.',
                 regulatedPriceTitle: 'Регулируемая цена',
                 clickForDetails: 'Нажмите для деталей',
                 confirmAppUpdate: 'Обновить приложение до новой версии?\n\nПриложение обновится и загрузит все последние изменения.',
-                recipePastaSuggestion: 'Можно приготовить пасту с томатным соусом!',
-                recipeOmeletteSuggestion: 'Можно приготовить омлет с сыром!',
+                recipePastaSuggestion: '🍝 Можно приготовить пасту с томатным соусом!',
+                recipeOmeletteSuggestion: '🍳 Можно приготовить омлет с сыром!',
                 calendarMonths: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
                 calendarDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 scanAnalyzing: '⏳ Анализ...',
                 itemsFoundCount: '{found}/{total} товаров найдено',
                 savingsDisplay: 'Экономия ₪{amount}',
-                purchaseItemsSummary: '{count} товаров • Среднее: ₪{avg} за товар',
+                purchaseItemsSummary: '🛒 {count} товаров • Среднее: ₪{avg} за товар',
                 achievementZeroForgets: '0 раз забыли {item} в этом месяце',
                 achievementStreakDesc: '{count} покупок подряд без забываний!',
                 feedbackSubjectBug: 'Сообщение о проблеме',
@@ -2757,8 +2753,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 feedbackEmailLabel: 'Эл. почта',
                 feedbackEmailNA: 'Недоступно',
                 basedOnYourList: 'На основе вашего списка, вот несколько предложений:',
-                newSuggestions: 'Новые предложения',
-                imDone: 'Готово',
+                newSuggestions: '🔄 Новые предложения',
+                imDone: '✓ Готово',
                 addToCart: 'В корзину',
                 addAllRegulars: 'Добавить всё в список',
                 forgottenItemsTip: 'Добавьте часто забываемые товары в постоянный список или установите напоминание',
@@ -2988,19 +2984,19 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 cancelled: 'Отменено', voiceError: 'Ошибка', starting: 'Запуск...',
                 listeningTimeout: 'Время прослушивания истекло — попробуйте ещё раз',
                 voiceActivationError: 'Ошибка распознавания голоса',
-                stopped: 'Остановлено', addedByVoice: 'Добавлено голосом',
+                stopped: 'Остановлено', addedByVoice: '🎤 Добавлено голосом',
                 barcodeScannerError: 'Ошибка сканера штрих-кода',
                 productNotFoundInDB: 'Товар не найден в базе. Попробуйте поиск вручную.',
-                scanBarcodeInstruction: 'Наведите штрих-код на товар',
+                scanBarcodeInstruction: '📊 Наведите штрих-код на товар',
                 searchingInDB: 'Поиск товара в базе...', barcodeLabel: 'Штрих-код',
                 barcodeTip: '* Наведите штрих-код в зелёную рамку',
-                captureProductName: 'Сфотографируйте название товара',
-                tapToCapture: 'Нажмите для съёмки и распознавания',
+                captureProductName: '📷 Сфотографируйте название товара',
+                tapToCapture: '📸 Нажмите для съёмки и распознавания',
                 cameraTip: '* Наведите камеру на название товара и нажмите кнопку',
                 cannotCompareNow: 'Сравнение сейчас недоступно', cannotOptimizeNow: 'Оптимизация сейчас недоступна',
                 priceCompareError: 'Ошибка сравнения цен. Попробуйте ещё раз.',
                 entireList: 'Весь список', perUnit: '/шт',
-                singleChainStrategy: 'Одна сеть', balancedStrategy: 'Сбалансировано',
+                singleChainStrategy: '🏪 Одна сеть', balancedStrategy: '⚖️ Сбалансировано',
                 unitPieces: 'шт', unitGrams: 'г', unitKg: 'кг',
                 perfectWeek: 'Идеальная неделя', onTheRightTrack: 'На верном пути',
                 memoryChampion: 'Чемпион памяти', forgotNothingMonth: 'Ничего не забыли в этом месяце!',
@@ -3009,14 +3005,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 complementsItem: 'Дополняет', basicItemReason: 'Базовый товар для дома',
                 forShabbat: 'К Шаббату', suitableForSummer: 'Подходит для лета', suitableForWinter: 'Подходит для зимы',
                 allIngredientsInList: 'Все ингредиенты в списке',
-                unknownDate: 'Неизвестная дата', holidaysThisMonth: 'Праздники в этом месяце:',
-                upcomingHolidays: 'Ближайшие праздники:', approaching: 'Приближается!',
+                unknownDate: 'Неизвестная дата', holidaysThisMonth: '📅 Праздники в этом месяце:',
+                upcomingHolidays: '🎉 Ближайшие праздники:', approaching: 'Приближается!',
                 hideLabel: 'Скрыть', showRecommendations: 'Показать рекомендации',
-                shoppingBefore: 'Покупки перед', reminderFromApp: 'Напоминание от ListNest',
-                inCartLabel: 'В корзине', addNoteOptional: 'Добавить заметку (необязательно):',
+                shoppingBefore: '🛒 Покупки перед', reminderFromApp: 'Напоминание от ListNest',
+                inCartLabel: 'В корзине', addNoteOptional: '📝 Добавить заметку (необязательно):',
                 removeFromCart: 'Удалить из корзины', selectQuantityToAdd: 'Выберите количество',
                 updateQuantity: 'Обновить количество',
-                shoppingListShareHeader: 'Список покупок:\n\n', shoppingListTitle: 'Список покупок',
+                shoppingListShareHeader: '🛒 Список покупок:\n\n', shoppingListTitle: 'Список покупок',
                 pendingChanges: 'изменений ожидают синхронизации',
                 changesSavedOffline: 'Изменения сохранятся и синхронизируются при восстановлении связи',
                 smartAddExample1: '2 молока, 12 яиц, хлеб',
@@ -3055,18 +3051,18 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 reminderNewYearsEve: 'Новогодняя вечеринка — время купить закуски и напитки',
                 reminderCivilNewYear: 'С Новым годом!',
                 reminderTuBishvat: 'Время купить сухофрукты и плоды земли',
-                downloadToCalendar: 'Скачать в календарь (iPhone/ПК)',
-                helpHowToUse: 'Как пользоваться', helpSelectCategory: 'Выберите категорию и нажмите на товар для добавления',
-                helpFamilySharing: 'Семейный доступ',
+                downloadToCalendar: '📥 Скачать в календарь (iPhone/ПК)',
+                helpHowToUse: '🛒 Как пользоваться', helpSelectCategory: 'Выберите категорию и нажмите на товар для добавления',
+                helpFamilySharing: '👨‍👩‍👧‍👦 Семейный доступ',
                 helpParentRole: 'Родители — полные права администратора', helpChildRole: 'Дети — могут добавлять и отмечать товары',
-                helpChatBuiltin: 'Встроенный чат для координации покупок', helpSmartScan: 'Умное сканирование',
-                helpLanguagesAccess: 'Языки и доступность', helpSupportedLangs: 'Поддержка иврита, английского, русского и арабского',
+                helpChatBuiltin: 'Встроенный чат для координации покупок', helpSmartScan: '📷 Умное сканирование',
+                helpLanguagesAccess: '🌐 Языки и доступность', helpSupportedLangs: 'Поддержка иврита, английского, русского и арабского',
                 helpChangeLang: 'Сменить язык через кнопку доступности (♿)', helpDarkModeEtc: 'Тёмный/светлый режим, увеличение текста и др.',
-                helpAddChildTitle: 'Добавление ребёнка без email', helpHowToAddChild: 'Как добавить ребёнка:',
+                helpAddChildTitle: '👶 Добавление ребёнка без email', helpHowToAddChild: 'Как добавить ребёнка:',
                 helpStep1: '1️⃣ Нажмите на имя семьи вверху', helpStep2: '2️⃣ Прокрутите до «Аккаунты детей»',
                 helpStep3: '3️⃣ Нажмите «➕ Добавить аккаунт ребёнка»', helpStep4: '4️⃣ Введите имя + PIN (4 цифры)',
                 helpStep5: '5️⃣ Отправьте ссылку ребёнку в WhatsApp',
-                helpChildTip: 'Ребёнок нажимает ссылку → выбирает имя → вводит PIN → подключён!',
+                helpChildTip: '💡 Ребёнок нажимает ссылку → выбирает имя → вводит PIN → подключён!',
                 generalStats: 'Общая статистика', monthlyStatsTitle: 'Месячная статистика',
                 achievementsTitle: 'Достижения за месяц',
                 editingNow: 'Редактирует сейчас', receiptAttachedLabel: 'Чек прикреплён', finishAndSave: 'Завершить и сохранить',
@@ -3085,14 +3081,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 enlargeText: 'Увеличить текст', reduceText: 'Уменьшить текст',
                 lowContrast: 'Низкий контраст', normalContrast: 'Обычный контраст',
                 largeCursorBlack: 'Большой чёрный курсор', normalCursorLabel: 'Обычный курсор', largeCursorWhite: 'Большой белый курсор',
-                resetAllSettings: 'Сбросить все настройки', langSelectorLabel: 'Язык',
+                resetAllSettings: 'Сбросить все настройки', langSelectorLabel: '🌐 Язык',
                 activeShoppingMode: 'Активный режим покупок', inARow: 'подряд',
                 amazingStreak: 'Потрясающе! {count} покупок подряд!',
                 purchasedNTimes: 'Куплено {count} раз',
-                bugLabel: 'Баг', featureRequest: 'Запрос', otherFeedback: 'Другое',
-                entireListLabel: 'Весь список', byChainLabel: 'По сети',
-                singleChainLabel: 'Одна сеть', balancedLabel: 'Сбалансировано',
-                refreshLabel: 'Обновить', orderFromChain: 'Заказать из', theChain: 'сети',
+                bugLabel: '🐛 Баг', featureRequest: '💡 Запрос', otherFeedback: '💬 Другое',
+                entireListLabel: 'Весь список', byChainLabel: '📍 По сети',
+                singleChainLabel: '🏪 Одна сеть', balancedLabel: '⚖️ Сбалансировано',
+                refreshLabel: '🔄 Обновить', orderFromChain: '🛒 Заказать из', theChain: 'сети',
                 pendingSyncCount: '{count} изменений ожидают синхронизации',
                 syncWhenOnline: 'Изменения сохранятся и синхронизируются при восстановлении связи',
                 importHelpText: 'Поддерживается: отдельные строки, запятые, числа (2 молока или молоко x2)',
@@ -3195,7 +3191,6 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 shoppingMode: 'وضع التسوق',
                 shoppingModeActive: 'وضع التسوق نشط - الشاشة لن تنطفئ',
                 enableShoppingMode: 'تفعيل وضع التسوق',
-                quickActions: 'إجراءات سريعة',
                 // Finish shopping
                 finishShopping: 'إنهاء التسوق',
                 totalAmount: 'المبلغ الإجمالي',
@@ -3643,22 +3638,22 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 helpYoungChildren: 'الأطفال الصغار - تسجيل دخول بـ PIN بدون بريد إلكتروني',
                 helpOlderTeens: 'المراهقون - تسجيل دخول بالبريد + صلاحيات موسعة',
                 helpCreateChild: 'أنشئ حساب طفل من إعدادات العائلة أو شارك QR للانضمام السريع',
-                helpSendFeedback: 'إرسال ملاحظات أو الإبلاغ عن مشكلة',
-                helpShowTutorial: 'عرض الشرح مرة أخرى',
-                voiceTipText: 'نصيحة: تحدث بوضوح وقل "أضف حليب وبيض"',
+                helpSendFeedback: '📧 إرسال ملاحظات أو الإبلاغ عن مشكلة',
+                helpShowTutorial: '🎓 عرض الشرح مرة أخرى',
+                voiceTipText: '💡 نصيحة: تحدث بوضوح وقل "أضف حليب وبيض"',
                 regulatedPriceMsg: 'سعر مراقب: ₪{price} (المصدر: data.gov.il)',
                 regulatedBadge: 'مراقب',
                 regulatedPriceTitle: 'سعر مراقب',
                 clickForDetails: 'اضغط للتفاصيل',
                 confirmAppUpdate: 'تحديث التطبيق للإصدار الجديد؟\n\nسيتم تحديث التطبيق وتحميل جميع التغييرات الأخيرة.',
-                recipePastaSuggestion: 'يمكنك تحضير باستا بصلصة الطماطم!',
-                recipeOmeletteSuggestion: 'يمكنك تحضير عجة بالجبن!',
+                recipePastaSuggestion: '🍝 يمكنك تحضير باستا بصلصة الطماطم!',
+                recipeOmeletteSuggestion: '🍳 يمكنك تحضير عجة بالجبن!',
                 calendarMonths: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
                 calendarDays: ['أح', 'إث', 'ثل', 'أر', 'خم', 'جم', 'سب'],
                 scanAnalyzing: '⏳ جاري التحليل...',
                 itemsFoundCount: '{found}/{total} منتجات تم العثور عليها',
                 savingsDisplay: 'توفير ₪{amount}',
-                purchaseItemsSummary: '{count} منتجات • المتوسط: ₪{avg} لكل منتج',
+                purchaseItemsSummary: '🛒 {count} منتجات • المتوسط: ₪{avg} لكل منتج',
                 achievementZeroForgets: '0 مرات نسيت {item} هذا الشهر',
                 achievementStreakDesc: '{count} مشتريات متتالية بدون نسيان!',
                 feedbackSubjectBug: 'إبلاغ عن مشكلة',
@@ -3670,8 +3665,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 feedbackEmailLabel: 'البريد الإلكتروني',
                 feedbackEmailNA: 'غير متاح',
                 basedOnYourList: 'بناءً على قائمتك، إليك بعض الاقتراحات:',
-                newSuggestions: 'اقتراحات جديدة',
-                imDone: 'انتهيت',
+                newSuggestions: '🔄 اقتراحات جديدة',
+                imDone: '✓ انتهيت',
                 addToCart: 'أضف للسلة',
                 addAllRegulars: 'أضف الكل للقائمة',
                 forgottenItemsTip: 'أضف المنتجات التي تنسى كثيرًا لقائمة ثابتة أو اضبط تذكيرًا',
@@ -3902,19 +3897,19 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 cancelled: 'ملغى', voiceError: 'خطأ', starting: 'جارٍ البدء...',
                 listeningTimeout: 'انتهى وقت الاستماع - حاول مرة أخرى',
                 voiceActivationError: 'خطأ في التعرف على الصوت',
-                stopped: 'متوقف', addedByVoice: 'أُضيف بالصوت',
+                stopped: 'متوقف', addedByVoice: '🎤 أُضيف بالصوت',
                 barcodeScannerError: 'خطأ في ماسح الباركود',
                 productNotFoundInDB: 'المنتج غير موجود في القاعدة. حاول البحث يدوياً.',
-                scanBarcodeInstruction: 'امسح الباركود على المنتج',
+                scanBarcodeInstruction: '📊 امسح الباركود على المنتج',
                 searchingInDB: 'البحث في القاعدة...', barcodeLabel: 'باركود',
                 barcodeTip: '* وجّه الباركود داخل الإطار الأخضر',
-                captureProductName: 'التقط اسم المنتج',
-                tapToCapture: 'اضغط للتصوير والتعرف',
+                captureProductName: '📷 التقط اسم المنتج',
+                tapToCapture: '📸 اضغط للتصوير والتعرف',
                 cameraTip: '* وجّه الكاميرا نحو اسم المنتج واضغط الزر',
                 cannotCompareNow: 'لا يمكن المقارنة الآن', cannotOptimizeNow: 'لا يمكن التحسين الآن',
                 priceCompareError: 'خطأ في مقارنة الأسعار. حاول مرة أخرى.',
                 entireList: 'القائمة بأكملها', perUnit: '/وحدة',
-                singleChainStrategy: 'سلسلة واحدة', balancedStrategy: 'متوازن',
+                singleChainStrategy: '🏪 سلسلة واحدة', balancedStrategy: '⚖️ متوازن',
                 unitPieces: 'قطعة', unitGrams: 'غرام', unitKg: 'كغ',
                 perfectWeek: 'أسبوع مثالي', onTheRightTrack: 'على الطريق الصحيح',
                 memoryChampion: 'بطل الذاكرة', forgotNothingMonth: 'لم تنسَ شيئاً هذا الشهر!',
@@ -3923,14 +3918,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 complementsItem: 'مكمّل', basicItemReason: 'منتج أساسي للبيت',
                 forShabbat: 'للسبت', suitableForSummer: 'مناسب للصيف', suitableForWinter: 'مناسب للشتاء',
                 allIngredientsInList: 'كل المكونات في القائمة',
-                unknownDate: 'تاريخ غير معروف', holidaysThisMonth: 'أعياد هذا الشهر:',
-                upcomingHolidays: 'أعياد قادمة:', approaching: 'يقترب!',
+                unknownDate: 'تاريخ غير معروف', holidaysThisMonth: '📅 أعياد هذا الشهر:',
+                upcomingHolidays: '🎉 أعياد قادمة:', approaching: 'يقترب!',
                 hideLabel: 'إخفاء', showRecommendations: 'عرض التوصيات',
-                shoppingBefore: 'تسوق قبل', reminderFromApp: 'تذكير من ListNest',
-                inCartLabel: 'في السلة', addNoteOptional: 'أضف ملاحظة (اختياري):',
+                shoppingBefore: '🛒 تسوق قبل', reminderFromApp: 'تذكير من ListNest',
+                inCartLabel: 'في السلة', addNoteOptional: '📝 أضف ملاحظة (اختياري):',
                 removeFromCart: 'إزالة من السلة', selectQuantityToAdd: 'اختر الكمية للإضافة',
                 updateQuantity: 'تحديث الكمية',
-                shoppingListShareHeader: 'قائمة التسوق:\n\n', shoppingListTitle: 'قائمة التسوق',
+                shoppingListShareHeader: '🛒 قائمة التسوق:\n\n', shoppingListTitle: 'قائمة التسوق',
                 pendingChanges: 'تغييرات بانتظار المزامنة',
                 changesSavedOffline: 'سيتم حفظ التغييرات ومزامنتها عند عودة الاتصال',
                 smartAddExample1: '2 حليب، 12 بيضة، خبز',
@@ -3969,18 +3964,18 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 reminderNewYearsEve: 'حفلة نهاية العام - وقت شراء المقرمشات والمشروبات',
                 reminderCivilNewYear: 'سنة جديدة سعيدة!',
                 reminderTuBishvat: 'وقت شراء الفواكه المجففة وثمار الأرض',
-                downloadToCalendar: 'تنزيل للتقويم (iPhone/كمبيوتر)',
-                helpHowToUse: 'كيفية الاستخدام', helpSelectCategory: 'اختر فئة واضغط على منتج لإضافته',
-                helpFamilySharing: 'مشاركة عائلية',
+                downloadToCalendar: '📥 تنزيل للتقويم (iPhone/كمبيوتر)',
+                helpHowToUse: '🛒 كيفية الاستخدام', helpSelectCategory: 'اختر فئة واضغط على منتج لإضافته',
+                helpFamilySharing: '👨‍👩‍👧‍👦 مشاركة عائلية',
                 helpParentRole: 'الوالدان — صلاحيات إدارة كاملة', helpChildRole: 'الأطفال — يمكنهم الإضافة والتحديد فقط',
-                helpChatBuiltin: 'دردشة مدمجة لتنسيق التسوق', helpSmartScan: 'مسح ذكي',
-                helpLanguagesAccess: 'اللغات وإمكانية الوصول', helpSupportedLangs: 'دعم العبرية والإنجليزية والروسية والعربية',
+                helpChatBuiltin: 'دردشة مدمجة لتنسيق التسوق', helpSmartScan: '📷 مسح ذكي',
+                helpLanguagesAccess: '🌐 اللغات وإمكانية الوصول', helpSupportedLangs: 'دعم العبرية والإنجليزية والروسية والعربية',
                 helpChangeLang: 'غيّر اللغة عبر زر إمكانية الوصول (♿)', helpDarkModeEtc: 'وضع داكن/فاتح، تكبير النص والمزيد',
-                helpAddChildTitle: 'إضافة طفل بدون بريد', helpHowToAddChild: 'كيفية إضافة طفل:',
+                helpAddChildTitle: '👶 إضافة طفل بدون بريد', helpHowToAddChild: 'كيفية إضافة طفل:',
                 helpStep1: '1️⃣ اضغط على اسم العائلة في الأعلى', helpStep2: '2️⃣ مرر إلى «حسابات الأطفال»',
                 helpStep3: '3️⃣ اضغط «➕ إضافة حساب طفل»', helpStep4: '4️⃣ أدخل الاسم + رمز PIN (4 أرقام)',
                 helpStep5: '5️⃣ أرسل الرابط للطفل عبر واتساب',
-                helpChildTip: 'الطفل يضغط الرابط ← يختار اسمه ← يدخل PIN ← متصل!',
+                helpChildTip: '💡 الطفل يضغط الرابط ← يختار اسمه ← يدخل PIN ← متصل!',
                 generalStats: 'إحصائيات عامة', monthlyStatsTitle: 'إحصائيات شهرية',
                 achievementsTitle: 'إنجازات هذا الشهر',
                 editingNow: 'يحرر الآن', receiptAttachedLabel: 'إيصال مرفق', finishAndSave: 'إنهاء وحفظ',
@@ -3999,14 +3994,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 enlargeText: 'تكبير النص', reduceText: 'تصغير النص',
                 lowContrast: 'تباين منخفض', normalContrast: 'تباين عادي',
                 largeCursorBlack: 'مؤشر كبير أسود', normalCursorLabel: 'مؤشر عادي', largeCursorWhite: 'مؤشر كبير أبيض',
-                resetAllSettings: 'إعادة تعيين جميع الإعدادات', langSelectorLabel: 'اللغة',
+                resetAllSettings: 'إعادة تعيين جميع الإعدادات', langSelectorLabel: '🌐 اللغة',
                 activeShoppingMode: 'وضع التسوق النشط', inARow: 'متتالية',
                 amazingStreak: 'مذهل! {count} مشتريات متتالية!',
                 purchasedNTimes: 'تم شراؤه {count} مرات',
-                bugLabel: 'خلل', featureRequest: 'طلب', otherFeedback: 'أخرى',
-                entireListLabel: 'القائمة بأكملها', byChainLabel: 'حسب السلسلة',
-                singleChainLabel: 'سلسلة واحدة', balancedLabel: 'متوازن',
-                refreshLabel: 'تحديث', orderFromChain: 'اطلب من', theChain: 'السلسلة',
+                bugLabel: '🐛 خلل', featureRequest: '💡 طلب', otherFeedback: '💬 أخرى',
+                entireListLabel: 'القائمة بأكملها', byChainLabel: '📍 حسب السلسلة',
+                singleChainLabel: '🏪 سلسلة واحدة', balancedLabel: '⚖️ متوازن',
+                refreshLabel: '🔄 تحديث', orderFromChain: '🛒 اطلب من', theChain: 'السلسلة',
                 pendingSyncCount: '{count} تغييرات بانتظار المزامنة',
                 syncWhenOnline: 'سيتم حفظ التغييرات ومزامنتها عند عودة الاتصال',
                 importHelpText: 'مدعوم: أسطر منفصلة، فواصل، أرقام (2 حليب أو حليب x2)',
@@ -4029,9 +4024,9 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
             return (
                 <div className="min-h-screen bg-gradient-to-br from-teal-50 to-amber-100 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full">
+                    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full">
                         <div className="text-center mb-8">
-                            <div className="flex justify-center mb-4"><Globe size={48} className="text-teal-500" /></div>
+                            <div className="text-6xl mb-4">🌍</div>
                             <h1 className="text-2xl font-bold text-gray-800 mb-2">Welcome to ListNest</h1>
                             <p className="text-gray-500">Choose your language</p>
                         </div>
@@ -4276,7 +4271,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     {
                         familyId: familyRef.id,
                         name: t('defaultListName'),
-                        icon: '',
+                        icon: '🛒',
                         createdBy: user?.uid,
                         createdAt: new Date(),
                         isDefault: true
@@ -4839,11 +4834,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
             return (
                 <div className="min-h-screen gradient-bg flex items-center justify-center p-4">
-                    <div className="glass rounded-2xl shadow-2xl p-8 max-w-md w-full relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-teal-500"></div>
+                    <div className="glass rounded-3xl shadow-2xl p-8 max-w-md w-full relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
 
                         <button onClick={toggleDarkMode} className="absolute top-6 left-6 p-2.5 rounded-xl bg-white/50 dark:bg-gray-700/50 text-2xl hover:scale-110 transition-all">
-                            {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+                            {darkMode ? '☀️' : '🌙'}
                         </button>
 
                         <button onClick={handleLogout} className="absolute top-6 right-6 p-2.5 rounded-xl bg-red-100 dark:bg-red-900/50 text-sm text-red-600 dark:text-red-400 hover:scale-105 transition-all">
@@ -4851,7 +4846,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                         </button>
 
                         <div className="text-center mb-8 pt-8">
-                            <div className="flex justify-center mb-4 float"><Users size={64} className="text-teal-500" /></div>
+                            <div className="text-7xl mb-4 float">👨‍👩‍👧‍👦</div>
                             <h1 className="text-2xl font-bold text-gradient mb-2">{t('welcome')}, {user?.displayName || t('defaultUser')}!</h1>
                             <p className="text-gray-500 dark:text-gray-400 text-sm">{t('createNewFamily')} / {t('joinExistingFamily')}</p>
                         </div>
@@ -4859,11 +4854,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                         {mode === 'choose' && (
                             <div className="space-y-4">
                                 <button onClick={() => setMode('create')} className="w-full btn-gradient text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-3">
-                                    <Users size={22} />
+                                    <span className="text-2xl">🏠</span>
                                     {t('createNewFamily')}
                                 </button>
-                                <button onClick={() => setMode('join')} className="w-full glass border-2 border-teal-300 dark:border-teal-600 py-4 rounded-xl font-semibold hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-all flex items-center justify-center gap-3 text-gray-700 dark:text-gray-200">
-                                    <Link size={22} className="text-teal-500" />
+                                <button onClick={() => setMode('join')} className="w-full glass border-2 border-indigo-300 dark:border-indigo-600 py-4 rounded-xl font-semibold hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all flex items-center justify-center gap-3 text-gray-700 dark:text-gray-200">
+                                    <span className="text-2xl">🔗</span>
                                     {t('joinExistingFamily')}
                                 </button>
                             </div>
@@ -4886,7 +4881,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                         value={familyName}
                                         onChange={e => setFamilyName(e.target.value)}
                                         placeholder={t('familyNameExample')}
-                                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-teal-500"
+                                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-indigo-500"
                                         required
                                     />
                                 </div>
@@ -4899,11 +4894,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             onClick={() => setSelectedRole('parent_father')}
                                             className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${
                                                 selectedRole === 'parent_father'
-                                                    ? 'border-teal-500 bg-teal-50 dark:bg-teal-900/30'
-                                                    : 'border-gray-200 dark:border-gray-600 hover:border-teal-300'
+                                                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30'
+                                                    : 'border-gray-200 dark:border-gray-600 hover:border-indigo-300'
                                             }`}
                                         >
-                                            <User size={28} className="text-blue-500" />
+                                            <span className="text-3xl">👨</span>
                                             <span className="font-medium text-gray-800 dark:text-white">{t('father')}</span>
                                             <span className="text-xs text-green-600">{t('admin')}</span>
                                         </button>
@@ -4912,11 +4907,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             onClick={() => setSelectedRole('parent_mother')}
                                             className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 ${
                                                 selectedRole === 'parent_mother'
-                                                    ? 'border-teal-500 bg-teal-50 dark:bg-teal-900/30'
-                                                    : 'border-gray-200 dark:border-gray-600 hover:border-teal-300'
+                                                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30'
+                                                    : 'border-gray-200 dark:border-gray-600 hover:border-indigo-300'
                                             }`}
                                         >
-                                            <User size={28} className="text-pink-500" />
+                                            <span className="text-3xl">👩</span>
                                             <span className="font-medium text-gray-800 dark:text-white">{t('mother')}</span>
                                             <span className="text-xs text-green-600">{t('admin')}</span>
                                         </button>
@@ -4927,7 +4922,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     {loading ? t('loading') : t('createFamily')}
                                 </button>
 
-                                <button type="button" onClick={() => { setMode('choose'); setError(''); setSelectedRole(''); }} className="w-full text-teal-600 dark:text-teal-400 text-sm hover:underline">
+                                <button type="button" onClick={() => { setMode('choose'); setError(''); setSelectedRole(''); }} className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline">
                                     {t('back')}
                                 </button>
                             </form>
@@ -4957,7 +4952,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                         onChange={e => setJoinCode(e.target.value.toUpperCase())}
                                         placeholder="ABC123"
                                         maxLength={6}
-                                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-teal-500 text-center text-2xl tracking-widest font-mono"
+                                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-indigo-500 text-center text-2xl tracking-widest font-mono"
                                         dir="ltr"
                                         required
                                     />
@@ -4972,11 +4967,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             onClick={() => setSelectedRole('parent_father')}
                                             className={`p-3 rounded-xl border-2 transition-all flex flex-col items-center gap-1 ${
                                                 selectedRole === 'parent_father'
-                                                    ? 'border-teal-500 bg-teal-50 dark:bg-teal-900/30'
-                                                    : 'border-gray-200 dark:border-gray-600 hover:border-teal-300'
+                                                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30'
+                                                    : 'border-gray-200 dark:border-gray-600 hover:border-indigo-300'
                                             }`}
                                         >
-                                            <User size={22} className="text-blue-500" />
+                                            <span className="text-2xl">👨</span>
                                             <span className="text-sm font-medium text-gray-800 dark:text-white">{t('father')}</span>
                                             <span className="text-xs text-green-600">{t('admin')}</span>
                                         </button>
@@ -4985,11 +4980,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             onClick={() => setSelectedRole('parent_mother')}
                                             className={`p-3 rounded-xl border-2 transition-all flex flex-col items-center gap-1 ${
                                                 selectedRole === 'parent_mother'
-                                                    ? 'border-teal-500 bg-teal-50 dark:bg-teal-900/30'
-                                                    : 'border-gray-200 dark:border-gray-600 hover:border-teal-300'
+                                                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30'
+                                                    : 'border-gray-200 dark:border-gray-600 hover:border-indigo-300'
                                             }`}
                                         >
-                                            <User size={22} className="text-pink-500" />
+                                            <span className="text-2xl">👩</span>
                                             <span className="text-sm font-medium text-gray-800 dark:text-white">{t('mother')}</span>
                                             <span className="text-xs text-green-600">{t('admin')}</span>
                                         </button>
@@ -4998,11 +4993,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             onClick={() => setSelectedRole('teen')}
                                             className={`p-3 rounded-xl border-2 transition-all flex flex-col items-center gap-1 ${
                                                 selectedRole === 'teen'
-                                                    ? 'border-teal-500 bg-teal-50 dark:bg-teal-900/30'
-                                                    : 'border-gray-200 dark:border-gray-600 hover:border-teal-300'
+                                                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30'
+                                                    : 'border-gray-200 dark:border-gray-600 hover:border-indigo-300'
                                             }`}
                                         >
-                                            <User size={22} className="text-teal-500" />
+                                            <span className="text-2xl">🧑</span>
                                             <span className="text-sm font-medium text-gray-800 dark:text-white">{t('teen')}</span>
                                             <span className="text-xs text-blue-600">{t('canInviteMembers')}</span>
                                         </button>
@@ -5011,11 +5006,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             onClick={() => setSelectedRole('child')}
                                             className={`p-3 rounded-xl border-2 transition-all flex flex-col items-center gap-1 ${
                                                 selectedRole === 'child'
-                                                    ? 'border-teal-500 bg-teal-50 dark:bg-teal-900/30'
-                                                    : 'border-gray-200 dark:border-gray-600 hover:border-teal-300'
+                                                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30'
+                                                    : 'border-gray-200 dark:border-gray-600 hover:border-indigo-300'
                                             }`}
                                         >
-                                            <User size={22} className="text-amber-500" />
+                                            <span className="text-2xl">👦</span>
                                             <span className="text-sm font-medium text-gray-800 dark:text-white">{t('child')}</span>
                                             <span className="text-xs text-amber-600">{t('limited')}</span>
                                         </button>
@@ -5029,7 +5024,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     {loading ? t('loading') : t('joinFamily')}
                                 </button>
 
-                                <button type="button" onClick={() => { setMode('choose'); setError(''); }} className="w-full text-teal-600 dark:text-teal-400 text-sm hover:underline">
+                                <button type="button" onClick={() => { setMode('choose'); setError(''); }} className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline">
                                     {t('back')}
                                 </button>
                             </form>
@@ -5037,17 +5032,17 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
                         {mode === 'created' && (
                             <div className="text-center space-y-4">
-                                <div className="flex justify-center mb-4"><PartyPopper size={48} className="text-teal-500" /></div>
+                                <div className="text-6xl mb-4">🎉</div>
                                 <h2 className="text-xl font-bold text-gradient">{t('familyCreated')}</h2>
                                 <p className="text-gray-600 dark:text-gray-400">{t('shareCodeWith')}</p>
-                                <div className="bg-teal-100 dark:bg-teal-900/50 px-6 py-4 rounded-xl">
-                                    <div className="text-3xl font-mono font-bold text-teal-600 dark:text-teal-400 tracking-widest">{createdCode}</div>
+                                <div className="bg-indigo-100 dark:bg-indigo-900/50 px-6 py-4 rounded-xl">
+                                    <div className="text-3xl font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-widest">{createdCode}</div>
                                 </div>
                                 <button
                                     onClick={() => navigator.clipboard.writeText(createdCode)}
-                                    className="text-teal-600 dark:text-teal-400 text-sm hover:underline flex items-center justify-center gap-2 mx-auto"
+                                    className="text-indigo-600 dark:text-indigo-400 text-sm hover:underline flex items-center justify-center gap-2 mx-auto"
                                 >
-                                    <Copy size={14} /> {t('copyFamilyCode')}
+                                    📋 {t('copyFamilyCode')}
                                 </button>
                                 <p className="text-xs text-gray-500 dark:text-gray-400">{t('pageRefresh')}</p>
                             </div>
@@ -5055,17 +5050,17 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
                         {mode === 'joined' && (
                             <div className="text-center space-y-4">
-                                <div className="flex justify-center mb-4"><PartyPopper size={48} className="text-teal-500" /></div>
+                                <div className="text-6xl mb-4">🎉</div>
                                 <h2 className="text-xl font-bold text-gradient">{t('joinedSuccessfully')}</h2>
                                 <p className="text-gray-600 dark:text-gray-400">{t('waitingForFamily')}</p>
                                 <div className="flex items-center justify-center gap-2">
-                                    <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                                    <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                                    <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                                    <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                                    <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                                    <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                                 </div>
                                 <button
                                     onClick={() => window.location.reload()}
-                                    className="mt-4 px-6 py-2 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition-colors"
+                                    className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors"
                                 >
                                     {t('refreshPage')}
                                 </button>
@@ -5159,10 +5154,10 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
             return (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                    <div className="glass rounded-2xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+                    <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-2xl font-bold flex items-center gap-3">
-                                <Users size={28} className="text-teal-500" />
+                                <span className="text-3xl">👨‍👩‍👧‍👦</span>
                                 <span className="text-gradient">{family.name}</span>
                             </h2>
                             <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 hover:rotate-90 transition-all">×</button>
@@ -5172,11 +5167,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                         <div className="glass rounded-xl p-4 mb-4">
                             <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-2">{t('inviteCode')}</h3>
                             <div className="flex items-center gap-3">
-                                <div className="flex-1 bg-teal-100 dark:bg-teal-900/50 px-4 py-3 rounded-lg text-center">
-                                    <span className="text-2xl font-mono font-bold text-teal-600 dark:text-teal-400 tracking-widest">{family.code}</span>
+                                <div className="flex-1 bg-indigo-100 dark:bg-indigo-900/50 px-4 py-3 rounded-lg text-center">
+                                    <span className="text-2xl font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-widest">{family.code}</span>
                                 </div>
                                 <button onClick={copyCode} className="btn-gradient text-white px-4 py-3 rounded-lg hover:scale-105 transition-all">
-                                    {copied ? <Check size={18} /> : <Copy size={18} />}
+                                    {copied ? '✓' : '📋'}
                                 </button>
                             </div>
                         </div>
@@ -5186,7 +5181,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             onClick={generateQRCode}
                             className="w-full mb-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-600 transition-all flex items-center justify-center gap-2"
                         >
-                            <Share2 size={18} /> {t('shareWithFamily')}
+                            <span>📤</span> {t('shareWithFamily')}
                         </button>
 
                         {/* Share Options Modal */}
@@ -5212,22 +5207,22 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                         onClick={shareViaWhatsApp}
                                         className="flex flex-col items-center gap-1 p-3 bg-green-100 dark:bg-green-900/30 rounded-xl hover:bg-green-200 dark:hover:bg-green-900/50 transition-all"
                                     >
-                                        <MessageCircle size={22} className="text-green-600" />
+                                        <span className="text-2xl">💬</span>
                                         <span className="text-xs font-medium text-green-700 dark:text-green-400">WhatsApp</span>
                                     </button>
                                     <button
                                         onClick={shareViaEmail}
                                         className="flex flex-col items-center gap-1 p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-all"
                                     >
-                                        <Mail size={22} className="text-blue-600" />
+                                        <span className="text-2xl">📧</span>
                                         <span className="text-xs font-medium text-blue-700 dark:text-blue-400">{t('email')}</span>
                                     </button>
                                     <button
                                         onClick={copyLink}
-                                        className="flex flex-col items-center gap-1 p-3 bg-teal-100 dark:bg-teal-900/30 rounded-xl hover:bg-teal-200 dark:hover:bg-teal-900/50 transition-all"
+                                        className="flex flex-col items-center gap-1 p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-all"
                                     >
-                                        <Link size={22} className="text-teal-600" />
-                                        <span className="text-xs font-medium text-teal-700 dark:text-teal-400">{t('copyLink')}</span>
+                                        <span className="text-2xl">🔗</span>
+                                        <span className="text-xs font-medium text-purple-700 dark:text-purple-400">{t('copyLink')}</span>
                                     </button>
                                 </div>
 
@@ -5242,13 +5237,13 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                 {family.members?.map((member, idx) => (
                                     <div key={idx} className="glass rounded-lg p-3 flex items-center justify-between">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white text-xl">
-                                                {member.familyRole === 'parent_father' ? <User size={18} /> : member.familyRole === 'parent_mother' ? <User size={18} /> : member.familyRole === 'teen' ? <User size={18} /> : member.familyRole === 'child' ? <User size={18} /> : member.displayName?.charAt(0)?.toUpperCase() || '?'}
+                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xl">
+                                                {member.familyRole === 'parent_father' ? '👨' : member.familyRole === 'parent_mother' ? '👩' : member.familyRole === 'teen' ? '🧑' : member.familyRole === 'child' ? '👦' : member.displayName?.charAt(0)?.toUpperCase() || '?'}
                                             </div>
                                             <div>
                                                 <div className="font-medium dark:text-white">{member.displayName}</div>
                                                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                                                    {member.familyRoleLabel || (member.role === 'admin' ? <><Crown size={12} className="inline" /> {t('admin')}</> : member.role === 'teen' ? t('teen') : t('child'))}
+                                                    {member.familyRoleLabel || (member.role === 'admin' ? '👑 ' + t('admin') : member.role === 'teen' ? '🧑 ' + t('teen') : t('child'))}
                                                     {(member.isParent || member.role === 'admin') && <span className="mr-1 text-green-600">• {t('admin')}</span>}
                                                 </div>
                                             </div>
@@ -5259,7 +5254,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                                 className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
                                                 title={t('removeMember')}
                                             >
-                                                <Trash2 size={16} />
+                                                🗑
                                             </button>
                                         )}
                                     </div>
@@ -5271,7 +5266,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                         {isAdmin && (
                             <div className="mb-6">
                                 <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
-                                    <User size={16} className="text-teal-500" />
+                                    <span>👦</span>
                                     {t('childAccounts')} ({family.childAccounts?.length || 0})
                                 </h3>
 
@@ -5301,13 +5296,13 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                                 ) : (
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center gap-3">
-                                                            <div className="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-white">
-                                                                <User size={18} />
+                                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-xl">
+                                                                👦
                                                             </div>
                                                             <div>
                                                                 <div className="font-medium dark:text-white">{child.displayName}</div>
-                                                                <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                                                                    {child.pinHash ? <><Lock size={10} /> PIN</> : <><Smartphone size={10} /> QR</>}
+                                                                <div className="text-xs text-gray-500 dark:text-gray-400">
+                                                                    {child.pinHash ? '🔐 PIN' : '📱 QR'}
                                                                     {child.lastLoginAt && (
                                                                         <span className="mr-2">
                                                                             • {new Date(child.lastLoginAt.toDate ? child.lastLoginAt.toDate() : child.lastLoginAt).toLocaleDateString(language)}
@@ -5323,7 +5318,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                                                     className="text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-900/30 p-2 rounded-lg transition-colors"
                                                                     title={t('resetPin')}
                                                                 >
-                                                                    <Key size={16} />
+                                                                    🔑
                                                                 </button>
                                                             )}
                                                             <button
@@ -5331,7 +5326,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                                                 className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
                                                                 title={t('deleteChildAccount')}
                                                             >
-                                                                <Trash2 size={16} />
+                                                                🗑
                                                             </button>
                                                         </div>
                                                     </div>
@@ -5348,16 +5343,16 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     <div className="grid grid-cols-2 gap-2">
                                         <button
                                             onClick={() => setShowCreateChildModal(true)}
-                                            className="flex items-center justify-center gap-2 py-2 px-3 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 rounded-lg font-medium hover:bg-teal-200 dark:hover:bg-teal-900/50 transition-colors text-sm"
+                                            className="flex items-center justify-center gap-2 py-2 px-3 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-lg font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors text-sm"
                                         >
-                                            <Plus size={14} />
+                                            <span>➕</span>
                                             {t('addChildAccount')}
                                         </button>
                                         <button
                                             onClick={() => setShowChildQRModal(true)}
                                             className="flex items-center justify-center gap-2 py-2 px-3 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400 rounded-lg font-medium hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-colors text-sm"
                                         >
-                                            <QrCode size={14} />
+                                            <span>📱</span>
                                             {t('generateChildQR')}
                                         </button>
                                     </div>
@@ -5373,14 +5368,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                                     onClick={copyChildLink}
                                                     className="flex items-center justify-center gap-2 py-2 px-3 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 rounded-lg font-medium hover:bg-teal-200 dark:hover:bg-teal-900/50 transition-colors text-sm"
                                                 >
-                                                    {childLinkCopied ? <Check size={14} /> : <Link size={14} />}
+                                                    <span>{childLinkCopied ? '✓' : '🔗'}</span>
                                                     {childLinkCopied ? t('copied') : t('copyLink')}
                                                 </button>
                                                 <button
                                                     onClick={shareChildLinkWhatsApp}
                                                     className="flex items-center justify-center gap-2 py-2 px-3 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg font-medium hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors text-sm"
                                                 >
-                                                    <MessageCircle size={14} />
+                                                    <span>💬</span>
                                                     WhatsApp
                                                 </button>
                                             </div>
@@ -5397,7 +5392,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     onClick={() => setShowDeleteFamilyConfirm(true)}
                                     className="w-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 py-3 rounded-xl font-semibold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
                                 >
-                                    <span className="flex items-center justify-center gap-2"><Trash2 size={16} /> {t('deleteFamily')}</span>
+                                    {'🗑 ' + t('deleteFamily')}
                                 </button>
                             ) : (
                                 <div className="glass rounded-xl p-4 border-2 border-red-300 dark:border-red-700">
@@ -5428,7 +5423,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     onClick={() => setShowLeaveConfirm(true)}
                                     className="w-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 py-3 rounded-xl font-semibold hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors"
                                 >
-                                    <span className="flex items-center justify-center gap-2"><X size={16} /> {t('leaveFamily')}</span>
+                                    {'🚪 ' + t('leaveFamily')}
                                 </button>
                             ) : (
                                 <div className="glass rounded-xl p-4 border-2 border-orange-300 dark:border-orange-700">
@@ -5523,10 +5518,10 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
             return (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                    <div className="glass rounded-2xl p-6 max-w-md w-full shadow-2xl">
+                    <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold flex items-center gap-2">
-                                <User size={22} className="text-teal-500" />
+                                <span className="text-2xl">{step === 'teen' ? '🧑' : '👦'}</span>
                                 <span className="text-gradient">{t('addChildAccount')}</span>
                             </h2>
                             <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 transition-all">×</button>
@@ -5540,16 +5535,16 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                 {/* Young child option */}
                                 <button
                                     onClick={() => setStep('young')}
-                                    className="w-full glass rounded-xl p-4 flex items-start gap-4 hover:bg-teal-50 dark:hover:bg-teal-900/20 transition-colors text-right"
+                                    className="w-full glass rounded-xl p-4 flex items-start gap-4 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors text-right"
                                 >
-                                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-teal-400 to-teal-500 flex items-center justify-center text-white flex-shrink-0">
-                                        <User size={28} />
+                                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-teal-400 to-teal-500 flex items-center justify-center text-white text-3xl flex-shrink-0">
+                                        👦
                                     </div>
                                     <div className="flex-1">
                                         <div className="font-bold text-lg dark:text-white">{t('youngChild')}</div>
                                         <div className="text-sm text-gray-500 dark:text-gray-400">{t('youngChildDesc')}</div>
                                         <div className="text-xs text-amber-600 dark:text-amber-400 mt-1 flex items-center gap-1">
-                                            <AlertTriangle size={12} />
+                                            <span>⚠️</span>
                                             {t('youngChildPerms')}
                                         </div>
                                     </div>
@@ -5560,14 +5555,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     onClick={() => setStep('teen')}
                                     className="w-full glass rounded-xl p-4 flex items-start gap-4 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors text-right"
                                 >
-                                    <div className="w-14 h-14 rounded-full bg-teal-500 flex items-center justify-center text-white flex-shrink-0">
-                                        <User size={28} />
+                                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-3xl flex-shrink-0">
+                                        🧑
                                     </div>
                                     <div className="flex-1">
                                         <div className="font-bold text-lg dark:text-white">{t('olderTeen')}</div>
                                         <div className="text-sm text-gray-500 dark:text-gray-400">{t('olderTeenDesc')}</div>
                                         <div className="text-xs text-blue-600 dark:text-blue-400 mt-1 flex items-center gap-1">
-                                            <Sparkles size={12} />
+                                            <span>✨</span>
                                             {t('olderTeenPerms')}
                                         </div>
                                     </div>
@@ -5599,7 +5594,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             value={name}
                                             onChange={e => setName(e.target.value)}
                                             placeholder={t('displayNamePlaceholder')}
-                                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 transition-colors"
+                                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors"
                                             required
                                         />
                                     </div>
@@ -5614,7 +5609,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             value={pin}
                                             onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
                                             placeholder="****"
-                                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 transition-colors text-center text-2xl tracking-widest"
+                                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-2xl tracking-widest"
                                             required
                                         />
                                     </div>
@@ -5629,7 +5624,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             value={confirmPin}
                                             onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
                                             placeholder="****"
-                                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 transition-colors text-center text-2xl tracking-widest"
+                                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-2xl tracking-widest"
                                             required
                                         />
                                     </div>
@@ -5658,8 +5653,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                         {step === 'teen' && (
                             <div className="space-y-4">
                                 <div className="text-center mb-4">
-                                    <div className="w-16 h-16 rounded-full bg-teal-500 flex items-center justify-center text-white mx-auto mb-3">
-                                        <User size={28} />
+                                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-3xl mx-auto mb-3">
+                                        🧑
                                     </div>
                                     <h3 className="font-bold text-lg dark:text-white">{t('howToAddTeen')}</h3>
                                 </div>
@@ -5683,14 +5678,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                 <div className="glass rounded-xl p-4">
                                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 text-center">{t('familyCode')}</p>
                                     <div className="flex items-center gap-3">
-                                        <div className="flex-1 bg-teal-100 dark:bg-teal-900/50 px-4 py-3 rounded-lg text-center">
-                                            <span className="text-2xl font-mono font-bold text-teal-600 dark:text-teal-400 tracking-widest">{family?.code}</span>
+                                        <div className="flex-1 bg-indigo-100 dark:bg-indigo-900/50 px-4 py-3 rounded-lg text-center">
+                                            <span className="text-2xl font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-widest">{family?.code}</span>
                                         </div>
                                         <button
                                             onClick={copyCode}
                                             className="btn-gradient text-white px-4 py-3 rounded-lg hover:scale-105 transition-all"
                                         >
-                                            {copied ? <Check size={18} /> : <Copy size={18} />}
+                                            {copied ? '✓' : '📋'}
                                         </button>
                                     </div>
                                 </div>
@@ -5754,10 +5749,10 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
             return (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                    <div className="glass rounded-2xl p-6 max-w-md w-full shadow-2xl">
+                    <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold flex items-center gap-2">
-                                <Key size={22} className="text-teal-500" />
+                                <span className="text-2xl">🔑</span>
                                 <span className="text-gradient">{t('resetPin')}</span>
                             </h2>
                             <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 transition-all">×</button>
@@ -5784,7 +5779,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     value={pin}
                                     onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
                                     placeholder="****"
-                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 transition-colors text-center text-2xl tracking-widest"
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-2xl tracking-widest"
                                     required
                                 />
                             </div>
@@ -5799,7 +5794,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     value={confirmPin}
                                     onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
                                     placeholder="****"
-                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 transition-colors text-center text-2xl tracking-widest"
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-2xl tracking-widest"
                                     required
                                 />
                             </div>
@@ -5893,10 +5888,10 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
             return (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                    <div className="glass rounded-2xl p-6 max-w-md w-full shadow-2xl">
+                    <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold flex items-center gap-2">
-                                <QrCode size={22} className="text-teal-500" />
+                                <span className="text-2xl">📱</span>
                                 <span className="text-gradient">{t('childInviteQR')}</span>
                             </h2>
                             <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 transition-all">×</button>
@@ -5904,12 +5899,12 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
                         {loading ? (
                             <div className="text-center py-8">
-                                <div className="flex justify-center mb-4 animate-pulse"><Smartphone size={36} className="text-teal-500" /></div>
+                                <div className="text-4xl mb-4 animate-pulse">📱</div>
                                 <p className="text-gray-600 dark:text-gray-400">{t('loading')}</p>
                             </div>
                         ) : error ? (
                             <div className="text-center py-8">
-                                <div className="flex justify-center mb-4"><X size={36} className="text-red-500" /></div>
+                                <div className="text-4xl mb-4">❌</div>
                                 <p className="text-red-600 dark:text-red-400">{error}</p>
                             </div>
                         ) : timeLeft === 0 ? (
@@ -5950,7 +5945,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     onClick={copyLink}
                                     className="w-full glass py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                                 >
-                                    <Link size={16} />
+                                    <span>🔗</span>
                                     <span>{t('copyLink')}</span>
                                 </button>
 
@@ -5984,8 +5979,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
             return (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="glass rounded-2xl p-8 max-w-sm w-full shadow-2xl">
-                        <div className="flex justify-center mb-4"><ClipboardList size={40} className="text-teal-500" /></div>
+                    <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+                        <div className="text-5xl text-center mb-4">📋</div>
                         <h2 className="text-xl font-bold text-center text-gradient mb-6">{t('newList')}</h2>
 
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -5996,7 +5991,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     value={name}
                                     onChange={e => setName(e.target.value)}
                                     placeholder={t('listNamePlaceholder')}
-                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-teal-500"
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-indigo-500"
                                     autoFocus
                                     required
                                 />
@@ -6010,7 +6005,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             key={i}
                                             type="button"
                                             onClick={() => setIcon(i)}
-                                            className={`text-2xl p-2 rounded-lg transition-all ${icon === i ? 'bg-teal-100 dark:bg-teal-900/50 scale-110' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                                            className={`text-2xl p-2 rounded-lg transition-all ${icon === i ? 'bg-indigo-100 dark:bg-indigo-900/50 scale-110' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
                                         >
                                             {i}
                                         </button>
@@ -6172,8 +6167,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             if (sent) {
                 return (
                     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                        <div className="glass rounded-2xl p-8 max-w-sm w-full shadow-2xl text-center">
-                            <div className="flex justify-center mb-4 animate-bounce"><CheckCircle size={48} className="text-green-500" /></div>
+                        <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center">
+                            <div className="text-6xl mb-4 animate-bounce">✅</div>
                             <h2 className="text-xl font-bold text-gradient">{t('reminderSent')}</h2>
                         </div>
                     </div>
@@ -6182,11 +6177,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
             return (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="glass rounded-2xl p-6 max-w-md w-full shadow-2xl max-h-[85vh] overflow-y-auto">
+                    <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl max-h-[85vh] overflow-y-auto">
                         {/* Header */}
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-xl font-bold text-gradient flex items-center gap-2">
-                                <Bell size={20} className="text-teal-500" /> {t('sendReminder')}
+                                🔔 {t('sendReminder')}
                             </h2>
                             <button
                                 onClick={onClose}
@@ -6265,7 +6260,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             {t('sending')}
                                         </>
                                     ) : (
-                                        <><Bell size={14} className="inline" /> {t('sendNow')}</>
+                                        <>🔔 {t('sendNow')}</>
                                     )}
                                 </button>
                             </div>
@@ -6391,7 +6386,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
                                 {scheduledReminders.length === 0 && (
                                     <div className="text-center text-gray-500 dark:text-gray-400 py-4">
-                                        <div className="flex justify-center mb-2"><Calendar size={28} className="text-teal-500" /></div>
+                                        <div className="text-3xl mb-2">📅</div>
                                         {t('noScheduledReminders')}
                                     </div>
                                 )}
@@ -6424,8 +6419,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
             return (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="glass rounded-2xl p-8 max-w-sm w-full shadow-2xl">
-                        <div className="flex justify-center mb-4"><Pencil size={40} className="text-teal-500" /></div>
+                    <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+                        <div className="text-5xl text-center mb-4">📝</div>
                         <h2 className="text-xl font-bold text-center text-gradient mb-2">{t('noteForProduct')}</h2>
                         <p className="text-center text-gray-500 dark:text-gray-400 mb-4">{getProductTranslation(item.name, language)}</p>
 
@@ -6433,7 +6428,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             value={note}
                             onChange={e => setNote(e.target.value)}
                             placeholder={t('notePlaceholder')}
-                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-teal-500 resize-none h-24 mb-4"
+                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-indigo-500 resize-none h-24 mb-4"
                             autoFocus
                         />
 
@@ -6530,7 +6525,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             value={displayName}
                             onChange={e => setDisplayName(e.target.value)}
                             placeholder={t('displayNamePlaceholder')}
-                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 transition-colors"
+                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
                             required
                         />
                     </div>
@@ -6542,7 +6537,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                             placeholder="example@email.com"
-                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 transition-colors"
+                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
                             dir="ltr"
                             required
                         />
@@ -6556,7 +6551,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 placeholder={t('minChars')}
-                                className="w-full px-4 py-3 pl-12 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 transition-colors"
+                                className="w-full px-4 py-3 pl-12 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
                                 dir="ltr"
                                 required
                             />
@@ -6588,7 +6583,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                 value={confirmPassword}
                                 onChange={e => setConfirmPassword(e.target.value)}
                                 placeholder={t('reenterPassword')}
-                                className="w-full px-4 py-3 pl-12 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 transition-colors"
+                                className="w-full px-4 py-3 pl-12 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
                                 dir="ltr"
                                 required
                             />
@@ -6615,14 +6610,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? t('loading') : t('register')}
                     </button>
 
                     <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
                         {t('haveAccount')}{' '}
-                        <button type="button" onClick={onSwitchToLogin} className="text-teal-600 dark:text-teal-400 font-semibold hover:underline">
+                        <button type="button" onClick={onSwitchToLogin} className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
                             {t('login')}
                         </button>
                     </p>
@@ -6679,7 +6674,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                             placeholder="example@email.com"
-                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 transition-colors"
+                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
                             dir="ltr"
                             required
                         />
@@ -6693,7 +6688,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 placeholder={t('password')}
-                                className="w-full px-4 py-3 pl-12 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 transition-colors"
+                                className="w-full px-4 py-3 pl-12 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
                                 dir="ltr"
                                 required
                             />
@@ -6720,7 +6715,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? t('loading') : t('login')}
                     </button>
@@ -6728,14 +6723,14 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     <button
                         type="button"
                         onClick={onSwitchToReset}
-                        className="w-full text-teal-600 dark:text-teal-400 text-sm hover:underline"
+                        className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline"
                     >
                         {t('forgotPassword')}
                     </button>
 
                     <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
                         {t('noAccount')}{' '}
-                        <button type="button" onClick={onSwitchToSignUp} className="text-teal-600 dark:text-teal-400 font-semibold hover:underline">
+                        <button type="button" onClick={onSwitchToSignUp} className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
                             {t('register')}
                         </button>
                     </p>
@@ -6773,7 +6768,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             if (success) {
                 return (
                     <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="flex justify-center"><Mail size={48} className="text-teal-500" /></div>
+                        <div className="text-6xl">📧</div>
                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('sent')}</h2>
                         <p className="text-gray-600 dark:text-gray-400">
                             {t('resetLinkSent')}<br/>
@@ -6782,7 +6777,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                         <p className="text-sm text-gray-500 dark:text-gray-500">{t('checkSpam')}</p>
                         <button
                             onClick={onSwitchToLogin}
-                            className="text-teal-600 dark:text-teal-400 font-semibold hover:underline"
+                            className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline"
                         >
                             {t('backToLogin')}
                         </button>
@@ -6810,7 +6805,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                             placeholder="example@email.com"
-                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 transition-colors"
+                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
                             dir="ltr"
                             required
                         />
@@ -6819,7 +6814,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? t('sending') : t('sendResetLink')}
                     </button>
@@ -6827,7 +6822,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     <button
                         type="button"
                         onClick={onSwitchToLogin}
-                        className="w-full text-teal-600 dark:text-teal-400 text-sm hover:underline"
+                        className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline"
                     >
                         {t('backToLogin')}
                     </button>
@@ -6897,7 +6892,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             if (verifying) {
                 return (
                     <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="flex justify-center animate-pulse"><Lock size={48} className="text-teal-500" /></div>
+                        <div className="text-6xl animate-pulse">🔐</div>
                         <p className="text-gray-600 dark:text-gray-400">{t('verifyingLink')}</p>
                     </div>
                 );
@@ -6906,12 +6901,12 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             if (!verified) {
                 return (
                     <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="flex justify-center"><AlertTriangle size={48} className="text-amber-500" /></div>
+                        <div className="text-6xl">⚠️</div>
                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('resetLinkExpired')}</h2>
                         <p className="text-gray-600 dark:text-gray-400">{t('resetLinkExpiredDesc')}</p>
                         <button
                             onClick={onDone}
-                            className="text-teal-600 dark:text-teal-400 font-semibold hover:underline"
+                            className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline"
                         >
                             {t('backToLogin')}
                         </button>
@@ -6922,12 +6917,12 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             if (success) {
                 return (
                     <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="flex justify-center"><CheckCircle size={48} className="text-green-500" /></div>
+                        <div className="text-6xl">✅</div>
                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('passwordResetSuccess')}</h2>
                         <p className="text-gray-600 dark:text-gray-400">{t('passwordResetSuccessDesc')}</p>
                         <button
                             onClick={onDone}
-                            className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-all"
+                            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all"
                         >
                             {t('backToLogin')}
                         </button>
@@ -6954,7 +6949,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             type="password"
                             value={newPassword}
                             onChange={e => setNewPassword(e.target.value)}
-                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 transition-colors"
+                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
                             dir="ltr"
                             minLength={6}
                             required
@@ -6969,7 +6964,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             type="password"
                             value={confirmPassword}
                             onChange={e => setConfirmPassword(e.target.value)}
-                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 transition-colors"
+                            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors"
                             dir="ltr"
                             minLength={6}
                             required
@@ -6979,7 +6974,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? '...' : t('setNewPassword')}
                     </button>
@@ -6987,7 +6982,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     <button
                         type="button"
                         onClick={onDone}
-                        className="w-full text-teal-600 dark:text-teal-400 text-sm hover:underline"
+                        className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline"
                     >
                         {t('backToLogin')}
                     </button>
@@ -7233,7 +7228,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             return (
                 <div className="space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white text-center mb-6 flex items-center justify-center gap-2">
-                        <User size={16} className="text-teal-500" />
+                        <span>👦</span>
                         {t('childLogin')}
                     </h2>
 
@@ -7258,7 +7253,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     value={familyCode}
                                     onChange={e => setFamilyCode(e.target.value.toUpperCase().slice(0, 6))}
                                     placeholder="XXXXXX"
-                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 transition-colors text-center text-2xl tracking-widest font-mono"
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-2xl tracking-widest font-mono"
                                     maxLength={6}
                                     required
                                 />
@@ -7267,7 +7262,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             <button
                                 type="submit"
                                 disabled={loading || familyCode.length !== 6}
-                                className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-all disabled:opacity-50"
+                                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50"
                             >
                                 {loading ? t('loading') : t('next')}
                             </button>
@@ -7282,9 +7277,9 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     <button
                                         key={idx}
                                         onClick={() => handleChildSelect(child)}
-                                        className="w-full glass rounded-xl p-4 flex items-center gap-4 hover:bg-teal-50 dark:hover:bg-teal-900/20 transition-colors"
+                                        className="w-full glass rounded-xl p-4 flex items-center gap-4 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors"
                                     >
-                                        <div className="w-12 h-12 rounded-full bg-teal-500 flex items-center justify-center text-white text-2xl">
+                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-2xl">
                                             👦
                                         </div>
                                         <span className="font-medium text-lg dark:text-white">{child.displayName}</span>
@@ -7303,7 +7298,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     {step === 3 && (
                         <form onSubmit={handlePinSubmit} className="space-y-4">
                             <div className="text-center mb-4">
-                                <div className="w-16 h-16 rounded-full bg-teal-500 flex items-center justify-center text-white text-3xl mx-auto mb-2">
+                                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-3xl mx-auto mb-2">
                                     👦
                                 </div>
                                 <p className="font-medium text-lg dark:text-white">{selectedChild.displayName}</p>
@@ -7319,7 +7314,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     value={pin}
                                     onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
                                     placeholder="****"
-                                    className="w-full px-4 py-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 transition-colors text-center text-3xl tracking-widest"
+                                    className="w-full px-4 py-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors text-center text-3xl tracking-widest"
                                     autoFocus
                                     required
                                     disabled={!!lockedUntil}
@@ -7329,7 +7324,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             <button
                                 type="submit"
                                 disabled={loading || pin.length !== 4 || !!lockedUntil}
-                                className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-all disabled:opacity-50"
+                                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50"
                             >
                                 {loading ? t('loading') : t('login')}
                             </button>
@@ -7347,7 +7342,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                         <button
                             onClick={onSwitchToLogin}
-                            className="w-full text-teal-600 dark:text-teal-400 text-sm hover:underline"
+                            className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline"
                         >
                             {t('backToLogin')}
                         </button>
@@ -7426,7 +7421,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             if (validating) {
                 return (
                     <div className="text-center py-8" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="flex justify-center mb-4 animate-pulse"><Smartphone size={36} className="text-teal-500" /></div>
+                        <div className="text-4xl mb-4 animate-pulse">📱</div>
                         <p className="text-gray-600 dark:text-gray-400">{t('loading')}</p>
                     </div>
                 );
@@ -7435,11 +7430,11 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             if (error && !tokenInfo) {
                 return (
                     <div className="text-center py-8" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="flex justify-center mb-4"><X size={36} className="text-red-500" /></div>
+                        <div className="text-4xl mb-4">❌</div>
                         <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
                         <button
                             onClick={onBack}
-                            className="text-teal-600 dark:text-teal-400 hover:underline"
+                            className="text-indigo-600 dark:text-indigo-400 hover:underline"
                         >
                             {t('backToLogin')}
                         </button>
@@ -7450,13 +7445,13 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             return (
                 <div className="space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white text-center mb-2 flex items-center justify-center gap-2">
-                        <User size={16} className="text-teal-500" />
+                        <span>👦</span>
                         {t('joinViaQR')}
                     </h2>
 
                     <div className="text-center mb-4">
                         <p className="text-gray-600 dark:text-gray-400">
-                            {t('joinFamily')}: <strong className="text-teal-600 dark:text-teal-400">{tokenInfo?.familyName}</strong>
+                            {t('joinFamily')}: <strong className="text-indigo-600 dark:text-indigo-400">{tokenInfo?.familyName}</strong>
                         </p>
                     </div>
 
@@ -7474,7 +7469,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                 value={displayName}
                                 onChange={e => setDisplayName(e.target.value)}
                                 placeholder={t('displayNamePlaceholder')}
-                                className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-teal-500 transition-colors"
+                                className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:border-indigo-500 transition-colors"
                                 autoFocus
                                 required
                             />
@@ -7483,7 +7478,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-all disabled:opacity-50"
+                            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50"
                         >
                             {loading ? t('joining') : t('joinFamily')}
                         </button>
@@ -7562,17 +7557,17 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
 
             return (
                 <div className="min-h-screen gradient-bg flex items-center justify-center p-4">
-                    <div className="glass rounded-2xl shadow-2xl p-8 max-w-md w-full relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-teal-500"></div>
+                    <div className="glass rounded-3xl shadow-2xl p-8 max-w-md w-full relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
                         <button
                             onClick={toggleDarkMode}
                             className="absolute top-6 left-6 p-2.5 rounded-xl bg-white/50 dark:bg-gray-700/50 text-2xl hover:scale-110 transition-all duration-300 shadow-lg"
                         >
-                            {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+                            {darkMode ? '☀️' : '🌙'}
                         </button>
 
                         <div className="text-center mb-8 pt-4">
-                            <div className="flex justify-center mb-4 float">{mode === 'child-login' || mode === 'child-qr' ? <User size={56} className="text-teal-500" /> : <ShoppingCart size={56} className="text-teal-500" />}</div>
+                            <div className="text-7xl mb-4 float">{mode === 'child-login' || mode === 'child-qr' ? '👦' : '🛒'}</div>
                             <h1 className="text-3xl font-bold text-gradient mb-2">ListNest</h1>
                             <p className="text-gray-500 dark:text-gray-400 text-sm">{t('smartShoppingList')}</p>
                         </div>
@@ -7586,9 +7581,9 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                                     <button
                                         onClick={() => setMode('child-login')}
-                                        className="w-full flex items-center justify-center gap-2 py-2 text-teal-600 dark:text-teal-400 font-medium hover:underline"
+                                        className="w-full flex items-center justify-center gap-2 py-2 text-purple-600 dark:text-purple-400 font-medium hover:underline"
                                     >
-                                        <User size={16} />
+                                        <span>👦</span>
                                         {t('childLogin')}
                                     </button>
                                 </div>
@@ -7624,66 +7619,32 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             );
         }
 
-        // Lucide icon mapping for categories - renders SVG instead of emoji
-        const CATEGORY_ICONS = {
-            fruits: <Leaf size={18} className="text-green-500" />,
-            dairy: <Egg size={18} className="text-yellow-500" />,
-            desserts: <CakeSlice size={18} className="text-pink-400" />,
-            meat: <Beef size={18} className="text-red-500" />,
-            fish: <Fish size={18} className="text-blue-400" />,
-            deli: <Beef size={18} className="text-orange-500" />,
-            salads: <Salad size={18} className="text-green-400" />,
-            bakery: <Croissant size={18} className="text-amber-500" />,
-            spreads: <Cookie size={18} className="text-amber-600" />,
-            baking: <CakeSlice size={18} className="text-rose-400" />,
-            cereals: <Wheat size={18} className="text-yellow-600" />,
-            canned: <Package size={18} className="text-gray-500" />,
-            spices: <Leaf size={18} className="text-emerald-500" />,
-            coffee: <Coffee size={18} className="text-brown-500" />,
-            drinks: <Coffee size={18} className="text-cyan-500" />,
-            wine: <Wine size={18} className="text-purple-500" />,
-            snacks: <Candy size={18} className="text-pink-500" />,
-            frozen: <Snowflake size={18} className="text-blue-300" />,
-            health: <Heart size={18} className="text-green-500" />,
-            glutenFree: <Leaf size={18} className="text-lime-500" />,
-            hygiene: <Bath size={18} className="text-blue-400" />,
-            cleaning: <Sparkles size={18} className="text-cyan-400" />,
-            candles: <Flame size={18} className="text-amber-400" />,
-            baby: <Baby size={18} className="text-pink-300" />,
-            pets: <Dog size={18} className="text-amber-600" />
-        };
-
-        // Helper to get category icon - returns Lucide SVG or falls back to emoji
-        const getCategoryIcon = (categoryKey, size = 18) => {
-            return CATEGORY_ICONS[categoryKey] || <ShoppingCart size={size} className="text-gray-400" />;
-        };
-
         const CATEGORIES = {
-            fruits: { name: 'פירות וירקות', icon: '', image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&h=200&fit=crop', unit: 'ק"ג', unitOptions: ['ק"ג', 'יח\'', 'גרם'] },
-            dairy: { name: 'מוצרי חלב וביצים', icon: '', image: 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם', 'מ"ל', 'ליטר'] },
-            desserts: { name: 'מעדני חלב', icon: '', image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            meat: { name: 'בשר', icon: '', image: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=200&h=200&fit=crop', unit: 'ק"ג', unitOptions: ['ק"ג', 'גרם', 'יח\''] },
-            fish: { name: 'דגים', icon: '', image: 'https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=200&h=200&fit=crop', unit: 'ק"ג', unitOptions: ['ק"ג', 'גרם', 'יח\''] },
-            deli: { name: 'מעדניית נקניקים', icon: '', image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=200&h=200&fit=crop', unit: 'גרם', unitOptions: ['גרם', 'ק"ג', 'יח\''] },
-            salads: { name: 'סלטים מוכנים', icon: '', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            bakery: { name: 'לחם ומאפים', icon: '', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
-            spreads: { name: 'ממרחים', icon: '', image: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            baking: { name: 'מוצרי אפיה', icon: '', image: 'https://images.unsplash.com/photo-1607478900766-efe13248b125?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם', 'ק"ג'] },
-            cereals: { name: 'דגנים וקורנפלקס', icon: '', image: 'https://images.unsplash.com/photo-1521483451569-e33803c0330c?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            canned: { name: 'שימורים ומזון יבש', icon: '', image: 'https://images.unsplash.com/photo-1534483509719-3feaee7c30da?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            spices: { name: 'תבלינים ובישול', icon: '', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=200&h=200&fit=crop', unit: 'גרם', unitOptions: ['גרם', 'יח\''] },
-            coffee: { name: 'קפה ותה', icon: '', image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            drinks: { name: 'משקאות קלים', icon: '', image: 'https://images.unsplash.com/photo-1527960471264-932f39eb5846?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ליטר', 'מ"ל'] },
-            wine: { name: 'יין ואלכוהול', icon: '', image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'מ"ל'] },
-            snacks: { name: 'חטיפים וממתקים', icon: '', image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            frozen: { name: 'קפואים', icon: '', image: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג', 'גרם'] },
-            health: { name: 'דיאטה וחלבון', icon: '', image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            glutenFree: { name: 'ללא גלוטן', icon: '', image: 'https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            hygiene: { name: 'היגיינה ורחצה', icon: '', image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
-            cleaning: { name: 'ניקיון', icon: '', image: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ליטר'] },
-            candles: { name: 'נרות', icon: '', image: 'https://images.unsplash.com/photo-1602523961358-f9f03dd557db?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
-            baby: { name: 'תינוקות וילדים', icon: '', image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
-            pets: { name: 'חיות מחמד', icon: '', image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג'] }
+            fruits: { name: 'פירות וירקות', icon: '🍎', image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&h=200&fit=crop', unit: 'ק"ג', unitOptions: ['ק"ג', 'יח\'', 'גרם'] },
+            dairy: { name: 'מוצרי חלב וביצים', icon: '🧀', image: 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם', 'מ"ל', 'ליטר'] },
+            desserts: { name: 'מעדני חלב', icon: '🍨', image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            meat: { name: 'בשר', icon: '🥩', image: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=200&h=200&fit=crop', unit: 'ק"ג', unitOptions: ['ק"ג', 'גרם', 'יח\''] },
+            fish: { name: 'דגים', icon: '🐟', image: 'https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=200&h=200&fit=crop', unit: 'ק"ג', unitOptions: ['ק"ג', 'גרם', 'יח\''] },
+            deli: { name: 'מעדניית נקניקים', icon: '🥓', image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=200&h=200&fit=crop', unit: 'גרם', unitOptions: ['גרם', 'ק"ג', 'יח\''] },
+            salads: { name: 'סלטים מוכנים', icon: '🥗', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            bakery: { name: 'לחם ומאפים', icon: '🥐', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
+            spreads: { name: 'ממרחים', icon: '🍯', image: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            baking: { name: 'מוצרי אפיה', icon: '🧁', image: 'https://images.unsplash.com/photo-1607478900766-efe13248b125?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם', 'ק"ג'] },
+            cereals: { name: 'דגנים וקורנפלקס', icon: '🌾', image: 'https://images.unsplash.com/photo-1521483451569-e33803c0330c?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            canned: { name: 'שימורים ומזון יבש', icon: '🥫', image: 'https://images.unsplash.com/photo-1534483509719-3feaee7c30da?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            spices: { name: 'תבלינים ובישול', icon: '🌿', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=200&h=200&fit=crop', unit: 'גרם', unitOptions: ['גרם', 'יח\''] },
+            coffee: { name: 'קפה ותה', icon: '☕', image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            drinks: { name: 'משקאות קלים', icon: '🧃', image: 'https://images.unsplash.com/photo-1527960471264-932f39eb5846?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ליטר', 'מ"ל'] },
+            wine: { name: 'יין ואלכוהול', icon: '🍷', image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'מ"ל'] },
+            snacks: { name: 'חטיפים וממתקים', icon: '🍫', image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            frozen: { name: 'קפואים', icon: '❄️', image: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג', 'גרם'] },
+            health: { name: 'דיאטה וחלבון', icon: '🥗', image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            glutenFree: { name: 'ללא גלוטן', icon: '🌿', image: 'https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            hygiene: { name: 'היגיינה ורחצה', icon: '🛁', image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
+            cleaning: { name: 'ניקיון', icon: '✨', image: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ליטר'] },
+            candles: { name: 'נרות', icon: '🕯️', image: 'https://images.unsplash.com/photo-1602523961358-f9f03dd557db?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
+            baby: { name: 'תינוקות וילדים', icon: '🍼', image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
+            pets: { name: 'חיות מחמד', icon: '🐕', image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג'] }
         };
 
         // Category key to translation key mapping
@@ -11340,8 +11301,6 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
             const [whatsAppText, setWhatsAppText] = useState('');
             // Real-time editing indicator
             const [activeEditors, setActiveEditors] = useState([]);
-            // Quick actions toggle - collapsed by default for cleaner header
-            const [showQuickActions, setShowQuickActions] = useState(false);
             // Holiday recommendations
             const [showHolidayRecommendations, setShowHolidayRecommendations] = useState(false);
             // Price comparison scanner
@@ -12895,7 +12854,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     'מגה': 'bg-cyan-500',
                     'אושר עד': 'bg-teal-500',
                     'טיב טעם': 'bg-amber-500',
-                    'יוחננוף': 'bg-teal-500',
+                    'יוחננוף': 'bg-indigo-500',
                     'סופר פארם': 'bg-pink-500'
                 };
                 return colors[chainName] || 'bg-gray-500';
@@ -12964,7 +12923,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                             type: 'complementary',
                                             name: suggestion,
                                             reason: `${t('complementsItem')} ${item.name}`,
-                                            icon: ''
+                                            icon: '🧩'
                                         });
                                     }
                                 });
@@ -12981,7 +12940,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     type: 'basic',
                                     name: basic,
                                     reason: t('basicItemReason'),
-                                    icon: ''
+                                    icon: '🏠'
                                 });
                             }
                         }
@@ -12997,7 +12956,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     type: 'shabbat',
                                     name: item,
                                     reason: t('forShabbat'),
-                                    icon: ''
+                                    icon: '🕯️'
                                 });
                             }
                         });
@@ -13013,7 +12972,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     type: 'seasonal',
                                     name: item,
                                     reason: t('suitableForSummer'),
-                                    icon: ''
+                                    icon: '☀️'
                                 });
                             }
                         });
@@ -13025,7 +12984,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                                     type: 'seasonal',
                                     name: item,
                                     reason: t('suitableForWinter'),
-                                    icon: ''
+                                    icon: '❄️'
                                 });
                             }
                         });
@@ -13038,7 +12997,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             type: 'recipe',
                             name: t('recipePastaSuggestion'),
                             reason: t('allIngredientsInList'),
-                            icon: '',
+                            icon: '👨‍🍳',
                             isRecipe: true
                         });
                     }
@@ -13049,7 +13008,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                             type: 'recipe',
                             name: t('recipeOmeletteSuggestion'),
                             reason: t('allIngredientsInList'),
-                            icon: '',
+                            icon: '👨‍🍳',
                             isRecipe: true
                         });
                     }
@@ -13484,8 +13443,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 try {
                     const notification = new Notification(title, {
                         body: body,
-                        icon: isReminder ? '' : '',
-                        badge: '',
+                        icon: isReminder ? '🔔' : '🛒',
+                        badge: '🛒',
                         tag: isReminder ? 'reminder-message' : 'chat-message',
                         renotify: true,
                         vibrate: isReminder ? [300, 100, 300, 100, 300] : [200, 100, 200]
@@ -13516,8 +13475,8 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 try {
                     const notification = new Notification(title, {
                         body: body,
-                        icon: '',
-                        badge: '',
+                        icon: '🛒',
+                        badge: '🛒',
                         tag: 'product-added',
                         renotify: true,
                         vibrate: [200, 100, 200]
@@ -13666,7 +13625,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                     if ((!forgottenStats[item] || forgottenStats[item] === 0) && perfectCount < 3) {
                         newAchievements.push({
                             name: `${item} Master`,
-                            emoji: '',
+                            emoji: '🏆',
                             description: t('achievementZeroForgets').replace('{item}', item)
                         });
                         perfectCount++;
@@ -13683,7 +13642,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 } else if (shoppingStreak >= 3) {
                     newAchievements.push({
                         name: t('onTheRightTrack'),
-                        emoji: '',
+                        emoji: '🌟',
                         description: `${shoppingStreak} ${t('consecutivePurchases')}`
                     });
                 }
@@ -13692,7 +13651,7 @@ import { Download, Upload, ClipboardList, Save, Camera, CheckCircle, BarChart3, 
                 if (Object.keys(forgottenStats).length === 0 || Object.values(forgottenStats).every(v => v === 0)) {
                     newAchievements.push({
                         name: t('memoryChampion'),
-                        emoji: '',
+                        emoji: '🧠',
                         description: t('forgotNothingMonth')
                     });
                 }
@@ -15168,7 +15127,7 @@ END:VCALENDAR`;
                 return (
                     <div className="min-h-screen gradient-bg flex items-center justify-center">
                         <div className="text-center">
-                            <div className="flex justify-center mb-4 float"><ShoppingCart size={48} className="text-white" /></div>
+                            <div className="text-6xl mb-4 float">🛒</div>
                             <div className="text-xl text-white font-medium">{t('loadingApp')}</div>
                             <div className="mt-4 w-32 h-1 bg-white/20 rounded-full overflow-hidden mx-auto">
                                 <div className="h-full w-1/2 progress-animate rounded-full"></div>
@@ -15202,7 +15161,7 @@ END:VCALENDAR`;
                     {!isOnline && (
                         <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-red-500 to-teal-500 text-white py-3 px-4 z-50 shadow-lg">
                             <div className="flex items-center justify-center gap-3 max-w-lg mx-auto">
-                                <Globe size={20} />
+                                <span className="text-xl">📡</span>
                                 <div className="text-center">
                                     <div className="font-bold">{t('noInternet')}</div>
                                     <div className="text-xs opacity-90">
@@ -15295,13 +15254,13 @@ END:VCALENDAR`;
 
                     {showDeleteConfirm && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                            <div className="glass rounded-2xl p-8 max-w-sm w-full shadow-2xl">
-                                <div className="flex justify-center mb-4"><Trash2 size={40} className="text-red-400" /></div>
+                            <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+                                <div className="text-5xl text-center mb-4">🗑️</div>
                                 <h2 className="text-xl font-bold text-center text-gradient mb-2">{t('deleteProduct')}</h2>
                                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">{t('confirmDelete')}</p>
                                 <div className="flex gap-3">
                                     <button onClick={() => deleteItem(showDeleteConfirm)}
-                                        className="flex-1 bg-red-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all">
+                                        className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all">
                                         {t('deleteLabel')}
                                     </button>
                                     <button onClick={() => setShowDeleteConfirm(null)}
@@ -15315,14 +15274,14 @@ END:VCALENDAR`;
 
                     {showDeleteAllConfirm && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                            <div className="glass rounded-2xl p-8 max-w-sm w-full shadow-2xl">
-                                <div className="flex justify-center mb-4"><AlertTriangle size={40} className="text-amber-500" /></div>
+                            <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+                                <div className="text-5xl text-center mb-4">⚠️</div>
                                 <h2 className="text-xl font-bold text-center text-gradient mb-2">{t('deleteAllTitle')}</h2>
                                 <p className="text-gray-600 dark:text-gray-300 mb-2 text-center">{t('deleteAllConfirm')}</p>
                                 <p className="text-red-500 dark:text-red-400 mb-6 text-center text-sm font-semibold">{t('deleteAllWarning').replace('{count}', items.length)}</p>
                                 <div className="flex gap-3">
                                     <button onClick={deleteAllItems}
-                                        className="flex-1 bg-red-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all">
+                                        className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all">
                                         {t('deleteAll')}
                                     </button>
                                     <button onClick={() => setShowDeleteAllConfirm(false)}
@@ -15337,15 +15296,15 @@ END:VCALENDAR`;
                     {/* Import from WhatsApp Modal */}
                     {showImportWhatsApp && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                            <div className="glass rounded-2xl p-6 max-w-md w-full shadow-2xl">
-                                <div className="flex justify-center mb-3"><Smartphone size={32} className="text-teal-500" /></div>
+                            <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl">
+                                <div className="text-4xl text-center mb-3">📱</div>
                                 <h2 className="text-xl font-bold text-center text-gradient mb-2">{t('importFromWhatsapp')}</h2>
                                 <p className="text-gray-500 dark:text-gray-400 text-sm text-center mb-4">{t('whatsapp')}</p>
                                 <textarea
                                     value={whatsAppText}
                                     onChange={e => setWhatsAppText(e.target.value)}
                                     placeholder={t('importExample')}
-                                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white min-h-[150px] mb-4 focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all text-sm"
+                                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white min-h-[150px] mb-4 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all text-sm"
                                     dir="rtl"
                                 />
                                 <div className="text-xs text-gray-400 dark:text-gray-500 mb-4">
@@ -15372,12 +15331,12 @@ END:VCALENDAR`;
                     {/* Saved Lists Modal */}
                     {showSavedLists && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                            <div className="glass rounded-2xl p-6 max-w-md w-full shadow-2xl max-h-[80vh] overflow-y-auto">
-                                <div className="flex justify-center mb-3"><ClipboardList size={32} className="text-teal-500" /></div>
+                            <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl max-h-[80vh] overflow-y-auto">
+                                <div className="text-4xl text-center mb-3">📋</div>
                                 <h2 className="text-xl font-bold text-center text-gradient mb-4">{t('savedLists')}</h2>
                                 {savedLists.length === 0 ? (
                                     <div className="text-center py-8">
-                                        <div className="flex justify-center mb-3"><FileText size={40} className="text-gray-300" /></div>
+                                        <div className="text-5xl mb-3">📝</div>
                                         <p className="text-gray-500 dark:text-gray-400">{t('noSavedLists')}</p>
                                         <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t('saveListHint')}</p>
                                     </div>
@@ -15407,7 +15366,7 @@ END:VCALENDAR`;
                                                 </div>
                                                 <button
                                                     onClick={() => loadSavedList(list)}
-                                                    className="w-full py-2 bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 rounded-lg font-medium hover:bg-teal-100 dark:hover:bg-teal-900/50 transition-all text-sm"
+                                                    className="w-full py-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg font-medium hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-all text-sm"
                                                 >
                                                     {t('loadToCart')}
                                                 </button>
@@ -15428,29 +15387,29 @@ END:VCALENDAR`;
                     {/* AI Assistant Modal */}
                     {showAIAssistant && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                            <div className="glass rounded-2xl p-6 max-w-lg w-full shadow-2xl max-h-[85vh] overflow-y-auto">
+                            <div className="glass rounded-3xl p-6 max-w-lg w-full shadow-2xl max-h-[85vh] overflow-y-auto">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-2xl font-bold flex items-center gap-3 text-gradient">
-                                        <Bot size={28} className="text-teal-500" />
+                                        <span className="text-3xl">🤖</span>
                                         {t('smartAssistant')}
                                     </h2>
-                                    <button onClick={() => setShowAIAssistant(false)} className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"><X size={18} /></button>
+                                    <button onClick={() => setShowAIAssistant(false)} className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">✕</button>
                                 </div>
 
                                 {aiThinking ? (
                                     <div className="text-center py-12">
-                                        <div className="flex justify-center mb-4 animate-bounce"><Bot size={48} className="text-teal-500" /></div>
+                                        <div className="text-6xl mb-4 animate-bounce">🤔</div>
                                         <p className="text-lg text-gray-600 dark:text-gray-300 font-medium">{t('aiThinking')}</p>
                                         <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">{t('aiAnalyzing')}</p>
                                         <div className="mt-4 flex justify-center gap-1">
-                                            <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                                            <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                                            <div className="w-2 h-2 bg-teal-500 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                                            <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                                            <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                                            <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                                         </div>
                                     </div>
                                 ) : aiSuggestions.length === 0 ? (
                                     <div className="text-center py-12">
-                                        <div className="flex justify-center mb-4"><PartyPopper size={48} className="text-teal-500" /></div>
+                                        <div className="text-6xl mb-4">🎉</div>
                                         <p className="text-lg text-gray-600 dark:text-gray-300 font-medium">{t('listLooksPerfect')}</p>
                                         <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">{t('noSuggestionsNow')}</p>
                                         <button
@@ -15566,7 +15525,7 @@ END:VCALENDAR`;
                                             disabled={!scannedProductName}
                                             className="px-5 py-3 bg-cyan-500 text-white rounded-xl font-bold disabled:opacity-50 hover:bg-cyan-600 transition-all"
                                         >
-                                            <Search size={18} />
+                                            🔍
                                         </button>
                                     </div>
                                     {/* Add to list button */}
@@ -15579,7 +15538,7 @@ END:VCALENDAR`;
                                             }}
                                             className="w-full mt-3 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold text-lg flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] transition-all"
                                         >
-                                            <ShoppingCart size={14} />
+                                            <span>🛒</span>
                                             <span>{t('addToListBtn').replace('{name}', scannedProductName)}</span>
                                         </button>
                                     )}
@@ -15715,7 +15674,7 @@ END:VCALENDAR`;
                                                     className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-white border-4 border-cyan-400 shadow-lg flex items-center justify-center hover:scale-110 transition-all"
                                                 >
                                                     <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
-                                                        <Camera size={22} className="text-white" />
+                                                        <span className="text-2xl">📸</span>
                                                     </div>
                                                 </button>
                                             )}
@@ -15759,7 +15718,7 @@ END:VCALENDAR`;
                                                     openExternalLink(priceCompareResults[0].url, priceCompareResults[0].name);
                                                 }
                                             }}
-                                            className="w-full p-4 bg-teal-600 text-white rounded-xl font-bold text-lg mt-2 hover:opacity-90 transition-all"
+                                            className="w-full p-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold text-lg mt-2 hover:opacity-90 transition-all"
                                         >
                                             🚀 {t('openAllSimultaneously')}
                                         </button>
@@ -15815,7 +15774,7 @@ END:VCALENDAR`;
                             <div className="flex-1 overflow-y-auto p-4">
                                 {listComparisonLoading ? (
                                     <div className="flex flex-col items-center justify-center py-16">
-                                        <div className="flex justify-center mb-4 animate-bounce"><ShoppingCart size={40} className="text-white" /></div>
+                                        <div className="text-5xl mb-4 animate-bounce">🛒</div>
                                         <div className="text-white text-lg font-medium mb-2">{t('comparingPrices')}</div>
                                         <div className="text-gray-400 text-sm">{t('checkingAllChains')}</div>
                                         <div className="mt-4 w-48 h-2 bg-white/20 rounded-full overflow-hidden">
@@ -15966,7 +15925,7 @@ END:VCALENDAR`;
                                                                         : 'bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700'
                                                                 }`}
                                                             >
-                                                                <ShoppingCart size={14} />
+                                                                <span>🛒</span>
                                                                 <span>{t('order')}</span>
                                                             </button>
                                                             {CHAIN_BRANCH_URLS[chain.chain_id] && (
@@ -15975,7 +15934,7 @@ END:VCALENDAR`;
                                                                         e.stopPropagation();
                                                                         openExternalLink(CHAIN_BRANCH_URLS[chain.chain_id], chain.chain_name_he || chain.chain_name);
                                                                     }}
-                                                                    className="px-4 py-2.5 rounded-xl font-bold text-white bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1"
+                                                                    className="px-4 py-2.5 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1"
                                                                 >
                                                                     <span>📍</span>
                                                                     <span>{t('branches')}</span>
@@ -16108,7 +16067,7 @@ END:VCALENDAR`;
                                     </div>
                                 ) : (
                                     <div className="text-center py-16">
-                                        <div className="flex justify-center mb-4"><BarChart3 size={40} className="text-white/60" /></div>
+                                        <div className="text-5xl mb-4">📊</div>
                                         <div className="text-white text-lg font-medium">{t('noDataFound')}</div>
                                     </div>
                                 )}
@@ -16156,17 +16115,17 @@ END:VCALENDAR`;
                                     onClick={() => setShowPromotions(false)}
                                     className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-xl hover:bg-white/20 transition-all"
                                 >
-                                    <X size={18} />
+                                    ✕
                                 </button>
                                 <h2 className="text-white font-bold text-lg flex items-center gap-2">
-                                    <Tag size={20} />
+                                    <span>🏷️</span>
                                     <span>{t('activePromotions')}</span>
                                 </h2>
                                 <button
                                     onClick={fetchPromotions}
                                     className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-all"
                                 >
-                                    <RefreshCw size={18} />
+                                    🔄
                                 </button>
                             </div>
 
@@ -16174,7 +16133,7 @@ END:VCALENDAR`;
                             <div className="flex-1 overflow-y-auto p-4">
                                 {promotionsLoading ? (
                                     <div className="flex flex-col items-center justify-center py-16">
-                                        <div className="flex justify-center mb-4 animate-bounce"><Tag size={40} className="text-white" /></div>
+                                        <div className="text-5xl mb-4 animate-bounce">🏷️</div>
                                         <div className="text-white text-lg font-medium">{t('loadingPromos')}</div>
                                     </div>
                                 ) : promotionsData?.byChain?.length > 0 ? (
@@ -16253,7 +16212,7 @@ END:VCALENDAR`;
                                                     {CHAIN_BRANCH_URLS[chain.chain_id] && (
                                                         <button
                                                             onClick={() => openExternalLink(CHAIN_BRANCH_URLS[chain.chain_id], chain.chain_name_he || chain.chain_name)}
-                                                            className="flex-1 p-2.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white text-center font-bold text-xs hover:from-teal-600 hover:to-teal-700 transition-all"
+                                                            className="flex-1 p-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-center font-bold text-xs hover:from-blue-600 hover:to-indigo-600 transition-all"
                                                         >
                                                             📍 {t('branches')}
                                                         </button>
@@ -16264,7 +16223,7 @@ END:VCALENDAR`;
                                     </div>
                                 ) : (
                                     <div className="text-center py-16">
-                                        <div className="flex justify-center mb-4"><Tag size={40} className="text-white/60" /></div>
+                                        <div className="text-5xl mb-4">🏷️</div>
                                         <div className="text-white text-lg font-medium">{t('noPromotions')}</div>
                                         <button
                                             onClick={fetchPromotions}
@@ -16300,7 +16259,7 @@ END:VCALENDAR`;
                             <div className="flex-1 overflow-y-auto p-4">
                                 <div className="max-w-lg mx-auto">
                                     {/* Explanation */}
-                                    <div className="bg-teal-500/20 rounded-2xl p-4 mb-4 border border-teal-500/30">
+                                    <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-4 mb-4 border border-purple-500/30">
                                         <p className="text-white/90 text-sm leading-relaxed">
                                             {t('smartAddDesc')}
                                         </p>
@@ -16315,7 +16274,7 @@ END:VCALENDAR`;
                                             value={smartAddText}
                                             onChange={(e) => setSmartAddText(e.target.value)}
                                             placeholder={t('whatToAdd')}
-                                            className="w-full px-4 py-4 rounded-2xl bg-white/10 border-2 border-white/20 text-white placeholder:text-white/40 focus:border-teal-400 focus:outline-none resize-none text-lg"
+                                            className="w-full px-4 py-4 rounded-2xl bg-white/10 border-2 border-white/20 text-white placeholder:text-white/40 focus:border-purple-400 focus:outline-none resize-none text-lg"
                                             rows={4}
                                             autoFocus
                                         />
@@ -16325,7 +16284,7 @@ END:VCALENDAR`;
                                     <button
                                         onClick={handleSmartAdd}
                                         disabled={!smartAddText.trim() || smartAddLoading}
-                                        className="w-full py-4 bg-teal-600 text-white rounded-2xl font-bold text-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                                        className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl font-bold text-lg hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
                                     >
                                         {smartAddLoading ? (
                                             <>
@@ -16346,7 +16305,7 @@ END:VCALENDAR`;
                                             {smartAddResults.length > 0 ? (
                                                 <>
                                                     <h3 className="text-white font-bold mb-3 flex items-center gap-2">
-                                                        <ShoppingCart size={14} />
+                                                        <span>🛒</span>
                                                         <span>{t('identifiedProducts').replace('{count}', smartAddResults.length)}</span>
                                                     </h3>
                                                     <div className="space-y-2 mb-4">
@@ -16414,7 +16373,7 @@ END:VCALENDAR`;
 
                     {showFinishShopping && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                            <div className="glass rounded-2xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+                            <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
                                 <div className="text-5xl text-center mb-4">✅</div>
                                 <h2 className="text-2xl font-bold text-center text-gradient mb-2">{t('finishShopping')}</h2>
                                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">{purchasedCount} {t('itemsPurchased')}</p>
@@ -16424,7 +16383,7 @@ END:VCALENDAR`;
                                     value={totalAmount}
                                     onChange={e => setTotalAmount(e.target.value)}
                                     placeholder="0"
-                                    className="w-full px-5 py-4 border-2 border-teal-200 dark:border-teal-600 rounded-xl bg-white/50 dark:bg-gray-700/50 dark:text-white text-xl mb-4 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all"
+                                    className="w-full px-5 py-4 border-2 border-indigo-200 dark:border-indigo-600 rounded-xl bg-white/50 dark:bg-gray-700/50 dark:text-white text-xl mb-4 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
                                     autoFocus
                                 />
 
@@ -16443,7 +16402,7 @@ END:VCALENDAR`;
                                         <button
                                             onClick={() => receiptInputRef.current?.click()}
                                             disabled={uploadingReceipt}
-                                            className="w-full p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl hover:border-teal-400 dark:hover:border-teal-500 transition-colors flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-teal-500"
+                                            className="w-full p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-indigo-500"
                                         >
                                             {uploadingReceipt ? (
                                                 <>
@@ -16494,7 +16453,7 @@ END:VCALENDAR`;
 
                     {showHistory && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-                            <div className="glass rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
+                            <div className="glass rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-2xl font-bold flex items-center gap-3">
                                         <span className="text-3xl">📊</span>
@@ -16555,14 +16514,14 @@ END:VCALENDAR`;
                                                         ₪{record.totalAmount.toFixed(2)}
                                                     </div>
                                                 </div>
-                                                <div className="text-sm text-gray-700 dark:text-gray-300 bg-teal-50/50 dark:bg-teal-900/20 rounded-lg p-3">
+                                                <div className="text-sm text-gray-700 dark:text-gray-300 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-lg p-3">
                                                     {t('purchaseItemsSummary').replace('{count}', record.items.length).replace('{avg}', (record.totalAmount / record.items.length).toFixed(2))}
                                                 </div>
                                                 {record.receiptPhoto && (
                                                     <div className="mt-3">
                                                         <button
                                                             onClick={() => window.open(record.receiptPhoto, '_blank')}
-                                                            className="flex items-center gap-2 text-sm text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 transition-colors"
+                                                            className="flex items-center gap-2 text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
                                                         >
                                                             <span>🧾</span>
                                                             <span>{t('viewReceipt')}</span>
@@ -16571,7 +16530,7 @@ END:VCALENDAR`;
                                                 )}
                                             </div>
                                         ))}
-                                        <div className="glass rounded-xl p-5 border-2 border-teal-200/50 dark:border-teal-700/50">
+                                        <div className="glass rounded-xl p-5 border-2 border-indigo-200/50 dark:border-indigo-700/50">
                                             <h3 className="font-bold text-gradient mb-4 flex items-center gap-2">
                                                 <span className="text-xl">📈</span>
                                                 {t('generalStats')}
@@ -16604,7 +16563,7 @@ END:VCALENDAR`;
                     {/* Forgotten Stats Modal */}
                     {showForgottenStats && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-                            <div className="glass rounded-2xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
+                            <div className="glass rounded-3xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-2xl font-bold flex items-center gap-3">
                                         <span className="text-3xl">🧠</span>
@@ -16711,7 +16670,7 @@ END:VCALENDAR`;
                     {/* Regular Items Modal */}
                     {showRegulars && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-                            <div className="glass rounded-2xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
+                            <div className="glass rounded-3xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-2xl font-bold flex items-center gap-3">
                                         <span className="text-3xl">⭐</span>
@@ -16762,7 +16721,7 @@ END:VCALENDAR`;
                     {/* Calendar & Holidays Modal */}
                     {showCalendar && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-                            <div className="glass rounded-2xl p-6 max-w-md w-full max-h-[95vh] overflow-y-auto shadow-2xl scrollbar-thin">
+                            <div className="glass rounded-3xl p-6 max-w-md w-full max-h-[95vh] overflow-y-auto shadow-2xl scrollbar-thin">
                                 {/* Header */}
                                 <div className="flex justify-between items-center mb-4">
                                     <h2 className="text-xl font-bold flex items-center gap-2">
@@ -16783,7 +16742,7 @@ END:VCALENDAR`;
                                     </button>
                                     <button
                                         onClick={() => setCalendarMonth(new Date())}
-                                        className="px-3 py-1 text-sm bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300 rounded-lg hover:bg-teal-200 dark:hover:bg-teal-800 transition-all"
+                                        className="px-3 py-1 text-sm bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-all"
                                     >
                                         {t('today')}
                                     </button>
@@ -16796,7 +16755,7 @@ END:VCALENDAR`;
                                 </div>
 
                                 {/* Month Navigation */}
-                                <div className="flex items-center justify-between mb-4 bg-teal-600 text-white rounded-xl p-3">
+                                <div className="flex items-center justify-between mb-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl p-3">
                                     <button
                                         onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1))}
                                         className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-xl transition-all"
@@ -16838,7 +16797,7 @@ END:VCALENDAR`;
                                                 className={`
                                                     aspect-square rounded-lg flex flex-col items-center justify-center text-sm relative
                                                     ${!day ? '' : 'cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700'}
-                                                    ${isToday ? 'ring-2 ring-teal-500 bg-teal-50 dark:bg-teal-900/30' : ''}
+                                                    ${isToday ? 'ring-2 ring-indigo-500 bg-indigo-50 dark:bg-indigo-900/30' : ''}
                                                     ${isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'}
                                                     ${holiday ? 'bg-gradient-to-br from-amber-100 to-teal-100 dark:from-amber-900/30 dark:to-teal-900/30 font-bold' : ''}
                                                 `}
@@ -16878,7 +16837,7 @@ END:VCALENDAR`;
                                                         onClick={() => setReminderDays(days)}
                                                         className={`px-3 py-1 rounded-full text-sm transition-all ${
                                                             reminderDays === days
-                                                                ? 'bg-teal-500 text-white'
+                                                                ? 'bg-indigo-500 text-white'
                                                                 : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200'
                                                         }`}
                                                     >
@@ -16901,7 +16860,7 @@ END:VCALENDAR`;
                                             </button>
                                             <button
                                                 onClick={() => downloadICSFile(selectedHoliday, reminderDays)}
-                                                className="w-full flex items-center justify-center gap-2 bg-teal-600 text-white px-4 py-3 rounded-xl hover:bg-teal-700 transition-all font-medium"
+                                                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-3 rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-all font-medium"
                                             >
                                                 {t('downloadToCalendar')}
                                             </button>
@@ -16979,7 +16938,7 @@ END:VCALENDAR`;
                                             <span className="w-3 h-3 rounded bg-amber-200 dark:bg-amber-700"></span> {t('holiday')}
                                         </span>
                                         <span className="flex items-center gap-1">
-                                            <span className="w-3 h-3 rounded ring-2 ring-teal-500"></span> {t('today')}
+                                            <span className="w-3 h-3 rounded ring-2 ring-indigo-500"></span> {t('today')}
                                         </span>
                                         <span className="flex items-center gap-1">
                                             <span className="text-blue-600">ש׳</span> {t('saturday')}
@@ -16993,15 +16952,15 @@ END:VCALENDAR`;
                     {/* Quantity Selector Modal */}
                     {showQuantitySelector && selectedProduct && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[10005] p-4">
-                            <div className="glass rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+                            <div className="glass rounded-3xl p-6 max-w-sm w-full shadow-2xl">
                                 <div className="text-center mb-6">
-                                    <div className="flex justify-center mb-2">{getCategoryIcon(selectedProduct.category, 36)}</div>
+                                    <div className="text-4xl mb-2">{CATEGORIES[selectedProduct.category]?.icon || '🛒'}</div>
                                     <h2 className="text-xl font-bold text-gray-800 dark:text-white">{selectedProduct.name}</h2>
                                     <p className="text-sm text-gray-500 dark:text-gray-400">{CATEGORIES[selectedProduct.category]?.name}</p>
                                     {/* Show if item is in cart */}
                                     {selectedProduct.existingQty > 0 && (
                                         <div className="mt-2 inline-flex items-center gap-2 bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300 px-3 py-1 rounded-full text-sm font-medium">
-                                            <ShoppingCart size={14} />
+                                            <span>🛒</span>
                                             <span>{t('inCartLabel')}: {selectedProduct.existingQty}</span>
                                         </div>
                                     )}
@@ -17084,13 +17043,13 @@ END:VCALENDAR`;
                                         value={selectedNote}
                                         onChange={(e) => setSelectedNote(e.target.value)}
                                         placeholder={t('tagExamplePlaceholder')}
-                                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white focus:border-teal-400 transition-all"
+                                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white focus:border-indigo-400 transition-all"
                                     />
                                 </div>
 
                                 {/* Preview */}
-                                <div className={`rounded-xl p-3 mb-6 text-center ${selectedQuantity === 0 ? (selectedProduct.existingId ? 'bg-red-50 dark:bg-red-900/30' : 'bg-gray-50 dark:bg-gray-800/50') : 'bg-teal-50 dark:bg-teal-900/30'}`}>
-                                    <span className={`text-lg font-bold ${selectedQuantity === 0 ? (selectedProduct.existingId ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400') : 'text-teal-700 dark:text-teal-300'}`}>
+                                <div className={`rounded-xl p-3 mb-6 text-center ${selectedQuantity === 0 ? (selectedProduct.existingId ? 'bg-red-50 dark:bg-red-900/30' : 'bg-gray-50 dark:bg-gray-800/50') : 'bg-indigo-50 dark:bg-indigo-900/30'}`}>
+                                    <span className={`text-lg font-bold ${selectedQuantity === 0 ? (selectedProduct.existingId ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400') : 'text-indigo-700 dark:text-indigo-300'}`}>
                                         {selectedQuantity === 0 ? (
                                             selectedProduct.existingId ? (
                                                 <>🗑️ {t('removeFromCart')} {selectedProduct.name}</>
@@ -17158,11 +17117,11 @@ END:VCALENDAR`;
                     {/* Family Chat Modal */}
                     {showChat && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                            <div className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-lg h-[85vh] max-h-[650px] shadow-2xl flex flex-col overflow-hidden">
+                            <div className="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-lg h-[85vh] max-h-[650px] shadow-2xl flex flex-col overflow-hidden">
                                 {/* Chat Header - Modern Design */}
                                 <div className="p-4 flex items-center justify-between bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-full bg-teal-500 flex items-center justify-center text-white text-xl shadow-lg">
+                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xl shadow-lg">
                                             👨‍👩‍👧‍👦
                                         </div>
                                         <div>
@@ -17236,7 +17195,7 @@ END:VCALENDAR`;
                                 <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 scrollbar-thin">
                                     {chatMessages.length === 0 ? (
                                         <div className="text-center py-16">
-                                            <div className="w-20 h-20 rounded-full bg-teal-100 dark:bg-teal-900/50 flex items-center justify-center mx-auto mb-4">
+                                            <div className="w-20 h-20 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center mx-auto mb-4">
                                                 <span className="text-4xl">💬</span>
                                             </div>
                                             <p className="text-gray-600 dark:text-gray-300 font-medium">{t('noMessagesYet')}</p>
@@ -17252,7 +17211,7 @@ END:VCALENDAR`;
                                                     <div key={msg.id} className="flex justify-center my-3">
                                                         <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 border-2 border-amber-200 dark:border-amber-700 rounded-2xl p-4 max-w-[90%] shadow-lg">
                                                             <div className="flex items-center gap-3 mb-2">
-                                                                <Bell size={22} className="text-amber-500" />
+                                                                <span className="text-2xl">🔔</span>
                                                                 <div>
                                                                     <p className="font-bold text-amber-800 dark:text-amber-300">{t('reminderFromFamily')}</p>
                                                                     <p className="text-xs text-amber-600 dark:text-amber-400">{msg.senderName} {t('reminderSentBy')}</p>
@@ -17280,7 +17239,7 @@ END:VCALENDAR`;
                                                         <div
                                                             className={`rounded-2xl p-3 shadow-sm ${
                                                                 isMe
-                                                                    ? 'bg-teal-500 text-white rounded-br-md'
+                                                                    ? 'bg-indigo-500 text-white rounded-br-md'
                                                                     : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-md border border-gray-100 dark:border-gray-600'
                                                             } ${isMe ? 'cursor-pointer' : ''}`}
                                                             onClick={() => isMe && setChatContextMenu(chatContextMenu?.msgId === msg.id ? null : { msgId: msg.id })}
@@ -17290,12 +17249,12 @@ END:VCALENDAR`;
                                                             )}
                                                             {msg.text && <p className="text-sm leading-relaxed">{msg.text}</p>}
                                                             <div className={`flex items-center gap-1 mt-1.5 ${isMe ? 'justify-end' : 'justify-start'}`}>
-                                                                <p className={`text-xs ${isMe ? 'text-teal-200' : 'text-gray-400'}`}>
+                                                                <p className={`text-xs ${isMe ? 'text-indigo-200' : 'text-gray-400'}`}>
                                                                     {msg.createdAt?.toDate?.().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }) || ''}
                                                                     {msg.editedAt && ` · ${t('edited')}`}
                                                                 </p>
                                                                 {isMe && (
-                                                                    <span className={`text-xs ${msg.readBy && msg.readBy.some(uid => uid !== msg.senderUid) ? 'text-cyan-300' : 'text-teal-300'}`}>
+                                                                    <span className={`text-xs ${msg.readBy && msg.readBy.some(uid => uid !== msg.senderUid) ? 'text-cyan-300' : 'text-indigo-300'}`}>
                                                                         {msg.readBy && msg.readBy.some(uid => uid !== msg.senderUid) ? '✓✓' : '✓'}
                                                                     </span>
                                                                 )}
@@ -17318,7 +17277,7 @@ END:VCALENDAR`;
                                                         )}
                                                     </div>
                                                     {isMe && (
-                                                        <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                                                             {(msg.senderName || '?')[0]}
                                                         </div>
                                                     )}
@@ -17341,7 +17300,7 @@ END:VCALENDAR`;
                                 {/* Chat Input - Modern Design */}
                                 <div className="p-4 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
                                     {editingMessageId && (
-                                        <div className="flex items-center gap-2 mb-2 px-2 py-1 bg-teal-50 dark:bg-teal-900/30 rounded-lg text-xs text-teal-600 dark:text-teal-300">
+                                        <div className="flex items-center gap-2 mb-2 px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-xs text-indigo-600 dark:text-indigo-300">
                                             <span>✏️ {t('editMessage')}</span>
                                             <button onClick={() => { setEditingMessageId(null); setChatInput(''); }} className="ml-auto text-gray-400 hover:text-red-500">✕</button>
                                         </div>
@@ -17369,7 +17328,7 @@ END:VCALENDAR`;
                                                 }
                                             }}
                                             placeholder={editingMessageId ? t('editMessage') : t('typeMessagePlaceholder')}
-                                            className={`flex-1 px-4 py-3 border rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 transition-all text-sm ${editingMessageId ? 'border-teal-400 focus:border-teal-500 focus:ring-teal-200' : 'border-gray-200 dark:border-gray-600 focus:border-teal-400 focus:ring-teal-100 dark:focus:ring-teal-900/50'}`}
+                                            className={`flex-1 px-4 py-3 border rounded-xl bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 transition-all text-sm ${editingMessageId ? 'border-indigo-400 focus:border-indigo-500 focus:ring-indigo-200' : 'border-gray-200 dark:border-gray-600 focus:border-indigo-400 focus:ring-indigo-100 dark:focus:ring-indigo-900/50'}`}
                                         />
                                         <button
                                             onClick={() => {
@@ -17379,7 +17338,7 @@ END:VCALENDAR`;
                                                     sendChatMessage(chatInput, capturedPhoto);
                                                 }
                                             }}
-                                            className={`w-11 h-11 rounded-xl flex items-center justify-center text-white transition-all shadow-md hover:shadow-lg ${editingMessageId ? 'bg-green-500 hover:bg-green-600' : 'bg-teal-500 hover:bg-teal-600'}`}
+                                            className={`w-11 h-11 rounded-xl flex items-center justify-center text-white transition-all shadow-md hover:shadow-lg ${editingMessageId ? 'bg-green-500 hover:bg-green-600' : 'bg-indigo-500 hover:bg-indigo-600'}`}
                                         >
                                             {editingMessageId ? '✓' : (
                                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -17414,27 +17373,27 @@ END:VCALENDAR`;
                     )}
 
                     <div className="max-w-4xl mx-auto">
-                        <div className="glass rounded-2xl shadow-xl p-4 mb-2 relative overflow-hidden">
-                            <div className="absolute top-0 left-0 w-full h-1 bg-teal-500"></div>
-                            <div className="flex items-center justify-between mb-3">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-xl btn-gradient flex items-center justify-center shadow-md">
-                                        <ShoppingCart size={20} className="text-white" />
+                        <div className="glass rounded-3xl shadow-xl p-6 mb-2 relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-14 h-14 rounded-2xl btn-gradient flex items-center justify-center shadow-lg">
+                                        <span className="text-3xl">🛒</span>
                                     </div>
                                     <div>
-                                        <h1 className="text-xl font-bold text-gradient">ListNest</h1>
-                                        <div className="flex items-center gap-2 flex-wrap">
+                                        <h1 className="text-2xl font-bold text-gradient">ListNest</h1>
+                                        <div className="flex items-center gap-2 mt-1 flex-wrap">
                                             {childUser ? (
-                                                <span className="px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-700 dark:bg-teal-900/50 dark:text-teal-300 flex items-center gap-1">
-                                                    <Users size={12} /> {family?.name}
+                                                <span className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300">
+                                                    👨‍👩‍👧‍👦 {family?.name}
                                                 </span>
                                             ) : (
-                                                <button onClick={() => setShowFamilySettings(true)} className="px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-700 dark:bg-teal-900/50 dark:text-teal-300 hover:scale-105 transition-transform cursor-pointer flex items-center gap-1">
-                                                    <Users size={12} /> {family?.name}
+                                                <button onClick={() => setShowFamilySettings(true)} className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300 hover:scale-105 transition-transform cursor-pointer">
+                                                    👨‍👩‍👧‍👦 {family?.name}
                                                 </button>
                                             )}
-                                            <span className="px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 flex items-center gap-1">
-                                                <User size={10} /> {childUser?.displayName || user?.displayName || user?.email || t('anonymous')}
+                                            <span className="px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                                                👤 {childUser?.displayName || user?.displayName || user?.email || t('anonymous')}
                                             </span>
                                         </div>
                                     </div>
@@ -17448,7 +17407,7 @@ END:VCALENDAR`;
                                             aria-label={t('settings')}
                                             aria-expanded={showSettings}
                                         >
-                                            <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            <span aria-hidden="true">⚙️</span>
                                         </button>
                                         {showSettings && (
                                             <>
@@ -17460,7 +17419,7 @@ END:VCALENDAR`;
                                                             shoppingMode ? 'bg-green-50 dark:bg-green-900/30' : ''
                                                         }`}
                                                     >
-                                                        <span className="text-xl">{shoppingMode ? <ShoppingCart size={18} className="text-green-500" /> : <Smartphone size={18} className="text-gray-500" />}</span>
+                                                        <span className="text-xl">{shoppingMode ? '🛒' : '📱'}</span>
                                                         <div className="flex-1">
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{t('shoppingModeTitle')}</div>
                                                             <div className="text-xs text-gray-500 dark:text-gray-400">{shoppingMode ? t('shoppingModeActive') : t('enableShoppingMode')}</div>
@@ -17471,7 +17430,7 @@ END:VCALENDAR`;
                                                         onClick={() => { toggleDarkMode(); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
                                                     >
-                                                        <span className="text-xl">{darkMode ? <Sun size={18} /> : <Moon size={18} />}</span>
+                                                        <span className="text-xl">{darkMode ? '☀️' : '🌙'}</span>
                                                         <div className="flex-1">
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{darkMode ? t('lightMode') : t('darkMode')}</div>
                                                         </div>
@@ -17480,7 +17439,7 @@ END:VCALENDAR`;
                                                         onClick={() => { forceUpdateApp(); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
                                                     >
-                                                        <RefreshCw size={18} className="text-gray-500" />
+                                                        <span className="text-xl">🔄</span>
                                                         <div className="flex-1">
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{t('refreshApp')}</div>
                                                         </div>
@@ -17489,7 +17448,7 @@ END:VCALENDAR`;
                                                         onClick={() => { setShowHelp(true); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
                                                     >
-                                                        <svg className="w-[18px] h-[18px] text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                        <span className="text-xl">❓</span>
                                                         <div className="flex-1">
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{t('help')}</div>
                                                         </div>
@@ -17498,7 +17457,7 @@ END:VCALENDAR`;
                                                         onClick={() => { handleLogout(); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors border-t border-gray-100 dark:border-gray-700 text-red-600 dark:text-red-400"
                                                     >
-                                                        <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                                                        <span className="text-xl">🚪</span>
                                                         <div className="flex-1">
                                                             <div className="font-medium">{t('logoutButton')}</div>
                                                         </div>
@@ -17508,7 +17467,7 @@ END:VCALENDAR`;
                                                             onClick={() => { setShowDeleteAccount(true); setShowSettings(false); }}
                                                             className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors border-t border-gray-100 dark:border-gray-700 text-red-700 dark:text-red-500"
                                                         >
-                                                            <Trash2 size={18} />
+                                                            <span className="text-xl">🗑️</span>
                                                             <div className="flex-1">
                                                                 <div className="font-medium">{t('deleteAccount')}</div>
                                                             </div>
@@ -17540,7 +17499,7 @@ END:VCALENDAR`;
                                 ))}
                                 <button
                                     onClick={() => setShowCreateList(true)}
-                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 hover:bg-teal-100 dark:hover:bg-teal-900/50 transition-all text-sm"
+                                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-all text-sm"
                                 >
                                     <span>➕</span>
                                     <span className="font-medium">{t('newList')}</span>
@@ -17571,147 +17530,175 @@ END:VCALENDAR`;
                                 </div>
                                 <button
                                     onClick={() => document.getElementById('shopping-list-section')?.scrollIntoView({ behavior: 'smooth' })}
-                                    className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 dark:bg-teal-900/30 rounded-xl hover:shadow-lg transition-all border border-teal-200/50 dark:border-teal-700/50">
+                                    className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl hover:shadow-lg transition-all border border-indigo-200/50 dark:border-indigo-700/50">
                                     <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">{t('items')}</span>
                                     <span className="text-lg font-bold text-gradient">{totalItems}</span>
                                 </button>
                             </div>
 
                             {totalItems > 0 && (
-                                <div className="flex items-center gap-2 mb-2">
-                                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 overflow-hidden">
-                                        <div className="progress-animate h-1.5 rounded-full transition-all duration-700 ease-out"
+                                <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 rounded-xl p-2.5 mb-2">
+                                    <div className="flex justify-between mb-1 text-xs">
+                                        <span className="text-gray-600 dark:text-gray-300 font-medium">{t('shoppingProgress')}</span>
+                                        <span className="font-bold text-gradient">{purchasedCount} / {totalItems}</span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                                        <div className="progress-animate h-2 rounded-full transition-all duration-700 ease-out"
                                             style={{ width: `${totalItems > 0 ? (purchasedCount / totalItems) * 100 : 0}%` }} />
                                     </div>
-                                    <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 whitespace-nowrap">{purchasedCount}/{totalItems}</span>
                                     {purchasedCount === totalItems && totalItems > 0 && (
-                                        <span className="text-xs text-green-600 dark:text-green-400 font-medium">✓</span>
+                                        <div className="text-center mt-1 text-xs text-green-600 dark:text-green-400 font-medium">🎉 {t('allPurchased')}</div>
                                     )}
                                 </div>
                             )}
 
 
-                            {/* Holiday Recommendations - Compact */}
+                            {/* Holiday Recommendations Banner */}
                             {getHolidayRecommendations().length > 0 && (
-                                <div className="mb-1">
-                                    <button
-                                        onClick={() => setShowHolidayRecommendations(!showHolidayRecommendations)}
-                                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 text-xs font-medium hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all border border-amber-200/50 dark:border-amber-700/50"
-                                    >
-                                        <span>{getHolidayRecommendations()[0].icon}</span>
-                                        <span>{HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name] ? t(HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name]) : getHolidayRecommendations()[0].name}</span>
-                                        <Calendar size={14} />
-                                    </button>
+                                <div className="mb-2 rounded-xl overflow-hidden shadow-md border border-purple-200/50 dark:border-purple-700/50">
+                                    <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 px-3 py-2">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-xl">{getHolidayRecommendations()[0].icon}</span>
+                                                <div>
+                                                    <div className="font-bold text-white text-sm">{HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name] ? t(HOLIDAY_NAME_KEYS[getHolidayRecommendations()[0].name]) : getHolidayRecommendations()[0].name} {t('approaching')}</div>
+                                                    <div className="text-white/80 text-[10px]">{HOLIDAY_REMINDER_KEYS[getHolidayRecommendations()[0].reminder] ? t(HOLIDAY_REMINDER_KEYS[getHolidayRecommendations()[0].reminder]) : getHolidayRecommendations()[0].reminder}</div>
+                                                </div>
+                                            </div>
+                                            <button
+                                                onClick={() => setShowHolidayRecommendations(!showHolidayRecommendations)}
+                                                className="bg-white/20 hover:bg-white/30 text-white text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm transition-all"
+                                            >
+                                                {showHolidayRecommendations ? t('hideLabel') : t('showRecommendations')}
+                                            </button>
+                                        </div>
+                                    </div>
                                     {showHolidayRecommendations && (
-                                        <div className="mt-1 flex flex-wrap gap-1.5 px-1">
-                                            {getHolidayRecommendations()[0].products.map((product, idx) => (
-                                                <button
-                                                    key={idx}
-                                                    onClick={() => addProduct(product)}
-                                                    className="px-2.5 py-1 bg-white dark:bg-gray-800 rounded-full text-xs font-medium text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-800/50 transition-all border border-teal-200 dark:border-teal-700"
-                                                >
-                                                    + {product}
-                                                </button>
-                                            ))}
+                                        <div className="bg-purple-50 dark:bg-purple-900/20 p-3">
+                                            <div className="flex flex-wrap gap-2">
+                                                {getHolidayRecommendations()[0].products.map((product, idx) => (
+                                                    <button
+                                                        key={idx}
+                                                        onClick={() => addProduct(product)}
+                                                        className="px-3 py-1.5 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-800/50 transition-all border border-purple-200 dark:border-purple-700 shadow-sm"
+                                                    >
+                                                        + {product}
+                                                    </button>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
                                 </div>
                             )}
 
-                            {/* Quick Actions - Collapsible */}
-                            <button
-                                onClick={() => setShowQuickActions(!showQuickActions)}
-                                className="w-full flex items-center justify-between px-3 py-2 mb-1 rounded-lg bg-gray-50/80 dark:bg-gray-800/50 border border-gray-200/60 dark:border-gray-700/60 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
-                            >
-                                <span className="font-medium flex items-center gap-2">
-                                    <svg className={`w-4 h-4 transition-transform ${showQuickActions ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                                    {t('quickActions') || 'Quick Actions'}
-                                </span>
-                                <span className="text-xs text-gray-400">10</span>
-                            </button>
-                            {showQuickActions && (() => {
+                            {/* Quick Actions Grid - Compact 5x2 */}
+                            {(() => {
                                 const qaBtnClass = "flex flex-col items-center justify-center h-14 rounded-lg border border-gray-200/60 dark:border-gray-700/60 bg-gray-50/80 dark:bg-gray-800/50 transition-all active:scale-95";
                                 const qaIconClass = "w-6 h-6 flex items-center justify-center text-[15px] leading-none";
-                                const qaLabelClass = "text-[11px] font-medium text-gray-500 dark:text-gray-400 leading-tight mt-0.5 text-center";
+                                const qaLabelClass = "text-[9px] font-medium text-gray-500 dark:text-gray-400 leading-tight mt-0.5 text-center";
                                 return (
                                 <>
                                 <div className="grid grid-cols-5 gap-1 mb-1">
                                     <button onClick={() => setShowImportWhatsApp(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}><Download size={16} className="text-teal-600 dark:text-teal-400" /></span><span className={qaLabelClass}>{t('importList')}</span>
+                                        <span className={qaIconClass}>📥</span><span className={qaLabelClass}>{t('importList')}</span>
                                     </button>
                                     <button onClick={exportToWhatsApp} disabled={items.filter(item => !item.purchased).length === 0} className={`${qaBtnClass} disabled:opacity-50`}>
-                                        <span className={qaIconClass}><Upload size={16} className="text-teal-600 dark:text-teal-400" /></span><span className={qaLabelClass}>{t('exportList')}</span>
+                                        <span className={qaIconClass}>📤</span><span className={qaLabelClass}>{t('exportList')}</span>
                                     </button>
                                     <button onClick={() => setShowSavedLists(true)} className={`${qaBtnClass} relative`}>
-                                        <span className={qaIconClass}><ClipboardList size={16} className="text-teal-600 dark:text-teal-400" /></span><span className={qaLabelClass}>{t('lists')}</span>
-                                        {savedLists.length > 0 && <span className="absolute -top-0.5 -right-0.5 bg-teal-500 text-white w-3.5 h-3.5 rounded-full text-[10px] flex items-center justify-center">{savedLists.length}</span>}
+                                        <span className={qaIconClass}>📋</span><span className={qaLabelClass}>{t('lists')}</span>
+                                        {savedLists.length > 0 && <span className="absolute -top-0.5 -right-0.5 bg-purple-500 text-white w-3.5 h-3.5 rounded-full text-[8px] flex items-center justify-center">{savedLists.length}</span>}
                                     </button>
                                     <button onClick={saveListForReuse} className={qaBtnClass}>
-                                        <span className={qaIconClass}><Save size={16} className="text-teal-600 dark:text-teal-400" /></span><span className={qaLabelClass}>{t('save')}</span>
+                                        <span className={qaIconClass}>💾</span><span className={qaLabelClass}>{t('save')}</span>
                                     </button>
                                     <button onClick={startPriceScanner} className={qaBtnClass}>
-                                        <span className={qaIconClass}><Camera size={16} className="text-teal-600 dark:text-teal-400" /></span><span className={qaLabelClass}>{t('scanProductBtn')}</span>
+                                        <span className={qaIconClass}>📸</span><span className={qaLabelClass}>{t('scanProductBtn')}</span>
                                     </button>
                                 </div>
                                 <div className="grid grid-cols-5 gap-1">
                                     <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : showToast(t('markPurchased'), 'info')} className={qaBtnClass}>
-                                        <span className={qaIconClass}><CheckCircle size={16} className="text-teal-600 dark:text-teal-400" /></span><span className={qaLabelClass}>{t('finishShopping')}</span>
+                                        <span className={qaIconClass}>✅</span><span className={qaLabelClass}>{t('finishShopping')}</span>
                                     </button>
                                     <button onClick={() => setShowHistory(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}><BarChart3 size={16} className="text-teal-600 dark:text-teal-400" /></span><span className={qaLabelClass}>{t('history')}</span>
+                                        <span className={qaIconClass}>📊</span><span className={qaLabelClass}>{t('history')}</span>
                                     </button>
                                     <button onClick={() => setShowCalendar(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}><Calendar size={16} className="text-teal-600 dark:text-teal-400" /></span><span className={qaLabelClass}>{t('calendar')}</span>
+                                        <span className={qaIconClass}>📅</span><span className={qaLabelClass}>{t('calendar')}</span>
                                     </button>
                                     <button onClick={() => setShowChat(true)} className={`${qaBtnClass} relative`}>
-                                        <span className={qaIconClass}><MessageCircle size={16} className="text-teal-600 dark:text-teal-400" /></span><span className={qaLabelClass}>{t('familyChat')}</span>
+                                        <span className={qaIconClass}>💬</span><span className={qaLabelClass}>{t('familyChat')}</span>
                                         {chatMessages.some(msg => msg.senderUid !== user?.uid && (!msg.readBy || !msg.readBy.includes(user?.uid))) && (
                                             <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                                         )}
                                     </button>
                                     <button onClick={() => setShowReminderModal(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}><Bell size={16} className="text-teal-600 dark:text-teal-400" /></span><span className={qaLabelClass}>{t('sendReminder')}</span>
+                                        <span className={qaIconClass}>🔔</span><span className={qaLabelClass}>{t('sendReminder')}</span>
                                     </button>
                                 </div>
                                 </>
                                 );
                             })()}
 
-                            {/* Smart Features - Compact Chip Row */}
-                            <div className="flex flex-wrap gap-1.5 mt-2">
+                            {/* AI Assistant Button */}
+                            <div className="mt-3">
                                 <button
                                     onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
-                                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 text-xs font-medium hover:bg-teal-100 dark:hover:bg-teal-900/50 transition-all border border-teal-200/50 dark:border-teal-700/50"
+                                    className="w-full relative overflow-hidden bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-3 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
                                 >
-                                    <Bot size={14} />
-                                    {t('smartAssistant')}
+                                    <div className="relative flex items-center justify-center gap-3">
+                                        <span className="text-xl">🤖</span>
+                                        <div className="text-center">
+                                            <div className="text-sm font-bold">{t('smartAssistant')}</div>
+                                            <div className="text-[10px] opacity-90">{t('smartRecommendationsSubtitle')}</div>
+                                        </div>
+                                        <span className="text-xl">✨</span>
+                                    </div>
                                 </button>
-                                <button
-                                    onClick={() => setShowForgottenStats(true)}
-                                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 text-xs font-medium hover:bg-cyan-100 dark:hover:bg-cyan-900/50 transition-all border border-cyan-200/50 dark:border-cyan-700/50"
-                                >
-                                    <Brain size={14} />
-                                    {t('whatForgot')}
-                                    {shoppingStreak > 0 && <span className="bg-cyan-200 dark:bg-cyan-800 text-cyan-700 dark:text-cyan-200 px-1.5 py-0.5 rounded-full text-[10px]">{shoppingStreak}</span>}
-                                </button>
-                                {regularItems.length > 0 && (
-                                    <button
-                                        onClick={() => setShowRegulars(true)}
-                                        className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-medium hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-all border border-amber-200/50 dark:border-amber-700/50"
-                                    >
-                                        <Sparkles size={14} />
-                                        {t('addMyRegulars')}
-                                        <span className="bg-amber-200 dark:bg-amber-800 text-amber-700 dark:text-amber-200 px-1.5 py-0.5 rounded-full text-[10px]">{regularItems.length}</span>
-                                    </button>
-                                )}
                             </div>
+
+                            <div className="mt-1.5">
+                                <button onClick={() => setShowForgottenStats(true)}
+                                    className="w-full relative overflow-hidden bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 text-white px-3 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
+                                >
+                                    <div className="relative flex items-center justify-center gap-3">
+                                        <span className="text-xl">🧠</span>
+                                        <div className="text-center">
+                                            <div className="text-sm font-bold">{t('whatForgot')}</div>
+                                            <div className="text-[10px] opacity-90">{t('smartRemindersSubtitle')}</div>
+                                        </div>
+                                        {shoppingStreak > 0 ? (
+                                            <span className="text-lg">🔥</span>
+                                        ) : (
+                                            <span className="text-xl">💡</span>
+                                        )}
+                                    </div>
+                                    {shoppingStreak > 0 && (
+                                        <span className="absolute top-1 left-1 bg-white text-cyan-600 text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                                            {shoppingStreak} {t('inARow')}
+                                        </span>
+                                    )}
+                                </button>
+                            </div>
+
+                            {/* Add Regulars Button */}
+                            {regularItems.length > 0 && (
+                                <div className="mt-1.5">
+                                    <button onClick={() => setShowRegulars(true)}
+                                        className="w-full bg-gradient-to-r from-teal-400 to-teal-500 text-white px-4 py-3 rounded-lg hover:from-teal-500 hover:to-teal-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
+                                        <span>⭐</span>
+                                        <span>{t('addMyRegulars')}</span>
+                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{regularItems.length}</span>
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         {searchTerm && (
                             <div className="glass rounded-2xl shadow-xl p-6 mb-6 card-hover">
                                 <div className="flex justify-between items-center mb-4">
                                     <h2 className="text-xl font-bold dark:text-white flex items-center gap-2">
-                                        <Search size={22} className="text-teal-500" />
+                                        <span className="text-2xl">🔍</span>
                                         <span className="text-gradient">{t('searchResults')}</span>
                                     </h2>
                                     <button onClick={() => setSearchTerm('')} className="btn-gradient text-white text-sm px-4 py-2 rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all">{t('clearSearch')} ✕</button>
@@ -17722,21 +17709,21 @@ END:VCALENDAR`;
                                             .filter(product => product.includes(searchTerm))
                                             .map((product, idx) => (
                                                 <button key={`${category}-${idx}`} onClick={() => { addProduct(product); setSelectedCategory(category); }}
-                                                    className="group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-teal-300 dark:hover:border-teal-600 hover:shadow-lg hover:shadow-teal-100/50 dark:hover:shadow-teal-900/30 transition-all duration-200 text-right"
+                                                    className="group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right"
                                                 >
                                                     <div className="flex items-start gap-3">
                                                         <div className="w-10 h-10 rounded-xl overflow-hidden group-hover:scale-110 transition-transform">
                                                             {CATEGORIES[category]?.image ? (
                                                                 <img src={CATEGORIES[category].image} alt="" className="w-full h-full object-cover" loading="lazy" />
                                                             ) : (
-                                                                <div className="w-full h-full bg-gray-50 dark:bg-gray-700 flex items-center justify-center">{getCategoryIcon(category, 20)}</div>
+                                                                <div className="w-full h-full bg-gray-50 dark:bg-gray-700 flex items-center justify-center text-xl">{CATEGORIES[category]?.icon}</div>
                                                             )}
                                                         </div>
                                                         <div className="flex-1 min-w-0">
                                                             <div className="font-semibold text-gray-700 dark:text-gray-200 text-sm leading-tight mb-1">{getProductTranslation(product, language)}</div>
                                                             <div className="text-xs text-gray-400 dark:text-gray-500">{getCategoryName(category)}</div>
                                                         </div>
-                                                        <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-teal-500 transition-all duration-200">
+                                                        <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-indigo-500 transition-all duration-200">
                                                             <svg className="w-3.5 h-3.5 text-gray-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                                                             </svg>
@@ -17748,7 +17735,7 @@ END:VCALENDAR`;
                                 </div>
                                 {Object.entries(PRODUCTS).flatMap(([_, products]) => products.filter(p => p.includes(searchTerm))).length === 0 && (
                                     <div className="text-center py-8">
-                                        <div className="flex justify-center mb-4"><Search size={48} className="text-gray-300" /></div>
+                                        <div className="text-6xl mb-4">🔍</div>
                                         <p className="text-gray-500 dark:text-gray-400 text-lg">{t('noProductsFound')} "<span className="font-bold">{searchTerm}</span>"</p>
                                         <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">{t('tryAnotherSearch')}</p>
                                     </div>
@@ -17756,17 +17743,24 @@ END:VCALENDAR`;
                             </div>
                         )}
 
-                        {/* Promotions - Compact Chip */}
+                        {/* Promotions Banner - Always at top */}
                         {!selectedCategory && !searchTerm && (
                             <div className="mb-2">
                                 <button
                                     onClick={() => { setShowPromotions(true); fetchPromotions(); }}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-100 dark:hover:bg-red-900/40 transition-all border border-red-200/50 dark:border-red-700/50"
+                                    className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-400 via-teal-500 to-red-500 text-white px-3 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
                                 >
-                                    <Tag size={14} />
-                                    <span>{t('hotDeals')}</span>
-                                    <Flame size={14} />
-                                    <span className="bg-red-500 text-white text-[11px] font-bold px-1.5 py-0.5 rounded-full">{t('newBadge')}</span>
+                                    <div className="relative flex items-center justify-center gap-3">
+                                        <span className="text-xl animate-bounce">🏷️</span>
+                                        <div className="text-center">
+                                            <div className="text-sm font-bold">{t('hotDeals')}</div>
+                                            <div className="text-[10px] opacity-90">{t('hotDealsDesc')}</div>
+                                        </div>
+                                        <span className="text-xl animate-bounce" style={{animationDelay: '0.1s'}}>🔥</span>
+                                    </div>
+                                    <span className="absolute top-1 left-1 bg-white text-red-500 text-[9px] font-bold px-1.5 py-0.5 rounded-full animate-pulse">
+                                        {t('newBadge')}
+                                    </span>
                                 </button>
                             </div>
                         )}
@@ -17777,7 +17771,7 @@ END:VCALENDAR`;
                                 <button
                                     onClick={() => setShowCategories(true)}
                                     className="w-full relative overflow-hidden text-white rounded-xl shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
-                                    style={{height: '56px'}}
+                                    style={{height: '70px'}}
                                 >
                                     {/* Background image */}
                                     <img src="/category-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
@@ -17788,8 +17782,8 @@ END:VCALENDAR`;
                                     {/* Content */}
                                     <div className="relative z-10 flex items-center justify-center gap-3 h-full px-4">
                                         <div className="text-center">
-                                            <div className="text-lg font-bold drop-shadow-lg tracking-wide">{t('selectCategory')}</div>
-                                            <div className="text-xs font-medium text-white/80 drop-shadow">{Object.keys(CATEGORIES).length} {t('selectCategory').includes('קטגוריה') ? 'קטגוריות' : 'categories'}</div>
+                                            <div className="text-2xl font-extrabold drop-shadow-lg tracking-wide">{t('selectCategory')}</div>
+                                            <div className="text-sm font-medium text-white/85 drop-shadow mt-1">{Object.keys(CATEGORIES).length} {t('selectCategory').includes('קטגוריה') ? 'קטגוריות לבחירה' : 'categories to choose'}</div>
                                         </div>
                                     </div>
                                     {/* Arrow icon */}
@@ -17801,22 +17795,22 @@ END:VCALENDAR`;
                         ) : null}
 
                         {filteredItems.length > 0 && (
-                            <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-4 mb-4">
+                            <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-6 mb-6">
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="text-2xl font-bold dark:text-white flex items-center gap-3">
-                                        <FileText size={28} className="text-teal-500" />
+                                        <span className="text-3xl">📝</span>
                                         <span className="text-gradient">{t('myList')}</span>
                                         <span className="btn-gradient text-white text-sm px-3 py-1 rounded-full">{filteredItems.length}</span>
                                     </h2>
                                     <div className="flex items-center gap-1">
                                         {[
-                                            { key: 'newest', icon: <Clock size={14} /> },
-                                            { key: 'name', icon: <Type size={14} /> },
-                                            { key: 'category', icon: <FolderOpen size={14} /> },
-                                            { key: 'purchased', icon: <CheckCircle size={14} /> }
+                                            { key: 'newest', icon: '🕐' },
+                                            { key: 'name', icon: '🔤' },
+                                            { key: 'category', icon: '📂' },
+                                            { key: 'purchased', icon: '✅' }
                                         ].map(s => (
                                             <button key={s.key} onClick={() => setSortBy(s.key)}
-                                                className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-all ${sortBy === s.key ? 'bg-teal-500 text-white shadow-md scale-110' : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
+                                                className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-all ${sortBy === s.key ? 'bg-indigo-500 text-white shadow-md scale-110' : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
                                                 title={t('sortBy' + s.key.charAt(0).toUpperCase() + s.key.slice(1))}
                                             >
                                                 {s.icon}
@@ -17831,7 +17825,7 @@ END:VCALENDAR`;
                                         onClick={compareFullShoppingList}
                                         className="w-full mb-4 flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                                     >
-                                        <BarChart3 size={22} />
+                                        <span className="text-2xl">📊</span>
                                         <span>{t('comparePricesFullList')}</span>
                                         <span className="bg-white/20 px-2 py-0.5 rounded-full text-sm">{items.filter(i => !i.purchased).length}</span>
                                     </button>
@@ -17841,7 +17835,7 @@ END:VCALENDAR`;
                                 {items.length > 0 && (
                                     <div className="mb-4 text-center">
                                         <div className="inline-flex items-center gap-3 bg-gradient-to-r from-teal-500/10 via-cyan-500/10 to-teal-500/10 dark:from-teal-500/20 dark:via-cyan-500/20 dark:to-teal-500/20 px-5 py-2.5 rounded-2xl border border-teal-200/50 dark:border-teal-700/50">
-                                            <ShoppingCart size={20} className="text-teal-500 animate-bounce" />
+                                            <span className="text-xl animate-bounce">🛒</span>
                                             <div>
                                                 <h2 className="text-base font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
                                                     {t('smartFamilyList')}
@@ -17850,7 +17844,7 @@ END:VCALENDAR`;
                                                     {items.filter(i => !i.purchased).length} {t('items')}
                                                 </p>
                                             </div>
-                                            <Sparkles size={20} className="text-teal-500 animate-pulse" />
+                                            <span className="text-xl animate-pulse">✨</span>
                                         </div>
                                     </div>
                                 )}
@@ -17903,15 +17897,15 @@ END:VCALENDAR`;
                                     })()}
                                     <button
                                         onClick={() => setShowTemplates(!showTemplates)}
-                                        className="flex items-center gap-2 bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 px-4 py-2 rounded-xl hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-all"
+                                        className="flex items-center gap-2 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 px-4 py-2 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-all"
                                     >
-                                        <ClipboardList size={14} />
+                                        <span>📋</span>
                                         <span className="font-medium">{t('templates')}</span>
                                     </button>
                                     {items.filter(i => !i.purchased).length > 0 && (
                                         <button
                                             onClick={() => setShowSaveTemplate(true)}
-                                            className="flex items-center gap-2 bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 px-4 py-2 rounded-xl hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-all"
+                                            className="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 px-4 py-2 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-all"
                                         >
                                             <span>💾</span>
                                             <span className="font-medium">{t('saveAsTemplate')}</span>
@@ -17931,9 +17925,9 @@ END:VCALENDAR`;
 
                                 {/* Templates Panel */}
                                 {showTemplates && (
-                                    <div className="mb-6 p-4 bg-teal-50 dark:bg-teal-900/20 rounded-xl">
-                                        <h3 className="font-bold text-teal-700 dark:text-teal-400 mb-3 flex items-center gap-2">
-                                            <ClipboardList size={14} /> {t('myTemplates')}
+                                    <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
+                                        <h3 className="font-bold text-purple-700 dark:text-purple-400 mb-3 flex items-center gap-2">
+                                            <span>📋</span> {t('myTemplates')}
                                         </h3>
                                         {templates.length === 0 ? (
                                             <p className="text-sm text-gray-500 dark:text-gray-400">{t('noTemplatesSaved')}</p>
@@ -17948,7 +17942,7 @@ END:VCALENDAR`;
                                                         <div className="flex gap-2">
                                                             <button
                                                                 onClick={() => loadTemplate(template)}
-                                                                className="text-xs bg-teal-500 text-white px-3 py-1 rounded-lg hover:bg-teal-600"
+                                                                className="text-xs bg-purple-500 text-white px-3 py-1 rounded-lg hover:bg-purple-600"
                                                             >
                                                                 {t('loadList')}
                                                             </button>
@@ -18004,15 +17998,15 @@ END:VCALENDAR`;
                                 )}
 
                                 {Object.entries(groupedItems).map(([category, categoryItems]) => (
-                                    <div key={category} className="category-box mb-3">
+                                    <div key={category} className="category-box mb-6">
                                         <h3 className="category-box-header">
                                             {CATEGORIES[category]?.image ? (
-                                                <img src={CATEGORIES[category].image} alt="" className="w-7 h-7 rounded-lg object-cover" loading="lazy" />
+                                                <img src={CATEGORIES[category].image} alt="" className="w-9 h-9 rounded-xl object-cover ring-2 ring-white/60 shadow-sm" loading="lazy" />
                                             ) : (
-                                                <span>{getCategoryIcon(category, 18)}</span>
+                                                <span className="text-xl">{CATEGORIES[category]?.icon}</span>
                                             )}
-                                            <span className="font-semibold text-sm text-teal-800 dark:text-teal-200">{t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}</span>
-                                            <span className="text-xs bg-teal-100 dark:bg-teal-800/50 text-teal-600 dark:text-teal-300 px-2 py-0.5 rounded-full font-bold">{categoryItems.length}</span>
+                                            <span className="font-bold text-sm text-white">{t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}</span>
+                                            <span className="text-xs bg-white/25 text-white px-2 py-0.5 rounded-full font-bold">{categoryItems.length}</span>
                                         </h3>
                                         <div className="category-box-body">
                                         {categoryItems.map(item => (
@@ -18065,7 +18059,7 @@ END:VCALENDAR`;
                                                                                         e.stopPropagation();
                                                                                         showToast(t('regulatedPriceMsg').replace('{price}', regulatedPrice.toFixed(2)), 'info', 5000);
                                                                                     }}
-                                                                                    className="text-[11px] bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1 rounded cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-800/40 transition-colors leading-tight"
+                                                                                    className="text-[9px] bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1 rounded cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-800/40 transition-colors leading-tight"
                                                                                     title={t('regulatedPriceTitle')}
                                                                                 >
                                                                                     {t('regulatedBadge')}
@@ -18198,7 +18192,7 @@ END:VCALENDAR`;
                         )}
                         {filteredItems.length === 0 && !searchTerm && (
                             <div className="glass rounded-2xl shadow-xl p-12 text-center">
-                                <div className="flex justify-center mb-6 float"><ShoppingCart size={56} className="text-teal-400" /></div>
+                                <div className="text-7xl mb-6 float">🛒</div>
                                 <p className="text-2xl text-gradient font-bold mb-2">{t('emptyList')}</p>
                                 <p className="text-gray-500 dark:text-gray-400 mt-2">{t('addProductsBelow')}</p>
                             </div>
@@ -18228,7 +18222,7 @@ END:VCALENDAR`;
                                     placeholder={`🔍 ${t('addProductPlaceholder')}`}
                                     aria-label={t('searchProduct')}
                                     aria-autocomplete="list"
-                                    className="w-full px-4 py-3 pr-4 pl-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-100 dark:focus:ring-teal-900/30 transition-all text-base font-medium placeholder:text-gray-400"
+                                    className="w-full px-4 py-3 pr-4 pl-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/30 transition-all text-base font-medium placeholder:text-gray-400"
                                 />
                                 {searchTerm && (
                                     <button
@@ -18246,7 +18240,7 @@ END:VCALENDAR`;
                                     className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all touch-target ${
                                         isListening
                                             ? 'bg-red-500 text-white animate-pulse'
-                                            : 'bg-teal-100 dark:bg-teal-900/50 text-teal-600 dark:text-teal-400 hover:bg-teal-200'
+                                            : 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200'
                                     }`}
                                     aria-label={isListening ? t('stopRecording') : t('startRecording')}
                                     aria-pressed={isListening}
@@ -18257,7 +18251,7 @@ END:VCALENDAR`;
                             {/* AI Smart Add Button */}
                             <button
                                 onClick={() => setShowSmartAdd(true)}
-                                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all touch-target bg-teal-600 text-white hover:bg-teal-700 shadow-lg hover:shadow-xl hover:scale-105"
+                                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all touch-target bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl hover:scale-105"
                                 aria-label={t('smartAddAI')}
                                 title={t('smartAddAI')}
                             >
@@ -18268,7 +18262,7 @@ END:VCALENDAR`;
                         {/* Voice listening indicator - Enhanced */}
                         {isListening && (
                             <div className="max-w-2xl mx-auto mt-2 expand-in">
-                                <div className="bg-teal-100 dark:bg-teal-900/50 rounded-xl p-4 border-2 border-teal-300 dark:border-teal-700">
+                                <div className="bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/50 dark:to-indigo-900/50 rounded-xl p-4 border-2 border-purple-300 dark:border-purple-700">
                                     <div className="flex items-center justify-between mb-2">
                                         <div className="flex items-center gap-2">
                                             <div className="flex items-center h-4">
@@ -18276,7 +18270,7 @@ END:VCALENDAR`;
                                                 <span className="sound-wave"></span>
                                                 <span className="sound-wave"></span>
                                             </div>
-                                            <span className="text-sm font-bold text-teal-700 dark:text-teal-300">
+                                            <span className="text-sm font-bold text-purple-700 dark:text-purple-300">
                                                 {voiceStatus || t('listeningNow')}
                                             </span>
                                         </div>
@@ -18287,11 +18281,11 @@ END:VCALENDAR`;
                                     {voiceTranscript && (
                                         <div className="bg-white dark:bg-gray-800 rounded-lg p-3 mt-2">
                                             <p className="text-gray-600 dark:text-gray-300 text-sm">
-                                                <span className="text-teal-500">{t('heard')}</span> {voiceTranscript}
+                                                <span className="text-purple-500">{t('heard')}</span> {voiceTranscript}
                                             </p>
                                         </div>
                                     )}
-                                    <p className="text-xs text-teal-500 dark:text-teal-400 mt-2 text-center">
+                                    <p className="text-xs text-purple-500 dark:text-purple-400 mt-2 text-center">
                                         {t('voiceTipText')}
                                     </p>
                                 </div>
@@ -18331,12 +18325,12 @@ END:VCALENDAR`;
                                             <button
                                                 key={i}
                                                 onClick={() => addProduct(p.name)}
-                                                className="px-2.5 py-1.5 bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300 rounded-lg text-xs font-medium hover:bg-teal-200 dark:hover:bg-teal-800 transition-all expand-in flex items-center gap-1.5"
+                                                className="px-2.5 py-1.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-all expand-in flex items-center gap-1.5"
                                             >
                                                 {CATEGORIES[p.cat]?.image ? (
                                                     <img src={CATEGORIES[p.cat].image} alt="" className="w-4 h-4 rounded object-cover" loading="lazy" />
                                                 ) : (
-                                                    <span>{getCategoryIcon(p.cat, 14)}</span>
+                                                    <span>{CATEGORIES[p.cat]?.icon}</span>
                                                 )}
                                                 <span>{p.name}</span>
                                             </button>
@@ -18369,7 +18363,7 @@ END:VCALENDAR`;
                     {/* Back to Top Button */}
                     <button
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className="fixed left-4 w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-[9998] hover:scale-110 transition-transform touch-target"
+                        className="fixed left-4 w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-[9998] hover:scale-110 transition-transform touch-target"
                         style={{ bottom: '110px' }}
                         title={t('backToTop')}
                         aria-label={t('backToTop')}
@@ -18388,7 +18382,7 @@ END:VCALENDAR`;
                                 <div className="relative z-10 flex items-end justify-between h-full px-5 pb-4">
                                     <div className="w-9"></div>
                                     <div className="text-center flex-1">
-                                        <h2 className="text-2xl font-bold text-white drop-shadow-lg">{t('selectCategory')}</h2>
+                                        <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{t('selectCategory')}</h2>
                                         <p className="text-sm text-white/80 mt-0.5">{Object.keys(CATEGORIES).length} {t('selectCategory').includes('קטגוריה') ? 'קטגוריות' : 'categories'}</p>
                                     </div>
                                     <button onClick={() => setShowCategories(false)} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
@@ -18457,7 +18451,7 @@ END:VCALENDAR`;
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                                     </button>
                                     <div className="text-center flex-1">
-                                        <h2 className="text-2xl font-bold text-white drop-shadow-lg">{t(CATEGORY_TO_TRANSLATION[selectedCategory]) || getCategoryName(selectedCategory)}</h2>
+                                        <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{t(CATEGORY_TO_TRANSLATION[selectedCategory]) || getCategoryName(selectedCategory)}</h2>
                                         <p className="text-sm text-white/80 mt-0.5">{PRODUCTS[selectedCategory]?.length || 0} {t('selectCategory').includes('קטגוריה') ? 'מוצרים' : 'products'}</p>
                                     </div>
                                     <button onClick={() => { setSelectedCategory(null); }}
@@ -18476,7 +18470,7 @@ END:VCALENDAR`;
                                         const cartQty = inCart ? getQuantityNumber(inCart.quantity) : 0;
                                         return (
                                         <button key={idx} onClick={() => addProduct(product)}
-                                            className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${inCart ? 'border-teal-400 dark:border-teal-600 ring-2 ring-teal-400/30' : hasPromo ? 'border-amber-200 dark:border-amber-800/50' : 'border-gray-100 dark:border-gray-700'} hover:border-teal-300 dark:hover:border-teal-600 hover:shadow-lg hover:shadow-teal-100/50 dark:hover:shadow-teal-900/30 transition-all duration-200 text-right`}
+                                            className={`group relative bg-white dark:bg-gray-800 p-4 rounded-2xl border ${inCart ? 'border-teal-400 dark:border-teal-600 ring-2 ring-teal-400/30' : hasPromo ? 'border-amber-200 dark:border-amber-800/50' : 'border-gray-100 dark:border-gray-700'} hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-lg hover:shadow-indigo-100/50 dark:hover:shadow-indigo-900/30 transition-all duration-200 text-right`}
                                             style={{animationDelay: `${idx * 30}ms`}}
                                         >
                                         {inCart && (
@@ -18492,7 +18486,7 @@ END:VCALENDAR`;
                                             </div>
                                         )}
                                         <div className="flex items-center justify-between gap-2">
-                                            <div className={`w-8 h-8 rounded-full ${inCart ? 'bg-teal-500 scale-110' : hasPromo ? 'bg-amber-50 dark:bg-amber-900/30' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-teal-500 group-hover:scale-110 transition-all duration-200`}>
+                                            <div className={`w-8 h-8 rounded-full ${inCart ? 'bg-teal-500 scale-110' : hasPromo ? 'bg-amber-50 dark:bg-amber-900/30' : 'bg-gray-50 dark:bg-gray-700'} flex items-center justify-center group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-200`}>
                                                 {inCart ? (
                                                     <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -18667,9 +18661,9 @@ END:VCALENDAR`;
                                     <div className="w-8"></div>
                                 </div>
                                 <div className="p-4 space-y-4">
-                                    <div className="bg-teal-50 dark:bg-teal-900/30 rounded-xl p-4">
-                                        <h3 className="font-bold text-teal-800 dark:text-teal-200 mb-2">{t('helpHowToUse')}</h3>
-                                        <ul className="text-sm text-teal-700 dark:text-teal-300 space-y-2 list-disc list-inside">
+                                    <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4">
+                                        <h3 className="font-bold text-indigo-800 dark:text-indigo-200 mb-2">{t('helpHowToUse')}</h3>
+                                        <ul className="text-sm text-indigo-700 dark:text-indigo-300 space-y-2 list-disc list-inside">
                                             <li>{t('helpAddProducts')}</li>
                                             <li>{t('helpSwipeLeft')}</li>
                                             <li>{t('helpSwipeRight')}</li>
@@ -18677,9 +18671,9 @@ END:VCALENDAR`;
                                             <li>{t('helpSaveLists')}</li>
                                         </ul>
                                     </div>
-                                    <div className="bg-teal-50 dark:bg-teal-900/30 rounded-xl p-4">
-                                        <h3 className="font-bold text-teal-800 dark:text-teal-200 mb-2">{t('helpFamilySharing')}</h3>
-                                        <ul className="text-sm text-teal-700 dark:text-teal-300 space-y-2 list-disc list-inside">
+                                    <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4">
+                                        <h3 className="font-bold text-purple-800 dark:text-purple-200 mb-2">{t('helpFamilySharing')}</h3>
+                                        <ul className="text-sm text-purple-700 dark:text-purple-300 space-y-2 list-disc list-inside">
                                             <li>{t('helpShareOptions')}</li>
                                             <li><strong>{t('helpParentsAdmin')}</strong></li>
                                             <li><strong>{t('helpChildrenLimited')}</strong></li>
@@ -18702,7 +18696,7 @@ END:VCALENDAR`;
                                             <li>{t('helpDarkMode')}</li>
                                         </ul>
                                     </div>
-                                    <div className="bg-teal-50 dark:bg-teal-900/30 rounded-xl p-4">
+                                    <div className="bg-pink-50 dark:bg-pink-900/30 rounded-xl p-4">
                                         <h3 className="font-bold text-pink-800 dark:text-pink-200 mb-2">{t('helpAddChildTitle')}</h3>
                                         <div className="text-sm text-pink-700 dark:text-pink-300 space-y-1">
                                             <p className="font-medium mb-2">{t('helpHowToAddChild')}</p>
@@ -18756,7 +18750,7 @@ END:VCALENDAR`;
                                                     {t('featureRequest')}
                                                 </button>
                                                 <button onClick={() => setFeedbackType('other')}
-                                                    className={`flex-1 py-2 rounded-xl font-medium transition-colors ${feedbackType === 'other' ? 'bg-teal-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}>
+                                                    className={`flex-1 py-2 rounded-xl font-medium transition-colors ${feedbackType === 'other' ? 'bg-purple-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}>
                                                     {t('otherFeedback')}
                                                 </button>
                                             </div>
@@ -18767,11 +18761,11 @@ END:VCALENDAR`;
                                                 value={feedbackText}
                                                 onChange={(e) => setFeedbackText(e.target.value)}
                                                 placeholder={t('feedbackPlaceholderLong')}
-                                                className="w-full h-32 p-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white resize-none focus:ring-2 focus:ring-teal-500"
+                                                className="w-full h-32 p-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white resize-none focus:ring-2 focus:ring-indigo-500"
                                             />
                                         </div>
                                         <button onClick={sendFeedback} disabled={!feedbackText.trim() || feedbackSending}
-                                            className="w-full py-3 bg-teal-600 text-white rounded-xl font-bold disabled:opacity-50 hover:opacity-90 transition-opacity">
+                                            className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold disabled:opacity-50 hover:opacity-90 transition-opacity">
                                             {feedbackSending ? '⏳ ' + t('sending') : '📤 ' + t('send')}
                                         </button>
                                     </div>
@@ -18788,7 +18782,7 @@ END:VCALENDAR`;
                         const navButtons = (prev, next) => (
                             <div className="flex gap-2">
                                 <button onClick={() => setOnboardingStep(prev)} className="flex-1 py-2.5 bg-gray-100 dark:bg-gray-700 rounded-xl font-medium text-gray-700 dark:text-gray-200">{isRTL ? '' : prevArrow}{t('previous')}{isRTL ? prevArrow : ''}</button>
-                                <button onClick={() => setOnboardingStep(next)} className="flex-1 py-2.5 bg-teal-600 text-white rounded-xl font-medium">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
+                                <button onClick={() => setOnboardingStep(next)} className="flex-1 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-medium">{isRTL ? nextArrow : ''}{t('next')}{isRTL ? '' : nextArrow}</button>
                             </div>
                         );
                         return (
@@ -18802,7 +18796,7 @@ END:VCALENDAR`;
                                         </div>
                                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{t('welcomeToListNest')}</h2>
                                         <p className="text-gray-600 dark:text-gray-300 mb-6">{t('smartListForFamily')}</p>
-                                        <button onClick={() => setOnboardingStep(1)} className="w-full py-3 bg-teal-600 text-white rounded-xl font-bold shadow-lg">
+                                        <button onClick={() => setOnboardingStep(1)} className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold shadow-lg">
                                             {t('letsStart')}{nextArrow}
                                         </button>
                                     </div>
@@ -18812,17 +18806,17 @@ END:VCALENDAR`;
                                     <div className="p-6">
                                         <div className="text-4xl mb-3 text-center">🏪</div>
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('addingProducts')}</h3>
-                                        <div className="bg-teal-50 dark:bg-teal-900/30 rounded-xl p-4 mb-4 space-y-3">
+                                        <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4 mb-4 space-y-3">
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-lg flex-shrink-0">🖼️</span>
+                                                <span className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center text-lg flex-shrink-0">🖼️</span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardCategories')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-lg flex-shrink-0">🔍</span>
+                                                <span className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center text-lg flex-shrink-0">🔍</span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardSearch')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-lg flex-shrink-0">🎤</span>
+                                                <span className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center text-lg flex-shrink-0">🎤</span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardVoice')}</span>
                                             </div>
                                         </div>
@@ -18886,25 +18880,25 @@ END:VCALENDAR`;
                                     <div className="p-6">
                                         <div className="text-4xl mb-3 text-center">👨‍👩‍👧‍👦</div>
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('familySharing')}</h3>
-                                        <div className="bg-teal-50 dark:bg-teal-900/30 rounded-xl p-4 mb-4 space-y-3">
+                                        <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4 mb-4 space-y-3">
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-lg flex-shrink-0">📤</span>
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">📤</span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardShare')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-lg flex-shrink-0">👨‍👩‍👦</span>
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">👨‍👩‍👦</span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardParents')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-lg flex-shrink-0">👦</span>
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">👦</span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardChildren')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-lg flex-shrink-0">🔔</span>
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">🔔</span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardNotifications')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-lg flex-shrink-0">💬</span>
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">💬</span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardChat')}</span>
                                             </div>
                                         </div>
@@ -18916,12 +18910,12 @@ END:VCALENDAR`;
                                     <div className="p-6">
                                         <div className="text-4xl mb-3 text-center">👶</div>
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('addChildNoEmail')}</h3>
-                                        <div className="bg-teal-50 dark:bg-teal-900/30 rounded-xl p-4 mb-4">
+                                        <div className="bg-pink-50 dark:bg-pink-900/30 rounded-xl p-4 mb-4">
                                             <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 text-center">{t('onboardChildDesc')}</p>
                                             <div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
                                                 {[t('onboardChildStep1'), t('onboardChildStep2'), t('onboardChildStep3'), t('onboardChildStep4'), t('onboardChildStep5')].map((step, i) => (
                                                     <div key={i} className="flex items-start gap-2">
-                                                        <span className="bg-teal-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">{i + 1}</span>
+                                                        <span className="bg-pink-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0">{i + 1}</span>
                                                         <span>{step}</span>
                                                     </div>
                                                 ))}
@@ -18978,7 +18972,7 @@ END:VCALENDAR`;
                                 {/* Progress dots */}
                                 <div className="flex justify-center gap-2 pb-4">
                                     {[0, 1, 2, 3, 4, 5, 6, 7].map(step => (
-                                        <div key={step} className={`w-2 h-2 rounded-full transition-colors ${onboardingStep === step ? 'bg-teal-500' : 'bg-gray-300 dark:bg-gray-600'}`} />
+                                        <div key={step} className={`w-2 h-2 rounded-full transition-colors ${onboardingStep === step ? 'bg-indigo-500' : 'bg-gray-300 dark:bg-gray-600'}`} />
                                     ))}
                                 </div>
                             </div>
@@ -19051,15 +19045,15 @@ END:VCALENDAR`;
                     {/* PWA Install Banner */}
                     {showInstallBanner && deferredInstallPrompt && (
                         <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[10005] w-[90%] max-w-sm animate-[fadeIn_0.3s_ease-out]">
-                            <div className="bg-teal-600 rounded-2xl p-4 shadow-2xl text-white">
+                            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-4 shadow-2xl text-white">
                                 <div className="flex items-start gap-3">
                                     <span className="text-3xl">📲</span>
                                     <div className="flex-1">
                                         <p className="font-bold text-sm">{t('installApp')}</p>
-                                        <p className="text-xs text-teal-100 mt-0.5">{t('installAppDesc')}</p>
+                                        <p className="text-xs text-indigo-100 mt-0.5">{t('installAppDesc')}</p>
                                     </div>
                                     <button onClick={() => { setShowInstallBanner(false); localStorage.setItem('listnest_install_dismissed', 'true'); }}
-                                        className="text-teal-200 hover:text-white text-lg">✕</button>
+                                        className="text-indigo-200 hover:text-white text-lg">✕</button>
                                 </div>
                                 <div className="flex gap-2 mt-3">
                                     <button onClick={async () => {
@@ -19072,7 +19066,7 @@ END:VCALENDAR`;
                                         } catch (e) { console.warn('Install prompt error:', e); }
                                         setShowInstallBanner(false);
                                         setDeferredInstallPrompt(null);
-                                    }} className="flex-1 bg-white text-teal-600 font-bold py-2 rounded-xl text-sm hover:bg-teal-50 transition-colors">
+                                    }} className="flex-1 bg-white text-indigo-600 font-bold py-2 rounded-xl text-sm hover:bg-indigo-50 transition-colors">
                                         {t('installApp')}
                                     </button>
                                     <button onClick={() => { setShowInstallBanner(false); localStorage.setItem('listnest_install_dismissed', 'true'); }}
@@ -19087,12 +19081,12 @@ END:VCALENDAR`;
                     {/* iOS Install Banner */}
                     {showIOSInstallBanner && (
                         <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[10005] w-[90%] max-w-sm animate-[fadeIn_0.3s_ease-out]">
-                            <div className="bg-teal-600 rounded-2xl p-4 shadow-2xl text-white">
+                            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-4 shadow-2xl text-white">
                                 <div className="flex items-start gap-3">
                                     <span className="text-3xl">📲</span>
                                     <div className="flex-1">
                                         <p className="font-bold text-sm">{t('installApp')}</p>
-                                        <p className="text-xs text-teal-100 mt-1 leading-relaxed">
+                                        <p className="text-xs text-indigo-100 mt-1 leading-relaxed">
                                             {language === 'he' ? (
                                                 <>לחץ על <span className="inline-flex items-center mx-1 bg-white/20 px-1.5 py-0.5 rounded text-xs"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg></span> ואז <span className="font-bold">"הוסף למסך הבית"</span></>
                                             ) : (
@@ -19101,7 +19095,7 @@ END:VCALENDAR`;
                                         </p>
                                     </div>
                                     <button onClick={() => { setShowIOSInstallBanner(false); localStorage.setItem('listnest_install_dismissed', 'true'); }}
-                                        className="text-teal-200 hover:text-white text-lg">✕</button>
+                                        className="text-indigo-200 hover:text-white text-lg">✕</button>
                                 </div>
                                 <button onClick={() => { setShowIOSInstallBanner(false); localStorage.setItem('listnest_install_dismissed', 'true'); }}
                                     className="w-full mt-3 px-4 py-2 bg-white/20 rounded-xl text-sm font-medium hover:bg-white/30 transition-colors">
@@ -19269,9 +19263,9 @@ END:VCALENDAR`;
                 <FamilyContext.Provider value={childFamilyContext}>
                     <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
                         {/* Child mode banner */}
-                        <div className="bg-teal-600 text-white text-center py-2 px-4 text-sm font-medium flex items-center justify-between">
+                        <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center py-2 px-4 text-sm font-medium flex items-center justify-between">
                             <span className="flex items-center gap-2">
-                                <User size={16} className="text-teal-500" />
+                                <span>👦</span>
                                 <span>{t('welcomeChild').replace('{name}', childUser.displayName)}</span>
                             </span>
                             <button
@@ -19326,7 +19320,7 @@ END:VCALENDAR`;
                                 <div className="space-y-3">
                                     <button
                                         onClick={() => window.location.reload()}
-                                        className="w-full py-3 px-6 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors"
+                                        className="w-full py-3 px-6 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors"
                                     >
                                         {this.props.refreshLabel || 'Refresh'}
                                     </button>
@@ -19364,7 +19358,7 @@ END:VCALENDAR`;
                 return (
                     <div className="min-h-screen gradient-bg flex items-center justify-center">
                         <div className="text-center">
-                            <div className="flex justify-center mb-4 float"><ShoppingCart size={48} className="text-white" /></div>
+                            <div className="text-6xl mb-4 float">🛒</div>
                             <div className="text-xl text-white font-medium">{t('loadingApp')}</div>
                             <div className="mt-4 w-32 h-1 bg-white/20 rounded-full overflow-hidden mx-auto">
                                 <div className="h-full w-1/2 progress-animate rounded-full"></div>
