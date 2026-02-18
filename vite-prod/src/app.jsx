@@ -1,5 +1,15 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { ShoppingCart, Settings, Users, User, Search, Smartphone,
+  Sun, Moon, RefreshCw, HelpCircle, LogOut, Trash2,
+  StickyNote, SkipForward, Undo2, Ban, BarChart3, Camera,
+  Lightbulb, Trophy, ExternalLink, Tag, Flame,
+  Download, Inbox, Calendar, Receipt, TrendingUp, Brain,
+  Bell, BellOff, Pencil, MessageCircle, Clock, ArrowDownAZ,
+  FolderOpen, CircleCheckBig, CircleCheck, ClipboardList,
+  Clipboard, Copy, Bot, AlertTriangle, Share2, Link,
+  Star, Send, Check, ChevronLeft
+} from 'lucide-react';
         const { useState, useEffect, createContext, useContext } = React;
 
         // Auth Context
@@ -453,7 +463,7 @@ import { createRoot } from 'react-dom/client';
                 recipes: 'מתכונים',
                 whatsapp: 'WhatsApp',
                 importList: 'ייבוא רשימה',
-                exportList: 'ייצוא רשימה',
+                exportList: 'שיתוף רשימה',
                 deleteAll: 'מחק הכל',
                 whatForgot: 'מה שכחתי?',
                 calendar: 'לוח שנה',
@@ -652,8 +662,8 @@ import { createRoot } from 'react-dom/client';
                 childAccountsHelpDesc3: 'QR להצטרפות - סריקה מהירה ללא PIN',
                 // AI & Features
                 smartAssistant: 'עוזר קניות חכם',
-                hotDeals: 'מבצעים חמים!',
-                hotDealsDesc: 'צפה במבצעים הכי טובים בכל הרשתות',
+                hotDeals: 'מבצעי השבוע',
+                hotDealsDesc: 'המבצעים הכי שווים ברשתות השיווק',
                 newBadge: 'חדש!',
                 aiThinking: 'AI חושב...',
                 aiAnalyzing: 'מנתח את הרשימה ומכין הצעות',
@@ -1484,7 +1494,7 @@ import { createRoot } from 'react-dom/client';
                 recipes: 'Recipes',
                 whatsapp: 'WhatsApp',
                 importList: 'Import List',
-                exportList: 'Export List',
+                exportList: 'Share List',
                 deleteAll: 'Delete All',
                 whatForgot: 'What did I forget?',
                 calendar: 'Calendar',
@@ -1682,8 +1692,8 @@ import { createRoot } from 'react-dom/client';
                 childAccountsHelpDesc3: 'QR join - quick scan without PIN',
                 // AI & Features
                 smartAssistant: 'Smart Shopping Assistant',
-                hotDeals: 'Hot Deals!',
-                hotDealsDesc: 'View the best deals across all stores',
+                hotDeals: 'Weekly Deals',
+                hotDealsDesc: 'Best deals from supermarket chains',
                 newBadge: 'New!',
                 aiThinking: 'AI is thinking...',
                 aiAnalyzing: 'Analyzing your list and preparing suggestions',
@@ -2431,7 +2441,7 @@ import { createRoot } from 'react-dom/client';
                 recipes: 'Рецепты',
                 whatsapp: 'WhatsApp',
                 importList: 'Импорт списка',
-                exportList: 'Экспорт списка',
+                exportList: 'Поделиться списком',
                 deleteAll: 'Удалить все',
                 whatForgot: 'Что забыл?',
                 calendar: 'Календарь',
@@ -2604,8 +2614,8 @@ import { createRoot } from 'react-dom/client';
                 childAccountsHelpDesc3: 'QR для присоединения - быстрое сканирование без PIN',
                 // AI & Features
                 smartAssistant: 'Умный помощник покупок',
-                hotDeals: 'Горячие акции!',
-                hotDealsDesc: 'Лучшие предложения во всех сетях',
+                hotDeals: 'Акции недели',
+                hotDealsDesc: 'Лучшие акции в сетях супермаркетов',
                 newBadge: 'Новинка!',
                 aiThinking: 'ИИ думает...',
                 aiAnalyzing: 'Анализирую список и готовлю предложения',
@@ -3315,7 +3325,7 @@ import { createRoot } from 'react-dom/client';
                 recipes: 'وصفات',
                 whatsapp: 'واتساب',
                 importList: 'استيراد قائمة',
-                exportList: 'تصدير قائمة',
+                exportList: 'مشاركة القائمة',
                 deleteAll: 'حذف الكل',
                 whatForgot: 'ماذا نسيت؟',
                 calendar: 'التقويم',
@@ -3513,8 +3523,8 @@ import { createRoot } from 'react-dom/client';
                 childAccountsHelpDesc3: 'انضمام بـ QR - مسح سريع بدون PIN',
                 // AI & Features
                 smartAssistant: 'مساعد التسوق الذكي',
-                hotDeals: 'عروض ساخنة!',
-                hotDealsDesc: 'شاهد أفضل العروض في جميع المتاجر',
+                hotDeals: 'عروض الأسبوع',
+                hotDealsDesc: 'أفضل العروض في سلاسل السوبرماركت',
                 newBadge: 'جديد!',
                 aiThinking: 'الذكاء الاصطناعي يفكر...',
                 aiAnalyzing: 'جاري تحليل القائمة وإعداد الاقتراحات',
@@ -4858,7 +4868,7 @@ import { createRoot } from 'react-dom/client';
                                     {t('createNewFamily')}
                                 </button>
                                 <button onClick={() => setMode('join')} className="w-full glass border-2 border-indigo-300 dark:border-indigo-600 py-4 rounded-xl font-semibold hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all flex items-center justify-center gap-3 text-gray-700 dark:text-gray-200">
-                                    <span className="text-2xl">🔗</span>
+                                    <Link size={24} className="text-indigo-500" />
                                     {t('joinExistingFamily')}
                                 </button>
                             </div>
@@ -5042,7 +5052,7 @@ import { createRoot } from 'react-dom/client';
                                     onClick={() => navigator.clipboard.writeText(createdCode)}
                                     className="text-indigo-600 dark:text-indigo-400 text-sm hover:underline flex items-center justify-center gap-2 mx-auto"
                                 >
-                                    📋 {t('copyFamilyCode')}
+                                    <span className="inline-flex items-center gap-1"><Copy size={14} /> {t('copyFamilyCode')}</span>
                                 </button>
                                 <p className="text-xs text-gray-500 dark:text-gray-400">{t('pageRefresh')}</p>
                             </div>
@@ -5171,7 +5181,7 @@ import { createRoot } from 'react-dom/client';
                                     <span className="text-2xl font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-widest">{family.code}</span>
                                 </div>
                                 <button onClick={copyCode} className="btn-gradient text-white px-4 py-3 rounded-lg hover:scale-105 transition-all">
-                                    {copied ? '✓' : '📋'}
+                                    {copied ? <Check size={18} /> : <Copy size={18} />}
                                 </button>
                             </div>
                         </div>
@@ -5181,7 +5191,7 @@ import { createRoot } from 'react-dom/client';
                             onClick={generateQRCode}
                             className="w-full mb-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-600 transition-all flex items-center justify-center gap-2"
                         >
-                            <span>📤</span> {t('shareWithFamily')}
+                            <Share2 size={18} /> {t('shareWithFamily')}
                         </button>
 
                         {/* Share Options Modal */}
@@ -5207,7 +5217,7 @@ import { createRoot } from 'react-dom/client';
                                         onClick={shareViaWhatsApp}
                                         className="flex flex-col items-center gap-1 p-3 bg-green-100 dark:bg-green-900/30 rounded-xl hover:bg-green-200 dark:hover:bg-green-900/50 transition-all"
                                     >
-                                        <span className="text-2xl">💬</span>
+                                        <MessageCircle size={24} className="text-green-600" />
                                         <span className="text-xs font-medium text-green-700 dark:text-green-400">WhatsApp</span>
                                     </button>
                                     <button
@@ -5221,7 +5231,7 @@ import { createRoot } from 'react-dom/client';
                                         onClick={copyLink}
                                         className="flex flex-col items-center gap-1 p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-all"
                                     >
-                                        <span className="text-2xl">🔗</span>
+                                        <Link size={24} className="text-purple-600" />
                                         <span className="text-xs font-medium text-purple-700 dark:text-purple-400">{t('copyLink')}</span>
                                     </button>
                                 </div>
@@ -5368,14 +5378,14 @@ import { createRoot } from 'react-dom/client';
                                                     onClick={copyChildLink}
                                                     className="flex items-center justify-center gap-2 py-2 px-3 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 rounded-lg font-medium hover:bg-teal-200 dark:hover:bg-teal-900/50 transition-colors text-sm"
                                                 >
-                                                    <span>{childLinkCopied ? '✓' : '🔗'}</span>
+                                                    {childLinkCopied ? <Check size={14} /> : <Link size={14} />}
                                                     {childLinkCopied ? t('copied') : t('copyLink')}
                                                 </button>
                                                 <button
                                                     onClick={shareChildLinkWhatsApp}
                                                     className="flex items-center justify-center gap-2 py-2 px-3 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg font-medium hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors text-sm"
                                                 >
-                                                    <span>💬</span>
+                                                    <MessageCircle size={14} />
                                                     WhatsApp
                                                 </button>
                                             </div>
@@ -5423,7 +5433,7 @@ import { createRoot } from 'react-dom/client';
                                     onClick={() => setShowLeaveConfirm(true)}
                                     className="w-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 py-3 rounded-xl font-semibold hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors"
                                 >
-                                    {'🚪 ' + t('leaveFamily')}
+                                    <span className="inline-flex items-center gap-2"><LogOut size={18} /> {t('leaveFamily')}</span>
                                 </button>
                             ) : (
                                 <div className="glass rounded-xl p-4 border-2 border-orange-300 dark:border-orange-700">
@@ -5544,7 +5554,7 @@ import { createRoot } from 'react-dom/client';
                                         <div className="font-bold text-lg dark:text-white">{t('youngChild')}</div>
                                         <div className="text-sm text-gray-500 dark:text-gray-400">{t('youngChildDesc')}</div>
                                         <div className="text-xs text-amber-600 dark:text-amber-400 mt-1 flex items-center gap-1">
-                                            <span>⚠️</span>
+                                            <AlertTriangle size={12} />
                                             {t('youngChildPerms')}
                                         </div>
                                     </div>
@@ -5685,7 +5695,7 @@ import { createRoot } from 'react-dom/client';
                                             onClick={copyCode}
                                             className="btn-gradient text-white px-4 py-3 rounded-lg hover:scale-105 transition-all"
                                         >
-                                            {copied ? '✓' : '📋'}
+                                            {copied ? <Check size={18} /> : <Copy size={18} />}
                                         </button>
                                     </div>
                                 </div>
@@ -5945,7 +5955,7 @@ import { createRoot } from 'react-dom/client';
                                     onClick={copyLink}
                                     className="w-full glass py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                                 >
-                                    <span>🔗</span>
+                                    <Link size={16} className="text-indigo-500" />
                                     <span>{t('copyLink')}</span>
                                 </button>
 
@@ -5980,7 +5990,7 @@ import { createRoot } from 'react-dom/client';
             return (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
-                        <div className="text-5xl text-center mb-4">📋</div>
+                        <div className="flex justify-center mb-4"><ClipboardList size={48} className="text-indigo-500" /></div>
                         <h2 className="text-xl font-bold text-center text-gradient mb-6">{t('newList')}</h2>
 
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -6168,7 +6178,7 @@ import { createRoot } from 'react-dom/client';
                 return (
                     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                         <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center">
-                            <div className="text-6xl mb-4 animate-bounce">✅</div>
+                            <div className="flex justify-center mb-4 animate-bounce"><CircleCheck size={56} className="text-green-500" /></div>
                             <h2 className="text-xl font-bold text-gradient">{t('reminderSent')}</h2>
                         </div>
                     </div>
@@ -6181,7 +6191,7 @@ import { createRoot } from 'react-dom/client';
                         {/* Header */}
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-xl font-bold text-gradient flex items-center gap-2">
-                                🔔 {t('sendReminder')}
+                                <Bell size={20} className="text-amber-500" /> {t('sendReminder')}
                             </h2>
                             <button
                                 onClick={onClose}
@@ -6260,7 +6270,7 @@ import { createRoot } from 'react-dom/client';
                                             {t('sending')}
                                         </>
                                     ) : (
-                                        <>🔔 {t('sendNow')}</>
+                                        <><Bell size={16} /> {t('sendNow')}</>
                                     )}
                                 </button>
                             </div>
@@ -6386,7 +6396,7 @@ import { createRoot } from 'react-dom/client';
 
                                 {scheduledReminders.length === 0 && (
                                     <div className="text-center text-gray-500 dark:text-gray-400 py-4">
-                                        <div className="text-3xl mb-2">📅</div>
+                                        <div className="flex justify-center mb-2"><Calendar size={28} className="text-gray-400" /></div>
                                         {t('noScheduledReminders')}
                                     </div>
                                 )}
@@ -6420,7 +6430,7 @@ import { createRoot } from 'react-dom/client';
             return (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
-                        <div className="text-5xl text-center mb-4">📝</div>
+                        <div className="flex justify-center mb-4"><StickyNote size={48} className="text-yellow-500" /></div>
                         <h2 className="text-xl font-bold text-center text-gradient mb-2">{t('noteForProduct')}</h2>
                         <p className="text-center text-gray-500 dark:text-gray-400 mb-4">{getProductTranslation(item.name, language)}</p>
 
@@ -6901,7 +6911,7 @@ import { createRoot } from 'react-dom/client';
             if (!verified) {
                 return (
                     <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="text-6xl">⚠️</div>
+                        <div className="flex justify-center"><AlertTriangle size={56} className="text-amber-500" /></div>
                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('resetLinkExpired')}</h2>
                         <p className="text-gray-600 dark:text-gray-400">{t('resetLinkExpiredDesc')}</p>
                         <button
@@ -6917,7 +6927,7 @@ import { createRoot } from 'react-dom/client';
             if (success) {
                 return (
                     <div className="text-center space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                        <div className="text-6xl">✅</div>
+                        <div className="flex justify-center"><CircleCheck size={56} className="text-green-500" /></div>
                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('passwordResetSuccess')}</h2>
                         <p className="text-gray-600 dark:text-gray-400">{t('passwordResetSuccessDesc')}</p>
                         <button
@@ -11160,8 +11170,8 @@ import { createRoot } from 'react-dom/client';
                         style={{ opacity: leftProgress }}
                     >
                         <div className="swipe-indicator">
-                            <span className={`swipe-icon swipe-icon-emoji ${showLeftIndicator ? 'visible' : ''}`} style={{ transform: `scale(${0.5 + leftProgress * 0.5})` }}>
-                                🗑️
+                            <span className={`swipe-icon ${showLeftIndicator ? 'visible' : ''}`} style={{ transform: `scale(${0.5 + leftProgress * 0.5})` }}>
+                                <Trash2 size={24} />
                             </span>
                             <span className={`swipe-icon text-sm ${showLeftIndicator ? 'visible' : ''}`}>
                                 {t('delete')}
@@ -15127,7 +15137,7 @@ END:VCALENDAR`;
                 return (
                     <div className="min-h-screen gradient-bg flex items-center justify-center">
                         <div className="text-center">
-                            <div className="text-6xl mb-4 float">🛒</div>
+                            <div className="flex justify-center mb-4"><ShoppingCart size={56} className="text-white" /></div>
                             <div className="text-xl text-white font-medium">{t('loadingApp')}</div>
                             <div className="mt-4 w-32 h-1 bg-white/20 rounded-full overflow-hidden mx-auto">
                                 <div className="h-full w-1/2 progress-animate rounded-full"></div>
@@ -15178,7 +15188,7 @@ END:VCALENDAR`;
                     {isOnline && (pendingOperations.length > 0 || syncStatus === 'syncing') && (
                         <div className={`sync-indicator ${syncStatus === 'syncing' ? 'syncing' : 'online'}`}>
                             {syncStatus === 'syncing' ? (
-                                <><span className="sync-spin">🔄</span><span>{t('syncing')}</span></>
+                                <><RefreshCw size={14} className="sync-spin text-teal-500" /><span>{t('syncing')}</span></>
                             ) : (
                                 <><span>🟡</span><span>{t('waiting')} ({pendingOperations.length})</span></>
                             )}
@@ -15188,7 +15198,7 @@ END:VCALENDAR`;
                     {/* Just synced notification */}
                     {isOnline && syncStatus === 'synced' && pendingOperations.length === 0 && (
                         <div className="sync-indicator online" style={{animation: 'fadeOut 3s forwards', animationDelay: '2s'}}>
-                            <span>✅</span><span>{t('synced')}</span>
+                            <CircleCheck size={16} className="text-green-500" /><span>{t('synced')}</span>
                         </div>
                     )}
 
@@ -15216,26 +15226,26 @@ END:VCALENDAR`;
                                     <div className="py-2">
                                         {!menuItem.note && (
                                             <button onClick={() => { setEditingNote(menuItem); setOpenItemMenu(null); }} className="item-action-btn">
-                                                <span className="text-xl">📝</span> <span>{t('addNote')}</span>
+                                                <StickyNote size={20} className="text-yellow-500" /> <span>{t('addNote')}</span>
                                             </button>
                                         )}
                                         {!menuItem.purchased && !menuItem.postponedBy && (
                                             <button onClick={() => { postponeItem(menuItem.id); setOpenItemMenu(null); }} className="item-action-btn">
-                                                <span className="text-xl">⏭️</span> <span>{t('postpone')}</span>
+                                                <SkipForward size={20} className="text-blue-500" /> <span>{t('postpone')}</span>
                                             </button>
                                         )}
                                         {menuItem.postponedBy && !menuItem.purchased && (
                                             <button onClick={() => { undoPostponeItem(menuItem.id); setOpenItemMenu(null); }} className="item-action-btn">
-                                                <span className="text-xl">↩️</span> <span>{t('undoPostpone')}</span>
+                                                <Undo2 size={20} className="text-orange-500" /> <span>{t('undoPostpone')}</span>
                                             </button>
                                         )}
                                         {!menuItem.purchased && !menuItem.outOfStock && (
                                             <button onClick={() => { markOutOfStock(menuItem); setOpenItemMenu(null); }} className="item-action-btn">
-                                                <span className="text-xl">🚫</span> <span>{t('outOfStockStatus')}</span>
+                                                <Ban size={20} className="text-red-400" /> <span>{t('outOfStockStatus')}</span>
                                             </button>
                                         )}
                                         <button onClick={() => { setShowDeleteConfirm(menuItem.id); setOpenItemMenu(null); }} className="item-action-btn danger">
-                                            <span className="text-xl">🗑️</span> <span>{t('deleteItem')}</span>
+                                            <Trash2 size={20} className="text-red-500" /> <span>{t('deleteItem')}</span>
                                         </button>
                                     </div>
                                     {/* Cancel button */}
@@ -15255,7 +15265,7 @@ END:VCALENDAR`;
                     {showDeleteConfirm && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                             <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
-                                <div className="text-5xl text-center mb-4">🗑️</div>
+                                <div className="flex justify-center mb-4"><Trash2 size={48} className="text-red-500" /></div>
                                 <h2 className="text-xl font-bold text-center text-gradient mb-2">{t('deleteProduct')}</h2>
                                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">{t('confirmDelete')}</p>
                                 <div className="flex gap-3">
@@ -15275,7 +15285,7 @@ END:VCALENDAR`;
                     {showDeleteAllConfirm && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                             <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
-                                <div className="text-5xl text-center mb-4">⚠️</div>
+                                <div className="flex justify-center mb-4"><AlertTriangle size={48} className="text-amber-500" /></div>
                                 <h2 className="text-xl font-bold text-center text-gradient mb-2">{t('deleteAllTitle')}</h2>
                                 <p className="text-gray-600 dark:text-gray-300 mb-2 text-center">{t('deleteAllConfirm')}</p>
                                 <p className="text-red-500 dark:text-red-400 mb-6 text-center text-sm font-semibold">{t('deleteAllWarning').replace('{count}', items.length)}</p>
@@ -15332,11 +15342,11 @@ END:VCALENDAR`;
                     {showSavedLists && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                             <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl max-h-[80vh] overflow-y-auto">
-                                <div className="text-4xl text-center mb-3">📋</div>
+                                <div className="flex justify-center mb-3"><ClipboardList size={40} className="text-indigo-500" /></div>
                                 <h2 className="text-xl font-bold text-center text-gradient mb-4">{t('savedLists')}</h2>
                                 {savedLists.length === 0 ? (
                                     <div className="text-center py-8">
-                                        <div className="text-5xl mb-3">📝</div>
+                                        <div className="flex justify-center mb-3"><StickyNote size={48} className="text-gray-400" /></div>
                                         <p className="text-gray-500 dark:text-gray-400">{t('noSavedLists')}</p>
                                         <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t('saveListHint')}</p>
                                     </div>
@@ -15356,7 +15366,7 @@ END:VCALENDAR`;
                                                             className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 flex items-center justify-center hover:bg-red-200 dark:hover:bg-red-900/50 transition-all text-sm"
                                                             title={t('delete')}
                                                         >
-                                                            🗑️
+                                                            <Trash2 size={14} />
                                                         </button>
                                                     </div>
                                                 </div>
@@ -15416,7 +15426,7 @@ END:VCALENDAR`;
                                             onClick={generateAISuggestions}
                                             className="mt-6 px-6 py-3 bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 rounded-xl font-medium hover:bg-violet-200 transition-all"
                                         >
-                                            🔄 {t('tryAgain')}
+                                            <span className="inline-flex items-center gap-1"><RefreshCw size={16} /> {t('tryAgain')}</span>
                                         </button>
                                     </div>
                                 ) : (
@@ -15479,7 +15489,7 @@ END:VCALENDAR`;
                             {/* Header */}
                             <div className="p-4 flex items-center justify-between">
                                 <button onClick={stopPriceScanner} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-xl hover:bg-white/20 transition-all">✕</button>
-                                <h2 className="text-white font-bold text-lg">🔍 {t('priceComparison')}</h2>
+                                <h2 className="text-white font-bold text-lg flex items-center gap-2"><Search size={18} /> {t('priceComparison')}</h2>
                                 <div className="w-10"></div>
                             </div>
 
@@ -15490,19 +15500,19 @@ END:VCALENDAR`;
                                         onClick={() => { setScanMode('search'); stopBarcodeScanner(); }}
                                         className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'search' ? 'bg-white text-gray-800' : 'text-white/70'}`}
                                     >
-                                        🔍 {t('searchTab')}
+                                        <span className="inline-flex items-center gap-1"><Search size={14} /> {t('searchTab')}</span>
                                     </button>
                                     <button
                                         onClick={() => { setScanMode('barcode'); startBarcodeScanner(); }}
                                         className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'barcode' ? 'bg-white text-gray-800' : 'text-white/70'}`}
                                     >
-                                        📊 {t('barcodeTab')}
+                                        <span className="inline-flex items-center gap-1"><BarChart3 size={14} /> {t('barcodeTab')}</span>
                                     </button>
                                     <button
                                         onClick={() => { setScanMode('ocr'); stopBarcodeScanner(); }}
                                         className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'ocr' ? 'bg-white text-gray-800' : 'text-white/70'}`}
                                     >
-                                        📷 {t('ocrTab')}
+                                        <span className="inline-flex items-center gap-1"><Camera size={14} /> {t('ocrTab')}</span>
                                     </button>
                                 </div>
                             </div>
@@ -15525,7 +15535,7 @@ END:VCALENDAR`;
                                             disabled={!scannedProductName}
                                             className="px-5 py-3 bg-cyan-500 text-white rounded-xl font-bold disabled:opacity-50 hover:bg-cyan-600 transition-all"
                                         >
-                                            🔍
+                                            <Search size={20} />
                                         </button>
                                     </div>
                                     {/* Add to list button */}
@@ -15538,7 +15548,7 @@ END:VCALENDAR`;
                                             }}
                                             className="w-full mt-3 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold text-lg flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] transition-all"
                                         >
-                                            <span>🛒</span>
+                                            <ShoppingCart size={20} />
                                             <span>{t('addToListBtn').replace('{name}', scannedProductName)}</span>
                                         </button>
                                     )}
@@ -15638,7 +15648,7 @@ END:VCALENDAR`;
                                                 onClick={startBarcodeScanner}
                                                 className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                                             >
-                                                📊 {t('startBarcodeScanner')}
+                                                <span className="inline-flex items-center gap-1"><BarChart3 size={18} /> {t('startBarcodeScanner')}</span>
                                             </button>
                                         ) : (
                                             <button
@@ -15709,7 +15719,7 @@ END:VCALENDAR`;
                                                 className={`w-full p-4 ${site.color} text-white rounded-xl font-bold text-lg flex items-center justify-between hover:opacity-90 hover:scale-[1.02] transition-all`}
                                             >
                                                 <span>{site.name}</span>
-                                                <span>🔗</span>
+                                                <ExternalLink size={18} />
                                             </button>
                                         ))}
                                         <button
@@ -15720,7 +15730,7 @@ END:VCALENDAR`;
                                             }}
                                             className="w-full p-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold text-lg mt-2 hover:opacity-90 transition-all"
                                         >
-                                            🚀 {t('openAllSimultaneously')}
+                                            <span className="inline-flex items-center gap-1"><ExternalLink size={18} /> {t('openAllSimultaneously')}</span>
                                         </button>
                                     </div>
                                 )}
@@ -15740,7 +15750,7 @@ END:VCALENDAR`;
                                     ✕
                                 </button>
                                 <h2 className="text-white font-bold text-lg flex items-center gap-2">
-                                    <span>📊</span>
+                                    <BarChart3 size={18} />
                                     <span>{t('priceComparison')} - {t('entireListLabel')}</span>
                                 </h2>
                                 <div className="w-10"></div>
@@ -15774,7 +15784,7 @@ END:VCALENDAR`;
                             <div className="flex-1 overflow-y-auto p-4">
                                 {listComparisonLoading ? (
                                     <div className="flex flex-col items-center justify-center py-16">
-                                        <div className="text-5xl mb-4 animate-bounce">🛒</div>
+                                        <div className="flex justify-center mb-4 animate-bounce"><ShoppingCart size={48} className="text-white" /></div>
                                         <div className="text-white text-lg font-medium mb-2">{t('comparingPrices')}</div>
                                         <div className="text-gray-400 text-sm">{t('checkingAllChains')}</div>
                                         <div className="mt-4 w-48 h-2 bg-white/20 rounded-full overflow-hidden">
@@ -15798,7 +15808,7 @@ END:VCALENDAR`;
                                     <div className="space-y-4">
                                         <div className="bg-yellow-500/20 border border-yellow-500/40 rounded-xl p-4 mb-4">
                                             <div className="flex items-start gap-3">
-                                                <span className="text-2xl">💡</span>
+                                                <Lightbulb size={24} className="text-yellow-300 flex-shrink-0" />
                                                 <div>
                                                     <div className="text-yellow-200 font-medium">{t('manualCompareMode')}</div>
                                                     <div className="text-yellow-200/70 text-sm mt-1">
@@ -15826,7 +15836,7 @@ END:VCALENDAR`;
                                                         <img src={CHAIN_LOGOS[chain.chain_id]} alt={chain.chain_name_he} className="w-8 h-8 rounded-lg object-contain bg-white shadow-md" />
                                                     )}
                                                     <span className="flex-1">{chain.chain_name_he}</span>
-                                                    <span className="text-white/70">🔗</span>
+                                                    <ExternalLink size={16} className="text-white/70" />
                                                 </button>
                                             ))}
                                         </div>
@@ -15872,7 +15882,7 @@ END:VCALENDAR`;
                                                         onClick={() => setExpandedChain(expandedChain === chain.chain_id ? null : chain.chain_id)}
                                                         className={`w-full px-4 py-2 flex items-center gap-3 ${getChainColor(chain.chain_name_he || chain.chain_name)} hover:opacity-90 transition-all`}
                                                     >
-                                                        {chain.is_cheapest && <span className="text-lg">🏆</span>}
+                                                        {chain.is_cheapest && <Trophy size={18} className="text-yellow-300" />}
                                                         {CHAIN_LOGOS[chain.chain_id] ? (
                                                             <img src={CHAIN_LOGOS[chain.chain_id]} alt={chain.chain_name_he} className="w-7 h-7 rounded-lg object-contain bg-white shadow-md" />
                                                         ) : CHAIN_COLORS[chain.chain_id] && (
@@ -15925,7 +15935,7 @@ END:VCALENDAR`;
                                                                         : 'bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700'
                                                                 }`}
                                                             >
-                                                                <span>🛒</span>
+                                                                <ShoppingCart size={16} />
                                                                 <span>{t('order')}</span>
                                                             </button>
                                                             {CHAIN_BRANCH_URLS[chain.chain_id] && (
@@ -16067,7 +16077,7 @@ END:VCALENDAR`;
                                     </div>
                                 ) : (
                                     <div className="text-center py-16">
-                                        <div className="text-5xl mb-4">📊</div>
+                                        <div className="flex justify-center mb-4"><BarChart3 size={48} className="text-white/60" /></div>
                                         <div className="text-white text-lg font-medium">{t('noDataFound')}</div>
                                     </div>
                                 )}
@@ -16118,14 +16128,14 @@ END:VCALENDAR`;
                                     ✕
                                 </button>
                                 <h2 className="text-white font-bold text-lg flex items-center gap-2">
-                                    <span>🏷️</span>
+                                    <Tag size={18} />
                                     <span>{t('activePromotions')}</span>
                                 </h2>
                                 <button
                                     onClick={fetchPromotions}
                                     className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-all"
                                 >
-                                    🔄
+                                    <RefreshCw size={18} />
                                 </button>
                             </div>
 
@@ -16133,7 +16143,7 @@ END:VCALENDAR`;
                             <div className="flex-1 overflow-y-auto p-4">
                                 {promotionsLoading ? (
                                     <div className="flex flex-col items-center justify-center py-16">
-                                        <div className="text-5xl mb-4 animate-bounce">🏷️</div>
+                                        <div className="flex justify-center mb-4 animate-bounce"><Tag size={48} className="text-white" /></div>
                                         <div className="text-white text-lg font-medium">{t('loadingPromos')}</div>
                                     </div>
                                 ) : promotionsData?.byChain?.length > 0 ? (
@@ -16148,7 +16158,7 @@ END:VCALENDAR`;
                                         {items.filter(i => !i.purchased).some(item => getItemPromotions(item.name).length > 0) && (
                                             <div className="bg-gradient-to-r from-teal-500/20 to-yellow-500/20 border border-teal-500/30 rounded-xl p-4 mb-4">
                                                 <div className="text-teal-300 font-medium mb-3 flex items-center gap-2">
-                                                    <span>⭐</span>
+                                                    <Star size={16} className="text-yellow-300" />
                                                     <span>{t('promotionsInYourList')}</span>
                                                 </div>
                                                 <div className="space-y-2">
@@ -16206,7 +16216,7 @@ END:VCALENDAR`;
                                                             onClick={() => openExternalLink(chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id], chain.chain_name_he || chain.chain_name)}
                                                             className="flex-1 p-2.5 bg-gradient-to-r from-teal-500 to-red-500 text-white text-center font-bold text-xs hover:from-teal-600 hover:to-red-600 transition-all"
                                                         >
-                                                            🏷️ {t('promotions')}
+                                                            <span className="inline-flex items-center gap-1"><Tag size={12} /> {t('promotions')}</span>
                                                         </button>
                                                     )}
                                                     {CHAIN_BRANCH_URLS[chain.chain_id] && (
@@ -16223,7 +16233,7 @@ END:VCALENDAR`;
                                     </div>
                                 ) : (
                                     <div className="text-center py-16">
-                                        <div className="text-5xl mb-4">🏷️</div>
+                                        <div className="flex justify-center mb-4"><Tag size={48} className="text-white/60" /></div>
                                         <div className="text-white text-lg font-medium">{t('noPromotions')}</div>
                                         <button
                                             onClick={fetchPromotions}
@@ -16305,7 +16315,7 @@ END:VCALENDAR`;
                                             {smartAddResults.length > 0 ? (
                                                 <>
                                                     <h3 className="text-white font-bold mb-3 flex items-center gap-2">
-                                                        <span>🛒</span>
+                                                        <ShoppingCart size={18} />
                                                         <span>{t('identifiedProducts').replace('{count}', smartAddResults.length)}</span>
                                                     </h3>
                                                     <div className="space-y-2 mb-4">
@@ -16374,7 +16384,7 @@ END:VCALENDAR`;
                     {showFinishShopping && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                             <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
-                                <div className="text-5xl text-center mb-4">✅</div>
+                                <div className="flex justify-center mb-4"><CircleCheck size={48} className="text-green-500" /></div>
                                 <h2 className="text-2xl font-bold text-center text-gradient mb-2">{t('finishShopping')}</h2>
                                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">{purchasedCount} {t('itemsPurchased')}</p>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('totalAmount')}</label>
@@ -16411,7 +16421,7 @@ END:VCALENDAR`;
                                                 </>
                                             ) : (
                                                 <>
-                                                    <span className="text-3xl">🧾</span>
+                                                    <Receipt size={28} className="text-indigo-400" />
                                                     <span className="text-sm">{t('clickToScanReceipt')}</span>
                                                 </>
                                             )}
@@ -16456,7 +16466,7 @@ END:VCALENDAR`;
                             <div className="glass rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-2xl font-bold flex items-center gap-3">
-                                        <span className="text-3xl">📊</span>
+                                        <BarChart3 size={28} className="text-indigo-500" />
                                         <span className="text-gradient">{t('shoppingHistory')}</span>
                                     </h2>
                                     <div className="flex items-center gap-2">
@@ -16480,7 +16490,7 @@ END:VCALENDAR`;
                                                 URL.revokeObjectURL(url);
                                                 showToast(t('exportHistory'), 'success');
                                             }} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-green-500 text-lg hover:scale-110 transition-all" title={t('exportHistory')}>
-                                                📥
+                                                <Download size={18} className="text-green-500" />
                                             </button>
                                         )}
                                         <button onClick={() => setShowHistory(false)}
@@ -16489,7 +16499,7 @@ END:VCALENDAR`;
                                 </div>
                                 {history.length === 0 ? (
                                     <div className="text-center py-12">
-                                        <div className="text-7xl mb-4 float">📭</div>
+                                        <div className="flex justify-center mb-4"><Inbox size={64} className="text-gray-400 dark:text-gray-500" /></div>
                                         <p className="text-xl text-gradient font-bold mb-2">{t('noHistoryYet')}</p>
                                         <p className="text-gray-500 dark:text-gray-400">{t('completeFirstShopping')}</p>
                                     </div>
@@ -16500,7 +16510,7 @@ END:VCALENDAR`;
                                                 <div className="flex justify-between items-start mb-3">
                                                     <div>
                                                         <div className="text-sm text-gray-600 dark:text-gray-400 font-semibold flex items-center gap-2">
-                                                            <span className="text-lg">📅</span>
+                                                            <Calendar size={16} className="flex-shrink-0 text-indigo-400" />
                                                             {record.completedAt?.toDate?.()?.toLocaleDateString(language === 'he' ? 'he-IL' : language === 'ar' ? 'ar-SA' : language === 'ru' ? 'ru-RU' : 'en-US', {
                                                                 year: 'numeric',
                                                                 month: 'long',
@@ -16508,7 +16518,7 @@ END:VCALENDAR`;
                                                                 weekday: 'long'
                                                             }) || t('unknownDate')}
                                                         </div>
-                                                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">👤 {record.completedBy}</div>
+                                                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-1 flex items-center gap-1"><User size={12} /> {record.completedBy}</div>
                                                     </div>
                                                     <div className="text-2xl font-bold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">
                                                         ₪{record.totalAmount.toFixed(2)}
@@ -16523,7 +16533,7 @@ END:VCALENDAR`;
                                                             onClick={() => window.open(record.receiptPhoto, '_blank')}
                                                             className="flex items-center gap-2 text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
                                                         >
-                                                            <span>🧾</span>
+                                                            <Receipt size={16} />
                                                             <span>{t('viewReceipt')}</span>
                                                         </button>
                                                     </div>
@@ -16532,7 +16542,7 @@ END:VCALENDAR`;
                                         ))}
                                         <div className="glass rounded-xl p-5 border-2 border-indigo-200/50 dark:border-indigo-700/50">
                                             <h3 className="font-bold text-gradient mb-4 flex items-center gap-2">
-                                                <span className="text-xl">📈</span>
+                                                <TrendingUp size={20} className="text-indigo-500" />
                                                 {t('generalStats')}
                                             </h3>
                                             <div className="space-y-3">
@@ -16566,7 +16576,7 @@ END:VCALENDAR`;
                             <div className="glass rounded-3xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-2xl font-bold flex items-center gap-3">
-                                        <span className="text-3xl">🧠</span>
+                                        <Brain size={28} className="text-indigo-500" />
                                         <span className="text-gradient">{t('whatForgot')}</span>
                                     </h2>
                                     <button onClick={() => setShowForgottenStats(false)}
@@ -16577,7 +16587,7 @@ END:VCALENDAR`;
                                 <div className="bg-gradient-to-r from-teal-100 to-amber-100 dark:from-teal-900/30 dark:to-amber-900/30 rounded-2xl p-4 mb-6 border border-teal-200 dark:border-teal-800">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <div className="text-lg font-bold text-teal-800 dark:text-teal-200">🔥 {t('shoppingStreak')}</div>
+                                            <div className="text-lg font-bold text-teal-800 dark:text-teal-200 flex items-center gap-1"><Flame size={18} className="text-orange-500" /> {t('shoppingStreak')}</div>
                                             <div className="text-sm text-teal-600 dark:text-teal-400">{t('shoppingWithoutForgetting')}</div>
                                         </div>
                                         <div className="text-4xl font-bold text-teal-600 dark:text-teal-400">
@@ -16595,7 +16605,7 @@ END:VCALENDAR`;
                                 {achievements.length > 0 && (
                                     <div className="mb-6">
                                         <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
-                                            <span>🏆</span> {t('achievementsTitle')}
+                                            <Trophy size={18} className="text-yellow-500" /> {t('achievementsTitle')}
                                         </h3>
                                         <div className="grid grid-cols-2 gap-2">
                                             {achievements.map((achievement, idx) => (
@@ -16612,7 +16622,7 @@ END:VCALENDAR`;
                                 {/* Monthly Stats */}
                                 <div className="mb-4">
                                     <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
-                                        <span>📅</span> {t('monthlyStatsTitle')} - {new Date().toLocaleDateString(language === 'he' ? 'he-IL' : language === 'ar' ? 'ar-SA' : language === 'ru' ? 'ru-RU' : 'en-US', { month: 'long', year: 'numeric' })}
+                                        <Calendar size={16} className="text-indigo-500" /> {t('monthlyStatsTitle')} - {new Date().toLocaleDateString(language === 'he' ? 'he-IL' : language === 'ar' ? 'ar-SA' : language === 'ru' ? 'ru-RU' : 'en-US', { month: 'long', year: 'numeric' })}
                                     </h3>
 
                                     {Object.keys(forgottenStats).length === 0 ? (
@@ -16648,7 +16658,7 @@ END:VCALENDAR`;
                                 {Object.keys(forgottenStats).length > 0 && (
                                     <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
                                         <div className="flex items-start gap-2">
-                                            <span className="text-xl">💡</span>
+                                            <Lightbulb size={20} className="text-blue-500 flex-shrink-0" />
                                             <div>
                                                 <div className="font-bold text-blue-800 dark:text-blue-200 text-sm">{t('tip')}</div>
                                                 <div className="text-xs text-blue-600 dark:text-blue-400">
@@ -16686,7 +16696,7 @@ END:VCALENDAR`;
 
                                 {regularItems.length === 0 ? (
                                     <div className="text-center py-8">
-                                        <div className="text-5xl mb-3">📊</div>
+                                        <div className="flex justify-center mb-3"><BarChart3 size={48} className="text-gray-400" /></div>
                                         <p className="text-gray-500 dark:text-gray-400">{t('notEnoughHistory')}</p>
                                         <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">{t('finishMorePurchases')}</p>
                                     </div>
@@ -16696,7 +16706,7 @@ END:VCALENDAR`;
                                             {regularItems.map((item, idx) => (
                                                 <div key={idx} className="flex items-center justify-between bg-gray-50 dark:bg-gray-800/50 rounded-xl p-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors">
                                                     <div className="flex items-center gap-3">
-                                                        <span className="text-xl">🔄</span>
+                                                        <RefreshCw size={18} className="text-teal-500" />
                                                         <span className="font-medium text-gray-800 dark:text-gray-200 capitalize">{getProductTranslation(item.name, language)}</span>
                                                     </div>
                                                     <div className="text-sm text-gray-500 dark:text-gray-400">
@@ -16725,7 +16735,7 @@ END:VCALENDAR`;
                                 {/* Header */}
                                 <div className="flex justify-between items-center mb-4">
                                     <h2 className="text-xl font-bold flex items-center gap-2">
-                                        <span className="text-2xl">📅</span>
+                                        <Calendar size={24} className="text-indigo-500" />
                                         <span className="text-gradient">{t('calendar')}</span>
                                     </h2>
                                     <button onClick={() => { setShowCalendar(false); setSelectedHoliday(null); }}
@@ -16960,7 +16970,7 @@ END:VCALENDAR`;
                                     {/* Show if item is in cart */}
                                     {selectedProduct.existingQty > 0 && (
                                         <div className="mt-2 inline-flex items-center gap-2 bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300 px-3 py-1 rounded-full text-sm font-medium">
-                                            <span>🛒</span>
+                                            <ShoppingCart size={14} />
                                             <span>{t('inCartLabel')}: {selectedProduct.existingQty}</span>
                                         </div>
                                     )}
@@ -16982,7 +16992,7 @@ END:VCALENDAR`;
                                                     : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
                                             }`}
                                         >
-                                            {selectedQuantity <= (selectedUnit === 'גרם' ? 100 : selectedUnit === 'ק"ג' ? 0.5 : 1) && selectedProduct.existingId ? '🗑️' : '-'}
+                                            {selectedQuantity <= (selectedUnit === 'גרם' ? 100 : selectedUnit === 'ק"ג' ? 0.5 : 1) && selectedProduct.existingId ? <Trash2 size={20} /> : '-'}
                                         </button>
                                         <div className="text-center min-w-[80px]">
                                             <input
@@ -17004,7 +17014,7 @@ END:VCALENDAR`;
                                     {/* Warning when quantity is 0 */}
                                     {selectedQuantity === 0 && selectedProduct.existingId && (
                                         <p className="text-center text-sm text-red-500 mt-2 animate-pulse">
-                                            ⚠️ {t('zeroRemovesItem')}
+                                            <span className="inline-flex items-center gap-1 justify-center"><AlertTriangle size={14} /> {t('zeroRemovesItem')}</span>
                                         </p>
                                     )}
                                 </div>
@@ -17052,14 +17062,14 @@ END:VCALENDAR`;
                                     <span className={`text-lg font-bold ${selectedQuantity === 0 ? (selectedProduct.existingId ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400') : 'text-indigo-700 dark:text-indigo-300'}`}>
                                         {selectedQuantity === 0 ? (
                                             selectedProduct.existingId ? (
-                                                <>🗑️ {t('removeFromCart')} {selectedProduct.name}</>
+                                                <><Trash2 size={18} className="inline" /> {t('removeFromCart')} {selectedProduct.name}</>
                                             ) : (
                                                 <>👆 {t('selectQuantityToAdd')}</>
                                             )
                                         ) : (
                                             <>
                                                 {selectedProduct.name} - {selectedQuantity} {selectedUnit}
-                                                {selectedNote && <span className="block text-sm mt-1">📝 {selectedNote}</span>}
+                                                {selectedNote && <span className="block text-sm mt-1 inline-flex items-center gap-1"><StickyNote size={14} className="inline text-yellow-500" /> {selectedNote}</span>}
                                             </>
                                         )}
                                     </span>
@@ -17073,7 +17083,7 @@ END:VCALENDAR`;
                                             onClick={removeProductFromCart}
                                             className="flex-1 bg-red-500 hover:bg-red-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                                         >
-                                            🗑️ {t('removeFromCart')}
+                                            <span className="inline-flex items-center gap-1"><Trash2 size={18} /> {t('removeFromCart')}</span>
                                         </button>
                                     ) : selectedQuantity === 0 ? (
                                         /* Disabled add button when quantity is 0 and item not in cart */
@@ -17089,7 +17099,7 @@ END:VCALENDAR`;
                                             onClick={() => updateProductQuantity(selectedQuantity)}
                                             className="flex-1 bg-teal-500 hover:bg-teal-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                                         >
-                                            ✏️ {t('updateQuantity')}
+                                            <span className="inline-flex items-center gap-1"><Pencil size={18} /> {t('updateQuantity')}</span>
                                         </button>
                                     ) : (
                                         /* Add button when item doesn't exist */
@@ -17121,8 +17131,8 @@ END:VCALENDAR`;
                                 {/* Chat Header - Modern Design */}
                                 <div className="p-4 flex items-center justify-between bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xl shadow-lg">
-                                            👨‍👩‍👧‍👦
+                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg">
+                                            <Users size={22} />
                                         </div>
                                         <div>
                                             <h2 className="font-bold text-gray-800 dark:text-white">{family?.name}</h2>
@@ -17181,7 +17191,7 @@ END:VCALENDAR`;
                                             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${notificationsEnabled ? 'bg-green-100 dark:bg-green-900/50 text-green-600' : 'bg-gray-100 dark:bg-gray-700 text-gray-500'}`}
                                             title={notificationsEnabled ? t('notificationsEnabled') : t('enableNotifications')}
                                         >
-                                            {notificationsEnabled ? '🔔' : '🔕'}
+                                            {notificationsEnabled ? <Bell size={18} /> : <BellOff size={18} />}
                                         </button>
                                         <button onClick={() => setShowChat(false)} className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -17196,7 +17206,7 @@ END:VCALENDAR`;
                                     {chatMessages.length === 0 ? (
                                         <div className="text-center py-16">
                                             <div className="w-20 h-20 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center mx-auto mb-4">
-                                                <span className="text-4xl">💬</span>
+                                                <MessageCircle size={40} className="text-indigo-500" />
                                             </div>
                                             <p className="text-gray-600 dark:text-gray-300 font-medium">{t('noMessagesYet')}</p>
                                             <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">{t('sendFirstMessage')}</p>
@@ -17211,7 +17221,7 @@ END:VCALENDAR`;
                                                     <div key={msg.id} className="flex justify-center my-3">
                                                         <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 border-2 border-amber-200 dark:border-amber-700 rounded-2xl p-4 max-w-[90%] shadow-lg">
                                                             <div className="flex items-center gap-3 mb-2">
-                                                                <span className="text-2xl">🔔</span>
+                                                                <Bell size={24} className="text-amber-500" />
                                                                 <div>
                                                                     <p className="font-bold text-amber-800 dark:text-amber-300">{t('reminderFromFamily')}</p>
                                                                     <p className="text-xs text-amber-600 dark:text-amber-400">{msg.senderName} {t('reminderSentBy')}</p>
@@ -17266,12 +17276,12 @@ END:VCALENDAR`;
                                                                 {msg.text && (
                                                                     <button onClick={(e) => { e.stopPropagation(); setEditingMessageId(msg.id); setChatInput(msg.text); setChatContextMenu(null); }}
                                                                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 w-full transition-colors">
-                                                                        <span>✏️</span> {t('editMessage')}
+                                                                        <Pencil size={14} className="text-blue-500" /> {t('editMessage')}
                                                                     </button>
                                                                 )}
                                                                 <button onClick={(e) => { e.stopPropagation(); if (confirm(t('deleteMessageConfirm'))) deleteChatMessage(msg.id); }}
                                                                     className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 w-full transition-colors">
-                                                                    <span>🗑️</span> {t('deleteMessage')}
+                                                                    <Trash2 size={14} /> {t('deleteMessage')}
                                                                 </button>
                                                             </div>
                                                         )}
@@ -17301,7 +17311,7 @@ END:VCALENDAR`;
                                 <div className="p-4 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
                                     {editingMessageId && (
                                         <div className="flex items-center gap-2 mb-2 px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg text-xs text-indigo-600 dark:text-indigo-300">
-                                            <span>✏️ {t('editMessage')}</span>
+                                            <span className="inline-flex items-center gap-1"><Pencil size={12} /> {t('editMessage')}</span>
                                             <button onClick={() => { setEditingMessageId(null); setChatInput(''); }} className="ml-auto text-gray-400 hover:text-red-500">✕</button>
                                         </div>
                                     )}
@@ -17378,22 +17388,22 @@ END:VCALENDAR`;
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-4">
                                     <div className="w-14 h-14 rounded-2xl btn-gradient flex items-center justify-center shadow-lg">
-                                        <span className="text-3xl">🛒</span>
+                                        <ShoppingCart size={28} className="text-white" />
                                     </div>
                                     <div>
                                         <h1 className="text-2xl font-bold text-gradient">ListNest</h1>
                                         <div className="flex items-center gap-2 mt-1 flex-wrap">
                                             {childUser ? (
-                                                <span className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300">
-                                                    👨‍👩‍👧‍👦 {family?.name}
+                                                <span className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300 inline-flex items-center gap-1">
+                                                    <Users size={14} /> {family?.name}
                                                 </span>
                                             ) : (
-                                                <button onClick={() => setShowFamilySettings(true)} className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300 hover:scale-105 transition-transform cursor-pointer">
-                                                    👨‍👩‍👧‍👦 {family?.name}
+                                                <button onClick={() => setShowFamilySettings(true)} className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300 hover:scale-105 transition-transform cursor-pointer inline-flex items-center gap-1">
+                                                    <Users size={14} /> {family?.name}
                                                 </button>
                                             )}
-                                            <span className="px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
-                                                👤 {childUser?.displayName || user?.displayName || user?.email || t('anonymous')}
+                                            <span className="px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 inline-flex items-center gap-1">
+                                                <User size={14} /> {childUser?.displayName || user?.displayName || user?.email || t('anonymous')}
                                             </span>
                                         </div>
                                     </div>
@@ -17407,7 +17417,7 @@ END:VCALENDAR`;
                                             aria-label={t('settings')}
                                             aria-expanded={showSettings}
                                         >
-                                            <span aria-hidden="true">⚙️</span>
+                                            <Settings size={20} className="text-gray-600 dark:text-gray-300" aria-hidden="true" />
                                         </button>
                                         {showSettings && (
                                             <>
@@ -17419,7 +17429,7 @@ END:VCALENDAR`;
                                                             shoppingMode ? 'bg-green-50 dark:bg-green-900/30' : ''
                                                         }`}
                                                     >
-                                                        <span className="text-xl">{shoppingMode ? '🛒' : '📱'}</span>
+                                                        <span className="text-xl">{shoppingMode ? <ShoppingCart size={20} className="text-teal-500" /> : <Smartphone size={20} className="text-blue-500" />}</span>
                                                         <div className="flex-1">
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{t('shoppingModeTitle')}</div>
                                                             <div className="text-xs text-gray-500 dark:text-gray-400">{shoppingMode ? t('shoppingModeActive') : t('enableShoppingMode')}</div>
@@ -17430,7 +17440,7 @@ END:VCALENDAR`;
                                                         onClick={() => { toggleDarkMode(); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
                                                     >
-                                                        <span className="text-xl">{darkMode ? '☀️' : '🌙'}</span>
+                                                        <span className="text-xl">{darkMode ? <Sun size={20} className="text-amber-500" /> : <Moon size={20} className="text-indigo-400" />}</span>
                                                         <div className="flex-1">
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{darkMode ? t('lightMode') : t('darkMode')}</div>
                                                         </div>
@@ -17439,7 +17449,7 @@ END:VCALENDAR`;
                                                         onClick={() => { forceUpdateApp(); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
                                                     >
-                                                        <span className="text-xl">🔄</span>
+                                                        <RefreshCw size={20} className="text-green-500" />
                                                         <div className="flex-1">
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{t('refreshApp')}</div>
                                                         </div>
@@ -17448,7 +17458,7 @@ END:VCALENDAR`;
                                                         onClick={() => { setShowHelp(true); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
                                                     >
-                                                        <span className="text-xl">❓</span>
+                                                        <HelpCircle size={20} className="text-blue-500" />
                                                         <div className="flex-1">
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{t('help')}</div>
                                                         </div>
@@ -17457,7 +17467,7 @@ END:VCALENDAR`;
                                                         onClick={() => { handleLogout(); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors border-t border-gray-100 dark:border-gray-700 text-red-600 dark:text-red-400"
                                                     >
-                                                        <span className="text-xl">🚪</span>
+                                                        <LogOut size={20} />
                                                         <div className="flex-1">
                                                             <div className="font-medium">{t('logoutButton')}</div>
                                                         </div>
@@ -17467,7 +17477,7 @@ END:VCALENDAR`;
                                                             onClick={() => { setShowDeleteAccount(true); setShowSettings(false); }}
                                                             className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors border-t border-gray-100 dark:border-gray-700 text-red-700 dark:text-red-500"
                                                         >
-                                                            <span className="text-xl">🗑️</span>
+                                                            <Trash2 size={20} />
                                                             <div className="flex-1">
                                                                 <div className="font-medium">{t('deleteAccount')}</div>
                                                             </div>
@@ -17600,13 +17610,13 @@ END:VCALENDAR`;
                                 <>
                                 <div className="grid grid-cols-5 gap-1 mb-1">
                                     <button onClick={() => setShowImportWhatsApp(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}>📥</span><span className={qaLabelClass}>{t('importList')}</span>
+                                        <span className={qaIconClass}><Download size={16} className="text-blue-500" /></span><span className={qaLabelClass}>{t('importList')}</span>
                                     </button>
                                     <button onClick={exportToWhatsApp} disabled={items.filter(item => !item.purchased).length === 0} className={`${qaBtnClass} disabled:opacity-50`}>
-                                        <span className={qaIconClass}>📤</span><span className={qaLabelClass}>{t('exportList')}</span>
+                                        <span className={qaIconClass}><Share2 size={16} className="text-purple-500" /></span><span className={qaLabelClass}>{t('exportList')}</span>
                                     </button>
                                     <button onClick={() => setShowSavedLists(true)} className={`${qaBtnClass} relative`}>
-                                        <span className={qaIconClass}>📋</span><span className={qaLabelClass}>{t('lists')}</span>
+                                        <span className={qaIconClass}><ClipboardList size={16} className="text-indigo-500" /></span><span className={qaLabelClass}>{t('lists')}</span>
                                         {savedLists.length > 0 && <span className="absolute -top-0.5 -right-0.5 bg-purple-500 text-white w-3.5 h-3.5 rounded-full text-[8px] flex items-center justify-center">{savedLists.length}</span>}
                                     </button>
                                     <button onClick={saveListForReuse} className={qaBtnClass}>
@@ -17618,22 +17628,22 @@ END:VCALENDAR`;
                                 </div>
                                 <div className="grid grid-cols-5 gap-1">
                                     <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : showToast(t('markPurchased'), 'info')} className={qaBtnClass}>
-                                        <span className={qaIconClass}>✅</span><span className={qaLabelClass}>{t('finishShopping')}</span>
+                                        <span className={qaIconClass}><CircleCheck size={16} className="text-green-500" /></span><span className={qaLabelClass}>{t('finishShopping')}</span>
                                     </button>
                                     <button onClick={() => setShowHistory(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}>📊</span><span className={qaLabelClass}>{t('history')}</span>
+                                        <span className={qaIconClass}><BarChart3 size={16} className="text-indigo-500" /></span><span className={qaLabelClass}>{t('history')}</span>
                                     </button>
                                     <button onClick={() => setShowCalendar(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}>📅</span><span className={qaLabelClass}>{t('calendar')}</span>
+                                        <span className={qaIconClass}><Calendar size={16} className="text-orange-500" /></span><span className={qaLabelClass}>{t('calendar')}</span>
                                     </button>
                                     <button onClick={() => setShowChat(true)} className={`${qaBtnClass} relative`}>
-                                        <span className={qaIconClass}>💬</span><span className={qaLabelClass}>{t('familyChat')}</span>
+                                        <span className={qaIconClass}><MessageCircle size={16} className="text-green-500" /></span><span className={qaLabelClass}>{t('familyChat')}</span>
                                         {chatMessages.some(msg => msg.senderUid !== user?.uid && (!msg.readBy || !msg.readBy.includes(user?.uid))) && (
                                             <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                                         )}
                                     </button>
                                     <button onClick={() => setShowReminderModal(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}>🔔</span><span className={qaLabelClass}>{t('sendReminder')}</span>
+                                        <span className={qaIconClass}><Bell size={16} className="text-amber-500" /></span><span className={qaLabelClass}>{t('sendReminder')}</span>
                                     </button>
                                 </div>
                                 </>
@@ -17644,40 +17654,43 @@ END:VCALENDAR`;
                             <div className="mt-3">
                                 <button
                                     onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
-                                    className="w-full relative overflow-hidden bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-3 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
+                                    className="w-full glass rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all overflow-hidden"
                                 >
-                                    <div className="relative flex items-center justify-center gap-3">
-                                        <span className="text-xl">🤖</span>
-                                        <div className="text-center">
-                                            <div className="text-sm font-bold">{t('smartAssistant')}</div>
-                                            <div className="text-[10px] opacity-90">{t('smartRecommendationsSubtitle')}</div>
+                                    <div className="flex items-center gap-3 px-4 py-3">
+                                        <ChevronLeft size={18} className="text-gray-400 dark:text-gray-500 shrink-0" />
+                                        <div className="flex-1 text-right">
+                                            <div className="text-sm font-bold text-gray-800 dark:text-gray-100">{t('smartAssistant')}</div>
+                                            <div className="text-[10px] text-gray-500 dark:text-gray-400">{t('smartRecommendationsSubtitle')}</div>
                                         </div>
-                                        <span className="text-xl">✨</span>
+                                        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 shadow-sm">
+                                            <Bot size={20} className="text-white" />
+                                        </div>
                                     </div>
+                                    <div className="h-[2px] bg-gradient-to-r from-indigo-500 to-purple-600 opacity-40" />
                                 </button>
                             </div>
 
                             <div className="mt-1.5">
                                 <button onClick={() => setShowForgottenStats(true)}
-                                    className="w-full relative overflow-hidden bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 text-white px-3 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
+                                    className="w-full glass rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all overflow-hidden"
                                 >
-                                    <div className="relative flex items-center justify-center gap-3">
-                                        <span className="text-xl">🧠</span>
-                                        <div className="text-center">
-                                            <div className="text-sm font-bold">{t('whatForgot')}</div>
-                                            <div className="text-[10px] opacity-90">{t('smartRemindersSubtitle')}</div>
-                                        </div>
+                                    <div className="flex items-center gap-3 px-4 py-3">
                                         {shoppingStreak > 0 ? (
-                                            <span className="text-lg">🔥</span>
+                                            <span className="inline-flex items-center gap-1 bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 text-[10px] font-bold px-2 py-1 rounded-full shrink-0">
+                                                <Flame size={12} /> {shoppingStreak}
+                                            </span>
                                         ) : (
-                                            <span className="text-xl">💡</span>
+                                            <ChevronLeft size={18} className="text-gray-400 dark:text-gray-500 shrink-0" />
                                         )}
+                                        <div className="flex-1 text-right">
+                                            <div className="text-sm font-bold text-gray-800 dark:text-gray-100">{t('whatForgot')}</div>
+                                            <div className="text-[10px] text-gray-500 dark:text-gray-400">{t('smartRemindersSubtitle')}</div>
+                                        </div>
+                                        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center shrink-0 shadow-sm">
+                                            <span className="text-xl leading-none">🤔</span>
+                                        </div>
                                     </div>
-                                    {shoppingStreak > 0 && (
-                                        <span className="absolute top-1 left-1 bg-white text-cyan-600 text-[9px] font-bold px-1.5 py-0.5 rounded-full">
-                                            {shoppingStreak} {t('inARow')}
-                                        </span>
-                                    )}
+                                    <div className="h-[2px] bg-gradient-to-r from-teal-400 to-cyan-500 opacity-40" />
                                 </button>
                             </div>
 
@@ -17698,7 +17711,7 @@ END:VCALENDAR`;
                             <div className="glass rounded-2xl shadow-xl p-6 mb-6 card-hover">
                                 <div className="flex justify-between items-center mb-4">
                                     <h2 className="text-xl font-bold dark:text-white flex items-center gap-2">
-                                        <span className="text-2xl">🔍</span>
+                                        <Search size={22} className="text-indigo-500" />
                                         <span className="text-gradient">{t('searchResults')}</span>
                                     </h2>
                                     <button onClick={() => setSearchTerm('')} className="btn-gradient text-white text-sm px-4 py-2 rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all">{t('clearSearch')} ✕</button>
@@ -17735,7 +17748,7 @@ END:VCALENDAR`;
                                 </div>
                                 {Object.entries(PRODUCTS).flatMap(([_, products]) => products.filter(p => p.includes(searchTerm))).length === 0 && (
                                     <div className="text-center py-8">
-                                        <div className="text-6xl mb-4">🔍</div>
+                                        <div className="flex justify-center mb-4"><Search size={56} className="text-gray-400" /></div>
                                         <p className="text-gray-500 dark:text-gray-400 text-lg">{t('noProductsFound')} "<span className="font-bold">{searchTerm}</span>"</p>
                                         <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">{t('tryAnotherSearch')}</p>
                                     </div>
@@ -17748,19 +17761,26 @@ END:VCALENDAR`;
                             <div className="mb-2">
                                 <button
                                     onClick={() => { setShowPromotions(true); fetchPromotions(); }}
-                                    className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-400 via-teal-500 to-red-500 text-white px-3 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all"
+                                    className="w-full relative overflow-hidden text-white rounded-2xl shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+                                    style={{height: '70px'}}
                                 >
-                                    <div className="relative flex items-center justify-center gap-3">
-                                        <span className="text-xl animate-bounce">🏷️</span>
-                                        <div className="text-center">
-                                            <div className="text-sm font-bold">{t('hotDeals')}</div>
-                                            <div className="text-[10px] opacity-90">{t('hotDealsDesc')}</div>
+                                    {/* Background image */}
+                                    <img src="/deals-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+                                    {/* Dark overlay for readability */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/50 to-black/60"></div>
+                                    {/* Shimmer sweep */}
+                                    <div className="absolute inset-0 category-shimmer-sweep"></div>
+                                    {/* Content */}
+                                    <div className="relative h-full flex items-center justify-between px-4">
+                                        <ChevronLeft size={18} className="text-white/70 shrink-0" />
+                                        <div className="flex-1 text-center">
+                                            <div className="text-2xl font-extrabold drop-shadow-lg tracking-wide">{t('hotDeals')}</div>
+                                            <div className="text-sm font-medium text-white/85 drop-shadow mt-1">{t('hotDealsDesc')}</div>
                                         </div>
-                                        <span className="text-xl animate-bounce" style={{animationDelay: '0.1s'}}>🔥</span>
+                                        <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0">
+                                            <Tag size={18} className="text-white drop-shadow-md" />
+                                        </div>
                                     </div>
-                                    <span className="absolute top-1 left-1 bg-white text-red-500 text-[9px] font-bold px-1.5 py-0.5 rounded-full animate-pulse">
-                                        {t('newBadge')}
-                                    </span>
                                 </button>
                             </div>
                         )}
@@ -17798,16 +17818,16 @@ END:VCALENDAR`;
                             <div id="shopping-list-section" className="glass rounded-2xl shadow-xl p-6 mb-6">
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="text-2xl font-bold dark:text-white flex items-center gap-3">
-                                        <span className="text-3xl">📝</span>
+                                        <ClipboardList size={28} className="text-indigo-500" />
                                         <span className="text-gradient">{t('myList')}</span>
                                         <span className="btn-gradient text-white text-sm px-3 py-1 rounded-full">{filteredItems.length}</span>
                                     </h2>
                                     <div className="flex items-center gap-1">
                                         {[
-                                            { key: 'newest', icon: '🕐' },
-                                            { key: 'name', icon: '🔤' },
-                                            { key: 'category', icon: '📂' },
-                                            { key: 'purchased', icon: '✅' }
+                                            { key: 'newest', icon: <Clock size={16} /> },
+                                            { key: 'name', icon: <ArrowDownAZ size={16} /> },
+                                            { key: 'category', icon: <FolderOpen size={16} /> },
+                                            { key: 'purchased', icon: <CircleCheckBig size={16} /> }
                                         ].map(s => (
                                             <button key={s.key} onClick={() => setSortBy(s.key)}
                                                 className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-all ${sortBy === s.key ? 'bg-indigo-500 text-white shadow-md scale-110' : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
@@ -17825,7 +17845,7 @@ END:VCALENDAR`;
                                         onClick={compareFullShoppingList}
                                         className="w-full mb-4 flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                                     >
-                                        <span className="text-2xl">📊</span>
+                                        <BarChart3 size={22} />
                                         <span>{t('comparePricesFullList')}</span>
                                         <span className="bg-white/20 px-2 py-0.5 rounded-full text-sm">{items.filter(i => !i.purchased).length}</span>
                                     </button>
@@ -17835,7 +17855,7 @@ END:VCALENDAR`;
                                 {items.length > 0 && (
                                     <div className="mb-4 text-center">
                                         <div className="inline-flex items-center gap-3 bg-gradient-to-r from-teal-500/10 via-cyan-500/10 to-teal-500/10 dark:from-teal-500/20 dark:via-cyan-500/20 dark:to-teal-500/20 px-5 py-2.5 rounded-2xl border border-teal-200/50 dark:border-teal-700/50">
-                                            <span className="text-xl animate-bounce">🛒</span>
+                                            <span className="animate-bounce"><ShoppingCart size={22} className="text-teal-600 dark:text-teal-400" /></span>
                                             <div>
                                                 <h2 className="text-base font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
                                                     {t('smartFamilyList')}
@@ -17869,7 +17889,7 @@ END:VCALENDAR`;
                                                             {itemsWithPrice.length} {t('itemsWithPrice')} {t('of')} {unpurchasedItems.length}
                                                         </span>
                                                     </div>
-                                                    <span className="text-lg">📊</span>
+                                                    <BarChart3 size={18} />
                                                 </div>
                                                 <div className="flex flex-col gap-0.5 px-1">
                                                     <div className="flex items-center gap-1">
@@ -17899,7 +17919,7 @@ END:VCALENDAR`;
                                         onClick={() => setShowTemplates(!showTemplates)}
                                         className="flex items-center gap-2 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 px-4 py-2 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-all"
                                     >
-                                        <span>📋</span>
+                                        <Clipboard size={16} />
                                         <span className="font-medium">{t('templates')}</span>
                                     </button>
                                     {items.filter(i => !i.purchased).length > 0 && (
@@ -17915,7 +17935,7 @@ END:VCALENDAR`;
                                         onClick={() => { setShowPromotions(true); fetchPromotions(); }}
                                         className="relative flex items-center gap-2 bg-gradient-to-r from-teal-400 to-cyan-400 dark:from-teal-600 dark:to-cyan-600 text-white px-4 py-2 rounded-xl hover:from-teal-500 hover:to-cyan-500 dark:hover:from-teal-700 dark:hover:to-cyan-700 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
                                     >
-                                        <span className="text-lg">🏷️</span>
+                                        <Tag size={18} />
                                         <span className="font-bold">{t('promotions')}</span>
                                         <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full animate-pulse">
                                             חם!
@@ -17927,7 +17947,7 @@ END:VCALENDAR`;
                                 {showTemplates && (
                                     <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
                                         <h3 className="font-bold text-purple-700 dark:text-purple-400 mb-3 flex items-center gap-2">
-                                            <span>📋</span> {t('myTemplates')}
+                                            <Clipboard size={16} /> {t('myTemplates')}
                                         </h3>
                                         {templates.length === 0 ? (
                                             <p className="text-sm text-gray-500 dark:text-gray-400">{t('noTemplatesSaved')}</p>
@@ -18121,8 +18141,8 @@ END:VCALENDAR`;
                                                             {/* Status indicators */}
                                                             <div className="flex items-center gap-2 flex-wrap">
                                                                 {item.note && (
-                                                                    <span className="item-note-badge" onClick={() => setEditingNote(item)}>
-                                                                        📝 {item.note.length > 15 ? item.note.substring(0, 15) + '...' : item.note}
+                                                                    <span className="item-note-badge inline-flex items-center gap-1" onClick={() => setEditingNote(item)}>
+                                                                        <StickyNote size={12} className="text-yellow-500" /> {item.note.length > 15 ? item.note.substring(0, 15) + '...' : item.note}
                                                                     </span>
                                                                 )}
                                                                 {item.postponedBy && !item.purchased && (
@@ -18132,12 +18152,12 @@ END:VCALENDAR`;
                                                                     <span className="item-status purchased-by">✓ {item.purchasedBy}</span>
                                                                 )}
                                                                 {item.outOfStock && (
-                                                                    <span className="item-status postponed">🚫 {t('outOfStockStatus')}</span>
+                                                                    <span className="item-status postponed inline-flex items-center gap-1"><Ban size={12} /> {t('outOfStockStatus')}</span>
                                                                 )}
                                                                 {/* Show who added the item */}
                                                                 {item.addedBy && !item.purchased && (
                                                                     <span className="text-[10px] text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800/50 px-2 py-0.5 rounded-md">
-                                                                        👤 {item.addedBy}
+                                                                        <span className="inline-flex items-center gap-0.5"><User size={10} /> {item.addedBy}</span>
                                                                     </span>
                                                                 )}
                                                             </div>
@@ -18183,7 +18203,7 @@ END:VCALENDAR`;
                                             onClick={() => setShowDeleteAllConfirm(true)}
                                             className="w-full bg-red-500 text-white px-4 py-3 rounded-xl hover:bg-red-600 transition-all font-semibold shadow-sm flex items-center justify-center gap-2"
                                         >
-                                            <span>🗑️</span>
+                                            <Trash2 size={18} />
                                             <span>{t('deleteAll')}</span>
                                         </button>
                                     </div>
@@ -18192,7 +18212,7 @@ END:VCALENDAR`;
                         )}
                         {filteredItems.length === 0 && !searchTerm && (
                             <div className="glass rounded-2xl shadow-xl p-12 text-center">
-                                <div className="text-7xl mb-6 float">🛒</div>
+                                <div className="flex justify-center mb-6"><ShoppingCart size={64} className="text-indigo-400 dark:text-indigo-500" /></div>
                                 <p className="text-2xl text-gradient font-bold mb-2">{t('emptyList')}</p>
                                 <p className="text-gray-500 dark:text-gray-400 mt-2">{t('addProductsBelow')}</p>
                             </div>
@@ -18312,7 +18332,7 @@ END:VCALENDAR`;
                                             onClick={() => addProduct(p.name)}
                                             className="px-2.5 py-1.5 bg-gradient-to-r from-teal-100 to-cyan-100 dark:from-teal-900/50 dark:to-cyan-900/50 text-teal-700 dark:text-teal-300 rounded-lg text-xs font-medium hover:from-teal-200 hover:to-cyan-200 dark:hover:from-teal-800 dark:hover:to-cyan-800 transition-all expand-in border border-teal-200 dark:border-teal-700"
                                         >
-                                            🏷️ {p.name}
+                                            <span className="inline-flex items-center gap-1"><Tag size={12} /> {p.name}</span>
                                         </button>
                                     ))
                                 ) : (
@@ -18522,7 +18542,7 @@ END:VCALENDAR`;
                                 {items.filter(i => !i.purchased).length > 0 && (
                                     <button onClick={compareFullShoppingList}
                                         className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-6 py-3 rounded-full font-bold shadow-lg transition-all active:scale-95 flex items-center gap-2 text-sm">
-                                        <span>📊</span>
+                                        <BarChart3 size={16} />
                                         <span>{t('comparePrices')}</span>
                                         <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{items.filter(i => !i.purchased).length}</span>
                                     </button>
@@ -18636,7 +18656,7 @@ END:VCALENDAR`;
                                     {/* Update App */}
                                     <button onClick={forceUpdateApp}
                                         className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-medium hover:from-green-600 hover:to-emerald-600 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-                                        <span>🔄</span>
+                                        <RefreshCw size={18} />
                                         <span>{t('updateVersion')}</span>
                                         <span className="text-xs opacity-75">(v13)</span>
                                     </button>
@@ -18732,7 +18752,7 @@ END:VCALENDAR`;
                                 </div>
                                 {feedbackSent ? (
                                     <div className="p-8 text-center">
-                                        <div className="text-5xl mb-4">✅</div>
+                                        <div className="flex justify-center mb-4"><CircleCheck size={48} className="text-green-500" /></div>
                                         <p className="text-lg font-medium text-gray-800 dark:text-white">{t('thanksFeedback')}</p>
                                         <p className="text-gray-500 dark:text-gray-400">{t('willGetBack')}</p>
                                     </div>
@@ -18766,7 +18786,7 @@ END:VCALENDAR`;
                                         </div>
                                         <button onClick={sendFeedback} disabled={!feedbackText.trim() || feedbackSending}
                                             className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold disabled:opacity-50 hover:opacity-90 transition-opacity">
-                                            {feedbackSending ? '⏳ ' + t('sending') : '📤 ' + t('send')}
+                                            <span className="inline-flex items-center gap-1 justify-center">{feedbackSending ? <><RefreshCw size={16} className="animate-spin" /> {t('sending')}</> : <><Send size={16} /> {t('send')}</>}</span>
                                         </button>
                                     </div>
                                 )}
@@ -18792,7 +18812,7 @@ END:VCALENDAR`;
                                 {onboardingStep === 0 && (
                                     <div className="p-6 text-center">
                                         <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg">
-                                            <span className="text-4xl">🛒</span>
+                                            <ShoppingCart size={36} className="text-white" />
                                         </div>
                                         <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{t('welcomeToListNest')}</h2>
                                         <p className="text-gray-600 dark:text-gray-300 mb-6">{t('smartListForFamily')}</p>
@@ -18812,7 +18832,7 @@ END:VCALENDAR`;
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardCategories')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center text-lg flex-shrink-0">🔍</span>
+                                                <span className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center flex-shrink-0"><Search size={18} className="text-indigo-500 dark:text-indigo-300" /></span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardSearch')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
@@ -18842,7 +18862,7 @@ END:VCALENDAR`;
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardQuantity')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-800 flex items-center justify-center text-lg flex-shrink-0">📝</span>
+                                                <span className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-800 flex items-center justify-center flex-shrink-0"><StickyNote size={18} className="text-green-500 dark:text-green-300" /></span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardNote')}</span>
                                             </div>
                                         </div>
@@ -18856,11 +18876,11 @@ END:VCALENDAR`;
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('smartFeatures')}</h3>
                                         <div className="bg-amber-50 dark:bg-amber-900/30 rounded-xl p-4 mb-4 space-y-3">
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-800 flex items-center justify-center text-lg flex-shrink-0">🔥</span>
+                                                <span className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-800 flex items-center justify-center flex-shrink-0"><Flame size={18} className="text-orange-500" /></span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardHotDeals')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-800 flex items-center justify-center text-lg flex-shrink-0">📊</span>
+                                                <span className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-800 flex items-center justify-center flex-shrink-0"><BarChart3 size={18} className="text-amber-600 dark:text-amber-300" /></span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardPriceCompare')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
@@ -18868,7 +18888,7 @@ END:VCALENDAR`;
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardHoliday')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-800 flex items-center justify-center text-lg flex-shrink-0">📷</span>
+                                                <span className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-800 flex items-center justify-center flex-shrink-0"><Camera size={18} className="text-amber-600 dark:text-amber-300" /></span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardScanProduct')}</span>
                                             </div>
                                         </div>
@@ -18882,7 +18902,7 @@ END:VCALENDAR`;
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('familySharing')}</h3>
                                         <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4 mb-4 space-y-3">
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">📤</span>
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center flex-shrink-0"><Share2 size={18} className="text-purple-500 dark:text-purple-300" /></span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardShare')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
@@ -18894,11 +18914,11 @@ END:VCALENDAR`;
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardChildren')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">🔔</span>
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center flex-shrink-0"><Bell size={18} className="text-purple-500 dark:text-purple-300" /></span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardNotifications')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center text-lg flex-shrink-0">💬</span>
+                                                <span className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-800 flex items-center justify-center flex-shrink-0"><MessageCircle size={18} className="text-purple-500 dark:text-purple-300" /></span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardChat')}</span>
                                             </div>
                                         </div>
@@ -18921,7 +18941,7 @@ END:VCALENDAR`;
                                                 ))}
                                             </div>
                                             <div className="mt-3 p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-xs text-green-700 dark:text-green-300 text-center">
-                                                💡 {t('onboardChildTip')}
+                                                <span className="inline-flex items-center gap-1"><Lightbulb size={14} /> {t('onboardChildTip')}</span>
                                             </div>
                                         </div>
                                         {navButtons(4, 6)}
@@ -18934,7 +18954,7 @@ END:VCALENDAR`;
                                         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 text-center">{t('toolsAndMore')}</h3>
                                         <div className="bg-cyan-50 dark:bg-cyan-900/30 rounded-xl p-4 mb-4 space-y-3">
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-800 flex items-center justify-center text-lg flex-shrink-0">📋</span>
+                                                <span className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-800 flex items-center justify-center flex-shrink-0"><ClipboardList size={18} className="text-cyan-500 dark:text-cyan-300" /></span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardQuickActions')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
@@ -18942,7 +18962,7 @@ END:VCALENDAR`;
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardAccessibility')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
-                                                <span className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-800 flex items-center justify-center text-lg flex-shrink-0">🛒</span>
+                                                <span className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-800 flex items-center justify-center flex-shrink-0"><ShoppingCart size={18} className="text-cyan-500 dark:text-cyan-300" /></span>
                                                 <span className="text-sm text-gray-700 dark:text-gray-300">{t('onboardShoppingMode')}</span>
                                             </div>
                                             <div className="flex items-start gap-3">
@@ -18985,7 +19005,7 @@ END:VCALENDAR`;
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10003] flex items-center justify-center p-4" onClick={cancelExternalLink}>
                             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm animate-[fadeIn_0.2s_ease-out]" onClick={e => e.stopPropagation()}>
                                 <div className="p-6 text-center">
-                                    <div className="text-5xl mb-4">🔗</div>
+                                    <div className="flex justify-center mb-4"><ExternalLink size={48} className="text-teal-500" /></div>
                                     <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{t('externalLinkTitle')}</h2>
                                     <p className="text-gray-600 dark:text-gray-300 mb-1">
                                         {t('externalLinkMessage')} <span className="font-bold text-teal-600 dark:text-teal-400">{pendingExternalName}</span>
@@ -19017,7 +19037,7 @@ END:VCALENDAR`;
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10003] flex items-center justify-center p-4" onClick={() => setShowDeleteAccount(false)}>
                             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm" onClick={e => e.stopPropagation()}>
                                 <div className="p-6 text-center">
-                                    <div className="text-5xl mb-4">⚠️</div>
+                                    <div className="flex justify-center mb-4"><AlertTriangle size={48} className="text-amber-500" /></div>
                                     <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{t('deleteAccountTitle')}</h2>
                                     <p className="text-gray-600 dark:text-gray-300 mb-2">{t('deleteAccountWarning')}</p>
                                     <p className="text-red-600 dark:text-red-400 text-sm font-medium mb-6">{t('deleteAccountPermanent')}</p>
@@ -19034,7 +19054,7 @@ END:VCALENDAR`;
                                             disabled={deleteAccountLoading}
                                             className="flex-1 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors disabled:opacity-50"
                                         >
-                                            {deleteAccountLoading ? '⏳' : '🗑️'} {t('deleteAccount')}
+                                            <span className="inline-flex items-center gap-1">{deleteAccountLoading ? <RefreshCw size={16} className="animate-spin" /> : <Trash2 size={16} />} {t('deleteAccount')}</span>
                                         </button>
                                     </div>
                                 </div>
@@ -19358,7 +19378,7 @@ END:VCALENDAR`;
                 return (
                     <div className="min-h-screen gradient-bg flex items-center justify-center">
                         <div className="text-center">
-                            <div className="text-6xl mb-4 float">🛒</div>
+                            <div className="flex justify-center mb-4"><ShoppingCart size={56} className="text-white" /></div>
                             <div className="text-xl text-white font-medium">{t('loadingApp')}</div>
                             <div className="mt-4 w-32 h-1 bg-white/20 rounded-full overflow-hidden mx-auto">
                                 <div className="h-full w-1/2 progress-animate rounded-full"></div>
