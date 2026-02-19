@@ -14547,11 +14547,17 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         createdAt: window.firestore.serverTimestamp()
                     });
 
-                    // Trigger browser notification for other family members
-                    if (notificationsEnabled && 'Notification' in window && Notification.permission === 'granted') {
-                        // The notification will be shown via the onSnapshot listener for other users
-                        console.log('Reminder sent successfully');
-                    }
+                    // Send push notification to other family members (works when app is closed)
+                    fetch('/api/chat-push', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            familyId: family.id,
+                            senderUid: senderUid,
+                            senderName: senderName,
+                            text: message.substring(0, 100)
+                        })
+                    }).catch(() => {});
 
                     // Log activity
                     if (logActivity) {
@@ -18017,7 +18023,7 @@ END:VCALENDAR`;
                                         {showSettings && (
                                             <>
                                                 <div className="fixed inset-0 z-40" onClick={() => setShowSettings(false)}></div>
-                                                <div className="absolute left-0 top-full mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+                                                <div className="absolute left-0 top-full mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 max-h-[calc(100vh-120px)] overflow-y-auto">
                                                     <button
                                                         onClick={() => { toggleShoppingMode(); setShowSettings(false); }}
                                                         className={`w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
