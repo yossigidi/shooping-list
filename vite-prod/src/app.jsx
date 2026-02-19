@@ -21,7 +21,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
             useEffect(() => {
                 const unsubscribe = window.firebaseAuth.onAuthStateChanged(window.auth, (user) => {
-                    setUser(user);
+                    // Ignore anonymous users - they're only used for child login Firestore access
+                    setUser(user?.isAnonymous ? null : user);
                     setLoading(false);
                 });
                 return () => unsubscribe();
@@ -132,6 +133,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
                     localStorage.setItem('childSession', JSON.stringify(session));
                     setChildUser(session);
+                    // Sign out anonymous user used for Firestore access
+                    if (window.auth.currentUser?.isAnonymous) {
+                        try { await window.firebaseAuth.signOut(window.auth); } catch(e) {}
+                    }
                     console.log('Child login successful');
                     return { success: true };
                 } catch (error) {
@@ -272,6 +277,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 sendResetLink: 'שלח קישור לאיפוס',
                 noAccount: 'אין לך חשבון?',
                 haveAccount: 'יש לך חשבון?',
+                continueWithGoogle: 'המשך עם Google',
+                orDivider: 'או',
                 registerNow: 'הירשם עכשיו',
                 loginNow: 'התחבר עכשיו',
                 orContinueWith: 'או המשך עם',
@@ -1303,6 +1310,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 sendResetLink: 'Send Reset Link',
                 noAccount: "Don't have an account?",
                 haveAccount: 'Already have an account?',
+                continueWithGoogle: 'Continue with Google',
+                orDivider: 'or',
                 registerNow: 'Register Now',
                 loginNow: 'Login Now',
                 orContinueWith: 'Or continue with',
@@ -2225,6 +2234,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 sendResetLink: 'Отправить ссылку для сброса',
                 noAccount: 'Нет аккаунта?',
                 haveAccount: 'Уже есть аккаунт?',
+                continueWithGoogle: 'Продолжить с Google',
+                orDivider: 'или',
                 registerNow: 'Зарегистрироваться',
                 loginNow: 'Войти',
                 orContinueWith: 'Или продолжить с',
@@ -3134,6 +3145,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 sendResetLink: 'إرسال رابط إعادة التعيين',
                 noAccount: 'ليس لديك حساب؟',
                 haveAccount: 'لديك حساب بالفعل؟',
+                continueWithGoogle: 'المتابعة مع Google',
+                orDivider: 'أو',
                 registerNow: 'سجل الآن',
                 loginNow: 'سجل دخول الآن',
                 orContinueWith: 'أو تابع مع',
@@ -4226,7 +4239,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 }
 
                 const q = window.firestore.query(
-                    window.firestore.collection(window.db, 'activity'),
+                    window.firestore.collection(window.db, 'activity-log'),
                     window.firestore.where('familyId', '==', family.id)
                 );
 
@@ -4509,22 +4522,26 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
             // Log activity
             const logActivity = async (type, details = {}, overrideFamilyId = null) => {
-                if (!user) return;
-                const fid = overrideFamilyId || family?.id;
-                if (!fid) return;
+                try {
+                    if (!user) return;
+                    const fid = overrideFamilyId || family?.id;
+                    if (!fid) return;
 
-                await window.firestore.addDoc(
-                    window.firestore.collection(window.db, 'activity'),
-                    {
-                        familyId: fid,
-                        listId: currentList?.id || null,
-                        type: type,
-                        userId: user?.uid,
-                        userName: user?.displayName || user?.email || t('anonymous'),
-                        timestamp: new Date(),
-                        ...details
-                    }
-                );
+                    await window.firestore.addDoc(
+                        window.firestore.collection(window.db, 'activity-log'),
+                        {
+                            familyId: fid,
+                            listId: currentList?.id || null,
+                            type: type,
+                            userId: user?.uid,
+                            userName: user?.displayName || user?.email || t('anonymous'),
+                            timestamp: new Date(),
+                            ...details
+                        }
+                    );
+                } catch (e) {
+                    console.warn('Activity log failed:', e);
+                }
             };
 
             // Hash PIN with family code as salt
@@ -6625,6 +6642,35 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         {loading ? t('loading') : t('register')}
                     </button>
 
+                    <div className="flex items-center gap-3 my-1">
+                        <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">{t('orDivider')}</span>
+                        <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
+                    </div>
+
+                    <button
+                        type="button"
+                        disabled={loading}
+                        onClick={async () => {
+                            try {
+                                setLoading(true);
+                                setError('');
+                                const provider = new window.firebaseAuth.GoogleAuthProvider();
+                                await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                            } catch (err) {
+                                if (err.code !== 'auth/popup-closed-by-user') {
+                                    setError(getErrorMessage(err.code, t) || err.message);
+                                }
+                            } finally {
+                                setLoading(false);
+                            }
+                        }}
+                        className="w-full flex items-center justify-center gap-3 border-2 border-gray-300 dark:border-gray-600 py-3 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#FBBC05" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                        <span className="text-gray-700 dark:text-gray-200">{t('continueWithGoogle')}</span>
+                    </button>
+
                     <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
                         {t('haveAccount')}{' '}
                         <button type="button" onClick={onSwitchToLogin} className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
@@ -6728,6 +6774,35 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? t('loading') : t('login')}
+                    </button>
+
+                    <div className="flex items-center gap-3 my-1">
+                        <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">{t('orDivider')}</span>
+                        <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
+                    </div>
+
+                    <button
+                        type="button"
+                        disabled={loading}
+                        onClick={async () => {
+                            try {
+                                setLoading(true);
+                                setError('');
+                                const provider = new window.firebaseAuth.GoogleAuthProvider();
+                                await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                            } catch (err) {
+                                if (err.code !== 'auth/popup-closed-by-user') {
+                                    setError(getErrorMessage(err.code, t) || err.message);
+                                }
+                            } finally {
+                                setLoading(false);
+                            }
+                        }}
+                        className="w-full flex items-center justify-center gap-3 border-2 border-gray-300 dark:border-gray-600 py-3 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all disabled:opacity-50"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#FBBC05" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                        <span className="text-gray-700 dark:text-gray-200">{t('continueWithGoogle')}</span>
                     </button>
 
                     <button
@@ -7035,6 +7110,11 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     const autoSubmit = async () => {
                         setLoading(true);
                         try {
+                            // Sign in anonymously if not already signed in (needed for Firestore access)
+                            if (!window.auth.currentUser) {
+                                await window.firebaseAuth.signInAnonymously(window.auth);
+                            }
+
                             const q = window.firestore.query(
                                 window.firestore.collection(window.db, 'families'),
                                 window.firestore.where('code', '==', familyCode.toUpperCase())
@@ -7137,6 +7217,11 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 setLoading(true);
 
                 try {
+                    // Sign in anonymously if not already signed in (needed for Firestore access)
+                    if (!window.auth.currentUser) {
+                        await window.firebaseAuth.signInAnonymously(window.auth);
+                    }
+
                     const q = window.firestore.query(
                         window.firestore.collection(window.db, 'families'),
                         window.firestore.where('code', '==', familyCode.toUpperCase())
