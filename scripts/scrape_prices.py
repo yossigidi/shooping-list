@@ -41,8 +41,7 @@ HEADERS = {
 
 # Chain configurations
 CHAINS = {
-    # IDs must match database: 1=shufersal, 2=rami_levy, 3=victory, 5=hatzi_hinam, 6=carrefour
-    # Note: ID 4 (Yeinot Bitan) removed - merged with Carrefour
+    # IDs must match database
     1: {
         'name': 'שופרסל',
         'name_en': 'Shufersal',
@@ -60,18 +59,44 @@ CHAINS = {
         'name_en': 'Victory',
         'type': 'victory',
         'base_url': 'https://laibcatalog.co.il',
+        'chain_ids': ['7290696200003'],
     },
     5: {
         'name': 'חצי חינם',
         'name_en': 'Hatzi Hinam',
         'type': 'hazihinam',
         'base_url': 'https://shop.hazi-hinam.co.il/Prices',
+        'blob_base': 'https://hazihinamprod01.blob.core.windows.net/regulatories/',
     },
     6: {
         'name': 'קארפור',
         'name_en': 'Carrefour',
         'type': 'carrefour',
         'base_url': 'https://prices.carrefour.co.il',
+    },
+    7: {
+        'name': 'יוחננוף',
+        'name_en': 'Yochananof',
+        'type': 'cerberus',
+        'username': 'yohananof',
+    },
+    8: {
+        'name': 'אושר עד',
+        'name_en': 'Osher Ad',
+        'type': 'cerberus',
+        'username': 'osherad',
+    },
+    9: {
+        'name': 'טיב טעם',
+        'name_en': 'Tiv Taam',
+        'type': 'cerberus',
+        'username': 'TivTaam',
+    },
+    10: {
+        'name': 'דור אלון',
+        'name_en': 'Dor Alon',
+        'type': 'cerberus',
+        'username': 'doralon',
     },
 }
 
@@ -533,53 +558,92 @@ def fetch_carrefour_prices(chain_id: int, chain_info: dict) -> List[dict]:
 # ============================================
 
 def fetch_victory_prices(chain_id: int, chain_info: dict) -> List[dict]:
-    """Fetch prices from Victory via laibcatalog.co.il."""
+    """Fetch prices from Victory via laibcatalog.co.il (Nibit platform)."""
     prices = []
     base_url = chain_info['base_url']
+    victory_chain_ids = chain_info.get('chain_ids', ['7290696200003'])
 
     try:
         session = requests.Session()
         session.headers.update(HEADERS)
 
-        resp = session.get(f'{base_url}/NBCompetitionRegulations.aspx', timeout=TIMEOUT)
+        # Try with shorter connect timeout and retries
+        for attempt in range(3):
+            try:
+                resp = session.get(
+                    f'{base_url}/NBCompetitionRegulations.aspx',
+                    timeout=(30, TIMEOUT),  # (connect_timeout, read_timeout)
+                )
+                break
+            except requests.exceptions.ConnectTimeout:
+                if attempt < 2:
+                    print(f"  Connection timeout, retry {attempt + 2}/3...")
+                    import time
+                    time.sleep(5)
+                else:
+                    print(f"  Failed after 3 attempts (connection timeout)")
+                    return prices
+            except requests.exceptions.ConnectionError:
+                if attempt < 2:
+                    print(f"  Connection error, retry {attempt + 2}/3...")
+                    import time
+                    time.sleep(5)
+                else:
+                    print(f"  Failed after 3 attempts (connection error)")
+                    return prices
+
         if resp.status_code != 200:
             print(f"  Failed to get page: HTTP {resp.status_code}")
             return prices
 
-        soup = BeautifulSoup(resp.text, 'html.parser')
+        # Extract all file paths from the page (Price and PriceFull)
+        content = resp.text
+        file_pattern = r'CompetitionRegulationsFiles[^"\'<>\s]+\.xml\.gz'
+        all_files = re.findall(file_pattern, content)
 
-        # Find PriceFull links
-        links = soup.find_all('a', href=True)
-        pricefull_links = [l.get('href') for l in links if 'PriceFull' in l.get('href', '')]
-
-        if not pricefull_links:
-            print("  No PriceFull files found")
+        if not all_files:
+            print("  No price files found on page")
             return prices
 
-        print(f"  Found {len(pricefull_links)} PriceFull files")
+        # Fix path separators and filter for Price files
+        all_files = [f.replace('\\', '/') for f in all_files]
+        pricefull_files = [f for f in all_files if 'PriceFull' in f]
+        price_files = [f for f in all_files if f.startswith('CompetitionRegulationsFiles') and 'Price' in f and 'Promo' not in f]
+
+        # Prefer PriceFull, fall back to Price
+        target_files = pricefull_files if pricefull_files else price_files
+
+        # Filter for Victory chain IDs only
+        victory_files = [f for f in target_files if any(cid in f for cid in victory_chain_ids)]
+        if not victory_files:
+            victory_files = target_files  # Use all if chain filter doesn't match
+
+        file_type = 'PriceFull' if pricefull_files else 'Price'
+        print(f"  Found {len(victory_files)} {file_type} files")
 
         # Download first few files
-        for link in pricefull_links[:3]:
+        for file_path in victory_files[:3]:
             try:
-                # Fix path separators
-                link = link.replace('\\', '/')
-                download_url = f'{base_url}/{link}'
+                download_url = f'{base_url}/{file_path}'
                 download_resp = session.get(download_url, timeout=TIMEOUT)
 
-                if download_resp.status_code == 200:
+                if download_resp.status_code == 200 and len(download_resp.content) > 100:
                     try:
-                        content = gzip.decompress(download_resp.content)
+                        file_content = gzip.decompress(download_resp.content)
                     except (OSError, gzip.BadGzipFile):
-                        content = download_resp.content
+                        file_content = download_resp.content
 
-                    root = parse_xml_content(content)
+                    root = parse_xml_content(file_content)
                     if root:
-                        # Victory uses 'Product' tag instead of 'Item'
-                        items = extract_items_from_xml(root, item_tag='Product')
+                        # Victory uses both 'Item' and 'Product' tags
+                        items = extract_items_from_xml(root)
+                        if not items:
+                            items = extract_items_from_xml(root, item_tag='Product')
                         for item in items:
                             item['chain_id'] = chain_id
                             prices.append(item)
-                        print(f"    Parsed {len(items)} products")
+                        fname = file_path.split('/')[-1]
+                        print(f"    Parsed {len(items)} products from {fname}")
 
             except Exception as e:
                 print(f"    Error downloading file: {e}")
@@ -607,7 +671,7 @@ def fetch_victory_prices(chain_id: int, chain_info: dict) -> List[dict]:
 # ============================================
 
 def fetch_hazihinam_prices(chain_id: int, chain_info: dict) -> List[dict]:
-    """Fetch prices from Hatzi Hinam."""
+    """Fetch prices from Hatzi Hinam via Azure Blob Storage."""
     prices = []
     base_url = chain_info['base_url']
 
@@ -615,41 +679,53 @@ def fetch_hazihinam_prices(chain_id: int, chain_info: dict) -> List[dict]:
         session = requests.Session()
         session.headers.update(HEADERS)
 
-        # Get today's date for the filter
-        today = datetime.now().strftime('%Y-%m-%d')
-        resp = session.get(f'{base_url}?t=1&d={today}', timeout=TIMEOUT)
+        # Fetch multiple pages to find PriceFull files
+        pricefull_urls = []
+        price_urls = []
 
-        if resp.status_code != 200:
-            print(f"  Failed to get page: HTTP {resp.status_code}")
+        for page in range(1, 5):
+            try:
+                resp = session.get(f'{base_url}?p={page}', timeout=TIMEOUT)
+                if resp.status_code != 200:
+                    print(f"  Page {page}: HTTP {resp.status_code}")
+                    continue
+
+                # Extract Azure blob URLs directly using regex
+                blob_urls = re.findall(
+                    r'https://hazihinamprod01\.blob\.core\.windows\.net/regulatories/[^"\'<>\s]+\.gz',
+                    resp.text
+                )
+
+                for url in blob_urls:
+                    if 'PriceFull' in url and url not in pricefull_urls:
+                        pricefull_urls.append(url)
+                    elif 'Price' in url and 'Promo' not in url and 'PriceFull' not in url and url not in price_urls:
+                        price_urls.append(url)
+
+                if pricefull_urls:
+                    break  # Found PriceFull files, no need for more pages
+
+            except Exception as e:
+                print(f"  Error fetching page {page}: {e}")
+                continue
+
+        # Prefer PriceFull, fall back to Price
+        target_urls = pricefull_urls if pricefull_urls else price_urls
+        file_type = 'PriceFull' if pricefull_urls else 'Price'
+
+        if not target_urls:
+            print("  No price files found")
             return prices
 
-        soup = BeautifulSoup(resp.text, 'html.parser')
-        tbody = soup.find('tbody')
-
-        if not tbody:
-            print("  Could not find file table")
-            return prices
-
-        # Find PriceFull links
-        rows = tbody.find_all('tr')
-        pricefull_links = []
-        for row in rows:
-            link = row.find('a', href=True)
-            if link and 'PriceFull' in link.get('href', ''):
-                pricefull_links.append(link.get('href'))
-
-        if not pricefull_links:
-            print("  No PriceFull files found")
-            return prices
-
-        print(f"  Found {len(pricefull_links)} PriceFull files")
+        print(f"  Found {len(target_urls)} {file_type} files")
 
         # Download first few files
-        for download_url in pricefull_links[:3]:
+        for download_url in target_urls[:3]:
             try:
                 download_resp = session.get(download_url, timeout=TIMEOUT)
+                fname = download_url.split('/')[-1]
 
-                if download_resp.status_code == 200:
+                if download_resp.status_code == 200 and len(download_resp.content) > 100:
                     try:
                         content = gzip.decompress(download_resp.content)
                     except (OSError, gzip.BadGzipFile):
@@ -661,7 +737,7 @@ def fetch_hazihinam_prices(chain_id: int, chain_info: dict) -> List[dict]:
                         for item in items:
                             item['chain_id'] = chain_id
                             prices.append(item)
-                        print(f"    Parsed {len(items)} products")
+                        print(f"    Parsed {len(items)} products from {fname}")
 
             except Exception as e:
                 print(f"    Error downloading file: {e}")
@@ -689,7 +765,7 @@ def fetch_hazihinam_prices(chain_id: int, chain_info: dict) -> List[dict]:
 # ============================================
 
 def fetch_hazihinam_promotions(chain_id: int, chain_info: dict) -> List[dict]:
-    """Fetch promotions from Hatzi Hinam."""
+    """Fetch promotions from Hatzi Hinam via Azure Blob Storage."""
     promotions = []
     base_url = chain_info['base_url']
 
@@ -697,42 +773,43 @@ def fetch_hazihinam_promotions(chain_id: int, chain_info: dict) -> List[dict]:
         session = requests.Session()
         session.headers.update(HEADERS)
 
-        # Get the page without type filter to see all files including promos
-        resp = session.get(base_url, timeout=TIMEOUT)
+        # Fetch pages to find PromoFull files
+        promo_urls = []
+        for page in range(1, 3):
+            try:
+                resp = session.get(f'{base_url}?p={page}', timeout=TIMEOUT)
+                if resp.status_code != 200:
+                    continue
 
-        if resp.status_code != 200:
-            print(f"  Failed to get page: HTTP {resp.status_code}")
+                blob_urls = re.findall(
+                    r'https://hazihinamprod01\.blob\.core\.windows\.net/regulatories/[^"\'<>\s]+\.gz',
+                    resp.text
+                )
+
+                for url in blob_urls:
+                    if 'PromoFull' in url and url not in promo_urls:
+                        promo_urls.append(url)
+                    elif 'Promo' in url and 'PromoFull' not in url and url not in promo_urls:
+                        promo_urls.append(url)
+
+                if promo_urls:
+                    break
+
+            except Exception:
+                continue
+
+        if not promo_urls:
+            print("  No promo files found")
             return promotions
 
-        soup = BeautifulSoup(resp.text, 'html.parser')
-        tbody = soup.find('tbody')
+        print(f"  Found {len(promo_urls)} Promo files")
 
-        if not tbody:
-            print("  Could not find file table")
-            return promotions
-
-        # Find Promo links (not PromoFull - Hatzi Hinam uses Promo files)
-        rows = tbody.find_all('tr')
-        promo_links = []
-        for row in rows:
-            link = row.find('a', href=True)
-            href = link.get('href', '') if link else ''
-            # Match Promo files but not PromoFull
-            if link and '/Promo' in href and 'PromoFull' not in href:
-                promo_links.append(href)
-
-        if not promo_links:
-            print("  No Promo files found")
-            return promotions
-
-        print(f"  Found {len(promo_links)} Promo files")
-
-        # Download first few files
-        for download_url in promo_links[:5]:
+        # Download first file
+        for download_url in promo_urls[:1]:
             try:
                 download_resp = session.get(download_url, timeout=TIMEOUT)
 
-                if download_resp.status_code == 200:
+                if download_resp.status_code == 200 and len(download_resp.content) > 100:
                     try:
                         content = gzip.decompress(download_resp.content)
                     except (OSError, gzip.BadGzipFile):
@@ -740,39 +817,17 @@ def fetch_hazihinam_promotions(chain_id: int, chain_info: dict) -> List[dict]:
 
                     root = parse_xml_content(content)
                     if root:
-                        # Extract promotions from XML
-                        items = root.findall('.//Promotion') or root.findall('.//Sale')
-                        for item in items:
-                            promo_id = item.findtext('PromotionId', '') or item.findtext('SaleId', '')
-                            description = item.findtext('PromotionDescription', '') or item.findtext('SaleDescription', '')
-                            start_date = item.findtext('PromotionStartDate', '') or item.findtext('StartDate', '')
-                            end_date = item.findtext('PromotionEndDate', '') or item.findtext('EndDate', '')
-
-                            if description:
-                                promotions.append({
-                                    'chain_id': chain_id,
-                                    'promo_id': promo_id,
-                                    'description': description.strip(),
-                                    'start_date': start_date[:10] if start_date else None,
-                                    'end_date': end_date[:10] if end_date else None,
-                                })
-
-                        print(f"    Parsed {len(items)} promotions")
+                        promos = extract_promotions_from_xml(root)
+                        for p in promos:
+                            p['chain_id'] = chain_id
+                        promotions.extend(promos)
+                        print(f"    Parsed {len(promos)} promotions")
 
             except Exception as e:
                 print(f"    Error downloading file: {e}")
-                continue
 
-        # Remove duplicates by description
-        seen = set()
-        unique_promos = []
-        for p in promotions:
-            if p['description'] not in seen:
-                seen.add(p['description'])
-                unique_promos.append(p)
-
-        print(f"  Total unique promotions: {len(unique_promos)}")
-        return unique_promos
+        print(f"  Total unique promotions: {len(promotions)}")
+        return promotions
 
     except Exception as e:
         print(f"  Error: {e}")
@@ -789,36 +844,43 @@ def fetch_victory_promotions(chain_id: int, chain_info: dict) -> List[dict]:
         session = requests.Session()
         session.headers.update(HEADERS)
 
-        resp = session.get(f'{base_url}/NBCompetitionRegulations.aspx', timeout=TIMEOUT)
+        for attempt in range(3):
+            try:
+                resp = session.get(
+                    f'{base_url}/NBCompetitionRegulations.aspx',
+                    timeout=(30, TIMEOUT),
+                )
+                break
+            except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError):
+                if attempt < 2:
+                    import time
+                    time.sleep(5)
+                else:
+                    print(f"  Failed after 3 attempts")
+                    return promotions
+
         if resp.status_code != 200:
             print(f"  Failed to get page: HTTP {resp.status_code}")
             return promotions
 
-        soup = BeautifulSoup(resp.text, 'html.parser')
+        # Extract promo file paths using regex
+        file_pattern = r'CompetitionRegulationsFiles[^"\'<>\s]+Promo[^"\'<>\s]+\.xml\.gz'
+        promo_files = re.findall(file_pattern, resp.text)
+        promo_files = [f.replace('\\', '/') for f in promo_files]
 
-        # Find Promo links (not PromoFull)
-        links = soup.find_all('a', href=True)
-        promo_links = []
-        for l in links:
-            href = l.get('href', '')
-            if '/Promo' in href and 'PromoFull' not in href:
-                promo_links.append(href)
-
-        if not promo_links:
+        if not promo_files:
             print("  No Promo files found")
             return promotions
 
-        print(f"  Found {len(promo_links)} Promo files")
+        print(f"  Found {len(promo_files)} Promo files")
 
-        # Download first few files
-        for link in promo_links[:5]:
+        # Download first file
+        for file_path in promo_files[:1]:
             try:
-                # Fix path separators
-                link = link.replace('\\', '/')
-                download_url = f'{base_url}/{link}'
+                download_url = f'{base_url}/{file_path}'
                 download_resp = session.get(download_url, timeout=TIMEOUT)
 
-                if download_resp.status_code == 200:
+                if download_resp.status_code == 200 and len(download_resp.content) > 100:
                     try:
                         content = gzip.decompress(download_resp.content)
                     except (OSError, gzip.BadGzipFile):
@@ -826,39 +888,17 @@ def fetch_victory_promotions(chain_id: int, chain_info: dict) -> List[dict]:
 
                     root = parse_xml_content(content)
                     if root:
-                        # Extract promotions from XML
-                        items = root.findall('.//Promotion') or root.findall('.//Sale')
-                        for item in items:
-                            promo_id = item.findtext('PromotionId', '') or item.findtext('SaleId', '')
-                            description = item.findtext('PromotionDescription', '') or item.findtext('SaleDescription', '')
-                            start_date = item.findtext('PromotionStartDate', '') or item.findtext('StartDate', '')
-                            end_date = item.findtext('PromotionEndDate', '') or item.findtext('EndDate', '')
-
-                            if description:
-                                promotions.append({
-                                    'chain_id': chain_id,
-                                    'promo_id': promo_id,
-                                    'description': description.strip(),
-                                    'start_date': start_date[:10] if start_date else None,
-                                    'end_date': end_date[:10] if end_date else None,
-                                })
-
-                        print(f"    Parsed {len(items)} promotions")
+                        promos = extract_promotions_from_xml(root)
+                        for p in promos:
+                            p['chain_id'] = chain_id
+                        promotions.extend(promos)
+                        print(f"    Parsed {len(promos)} promotions")
 
             except Exception as e:
                 print(f"    Error downloading file: {e}")
-                continue
 
-        # Remove duplicates by description
-        seen = set()
-        unique_promos = []
-        for p in promotions:
-            if p['description'] not in seen:
-                seen.add(p['description'])
-                unique_promos.append(p)
-
-        print(f"  Total unique promotions: {len(unique_promos)}")
-        return unique_promos
+        print(f"  Total unique promotions: {len(promotions)}")
+        return promotions
 
     except Exception as e:
         print(f"  Error: {e}")

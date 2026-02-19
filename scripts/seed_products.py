@@ -7,7 +7,6 @@ This ensures accurate price matching from supermarket data.
 """
 
 import os
-from datetime import datetime
 from supabase import create_client, Client
 
 SUPABASE_URL = os.environ.get('SUPABASE_URL')
@@ -224,12 +223,7 @@ def seed_products():
             print(f"  - {barcode}: {name}")
         print("\nContinuing with valid barcodes only...\n")
 
-    # Get existing products
-    existing = supabase.table('products').select('barcode').execute()
-    existing_barcodes = {p['barcode'] for p in existing.data if p.get('barcode')}
-
-    added = 0
-    updated = 0
+    upserted = 0
     skipped = 0
 
     for barcode, name, category in PRODUCTS:
@@ -239,36 +233,24 @@ def seed_products():
             continue
 
         try:
-            if barcode in existing_barcodes:
-                # Update existing product with updated_at
-                supabase.table('products').update({
-                    'name': name,
-                    'category': category,
-                    'updated_at': datetime.utcnow().isoformat()
-                }).eq('barcode', barcode).execute()
-                updated += 1
-                print(f"📝 Updated: {name}")
-            else:
-                # Insert new product
-                supabase.table('products').insert({
-                    'barcode': barcode,
-                    'name': name,
-                    'category': category
-                }).execute()
-                added += 1
-                print(f"➕ Added: {name}")
+            supabase.table('products').upsert({
+                'barcode': barcode,
+                'name': name,
+                'category': category
+            }, on_conflict='barcode').execute()
+            upserted += 1
         except Exception as e:
-            print(f"⚠️ Error with {name}: {e}")
+            print(f"  Error with {name}: {e}")
             skipped += 1
 
-    print("\n" + "=" * 60)
-    print("Summary")
-    print("=" * 60)
-    print(f"Added: {added}")
-    print(f"Updated: {updated}")
+    # Get total count
+    total = supabase.table('products').select('id', count='exact').execute()
+    total_count = total.count if total.count else len(total.data)
+
+    print(f"\nUpserted: {upserted}")
     print(f"Skipped/Errors: {skipped}")
     print(f"Invalid barcodes: {len(invalid_barcodes)}")
-    print(f"Total products in DB: {len(existing_barcodes) + added}")
+    print(f"Total products in DB: {total_count}")
 
 
 if __name__ == '__main__':

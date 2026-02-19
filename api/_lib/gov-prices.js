@@ -75,6 +75,30 @@ const PROPORTIONAL_PRODUCTS = {
     'ביצים M 30 יח׳': { govName: 'ביצי מאכל - גודל מדיום (M)', factor: 30 / 12 },
 };
 
+// Hardcoded fallback prices (updated February 2026) in case data.gov.il API is down
+// These are the government-regulated maximum prices including 18% VAT
+const FALLBACK_GOV_PRICES = {
+    'חלב טרי בקרטון 3% שומן (רגיל)': { price: 7.28, updateDate: '01/05/2025' },
+    'חלב טרי בקרטון 1% שומן (רגיל)': { price: 6.85, updateDate: '01/05/2025' },
+    'חלב טרי בשקית 3% שומן (רגיל)': { price: 6.35, updateDate: '01/05/2025' },
+    'חלב טרי בשקית 1% שומן (רגיל)': { price: 5.89, updateDate: '01/05/2025' },
+    'גבינה לבנה 5%': { price: 5.81, updateDate: '01/05/2025' },
+    'שמנת חמוצה 15% שומן רגילה': { price: 2.81, updateDate: '01/05/2025' },
+    'שמנת מתוקה 38% שומן': { price: 7.56, updateDate: '01/05/2025' },
+    'אשל 4.5% שומן': { price: 1.97, updateDate: '01/05/2025' },
+    'גיל 3% שומן': { price: 1.76, updateDate: '01/05/2025' },
+    'ביצי מאכל - גודל גדול (L)': { price: 14.12, updateDate: '01/11/2025' },
+    'ביצי מאכל - גודל מדיום (M)': { price: 13.11, updateDate: '01/11/2025' },
+    'ביצי מאכל- גודל ענק (XL)': { price: 15.35, updateDate: '01/11/2025' },
+    'לחם אחיד (כהה)': { price: 7.36, updateDate: '01/01/2025' },
+    'לחם אחיד (כהה) פרוס וארוז': { price: 8.38, updateDate: '01/01/2025' },
+    'לחם לבן': { price: 7.36, updateDate: '01/01/2025' },
+    'לחם לבן פרוס וארוז': { price: 6.41, updateDate: '01/01/2025' },
+    'חלה או מאפה שמרים': { price: 6.62, updateDate: '01/01/2025' },
+    'מלח מטבח רגיל, מלח מטבח מעולה': { price: 2.09, updateDate: '01/01/2025' },
+    'מלח שולחן מעולה ומלח שולחן מעולה גס': { price: 2.09, updateDate: '01/01/2025' },
+};
+
 // Regex matchers for fuzzy-matching Supabase product names to regulated products
 // Used by avgprices to cap prices for products in the database
 const REGULATED_MATCHERS = [
@@ -193,37 +217,57 @@ function parseGovDate(dateStr) {
 }
 
 // Fetch all records from data.gov.il, return latest price per product
+// Falls back to hardcoded prices if API is unavailable
 async function fetchGovPrices() {
-    const url = `${GOV_API_URL}?resource_id=${GOV_RESOURCE_ID}&limit=500`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`data.gov.il API returned ${response.status}`);
+    try {
+        const url = `${GOV_API_URL}?resource_id=${GOV_RESOURCE_ID}&limit=500`;
+        const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
+        if (!response.ok) throw new Error(`data.gov.il API returned ${response.status}`);
 
-    const data = await response.json();
-    if (!data.success || !data.result?.records) {
-        throw new Error('Invalid response from data.gov.il');
-    }
+        const data = await response.json();
+        if (!data.success || !data.result?.records) {
+            throw new Error('Invalid response from data.gov.il');
+        }
 
-    const records = data.result.records;
+        const records = data.result.records;
 
-    // Group by product, keep only the latest record for each
-    const latestByProduct = {};
-    for (const record of records) {
-        const product = record.product;
-        const date = parseGovDate(record['update date']);
-        const price = parseFloat(record['consumers price includes VAT']);
+        // Group by product, keep only the latest record for each
+        const latestByProduct = {};
+        for (const record of records) {
+            const product = record.product;
+            const date = parseGovDate(record['update date']);
+            const price = parseFloat(record['consumers price includes VAT']);
 
-        if (isNaN(price) || price <= 0) continue;
+            if (isNaN(price) || price <= 0) continue;
 
-        if (!latestByProduct[product] || date > latestByProduct[product].date) {
-            latestByProduct[product] = {
-                date,
-                price,
-                updateDate: record['update date']
+            if (!latestByProduct[product] || date > latestByProduct[product].date) {
+                latestByProduct[product] = {
+                    date,
+                    price,
+                    updateDate: record['update date']
+                };
+            }
+        }
+
+        // Merge with fallbacks (API prices take priority)
+        const merged = { ...FALLBACK_GOV_PRICES };
+        for (const [product, data] of Object.entries(latestByProduct)) {
+            merged[product] = data;
+        }
+
+        return merged;
+    } catch (apiError) {
+        console.warn(`⚠️ data.gov.il API failed: ${apiError.message}, using fallback prices`);
+        // Return fallback prices with parsed dates
+        const fallback = {};
+        for (const [product, data] of Object.entries(FALLBACK_GOV_PRICES)) {
+            fallback[product] = {
+                ...data,
+                date: parseGovDate(data.updateDate),
             };
         }
+        return fallback;
     }
-
-    return latestByProduct;
 }
 
 // Build regulated price map for app product names
