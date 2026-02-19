@@ -1050,6 +1050,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 sentPhoto: 'שלח/ה תמונה',
                 familyChat: 'צ\'אט משפחתי',
                 stopRecording: 'הפסק הקלטה קולית',
+                pushPromptTitle: 'להפעיל התראות?',
+                pushPromptBody: 'קבל הודעה כשבני המשפחה שולחים הודעות בצ\'אט או כשמגיע יום הקניות',
+                pushPromptEnable: 'הפעל',
+                pushPromptLater: 'אחר כך',
                 // Auth errors
                 emailAlreadyInUse: 'כתובת האימייל כבר בשימוש',
                 operationNotAllowed: 'פעולה לא מורשית',
@@ -2088,6 +2092,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 sentPhoto: 'Sent a photo',
                 familyChat: 'Family chat',
                 stopRecording: 'Stop recording',
+                pushPromptTitle: 'Enable Notifications?',
+                pushPromptBody: 'Get notified when family members send chat messages or when shopping day arrives',
+                pushPromptEnable: 'Enable',
+                pushPromptLater: 'Later',
                 emailAlreadyInUse: 'Email already in use',
                 operationNotAllowed: 'Operation not allowed',
                 userDisabled: 'User is disabled',
@@ -3036,6 +3044,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 sentPhoto: 'Отправил(а) фото',
                 familyChat: 'Семейный чат',
                 stopRecording: 'Остановить запись',
+                pushPromptTitle: 'Включить уведомления?',
+                pushPromptBody: 'Получайте уведомления, когда члены семьи отправляют сообщения в чат или наступает день покупок',
+                pushPromptEnable: 'Включить',
+                pushPromptLater: 'Позже',
                 emailAlreadyInUse: 'Этот email уже используется',
                 operationNotAllowed: 'Операция не разрешена',
                 userDisabled: 'Пользователь отключён',
@@ -3978,6 +3990,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 sentPhoto: 'أرسل صورة',
                 familyChat: 'دردشة عائلية',
                 stopRecording: 'إيقاف التسجيل',
+                pushPromptTitle: 'تفعيل الإشعارات؟',
+                pushPromptBody: 'احصل على إشعار عندما يرسل أفراد العائلة رسائل في الدردشة أو عند حلول يوم التسوق',
+                pushPromptEnable: 'تفعيل',
+                pushPromptLater: 'لاحقاً',
                 emailAlreadyInUse: 'البريد الإلكتروني مستخدم بالفعل',
                 operationNotAllowed: 'العملية غير مسموحة',
                 userDisabled: 'المستخدم معطّل',
@@ -11706,6 +11722,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 return saved !== null ? parseInt(saved, 10) : 3; // Default: Wednesday
             });
             const [pushSubscription, setPushSubscription] = useState(null);
+            const [showPushPrompt, setShowPushPrompt] = useState(false);
             // Toast notification system (replaces alert())
             const [toasts, setToasts] = useState([]);
             const toastIdRef = React.useRef(0);
@@ -11747,6 +11764,18 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     });
                 });
             }, []);
+
+            // One-time push notification opt-in prompt
+            useEffect(() => {
+                if (!family || !user) return;
+                if (localStorage.getItem('listnest_push_prompt_shown')) return;
+                if (pushSubscription) return;
+                if (!('PushManager' in window)) return;
+                if (typeof Notification !== 'undefined' && Notification.permission === 'denied') return;
+                localStorage.setItem('listnest_push_prompt_shown', 'true');
+                const timer = setTimeout(() => setShowPushPrompt(true), 2000);
+                return () => clearTimeout(timer);
+            }, [family, user, pushSubscription]);
 
             // Local notification on shopping day when app opens
             useEffect(() => {
@@ -15713,6 +15742,26 @@ END:VCALENDAR`;
                             </div>
                         );
                     })()}
+
+                    {showPushPrompt && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" dir={language === 'he' || language === 'ar' ? 'rtl' : 'ltr'}>
+                            <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+                                <div className="flex justify-center mb-4"><Bell size={48} className="text-amber-500" /></div>
+                                <h2 className="text-xl font-bold text-center text-gradient mb-2">{t('pushPromptTitle')}</h2>
+                                <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">{t('pushPromptBody')}</p>
+                                <div className="flex gap-3">
+                                    <button onClick={async () => { setShowPushPrompt(false); await subscribeToPush(); }}
+                                        className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all">
+                                        {t('pushPromptEnable')}
+                                    </button>
+                                    <button onClick={() => setShowPushPrompt(false)}
+                                        className="flex-1 px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105 transition-all">
+                                        {t('pushPromptLater')}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {showDeleteConfirm && (
                         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
