@@ -168,6 +168,15 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // Push subscriptions - users can manage their own subscriptions
+    match /push-subscriptions/{subId} {
+      allow create: if isSignedIn() &&
+        request.resource.data.userId == request.auth.uid;
+
+      allow read, delete: if isSignedIn() &&
+        resource.data.userId == request.auth.uid;
+    }
+
     // Deny all other access by default
     match /{document=**} {
       allow read, write: if false;

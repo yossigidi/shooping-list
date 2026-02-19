@@ -524,6 +524,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 searchAddProduct: 'הוסף מוצר...',
                 emptyList: 'הרשימה ריקה',
                 addProductsBelow: 'הוסף מוצרים בשורת החיפוש למטה',
+                browseCategories: 'עיין בקטגוריות',
                 familyNameExample: 'לדוגמה: משפחת כהן',
                 listNameExample: 'לדוגמה: קניות לשבת',
                 noteExample: 'לדוגמה: מותג אסם, מהמדף העליון...',
@@ -732,6 +733,13 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 // Promotions
                 loadingPromos: 'טוען מבצעים...',
                 totalActivePromos: 'סה"כ מבצעים פעילים',
+                promoChains: 'רשתות שיווק',
+                promoChainsDesc: 'בחר רשת לצפייה במבצעים',
+                backToChains: 'חזרה לרשתות',
+                promoCount: 'מבצעים',
+                visitChainSite: 'לאתר הרשת',
+                findBranch: 'מצא סניף',
+                promoEndsSoon: 'נגמר בקרוב',
                 // Smart add
                 smartAddWithAI: 'הוספה חכמה עם AI',
                 identifyingProducts: 'מזהה מוצרים...',
@@ -1288,7 +1296,20 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 syncWhenOnline: 'השינויים יישמרו ויסונכרנו כשהחיבור יחזור',
                 importHelpText: 'נתמך: שורות נפרדות, פסיקים, מספרים (2 חלב או חלב x2)',
                 morePromotions: '+{count} מבצעים נוספים',
-                loadPromotions: 'טען מבצעים'
+                loadPromotions: 'טען מבצעים',
+                // Shopping Day
+                shoppingDayTitle: 'יום קניות',
+                shoppingDayDesc: 'בחר את היום שבו אתם קונים',
+                shoppingDayReminderText: 'היום יום קניות! 🛒 אל תשכחו לבדוק את הרשימה',
+                shoppingDayPushEnabled: 'התראות יום קניות מופעלות',
+                shoppingDayPushDisabled: 'הפעל התראות יום קניות',
+                sunday: 'א׳',
+                monday: 'ב׳',
+                tuesday: 'ג׳',
+                wednesday: 'ד׳',
+                thursday: 'ה׳',
+                friday: 'ו׳',
+                saturday: 'ש׳'
             },
             en: {
                 // App name & general
@@ -1563,6 +1584,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 searchAddProduct: 'Add product...',
                 emptyList: 'List is empty',
                 addProductsBelow: 'Add products using the search bar below',
+                browseCategories: 'Browse Categories',
                 familyNameExample: 'e.g., The Smith Family',
                 listNameExample: 'e.g., Weekend Shopping',
                 noteExample: 'e.g., Specific brand, top shelf...',
@@ -1770,6 +1792,13 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 // Promotions
                 loadingPromos: 'Loading promotions...',
                 totalActivePromos: 'Total active promotions',
+                promoChains: 'Supermarket Chains',
+                promoChainsDesc: 'Select a chain to view deals',
+                backToChains: 'Back to chains',
+                promoCount: 'deals',
+                visitChainSite: 'Visit chain site',
+                findBranch: 'Find branch',
+                promoEndsSoon: 'Ending soon',
                 // Smart add
                 smartAddWithAI: 'Smart Add with AI',
                 identifyingProducts: 'Identifying products...',
@@ -2218,7 +2247,20 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 syncWhenOnline: 'Changes will be saved and synced when connection is restored',
                 importHelpText: 'Supported: separate lines, commas, numbers (2 milk or milk x2)',
                 morePromotions: '+{count} more promotions',
-                loadPromotions: 'Load promotions'
+                loadPromotions: 'Load promotions',
+                // Shopping Day
+                shoppingDayTitle: 'Shopping Day',
+                shoppingDayDesc: 'Choose the day you shop',
+                shoppingDayReminderText: "It's shopping day! 🛒 Don't forget to check the list",
+                shoppingDayPushEnabled: 'Shopping day notifications enabled',
+                shoppingDayPushDisabled: 'Enable shopping day notifications',
+                sunday: 'Sun',
+                monday: 'Mon',
+                tuesday: 'Tue',
+                wednesday: 'Wed',
+                thursday: 'Thu',
+                friday: 'Fri',
+                saturday: 'Sat'
             },
             ru: {
                 // App name & general
@@ -2492,6 +2534,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 searchAddProduct: 'Добавить товар...',
                 emptyList: 'Список пуст',
                 addProductsBelow: 'Добавьте товары через поиск ниже',
+                browseCategories: 'Обзор категорий',
                 familyNameExample: 'например: Семья Ивановых',
                 listNameExample: 'например: Покупки на выходные',
                 noteExample: 'например: Определенный бренд, верхняя полка...',
@@ -2699,6 +2742,13 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 // Promotions
                 loadingPromos: 'Загрузка акций...',
                 totalActivePromos: 'Всего активных акций',
+                promoChains: 'Сети супермаркетов',
+                promoChainsDesc: 'Выберите сеть для просмотра акций',
+                backToChains: 'Назад к сетям',
+                promoCount: 'акций',
+                visitChainSite: 'На сайт сети',
+                findBranch: 'Найти филиал',
+                promoEndsSoon: 'Скоро заканчивается',
                 // Smart add
                 smartAddWithAI: 'Умное добавление с ИИ',
                 identifyingProducts: 'Определение продуктов...',
@@ -3135,7 +3185,20 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 syncWhenOnline: 'Изменения сохранятся и синхронизируются при восстановлении связи',
                 importHelpText: 'Поддерживается: отдельные строки, запятые, числа (2 молока или молоко x2)',
                 morePromotions: '+{count} акций ещё',
-                loadPromotions: 'Загрузить акции'
+                loadPromotions: 'Загрузить акции',
+                // Shopping Day
+                shoppingDayTitle: 'День покупок',
+                shoppingDayDesc: 'Выберите день, когда вы ходите за покупками',
+                shoppingDayReminderText: 'Сегодня день покупок! 🛒 Не забудьте проверить список',
+                shoppingDayPushEnabled: 'Уведомления о дне покупок включены',
+                shoppingDayPushDisabled: 'Включить уведомления о дне покупок',
+                sunday: 'Вс',
+                monday: 'Пн',
+                tuesday: 'Вт',
+                wednesday: 'Ср',
+                thursday: 'Чт',
+                friday: 'Пт',
+                saturday: 'Сб'
             },
             ar: {
                 // App name & general
@@ -3410,6 +3473,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 searchAddProduct: 'أضف منتج...',
                 emptyList: 'القائمة فارغة',
                 addProductsBelow: 'أضف منتجات من شريط البحث أدناه',
+                browseCategories: 'تصفح الفئات',
                 familyNameExample: 'مثال: عائلة محمد',
                 listNameExample: 'مثال: تسوق نهاية الأسبوع',
                 noteExample: 'مثال: علامة تجارية معينة، من الرف العلوي...',
@@ -3617,6 +3681,13 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 // Promotions
                 loadingPromos: 'جاري تحميل العروض...',
                 totalActivePromos: 'إجمالي العروض النشطة',
+                promoChains: 'سلاسل السوبرماركت',
+                promoChainsDesc: 'اختر سلسلة لعرض العروض',
+                backToChains: 'العودة إلى السلاسل',
+                promoCount: 'عروض',
+                visitChainSite: 'زيارة موقع السلسلة',
+                findBranch: 'البحث عن فرع',
+                promoEndsSoon: 'ينتهي قريباً',
                 // Smart add
                 smartAddWithAI: 'إضافة ذكية مع AI',
                 identifyingProducts: 'جاري تحديد المنتجات...',
@@ -4056,7 +4127,20 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 syncWhenOnline: 'سيتم حفظ التغييرات ومزامنتها عند عودة الاتصال',
                 importHelpText: 'مدعوم: أسطر منفصلة، فواصل، أرقام (2 حليب أو حليب x2)',
                 morePromotions: '+{count} عروض إضافية',
-                loadPromotions: 'تحميل العروض'
+                loadPromotions: 'تحميل العروض',
+                // Shopping Day
+                shoppingDayTitle: 'يوم التسوق',
+                shoppingDayDesc: 'اختر اليوم الذي تتسوق فيه',
+                shoppingDayReminderText: 'اليوم يوم التسوق! 🛒 لا تنسَ مراجعة القائمة',
+                shoppingDayPushEnabled: 'إشعارات يوم التسوق مفعلة',
+                shoppingDayPushDisabled: 'تفعيل إشعارات يوم التسوق',
+                sunday: 'أحد',
+                monday: 'اثنين',
+                tuesday: 'ثلاثاء',
+                wednesday: 'أربعاء',
+                thursday: 'خميس',
+                friday: 'جمعة',
+                saturday: 'سبت'
             }
         };
 
@@ -11564,6 +11648,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [promotionsData, setPromotionsData] = useState(null);
             const [promotionsLoading, setPromotionsLoading] = useState(false);
             const [productPromotions, setProductPromotions] = useState({}); // Map of product name to promotions
+            const [selectedPromoChain, setSelectedPromoChain] = useState(null);
             // Offline mode state
             const [isOnline, setIsOnline] = useState(navigator.onLine);
             const [pendingOperations, setPendingOperations] = useState(() => {
@@ -11615,6 +11700,12 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             // Delete account
             const [showDeleteAccount, setShowDeleteAccount] = useState(false);
             const [deleteAccountLoading, setDeleteAccountLoading] = useState(false);
+            // Shopping day push notifications
+            const [shoppingDay, setShoppingDay] = useState(() => {
+                const saved = localStorage.getItem('listnest_shopping_day');
+                return saved !== null ? parseInt(saved, 10) : 3; // Default: Wednesday
+            });
+            const [pushSubscription, setPushSubscription] = useState(null);
             // Toast notification system (replaces alert())
             const [toasts, setToasts] = useState([]);
             const toastIdRef = React.useRef(0);
@@ -11638,6 +11729,116 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 setUndoAction(null);
             }, [undoAction]);
 
+            // Sync shopping day from family document
+            useEffect(() => {
+                if (!family) return;
+                if (family.shoppingDay !== undefined) {
+                    setShoppingDay(family.shoppingDay);
+                    localStorage.setItem('listnest_shopping_day', family.shoppingDay.toString());
+                }
+            }, [family]);
+
+            // Check existing push subscription on mount
+            useEffect(() => {
+                if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+                navigator.serviceWorker.ready.then(reg => {
+                    reg.pushManager.getSubscription().then(sub => {
+                        setPushSubscription(sub);
+                    });
+                });
+            }, []);
+
+            // Local notification on shopping day when app opens
+            useEffect(() => {
+                if (!('Notification' in window)) return;
+                if (Notification.permission !== 'granted') return;
+                const today = new Date().getDay();
+                if (today !== shoppingDay) return;
+                const todayKey = new Date().toDateString();
+                const lastShown = localStorage.getItem('listnest_shopping_day_last_shown');
+                if (lastShown === todayKey) return;
+                localStorage.setItem('listnest_shopping_day_last_shown', todayKey);
+                try {
+                    new Notification(t('shoppingDayTitle'), {
+                        body: t('shoppingDayReminderText'),
+                        icon: '/icons/icon-192x192.png',
+                        dir: (language === 'he' || language === 'ar') ? 'rtl' : 'ltr',
+                        tag: 'shopping-day-local'
+                    });
+                } catch (e) { console.warn('Local notification failed:', e); }
+            }, [shoppingDay, language]);
+
+            // Subscribe to push notifications
+            const subscribeToPush = async () => {
+                try {
+                    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+                    if (Notification.permission === 'default') {
+                        const perm = await Notification.requestPermission();
+                        if (perm !== 'granted') return;
+                    }
+                    if (Notification.permission !== 'granted') return;
+                    const reg = await navigator.serviceWorker.ready;
+                    const sub = await reg.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: window.VAPID_PUBLIC_KEY
+                    });
+                    setPushSubscription(sub);
+                    // Store in Firestore
+                    if (family && user) {
+                        const subJson = sub.toJSON();
+                        await window.firestore.addDoc(
+                            window.firestore.collection(window.db, 'push-subscriptions'),
+                            {
+                                endpoint: subJson.endpoint,
+                                keys: { p256dh: subJson.keys.p256dh, auth: subJson.keys.auth },
+                                userId: user.uid,
+                                familyId: family.id,
+                                language: language,
+                                createdAt: new Date(),
+                                userAgent: navigator.userAgent
+                            }
+                        );
+                    }
+                } catch (e) { console.error('Push subscribe error:', e); }
+            };
+
+            // Unsubscribe from push notifications
+            const unsubscribeFromPush = async () => {
+                try {
+                    if (pushSubscription) {
+                        await pushSubscription.unsubscribe();
+                        // Remove from Firestore
+                        if (user) {
+                            const q = window.firestore.query(
+                                window.firestore.collection(window.db, 'push-subscriptions'),
+                                window.firestore.where('userId', '==', user.uid),
+                                window.firestore.where('endpoint', '==', pushSubscription.endpoint)
+                            );
+                            const snapshot = await window.firestore.getDocs(q);
+                            snapshot.forEach(async (doc) => {
+                                await window.firestore.deleteDoc(doc.ref);
+                            });
+                        }
+                        setPushSubscription(null);
+                    }
+                } catch (e) { console.error('Push unsubscribe error:', e); }
+            };
+
+            // Handle shopping day change
+            const handleShoppingDayChange = async (day) => {
+                setShoppingDay(day);
+                localStorage.setItem('listnest_shopping_day', day.toString());
+                // Save to family document
+                if (family) {
+                    try {
+                        await window.firestore.updateDoc(
+                            window.firestore.doc(window.db, 'families', family.id),
+                            { shoppingDay: day }
+                        );
+                    } catch (e) { console.error('Error saving shopping day:', e); }
+                }
+            };
+
             // Escape key handler for closing modals
             useEffect(() => {
                 const handleEscapeKey = (event) => {
@@ -11651,7 +11852,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         if (showSaveTemplate) { setShowSaveTemplate(false); return; }
                         if (showTemplates) { setShowTemplates(false); return; }
                         if (showAccessibility) { setShowAccessibility(false); return; }
-                        if (showPromotions) { setShowPromotions(false); return; }
+                        if (showPromotions) {
+                            if (selectedPromoChain) { setSelectedPromoChain(null); return; }
+                            setShowPromotions(false); return;
+                        }
                         if (showSmartAdd) { setShowSmartAdd(false); return; }
                         if (showListComparison) { setShowListComparison(false); return; }
                         if (showPriceScanner) { stopPriceScanner(); return; }
@@ -11676,7 +11880,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 document.addEventListener('keydown', handleEscapeKey);
                 return () => document.removeEventListener('keydown', handleEscapeKey);
             }, [showExternalLinkPopup, showFeedback, showHelp, showOnboarding, showAIAssistant, showSaveTemplate, showTemplates,
-                showAccessibility, showPromotions, showSmartAdd, showListComparison, showPriceScanner,
+                showAccessibility, showPromotions, selectedPromoChain, showSmartAdd, showListComparison, showPriceScanner,
                 showCalendar, showRegulars, showForgottenStats, showCamera, showSettings, showChat,
                 showReminderModal, showCreateList, showFamilySettings, showDeleteAllConfirm, showHistory,
                 showFinishShopping, showSavedLists, showImportWhatsApp, showQuantitySelector]);
@@ -13088,6 +13292,20 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 return colors[chainName] || 'bg-gray-500';
             };
 
+            const parsePromoDescription = (description) => {
+                if (!description) return { product: '', deal: '', original: '' };
+                const d = description.trim();
+                const dashIdx = d.indexOf(' - ');
+                if (dashIdx > 0) {
+                    return { product: d.substring(0, dashIdx).trim(), deal: d.substring(dashIdx + 3).trim(), original: d };
+                }
+                const emIdx = d.indexOf(' – ');
+                if (emIdx > 0) {
+                    return { product: d.substring(0, emIdx).trim(), deal: d.substring(emIdx + 3).trim(), original: d };
+                }
+                return { product: d, deal: '', original: d };
+            };
+
             // Get holiday recommendations
             const getHolidayRecommendations = () => {
                 const now = new Date();
@@ -14237,6 +14455,18 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     });
                     setChatInput('');
                     setCapturedPhoto(null);
+
+                    // Send push notification to other family members
+                    fetch('/api/chat-push', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            familyId: family.id,
+                            senderUid: senderUid,
+                            senderName: senderName,
+                            text: text.trim().substring(0, 100)
+                        })
+                    }).catch(() => {});
                 } catch (error) {
                     console.error('שגיאה בשליחת הודעה:', error);
                 }
@@ -15962,7 +16192,7 @@ END:VCALENDAR`;
 
                     {/* Full Shopping List Price Comparison Modal */}
                     {showListComparison && (
-                        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex flex-col z-50">
+                        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex flex-col z-[10000]">
                             {/* Header */}
                             <div className="p-4 flex items-center justify-between border-b border-white/10">
                                 <button
@@ -16338,125 +16568,96 @@ END:VCALENDAR`;
                         </div>
                     )}
 
-                    {/* Promotions Modal */}
-                    {showPromotions && (
-                        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex flex-col z-50">
-                            {/* Header */}
-                            <div className="p-4 flex items-center justify-between border-b border-white/10">
-                                <button
-                                    onClick={() => setShowPromotions(false)}
-                                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white text-xl hover:bg-white/20 transition-all"
-                                >
-                                    ✕
-                                </button>
-                                <h2 className="text-white font-bold text-lg flex items-center gap-2">
-                                    <Tag size={18} />
-                                    <span>{t('activePromotions')}</span>
-                                </h2>
-                                <button
-                                    onClick={fetchPromotions}
-                                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-all"
-                                >
-                                    <RefreshCw size={18} />
-                                </button>
+                    {/* Promotions Modal - Level 1: Chain Grid */}
+                    {showPromotions && !selectedPromoChain && (
+                        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-[9999] flex flex-col animate-fadeIn">
+                            {/* Banner Header */}
+                            <div className="relative overflow-hidden h-32 flex-shrink-0">
+                                <img src="/deals-banner.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+                                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70"></div>
+                                <div className="absolute inset-0 category-shimmer-sweep"></div>
+                                <div className="relative z-10 flex items-end justify-between h-full px-5 pb-4">
+                                    <div className="w-9"></div>
+                                    <div className="text-center flex-1">
+                                        <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{t('hotDeals')}</h2>
+                                        <p className="text-sm text-white/80 mt-0.5">{t('promoChainsDesc')}</p>
+                                    </div>
+                                    <button onClick={() => { setShowPromotions(false); setSelectedPromoChain(null); }} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </button>
+                                </div>
                             </div>
 
                             {/* Content */}
                             <div className="flex-1 overflow-y-auto p-4">
                                 {promotionsLoading ? (
                                     <div className="flex flex-col items-center justify-center py-16">
-                                        <div className="flex justify-center mb-4 animate-bounce"><Tag size={48} className="text-white" /></div>
-                                        <div className="text-white text-lg font-medium">{t('loadingPromos')}</div>
+                                        <div className="flex justify-center mb-4 animate-bounce"><Tag size={48} className="text-teal-500" /></div>
+                                        <div className="text-gray-700 dark:text-gray-300 text-lg font-medium">{t('loadingPromos')}</div>
                                     </div>
                                 ) : promotionsData?.byChain?.length > 0 ? (
-                                    <div className="space-y-4">
-                                        {/* Summary */}
-                                        <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-xl p-4 mb-4">
-                                            <div className="text-green-300 text-sm">{t('totalActivePromos')}</div>
-                                            <div className="text-white font-bold text-2xl">{promotionsData.total}</div>
-                                        </div>
-
-                                        {/* Promotions in your list */}
-                                        {items.filter(i => !i.purchased).some(item => getItemPromotions(item.name).length > 0) && (
-                                            <div className="bg-gradient-to-r from-teal-500/20 to-yellow-500/20 border border-teal-500/30 rounded-xl p-4 mb-4">
-                                                <div className="text-teal-300 font-medium mb-3 flex items-center gap-2">
-                                                    <Star size={16} className="text-yellow-300" />
+                                    (() => {
+                                        const itemsWithPromos = items.filter(i => !i.purchased).map(item => ({
+                                            item, promos: getItemPromotions(item.name)
+                                        })).filter(x => x.promos.length > 0);
+                                        return <>
+                                        {itemsWithPromos.length > 0 && (
+                                            <div className="bg-gradient-to-r from-teal-50 to-amber-50 dark:from-teal-900/30 dark:to-amber-900/30 border border-teal-200 dark:border-teal-700 rounded-xl p-4 mb-4">
+                                                <div className="text-teal-700 dark:text-teal-300 font-medium mb-3 flex items-center gap-2">
+                                                    <Star size={16} className="text-amber-500" />
                                                     <span>{t('promotionsInYourList')}</span>
                                                 </div>
                                                 <div className="space-y-2">
-                                                    {items.filter(i => !i.purchased && getItemPromotions(i.name).length > 0).map((item, idx) => (
-                                                        <div key={idx} className="bg-black/20 rounded-lg p-3">
-                                                            <div className="text-white font-medium">{item.name}</div>
-                                                            {getItemPromotions(item.name).slice(0, 2).map((promo, pIdx) => (
-                                                                <div key={pIdx} className="text-teal-200 text-sm mt-1">
-                                                                    <span className="font-medium">{promo.chain}:</span> {promo.description}
-                                                                </div>
-                                                            ))}
+                                                    {itemsWithPromos.map(({ item, promos }, idx) => (
+                                                        <div key={idx} className="bg-white/70 dark:bg-gray-800/70 rounded-lg p-3">
+                                                            <div className="text-gray-900 dark:text-white font-medium">{item.name}</div>
+                                                            {promos.slice(0, 2).map((promo, pIdx) => {
+                                                                const parsed = parsePromoDescription(promo.description);
+                                                                return (
+                                                                    <div key={pIdx} className="text-teal-600 dark:text-teal-300 text-sm mt-1">
+                                                                        <span className="font-medium">{promo.chain}:</span> {parsed.deal || parsed.original}
+                                                                    </div>
+                                                                );
+                                                            })}
                                                         </div>
                                                     ))}
                                                 </div>
                                             </div>
                                         )}
 
-                                        {/* By Chain */}
-                                        {promotionsData.byChain.map((chain, idx) => (
-                                            <div key={idx} className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-                                                <div className={`${getChainColor(chain.chain_name_he)} p-3 flex items-center gap-3`}>
-                                                    {CHAIN_LOGOS[chain.chain_id] ? (
-                                                        <img src={CHAIN_LOGOS[chain.chain_id]} alt={chain.chain_name_he} className="w-7 h-7 rounded-lg object-contain bg-white shadow-md border border-white/30" />
-                                                    ) : CHAIN_COLORS[chain.chain_id] && (
-                                                        <span className={`w-7 h-7 ${CHAIN_COLORS[chain.chain_id].bg} rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-md border border-white/30`}>
-                                                            {CHAIN_COLORS[chain.chain_id].text}
+                                        {/* Chain Grid */}
+                                        <div className="grid grid-cols-3 gap-2.5">
+                                            {[...promotionsData.byChain].sort((a, b) => b.promotions.length - a.promotions.length).map((chain, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => setSelectedPromoChain(chain)}
+                                                    className="relative overflow-hidden rounded-xl h-24 transition-all active:scale-[0.95] hover:scale-[1.02] shadow-sm border border-gray-100 dark:border-gray-700"
+                                                >
+                                                    <div className={`absolute inset-0 ${getChainColor(chain.chain_name_he)} opacity-90`}></div>
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                                                    {/* Large letter badge */}
+                                                    <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                                                        <span className="text-white text-6xl font-black">
+                                                            {CHAIN_COLORS[chain.chain_id]?.text || chain.chain_name_he?.charAt(0)}
                                                         </span>
-                                                    )}
-                                                    <span className="text-white font-bold">{chain.chain_name_he}</span>
-                                                    <span className="mr-auto bg-white/20 text-white text-sm px-2 py-0.5 rounded-full">
-                                                        {chain.promotions.length} {t('promotions')}
-                                                    </span>
-                                                </div>
-                                                <div className="p-3 max-h-48 overflow-y-auto">
-                                                    {chain.promotions.slice(0, 10).map((promo, pIdx) => (
-                                                        <div key={pIdx} className="py-2 border-b border-white/5 last:border-0">
-                                                            <div className="text-white/90 text-sm">{promo.description}</div>
-                                                            {promo.end_date && (
-                                                                <div className="text-white/50 text-xs mt-1">
-                                                                    {t('validUntil')}: {promo.end_date}
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    ))}
-                                                    {chain.promotions.length > 10 && (
-                                                        <div className="text-white/40 text-xs text-center pt-2">
-                                                            {t('morePromotions').replace('{count}', chain.promotions.length - 10)}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                {/* Links to chain pages */}
-                                                <div className="flex gap-1">
-                                                    {(chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id]) && (
-                                                        <button
-                                                            onClick={() => openExternalLink(chain.promo_url || CHAIN_PROMO_URLS[chain.chain_id], chain.chain_name_he || chain.chain_name)}
-                                                            className="flex-1 p-2.5 bg-gradient-to-r from-teal-500 to-red-500 text-white text-center font-bold text-xs hover:from-teal-600 hover:to-red-600 transition-all"
-                                                        >
-                                                            <span className="inline-flex items-center gap-1"><Tag size={12} /> {t('promotions')}</span>
-                                                        </button>
-                                                    )}
-                                                    {CHAIN_BRANCH_URLS[chain.chain_id] && (
-                                                        <button
-                                                            onClick={() => openExternalLink(CHAIN_BRANCH_URLS[chain.chain_id], chain.chain_name_he || chain.chain_name)}
-                                                            className="flex-1 p-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-center font-bold text-xs hover:from-blue-600 hover:to-indigo-600 transition-all"
-                                                        >
-                                                            📍 {t('branches')}
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                                                    </div>
+                                                    {/* Chain name */}
+                                                    <div className="absolute bottom-0 left-0 right-0 p-2">
+                                                        <div className="text-white text-xs font-bold leading-tight drop-shadow-md text-center">{chain.chain_name_he}</div>
+                                                    </div>
+                                                    {/* Promo count badge */}
+                                                    <div className="absolute top-1.5 left-1.5 bg-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg min-w-[20px] text-center">
+                                                        {chain.promotions.length}
+                                                    </div>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </>;
+                                    })()
                                 ) : (
                                     <div className="text-center py-16">
-                                        <div className="flex justify-center mb-4"><Tag size={48} className="text-white/60" /></div>
-                                        <div className="text-white text-lg font-medium">{t('noPromotions')}</div>
+                                        <div className="flex justify-center mb-4"><Tag size={48} className="text-gray-300 dark:text-gray-600" /></div>
+                                        <div className="text-gray-700 dark:text-gray-300 text-lg font-medium">{t('noPromotions')}</div>
                                         <button
                                             onClick={fetchPromotions}
                                             className="mt-4 px-6 py-3 bg-teal-500 text-white rounded-xl font-bold hover:bg-teal-600 transition-all"
@@ -16464,6 +16665,124 @@ END:VCALENDAR`;
                                             {t('loadPromotions')}
                                         </button>
                                     </div>
+                                )}
+                            </div>
+
+                            {/* Bottom refresh button */}
+                            {!promotionsLoading && promotionsData?.byChain?.length > 0 && (
+                                <div className="flex-shrink-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 p-4 flex justify-center">
+                                    <button
+                                        onClick={fetchPromotions}
+                                        className="bg-gray-800 dark:bg-gray-700 text-white px-6 py-3 rounded-full font-bold shadow-lg transition-all active:scale-95 flex items-center gap-2 text-sm border border-gray-600"
+                                    >
+                                        <RefreshCw size={16} />
+                                        <span>{t('loadPromotions')}</span>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Promotions Modal - Level 2: Chain Promotions */}
+                    {showPromotions && selectedPromoChain && (
+                        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-[9999] flex flex-col animate-fadeIn">
+                            {/* Banner Header with chain color */}
+                            <div className="relative overflow-hidden h-32 flex-shrink-0">
+                                <div className={`absolute inset-0 ${getChainColor(selectedPromoChain.chain_name_he)}`}></div>
+                                <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/40"></div>
+                                <div className="absolute inset-0 category-shimmer-sweep"></div>
+                                <div className="relative z-10 flex items-end justify-between h-full px-5 pb-4">
+                                    <button onClick={() => setSelectedPromoChain(null)} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label={t('backToChains')}>
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                    </button>
+                                    <div className="text-center flex-1">
+                                        <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{selectedPromoChain.chain_name_he}</h2>
+                                        <p className="text-sm text-white/80 mt-0.5">{selectedPromoChain.promotions.length} {t('promoCount')}</p>
+                                    </div>
+                                    <button onClick={() => { setShowPromotions(false); setSelectedPromoChain(null); }} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Scrollable promo cards */}
+                            <div className="flex-1 overflow-y-auto p-4">
+                                {(() => {
+                                    const matchedDescriptions = new Set();
+                                    items.filter(i => !i.purchased).forEach(item => {
+                                        getItemPromotions(item.name).forEach(p => matchedDescriptions.add(p.description));
+                                    });
+                                    const now = new Date();
+                                    return selectedPromoChain.promotions.map((promo, pIdx) => {
+                                    const parsed = parsePromoDescription(promo.description);
+                                    const isEndingSoon = promo.end_date && (() => {
+                                        const end = new Date(promo.end_date);
+                                        const diff = (end - now) / (1000 * 60 * 60 * 24);
+                                        return diff >= 0 && diff <= 3;
+                                    })();
+                                    const hasMatch = matchedDescriptions.has(promo.description);
+                                    const dealBadgeColor = (() => {
+                                        const d = parsed.deal || parsed.original;
+                                        if (/1\+1|מתנה/.test(d)) return 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300';
+                                        if (/₪/.test(d)) return 'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300';
+                                        if (/%|הנחה/.test(d)) return 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300';
+                                        return 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300';
+                                    })();
+                                    return (
+                                        <div key={pIdx} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-3 shadow-sm">
+                                            {/* Top row: product name + match indicator */}
+                                            <div className="flex items-start justify-between gap-2">
+                                                <div className="font-bold text-gray-900 dark:text-white text-sm flex-1">{parsed.product || parsed.original}</div>
+                                                {hasMatch && <Star size={14} className="text-amber-500 flex-shrink-0 mt-0.5" />}
+                                            </div>
+                                            {/* Deal badge */}
+                                            {parsed.deal && (
+                                                <div className="mt-2">
+                                                    <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full ${dealBadgeColor}`}>
+                                                        {parsed.deal}
+                                                    </span>
+                                                </div>
+                                            )}
+                                            {/* End date */}
+                                            {promo.end_date && (
+                                                <div className="flex items-center gap-1.5 mt-2">
+                                                    <Calendar size={12} className="text-gray-400" />
+                                                    <span className="text-gray-500 dark:text-gray-400 text-xs">{t('validUntil')}: {promo.end_date}</span>
+                                                    {isEndingSoon && (
+                                                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300 mr-1">
+                                                            {t('promoEndsSoon')}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
+                                            {pIdx < selectedPromoChain.promotions.length - 1 && (
+                                                <div className="border-b border-gray-100 dark:border-gray-700 mt-3"></div>
+                                            )}
+                                        </div>
+                                    );
+                                });
+                                })()}
+                            </div>
+
+                            {/* Bottom action buttons */}
+                            <div className="flex-shrink-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 p-4 flex gap-2">
+                                {(selectedPromoChain.promo_url || CHAIN_PROMO_URLS[selectedPromoChain.chain_id]) && (
+                                    <button
+                                        onClick={() => openExternalLink(selectedPromoChain.promo_url || CHAIN_PROMO_URLS[selectedPromoChain.chain_id], selectedPromoChain.chain_name_he)}
+                                        className="flex-1 py-3 bg-teal-500 text-white rounded-xl font-bold text-sm hover:bg-teal-600 transition-all active:scale-95 flex items-center justify-center gap-2"
+                                    >
+                                        <ExternalLink size={14} />
+                                        {t('visitChainSite')}
+                                    </button>
+                                )}
+                                {CHAIN_BRANCH_URLS[selectedPromoChain.chain_id] && (
+                                    <button
+                                        onClick={() => openExternalLink(CHAIN_BRANCH_URLS[selectedPromoChain.chain_id], selectedPromoChain.chain_name_he)}
+                                        className="flex-1 py-3 bg-blue-500 text-white rounded-xl font-bold text-sm hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2"
+                                    >
+                                        <Search size={14} />
+                                        {t('findBranch')}
+                                    </button>
                                 )}
                             </div>
                         </div>
@@ -17681,6 +18000,42 @@ END:VCALENDAR`;
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{t('refreshApp')}</div>
                                                         </div>
                                                     </button>
+                                                    {/* Shopping Day Picker */}
+                                                    <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-700">
+                                                        <div className="flex items-center gap-2 mb-2">
+                                                            <Calendar size={20} className="text-orange-500" />
+                                                            <div>
+                                                                <div className="font-medium text-gray-800 dark:text-gray-200">{t('shoppingDayTitle')}</div>
+                                                                <div className="text-xs text-gray-500 dark:text-gray-400">{t('shoppingDayDesc')}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex gap-1 mb-2">
+                                                            {[t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday')].map((dayName, idx) => (
+                                                                <button
+                                                                    key={idx}
+                                                                    onClick={() => handleShoppingDayChange(idx)}
+                                                                    className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                                                                        shoppingDay === idx
+                                                                            ? 'bg-orange-500 text-white shadow-md'
+                                                                            : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                                    }`}
+                                                                >
+                                                                    {dayName}
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                        <button
+                                                            onClick={() => pushSubscription ? unsubscribeFromPush() : subscribeToPush()}
+                                                            className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                                                                pushSubscription
+                                                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                                                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                            }`}
+                                                        >
+                                                            {pushSubscription ? <Bell size={14} /> : <BellOff size={14} />}
+                                                            {pushSubscription ? t('shoppingDayPushEnabled') : t('shoppingDayPushDisabled')}
+                                                        </button>
+                                                    </div>
                                                     <button
                                                         onClick={() => { setShowHelp(true); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
@@ -17761,33 +18116,6 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
-                            <div className="flex items-center justify-between mb-2">
-                                <div className="text-sm text-gray-500 dark:text-gray-400">
-                                    {currentList?.icon} {currentList?.name}
-                                </div>
-                                <button
-                                    onClick={() => document.getElementById('shopping-list-section')?.scrollIntoView({ behavior: 'smooth' })}
-                                    className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl hover:shadow-lg transition-all border border-indigo-200/50 dark:border-indigo-700/50">
-                                    <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">{t('items')}</span>
-                                    <span className="text-lg font-bold text-gradient">{totalItems}</span>
-                                </button>
-                            </div>
-
-                            {totalItems > 0 && (
-                                <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 rounded-xl p-2.5 mb-2">
-                                    <div className="flex justify-between mb-1 text-xs">
-                                        <span className="text-gray-600 dark:text-gray-300 font-medium">{t('shoppingProgress')}</span>
-                                        <span className="font-bold text-gradient">{purchasedCount} / {totalItems}</span>
-                                    </div>
-                                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
-                                        <div className="progress-animate h-2 rounded-full transition-all duration-700 ease-out"
-                                            style={{ width: `${totalItems > 0 ? (purchasedCount / totalItems) * 100 : 0}%` }} />
-                                    </div>
-                                    {purchasedCount === totalItems && totalItems > 0 && (
-                                        <div className="text-center mt-1 text-xs text-green-600 dark:text-green-400 font-medium">🎉 {t('allPurchased')}</div>
-                                    )}
-                                </div>
-                            )}
 
 
                             {/* Holiday Recommendations Banner */}
@@ -17830,20 +18158,20 @@ END:VCALENDAR`;
 
                             {/* Quick Actions Grid - Compact 5x2 */}
                             {(() => {
-                                const qaBtnClass = "flex flex-col items-center justify-center h-14 rounded-lg border border-gray-200/60 dark:border-gray-700/60 bg-gray-50/80 dark:bg-gray-800/50 transition-all active:scale-95";
-                                const qaIconClass = "w-6 h-6 flex items-center justify-center text-[15px] leading-none";
-                                const qaLabelClass = "text-[9px] font-medium text-gray-500 dark:text-gray-400 leading-tight mt-0.5 text-center";
+                                const qaBtnClass = "flex flex-col items-center justify-center h-[4.5rem] rounded-lg border border-gray-200/60 dark:border-gray-700/60 bg-gray-50/80 dark:bg-gray-800/50 transition-all active:scale-95";
+                                const qaIconClass = "w-6 h-6 flex items-center justify-center text-[17px] leading-none";
+                                const qaLabelClass = "text-[11px] font-medium text-gray-500 dark:text-gray-400 leading-tight mt-0.5 text-center";
                                 return (
                                 <>
                                 <div className="grid grid-cols-5 gap-1 mb-1">
                                     <button onClick={() => setShowImportWhatsApp(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}><Download size={16} className="text-blue-500" /></span><span className={qaLabelClass}>{t('importList')}</span>
+                                        <span className={qaIconClass}><Download size={20} className="text-blue-500" /></span><span className={qaLabelClass}>{t('importList')}</span>
                                     </button>
                                     <button onClick={exportToWhatsApp} disabled={items.filter(item => !item.purchased).length === 0} className={`${qaBtnClass} disabled:opacity-50`}>
-                                        <span className={qaIconClass}><Share2 size={16} className="text-purple-500" /></span><span className={qaLabelClass}>{t('exportList')}</span>
+                                        <span className={qaIconClass}><Share2 size={20} className="text-purple-500" /></span><span className={qaLabelClass}>{t('exportList')}</span>
                                     </button>
                                     <button onClick={() => setShowSavedLists(true)} className={`${qaBtnClass} relative`}>
-                                        <span className={qaIconClass}><ClipboardList size={16} className="text-indigo-500" /></span><span className={qaLabelClass}>{t('lists')}</span>
+                                        <span className={qaIconClass}><ClipboardList size={20} className="text-indigo-500" /></span><span className={qaLabelClass}>{t('lists')}</span>
                                         {savedLists.length > 0 && <span className="absolute -top-0.5 -right-0.5 bg-purple-500 text-white w-3.5 h-3.5 rounded-full text-[8px] flex items-center justify-center">{savedLists.length}</span>}
                                     </button>
                                     <button onClick={saveListForReuse} className={qaBtnClass}>
@@ -17855,69 +18183,47 @@ END:VCALENDAR`;
                                 </div>
                                 <div className="grid grid-cols-5 gap-1">
                                     <button onClick={() => purchasedCount > 0 ? setShowFinishShopping(true) : showToast(t('markPurchased'), 'info')} className={qaBtnClass}>
-                                        <span className={qaIconClass}><CircleCheck size={16} className="text-green-500" /></span><span className={qaLabelClass}>{t('finishShopping')}</span>
+                                        <span className={qaIconClass}><CircleCheck size={20} className="text-green-500" /></span><span className={qaLabelClass}>{t('finishShopping')}</span>
                                     </button>
                                     <button onClick={() => setShowHistory(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}><BarChart3 size={16} className="text-indigo-500" /></span><span className={qaLabelClass}>{t('history')}</span>
+                                        <span className={qaIconClass}><BarChart3 size={20} className="text-indigo-500" /></span><span className={qaLabelClass}>{t('history')}</span>
                                     </button>
                                     <button onClick={() => setShowCalendar(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}><Calendar size={16} className="text-orange-500" /></span><span className={qaLabelClass}>{t('calendar')}</span>
+                                        <span className={qaIconClass}><Calendar size={20} className="text-orange-500" /></span><span className={qaLabelClass}>{t('calendar')}</span>
                                     </button>
                                     <button onClick={() => setShowChat(true)} className={`${qaBtnClass} relative`}>
-                                        <span className={qaIconClass}><MessageCircle size={16} className="text-green-500" /></span><span className={qaLabelClass}>{t('familyChat')}</span>
+                                        <span className={qaIconClass}><MessageCircle size={20} className="text-green-500" /></span><span className={qaLabelClass}>{t('familyChat')}</span>
                                         {chatMessages.some(msg => msg.senderUid !== user?.uid && (!msg.readBy || !msg.readBy.includes(user?.uid))) && (
                                             <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                                         )}
                                     </button>
                                     <button onClick={() => setShowReminderModal(true)} className={qaBtnClass}>
-                                        <span className={qaIconClass}><Bell size={16} className="text-amber-500" /></span><span className={qaLabelClass}>{t('sendReminder')}</span>
+                                        <span className={qaIconClass}><Bell size={20} className="text-amber-500" /></span><span className={qaLabelClass}>{t('sendReminder')}</span>
                                     </button>
                                 </div>
                                 </>
                                 );
                             })()}
 
-                            {/* AI Assistant Button */}
-                            <div className="mt-3">
+                            {/* AI Assistant + What Did You Forget - Compact Row */}
+                            <div className="flex gap-2 mt-3">
                                 <button
                                     onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
-                                    className="w-full glass rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all overflow-hidden"
+                                    className="flex-1 flex items-center gap-2 px-3 py-2.5 rounded-xl glass border border-indigo-200/60 dark:border-indigo-700/60 hover:shadow-md hover:scale-[1.01] transition-all"
                                 >
-                                    <div className="flex items-center gap-3 px-4 py-3">
-                                        <ChevronLeft size={18} className="text-gray-400 dark:text-gray-500 shrink-0" />
-                                        <div className="flex-1 text-right">
-                                            <div className="text-sm font-bold text-gray-800 dark:text-gray-100">{t('smartAssistant')}</div>
-                                            <div className="text-[10px] text-gray-500 dark:text-gray-400">{t('smartRecommendationsSubtitle')}</div>
-                                        </div>
-                                        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 shadow-sm">
-                                            <Bot size={20} className="text-white" />
-                                        </div>
+                                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0">
+                                        <Bot size={16} className="text-white" />
                                     </div>
-                                    <div className="h-[2px] bg-gradient-to-r from-indigo-500 to-purple-600 opacity-40" />
+                                    <span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('smartAssistant')}</span>
                                 </button>
-                            </div>
-
-                            <div className="mt-1.5">
-                                <button onClick={() => setShowForgottenStats(true)}
-                                    className="w-full glass rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all overflow-hidden"
+                                <button
+                                    onClick={() => setShowForgottenStats(true)}
+                                    className="flex-1 flex items-center gap-2 px-3 py-2.5 rounded-xl glass border border-teal-200/60 dark:border-teal-700/60 hover:shadow-md hover:scale-[1.01] transition-all"
                                 >
-                                    <div className="flex items-center gap-3 px-4 py-3">
-                                        {shoppingStreak > 0 ? (
-                                            <span className="inline-flex items-center gap-1 bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 text-[10px] font-bold px-2 py-1 rounded-full shrink-0">
-                                                <Flame size={12} /> {shoppingStreak}
-                                            </span>
-                                        ) : (
-                                            <ChevronLeft size={18} className="text-gray-400 dark:text-gray-500 shrink-0" />
-                                        )}
-                                        <div className="flex-1 text-right">
-                                            <div className="text-sm font-bold text-gray-800 dark:text-gray-100">{t('whatForgot')}</div>
-                                            <div className="text-[10px] text-gray-500 dark:text-gray-400">{t('smartRemindersSubtitle')}</div>
-                                        </div>
-                                        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center shrink-0 shadow-sm">
-                                            <span className="text-xl leading-none">🤔</span>
-                                        </div>
+                                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center shrink-0">
+                                        <span className="text-sm leading-none">🤔</span>
                                     </div>
-                                    <div className="h-[2px] bg-gradient-to-r from-teal-400 to-cyan-500 opacity-40" />
+                                    <span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('whatForgot')}</span>
                                 </button>
                             </div>
 
@@ -18070,30 +18376,13 @@ END:VCALENDAR`;
                                 {items.filter(i => !i.purchased).length > 0 && (
                                     <button
                                         onClick={compareFullShoppingList}
-                                        className="w-full mb-4 flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                        className="w-full mb-4 relative overflow-hidden flex items-center justify-center gap-3 py-3.5 px-4 rounded-2xl bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 text-white font-extrabold shadow-lg shadow-orange-200 dark:shadow-orange-900/30 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
                                     >
-                                        <BarChart3 size={22} />
-                                        <span>{t('comparePricesFullList')}</span>
-                                        <span className="bg-white/20 px-2 py-0.5 rounded-full text-sm">{items.filter(i => !i.purchased).length}</span>
+                                        <div className="absolute inset-0 category-shimmer-sweep"></div>
+                                        <BarChart3 size={22} className="relative z-10 animate-pulse" />
+                                        <span className="relative z-10">{t('comparePricesFullList')}</span>
+                                        <span className="relative z-10 bg-white/25 px-2.5 py-0.5 rounded-full text-sm">{items.filter(i => !i.purchased).length}</span>
                                     </button>
-                                )}
-
-                                {/* Smart Shopping List Header */}
-                                {items.length > 0 && (
-                                    <div className="mb-4 text-center">
-                                        <div className="inline-flex items-center gap-3 bg-gradient-to-r from-teal-500/10 via-cyan-500/10 to-teal-500/10 dark:from-teal-500/20 dark:via-cyan-500/20 dark:to-teal-500/20 px-5 py-2.5 rounded-2xl border border-teal-200/50 dark:border-teal-700/50">
-                                            <span className="animate-bounce"><ShoppingCart size={22} className="text-teal-600 dark:text-teal-400" /></span>
-                                            <div>
-                                                <h2 className="text-base font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
-                                                    {t('smartFamilyList')}
-                                                </h2>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                    {items.filter(i => !i.purchased).length} {t('items')}
-                                                </p>
-                                            </div>
-                                            <span className="text-xl animate-pulse">✨</span>
-                                        </div>
-                                    </div>
                                 )}
 
                                 {/* Estimated Total & Templates */}
@@ -18132,42 +18421,10 @@ END:VCALENDAR`;
                                                             i
                                                         </button>
                                                     </div>
-                                                    <button
-                                                        onClick={() => setShowListComparison(true)}
-                                                        className="text-xs text-teal-600 dark:text-teal-400 hover:underline text-right"
-                                                    >
-                                                        {t('priceCompareHint')}
-                                                    </button>
                                                 </div>
                                             </div>
                                         );
                                     })()}
-                                    <button
-                                        onClick={() => setShowTemplates(!showTemplates)}
-                                        className="flex items-center gap-2 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 px-4 py-2 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-all"
-                                    >
-                                        <Clipboard size={16} />
-                                        <span className="font-medium">{t('templates')}</span>
-                                    </button>
-                                    {items.filter(i => !i.purchased).length > 0 && (
-                                        <button
-                                            onClick={() => setShowSaveTemplate(true)}
-                                            className="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 px-4 py-2 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-all"
-                                        >
-                                            <span>💾</span>
-                                            <span className="font-medium">{t('saveAsTemplate')}</span>
-                                        </button>
-                                    )}
-                                    <button
-                                        onClick={() => { setShowPromotions(true); fetchPromotions(); }}
-                                        className="relative flex items-center gap-2 bg-gradient-to-r from-teal-400 to-cyan-400 dark:from-teal-600 dark:to-cyan-600 text-white px-4 py-2 rounded-xl hover:from-teal-500 hover:to-cyan-500 dark:hover:from-teal-700 dark:hover:to-cyan-700 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
-                                    >
-                                        <Tag size={18} />
-                                        <span className="font-bold">{t('promotions')}</span>
-                                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full animate-pulse">
-                                            חם!
-                                        </span>
-                                    </button>
                                 </div>
 
                                 {/* Templates Panel */}
@@ -18442,6 +18699,12 @@ END:VCALENDAR`;
                                 <div className="flex justify-center mb-6"><ShoppingCart size={64} className="text-indigo-400 dark:text-indigo-500" /></div>
                                 <p className="text-2xl text-gradient font-bold mb-2">{t('emptyList')}</p>
                                 <p className="text-gray-500 dark:text-gray-400 mt-2">{t('addProductsBelow')}</p>
+                                <button
+                                    onClick={() => setShowCategories(true)}
+                                    className="mt-4 px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold text-sm hover:from-indigo-600 hover:to-purple-700 transition-all shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95"
+                                >
+                                    {t('browseCategories')}
+                                </button>
                             </div>
                         )}
 

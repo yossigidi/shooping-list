@@ -1,5 +1,5 @@
-const CACHE_NAME = 'listnest-v191';
-const STATIC_CACHE = 'listnest-static-v191';
+const CACHE_NAME = 'listnest-v201';
+const STATIC_CACHE = 'listnest-static-v201';
 
 // Core app files
 const urlsToCache = [
@@ -138,24 +138,39 @@ self.addEventListener('fetch', event => {
 
 // Handle push notifications
 self.addEventListener('push', event => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch (e) {
+    data = { body: event.data ? event.data.text() : 'יש עדכון חדש ברשימה!' };
+  }
+  const title = data.title || 'ListNest';
   const options = {
-    body: event.data ? event.data.text() : 'יש עדכון חדש ברשימה!',
+    body: data.body || 'יש עדכון חדש ברשימה!',
     icon: '/icons/icon-192x192.png',
     badge: '/icons/icon-72x72.png',
-    dir: 'rtl',
-    lang: 'he',
+    dir: ['he', 'ar'].includes(data.lang) ? 'rtl' : 'ltr',
+    lang: data.lang || 'he',
+    tag: data.tag || 'listnest-push',
     vibrate: [200, 100, 200]
   };
 
   event.waitUntil(
-    self.registration.showNotification('ListNest', options)
+    self.registration.showNotification(title, options)
   );
 });
 
-// Handle notification click
+// Handle notification click - focus existing window if available
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   event.waitUntil(
-    clients.openWindow('/')
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(windowClients => {
+      for (const client of windowClients) {
+        if (client.url.includes(self.location.origin) && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      return clients.openWindow('/');
+    })
   );
 });

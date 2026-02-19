@@ -29,6 +29,8 @@ import {
   signInWithEmailAndPassword,
   signInAnonymously,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
@@ -78,6 +80,8 @@ window.firebaseAuth = {
   signInWithEmailAndPassword,
   signInAnonymously,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
@@ -220,6 +224,9 @@ window.hideLoadingSkeleton = function() {
 
 // QR Code generator (used by family sharing)
 window.qrcode = qrcode;
+
+// VAPID public key for Web Push notifications
+window.VAPID_PUBLIC_KEY = 'BBqSrjUCGQbh09miMJ1LwBje0YfDErzM0EeJYJ7Ae29IV6pqm9bRXQ0niv7cfjjrR9D7T6jBxaLIAXpjaE-ZYJU';
 
 // Performance timing
 window.appLoadStart = performance.now();
