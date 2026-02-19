@@ -12,6 +12,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 } from 'lucide-react';
         const { useState, useEffect, createContext, useContext } = React;
 
+        // API base URL — Vercel hosts the serverless functions, so when running
+        // on Firebase hosting we need to call the Vercel domain directly.
+        const API_BASE = window.location.hostname === 'listnest.co.il' ? '' : 'https://listnest.co.il';
+
         // Auth Context
         const AuthContext = createContext(null);
 
@@ -9048,7 +9052,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         };
 
         // API URL for average prices from Supabase
-        const PRICES_API_URL = '/api/prices?action=avgprices';
+        const PRICES_API_URL = `${API_BASE}/api/prices?action=avgprices`;
 
         // Flag to track if prices were loaded from API
         let pricesLoadedFromAPI = false;
@@ -13086,7 +13090,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     } catch (e) { /* ignore cache errors */ }
 
                     if (!data) {
-                        const response = await fetch('/api/prices?action=promotions');
+                        const response = await fetch(`${API_BASE}/api/prices?action=promotions`);
                         data = await response.json();
                         try {
                             sessionStorage.setItem(cacheKey, JSON.stringify(data));
@@ -14072,7 +14076,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
                 const timeoutId = setTimeout(async () => {
                     try {
-                        const response = await fetch(`/api/prices?action=suggest&q=${encodeURIComponent(searchTerm)}`);
+                        const response = await fetch(`${API_BASE}/api/prices?action=suggest&q=${encodeURIComponent(searchTerm)}`);
                         if (response.ok) {
                             const data = await response.json();
                             if (data.success && data.suggestions) {
@@ -14486,7 +14490,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     setCapturedPhoto(null);
 
                     // Send push notification to other family members
-                    fetch('/api/chat-push', {
+                    fetch(`${API_BASE}/api/chat-push`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -14548,7 +14552,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     });
 
                     // Send push notification to other family members (works when app is closed)
-                    fetch('/api/chat-push', {
+                    fetch(`${API_BASE}/api/chat-push`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -15126,7 +15130,7 @@ END:VCALENDAR`;
                 try {
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 10000);
-                    const response = await fetch('/api/ai', {
+                    const response = await fetch(`${API_BASE}/api/ai`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ text: smartAddText, action: 'parse' }),
