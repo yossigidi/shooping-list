@@ -92,12 +92,6 @@ CHAINS = {
         'type': 'cerberus',
         'username': 'TivTaam',
     },
-    10: {
-        'name': 'דור אלון',
-        'name_en': 'Dor Alon',
-        'type': 'cerberus',
-        'username': 'doralon',
-    },
 }
 
 
