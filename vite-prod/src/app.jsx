@@ -11560,7 +11560,22 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [categorySearch, setCategorySearch] = useState('');
 
             const [searchTerm, setSearchTerm] = useState('');
-            const [searchFocused, setSearchFocused] = useState(false);
+            // Visual Viewport handler: keep search bar above keyboard on mobile
+            useEffect(() => {
+                if (!window.visualViewport) return;
+                const handleViewportResize = () => {
+                    const bar = document.getElementById('sticky-add-bar');
+                    if (!bar) return;
+                    const offset = window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop;
+                    bar.style.bottom = Math.max(0, offset) + 'px';
+                };
+                window.visualViewport.addEventListener('resize', handleViewportResize);
+                window.visualViewport.addEventListener('scroll', handleViewportResize);
+                return () => {
+                    window.visualViewport.removeEventListener('resize', handleViewportResize);
+                    window.visualViewport.removeEventListener('scroll', handleViewportResize);
+                };
+            }, []);
             const [sortBy, setSortBy] = useState('newest'); // newest, name, category, purchased
             const [loading, setLoading] = useState(true);
             const [darkMode, setDarkMode] = useState(false);
@@ -18871,7 +18886,7 @@ END:VCALENDAR`;
                         <div className="h-20"></div>
 
                     {/* Sticky Add Bar */}
-                    <div className={`sticky-add-bar${searchFocused || searchTerm ? ' search-active' : ''}`}>
+                    <div className="sticky-add-bar" id="sticky-add-bar">
                         <div className="max-w-2xl mx-auto flex gap-2 items-center">
                             <div className="relative flex-1">
                                 <label htmlFor="product-search" className="sr-only">{t('searchProduct')}</label>
@@ -18881,8 +18896,6 @@ END:VCALENDAR`;
                                     type="text"
                                     value={searchTerm}
                                     onChange={e => setSearchTerm(e.target.value)}
-                                    onFocus={() => setSearchFocused(true)}
-                                    onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
                                     placeholder={`🔍 ${t('addProductPlaceholder')}`}
                                     aria-label={t('searchProduct')}
                                     aria-autocomplete="list"
