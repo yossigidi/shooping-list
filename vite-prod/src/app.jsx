@@ -8,7 +8,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
   Bell, BellOff, Pencil, MessageCircle, Clock, ArrowDownAZ,
   FolderOpen, CircleCheckBig, CircleCheck, ClipboardList,
   Clipboard, Copy, Bot, AlertTriangle, Share2, Link,
-  Star, Send, Check, ChevronLeft
+  Star, Send, Check, ChevronLeft, ChevronDown
 } from 'lucide-react';
         const { useState, useEffect, createContext, useContext } = React;
 
@@ -11583,6 +11583,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             // Chat & Photo states
             const [showChat, setShowChat] = useState(false);
             const [showSettings, setShowSettings] = useState(false);
+            const [shoppingDayExpanded, setShoppingDayExpanded] = useState(false);
             const [chatMessages, setChatMessages] = useState([]);
             const [chatInput, setChatInput] = useState('');
             const [chatContextMenu, setChatContextMenu] = useState(null); // { msgId, x, y }
@@ -13138,7 +13139,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 const pDesc = promoDescription.toLowerCase();
 
                 // Category-specific validation to prevent mismatches
-                const snackKeywords = ['במבה', 'ביסלי', 'חטיף', 'חטיפים', 'אפרופו', 'צ\'יפס', 'שוקולד', 'ממתק', 'גומי', 'מלוח', 'מלוחים', 'מוצרים מלוחים', 'קרקר', 'פריכיות', 'נשנוש', 'אוסם', 'שטראוס חטיפים'];
+                const snackKeywords = ['במבה', 'ביסלי', 'חטיף', 'חטיפים', 'אפרופו', 'צ\'יפס', 'שוקולד', 'ממתק', 'גומי', 'מלוח', 'מלוחים', 'מוצרים מלוחים', 'קרקר', 'פריכיות', 'נשנוש', 'אוסם', 'אסם', 'שטראוס חטיפים'];
                 const dairyKeywords = ['חלב', 'יוגורט', 'גבינה', 'קוטג', 'שמנת', 'לבן', 'תנובה', 'טרה', 'שטראוס מחלבות'];
                 const babyKeywords = ['מטרנה', 'סימילאק', 'נוטרילון', 'תינוק', 'פורמולה', 'תחליף חלב', 'מזון תינוקות'];
                 const meatKeywords = ['בשר', 'עוף', 'הודו', 'נקניק', 'פסטרמה', 'שניצל', 'קבב', 'המבורגר', 'סלמי'];
@@ -13191,6 +13192,17 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 return true;
             };
 
+            // Check textual overlap between product name and promo description
+            // Prevents bad API product-promotion links from showing irrelevant promos
+            const hasTextualRelevance = (productName, promoDescription) => {
+                const genericWords = new Set(['ליטר', 'גרם', 'קילו', 'יחידות', 'חבילה', 'אריזה', 'טרי', 'טרייה']);
+                const pWords = productName.toLowerCase().split(/\s+/)
+                    .filter(w => /[א-ת]{2,}/.test(w) && !genericWords.has(w));
+                if (pWords.length === 0) return true; // No meaningful words to check
+                const desc = promoDescription.toLowerCase();
+                return pWords.some(w => desc.includes(w));
+            };
+
             // Check if item has promotions - EXACT matching only
             const getItemPromotions = (itemName) => {
                 if (!itemName) return [];
@@ -13201,10 +13213,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
                 // Method 1: Check linked products from API (exact name match only)
                 if (productPromotions && Object.keys(productPromotions).length > 0) {
-                    // Only exact matches
+                    // Only exact matches + textual relevance check (API data can have wrong links)
                     if (productPromotions[nameLower]) {
                         productPromotions[nameLower].forEach(promo => {
-                            if (!seenDescriptions.has(promo.description) && isPromoRelevant(itemName, promo.description)) {
+                            if (!seenDescriptions.has(promo.description) && isPromoRelevant(itemName, promo.description) && hasTextualRelevance(itemName, promo.description)) {
                                 seenDescriptions.add(promo.description);
                                 matches.push(promo);
                             }
@@ -13213,7 +13225,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     // Also check original case
                     if (productPromotions[itemName]) {
                         productPromotions[itemName].forEach(promo => {
-                            if (!seenDescriptions.has(promo.description) && isPromoRelevant(itemName, promo.description)) {
+                            if (!seenDescriptions.has(promo.description) && isPromoRelevant(itemName, promo.description) && hasTextualRelevance(itemName, promo.description)) {
                                 seenDescriptions.add(promo.description);
                                 matches.push(promo);
                             }
@@ -18059,42 +18071,48 @@ END:VCALENDAR`;
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{t('refreshApp')}</div>
                                                         </div>
                                                     </button>
-                                                    {/* Shopping Day Picker */}
-                                                    <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-700">
-                                                        <div className="flex items-center gap-2 mb-2">
-                                                            <Calendar size={20} className="text-orange-500" />
-                                                            <div>
-                                                                <div className="font-medium text-gray-800 dark:text-gray-200">{t('shoppingDayTitle')}</div>
-                                                                <div className="text-xs text-gray-500 dark:text-gray-400">{t('shoppingDayDesc')}</div>
+                                                    {/* Shopping Day Picker - Collapsible */}
+                                                    <button
+                                                        onClick={() => setShoppingDayExpanded(!shoppingDayExpanded)}
+                                                        className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
+                                                    >
+                                                        <Calendar size={20} className="text-orange-500" />
+                                                        <div className="flex-1">
+                                                            <div className="font-medium text-gray-800 dark:text-gray-200">{t('shoppingDayTitle')}</div>
+                                                            <div className="text-xs text-gray-500 dark:text-gray-400">{[t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday')][shoppingDay]}</div>
+                                                        </div>
+                                                        <ChevronDown size={16} className={`text-gray-400 transition-transform ${shoppingDayExpanded ? 'rotate-180' : ''}`} />
+                                                    </button>
+                                                    {shoppingDayExpanded && (
+                                                        <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-750">
+                                                            <div className="flex gap-1 mb-2">
+                                                                {[t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday')].map((dayName, idx) => (
+                                                                    <button
+                                                                        key={idx}
+                                                                        onClick={() => handleShoppingDayChange(idx)}
+                                                                        className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                                                                            shoppingDay === idx
+                                                                                ? 'bg-orange-500 text-white shadow-md'
+                                                                                : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                                        }`}
+                                                                    >
+                                                                        {dayName}
+                                                                    </button>
+                                                                ))}
                                                             </div>
+                                                            <button
+                                                                onClick={() => pushSubscription ? unsubscribeFromPush() : subscribeToPush()}
+                                                                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                                                                    pushSubscription
+                                                                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                                                                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                                }`}
+                                                            >
+                                                                {pushSubscription ? <Bell size={14} /> : <BellOff size={14} />}
+                                                                {pushSubscription ? t('shoppingDayPushEnabled') : t('shoppingDayPushDisabled')}
+                                                            </button>
                                                         </div>
-                                                        <div className="flex gap-1 mb-2">
-                                                            {[t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday')].map((dayName, idx) => (
-                                                                <button
-                                                                    key={idx}
-                                                                    onClick={() => handleShoppingDayChange(idx)}
-                                                                    className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                                                        shoppingDay === idx
-                                                                            ? 'bg-orange-500 text-white shadow-md'
-                                                                            : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                                                                    }`}
-                                                                >
-                                                                    {dayName}
-                                                                </button>
-                                                            ))}
-                                                        </div>
-                                                        <button
-                                                            onClick={() => pushSubscription ? unsubscribeFromPush() : subscribeToPush()}
-                                                            className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
-                                                                pushSubscription
-                                                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                                                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                                                            }`}
-                                                        >
-                                                            {pushSubscription ? <Bell size={14} /> : <BellOff size={14} />}
-                                                            {pushSubscription ? t('shoppingDayPushEnabled') : t('shoppingDayPushDisabled')}
-                                                        </button>
-                                                    </div>
+                                                    )}
                                                     <button
                                                         onClick={() => { setShowHelp(true); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
