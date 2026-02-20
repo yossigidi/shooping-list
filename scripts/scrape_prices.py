@@ -1336,14 +1336,18 @@ def ensure_chains_exist(supabase: Client):
 
         for chain_id, chain_info in CHAINS.items():
             if chain_id not in existing_ids:
-                print(f"  Adding missing chain: {chain_info['name']} (ID: {chain_id})")
-                supabase.table('chains').insert({
-                    'id': chain_id,
-                    'code': chain_info.get('name_en', '').lower().replace(' ', '_'),
-                    'name': chain_info.get('name_en', ''),
-                    'name_he': chain_info['name'],
-                    'is_active': True,
-                }).execute()
+                name_code = chain_info.get('name_en', '').lower().replace(' ', '_')
+                print(f"  Adding missing chain: {chain_info['name']} (ID: {chain_id}, name: {name_code})")
+                try:
+                    supabase.table('chains').insert({
+                        'id': chain_id,
+                        'name': name_code,
+                        'name_he': chain_info['name'],
+                        'is_active': True,
+                    }).execute()
+                    print(f"  ✓ Added chain {chain_id}: {chain_info['name']}")
+                except Exception as e:
+                    print(f"  ✗ Failed to add chain {chain_id}: {e}")
     except Exception as e:
         print(f"  Error ensuring chains: {e}")
 
