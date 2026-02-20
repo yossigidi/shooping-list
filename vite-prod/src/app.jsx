@@ -11557,8 +11557,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [selectedCategory, setSelectedCategory] = useState(null);
             const [selectedParentCategory, setSelectedParentCategory] = useState(null);
             const [showCategories, setShowCategories] = useState(false);
+            const [categorySearch, setCategorySearch] = useState('');
 
             const [searchTerm, setSearchTerm] = useState('');
+            const [searchFocused, setSearchFocused] = useState(false);
             const [sortBy, setSortBy] = useState('newest'); // newest, name, category, purchased
             const [loading, setLoading] = useState(true);
             const [darkMode, setDarkMode] = useState(false);
@@ -11918,6 +11920,65 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 showCalendar, showRegulars, showForgottenStats, showCamera, showSettings, showChat,
                 showReminderModal, showCreateList, showFamilySettings, showDeleteAllConfirm, showHistory,
                 showFinishShopping, showSavedLists, showImportWhatsApp, showQuantitySelector]);
+
+            // Android back button (popstate) handler - closes modals instead of exiting app
+            const modalStateRef = React.useRef({});
+            useEffect(() => {
+                modalStateRef.current = {
+                    showExternalLinkPopup, showFeedback, showHelp, showOnboarding, showAIAssistant,
+                    showSaveTemplate, showTemplates, showAccessibility, showPromotions, selectedPromoChain,
+                    showSmartAdd, showListComparison, showPriceScanner, showCalendar, showRegulars,
+                    showForgottenStats, showCamera, showSettings, showChat, showReminderModal, showCreateList,
+                    showFamilySettings, showDeleteAllConfirm, showHistory, showFinishShopping, showSavedLists,
+                    showImportWhatsApp, showQuantitySelector, showCategories, showDeleteAccount, searchTerm
+                };
+            });
+
+            useEffect(() => {
+                history.pushState({ app: true }, '');
+                const handlePopState = () => {
+                    const s = modalStateRef.current;
+                    let closed = false;
+                    if (s.showExternalLinkPopup) { cancelExternalLink(); closed = true; }
+                    else if (s.showFeedback) { setShowFeedback(false); closed = true; }
+                    else if (s.showHelp) { setShowHelp(false); closed = true; }
+                    else if (s.showOnboarding) { setShowOnboarding(false); closed = true; }
+                    else if (s.showAIAssistant) { setShowAIAssistant(false); closed = true; }
+                    else if (s.showSaveTemplate) { setShowSaveTemplate(false); closed = true; }
+                    else if (s.showTemplates) { setShowTemplates(false); closed = true; }
+                    else if (s.showAccessibility) { setShowAccessibility(false); closed = true; }
+                    else if (s.showPromotions) {
+                        if (s.selectedPromoChain) { setSelectedPromoChain(null); } else { setShowPromotions(false); }
+                        closed = true;
+                    }
+                    else if (s.showSmartAdd) { setShowSmartAdd(false); closed = true; }
+                    else if (s.showListComparison) { setShowListComparison(false); closed = true; }
+                    else if (s.showPriceScanner) { stopPriceScanner(); closed = true; }
+                    else if (s.showCalendar) { setShowCalendar(false); closed = true; }
+                    else if (s.showRegulars) { setShowRegulars(false); closed = true; }
+                    else if (s.showForgottenStats) { setShowForgottenStats(false); closed = true; }
+                    else if (s.showCamera) { setShowCamera(false); closed = true; }
+                    else if (s.showSettings) { setShowSettings(false); closed = true; }
+                    else if (s.showChat) { setShowChat(false); closed = true; }
+                    else if (s.showReminderModal) { setShowReminderModal(false); closed = true; }
+                    else if (s.showCreateList) { setShowCreateList(false); closed = true; }
+                    else if (s.showFamilySettings) { setShowFamilySettings(false); closed = true; }
+                    else if (s.showDeleteAllConfirm) { setShowDeleteAllConfirm(false); closed = true; }
+                    else if (s.showDeleteAccount) { setShowDeleteAccount(false); closed = true; }
+                    else if (s.showHistory) { setShowHistory(false); closed = true; }
+                    else if (s.showFinishShopping) { setShowFinishShopping(false); closed = true; }
+                    else if (s.showSavedLists) { setShowSavedLists(false); closed = true; }
+                    else if (s.showImportWhatsApp) { setShowImportWhatsApp(false); closed = true; }
+                    else if (s.showQuantitySelector) { setShowQuantitySelector(false); closed = true; }
+                    else if (s.showCategories) { setCategorySearch(''); setShowCategories(false); closed = true; }
+                    else if (s.searchTerm) { setSearchTerm(''); closed = true; }
+                    if (closed) {
+                        history.pushState({ app: true }, '');
+                    }
+                };
+                window.addEventListener('popstate', handlePopState);
+                return () => window.removeEventListener('popstate', handlePopState);
+            }, []);
 
             // English to Hebrew grocery translations
             const ENGLISH_TO_HEBREW = {
@@ -12870,7 +12931,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     { name: 'רמי לוי', url: `https://www.rami-levy.co.il/he/online/search?q=${encodedName}`, color: 'bg-blue-500' },
                     { name: 'ויקטורי', url: `https://www.victoryonline.co.il/search?q=${encodedName}`, color: 'bg-teal-500' },
                     { name: 'יינות ביתן', url: `https://www.ybitan.co.il/search?q=${encodedName}`, color: 'bg-purple-500' },
-                    { name: 'חצי חינם', url: `https://shop.hazi-hinam.co.il/search?q=${encodedName}`, color: 'bg-green-500' }
+                    { name: 'חצי חינם', url: `https://shop.hazi-hinam.co.il/search?q=${encodedName}`, color: 'bg-green-500' },
+                    { name: 'יוחננוף', url: `https://yochananof.co.il/search?q=${encodedName}`, color: 'bg-indigo-500' }
                 ];
 
                 setPriceCompareResults(sites);
@@ -16450,7 +16512,8 @@ END:VCALENDAR`;
                                                                         'ויקטורי': 'https://www.victoryonline.co.il/',
                                                                         'יינות ביתן': 'https://www.ybitan.co.il/',
                                                                         'חצי חינם': 'https://shop.hazi-hinam.co.il/',
-                                                                        'קארפור': 'https://www.carrefour.co.il/'
+                                                                        'קארפור': 'https://www.carrefour.co.il/',
+                                                                        'יוחננוף': 'https://yochananof.co.il/'
                                                                     };
                                                                     const chainName = chain.chain_name_he || chain.chain_name;
                                                                     openExternalLink(chainUrls[chainName] || 'https://www.google.com/search?q=' + encodeURIComponent(chainName + ' קניות אונליין'), chainName);
@@ -16628,7 +16691,8 @@ END:VCALENDAR`;
                                                     'ויקטורי': 'https://www.victoryonline.co.il',
                                                     'יינות ביתן': 'https://www.ybitan.co.il',
                                                     'חצי חינם': 'https://shop.hazi-hinam.co.il',
-                                                    'אושר עד': 'https://www.osherad.co.il'
+                                                    'אושר עד': 'https://www.osherad.co.il',
+                                                    'יוחננוף': 'https://yochananof.co.il'
                                                 };
                                                 openExternalLink(urls[name] || 'https://www.shufersal.co.il', name);
                                             }
@@ -18029,6 +18093,14 @@ END:VCALENDAR`;
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setShowAccessibility(true)}
+                                        className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center hover:scale-110 transition-transform touch-target"
+                                        title={t('accessibilityBar')}
+                                        aria-label={t('accessibilityBar')}
+                                    >
+                                        <span className="text-blue-600 dark:text-blue-400 text-lg font-bold" aria-hidden="true">♿</span>
+                                    </button>
                                     <div className="relative">
                                         <button
                                             onClick={() => setShowSettings(!showSettings)}
@@ -18492,7 +18564,7 @@ END:VCALENDAR`;
                                                         <span className="text-xs text-gray-500 dark:text-gray-400">{t('priceDisclaimer')}</span>
                                                         <button
                                                             onClick={() => {
-                                                                const chains = ['שופרסל', 'רמי לוי', 'יינות ביתן', 'מגה', 'ויקטורי'];
+                                                                const chains = ['שופרסל', 'רמי לוי', 'יינות ביתן', 'ויקטורי', 'חצי חינם', 'יוחננוף'];
                                                                 showToast(t('chainsAvgTitle') + ': ' + chains.join(', '), 'info', 5000);
                                                             }}
                                                             className="w-5 h-5 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-xs font-bold flex items-center justify-center hover:bg-teal-500 hover:text-white transition-all"
@@ -18799,7 +18871,7 @@ END:VCALENDAR`;
                         <div className="h-20"></div>
 
                     {/* Sticky Add Bar */}
-                    <div className="sticky-add-bar">
+                    <div className={`sticky-add-bar${searchFocused || searchTerm ? ' search-active' : ''}`}>
                         <div className="max-w-2xl mx-auto flex gap-2 items-center">
                             <div className="relative flex-1">
                                 <label htmlFor="product-search" className="sr-only">{t('searchProduct')}</label>
@@ -18809,6 +18881,8 @@ END:VCALENDAR`;
                                     type="text"
                                     value={searchTerm}
                                     onChange={e => setSearchTerm(e.target.value)}
+                                    onFocus={() => setSearchFocused(true)}
+                                    onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
                                     placeholder={`🔍 ${t('addProductPlaceholder')}`}
                                     aria-label={t('searchProduct')}
                                     aria-autocomplete="list"
@@ -18939,27 +19013,7 @@ END:VCALENDAR`;
                         )}
                     </div>
 
-                    {/* Accessibility FAB */}
-                    <button
-                        onClick={() => setShowAccessibility(true)}
-                        className="fixed right-4 w-12 h-12 rounded-full bg-blue-600 text-white shadow-lg z-[9998] flex items-center justify-center hover:scale-110 transition-transform touch-target"
-                        style={{ bottom: '110px' }}
-                        title={t('accessibility')}
-                        aria-label={t('accessibility')}
-                    >
-                        <span className="text-xl">♿</span>
-                    </button>
-
-                    {/* Back to Top Button */}
-                    <button
-                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className="fixed left-4 w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg z-[9998] hover:scale-110 transition-transform touch-target"
-                        style={{ bottom: '110px' }}
-                        title={t('backToTop')}
-                        aria-label={t('backToTop')}
-                    >
-                        <span aria-hidden="true">↑</span>
-                    </button>
+                    {/* Back to Top Button - only shows when scrolled down */}
 
                     {/* Categories Modal - Full Screen */}
                     {showCategories && (
@@ -18975,16 +19029,28 @@ END:VCALENDAR`;
                                         <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{t('selectCategory')}</h2>
                                         <p className="text-sm text-white/80 mt-0.5">{Object.keys(CATEGORIES).length} {t('selectCategory').includes('קטגוריה') ? 'קטגוריות' : 'categories'}</p>
                                     </div>
-                                    <button onClick={() => setShowCategories(false)} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
+                                    <button onClick={() => { setCategorySearch(''); setShowCategories(false); }} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </button>
                                 </div>
+                            </div>
+                            {/* Category Search */}
+                            <div className="px-4 pt-3 pb-1 flex-shrink-0">
+                                <input
+                                    type="text"
+                                    value={categorySearch}
+                                    onChange={e => setCategorySearch(e.target.value)}
+                                    placeholder={`🔍 ${t('searchProduct')}...`}
+                                    className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:focus:ring-teal-900/30 transition-all text-sm font-medium placeholder:text-gray-400"
+                                    autoFocus
+                                />
                             </div>
                             {/* Categories Grid - Scrollable */}
                             <div className="flex-1 overflow-y-auto p-4">
                                 <div className="grid grid-cols-3 gap-2.5">
                                     {Object.entries(CATEGORIES)
                                         .filter(([key]) => !CHILD_TO_PARENT[key])
+                                        .filter(([key]) => !categorySearch || getCategoryName(key).includes(categorySearch) || CATEGORIES[key].name.includes(categorySearch))
                                         .map(([key, cat]) => {
                                             const childKeys = SUBCATEGORIES[key]?.children || [];
                                             const countKeys = childKeys.length > 0 ? childKeys : [key];
@@ -19027,7 +19093,7 @@ END:VCALENDAR`;
                             {/* Bottom Button */}
                             <div className="flex-shrink-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 p-4 flex justify-center">
                                 <button
-                                    onClick={() => { setSelectedCategory(null); setShowCategories(false); }}
+                                    onClick={() => { setSelectedCategory(null); setCategorySearch(''); setShowCategories(false); }}
                                     className="bg-gray-800 dark:bg-gray-700 text-white px-6 py-3 rounded-full font-bold shadow-lg transition-all active:scale-95 flex items-center gap-2 text-sm border border-gray-600"
                                 >
                                     <span>←</span>

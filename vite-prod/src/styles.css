@@ -388,10 +388,27 @@ input:focus { outline: none; box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.3); }
     padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
     z-index: 9990;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    transition: top 0.2s ease, bottom 0.2s ease;
 }
 .dark .sticky-add-bar {
     background: rgba(17, 24, 39, 0.95);
     border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* When searching: move bar to top so keyboard doesn't hide it */
+.sticky-add-bar.search-active {
+    bottom: auto;
+    top: 0;
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+    padding-bottom: 12px;
+    border-top: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    max-height: 55vh;
+    overflow-y: auto;
+}
+.dark .sticky-add-bar.search-active {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
 /* Inline edit input */

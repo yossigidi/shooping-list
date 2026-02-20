@@ -198,7 +198,8 @@ window.PriceComparisonAPI = {
         { chain_id: 2, chain_name_he: 'רמי לוי', color: '#2563eb', url: 'https://www.rami-levy.co.il', total: null, items_found: 0 },
         { chain_id: 3, chain_name_he: 'ויקטורי', color: '#ea580c', url: 'https://www.victoryonline.co.il', total: null, items_found: 0 },
         { chain_id: 4, chain_name_he: 'יינות ביתן', color: '#7c3aed', url: 'https://www.ybitan.co.il', total: null, items_found: 0 },
-        { chain_id: 5, chain_name_he: 'חצי חינם', color: '#16a34a', url: 'https://shop.hazi-hinam.co.il', total: null, items_found: 0 }
+        { chain_id: 5, chain_name_he: 'חצי חינם', color: '#16a34a', url: 'https://shop.hazi-hinam.co.il', total: null, items_found: 0 },
+        { chain_id: 7, chain_name_he: 'יוחננוף', color: '#7c3aed', url: 'https://yochananof.co.il', total: null, items_found: 0 }
       ],
       items_analyzed: items.length,
       message: 'לא ניתן להשוות כרגע'
