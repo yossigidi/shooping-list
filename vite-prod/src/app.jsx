@@ -12956,7 +12956,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 2: 'https://www.rami-levy.co.il/he/online/feed',
                 3: 'https://victory.co.il/%D7%9E%D7%91%D7%A6%D7%A2%D7%99-%D7%94%D7%A9%D7%91%D7%95%D7%A2/',
                 5: 'https://shop.hazi-hinam.co.il/promotions/%D7%A2%D7%9C%D7%95%D7%9F-%D7%9E%D7%91%D7%A6%D7%A2%D7%99%D7%9D',
-                6: 'https://www.carrefour.co.il/specials'
+                6: 'https://www.carrefour.co.il/specials',
+                7: 'https://yochananof.co.il/specials'
             };
 
             // Chain branch finder URLs (verified February 2026)
@@ -12966,7 +12967,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 2: 'https://www.rami-levy.co.il/he/stores',
                 3: 'https://victory.co.il/branches/',
                 5: 'https://shop.hazi-hinam.co.il/branches',
-                6: 'https://brand.carrefour.co.il/branches'
+                6: 'https://brand.carrefour.co.il/branches',
+                7: 'https://yochananof.co.il/branches'
             };
 
             // Chain colors for styled badges (using colored letter badges instead of logos)
@@ -12978,7 +12980,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 2: { bg: 'bg-blue-600', text: 'ר' },     // רמי לוי - כחול
                 3: { bg: 'bg-orange-600', text: 'ו' },   // ויקטורי - כתום
                 5: { bg: 'bg-green-600', text: 'ח' },    // חצי חינם - ירוק
-                6: { bg: 'bg-sky-600', text: 'ק' }       // קארפור - תכלת
+                6: { bg: 'bg-sky-600', text: 'ק' },      // קארפור - תכלת
+                7: { bg: 'bg-purple-600', text: 'י' }     // יוחננוף - סגול
             };
 
             // Sample promotions data (fallback when API unavailable)

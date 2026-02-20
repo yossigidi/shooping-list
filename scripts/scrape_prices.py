@@ -148,35 +148,44 @@ def upsert_price(supabase: Client, product_id: int, chain_id: int, price: float)
 # XML Parsing Functions
 # ============================================
 
+def _find_elem(parent: ET.Element, *names: str) -> Optional[ET.Element]:
+    """Find first matching element by trying multiple tag names (case variations)."""
+    for name in names:
+        elem = parent.find(name)
+        if elem is not None:
+            return elem
+    return None
+
+
 def extract_promotions_from_xml(root: ET.Element) -> List[dict]:
-    """Extract promotions from parsed PromoFull XML."""
+    """Extract promotions from parsed PromoFull XML.
+    Handles two formats:
+    - Standard: <Promotions><Promotion> with nested <PromotionItems><Item>
+    - Victory:  <Sales><Sale> with ItemCode directly in each Sale (grouped by PromotionID)
+    """
     promotions = []
 
+    # Standard format: <Promotion> tags
     for promo in root.findall('.//Promotion'):
         try:
             promo_data = {}
 
-            # Promotion ID
-            promo_id_elem = promo.find('PromotionId')
+            promo_id_elem = _find_elem(promo, 'PromotionId', 'PromotionID')
             if promo_id_elem is not None and promo_id_elem.text:
                 promo_data['promo_id'] = promo_id_elem.text.strip()
 
-            # Description
             desc_elem = promo.find('PromotionDescription')
             if desc_elem is not None and desc_elem.text:
                 promo_data['description'] = desc_elem.text.strip()
 
-            # Start date
-            start_elem = promo.find('PromotionStartDate') or promo.find('PromotionStartDateTime')
+            start_elem = _find_elem(promo, 'PromotionStartDate', 'PromotionStartDateTime')
             if start_elem is not None and start_elem.text:
-                promo_data['start_date'] = start_elem.text.strip()[:10]  # YYYY-MM-DD
+                promo_data['start_date'] = start_elem.text.strip()[:10]
 
-            # End date
-            end_elem = promo.find('PromotionEndDate') or promo.find('PromotionEndDateTime')
+            end_elem = _find_elem(promo, 'PromotionEndDate', 'PromotionEndDateTime')
             if end_elem is not None and end_elem.text:
-                promo_data['end_date'] = end_elem.text.strip()[:10]  # YYYY-MM-DD
+                promo_data['end_date'] = end_elem.text.strip()[:10]
 
-            # Discount type and amount
             discount_type_elem = promo.find('DiscountType')
             if discount_type_elem is not None and discount_type_elem.text:
                 promo_data['discount_type'] = discount_type_elem.text.strip()
@@ -188,7 +197,6 @@ def extract_promotions_from_xml(root: ET.Element) -> List[dict]:
                 except ValueError:
                     pass
 
-            # Min quantity for promo
             min_qty_elem = promo.find('MinQty')
             if min_qty_elem is not None and min_qty_elem.text:
                 try:
@@ -196,19 +204,70 @@ def extract_promotions_from_xml(root: ET.Element) -> List[dict]:
                 except ValueError:
                     pass
 
-            # Get item barcodes related to this promotion
             promo_data['barcodes'] = []
             for item in promo.findall('.//PromotionItem') or promo.findall('.//Item'):
                 barcode_elem = item.find('ItemCode')
                 if barcode_elem is not None and barcode_elem.text:
                     promo_data['barcodes'].append(barcode_elem.text.strip())
 
-            # Only add if we have description
             if promo_data.get('description'):
                 promotions.append(promo_data)
 
         except Exception:
             continue
+
+    # Victory format: <Sales><Sale> tags — each Sale is one item for one promotion
+    # Group by PromotionID to collect all barcodes per promotion
+    if not promotions:
+        sales = root.findall('.//Sale')
+        if sales:
+            promo_map = {}  # PromotionID -> promo_data
+            for sale in sales:
+                try:
+                    pid_elem = _find_elem(sale, 'PromotionID', 'PromotionId')
+                    desc_elem = sale.find('PromotionDescription')
+                    # Note: Element with no children is falsy in Python, use 'is None'
+                    if pid_elem is None or not pid_elem.text or desc_elem is None or not desc_elem.text:
+                        continue
+
+                    pid = pid_elem.text.strip()
+                    if pid not in promo_map:
+                        promo_data = {
+                            'promo_id': pid,
+                            'description': desc_elem.text.strip(),
+                            'barcodes': [],
+                        }
+                        start_elem = _find_elem(sale, 'PromotionStartDate', 'PromotionStartDateTime')
+                        if start_elem is not None and start_elem.text:
+                            promo_data['start_date'] = start_elem.text.strip()[:10]
+                        end_elem = _find_elem(sale, 'PromotionEndDate', 'PromotionEndDateTime')
+                        if end_elem is not None and end_elem.text:
+                            promo_data['end_date'] = end_elem.text.strip()[:10]
+                        discount_type_elem = sale.find('DiscountType')
+                        if discount_type_elem is not None and discount_type_elem.text:
+                            promo_data['discount_type'] = discount_type_elem.text.strip()
+                        discount_rate_elem = sale.find('DiscountRate')
+                        if discount_rate_elem is not None and discount_rate_elem.text:
+                            try:
+                                promo_data['discount_rate'] = float(discount_rate_elem.text.strip())
+                            except ValueError:
+                                pass
+                        min_qty_elem = sale.find('MinQty')
+                        if min_qty_elem is not None and min_qty_elem.text:
+                            try:
+                                promo_data['min_qty'] = int(min_qty_elem.text.strip())
+                            except ValueError:
+                                pass
+                        promo_map[pid] = promo_data
+
+                    barcode_elem = sale.find('ItemCode')
+                    if barcode_elem is not None and barcode_elem.text:
+                        promo_map[pid]['barcodes'].append(barcode_elem.text.strip())
+
+                except Exception:
+                    continue
+
+            promotions = [p for p in promo_map.values() if p.get('description')]
 
     return promotions
 
@@ -774,8 +833,9 @@ def fetch_hazihinam_promotions(chain_id: int, chain_info: dict) -> List[dict]:
         session.headers.update(HEADERS)
 
         # Fetch pages to find PromoFull files
+        promofull_urls = []
         promo_urls = []
-        for page in range(1, 3):
+        for page in range(1, 4):
             try:
                 resp = session.get(f'{base_url}?p={page}', timeout=TIMEOUT)
                 if resp.status_code != 200:
@@ -787,27 +847,33 @@ def fetch_hazihinam_promotions(chain_id: int, chain_info: dict) -> List[dict]:
                 )
 
                 for url in blob_urls:
-                    if 'PromoFull' in url and url not in promo_urls:
-                        promo_urls.append(url)
+                    if 'PromoFull' in url and url not in promofull_urls:
+                        promofull_urls.append(url)
                     elif 'Promo' in url and 'PromoFull' not in url and url not in promo_urls:
                         promo_urls.append(url)
 
-                if promo_urls:
+                if promofull_urls:
                     break
 
             except Exception:
                 continue
 
-        if not promo_urls:
+        # Prefer PromoFull over regular Promo
+        target_urls = promofull_urls if promofull_urls else promo_urls
+
+        if not target_urls:
             print("  No promo files found")
             return promotions
 
-        print(f"  Found {len(promo_urls)} Promo files")
+        file_type = 'PromoFull' if promofull_urls else 'Promo'
+        print(f"  Found {len(target_urls)} {file_type} files")
 
-        # Download first file
-        for download_url in promo_urls[:1]:
+        # Download files (more for better coverage)
+        seen_promos = set()
+        for download_url in target_urls[:3]:
             try:
                 download_resp = session.get(download_url, timeout=TIMEOUT)
+                fname = download_url.split('/')[-1]
 
                 if download_resp.status_code == 200 and len(download_resp.content) > 100:
                     try:
@@ -818,10 +884,15 @@ def fetch_hazihinam_promotions(chain_id: int, chain_info: dict) -> List[dict]:
                     root = parse_xml_content(content)
                     if root:
                         promos = extract_promotions_from_xml(root)
+                        new_count = 0
                         for p in promos:
-                            p['chain_id'] = chain_id
-                        promotions.extend(promos)
-                        print(f"    Parsed {len(promos)} promotions")
+                            promo_key = p.get('promo_id', '') + p.get('description', '')
+                            if promo_key not in seen_promos:
+                                seen_promos.add(promo_key)
+                                p['chain_id'] = chain_id
+                                promotions.append(p)
+                                new_count += 1
+                        print(f"    Parsed {new_count} new promotions from {fname}")
 
             except Exception as e:
                 print(f"    Error downloading file: {e}")
@@ -839,6 +910,7 @@ def fetch_victory_promotions(chain_id: int, chain_info: dict) -> List[dict]:
     """Fetch promotions from Victory via laibcatalog.co.il."""
     promotions = []
     base_url = chain_info['base_url']
+    victory_chain_ids = chain_info.get('chain_ids', ['7290696200003'])
 
     try:
         session = requests.Session()
@@ -863,19 +935,27 @@ def fetch_victory_promotions(chain_id: int, chain_info: dict) -> List[dict]:
             print(f"  Failed to get page: HTTP {resp.status_code}")
             return promotions
 
-        # Extract promo file paths using regex
+        # Extract promo file paths — prefer PromoFull over Promo
         file_pattern = r'CompetitionRegulationsFiles[^"\'<>\s]+Promo[^"\'<>\s]+\.xml\.gz'
-        promo_files = re.findall(file_pattern, resp.text)
-        promo_files = [f.replace('\\', '/') for f in promo_files]
+        all_promo_files = re.findall(file_pattern, resp.text)
+        all_promo_files = [f.replace('\\', '/') for f in all_promo_files]
 
-        if not promo_files:
-            print("  No Promo files found")
+        # Filter for Victory chain IDs only
+        victory_promos = [f for f in all_promo_files if any(cid in f for cid in victory_chain_ids)]
+
+        if not victory_promos:
+            print("  No Victory promo files found")
             return promotions
 
-        print(f"  Found {len(promo_files)} Promo files")
+        # Prefer PromoFull files
+        promofull = [f for f in victory_promos if 'PromoFull' in f]
+        target_files = promofull if promofull else victory_promos
 
-        # Download first file
-        for file_path in promo_files[:1]:
+        print(f"  Found {len(target_files)} Victory Promo files")
+
+        # Download multiple files for better coverage (different stores)
+        seen_promos = set()
+        for file_path in target_files[:5]:
             try:
                 download_url = f'{base_url}/{file_path}'
                 download_resp = session.get(download_url, timeout=TIMEOUT)
@@ -889,10 +969,16 @@ def fetch_victory_promotions(chain_id: int, chain_info: dict) -> List[dict]:
                     root = parse_xml_content(content)
                     if root:
                         promos = extract_promotions_from_xml(root)
+                        new_count = 0
                         for p in promos:
-                            p['chain_id'] = chain_id
-                        promotions.extend(promos)
-                        print(f"    Parsed {len(promos)} promotions")
+                            promo_key = p.get('promo_id', '') + p.get('description', '')
+                            if promo_key not in seen_promos:
+                                seen_promos.add(promo_key)
+                                p['chain_id'] = chain_id
+                                promotions.append(p)
+                                new_count += 1
+                        fname = file_path.split('/')[-1]
+                        print(f"    Parsed {new_count} new promotions from {fname}")
 
             except Exception as e:
                 print(f"    Error downloading file: {e}")
@@ -1242,6 +1328,26 @@ def create_product(supabase: Client, barcode: str, name: str, category: str = 'g
     return None
 
 
+def ensure_chains_exist(supabase: Client):
+    """Ensure all configured chains exist in the database."""
+    try:
+        existing = supabase.table('chains').select('id, name').execute()
+        existing_ids = {c['id'] for c in (existing.data or [])}
+
+        for chain_id, chain_info in CHAINS.items():
+            if chain_id not in existing_ids:
+                print(f"  Adding missing chain: {chain_info['name']} (ID: {chain_id})")
+                supabase.table('chains').insert({
+                    'id': chain_id,
+                    'code': chain_info.get('name_en', '').lower().replace(' ', '_'),
+                    'name': chain_info.get('name_en', ''),
+                    'name_he': chain_info['name'],
+                    'is_active': True,
+                }).execute()
+    except Exception as e:
+        print(f"  Error ensuring chains: {e}")
+
+
 def update_database(supabase: Client, all_prices: List[dict]) -> Tuple[int, int]:
     """Update Supabase database with scraped prices."""
     if not all_prices:
@@ -1362,6 +1468,10 @@ def main():
     except Exception as e:
         print(f"Connection error: {e}")
         return 1
+
+    # Ensure all chains exist in DB
+    print("\nEnsuring chains exist in database...")
+    ensure_chains_exist(supabase)
 
     # Scrape all chains
     print("\nScraping prices from chains...")
