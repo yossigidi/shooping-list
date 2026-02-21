@@ -1105,25 +1105,38 @@ def fetch_cerberus_promotions(chain_id: int, chain_info: dict) -> List[dict]:
 
         print(f"  Found {len(files_list)} PromoFull files")
 
-        # Download first file
-        filename = files_list[0].get('fname', '')
-        if filename:
-            download_url = f'https://url.publishedprices.co.il/file/d/{filename}'
-            download_resp = session.get(download_url, timeout=TIMEOUT)
+        # Download most recent files (last in list = newest)
+        # Sort by filename descending to get newest first
+        files_list.sort(key=lambda f: f.get('fname', ''), reverse=True)
+        seen_promos = set()
+        for file_info in files_list[:3]:
+            filename = file_info.get('fname', '')
+            if not filename:
+                continue
+            try:
+                download_url = f'https://url.publishedprices.co.il/file/d/{filename}'
+                download_resp = session.get(download_url, timeout=TIMEOUT)
 
-            if download_resp.status_code == 200:
-                try:
-                    content = gzip.decompress(download_resp.content)
-                except (OSError, gzip.BadGzipFile):
-                    content = download_resp.content
+                if download_resp.status_code == 200:
+                    try:
+                        content = gzip.decompress(download_resp.content)
+                    except (OSError, gzip.BadGzipFile):
+                        content = download_resp.content
 
-                root = parse_xml_content(content)
-                if root:
-                    promos = extract_promotions_from_xml(root)
-                    for p in promos:
-                        p['chain_id'] = chain_id
-                    promotions.extend(promos)
-                    print(f"    Parsed {len(promos)} promotions")
+                    root = parse_xml_content(content)
+                    if root:
+                        promos = extract_promotions_from_xml(root)
+                        new_count = 0
+                        for p in promos:
+                            promo_key = p.get('promo_id', '') + p.get('description', '')
+                            if promo_key not in seen_promos:
+                                seen_promos.add(promo_key)
+                                p['chain_id'] = chain_id
+                                promotions.append(p)
+                                new_count += 1
+                        print(f"    Parsed {new_count} new promotions from {filename}")
+            except Exception as e:
+                print(f"    Error downloading {filename}: {e}")
 
     except Exception as e:
         print(f"  Error: {e}")
