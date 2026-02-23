@@ -1105,14 +1105,20 @@ def fetch_cerberus_promotions(chain_id: int, chain_info: dict) -> List[dict]:
 
         print(f"  Found {len(files_list)} PromoFull files")
 
-        # Download most recent files (last in list = newest)
-        # Sort by filename descending to get newest first
-        files_list.sort(key=lambda f: f.get('fname', ''), reverse=True)
+        # Try newest files first (last in original list), then fall back to older ones
+        # Download up to 3 successful files, trying up to 10
         seen_promos = set()
-        for file_info in files_list[:3]:
+        successful = 0
+        # Try from end of list (newest) first, then from start if needed
+        candidates = list(reversed(files_list[-10:])) + files_list[:5]
+        tried = set()
+        for file_info in candidates:
+            if successful >= 3:
+                break
             filename = file_info.get('fname', '')
-            if not filename:
+            if not filename or filename in tried:
                 continue
+            tried.add(filename)
             try:
                 download_url = f'https://url.publishedprices.co.il/file/d/{filename}'
                 download_resp = session.get(download_url, timeout=TIMEOUT)
@@ -1134,6 +1140,8 @@ def fetch_cerberus_promotions(chain_id: int, chain_info: dict) -> List[dict]:
                                 p['chain_id'] = chain_id
                                 promotions.append(p)
                                 new_count += 1
+                        if new_count > 0:
+                            successful += 1
                         print(f"    Parsed {new_count} new promotions from {filename}")
             except Exception as e:
                 print(f"    Error downloading {filename}: {e}")
