@@ -1350,7 +1350,107 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 wednesday: 'ד׳',
                 thursday: 'ה׳',
                 friday: 'ו׳',
-                saturday: 'ש׳'
+                saturday: 'ש׳',
+                // Smart Suggestions
+                smartSuggestions: 'הצעות עבורך',
+                boughtTogether: 'תמיד קונה עם {item}',
+                regularlyBuy: 'קונה בדרך כלל',
+                timeToBuy: 'לא קנית {days} ימים',
+                addedToList: 'נוסף לרשימה!',
+                hideSuggestions: 'הסתר הצעות',
+                startWithRegulars: 'התחל מהמוצרים הקבועים שלך',
+                addAllSuggestions: 'הוסף הכל',
+                suggestedForYou: 'מומלץ עבורך',
+                dismissSuggestion: 'הסתר הצעה',
+                // Aisle sorting
+                aisleOrder: 'סדר מעברים',
+                aisleOrderDesc: 'הרשימה מסודרת לפי סדר המעברים בחנות שלך',
+                learnedFromHistory: 'נלמד מהיסטוריית הקניות שלך',
+                aisleOrderEnabled: 'סידור לפי מעברים הופעל',
+                aisleOrderDisabled: 'סידור לפי מעברים כובה',
+                // Budget
+                weeklyBudget: 'תקציב שבועי',
+                setBudget: 'הגדר תקציב',
+                budgetAmount: 'סכום תקציב',
+                budgetRemaining: 'נשאר: ₪{amount}',
+                budgetExceeded: 'חריגה: ₪{amount}',
+                budgetUsed: '{percent}% נוצל',
+                estimatedTotal: 'סה"כ משוער',
+                noBudgetSet: 'לא הוגדר תקציב',
+                budgetBreakdown: 'פירוט הוצאות', categorySpending: 'הוצאה לפי קטגוריה', weeklyAverage: 'ממוצע שבועי', budgetAlert80: 'קרוב לתקציב!', budgetAlertExceeded: 'חריגה מהתקציב!', spentSoFar: 'הוצאת עד כה', of: 'מתוך', recentWeeks: 'שבועות אחרונים', avgExpense: 'ממוצע הוצאה', enoughForItems: 'מספיק ל-~{count} מוצרים',
+                // Gamification
+                achievements: 'הישגים',
+                streakDays: '{count} ימים ברצף',
+                savingsChampion: 'אלוף החיסכון',
+                savedThisMonth: 'חסכת ₪{amount} החודש',
+                listExpert: 'מומחה רשימות',
+                completedLists: '{count} רשימות הושלמו',
+                familyTeamwork: 'עבודת צוות',
+                familyMembersActive: '{count} בני משפחה פעילים',
+                earlyBird: 'ציפור מוקדמת',
+                earlyBirdDesc: 'קניות לפני 9 בבוקר',
+                nightOwl: 'ינשוף לילה',
+                nightOwlDesc: 'קניות אחרי 21:00',
+                weekendWarrior: 'לוחם סופ"ש',
+                weekendWarriorDesc: 'קניות בסופ"ש',
+                newAchievement: 'הישג חדש!',
+                // Pantry
+                pantry: 'מזווה',
+                pantryTracker: 'מעקב מזווה',
+                addToPantry: 'הוסף למזווה',
+                removeFromPantry: 'הסר מהמזווה',
+                expiresIn: 'פג תוקף בעוד {days} ימים',
+                expired: 'פג תוקף!',
+                expiryDate: 'תאריך תפוגה',
+                inStock: 'במלאי',
+                runningLow: 'עומד להיגמר',
+                outOfStock: 'אזל',
+                pantryEmpty: 'המזווה ריקה',
+                addFromList: 'הוסף מהרשימה',
+                expiringSoon: 'עומד לפוג',
+                // Meal planning
+                mealPlan: 'תכנון ארוחות',
+                mealPlanning: 'תכנון ארוחות שבועי',
+                breakfast: 'ארוחת בוקר',
+                lunch: 'ארוחת צהריים',
+                dinner: 'ארוחת ערב',
+                snack: 'חטיף',
+                addMeal: 'הוסף ארוחה',
+                mealName: 'שם הארוחה',
+                generateList: 'צור רשימת קניות',
+                thisWeek: 'השבוע',
+                clearWeek: 'נקה שבוע',
+                mealAdded: 'ארוחה נוספה',
+                ingredientsAdded: '{count} מרכיבים נוספו לרשימה',
+                servings: 'מנות',
+                peopleCount: '{count} אנשים',
+                chooseMealType: 'בחר סוג ארוחה',
+                chooseRecipe: 'בחר ארוחה',
+                customMeal: 'ארוחה מותאמת אישית',
+                addMealAndIngredients: 'הוסף ארוחה + מרכיבים',
+                suggestedMeals: 'ארוחות מומלצות',
+                shabbatMeal: 'ארוחת שבת',
+                howManyPeople: 'לכמה אנשים?',
+                back: 'חזור',
+                // Recipe import
+                importRecipe: 'ייבוא מתכון',
+                pasteRecipeUrl: 'הדבק קישור למתכון',
+                importingRecipe: 'מייבא מתכון...',
+                recipeImported: 'מתכון יובא בהצלחה',
+                recipeTitle: 'שם המתכון',
+                ingredients: 'מרכיבים',
+                addIngredients: 'הוסף מרכיבים לרשימה',
+                // Share
+                shareListLink: 'שתף רשימה בלינק',
+                shareListDesc: 'כל אחד עם הלינק יוכל לראות את הרשימה',
+                linkCopied: 'הלינק הועתק!',
+                viewSharedList: 'צפייה ברשימה משותפת',
+                // AI Chat
+                aiAssistant: 'עוזר AI',
+                askAI: 'שאל את העוזר החכם',
+                aiPlaceholder: 'למשל: "תכין לי רשימה לשבת ל-6 אנשים"',
+                aiThinking: 'חושב...',
+                aiResponse: 'תשובת העוזר'
             },
             en: {
                 // App name & general
@@ -2326,7 +2426,28 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 wednesday: 'Wed',
                 thursday: 'Thu',
                 friday: 'Fri',
-                saturday: 'Sat'
+                saturday: 'Sat',
+                // Smart Suggestions
+                smartSuggestions: 'Suggestions for you',
+                boughtTogether: 'Always bought with {item}',
+                regularlyBuy: 'You usually buy this',
+                timeToBuy: "Haven't bought in {days} days",
+                addedToList: 'Added to list!',
+                hideSuggestions: 'Hide suggestions',
+                startWithRegulars: 'Start with your regular items',
+                addAllSuggestions: 'Add all',
+                suggestedForYou: 'Suggested for you',
+                dismissSuggestion: 'Dismiss suggestion',
+                aisleOrder: 'Aisle order', aisleOrderDesc: 'List sorted by your store aisle order', learnedFromHistory: 'Learned from your shopping history', aisleOrderEnabled: 'Aisle sorting enabled', aisleOrderDisabled: 'Aisle sorting disabled',
+                weeklyBudget: 'Weekly budget', setBudget: 'Set budget', budgetAmount: 'Budget amount', budgetRemaining: '₪{amount} remaining', budgetExceeded: '₪{amount} over budget', budgetUsed: '{percent}% used', estimatedTotal: 'Estimated total', noBudgetSet: 'No budget set',
+                budgetBreakdown: 'Expense breakdown', categorySpending: 'Spending by category', weeklyAverage: 'Weekly average', budgetAlert80: 'Nearing budget!', budgetAlertExceeded: 'Budget exceeded!', spentSoFar: 'Spent so far', of: 'of', recentWeeks: 'Recent weeks', avgExpense: 'Average expense', enoughForItems: 'Enough for ~{count} items',
+                achievements: 'Achievements', streakDays: '{count} day streak', savingsChampion: 'Savings champion', savedThisMonth: 'Saved ₪{amount} this month', listExpert: 'List expert', completedLists: '{count} lists completed', familyTeamwork: 'Family teamwork', familyMembersActive: '{count} active family members', earlyBird: 'Early bird', earlyBirdDesc: 'Shopping before 9am', nightOwl: 'Night owl', nightOwlDesc: 'Shopping after 9pm', weekendWarrior: 'Weekend warrior', weekendWarriorDesc: 'Weekend shopping', newAchievement: 'New achievement!',
+                pantry: 'Pantry', pantryTracker: 'Pantry tracker', addToPantry: 'Add to pantry', removeFromPantry: 'Remove from pantry', expiresIn: 'Expires in {days} days', expired: 'Expired!', expiryDate: 'Expiry date', inStock: 'In stock', runningLow: 'Running low', outOfStock: 'Out of stock', pantryEmpty: 'Pantry is empty', addFromList: 'Add from list', expiringSoon: 'Expiring soon',
+                mealPlan: 'Meal plan', mealPlanning: 'Weekly meal planning', breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner', snack: 'Snack', addMeal: 'Add meal', mealName: 'Meal name', generateList: 'Generate shopping list', thisWeek: 'This week', clearWeek: 'Clear week', mealAdded: 'Meal added', ingredientsAdded: '{count} ingredients added to list',
+                servings: 'Servings', peopleCount: '{count} people', chooseMealType: 'Choose meal type', chooseRecipe: 'Choose a meal', customMeal: 'Custom meal', addMealAndIngredients: 'Add meal + ingredients', suggestedMeals: 'Suggested meals', shabbatMeal: 'Shabbat meal', howManyPeople: 'How many people?', back: 'Back',
+                importRecipe: 'Import recipe', pasteRecipeUrl: 'Paste recipe URL', importingRecipe: 'Importing recipe...', recipeImported: 'Recipe imported successfully', recipeTitle: 'Recipe name', ingredients: 'Ingredients', addIngredients: 'Add ingredients to list',
+                shareListLink: 'Share list via link', shareListDesc: 'Anyone with the link can view the list', linkCopied: 'Link copied!', viewSharedList: 'View shared list',
+                aiAssistant: 'AI Assistant', askAI: 'Ask the smart assistant', aiPlaceholder: 'e.g. "Make me a list for Shabbat for 6 people"', aiThinking: 'Thinking...', aiResponse: 'Assistant response'
             },
             ru: {
                 // App name & general
@@ -3289,7 +3410,28 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 wednesday: 'Ср',
                 thursday: 'Чт',
                 friday: 'Пт',
-                saturday: 'Сб'
+                saturday: 'Сб',
+                // Smart Suggestions
+                smartSuggestions: 'Предложения для вас',
+                boughtTogether: 'Всегда покупаете с {item}',
+                regularlyBuy: 'Обычно покупаете',
+                timeToBuy: 'Не покупали {days} дней',
+                addedToList: 'Добавлено в список!',
+                hideSuggestions: 'Скрыть предложения',
+                startWithRegulars: 'Начните с ваших обычных товаров',
+                addAllSuggestions: 'Добавить все',
+                suggestedForYou: 'Рекомендуем вам',
+                dismissSuggestion: 'Скрыть предложение',
+                aisleOrder: 'Порядок полок', aisleOrderDesc: 'Список отсортирован по порядку полок в вашем магазине', learnedFromHistory: 'Определено из вашей истории покупок', aisleOrderEnabled: 'Сортировка по полкам включена', aisleOrderDisabled: 'Сортировка по полкам выключена',
+                weeklyBudget: 'Недельный бюджет', setBudget: 'Установить бюджет', budgetAmount: 'Сумма бюджета', budgetRemaining: 'Осталось: ₪{amount}', budgetExceeded: 'Превышение: ₪{amount}', budgetUsed: '{percent}% использовано', estimatedTotal: 'Примерная сумма', noBudgetSet: 'Бюджет не установлен',
+                budgetBreakdown: 'Разбивка расходов', categorySpending: 'Расходы по категориям', weeklyAverage: 'Средний за неделю', budgetAlert80: 'Приближаетесь к бюджету!', budgetAlertExceeded: 'Бюджет превышен!', spentSoFar: 'Потрачено', of: 'из', recentWeeks: 'Последние недели', avgExpense: 'Средний расход', enoughForItems: 'Хватит на ~{count} товаров',
+                achievements: 'Достижения', streakDays: '{count} дней подряд', savingsChampion: 'Чемпион экономии', savedThisMonth: 'Сэкономлено ₪{amount} в этом месяце', listExpert: 'Эксперт списков', completedLists: '{count} списков завершено', familyTeamwork: 'Семейная работа', familyMembersActive: '{count} активных членов семьи', earlyBird: 'Ранняя пташка', earlyBirdDesc: 'Покупки до 9 утра', nightOwl: 'Ночная сова', nightOwlDesc: 'Покупки после 21:00', weekendWarrior: 'Воин выходных', weekendWarriorDesc: 'Покупки в выходные', newAchievement: 'Новое достижение!',
+                pantry: 'Кладовая', pantryTracker: 'Отслеживание кладовой', addToPantry: 'Добавить в кладовую', removeFromPantry: 'Удалить из кладовой', expiresIn: 'Истекает через {days} дней', expired: 'Срок истёк!', expiryDate: 'Срок годности', inStock: 'В наличии', runningLow: 'Заканчивается', outOfStock: 'Закончилось', pantryEmpty: 'Кладовая пуста', addFromList: 'Добавить из списка', expiringSoon: 'Скоро истекает',
+                mealPlan: 'План питания', mealPlanning: 'Недельное планирование питания', breakfast: 'Завтрак', lunch: 'Обед', dinner: 'Ужин', snack: 'Перекус', addMeal: 'Добавить блюдо', mealName: 'Название блюда', generateList: 'Создать список покупок', thisWeek: 'Эта неделя', clearWeek: 'Очистить неделю', mealAdded: 'Блюдо добавлено', ingredientsAdded: '{count} ингредиентов добавлено в список',
+                servings: 'Порции', peopleCount: '{count} человек', chooseMealType: 'Выберите тип блюда', chooseRecipe: 'Выберите блюдо', customMeal: 'Своё блюдо', addMealAndIngredients: 'Добавить блюдо + ингредиенты', suggestedMeals: 'Рекомендуемые блюда', shabbatMeal: 'Шаббатнее блюдо', howManyPeople: 'На сколько человек?', back: 'Назад',
+                importRecipe: 'Импорт рецепта', pasteRecipeUrl: 'Вставьте ссылку на рецепт', importingRecipe: 'Импорт рецепта...', recipeImported: 'Рецепт успешно импортирован', recipeTitle: 'Название рецепта', ingredients: 'Ингредиенты', addIngredients: 'Добавить ингредиенты в список',
+                shareListLink: 'Поделиться списком по ссылке', shareListDesc: 'Любой с ссылкой сможет увидеть список', linkCopied: 'Ссылка скопирована!', viewSharedList: 'Посмотреть общий список',
+                aiAssistant: 'ИИ-помощник', askAI: 'Спросить умного помощника', aiPlaceholder: 'Например: "Составь мне список на шаббат для 6 человек"', aiThinking: 'Думаю...', aiResponse: 'Ответ помощника'
             },
             ar: {
                 // App name & general
@@ -4256,7 +4398,28 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 wednesday: 'أربعاء',
                 thursday: 'خميس',
                 friday: 'جمعة',
-                saturday: 'سبت'
+                saturday: 'سبت',
+                // Smart Suggestions
+                smartSuggestions: 'اقتراحات لك',
+                boughtTogether: 'دائمًا تشتري مع {item}',
+                regularlyBuy: 'تشتري عادةً',
+                timeToBuy: 'لم تشترِ منذ {days} أيام',
+                addedToList: 'تمت الإضافة للقائمة!',
+                hideSuggestions: 'إخفاء الاقتراحات',
+                startWithRegulars: 'ابدأ بمنتجاتك المعتادة',
+                addAllSuggestions: 'إضافة الكل',
+                suggestedForYou: 'مقترح لك',
+                dismissSuggestion: 'إخفاء الاقتراح',
+                aisleOrder: 'ترتيب الممرات', aisleOrderDesc: 'القائمة مرتبة حسب ممرات متجرك', learnedFromHistory: 'تم تعلمه من سجل مشترياتك', aisleOrderEnabled: 'ترتيب الممرات مفعل', aisleOrderDisabled: 'ترتيب الممرات معطل',
+                weeklyBudget: 'ميزانية أسبوعية', setBudget: 'تعيين ميزانية', budgetAmount: 'مبلغ الميزانية', budgetRemaining: 'متبقي: ₪{amount}', budgetExceeded: 'تجاوز: ₪{amount}', budgetUsed: '{percent}% مستخدم', estimatedTotal: 'الإجمالي المقدر', noBudgetSet: 'لم يتم تعيين ميزانية',
+                budgetBreakdown: 'تفصيل المصاريف', categorySpending: 'الإنفاق حسب الفئة', weeklyAverage: 'المعدل الأسبوعي', budgetAlert80: 'اقتربت من الميزانية!', budgetAlertExceeded: 'تم تجاوز الميزانية!', spentSoFar: 'تم إنفاقه حتى الآن', of: 'من', recentWeeks: 'الأسابيع الأخيرة', avgExpense: 'متوسط الإنفاق', enoughForItems: 'يكفي لـ ~{count} منتجات',
+                achievements: 'إنجازات', streakDays: '{count} أيام متتالية', savingsChampion: 'بطل التوفير', savedThisMonth: 'وفرت ₪{amount} هذا الشهر', listExpert: 'خبير القوائم', completedLists: '{count} قوائم مكتملة', familyTeamwork: 'عمل جماعي عائلي', familyMembersActive: '{count} أفراد نشطين', earlyBird: 'طائر مبكر', earlyBirdDesc: 'تسوق قبل 9 صباحًا', nightOwl: 'بومة ليلية', nightOwlDesc: 'تسوق بعد 9 مساءً', weekendWarrior: 'محارب عطلة نهاية الأسبوع', weekendWarriorDesc: 'تسوق في عطلة نهاية الأسبوع', newAchievement: 'إنجاز جديد!',
+                pantry: 'مخزن', pantryTracker: 'متتبع المخزن', addToPantry: 'أضف للمخزن', removeFromPantry: 'إزالة من المخزن', expiresIn: 'ينتهي خلال {days} أيام', expired: 'منتهي الصلاحية!', expiryDate: 'تاريخ الانتهاء', inStock: 'متوفر', runningLow: 'على وشك النفاد', outOfStock: 'نفد', pantryEmpty: 'المخزن فارغ', addFromList: 'أضف من القائمة', expiringSoon: 'ينتهي قريبًا',
+                mealPlan: 'خطة وجبات', mealPlanning: 'تخطيط وجبات أسبوعي', breakfast: 'فطور', lunch: 'غداء', dinner: 'عشاء', snack: 'وجبة خفيفة', addMeal: 'أضف وجبة', mealName: 'اسم الوجبة', generateList: 'إنشاء قائمة تسوق', thisWeek: 'هذا الأسبوع', clearWeek: 'مسح الأسبوع', mealAdded: 'تمت إضافة الوجبة', ingredientsAdded: '{count} مكونات أضيفت للقائمة',
+                servings: 'حصص', peopleCount: '{count} أشخاص', chooseMealType: 'اختر نوع الوجبة', chooseRecipe: 'اختر وجبة', customMeal: 'وجبة مخصصة', addMealAndIngredients: 'أضف وجبة + مكونات', suggestedMeals: 'وجبات مقترحة', shabbatMeal: 'وجبة سبت', howManyPeople: 'لكم شخص؟', back: 'رجوع',
+                importRecipe: 'استيراد وصفة', pasteRecipeUrl: 'الصق رابط الوصفة', importingRecipe: 'جاري استيراد الوصفة...', recipeImported: 'تم استيراد الوصفة بنجاح', recipeTitle: 'اسم الوصفة', ingredients: 'المكونات', addIngredients: 'أضف المكونات للقائمة',
+                shareListLink: 'مشاركة القائمة برابط', shareListDesc: 'أي شخص لديه الرابط يمكنه رؤية القائمة', linkCopied: 'تم نسخ الرابط!', viewSharedList: 'عرض القائمة المشتركة',
+                aiAssistant: 'مساعد ذكي', askAI: 'اسأل المساعد الذكي', aiPlaceholder: 'مثال: "اصنع لي قائمة لعشاء 6 أشخاص"', aiThinking: 'جاري التفكير...', aiResponse: 'رد المساعد'
             }
         };
 
@@ -12085,6 +12248,56 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [showAIAssistant, setShowAIAssistant] = useState(false);
             const [aiSuggestions, setAiSuggestions] = useState([]);
             const [aiThinking, setAiThinking] = useState(false);
+            // Smart Suggestions (history-based)
+            const [smartSuggestions, setSmartSuggestions] = useState([]);
+            const [dismissedSuggestions, setDismissedSuggestions] = useState(new Set());
+            const [showSmartSuggestions, setShowSmartSuggestions] = useState(true);
+            // Aisle sorting
+            const [aisleOrderEnabled, setAisleOrderEnabled] = useState(() => localStorage.getItem('aisleOrderEnabled') === 'true');
+            const [learnedAisleOrder, setLearnedAisleOrder] = useState(() => {
+                try { return JSON.parse(localStorage.getItem('learnedAisleOrder') || '{}'); } catch { return {}; }
+            });
+            // Budget
+            const [weeklyBudget, setWeeklyBudget] = useState(() => parseFloat(localStorage.getItem('weeklyBudget') || '0'));
+            const [showBudgetModal, setShowBudgetModal] = useState(false);
+            const [budgetInput, setBudgetInput] = useState('');
+            const [budgetHistory, setBudgetHistory] = useState(() => {
+                try { return JSON.parse(localStorage.getItem('budgetHistory') || '[]'); } catch { return []; }
+            });
+            const [showBudgetBreakdown, setShowBudgetBreakdown] = useState(false);
+            // Gamification (enhanced)
+            const [gamificationBadges, setGamificationBadges] = useState([]);
+            const [showBadgeToast, setShowBadgeToast] = useState(null);
+            // Pantry
+            const [pantryItems, setPantryItems] = useState(() => {
+                try { return JSON.parse(localStorage.getItem('pantryItems') || '[]'); } catch { return []; }
+            });
+            const [showPantry, setShowPantry] = useState(false);
+            const [pantryInput, setPantryInput] = useState('');
+            const [pantryExpiryInput, setPantryExpiryInput] = useState('');
+            // Meal Planning
+            const [mealPlan, setMealPlan] = useState(() => {
+                try { return JSON.parse(localStorage.getItem('mealPlan') || '{}'); } catch { return {}; }
+            });
+            const [showMealPlanner, setShowMealPlanner] = useState(false);
+            const [mealPlanDay, setMealPlanDay] = useState(null);
+            const [mealPlanType, setMealPlanType] = useState('dinner');
+            const [mealPlanInput, setMealPlanInput] = useState('');
+            const [mealIngredientsInput, setMealIngredientsInput] = useState('');
+            const [mealPlanServings, setMealPlanServings] = useState(4);
+            const [mealSuggestions, setMealSuggestions] = useState([]);
+            const [selectedRecipe, setSelectedRecipe] = useState(null);
+            const [mealAddStep, setMealAddStep] = useState(1); // 1=type, 2=servings, 3=recipes
+            // Recipe import
+            const [showRecipeImport, setShowRecipeImport] = useState(false);
+            const [recipeUrl, setRecipeUrl] = useState('');
+            const [importedRecipe, setImportedRecipe] = useState(null);
+            const [importingRecipe, setImportingRecipe] = useState(false);
+            // AI Chat
+            const [showAIChat, setShowAIChat] = useState(false);
+            const [aiChatInput, setAiChatInput] = useState('');
+            const [aiChatMessages, setAiChatMessages] = useState([]);
+            const [aiChatLoading, setAiChatLoading] = useState(false);
             // Onboarding & Help
             const [showOnboarding, setShowOnboarding] = useState(false);
             const [onboardingStep, setOnboardingStep] = useState(0);
@@ -13829,6 +14042,613 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 })).filter(h => h.products.length > 0);
             };
 
+            // Smart Suggestions from Shopping History
+            const getSmartSuggestions = () => {
+                if (!history || history.length === 0) return [];
+                const currentItemNames = items.map(i => i.name.toLowerCase());
+                const suggestions = [];
+
+                // --- A. Co-purchase: "קנית תמיד ביחד" ---
+                const coMatrix = {};
+                history.forEach(record => {
+                    const names = (record.items || []).map(i => (i.name || '').toLowerCase()).filter(Boolean);
+                    for (let i = 0; i < names.length; i++) {
+                        for (let j = i + 1; j < names.length; j++) {
+                            const pair = [names[i], names[j]].sort().join('||');
+                            coMatrix[pair] = (coMatrix[pair] || 0) + 1;
+                        }
+                    }
+                });
+                const coPairs = Object.entries(coMatrix)
+                    .filter(([, count]) => count >= 3)
+                    .sort((a, b) => b[1] - a[1]);
+
+                coPairs.forEach(([pair, count]) => {
+                    const [a, b] = pair.split('||');
+                    const aInCart = currentItemNames.includes(a);
+                    const bInCart = currentItemNames.includes(b);
+                    if (aInCart && !bInCart) {
+                        if (!suggestions.some(s => s.name.toLowerCase() === b)) {
+                            suggestions.push({
+                                name: b.charAt(0).toUpperCase() + b.slice(1),
+                                reason: 'bought_together',
+                                confidence: Math.min(count / history.length, 1),
+                                context: t('boughtTogether').replace('{item}', a),
+                                icon: '\u{1F9E9}'
+                            });
+                        }
+                    } else if (bInCart && !aInCart) {
+                        if (!suggestions.some(s => s.name.toLowerCase() === a)) {
+                            suggestions.push({
+                                name: a.charAt(0).toUpperCase() + a.slice(1),
+                                reason: 'bought_together',
+                                confidence: Math.min(count / history.length, 1),
+                                context: t('boughtTogether').replace('{item}', b),
+                                icon: '\u{1F9E9}'
+                            });
+                        }
+                    }
+                });
+
+                // --- B. Regular items not in list: "שכחת?" ---
+                regularItems.forEach(ri => {
+                    if (!currentItemNames.includes(ri.name.toLowerCase()) &&
+                        !suggestions.some(s => s.name.toLowerCase() === ri.name.toLowerCase())) {
+                        suggestions.push({
+                            name: ri.name.charAt(0).toUpperCase() + ri.name.slice(1),
+                            reason: 'regular',
+                            confidence: Math.min(ri.count / history.length, 1),
+                            context: t('regularlyBuy'),
+                            icon: '\u{1F504}'
+                        });
+                    }
+                });
+
+                // --- C. Time-based: "הגיע הזמן" ---
+                const itemDates = {};
+                history.forEach(record => {
+                    const date = record.completedAt?.toDate ? record.completedAt.toDate() : (record.completedAt ? new Date(record.completedAt) : null);
+                    if (!date) return;
+                    (record.items || []).forEach(i => {
+                        const name = (i.name || '').toLowerCase();
+                        if (name) {
+                            if (!itemDates[name]) itemDates[name] = [];
+                            itemDates[name].push(date.getTime());
+                        }
+                    });
+                });
+                const now = Date.now();
+                Object.entries(itemDates).forEach(([name, dates]) => {
+                    if (dates.length < 3) return;
+                    dates.sort((a, b) => a - b);
+                    let totalGap = 0;
+                    for (let i = 1; i < dates.length; i++) totalGap += dates[i] - dates[i - 1];
+                    const avgGapMs = totalGap / (dates.length - 1);
+                    const avgGapDays = avgGapMs / (1000 * 60 * 60 * 24);
+                    const lastPurchase = dates[dates.length - 1];
+                    const daysSinceLast = (now - lastPurchase) / (1000 * 60 * 60 * 24);
+
+                    if (daysSinceLast >= avgGapDays && !currentItemNames.includes(name) &&
+                        !suggestions.some(s => s.name.toLowerCase() === name)) {
+                        suggestions.push({
+                            name: name.charAt(0).toUpperCase() + name.slice(1),
+                            reason: 'time_based',
+                            confidence: Math.min(daysSinceLast / avgGapDays, 2) / 2,
+                            context: t('timeToBuy').replace('{days}', Math.round(daysSinceLast)),
+                            icon: '\u23F0'
+                        });
+                    }
+                });
+
+                // Sort by confidence descending
+                suggestions.sort((a, b) => b.confidence - a.confidence);
+                return suggestions.slice(0, 12);
+            };
+
+            // === FEATURE: Aisle Order Learning ===
+            const learnAisleOrder = () => {
+                if (!history || history.length < 2) return;
+                const categoryTimestamps = {};
+                history.forEach(record => {
+                    const recordItems = record.items || [];
+                    recordItems.forEach((item, index) => {
+                        const cat = resolveCategory(item.category || detectCategory(item.name || ''));
+                        if (!cat) return;
+                        if (!categoryTimestamps[cat]) categoryTimestamps[cat] = [];
+                        categoryTimestamps[cat].push(index);
+                    });
+                });
+                const avgOrder = {};
+                Object.entries(categoryTimestamps).forEach(([cat, indices]) => {
+                    avgOrder[cat] = indices.reduce((a, b) => a + b, 0) / indices.length;
+                });
+                setLearnedAisleOrder(avgOrder);
+                localStorage.setItem('learnedAisleOrder', JSON.stringify(avgOrder));
+            };
+
+            useEffect(() => {
+                if (history.length >= 2) learnAisleOrder();
+            }, [history]);
+
+            const getAisleSortedCategories = (groupedObj) => {
+                const entries = Object.entries(groupedObj);
+                if (!aisleOrderEnabled || Object.keys(learnedAisleOrder).length === 0) return entries;
+                return entries.sort((a, b) => {
+                    const orderA = learnedAisleOrder[a[0]] ?? 999;
+                    const orderB = learnedAisleOrder[b[0]] ?? 999;
+                    return orderA - orderB;
+                });
+            };
+
+            // === FEATURE: Weekly Budget ===
+            const estimatedListTotal = React.useMemo(() => {
+                return items.filter(i => !i.purchased).reduce((sum, item) => {
+                    const price = item.estimatedPrice || getEstimatedPrice(item.name) || 0;
+                    const qty = parseFloat(item.quantity) || 1;
+                    return sum + (price * qty);
+                }, 0);
+            }, [items]);
+
+            const budgetPercent = weeklyBudget > 0 ? Math.min(Math.round((estimatedListTotal / weeklyBudget) * 100), 100) : 0;
+
+            const saveBudget = (amount) => {
+                const val = parseFloat(amount) || 0;
+                setWeeklyBudget(val);
+                localStorage.setItem('weeklyBudget', val.toString());
+                setShowBudgetModal(false);
+                showToast(val > 0 ? `${t('weeklyBudget')}: ₪${val}` : t('noBudgetSet'), 'success');
+            };
+
+            const saveBudgetWeek = () => {
+                if (weeklyBudget <= 0) return;
+                const entry = {
+                    weekStart: new Date().toISOString(),
+                    budget: weeklyBudget,
+                    spent: Math.round(estimatedListTotal),
+                    itemCount: items.filter(i => !i.purchased).length,
+                    date: new Date().toLocaleDateString()
+                };
+                const updated = [entry, ...budgetHistory].slice(0, 12);
+                setBudgetHistory(updated);
+                localStorage.setItem('budgetHistory', JSON.stringify(updated));
+            };
+
+            const getCategoryBreakdown = React.useMemo(() => {
+                const breakdown = {};
+                items.filter(i => !i.purchased).forEach(item => {
+                    const cat = item.category || 'other';
+                    const price = item.estimatedPrice || getEstimatedPrice(item.name) || 0;
+                    const qty = parseFloat(item.quantity) || 1;
+                    const total = price * qty;
+                    if (total > 0) {
+                        if (!breakdown[cat]) {
+                            breakdown[cat] = { category: cat, emoji: CATEGORIES[cat]?.icon || '📦', name: getCategoryName(cat), total: 0 };
+                        }
+                        breakdown[cat].total += total;
+                    }
+                });
+                const sorted = Object.values(breakdown).sort((a, b) => b.total - a.total);
+                const grandTotal = sorted.reduce((s, c) => s + c.total, 0);
+                return sorted.map(c => ({ ...c, percent: grandTotal > 0 ? Math.round((c.total / grandTotal) * 100) : 0 }));
+            }, [items]);
+
+            // === FEATURE: Enhanced Gamification ===
+            useEffect(() => {
+                if (!history || history.length === 0) return;
+                const badges = [];
+                // Streak badge
+                if (shoppingStreak >= 3) badges.push({ id: 'streak', emoji: '🔥', name: t('streakDays').replace('{count}', shoppingStreak) });
+                // Completed lists count
+                const completedCount = history.length;
+                if (completedCount >= 10) badges.push({ id: 'expert', emoji: '🏅', name: t('listExpert') });
+                if (completedCount >= 50) badges.push({ id: 'master', emoji: '👑', name: t('completedLists').replace('{count}', completedCount) });
+                // Time-based badges
+                const lastTrip = history[0];
+                if (lastTrip?.completedAt) {
+                    const d = lastTrip.completedAt.toDate ? lastTrip.completedAt.toDate() : new Date(lastTrip.completedAt);
+                    const hour = d.getHours();
+                    if (hour < 9) badges.push({ id: 'early', emoji: '🌅', name: t('earlyBird') });
+                    if (hour >= 21) badges.push({ id: 'night', emoji: '🦉', name: t('nightOwl') });
+                    if (d.getDay() === 5 || d.getDay() === 6) badges.push({ id: 'weekend', emoji: '💪', name: t('weekendWarrior') });
+                }
+                setGamificationBadges(badges);
+            }, [history, shoppingStreak]);
+
+            // === FEATURE: Pantry Tracker ===
+            const addToPantry = (name, expiryDate) => {
+                const newItem = {
+                    id: Date.now().toString(),
+                    name,
+                    addedAt: new Date().toISOString(),
+                    expiryDate: expiryDate || null,
+                    status: 'inStock'
+                };
+                setPantryItems(prev => {
+                    const updated = [...prev, newItem];
+                    localStorage.setItem('pantryItems', JSON.stringify(updated));
+                    return updated;
+                });
+                showToast(t('addToPantry') + ': ' + name, 'success');
+            };
+
+            const removeFromPantry = (id) => {
+                setPantryItems(prev => {
+                    const updated = prev.filter(i => i.id !== id);
+                    localStorage.setItem('pantryItems', JSON.stringify(updated));
+                    return updated;
+                });
+            };
+
+            const updatePantryStatus = (id, status) => {
+                setPantryItems(prev => {
+                    const updated = prev.map(i => i.id === id ? { ...i, status } : i);
+                    localStorage.setItem('pantryItems', JSON.stringify(updated));
+                    return updated;
+                });
+            };
+
+            const pantryExpiringItems = React.useMemo(() => {
+                const now = Date.now();
+                return pantryItems.filter(i => {
+                    if (!i.expiryDate) return false;
+                    const expiry = new Date(i.expiryDate).getTime();
+                    const daysLeft = (expiry - now) / (1000 * 60 * 60 * 24);
+                    return daysLeft <= 3 && daysLeft > 0;
+                });
+            }, [pantryItems]);
+
+            // Auto-add purchased items to pantry
+            useEffect(() => {
+                items.forEach(item => {
+                    if (item.purchased && !pantryItems.some(p => p.name.toLowerCase() === item.name.toLowerCase())) {
+                        // Don't auto-add, just track for suggestion
+                    }
+                });
+            }, [items]);
+
+            // === FEATURE: Meal Planning ===
+            const getDayName = (dayIndex) => {
+                const days = [t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday')];
+                return days[dayIndex] || '';
+            };
+
+            const addMealToPlan = (day, type, name, ingredients) => {
+                setMealPlan(prev => {
+                    const updated = { ...prev };
+                    if (!updated[day]) updated[day] = {};
+                    if (!updated[day][type]) updated[day][type] = [];
+                    updated[day][type].push({ name, ingredients: ingredients ? ingredients.split(',').map(s => s.trim()).filter(Boolean) : [] });
+                    localStorage.setItem('mealPlan', JSON.stringify(updated));
+                    return updated;
+                });
+                showToast(t('mealAdded'), 'success');
+            };
+
+            const getMealSuggestions = (type) => {
+                const recipes = MEAL_RECIPES[type] || [];
+                return recipes.map(recipe => ({
+                    ...recipe,
+                    ingredients: recipe.ingredients.map(ing => ({
+                        ...ing,
+                        calcQty: Math.ceil(ing.qty * (mealPlanServings / 2) * 10) / 10
+                    }))
+                }));
+            };
+
+            const addRecipeToMealPlan = async (recipe, day, type, servings) => {
+                const scaledIngredients = recipe.ingredients.map(ing => {
+                    const calcQty = Math.ceil(ing.qty * (servings / 2) * 10) / 10;
+                    return `${ing.name} (${calcQty} ${ing.unit})`;
+                });
+                // Add meal to plan
+                setMealPlan(prev => {
+                    const updated = { ...prev };
+                    if (!updated[day]) updated[day] = {};
+                    if (!updated[day][type]) updated[day][type] = [];
+                    updated[day][type].push({ name: recipe.name, ingredients: scaledIngredients });
+                    localStorage.setItem('mealPlan', JSON.stringify(updated));
+                    return updated;
+                });
+                // Add all ingredients directly to shopping list (bypass quantity selector)
+                let addedCount = 0;
+                for (const ing of recipe.ingredients) {
+                    const calcQty = Math.ceil(ing.qty * (servings / 2) * 10) / 10;
+                    const productName = ing.name;
+                    const category = detectCategory(productName);
+                    const unit = ing.unit;
+                    const existing = items.find(i => i.name.toLowerCase() === productName.toLowerCase() && !i.purchased);
+                    if (existing) continue; // skip if already in list
+                    const tempId = `temp_${Date.now()}_${addedCount}`;
+                    const estimatedPrice = getEstimatedPrice(productName);
+                    const newItem = {
+                        id: tempId,
+                        name: productName,
+                        category,
+                        quantity: calcQty,
+                        unit,
+                        purchased: false,
+                        familyId: family.id,
+                        listId: currentList.id,
+                        addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                        addedByUid: childUser?.childId || user?.uid,
+                        note: `${recipe.name}`,
+                        price: estimatedPrice || null,
+                        priceSource: estimatedPrice ? 'estimated' : null,
+                        createdAt: { toDate: () => new Date() },
+                        _isTemp: true
+                    };
+                    setItems(prev => [newItem, ...prev]);
+                    addedCount++;
+                    if (isOnline) {
+                        try {
+                            const docRef = await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                                name: productName, category, quantity: calcQty, unit, purchased: false,
+                                familyId: family.id, listId: currentList.id,
+                                addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                                addedByUid: childUser?.childId || user?.uid,
+                                note: `${recipe.name}`,
+                                price: estimatedPrice || null, priceSource: estimatedPrice ? 'estimated' : null,
+                                createdAt: new Date()
+                            });
+                            setItems(prev => prev.map(i => i.id === tempId ? { ...i, id: docRef.id, _isTemp: false } : i));
+                        } catch (error) {
+                            console.error('Error adding ingredient:', error);
+                            queueOperation({ type: 'add', name: productName, category, quantity: calcQty, unit, note: recipe.name, price: estimatedPrice });
+                        }
+                    } else {
+                        queueOperation({ type: 'add', name: productName, category, quantity: calcQty, unit, note: recipe.name, price: estimatedPrice });
+                    }
+                }
+                showToast(t('ingredientsAdded').replace('{count}', addedCount), 'success');
+            };
+
+            const removeMealFromPlan = (day, type, index) => {
+                setMealPlan(prev => {
+                    const updated = { ...prev };
+                    if (updated[day]?.[type]) {
+                        updated[day][type].splice(index, 1);
+                        if (updated[day][type].length === 0) delete updated[day][type];
+                        if (Object.keys(updated[day]).length === 0) delete updated[day];
+                    }
+                    localStorage.setItem('mealPlan', JSON.stringify(updated));
+                    return updated;
+                });
+            };
+
+            const generateListFromMealPlan = () => {
+                let count = 0;
+                Object.values(mealPlan).forEach(dayMeals => {
+                    Object.values(dayMeals).forEach(meals => {
+                        meals.forEach(meal => {
+                            (meal.ingredients || []).forEach(ing => {
+                                if (!items.some(i => i.name.toLowerCase() === ing.toLowerCase())) {
+                                    addProduct(ing);
+                                    count++;
+                                }
+                            });
+                        });
+                    });
+                });
+                if (count > 0) showToast(t('ingredientsAdded').replace('{count}', count), 'success');
+            };
+
+            const clearMealPlan = () => {
+                saveBudgetWeek();
+                setMealPlan({});
+                localStorage.setItem('mealPlan', JSON.stringify({}));
+            };
+
+            // === FEATURE: Recipe Import (from text/ingredients) ===
+            const parseRecipeText = (text) => {
+                const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+                const ingredients = [];
+                lines.forEach(line => {
+                    const cleaned = line.replace(/^[-•*\d.)\s]+/, '').trim();
+                    if (cleaned.length > 1 && cleaned.length < 80) {
+                        ingredients.push(cleaned);
+                    }
+                });
+                return ingredients;
+            };
+
+            // === FEATURE: AI Chat Assistant ===
+            const processAIChat = (message) => {
+                setAiChatLoading(true);
+                setAiChatMessages(prev => [...prev, { role: 'user', content: message }]);
+
+                setTimeout(() => {
+                    let response = '';
+                    const msgLower = message.toLowerCase();
+
+                    // Simple pattern matching AI
+                    if (msgLower.includes('שבת') || msgLower.includes('shabbat') || msgLower.includes('שישי')) {
+                        const shabbatList = ['חלה', 'יין', 'עוף שלם', 'תפוחי אדמה', 'בצל', 'גזר', 'שום', 'נרות שבת', 'חומוס', 'טחינה', 'סלט ירקות'];
+                        if (msgLower.match(/\d+/) ) {
+                            const num = parseInt(msgLower.match(/\d+/)[0]);
+                            if (num > 4) shabbatList.push('אורז', 'קוגל', 'סלט חצילים', 'מרק עוף');
+                        }
+                        response = `הנה רשימה לשבת:\n${shabbatList.map(i => `• ${i}`).join('\n')}\n\nרוצה שאוסיף הכל לרשימה?`;
+                        setAiChatMessages(prev => [...prev, { role: 'ai', content: response, items: shabbatList }]);
+                    } else if (msgLower.includes('ארוחת בוקר') || msgLower.includes('breakfast') || msgLower.includes('בוקר')) {
+                        const breakfastList = ['ביצים', 'לחם', 'גבינה צהובה', 'עגבניות', 'מלפפונים', 'חלב', 'קפה', 'חמאה', 'ריבה', 'גבינה לבנה'];
+                        response = `הנה רשימה לארוחת בוקר:\n${breakfastList.map(i => `• ${i}`).join('\n')}\n\nרוצה שאוסיף הכל לרשימה?`;
+                        setAiChatMessages(prev => [...prev, { role: 'ai', content: response, items: breakfastList }]);
+                    } else if (msgLower.includes('סלט') || msgLower.includes('salad')) {
+                        const saladList = ['עגבניות', 'מלפפונים', 'בצל סגול', 'פלפל', 'לימון', 'שמן זית', 'חסה', 'גזר', 'נבטים'];
+                        response = `הנה מרכיבים לסלט:\n${saladList.map(i => `• ${i}`).join('\n')}\n\nרוצה שאוסיף הכל לרשימה?`;
+                        setAiChatMessages(prev => [...prev, { role: 'ai', content: response, items: saladList }]);
+                    } else if (msgLower.includes('פסטה') || msgLower.includes('pasta')) {
+                        const pastaList = ['פסטה', 'רוטב עגבניות', 'שמן זית', 'שום', 'בצל', 'גבינה צהובה', 'בזיליקום', 'מלח', 'פלפל'];
+                        response = `הנה מרכיבים לפסטה:\n${pastaList.map(i => `• ${i}`).join('\n')}\n\nרוצה שאוסיף הכל לרשימה?`;
+                        setAiChatMessages(prev => [...prev, { role: 'ai', content: response, items: pastaList }]);
+                    } else if (msgLower.includes('מרק') || msgLower.includes('soup')) {
+                        const soupList = ['עוף', 'גזר', 'בצל', 'כרפס', 'תפוחי אדמה', 'אטריות', 'מלח', 'פלפל', 'כורכום', 'שמיר'];
+                        response = `הנה מרכיבים למרק:\n${soupList.map(i => `• ${i}`).join('\n')}\n\nרוצה שאוסיף הכל לרשימה?`;
+                        setAiChatMessages(prev => [...prev, { role: 'ai', content: response, items: soupList }]);
+                    } else if (msgLower.includes('הוסף') || msgLower.includes('add') || msgLower.includes('כן')) {
+                        const lastAiMsg = [...aiChatMessages].reverse().find(m => m.role === 'ai' && m.items);
+                        if (lastAiMsg?.items) {
+                            lastAiMsg.items.forEach(item => addProduct(item));
+                            response = `✅ הוספתי ${lastAiMsg.items.length} מוצרים לרשימה!`;
+                        } else {
+                            response = 'לא מצאתי מוצרים להוספה. נסה לבקש רשימה קודם.';
+                        }
+                        setAiChatMessages(prev => [...prev, { role: 'ai', content: response }]);
+                    } else if (msgLower.includes('מבצע') || msgLower.includes('חסכ') || msgLower.includes('save')) {
+                        response = '💡 טיפים לחיסכון:\n• קנה מוצרים עונתיים - הם זולים יותר\n• השווה מחירים בין רשתות\n• קנה באריזות גדולות מוצרים שאתה צורך הרבה\n• בדוק מבצעי 1+1 לפני הקניה';
+                        setAiChatMessages(prev => [...prev, { role: 'ai', content: response }]);
+                    } else {
+                        response = 'אני יכול לעזור לך עם:\n• 🍽️ רשימה לשבת / ארוחת בוקר\n• 🥗 רשימת מרכיבים (סלט, פסטה, מרק...)\n• 💰 טיפים לחיסכון\n\nפשוט תגיד לי מה אתה צריך!';
+                        setAiChatMessages(prev => [...prev, { role: 'ai', content: response }]);
+                    }
+
+                    setAiChatLoading(false);
+                }, 800);
+            };
+
+            // === FEATURE: Share List via Link ===
+            const shareListViaLink = async () => {
+                const listText = items.filter(i => !i.purchased).map(i => {
+                    const qty = i.quantity && i.quantity !== '1' ? ` x${i.quantity}` : '';
+                    return `• ${i.name}${qty}`;
+                }).join('\n');
+
+                const shareData = {
+                    title: t('shoppingList'),
+                    text: `${t('shoppingList')}:\n\n${listText}\n\n${t('sharedFrom')} ListNest`
+                };
+
+                if (navigator.share) {
+                    try { await navigator.share(shareData); } catch (e) { /* cancelled */ }
+                } else if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(shareData.text);
+                    showToast(t('linkCopied'), 'success');
+                }
+            };
+
+            // === MEAL RECIPES DATABASE (base qty for 2 servings) ===
+            const MEAL_RECIPES = {
+                breakfast: [
+                    { name: 'שקשוקה', icon: '🍳', ingredients: [
+                        { name: 'עגבניות', qty: 4, unit: 'יח׳' }, { name: 'ביצים', qty: 4, unit: 'יח׳' }, { name: 'בצל', qty: 1, unit: 'יח׳' },
+                        { name: 'שום', qty: 2, unit: 'שיניים' }, { name: 'פלפל חריף', qty: 1, unit: 'יח׳' }, { name: 'שמן זית', qty: 2, unit: 'כפות' },
+                        { name: 'פפריקה', qty: 1, unit: 'כפית' }, { name: 'כמון', qty: 0.5, unit: 'כפית' }, { name: 'לחם', qty: 1, unit: 'יח׳' }
+                    ]},
+                    { name: 'ארוחת בוקר ישראלית', icon: '🥗', ingredients: [
+                        { name: 'ביצים', qty: 4, unit: 'יח׳' }, { name: 'עגבניות', qty: 2, unit: 'יח׳' }, { name: 'מלפפונים', qty: 2, unit: 'יח׳' },
+                        { name: 'גבינה צהובה', qty: 100, unit: 'גרם' }, { name: 'גבינה לבנה', qty: 1, unit: 'יח׳' }, { name: 'לחם', qty: 1, unit: 'יח׳' },
+                        { name: 'חמאה', qty: 1, unit: 'יח׳' }, { name: 'ריבה', qty: 1, unit: 'יח׳' }, { name: 'זיתים', qty: 50, unit: 'גרם' }
+                    ]},
+                    { name: 'חביתה', icon: '🥚', ingredients: [
+                        { name: 'ביצים', qty: 4, unit: 'יח׳' }, { name: 'חלב', qty: 0.25, unit: 'כוס' }, { name: 'גבינה צהובה', qty: 50, unit: 'גרם' },
+                        { name: 'פטריות', qty: 100, unit: 'גרם' }, { name: 'בצל ירוק', qty: 2, unit: 'יח׳' }, { name: 'שמן', qty: 1, unit: 'כפית' }
+                    ]},
+                    { name: 'טוסט אבוקדו', icon: '🥑', ingredients: [
+                        { name: 'לחם', qty: 4, unit: 'פרוסות' }, { name: 'אבוקדו', qty: 2, unit: 'יח׳' }, { name: 'ביצים', qty: 2, unit: 'יח׳' },
+                        { name: 'לימון', qty: 0.5, unit: 'יח׳' }, { name: 'עגבניות שרי', qty: 100, unit: 'גרם' }, { name: 'מלח גס', qty: 1, unit: 'קמצוץ' }
+                    ]},
+                    { name: 'שחר לבן + גרנולה', icon: '🥣', ingredients: [
+                        { name: 'שחר לבן', qty: 2, unit: 'יח׳' }, { name: 'גרנולה', qty: 100, unit: 'גרם' }, { name: 'דבש', qty: 2, unit: 'כפות' },
+                        { name: 'פירות העונה', qty: 200, unit: 'גרם' }, { name: 'אגוזים', qty: 30, unit: 'גרם' }
+                    ]}
+                ],
+                lunch: [
+                    { name: 'שווארמה ביתית', icon: '🌯', ingredients: [
+                        { name: 'חזה עוף', qty: 400, unit: 'גרם' }, { name: 'פיתות', qty: 4, unit: 'יח׳' }, { name: 'בצל', qty: 1, unit: 'יח׳' },
+                        { name: 'טחינה', qty: 100, unit: 'גרם' }, { name: 'חומוס מוכן', qty: 200, unit: 'גרם' }, { name: 'חמוצים', qty: 100, unit: 'גרם' },
+                        { name: 'פפריקה', qty: 1, unit: 'כפית' }, { name: 'כורכום', qty: 0.5, unit: 'כפית' }, { name: 'כמון', qty: 1, unit: 'כפית' }
+                    ]},
+                    { name: 'סלט קיסר', icon: '🥗', ingredients: [
+                        { name: 'חסה', qty: 1, unit: 'ראש' }, { name: 'חזה עוף', qty: 300, unit: 'גרם' }, { name: 'קרוטונים', qty: 100, unit: 'גרם' },
+                        { name: 'פרמזן', qty: 50, unit: 'גרם' }, { name: 'רוטב קיסר', qty: 4, unit: 'כפות' }, { name: 'לימון', qty: 1, unit: 'יח׳' }
+                    ]},
+                    { name: 'חומוס ביתי', icon: '🫘', ingredients: [
+                        { name: 'גרגירי חומוס', qty: 250, unit: 'גרם' }, { name: 'טחינה', qty: 100, unit: 'גרם' }, { name: 'לימון', qty: 1, unit: 'יח׳' },
+                        { name: 'שום', qty: 3, unit: 'שיניים' }, { name: 'שמן זית', qty: 3, unit: 'כפות' }, { name: 'פיתות', qty: 4, unit: 'יח׳' },
+                        { name: 'ביצה קשה', qty: 2, unit: 'יח׳' }, { name: 'פפריקה', qty: 1, unit: 'כפית' }
+                    ]},
+                    { name: 'סנדוויץ׳ טונה', icon: '🥪', ingredients: [
+                        { name: 'טונה בקופסה', qty: 2, unit: 'יח׳' }, { name: 'לחם', qty: 4, unit: 'פרוסות' }, { name: 'תירס', qty: 1, unit: 'קופסה' },
+                        { name: 'מיונז', qty: 2, unit: 'כפות' }, { name: 'מלפפון', qty: 1, unit: 'יח׳' }, { name: 'חסה', qty: 4, unit: 'עלים' }
+                    ]},
+                    { name: 'ראפ ירקות', icon: '🌮', ingredients: [
+                        { name: 'טורטיה', qty: 4, unit: 'יח׳' }, { name: 'חומוס', qty: 200, unit: 'גרם' }, { name: 'עגבניות', qty: 2, unit: 'יח׳' },
+                        { name: 'מלפפון', qty: 1, unit: 'יח׳' }, { name: 'גזר', qty: 1, unit: 'יח׳' }, { name: 'חסה', qty: 4, unit: 'עלים' },
+                        { name: 'טחינה', qty: 2, unit: 'כפות' }
+                    ]}
+                ],
+                dinner: [
+                    { name: 'פסטה ברוטב עגבניות', icon: '🍝', ingredients: [
+                        { name: 'פסטה', qty: 250, unit: 'גרם' }, { name: 'רוטב עגבניות', qty: 400, unit: 'גרם' }, { name: 'שום', qty: 3, unit: 'שיניים' },
+                        { name: 'בצל', qty: 1, unit: 'יח׳' }, { name: 'שמן זית', qty: 2, unit: 'כפות' }, { name: 'פרמזן', qty: 50, unit: 'גרם' },
+                        { name: 'בזיליקום', qty: 1, unit: 'חבילה' }
+                    ]},
+                    { name: 'שניצל + פירה', icon: '🍗', ingredients: [
+                        { name: 'חזה עוף', qty: 400, unit: 'גרם' }, { name: 'פירורי לחם', qty: 200, unit: 'גרם' }, { name: 'ביצים', qty: 2, unit: 'יח׳' },
+                        { name: 'תפוחי אדמה', qty: 500, unit: 'גרם' }, { name: 'חמאה', qty: 30, unit: 'גרם' }, { name: 'חלב', qty: 0.5, unit: 'כוס' },
+                        { name: 'שמן לטיגון', qty: 1, unit: 'כוס' }
+                    ]},
+                    { name: 'המבורגר ביתי', icon: '🍔', ingredients: [
+                        { name: 'בשר טחון', qty: 400, unit: 'גרם' }, { name: 'לחמניות המבורגר', qty: 4, unit: 'יח׳' }, { name: 'בצל', qty: 1, unit: 'יח׳' },
+                        { name: 'עגבניות', qty: 2, unit: 'יח׳' }, { name: 'חסה', qty: 4, unit: 'עלים' }, { name: 'גבינה צהובה', qty: 4, unit: 'פרוסות' },
+                        { name: 'קטשופ', qty: 1, unit: 'יח׳' }, { name: 'חרדל', qty: 1, unit: 'יח׳' }
+                    ]},
+                    { name: 'עוף בתנור + ירקות', icon: '🍗', ingredients: [
+                        { name: 'כרעיים עוף', qty: 6, unit: 'יח׳' }, { name: 'תפוחי אדמה', qty: 500, unit: 'גרם' }, { name: 'בטטה', qty: 1, unit: 'יח׳' },
+                        { name: 'גזר', qty: 2, unit: 'יח׳' }, { name: 'בצל', qty: 1, unit: 'יח׳' }, { name: 'שמן זית', qty: 3, unit: 'כפות' },
+                        { name: 'פפריקה', qty: 1, unit: 'כפית' }, { name: 'שום', qty: 4, unit: 'שיניים' }
+                    ]},
+                    { name: 'קציצות ברוטב', icon: '🧆', ingredients: [
+                        { name: 'בשר טחון', qty: 400, unit: 'גרם' }, { name: 'בצל', qty: 2, unit: 'יח׳' }, { name: 'ביצה', qty: 1, unit: 'יח׳' },
+                        { name: 'פירורי לחם', qty: 50, unit: 'גרם' }, { name: 'רוטב עגבניות', qty: 400, unit: 'גרם' }, { name: 'שום', qty: 2, unit: 'שיניים' },
+                        { name: 'פטרוזיליה', qty: 1, unit: 'חבילה' }, { name: 'אורז', qty: 200, unit: 'גרם' }
+                    ]},
+                    { name: 'מרק עוף', icon: '🍲', ingredients: [
+                        { name: 'עוף (שוקיים)', qty: 4, unit: 'יח׳' }, { name: 'גזר', qty: 2, unit: 'יח׳' }, { name: 'כרפס', qty: 2, unit: 'יח׳' },
+                        { name: 'בצל', qty: 1, unit: 'יח׳' }, { name: 'תפוחי אדמה', qty: 2, unit: 'יח׳' }, { name: 'אטריות', qty: 100, unit: 'גרם' },
+                        { name: 'כורכום', qty: 0.5, unit: 'כפית' }, { name: 'מלח', qty: 1, unit: 'כפית' }
+                    ]},
+                    { name: 'לזניה', icon: '🧀', ingredients: [
+                        { name: 'דפי לזניה', qty: 250, unit: 'גרם' }, { name: 'בשר טחון', qty: 400, unit: 'גרם' }, { name: 'רוטב עגבניות', qty: 500, unit: 'גרם' },
+                        { name: 'גבינה צהובה', qty: 200, unit: 'גרם' }, { name: 'שמנת', qty: 200, unit: 'מ"ל' }, { name: 'בצל', qty: 1, unit: 'יח׳' },
+                        { name: 'שום', qty: 2, unit: 'שיניים' }, { name: 'מוצרלה', qty: 150, unit: 'גרם' }
+                    ]}
+                ],
+                shabbat: [
+                    { name: 'ארוחת שבת מלאה', icon: '🕯️', ingredients: [
+                        { name: 'עוף שלם', qty: 1, unit: 'יח׳' }, { name: 'תפוחי אדמה', qty: 500, unit: 'גרם' }, { name: 'אורז', qty: 300, unit: 'גרם' },
+                        { name: 'חלה', qty: 2, unit: 'יח׳' }, { name: 'יין', qty: 1, unit: 'בקבוק' }, { name: 'נרות שבת', qty: 1, unit: 'חבילה' },
+                        { name: 'סלט ירקות', qty: 1, unit: 'יח׳' }, { name: 'חומוס', qty: 1, unit: 'יח׳' }, { name: 'טחינה', qty: 1, unit: 'יח׳' }
+                    ]},
+                    { name: 'חמין (צ׳ולנט)', icon: '🫕', ingredients: [
+                        { name: 'בשר שפונדרה', qty: 500, unit: 'גרם' }, { name: 'תפוחי אדמה', qty: 4, unit: 'יח׳' }, { name: 'שעועית לבנה', qty: 200, unit: 'גרם' },
+                        { name: 'ביצים', qty: 4, unit: 'יח׳' }, { name: 'שעורה', qty: 100, unit: 'גרם' }, { name: 'בצל', qty: 2, unit: 'יח׳' },
+                        { name: 'שום', qty: 4, unit: 'שיניים' }, { name: 'פפריקה מתוקה', qty: 1, unit: 'כפית' }, { name: 'כמון', qty: 1, unit: 'כפית' }
+                    ]},
+                    { name: 'קידוש', icon: '🍷', ingredients: [
+                        { name: 'חלה', qty: 2, unit: 'יח׳' }, { name: 'יין', qty: 1, unit: 'בקבוק' }, { name: 'חומוס', qty: 200, unit: 'גרם' },
+                        { name: 'טחינה', qty: 200, unit: 'גרם' }, { name: 'סלט חצילים', qty: 200, unit: 'גרם' }, { name: 'ביצים', qty: 4, unit: 'יח׳' },
+                        { name: 'זיתים', qty: 100, unit: 'גרם' }, { name: 'מלפפון חמוץ', qty: 100, unit: 'גרם' }
+                    ]}
+                ],
+                snack: [
+                    { name: 'פנקייקים', icon: '🥞', ingredients: [
+                        { name: 'קמח', qty: 200, unit: 'גרם' }, { name: 'ביצים', qty: 2, unit: 'יח׳' }, { name: 'חלב', qty: 1, unit: 'כוס' },
+                        { name: 'סוכר', qty: 2, unit: 'כפות' }, { name: 'שמן', qty: 1, unit: 'כפית' }, { name: 'מייפל', qty: 1, unit: 'יח׳' },
+                        { name: 'פירות', qty: 200, unit: 'גרם' }
+                    ]},
+                    { name: 'פיצה ביתית', icon: '🍕', ingredients: [
+                        { name: 'קמח', qty: 300, unit: 'גרם' }, { name: 'שמרים', qty: 1, unit: 'שקית' }, { name: 'רוטב עגבניות', qty: 200, unit: 'גרם' },
+                        { name: 'מוצרלה', qty: 250, unit: 'גרם' }, { name: 'שמן זית', qty: 2, unit: 'כפות' }, { name: 'זיתים', qty: 50, unit: 'גרם' },
+                        { name: 'פטריות', qty: 100, unit: 'גרם' }
+                    ]},
+                    { name: 'צ׳יפס ביתי', icon: '🍟', ingredients: [
+                        { name: 'תפוחי אדמה', qty: 500, unit: 'גרם' }, { name: 'שמן לטיגון', qty: 2, unit: 'כוסות' },
+                        { name: 'מלח', qty: 1, unit: 'כפית' }, { name: 'פפריקה', qty: 0.5, unit: 'כפית' }, { name: 'קטשופ', qty: 1, unit: 'יח׳' }
+                    ]}
+                ]
+            };
+
             // AI Assistant - Smart Shopping Suggestions
             const generateAISuggestions = () => {
                 setAiThinking(true);
@@ -14631,6 +15451,16 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
                 setRegularItems(regulars);
             }, [family, history]);
+
+            // Compute smart suggestions when items or history change
+            useEffect(() => {
+                if (history.length === 0) {
+                    setSmartSuggestions([]);
+                    return;
+                }
+                const suggestions = getSmartSuggestions();
+                setSmartSuggestions(suggestions);
+            }, [items, history, regularItems]);
 
             // Calculate upcoming holidays (within next 14 days)
             useEffect(() => {
@@ -15563,6 +16393,16 @@ END:VCALENDAR`;
                         // Replace temp item with real item ID
                         setItems(prev => prev.map(i => i.id === tempId ? { ...i, id: docRef.id, _isTemp: false } : i));
                         await logActivity('item_added', { itemName: product });
+                        // Budget alert
+                        if (weeklyBudget > 0) {
+                            const newTotal = estimatedListTotal + (estimatedPrice || 0) * (parseFloat(selectedQuantity) || 1);
+                            const pct = Math.round((newTotal / weeklyBudget) * 100);
+                            if (pct >= 100) {
+                                showToast(`🚨 ${t('budgetAlertExceeded')}`, 'error');
+                            } else if (pct >= 80) {
+                                showToast(`⚠️ ${t('budgetAlert80')} (${pct}%)`, 'warning');
+                            }
+                        }
                     }
                 } catch (error) {
                     console.error('שגיאה בהוספת מוצר:', error);
@@ -18838,6 +19678,75 @@ END:VCALENDAR`;
                                 </button>
                             </div>
 
+                            {/* Feature Buttons Row */}
+                            <div className="flex gap-2 mt-2 overflow-x-auto pb-1" style={{scrollbarWidth:'none'}}>
+                                <button onClick={() => setShowMealPlanner(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
+                                    <span>🍽️</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('mealPlan')}</span>
+                                </button>
+                                <button onClick={() => setShowPantry(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-green-200/60 dark:border-green-700/60 hover:shadow-md transition-all">
+                                    <span>🏪</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('pantry')}</span>
+                                    {pantryExpiringItems.length > 0 && <span className="bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">{pantryExpiringItems.length}</span>}
+                                </button>
+                                <button onClick={() => setShowBudgetModal(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-yellow-200/60 dark:border-yellow-700/60 hover:shadow-md transition-all">
+                                    <span>💰</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('weeklyBudget')}</span>
+                                </button>
+                                <button onClick={() => setShowAIChat(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-purple-200/60 dark:border-purple-700/60 hover:shadow-md transition-all">
+                                    <span>🤖</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('aiAssistant')}</span>
+                                </button>
+                                <button onClick={() => { setAisleOrderEnabled(prev => { const val = !prev; localStorage.setItem('aisleOrderEnabled', val.toString()); showToast(val ? t('aisleOrderEnabled') : t('aisleOrderDisabled'), 'success'); return val; }); }} className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border transition-all ${aisleOrderEnabled ? 'border-teal-400 dark:border-teal-500 bg-teal-50 dark:bg-teal-900/30' : 'border-gray-200/60 dark:border-gray-700/60'}`}>
+                                    <span>🛒</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('aisleOrder')}</span>
+                                </button>
+                                <button onClick={shareListViaLink} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-blue-200/60 dark:border-blue-700/60 hover:shadow-md transition-all">
+                                    <span>🔗</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('shareListLink')}</span>
+                                </button>
+                            </div>
+
+                            {/* Budget Bar */}
+                            {weeklyBudget > 0 && (() => {
+                                const rawPercent = Math.round((estimatedListTotal / weeklyBudget) * 100);
+                                const statusEmoji = rawPercent < 50 ? '💚' : rawPercent < 80 ? '💛' : rawPercent < 100 ? '🟠' : '🔴';
+                                const barColor = rawPercent >= 100 ? 'from-red-500 to-red-600' : rawPercent >= 80 ? 'from-yellow-400 to-orange-500' : rawPercent >= 50 ? 'from-yellow-400 to-yellow-500' : 'from-green-400 to-emerald-500';
+                                const borderColor = rawPercent >= 100 ? 'border-red-300 dark:border-red-700' : rawPercent >= 80 ? 'border-orange-300 dark:border-orange-700' : 'border-green-300 dark:border-green-700';
+                                return (
+                                <div className={`mt-2 glass rounded-xl p-3 border ${borderColor} cursor-pointer hover:shadow-md transition-all`} onClick={() => setShowBudgetBreakdown(true)}>
+                                    <div className="flex justify-between items-center text-xs mb-1.5">
+                                        <span className="font-bold text-gray-700 dark:text-gray-300">{statusEmoji} {t('weeklyBudget')}: ₪{weeklyBudget}</span>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`font-bold ${estimatedListTotal > weeklyBudget ? 'text-red-500' : 'text-green-500'}`}>
+                                                {estimatedListTotal > weeklyBudget
+                                                    ? t('budgetExceeded').replace('{amount}', Math.round(estimatedListTotal - weeklyBudget))
+                                                    : t('budgetRemaining').replace('{amount}', Math.round(weeklyBudget - estimatedListTotal))}
+                                            </span>
+                                            <button onClick={(e) => { e.stopPropagation(); setShowBudgetModal(true); }} className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-all text-[10px]">✏️</button>
+                                        </div>
+                                    </div>
+                                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+                                        <div className={`h-2.5 rounded-full bg-gradient-to-r ${barColor} transition-all duration-700 ease-out`} style={{width: `${Math.min(rawPercent, 100)}%`}}></div>
+                                    </div>
+                                    <div className="text-[10px] text-gray-400 mt-1 text-center">{t('estimatedTotal')}: ₪{Math.round(estimatedListTotal)} · {t('budgetUsed').replace('{percent}', rawPercent)}</div>
+                                </div>
+                                );
+                            })()}
+
+                            {/* Gamification Badges */}
+                            {gamificationBadges.length > 0 && (
+                                <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1" style={{scrollbarWidth:'none'}}>
+                                    {gamificationBadges.map(badge => (
+                                        <div key={badge.id} className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 rounded-lg border border-amber-200 dark:border-amber-700 text-xs">
+                                            <span>{badge.emoji}</span>
+                                            <span className="font-medium text-amber-700 dark:text-amber-300">{badge.name}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Aisle Order Indicator */}
+                            {aisleOrderEnabled && Object.keys(learnedAisleOrder).length > 0 && (
+                                <div className="mt-1.5 text-center">
+                                    <span className="text-[10px] text-teal-500 dark:text-teal-400">🛒 {t('aisleOrderDesc')} · {t('learnedFromHistory')}</span>
+                                </div>
+                            )}
+
                             {/* Add Regulars Button */}
                             {regularItems.length > 0 && (
                                 <div className="mt-1.5">
@@ -19112,7 +20021,7 @@ END:VCALENDAR`;
                                     </div>
                                 )}
 
-                                {Object.entries(groupedItems).map(([category, categoryItems]) => (
+                                {getAisleSortedCategories(groupedItems).map(([category, categoryItems]) => (
                                     <div key={category} className="category-box mb-6">
                                         <h3 className="category-box-header">
                                             {CATEGORIES[category]?.image ? (
@@ -19323,6 +20232,37 @@ END:VCALENDAR`;
                                 >
                                     {t('browseCategories')}
                                 </button>
+
+                                {/* Regular items suggestions in empty state */}
+                                {regularItems.length > 0 && (
+                                    <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                                        <p className="text-sm font-bold text-gray-600 dark:text-gray-300 mb-3">{t('startWithRegulars')}</p>
+                                        <div className="flex flex-wrap justify-center gap-2">
+                                            {regularItems.slice(0, 8).map((ri, idx) => (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => {
+                                                        addProduct(ri.name);
+                                                        showToast(t('addedToList'), 'success');
+                                                    }}
+                                                    className="px-3 py-2 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/40 dark:to-cyan-900/40 rounded-lg text-xs font-medium border border-teal-200 dark:border-teal-700 hover:from-teal-100 hover:to-cyan-100 dark:hover:from-teal-800/60 dark:hover:to-cyan-800/60 transition-all active:scale-95"
+                                                >
+                                                    <span className="text-gray-700 dark:text-gray-200">{ri.name}</span>
+                                                    <span className="text-[10px] text-teal-500 dark:text-teal-400 mr-1 ml-1">({ri.count}x)</span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                regularItems.slice(0, 8).forEach(ri => addProduct(ri.name));
+                                                showToast(t('addedToList'), 'success');
+                                            }}
+                                            className="mt-3 px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl text-xs font-bold hover:from-teal-600 hover:to-cyan-600 transition-all shadow-sm hover:shadow-md active:scale-95"
+                                        >
+                                            {t('addAllSuggestions')}
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         )}
 
@@ -19477,7 +20417,473 @@ END:VCALENDAR`;
                         )}
                     </div>
 
+                    {/* Smart Suggestions Strip */}
+                    {!searchTerm && showSmartSuggestions && items.length > 0 && smartSuggestions.filter(s => !dismissedSuggestions.has(s.name)).length > 0 && (
+                        <div className="max-w-2xl mx-auto px-4 py-2 expand-in">
+                            <div className="bg-gradient-to-r from-teal-50 to-indigo-50 dark:from-teal-900/30 dark:to-indigo-900/30 rounded-xl p-3 border border-teal-200/50 dark:border-teal-700/50">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-xs font-bold text-teal-700 dark:text-teal-300 flex items-center gap-1">
+                                        <span>💡</span> {t('smartSuggestions')}
+                                    </span>
+                                    <button
+                                        onClick={() => setShowSmartSuggestions(false)}
+                                        className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                                        aria-label={t('hideSuggestions')}
+                                    >
+                                        {t('hideSuggestions')} ✕
+                                    </button>
+                                </div>
+                                <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
+                                    {smartSuggestions
+                                        .filter(s => !dismissedSuggestions.has(s.name))
+                                        .slice(0, 8)
+                                        .map((suggestion, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => {
+                                                addProduct(suggestion.name);
+                                                showToast(t('addedToList'), 'success');
+                                                setDismissedSuggestions(prev => new Set([...prev, suggestion.name]));
+                                            }}
+                                            className="flex-shrink-0 group relative px-3 py-2 bg-white dark:bg-gray-800 rounded-lg text-xs font-medium hover:bg-teal-100 dark:hover:bg-teal-800/50 transition-all border border-gray-200 dark:border-gray-600 hover:border-teal-300 dark:hover:border-teal-600 shadow-sm hover:shadow-md active:scale-95"
+                                        >
+                                            <div className="flex items-center gap-1.5">
+                                                <span>{suggestion.icon}</span>
+                                                <span className="text-gray-800 dark:text-gray-200">{suggestion.name}</span>
+                                            </div>
+                                            <div className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 truncate max-w-[120px]">{suggestion.context}</div>
+                                            <span
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setDismissedSuggestions(prev => new Set([...prev, suggestion.name]));
+                                                }}
+                                                className="absolute -top-1 -right-1 w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded-full text-[8px] flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-400"
+                                                aria-label={t('dismissSuggestion')}
+                                            >✕</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Back to Top Button - only shows when scrolled down */}
+
+                    {/* Budget Modal */}
+                    {showBudgetModal && (
+                        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-fadeIn" onClick={() => setShowBudgetModal(false)}>
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm shadow-2xl" onClick={e => e.stopPropagation()}>
+                                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">💰 {t('weeklyBudget')}</h3>
+                                <input type="number" value={budgetInput} onChange={e => setBudgetInput(e.target.value)} placeholder={`${t('budgetAmount')} (₪)`}
+                                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 dark:text-white focus:border-teal-500 transition-all text-lg text-center" autoFocus />
+                                <input type="range" min="0" max="1500" step="50" value={budgetInput || 0} onChange={e => setBudgetInput(e.target.value)}
+                                    className="w-full mt-3 accent-teal-500" />
+                                <div className="flex justify-between text-[10px] text-gray-400 mt-0.5"><span>₪0</span><span>₪750</span><span>₪1,500</span></div>
+                                <div className="flex gap-2 mt-3">
+                                    {[300, 500, 700, 1000].map(amt => (
+                                        <button key={amt} onClick={() => setBudgetInput(amt.toString())} className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${parseInt(budgetInput) === amt ? 'bg-teal-500 text-white shadow-md' : 'bg-gray-100 dark:bg-gray-700 hover:bg-teal-100 dark:hover:bg-teal-800'}`}>₪{amt}</button>
+                                    ))}
+                                </div>
+                                {budgetInput > 0 && <p className="text-xs text-gray-400 text-center mt-2">{t('enoughForItems').replace('{count}', Math.round(parseInt(budgetInput) / 15))}</p>}
+                                {budgetHistory.length > 0 && <p className="text-xs text-teal-500 text-center mt-1">{t('avgExpense')}: ₪{Math.round(budgetHistory.reduce((s, h) => s + h.spent, 0) / budgetHistory.length)}</p>}
+                                <div className="flex gap-2 mt-4">
+                                    <button onClick={() => setShowBudgetModal(false)} className="flex-1 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-600 font-bold text-gray-600 dark:text-gray-300">{t('cancel')}</button>
+                                    <button onClick={() => saveBudget(budgetInput)} className="flex-1 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold shadow-lg">{t('save')}</button>
+                                </div>
+                                {weeklyBudget > 0 && <button onClick={() => saveBudget(0)} className="w-full mt-2 py-2 text-sm text-red-500 hover:text-red-600">{t('noBudgetSet')} ✕</button>}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Budget Breakdown Modal */}
+                    {showBudgetBreakdown && (
+                        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-fadeIn" onClick={() => setShowBudgetBreakdown(false)}>
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 w-full max-w-sm shadow-2xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+                                <div className="flex justify-between items-center mb-4">
+                                    <h3 className="text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">📊 {t('budgetBreakdown')}</h3>
+                                    <button onClick={() => setShowBudgetBreakdown(false)} className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">✕</button>
+                                </div>
+
+                                {/* Circle chart */}
+                                {weeklyBudget > 0 && (() => {
+                                    const pct = Math.min(Math.round((estimatedListTotal / weeklyBudget) * 100), 100);
+                                    const color = pct >= 100 ? '#ef4444' : pct >= 80 ? '#f97316' : pct >= 50 ? '#eab308' : '#22c55e';
+                                    return (
+                                    <div className="flex flex-col items-center mb-5">
+                                        <div className="relative w-28 h-28" style={{background: `conic-gradient(${color} ${pct * 3.6}deg, #e5e7eb ${pct * 3.6}deg)`, borderRadius: '50%'}}>
+                                            <div className="absolute inset-2 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center">
+                                                <span className="text-xl font-bold" style={{color}}>{pct}%</span>
+                                            </div>
+                                        </div>
+                                        <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mt-2">₪{Math.round(estimatedListTotal)} {t('of')} ₪{weeklyBudget}</p>
+                                        <p className="text-xs text-gray-400">{estimatedListTotal <= weeklyBudget ? `${t('budgetRemaining').replace('{amount}', Math.round(weeklyBudget - estimatedListTotal))}` : `${t('budgetExceeded').replace('{amount}', Math.round(estimatedListTotal - weeklyBudget))}`}</p>
+                                    </div>
+                                    );
+                                })()}
+
+                                {/* Category breakdown */}
+                                {getCategoryBreakdown.length > 0 && (
+                                    <div className="mb-4">
+                                        <h4 className="text-sm font-bold text-gray-600 dark:text-gray-400 mb-2">{t('categorySpending')}</h4>
+                                        <div className="space-y-2">
+                                            {getCategoryBreakdown.map(cat => (
+                                                <div key={cat.category} className="flex items-center gap-2">
+                                                    <span className="text-lg w-7 text-center">{cat.emoji}</span>
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex justify-between text-xs mb-0.5">
+                                                            <span className="font-medium text-gray-700 dark:text-gray-300 truncate">{cat.name}</span>
+                                                            <span className="font-bold text-gray-800 dark:text-gray-200 flex-shrink-0">₪{Math.round(cat.total)}</span>
+                                                        </div>
+                                                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                                            <div className="h-1.5 rounded-full bg-gradient-to-r from-teal-400 to-cyan-500 transition-all duration-500" style={{width: `${cat.percent}%`}}></div>
+                                                        </div>
+                                                    </div>
+                                                    <span className="text-[10px] text-gray-400 w-8 text-right">{cat.percent}%</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* History */}
+                                {budgetHistory.length > 0 && (
+                                    <div>
+                                        <h4 className="text-sm font-bold text-gray-600 dark:text-gray-400 mb-2">{t('recentWeeks')}</h4>
+                                        <div className="space-y-1.5">
+                                            {budgetHistory.slice(0, 4).map((week, i) => {
+                                                const wpct = week.budget > 0 ? Math.min(Math.round((week.spent / week.budget) * 100), 100) : 0;
+                                                return (
+                                                <div key={i} className="flex items-center gap-2 text-xs">
+                                                    <span className="text-gray-400 w-16 truncate">{week.date}</span>
+                                                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                                        <div className={`h-1.5 rounded-full transition-all ${wpct >= 100 ? 'bg-red-500' : wpct >= 80 ? 'bg-yellow-500' : 'bg-green-500'}`} style={{width: `${wpct}%`}}></div>
+                                                    </div>
+                                                    <span className="text-gray-500 w-12 text-right">₪{week.spent}</span>
+                                                </div>
+                                                );
+                                            })}
+                                        </div>
+                                        <p className="text-xs text-center text-teal-500 mt-2 font-medium">{t('weeklyAverage')}: ₪{Math.round(budgetHistory.reduce((s, h) => s + h.spent, 0) / budgetHistory.length)}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Pantry Modal */}
+                    {showPantry && (
+                        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-[9999] flex flex-col animate-fadeIn">
+                            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h2 className="text-xl font-bold dark:text-white flex items-center gap-2">🏪 {t('pantryTracker')}</h2>
+                                <button onClick={() => setShowPantry(false)} className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center"><span className="text-lg">✕</span></button>
+                            </div>
+                            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                                <div className="flex gap-2">
+                                    <input type="text" value={pantryInput} onChange={e => setPantryInput(e.target.value)} placeholder={t('addToPantry') + '...'} className="flex-1 px-3 py-2.5 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white text-sm" />
+                                    <input type="date" value={pantryExpiryInput} onChange={e => setPantryExpiryInput(e.target.value)} className="px-2 py-2.5 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white text-xs" />
+                                    <button onClick={() => { if (pantryInput.trim()) { addToPantry(pantryInput.trim(), pantryExpiryInput || null); setPantryInput(''); setPantryExpiryInput(''); } }} className="px-4 py-2.5 bg-green-500 text-white rounded-xl font-bold text-sm">+</button>
+                                </div>
+                                {/* Add purchased items to pantry */}
+                                {items.filter(i => i.purchased).length > 0 && (
+                                    <button onClick={() => { items.filter(i => i.purchased).forEach(i => { if (!pantryItems.some(p => p.name.toLowerCase() === i.name.toLowerCase())) addToPantry(i.name, null); }); }}
+                                        className="mt-2 w-full py-2 text-xs font-bold text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-700 rounded-xl hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-all">
+                                        📥 {t('addFromList')} ({items.filter(i => i.purchased).length})
+                                    </button>
+                                )}
+                            </div>
+                            <div className="flex-1 overflow-y-auto p-4">
+                                {pantryExpiringItems.length > 0 && (
+                                    <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-200 dark:border-red-700">
+                                        <p className="text-sm font-bold text-red-600 dark:text-red-400 mb-2">⚠️ {t('expiringSoon')}</p>
+                                        {pantryExpiringItems.map(item => (
+                                            <div key={item.id} className="flex items-center justify-between text-sm py-1">
+                                                <span className="dark:text-gray-200">{item.name}</span>
+                                                <span className="text-red-500 text-xs">{t('expiresIn').replace('{days}', Math.ceil((new Date(item.expiryDate).getTime() - Date.now()) / (1000*60*60*24)))}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                                {pantryItems.length === 0 ? (
+                                    <div className="text-center py-12">
+                                        <span className="text-4xl">🏪</span>
+                                        <p className="text-gray-400 mt-3">{t('pantryEmpty')}</p>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-2">
+                                        {pantryItems.map(item => {
+                                            const daysLeft = item.expiryDate ? Math.ceil((new Date(item.expiryDate).getTime() - Date.now()) / (1000*60*60*24)) : null;
+                                            const isExpired = daysLeft !== null && daysLeft <= 0;
+                                            return (
+                                                <div key={item.id} className={`flex items-center justify-between p-3 rounded-xl border ${isExpired ? 'border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-700' : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'}`}>
+                                                    <div>
+                                                        <span className="font-medium dark:text-white text-sm">{item.name}</span>
+                                                        {daysLeft !== null && (
+                                                            <span className={`text-[10px] mr-2 ml-2 ${isExpired ? 'text-red-500 font-bold' : daysLeft <= 3 ? 'text-orange-500' : 'text-gray-400'}`}>
+                                                                {isExpired ? t('expired') : t('expiresIn').replace('{days}', daysLeft)}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <div className="flex items-center gap-1.5">
+                                                        <select value={item.status} onChange={e => updatePantryStatus(item.id, e.target.value)}
+                                                            className="text-[10px] px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                                                            <option value="inStock">{t('inStock')}</option>
+                                                            <option value="runningLow">{t('runningLow')}</option>
+                                                            <option value="outOfStock">{t('outOfStock')}</option>
+                                                        </select>
+                                                        <button onClick={() => removeFromPantry(item.id)} className="text-red-400 hover:text-red-600 text-sm">✕</button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Meal Planner Modal */}
+                    {showMealPlanner && (
+                        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-[9999] flex flex-col animate-fadeIn">
+                            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h2 className="text-xl font-bold dark:text-white flex items-center gap-2">🍽️ {t('mealPlanning')}</h2>
+                                <div className="flex gap-2">
+                                    <button onClick={clearMealPlan} className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-500">{t('clearWeek')}</button>
+                                    <button onClick={() => setShowMealPlanner(false)} className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center"><span className="text-lg">✕</span></button>
+                                </div>
+                            </div>
+                            <div className="flex-1 overflow-y-auto p-4">
+                                {[0,1,2,3,4,5,6].map(dayIndex => {
+                                    const dayKey = dayIndex.toString();
+                                    const dayMeals = mealPlan[dayKey] || {};
+                                    const today = new Date().getDay();
+                                    const isToday = dayIndex === today;
+                                    return (
+                                        <div key={dayIndex} className={`mb-4 rounded-xl border ${isToday ? 'border-teal-400 dark:border-teal-500 bg-teal-50/50 dark:bg-teal-900/20' : 'border-gray-200 dark:border-gray-700'} p-3`}>
+                                            <div className="flex items-center justify-between mb-2">
+                                                <span className={`font-bold text-sm ${isToday ? 'text-teal-600 dark:text-teal-400' : 'dark:text-white'}`}>
+                                                    {isToday && '📍 '}{getDayName(dayIndex)}
+                                                </span>
+                                                <button onClick={() => { setMealPlanDay(dayKey); setMealPlanInput(''); setMealIngredientsInput(''); }}
+                                                    className="text-xs px-2.5 py-1 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-lg font-medium">+ {t('addMeal')}</button>
+                                            </div>
+                                            {Object.entries(dayMeals).map(([type, meals]) => (
+                                                <div key={type} className="mb-1">
+                                                    {meals.map((meal, idx) => (
+                                                        <div key={idx} className="flex items-center justify-between py-1.5 px-2 text-sm">
+                                                            <div>
+                                                                <span className="text-gray-400 text-xs mr-1">{type === 'breakfast' ? '🌅' : type === 'lunch' ? '☀️' : type === 'dinner' ? '🌙' : '🍿'}</span>
+                                                                <span className="dark:text-gray-200">{meal.name}</span>
+                                                                {meal.ingredients?.length > 0 && <span className="text-[10px] text-gray-400 mr-1 ml-1">({meal.ingredients.length} {t('ingredients')})</span>}
+                                                            </div>
+                                                            <button onClick={() => removeMealFromPlan(dayKey, type, idx)} className="text-red-400 hover:text-red-600 text-xs">✕</button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ))}
+                                            {Object.keys(dayMeals).length === 0 && <p className="text-xs text-gray-400 text-center py-2">-</p>}
+                                        </div>
+                                    );
+                                })}
+                                {/* Add meal form - 3 step wizard */}
+                                {mealPlanDay !== null && (
+                                    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[99999] flex items-end justify-center animate-fadeIn" onClick={() => { setMealPlanDay(null); setMealAddStep(1); setSelectedRecipe(null); setMealSuggestions([]); }}>
+                                        <div className="bg-white dark:bg-gray-800 rounded-t-2xl p-5 w-full max-w-lg shadow-2xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+                                            {/* Header with back button */}
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className="flex items-center gap-2">
+                                                    {mealAddStep > 1 && (
+                                                        <button onClick={() => { if (selectedRecipe) { setSelectedRecipe(null); } else { setMealAddStep(mealAddStep - 1); } }}
+                                                            className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">
+                                                            ←
+                                                        </button>
+                                                    )}
+                                                    <h4 className="font-bold dark:text-white text-lg">{t('addMeal')} - {getDayName(parseInt(mealPlanDay))}</h4>
+                                                </div>
+                                                <div className="flex gap-1">
+                                                    {[1,2,3].map(s => (
+                                                        <div key={s} className={`w-2 h-2 rounded-full transition-all ${mealAddStep >= s ? 'bg-indigo-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            {/* Step 1: Choose meal type */}
+                                            {mealAddStep === 1 && (
+                                                <div>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{t('chooseMealType')}</p>
+                                                    <div className="grid grid-cols-2 gap-3">
+                                                        {[
+                                                            { type: 'breakfast', icon: '🌅', color: 'from-amber-400 to-orange-500' },
+                                                            { type: 'lunch', icon: '☀️', color: 'from-yellow-400 to-amber-500' },
+                                                            { type: 'dinner', icon: '🌙', color: 'from-indigo-400 to-purple-500' },
+                                                            { type: 'shabbat', icon: '🕯️', color: 'from-violet-400 to-purple-600' },
+                                                            { type: 'snack', icon: '🍿', color: 'from-pink-400 to-rose-500' }
+                                                        ].map(({ type, icon, color }) => (
+                                                            <button key={type} onClick={() => { setMealPlanType(type); setMealAddStep(2); }}
+                                                                className={`py-5 rounded-2xl text-white font-bold bg-gradient-to-br ${color} shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all flex flex-col items-center gap-2`}>
+                                                                <span className="text-3xl">{icon}</span>
+                                                                <span className="text-sm">{type === 'shabbat' ? t('shabbatMeal') : t(type)}</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Step 2: How many people */}
+                                            {mealAddStep === 2 && (
+                                                <div>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('howManyPeople')}</p>
+                                                    <div className="flex items-center justify-center gap-6 mb-6">
+                                                        <button onClick={() => setMealPlanServings(Math.max(1, mealPlanServings - 1))}
+                                                            className="w-14 h-14 rounded-full bg-gray-100 dark:bg-gray-700 text-2xl font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center justify-center shadow-md">−</button>
+                                                        <div className="text-center">
+                                                            <span className="text-5xl font-extrabold text-indigo-600 dark:text-indigo-400">{mealPlanServings}</span>
+                                                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('peopleCount').replace('{count}', mealPlanServings)}</p>
+                                                        </div>
+                                                        <button onClick={() => setMealPlanServings(Math.min(12, mealPlanServings + 1))}
+                                                            className="w-14 h-14 rounded-full bg-gray-100 dark:bg-gray-700 text-2xl font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center justify-center shadow-md">+</button>
+                                                    </div>
+                                                    {/* Quick select buttons */}
+                                                    <div className="flex gap-2 justify-center mb-5">
+                                                        {[2, 4, 6, 8].map(n => (
+                                                            <button key={n} onClick={() => setMealPlanServings(n)}
+                                                                className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${mealPlanServings === n ? 'bg-indigo-500 text-white shadow-md' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'}`}>{n}</button>
+                                                        ))}
+                                                    </div>
+                                                    <button onClick={() => { setMealSuggestions(getMealSuggestions(mealPlanType)); setMealAddStep(3); }}
+                                                        className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all">
+                                                        {t('chooseRecipe')} →
+                                                    </button>
+                                                </div>
+                                            )}
+
+                                            {/* Step 3: Choose recipe */}
+                                            {mealAddStep === 3 && !selectedRecipe && (
+                                                <div>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{t('suggestedMeals')} • {t('peopleCount').replace('{count}', mealPlanServings)}</p>
+                                                    <div className="grid grid-cols-2 gap-3 mb-4">
+                                                        {mealSuggestions.map((recipe, idx) => (
+                                                            <button key={idx} onClick={() => setSelectedRecipe(recipe)}
+                                                                className="bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-4 text-right hover:bg-gray-100 dark:hover:bg-gray-700 transition-all border-2 border-transparent hover:border-indigo-300 dark:hover:border-indigo-600 group">
+                                                                <span className="text-3xl block mb-2">{recipe.icon}</span>
+                                                                <p className="font-bold text-sm dark:text-white mb-1">{recipe.name}</p>
+                                                                <p className="text-[10px] text-gray-400 leading-tight">{recipe.ingredients.slice(0, 3).map(i => i.name).join(', ')}...</p>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                    {/* Custom meal fallback */}
+                                                    <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+                                                        <button onClick={() => setSelectedRecipe('custom')}
+                                                            className="w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center justify-center gap-2">
+                                                            ✏️ {t('customMeal')}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Recipe detail popup */}
+                                            {mealAddStep === 3 && selectedRecipe && selectedRecipe !== 'custom' && (
+                                                <div>
+                                                    <div className="text-center mb-4">
+                                                        <span className="text-5xl">{selectedRecipe.icon}</span>
+                                                        <h3 className="font-extrabold text-xl dark:text-white mt-2">{selectedRecipe.name}</h3>
+                                                        <p className="text-sm text-gray-500 dark:text-gray-400">{t('peopleCount').replace('{count}', mealPlanServings)}</p>
+                                                    </div>
+                                                    <div className="bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-4 mb-4">
+                                                        <h4 className="font-bold text-sm dark:text-gray-200 mb-2">{t('ingredients')}:</h4>
+                                                        <div className="space-y-1.5">
+                                                            {selectedRecipe.ingredients.map((ing, idx) => (
+                                                                <div key={idx} className="flex items-center justify-between text-sm">
+                                                                    <span className="dark:text-gray-300">{ing.name}</span>
+                                                                    <span className="text-indigo-600 dark:text-indigo-400 font-bold">{ing.calcQty} {ing.unit}</span>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                    <button onClick={() => {
+                                                        addRecipeToMealPlan(selectedRecipe, mealPlanDay, mealPlanType === 'shabbat' ? 'dinner' : mealPlanType, mealPlanServings);
+                                                        setMealPlanDay(null); setMealAddStep(1); setSelectedRecipe(null); setMealSuggestions([]);
+                                                    }}
+                                                        className="w-full py-3 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                                                        🛒 {t('addMealAndIngredients')}
+                                                    </button>
+                                                </div>
+                                            )}
+
+                                            {/* Custom meal form (fallback) */}
+                                            {mealAddStep === 3 && selectedRecipe === 'custom' && (
+                                                <div>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{t('customMeal')}</p>
+                                                    <div className="flex gap-2 mb-3">
+                                                        {['breakfast', 'lunch', 'dinner', 'snack'].map(tp => (
+                                                            <button key={tp} onClick={() => setMealPlanType(tp)} className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${mealPlanType === tp ? 'bg-indigo-500 text-white' : 'bg-gray-100 dark:bg-gray-700 dark:text-gray-300'}`}>{t(tp)}</button>
+                                                        ))}
+                                                    </div>
+                                                    <input value={mealPlanInput} onChange={e => setMealPlanInput(e.target.value)} placeholder={t('mealName')} className="w-full px-3 py-2.5 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 dark:text-white text-sm mb-2" />
+                                                    <input value={mealIngredientsInput} onChange={e => setMealIngredientsInput(e.target.value)} placeholder={`${t('ingredients')} (${t('importExample').split('\n')[0]})`}
+                                                        className="w-full px-3 py-2.5 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 dark:text-white text-sm mb-3" />
+                                                    <button onClick={() => { if (mealPlanInput.trim()) { addMealToPlan(mealPlanDay, mealPlanType, mealPlanInput.trim(), mealIngredientsInput); setMealPlanDay(null); setMealAddStep(1); setSelectedRecipe(null); } }}
+                                                        className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold">{t('addMeal')}</button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+                                <button onClick={() => { generateListFromMealPlan(); setShowMealPlanner(false); }}
+                                    className="w-full py-3 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl font-bold shadow-lg flex items-center justify-center gap-2">
+                                    🛒 {t('generateList')}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* AI Chat Modal */}
+                    {showAIChat && (
+                        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-[9999] flex flex-col animate-fadeIn">
+                            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h2 className="text-xl font-bold dark:text-white flex items-center gap-2">🤖 {t('aiAssistant')}</h2>
+                                <button onClick={() => setShowAIChat(false)} className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center"><span className="text-lg">✕</span></button>
+                            </div>
+                            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                                {aiChatMessages.length === 0 && (
+                                    <div className="text-center py-12">
+                                        <span className="text-5xl">🤖</span>
+                                        <p className="text-gray-500 dark:text-gray-400 mt-3 text-sm">{t('askAI')}</p>
+                                        <div className="flex flex-wrap justify-center gap-2 mt-4">
+                                            {['רשימה לשבת', 'ארוחת בוקר ל-4', 'מרכיבים לפסטה', 'טיפים לחיסכון'].map(q => (
+                                                <button key={q} onClick={() => { setAiChatInput(q); processAIChat(q); }}
+                                                    className="px-3 py-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl text-xs font-medium border border-indigo-200 dark:border-indigo-700">{q}</button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                {aiChatMessages.map((msg, idx) => (
+                                    <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                        <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm whitespace-pre-line ${msg.role === 'user' ? 'bg-indigo-500 text-white rounded-br-md' : 'bg-gray-100 dark:bg-gray-800 dark:text-gray-200 rounded-bl-md'}`}>
+                                            {msg.content}
+                                            {msg.items && (
+                                                <button onClick={() => { msg.items.forEach(item => addProduct(item)); showToast(t('ingredientsAdded').replace('{count}', msg.items.length), 'success'); }}
+                                                    className="mt-2 w-full py-2 bg-white/20 rounded-lg text-xs font-bold hover:bg-white/30 transition-all">
+                                                    ➕ {t('addAllSuggestions')} ({msg.items.length})
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                                {aiChatLoading && <div className="flex justify-start"><div className="px-4 py-3 rounded-2xl bg-gray-100 dark:bg-gray-800 text-sm text-gray-400 animate-pulse">{t('aiThinking')}</div></div>}
+                            </div>
+                            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+                                <div className="flex gap-2">
+                                    <input value={aiChatInput} onChange={e => setAiChatInput(e.target.value)}
+                                        onKeyDown={e => { if (e.key === 'Enter' && aiChatInput.trim()) { processAIChat(aiChatInput.trim()); setAiChatInput(''); } }}
+                                        placeholder={t('aiPlaceholder')} className="flex-1 px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white text-sm" />
+                                    <button onClick={() => { if (aiChatInput.trim()) { processAIChat(aiChatInput.trim()); setAiChatInput(''); } }}
+                                        className="px-5 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold">{t('send')}</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Categories Modal - Full Screen */}
                     {showCategories && (
