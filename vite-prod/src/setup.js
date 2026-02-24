@@ -14,7 +14,6 @@ import {
   doc,
   onSnapshot,
   query,
-  orderBy,
   getDocs,
   where,
   serverTimestamp,
@@ -39,7 +38,8 @@ import {
   verifyPasswordResetCode,
   confirmPasswordReset,
   indexedDBLocalPersistence,
-  setPersistence
+  setPersistence,
+  OAuthProvider
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -71,7 +71,7 @@ setPersistence(window.auth, indexedDBLocalPersistence).then(() => {
 
 window.firestore = {
   collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot,
-  query, orderBy, getDocs, where, serverTimestamp,
+  query, getDocs, where, serverTimestamp,
   arrayUnion, arrayRemove, getDoc, setDoc
 };
 
@@ -83,6 +83,7 @@ window.firebaseAuth = {
   signInWithRedirect,
   getRedirectResult,
   GoogleAuthProvider,
+  OAuthProvider,
   signOut,
   onAuthStateChanged,
   updateProfile,

@@ -22,9 +22,17 @@ service cloud.firestore {
         request.auth.uid == get(/databases/$(database)/documents/families/$(familyId)).data.adminId;
     }
 
-    // Check if user is joining a family (adding themselves to memberIds)
-    function isJoiningFamily() {
+    // Check if user is requesting to join a family (can only modify pendingMembers, not members/memberIds)
+    function isRequestingJoin() {
       return isSignedIn() &&
+        request.resource.data.memberIds == resource.data.memberIds &&
+        request.resource.data.members == resource.data.members;
+    }
+
+    // Check if user is only adding themselves to memberIds (child account self-register)
+    function isAddingSelfToMemberIds() {
+      return isSignedIn() &&
+        request.resource.data.members == resource.data.members &&
         request.auth.uid in request.resource.data.memberIds &&
         !(request.auth.uid in resource.data.memberIds);
     }
@@ -37,13 +45,13 @@ service cloud.firestore {
     // Families collection
     match /families/{familyId} {
       // Read: signed-in users can read (needed for join by code, child login)
-      // Members get full access, non-members can only find families by code query
       allow read: if isSignedIn();
 
-      // Update: admin can do anything, signed-in users can join (add themselves to members/memberIds)
+      // Update: admin can do anything, members can update, signed-in users can request to join or self-register as child
       allow update: if isFamilyAdmin(familyId) ||
         isFamilyMember(familyId) ||
-        (isSignedIn() && isJoiningFamily());
+        (isSignedIn() && isRequestingJoin()) ||
+        (isSignedIn() && isAddingSelfToMemberIds());
 
       // Anyone signed in can create a family
       allow create: if isSignedIn() &&

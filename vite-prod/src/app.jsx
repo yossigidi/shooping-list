@@ -140,10 +140,22 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
                     localStorage.setItem('childSession', JSON.stringify(session));
                     setChildUser(session);
-                    // Sign out anonymous user used for Firestore access
-                    if (window.auth.currentUser?.isAnonymous) {
-                        try { await window.firebaseAuth.signOut(window.auth); } catch(e) {}
+
+                    // Add anonymous UID to memberIds so Firestore rules allow access
+                    const currentUid = window.auth.currentUser?.uid;
+                    if (currentUid && !familyData.memberIds?.includes(currentUid)) {
+                        try {
+                            await window.firestore.updateDoc(
+                                window.firestore.doc(window.db, 'families', familyId),
+                                { memberIds: window.firestore.arrayUnion(currentUid) }
+                            );
+                            // Save the UID used for this child session
+                            localStorage.setItem('childAuthUid', currentUid);
+                        } catch (e) {
+                            console.warn('Could not add child UID to memberIds:', e);
+                        }
                     }
+
                     console.log('Child login successful');
                     return { success: true };
                 } catch (error) {
@@ -285,6 +297,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 noAccount: 'אין לך חשבון?',
                 haveAccount: 'יש לך חשבון?',
                 continueWithGoogle: 'המשך עם Google',
+                continueWithApple: 'המשך עם Apple',
                 orDivider: 'או',
                 registerNow: 'הירשם עכשיו',
                 loginNow: 'התחבר עכשיו',
@@ -336,6 +349,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 // Lists
                 lists: 'רשימות',
                 newList: 'רשימה חדשה',
+                deleteListConfirm: 'למחוק את הרשימה "{name}"?',
+                listDeleted: 'הרשימה נמחקה',
                 listName: 'שם הרשימה',
                 listNamePlaceholder: 'לדוגמה: קניות לשבת',
                 selectIcon: 'אייקון',
@@ -446,6 +461,24 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 passwordsNoMatch: 'הסיסמאות לא תואמות',
                 codeNotFound: 'קוד לא נמצא',
                 alreadyMember: 'כבר חבר במשפחה זו',
+                alreadyPending: 'כבר הגשת בקשה להצטרף למשפחה זו',
+                pendingApprovalTitle: 'ממתין לאישור',
+                pendingApprovalDesc: 'בקשתך להצטרף ל-{familyName} נשלחה. אחד ההורים צריך לאשר את הבקשה.',
+                pendingApprovalHint: 'הודע להורה לפתוח את הגדרות המשפחה כדי לאשר',
+                cancelJoinRequest: 'בטל בקשה',
+                pendingMembersTitle: 'ממתינים לאישור',
+                tabMembers: 'חברים',
+                tabPending: 'ממתינים',
+                tabInvite: 'הזמנה',
+                requestedToJoin: 'ביקש להצטרף',
+                approve: 'אשר',
+                reject: 'דחה',
+                memberApproved: 'החבר אושר בהצלחה',
+                memberRejected: 'הבקשה נדחתה',
+                requestRejectedTitle: 'הבקשה נדחתה',
+                requestRejectedDesc: 'בקשתך להצטרף ל-{familyName} נדחתה.',
+                waitingForApproval: 'ממתין לאישור הורה...',
+                noPendingMembers: 'אין בקשות ממתינות',
                 selectRoleError: 'נא לבחור תפקיד במשפחה',
                 enterFamilyName: 'נא להזין שם למשפחה',
                 enterCode: 'נא להזין קוד בן 6 תווים',
@@ -1349,6 +1382,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 noAccount: "Don't have an account?",
                 haveAccount: 'Already have an account?',
                 continueWithGoogle: 'Continue with Google',
+                continueWithApple: 'Continue with Apple',
                 orDivider: 'or',
                 registerNow: 'Register Now',
                 loginNow: 'Login Now',
@@ -1400,6 +1434,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 // Lists
                 lists: 'Lists',
                 newList: 'New List',
+                deleteListConfirm: 'Delete list "{name}"?',
+                listDeleted: 'List deleted',
                 listName: 'List Name',
                 listNamePlaceholder: 'e.g., Weekend Shopping',
                 selectIcon: 'Icon',
@@ -1510,6 +1546,24 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 passwordsNoMatch: 'Passwords do not match',
                 codeNotFound: 'Code not found',
                 alreadyMember: 'Already a member of this family',
+                alreadyPending: 'You have already requested to join this family',
+                pendingApprovalTitle: 'Waiting for Approval',
+                pendingApprovalDesc: 'Your request to join {familyName} has been sent. A parent needs to approve it.',
+                pendingApprovalHint: 'Tell a parent to open Family Settings to approve',
+                cancelJoinRequest: 'Cancel Request',
+                pendingMembersTitle: 'Pending Approval',
+                tabMembers: 'Members',
+                tabPending: 'Pending',
+                tabInvite: 'Invite',
+                requestedToJoin: 'Requested to join',
+                approve: 'Approve',
+                reject: 'Reject',
+                memberApproved: 'Member approved successfully',
+                memberRejected: 'Request rejected',
+                requestRejectedTitle: 'Request Rejected',
+                requestRejectedDesc: 'Your request to join {familyName} was rejected.',
+                waitingForApproval: 'Waiting for parent approval...',
+                noPendingMembers: 'No pending requests',
                 selectRoleError: 'Please select a family role',
                 enterFamilyName: 'Please enter a family name',
                 enterCode: 'Please enter a 6-character code',
@@ -2304,6 +2358,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 noAccount: 'Нет аккаунта?',
                 haveAccount: 'Уже есть аккаунт?',
                 continueWithGoogle: 'Продолжить с Google',
+                continueWithApple: 'Продолжить с Apple',
                 orDivider: 'или',
                 registerNow: 'Зарегистрироваться',
                 loginNow: 'Войти',
@@ -2386,6 +2441,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 // Lists
                 lists: 'Списки',
                 newList: 'Новый список',
+                deleteListConfirm: 'Удалить список "{name}"?',
+                listDeleted: 'Список удалён',
                 listName: 'Название списка',
                 listNamePlaceholder: 'напр., Покупки на выходные',
                 selectIcon: 'Иконка',
@@ -2496,6 +2553,24 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 passwordsNoMatch: 'Пароли не совпадают',
                 codeNotFound: 'Код не найден',
                 alreadyMember: 'Уже являетесь членом этой семьи',
+                alreadyPending: 'Вы уже отправили запрос на присоединение к этой семье',
+                pendingApprovalTitle: 'Ожидание одобрения',
+                pendingApprovalDesc: 'Ваш запрос на присоединение к {familyName} отправлен. Родитель должен одобрить его.',
+                pendingApprovalHint: 'Попросите родителя открыть настройки семьи для одобрения',
+                cancelJoinRequest: 'Отменить запрос',
+                pendingMembersTitle: 'Ожидают одобрения',
+                tabMembers: 'Участники',
+                tabPending: 'Ожидающие',
+                tabInvite: 'Приглашение',
+                requestedToJoin: 'Запросил присоединение',
+                approve: 'Одобрить',
+                reject: 'Отклонить',
+                memberApproved: 'Участник успешно одобрен',
+                memberRejected: 'Запрос отклонён',
+                requestRejectedTitle: 'Запрос отклонён',
+                requestRejectedDesc: 'Ваш запрос на присоединение к {familyName} был отклонён.',
+                waitingForApproval: 'Ожидание одобрения родителя...',
+                noPendingMembers: 'Нет ожидающих запросов',
                 selectRoleError: 'Пожалуйста, выберите роль в семье',
                 enterFamilyName: 'Пожалуйста, введите название семьи',
                 enterCode: 'Пожалуйста, введите 6-значный код',
@@ -3246,6 +3321,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 noAccount: 'ليس لديك حساب؟',
                 haveAccount: 'لديك حساب بالفعل؟',
                 continueWithGoogle: 'المتابعة مع Google',
+                continueWithApple: 'المتابعة مع Apple',
                 orDivider: 'أو',
                 registerNow: 'سجل الآن',
                 loginNow: 'سجل دخول الآن',
@@ -3297,6 +3373,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 // Lists
                 lists: 'القوائم',
                 newList: 'قائمة جديدة',
+                deleteListConfirm: 'حذف القائمة "{name}"؟',
+                listDeleted: 'تم حذف القائمة',
                 listName: 'اسم القائمة',
                 listNamePlaceholder: 'مثال: تسوق نهاية الأسبوع',
                 selectIcon: 'أيقونة',
@@ -3407,6 +3485,24 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 passwordsNoMatch: 'كلمات المرور غير متطابقة',
                 codeNotFound: 'الرمز غير موجود',
                 alreadyMember: 'أنت عضو بالفعل في هذه العائلة',
+                alreadyPending: 'لقد أرسلت بالفعل طلب انضمام لهذه العائلة',
+                pendingApprovalTitle: 'بانتظار الموافقة',
+                pendingApprovalDesc: 'تم إرسال طلبك للانضمام إلى {familyName}. يحتاج أحد الوالدين للموافقة عليه.',
+                pendingApprovalHint: 'أخبر أحد الوالدين بفتح إعدادات العائلة للموافقة',
+                cancelJoinRequest: 'إلغاء الطلب',
+                pendingMembersTitle: 'بانتظار الموافقة',
+                tabMembers: 'الأعضاء',
+                tabPending: 'بانتظار',
+                tabInvite: 'دعوة',
+                requestedToJoin: 'طلب الانضمام',
+                approve: 'موافقة',
+                reject: 'رفض',
+                memberApproved: 'تمت الموافقة على العضو بنجاح',
+                memberRejected: 'تم رفض الطلب',
+                requestRejectedTitle: 'تم رفض الطلب',
+                requestRejectedDesc: 'تم رفض طلبك للانضمام إلى {familyName}.',
+                waitingForApproval: 'بانتظار موافقة الوالدين...',
+                noPendingMembers: 'لا توجد طلبات معلقة',
                 selectRoleError: 'يرجى اختيار دور في العائلة',
                 enterFamilyName: 'يرجى إدخال اسم العائلة',
                 enterCode: 'يرجى إدخال رمز من 6 أحرف',
@@ -4438,7 +4534,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 return { id: familyRef.id, ...newFamily };
             };
 
-            // Join existing family
+            // Join existing family (adds to pendingMembers for parent approval)
             const joinFamily = async (code, userRole = 'child') => {
                 if (!user) {
                     console.error('joinFamily: No user logged in');
@@ -4469,19 +4565,24 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         return { success: false, error: t('alreadyMember') };
                     }
 
+                    // Check if already pending
+                    if (familyData.pendingMembers?.some(m => m.userId === user?.uid)) {
+                        console.log('joinFamily: User already pending');
+                        return { success: false, error: t('alreadyPending') };
+                    }
+
                     const isParent = userRole.startsWith('parent');
                     const isTeen = userRole === 'teen';
                     const roleLabel = userRole === 'parent_father' ? t('roleFather') :
                                       userRole === 'parent_mother' ? t('roleMother') :
                                       userRole === 'teen' ? t('roleTeen') : t('roleChild');
 
-                    // Add user to family
-                    // Roles: admin (parents), teen (older child with some permissions), member (child)
-                    const newMember = {
+                    // Build pending member object
+                    const pendingMember = {
                         userId: user?.uid,
                         email: user?.email,
                         displayName: user?.displayName || user?.email || t('anonymous'),
-                        joinedAt: new Date(),
+                        requestedAt: new Date(),
                         role: isParent ? 'admin' : (isTeen ? 'teen' : 'member'),
                         familyRole: userRole,
                         familyRoleLabel: roleLabel,
@@ -4489,62 +4590,101 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         isTeen: isTeen
                     };
 
-                    console.log('joinFamily: Adding member to family');
+                    console.log('joinFamily: Adding to pendingMembers');
                     await window.firestore.updateDoc(
                         window.firestore.doc(window.db, 'families', familyDoc.id),
                         {
-                            members: window.firestore.arrayUnion(newMember),
-                            memberIds: window.firestore.arrayUnion(user?.uid)
+                            pendingMembers: window.firestore.arrayUnion(pendingMember)
                         }
                     );
 
-                    // Log activity (don't let this fail the join)
-                    try {
-                        await logActivity('member_joined', { memberName: user?.displayName || user?.email || t('anonymous') }, familyDoc.id);
-                    } catch (activityErr) {
-                        console.warn('joinFamily: Failed to log activity, but join succeeded:', activityErr);
-                    }
+                    // Save pending request to localStorage for persistence across reloads
+                    localStorage.setItem('pendingFamilyRequest', JSON.stringify({
+                        familyId: familyDoc.id,
+                        familyName: familyData.name
+                    }));
 
-                    console.log('joinFamily: Successfully joined family, waiting for sync...');
-                    // Wait for Firestore to confirm the family data with a real-time listener
-                    await new Promise((resolve, reject) => {
-                        const timeoutId = setTimeout(() => {
-                            unsubSync();
-                            // Timeout fallback: manually fetch and set
-                            console.log('joinFamily: Listener timed out, manually fetching family');
-                            window.firestore.getDoc(
-                                window.firestore.doc(window.db, 'families', familyDoc.id)
-                            ).then(updatedDoc => {
-                                if (updatedDoc.exists()) {
-                                    setFamily({ id: updatedDoc.id, ...updatedDoc.data() });
-                                }
-                                resolve();
-                            }).catch(() => resolve());
-                        }, 5000);
-
-                        const unsubSync = window.firestore.onSnapshot(
-                            window.firestore.doc(window.db, 'families', familyDoc.id),
-                            (doc) => {
-                                if (doc.exists() && doc.data().memberIds?.includes(user?.uid)) {
-                                    console.log('joinFamily: Listener confirmed membership');
-                                    clearTimeout(timeoutId);
-                                    unsubSync();
-                                    setFamily({ id: doc.id, ...doc.data() });
-                                    resolve();
-                                }
-                            },
-                            (err) => {
-                                console.warn('joinFamily: Listener error:', err);
-                                clearTimeout(timeoutId);
-                                unsubSync();
-                                resolve();
-                            }
-                        );
-                    });
-                    return { success: true, familyId: familyDoc.id };
+                    console.log('joinFamily: Request sent, waiting for parent approval');
+                    return { success: true, pending: true, familyId: familyDoc.id, familyName: familyData.name };
                 } catch (err) {
                     console.error('joinFamily: Error:', err);
                     return { success: false, error: err.message || t('joinFamilyError') };
+                }
+            };
+
+            // Approve a pending member (parents only)
+            const approveMember = async (pm) => {
+                if (!family || !user) return;
+                const currentMember = family.members?.find(m => m.userId === user?.uid);
+                if (family.adminId !== user?.uid && !currentMember?.isParent) return;
+
+                try {
+                    const familyRef = window.firestore.doc(window.db, 'families', family.id);
+                    // Build the approved member object (convert requestedAt -> joinedAt)
+                    const approvedMember = {
+                        userId: pm.userId,
+                        email: pm.email,
+                        displayName: pm.displayName,
+                        joinedAt: new Date(),
+                        role: pm.role,
+                        familyRole: pm.familyRole,
+                        familyRoleLabel: pm.familyRoleLabel,
+                        isParent: pm.isParent,
+                        isTeen: pm.isTeen
+                    };
+
+                    await window.firestore.updateDoc(familyRef, {
+                        pendingMembers: window.firestore.arrayRemove(pm),
+                        members: window.firestore.arrayUnion(approvedMember),
+                        memberIds: window.firestore.arrayUnion(pm.userId)
+                    });
+
+                    try {
+                        await logActivity('member_approved', { memberName: pm.displayName, approvedBy: user?.displayName || user?.email }, family.id);
+                    } catch (e) { console.warn('Failed to log approve activity:', e); }
+                } catch (err) {
+                    console.error('approveMember error:', err);
+                }
+            };
+
+            // Reject a pending member (parents only)
+            const rejectMember = async (pm) => {
+                if (!family || !user) return;
+                const currentMember = family.members?.find(m => m.userId === user?.uid);
+                if (family.adminId !== user?.uid && !currentMember?.isParent) return;
+
+                try {
+                    const familyRef = window.firestore.doc(window.db, 'families', family.id);
+                    await window.firestore.updateDoc(familyRef, {
+                        pendingMembers: window.firestore.arrayRemove(pm)
+                    });
+
+                    try {
+                        await logActivity('member_rejected', { memberName: pm.displayName, rejectedBy: user?.displayName || user?.email }, family.id);
+                    } catch (e) { console.warn('Failed to log reject activity:', e); }
+                } catch (err) {
+                    console.error('rejectMember error:', err);
+                }
+            };
+
+            // Cancel own join request
+            const cancelJoinRequest = async (familyId) => {
+                if (!user) return;
+                try {
+                    const familyRef = window.firestore.doc(window.db, 'families', familyId);
+                    const familySnap = await window.firestore.getDoc(familyRef);
+                    if (!familySnap.exists()) return;
+
+                    const familyData = familySnap.data();
+                    const myPending = familyData.pendingMembers?.find(m => m.userId === user?.uid);
+                    if (myPending) {
+                        await window.firestore.updateDoc(familyRef, {
+                            pendingMembers: window.firestore.arrayRemove(myPending)
+                        });
+                    }
+                    localStorage.removeItem('pendingFamilyRequest');
+                } catch (err) {
+                    console.error('cancelJoinRequest error:', err);
                 }
             };
 
@@ -4880,7 +5020,11 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 deleteChildAccount,
                 resetChildPin,
                 generateChildInviteToken,
-                validateChildInviteToken
+                validateChildInviteToken,
+                // Pending member approval methods
+                approveMember,
+                rejectMember,
+                cancelJoinRequest
             };
 
             return <FamilyContext.Provider value={value}>{children}</FamilyContext.Provider>;
@@ -4900,7 +5044,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [createdCode, setCreatedCode] = useState('');
             const [selectedRole, setSelectedRole] = useState(''); // parent_father, parent_mother, child
             const [pendingInvite, setPendingInvite] = useState(false);
-            const { createFamily, joinFamily } = useFamily();
+            const [pendingRequest, setPendingRequest] = useState(null); // { familyId, familyName }
+            const [pendingStatus, setPendingStatus] = useState(null); // 'waiting' | 'rejected'
+            const [cancellingRequest, setCancellingRequest] = useState(false);
+            const { createFamily, joinFamily, cancelJoinRequest } = useFamily();
             const { user } = useAuth();
             const { t, language } = useLanguage();
             const [darkMode, setDarkMode] = useState(false);
@@ -4921,7 +5068,70 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     // Clear the pending code
                     localStorage.removeItem('pendingJoinCode');
                 }
+
+                // Check for pending family request from localStorage
+                try {
+                    const saved = localStorage.getItem('pendingFamilyRequest');
+                    if (saved) {
+                        const parsed = JSON.parse(saved);
+                        if (parsed?.familyId) {
+                            setPendingRequest(parsed);
+                            setPendingStatus('waiting');
+                        }
+                    }
+                } catch (e) { /* ignore parse errors */ }
             }, []);
+
+            // Listen for approval/rejection of pending request
+            useEffect(() => {
+                if (!pendingRequest?.familyId || !user?.uid) return;
+
+                const unsubscribe = window.firestore.onSnapshot(
+                    window.firestore.doc(window.db, 'families', pendingRequest.familyId),
+                    (doc) => {
+                        if (!doc.exists()) {
+                            // Family was deleted
+                            localStorage.removeItem('pendingFamilyRequest');
+                            setPendingRequest(null);
+                            setPendingStatus(null);
+                            return;
+                        }
+                        const data = doc.data();
+                        if (data.memberIds?.includes(user.uid)) {
+                            // Approved! Clear localStorage, family listener will pick it up
+                            localStorage.removeItem('pendingFamilyRequest');
+                            setPendingRequest(null);
+                            setPendingStatus(null);
+                            return;
+                        }
+                        const stillPending = data.pendingMembers?.some(m => m.userId === user.uid);
+                        if (!stillPending) {
+                            // Not in pendingMembers and not in memberIds = rejected
+                            localStorage.removeItem('pendingFamilyRequest');
+                            setPendingStatus('rejected');
+                        }
+                    },
+                    (err) => {
+                        console.warn('Pending request listener error:', err);
+                    }
+                );
+
+                return () => unsubscribe();
+            }, [pendingRequest?.familyId, user?.uid]);
+
+            const handleCancelRequest = async () => {
+                if (!pendingRequest?.familyId) return;
+                setCancellingRequest(true);
+                try {
+                    await cancelJoinRequest(pendingRequest.familyId);
+                    setPendingRequest(null);
+                    setPendingStatus(null);
+                } catch (e) {
+                    console.error('Cancel request error:', e);
+                } finally {
+                    setCancellingRequest(false);
+                }
+            };
 
             const handleCreate = async (e) => {
                 e.preventDefault();
@@ -4967,6 +5177,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     console.log('handleJoin: Result:', result);
                     if (!result.success) {
                         setError(result.error || t('errorJoining'));
+                    } else if (result.pending) {
+                        // Show pending approval screen
+                        setPendingRequest({ familyId: result.familyId, familyName: result.familyName });
+                        setPendingStatus('waiting');
                     } else {
                         // Show success and wait for family state to update
                         setMode('joined');
@@ -5003,6 +5217,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                             {t('logout')}
                         </button>
 
+                        {!pendingStatus && (<>
                         <div className="text-center mb-8 pt-8">
                             <div className="text-7xl mb-4 float">👨‍👩‍👧‍👦</div>
                             <h1 className="text-2xl font-bold text-gradient mb-2">{t('welcome')}, {user?.displayName || t('defaultUser')}!</h1>
@@ -5224,21 +5439,139 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                 </button>
                             </div>
                         )}
+                        </>)}
+
+                        {/* Pending approval - waiting screen */}
+                        {pendingStatus === 'waiting' && pendingRequest && (
+                            <div className="text-center space-y-4">
+                                <div className="text-7xl mb-4">⏳</div>
+                                <h2 className="text-xl font-bold text-gradient">{t('pendingApprovalTitle')}</h2>
+                                <p className="text-gray-600 dark:text-gray-400">
+                                    {t('pendingApprovalDesc').replace('{familyName}', pendingRequest.familyName)}
+                                </p>
+                                <div className="flex items-center justify-center gap-2 py-2">
+                                    <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                                    <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                                    <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                                </div>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">{t('pendingApprovalHint')}</p>
+                                <button
+                                    onClick={handleCancelRequest}
+                                    disabled={cancellingRequest}
+                                    className="mt-4 px-6 py-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors disabled:opacity-50"
+                                >
+                                    {cancellingRequest ? t('loading') : t('cancelJoinRequest')}
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Pending approval - rejected screen */}
+                        {pendingStatus === 'rejected' && (
+                            <div className="text-center space-y-4">
+                                <div className="text-7xl mb-4">😔</div>
+                                <h2 className="text-xl font-bold text-red-600 dark:text-red-400">{t('requestRejectedTitle')}</h2>
+                                <p className="text-gray-600 dark:text-gray-400">
+                                    {t('requestRejectedDesc').replace('{familyName}', pendingRequest?.familyName || '')}
+                                </p>
+                                <button
+                                    onClick={() => { setPendingRequest(null); setPendingStatus(null); setMode('choose'); }}
+                                    className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors"
+                                >
+                                    {t('back')}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             );
         }
 
-        // Family Settings Modal
+        // Pending Members Modal
+        function PendingMembersModal({ onClose }) {
+            const { family, approveMember, rejectMember } = useFamily();
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+
+            const handleApprove = async (pm) => {
+                await approveMember(pm);
+                if (!family.pendingMembers || family.pendingMembers.length <= 1) {
+                    onClose();
+                }
+            };
+
+            const handleReject = async (pm) => {
+                await rejectMember(pm);
+                if (!family.pendingMembers || family.pendingMembers.length <= 1) {
+                    onClose();
+                }
+            };
+
+            return (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[60] p-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-xl font-bold flex items-center gap-3">
+                                <span className="text-3xl">⏳</span>
+                                <span className="text-gradient">{t('pendingMembersTitle')}</span>
+                            </h2>
+                            <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 hover:rotate-90 transition-all">&times;</button>
+                        </div>
+
+                        {family.pendingMembers?.length > 0 ? (
+                            <div className="space-y-3">
+                                {family.pendingMembers.map((pm, idx) => (
+                                    <div key={idx} className="glass rounded-xl p-4 border-2 border-amber-200 dark:border-amber-800">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-2xl">
+                                                {pm.familyRole === 'parent_father' ? '👨' : pm.familyRole === 'parent_mother' ? '👩' : pm.familyRole === 'teen' ? '🧑' : '👦'}
+                                            </div>
+                                            <div>
+                                                <div className="font-semibold text-lg dark:text-white">{pm.displayName}</div>
+                                                <div className="text-sm text-amber-600 dark:text-amber-400">
+                                                    {pm.familyRoleLabel} &bull; {t('requestedToJoin')}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-3">
+                                            <button
+                                                onClick={() => handleApprove(pm)}
+                                                className="flex-1 py-2.5 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
+                                            >
+                                                <Check size={18} /> {t('approve')}
+                                            </button>
+                                            <button
+                                                onClick={() => handleReject(pm)}
+                                                className="flex-1 py-2.5 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
+                                            >
+                                                <Ban size={18} /> {t('reject')}
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                                <div className="text-5xl mb-3">✅</div>
+                                <p>{t('noPendingMembers')}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Family Settings Modal - Tabbed Layout
         function FamilySettingsModal({ onClose }) {
-            const { family, leaveFamily, deleteEntireFamily, removeMember, isAdmin, canInvite, isTeen, deleteChildAccount } = useFamily();
+            const { family, leaveFamily, deleteEntireFamily, removeMember, isAdmin, canInvite, isTeen, deleteChildAccount, approveMember, rejectMember } = useFamily();
             const { user } = useAuth();
             const { t, language } = useLanguage();
+            const isParentUser = isAdmin || family.members?.find(m => m.userId === user?.uid)?.isParent;
+            const pendingCount = family.pendingMembers?.length || 0;
+            const [activeTab, setActiveTab] = useState(pendingCount > 0 && isParentUser ? 'pending' : 'members');
             const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
             const [showDeleteFamilyConfirm, setShowDeleteFamilyConfirm] = useState(false);
             const [copied, setCopied] = useState(false);
             const [childLinkCopied, setChildLinkCopied] = useState(false);
-            const [showShareOptions, setShowShareOptions] = useState(false);
             const [qrCodeUrl, setQrCodeUrl] = useState('');
             const [showCreateChildModal, setShowCreateChildModal] = useState(false);
             const [showChildQRModal, setShowChildQRModal] = useState(false);
@@ -5278,11 +5611,12 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     qr.addData(inviteLink);
                     qr.make();
                     setQrCodeUrl(qr.createDataURL(6, 0));
-                    setShowShareOptions(true);
                 } catch (e) {
                     console.error('QR generation error:', e);
                 }
             };
+
+            useEffect(() => { if (activeTab === 'invite' && !qrCodeUrl) generateQRCode(); }, [activeTab]);
 
             const shareViaWhatsApp = () => {
                 const text = encodeURIComponent(t('whatsappFamilyShareMsg').replace('{familyName}', family.name).replace('{code}', family.code).replace('{link}', inviteLink));
@@ -5295,330 +5629,306 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
             };
 
-            const handleLeave = async () => {
-                await leaveFamily();
-                onClose();
-            };
+            const handleLeave = async () => { await leaveFamily(); onClose(); };
+            const handleDeleteFamily = async () => { await deleteEntireFamily(); onClose(); };
+            const handleDeleteChild = async (childId) => { await deleteChildAccount(childId); setDeleteChildId(null); };
 
-            const handleDeleteFamily = async () => {
-                await deleteEntireFamily();
-                onClose();
-            };
-
-            const handleDeleteChild = async (childId) => {
-                await deleteChildAccount(childId);
-                setDeleteChildId(null);
-            };
+            const tabs = [
+                { id: 'members', label: t('tabMembers'), icon: '👥' },
+                ...(isParentUser ? [{ id: 'pending', label: t('tabPending'), icon: '⏳', badge: pendingCount }] : []),
+                { id: 'invite', label: t('tabInvite'), icon: '📨' }
+            ];
 
             return (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                    <div className="glass rounded-3xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-2xl font-bold flex items-center gap-3">
-                                <span className="text-3xl">👨‍👩‍👧‍👦</span>
-                                <span className="text-gradient">{family.name}</span>
-                            </h2>
-                            <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 hover:rotate-90 transition-all">×</button>
-                        </div>
-
-                        {/* Share Code */}
-                        <div className="glass rounded-xl p-4 mb-4">
-                            <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-2">{t('inviteCode')}</h3>
-                            <div className="flex items-center gap-3">
-                                <div className="flex-1 bg-indigo-100 dark:bg-indigo-900/50 px-4 py-3 rounded-lg text-center">
-                                    <span className="text-2xl font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-widest">{family.code}</span>
-                                </div>
-                                <button onClick={copyCode} className="btn-gradient text-white px-4 py-3 rounded-lg hover:scale-105 transition-all">
-                                    {copied ? <Check size={18} /> : <Copy size={18} />}
-                                </button>
+                <div className="fixed inset-0 z-50 gradient-bg dark:bg-gray-900 flex flex-col" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="flex flex-col h-full">
+                        {/* Header */}
+                        <div className="glass border-b border-gray-200 dark:border-gray-700 px-4 pt-4 pb-0 safe-area-top">
+                            <div className="flex justify-between items-center mb-3">
+                                <h2 className="text-2xl font-bold flex items-center gap-3">
+                                    <span className="text-3xl">👨‍👩‍👧‍👦</span>
+                                    <span className="text-gradient">{family.name}</span>
+                                </h2>
+                                <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 hover:rotate-90 transition-all">&times;</button>
                             </div>
-                        </div>
 
-                        {/* Share Options Button */}
-                        <button
-                            onClick={generateQRCode}
-                            className="w-full mb-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-600 transition-all flex items-center justify-center gap-2"
-                        >
-                            <Share2 size={18} /> {t('shareWithFamily')}
-                        </button>
-
-                        {/* Share Options Modal */}
-                        {showShareOptions && (
-                            <div className="glass rounded-xl p-4 mb-4 border-2 border-green-200 dark:border-green-800">
-                                <div className="flex justify-between items-center mb-3">
-                                    <h4 className="font-bold text-gray-700 dark:text-gray-300">{t('shareOptions')}</h4>
-                                    <button onClick={() => setShowShareOptions(false)} className="text-gray-400 hover:text-gray-600">✕</button>
-                                </div>
-
-                                {/* QR Code */}
-                                {qrCodeUrl && (
-                                    <div className="flex justify-center mb-4">
-                                        <div className="bg-white p-3 rounded-xl">
-                                            <img src={qrCodeUrl} alt="QR Code" className="w-40 h-40" />
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Share Buttons */}
-                                <div className="grid grid-cols-3 gap-2 mb-3">
+                            {/* Tab Bar */}
+                            <div className="flex gap-1 bg-gray-100 dark:bg-gray-800 rounded-xl p-1 mb-3">
+                                {tabs.map(tab => (
                                     <button
-                                        onClick={shareViaWhatsApp}
-                                        className="flex flex-col items-center gap-1 p-3 bg-green-100 dark:bg-green-900/30 rounded-xl hover:bg-green-200 dark:hover:bg-green-900/50 transition-all"
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`flex-1 py-2.5 px-3 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5 relative ${
+                                            activeTab === tab.id
+                                                ? 'bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm'
+                                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                                        }`}
                                     >
-                                        <MessageCircle size={24} className="text-green-600" />
-                                        <span className="text-xs font-medium text-green-700 dark:text-green-400">WhatsApp</span>
-                                    </button>
-                                    <button
-                                        onClick={shareViaEmail}
-                                        className="flex flex-col items-center gap-1 p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-all"
-                                    >
-                                        <span className="text-2xl">📧</span>
-                                        <span className="text-xs font-medium text-blue-700 dark:text-blue-400">{t('email')}</span>
-                                    </button>
-                                    <button
-                                        onClick={copyLink}
-                                        className="flex flex-col items-center gap-1 p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-all"
-                                    >
-                                        <Link size={24} className="text-purple-600" />
-                                        <span className="text-xs font-medium text-purple-700 dark:text-purple-400">{t('copyLink')}</span>
-                                    </button>
-                                </div>
-
-                                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">{t('scanQR')}</p>
-                            </div>
-                        )}
-
-                        {/* Members List */}
-                        <div className="mb-4">
-                            <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3">{t('familyMembers')} ({family.members?.length})</h3>
-                            <div className="space-y-2">
-                                {family.members?.map((member, idx) => (
-                                    <div key={idx} className="glass rounded-lg p-3 flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xl">
-                                                {member.familyRole === 'parent_father' ? '👨' : member.familyRole === 'parent_mother' ? '👩' : member.familyRole === 'teen' ? '🧑' : member.familyRole === 'child' ? '👦' : member.displayName?.charAt(0)?.toUpperCase() || '?'}
-                                            </div>
-                                            <div>
-                                                <div className="font-medium dark:text-white">{member.displayName}</div>
-                                                <div className="text-xs text-gray-500 dark:text-gray-400">
-                                                    {member.familyRoleLabel || (member.role === 'admin' ? '👑 ' + t('admin') : member.role === 'teen' ? '🧑 ' + t('teen') : t('child'))}
-                                                    {(member.isParent || member.role === 'admin') && <span className="mr-1 text-green-600">• {t('admin')}</span>}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {isAdmin && member.userId !== user?.uid && (
-                                            <button
-                                                onClick={() => removeMember(member.userId)}
-                                                className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
-                                                title={t('removeMember')}
-                                            >
-                                                🗑
-                                            </button>
+                                        <span>{tab.icon}</span> {tab.label}
+                                        {tab.badge > 0 && (
+                                            <span className="min-w-[18px] h-[18px] flex items-center justify-center bg-red-500 text-white text-[10px] font-bold rounded-full animate-pulse">
+                                                {tab.badge}
+                                            </span>
                                         )}
-                                    </div>
+                                    </button>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Child Accounts Section - Admin Only */}
-                        {isAdmin && (
-                            <div className="mb-6">
-                                <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
-                                    <span>👦</span>
-                                    {t('childAccounts')} ({family.childAccounts?.length || 0})
-                                </h3>
+                        {/* Tab Content */}
+                        <div className="flex-1 overflow-y-auto px-4 py-4">
 
-                                {/* Child accounts list */}
-                                {family.childAccounts?.length > 0 ? (
-                                    <div className="space-y-2 mb-3">
-                                        {family.childAccounts.map((child, idx) => (
-                                            <div key={idx} className="glass rounded-lg p-3">
-                                                {deleteChildId === child.childId ? (
-                                                    <div className="flex items-center justify-between">
-                                                        <span className="text-sm text-red-600 dark:text-red-400">{t('deleteChildAccount')}?</span>
-                                                        <div className="flex gap-2">
-                                                            <button
-                                                                onClick={() => handleDeleteChild(child.childId)}
-                                                                className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-medium"
-                                                            >
-                                                                {t('yes')}
-                                                            </button>
-                                                            <button
-                                                                onClick={() => setDeleteChildId(null)}
-                                                                className="glass px-3 py-1 rounded-lg text-sm font-medium"
-                                                            >
-                                                                {t('no')}
-                                                            </button>
+                            {/* === MEMBERS TAB === */}
+                            {activeTab === 'members' && (
+                                <div className="space-y-4">
+                                    {/* Members List */}
+                                    <div>
+                                        <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3">{t('familyMembers')} ({family.members?.length})</h3>
+                                        <div className="space-y-2">
+                                            {family.members?.map((member, idx) => (
+                                                <div key={idx} className="glass rounded-lg p-3 flex items-center justify-between">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xl">
+                                                            {member.familyRole === 'parent_father' ? '👨' : member.familyRole === 'parent_mother' ? '👩' : member.familyRole === 'teen' ? '🧑' : member.familyRole === 'child' ? '👦' : member.displayName?.charAt(0)?.toUpperCase() || '?'}
+                                                        </div>
+                                                        <div>
+                                                            <div className="font-medium dark:text-white">{member.displayName}</div>
+                                                            <div className="text-xs text-gray-500 dark:text-gray-400">
+                                                                {member.familyRoleLabel || (member.role === 'admin' ? '👑 ' + t('admin') : member.role === 'teen' ? '🧑 ' + t('teen') : t('child'))}
+                                                                {(member.isParent || member.role === 'admin') && <span className="mr-1 text-green-600">• {t('admin')}</span>}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                ) : (
-                                                    <div className="flex items-center justify-between">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-xl">
-                                                                👦
-                                                            </div>
-                                                            <div>
-                                                                <div className="font-medium dark:text-white">{child.displayName}</div>
-                                                                <div className="text-xs text-gray-500 dark:text-gray-400">
-                                                                    {child.pinHash ? '🔐 PIN' : '📱 QR'}
-                                                                    {child.lastLoginAt && (
-                                                                        <span className="mr-2">
-                                                                            • {new Date(child.lastLoginAt.toDate ? child.lastLoginAt.toDate() : child.lastLoginAt).toLocaleDateString(language)}
-                                                                        </span>
-                                                                    )}
+                                                    {isAdmin && member.userId !== user?.uid && (
+                                                        <button
+                                                            onClick={() => removeMember(member.userId)}
+                                                            className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
+                                                            title={t('removeMember')}
+                                                        >
+                                                            🗑
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Child Accounts Section - Admin Only */}
+                                    {isAdmin && (
+                                        <div>
+                                            <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+                                                <span>👦</span>
+                                                {t('childAccounts')} ({family.childAccounts?.length || 0})
+                                            </h3>
+
+                                            {family.childAccounts?.length > 0 ? (
+                                                <div className="space-y-2 mb-3">
+                                                    {family.childAccounts.map((child, idx) => (
+                                                        <div key={idx} className="glass rounded-lg p-3">
+                                                            {deleteChildId === child.childId ? (
+                                                                <div className="flex items-center justify-between">
+                                                                    <span className="text-sm text-red-600 dark:text-red-400">{t('deleteChildAccount')}?</span>
+                                                                    <div className="flex gap-2">
+                                                                        <button onClick={() => handleDeleteChild(child.childId)} className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm font-medium">{t('yes')}</button>
+                                                                        <button onClick={() => setDeleteChildId(null)} className="glass px-3 py-1 rounded-lg text-sm font-medium">{t('no')}</button>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex gap-1">
-                                                            {child.pinHash && (
-                                                                <button
-                                                                    onClick={() => setShowResetPinModal(child)}
-                                                                    className="text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-900/30 p-2 rounded-lg transition-colors"
-                                                                    title={t('resetPin')}
-                                                                >
-                                                                    🔑
-                                                                </button>
+                                                            ) : (
+                                                                <div className="flex items-center justify-between">
+                                                                    <div className="flex items-center gap-3">
+                                                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-xl">👦</div>
+                                                                        <div>
+                                                                            <div className="font-medium dark:text-white">{child.displayName}</div>
+                                                                            <div className="text-xs text-gray-500 dark:text-gray-400">
+                                                                                {child.pinHash ? '🔐 PIN' : '📱 QR'}
+                                                                                {child.lastLoginAt && (
+                                                                                    <span className="mr-2">• {new Date(child.lastLoginAt.toDate ? child.lastLoginAt.toDate() : child.lastLoginAt).toLocaleDateString(language)}</span>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex gap-1">
+                                                                        {child.pinHash && (
+                                                                            <button onClick={() => setShowResetPinModal(child)} className="text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-900/30 p-2 rounded-lg transition-colors" title={t('resetPin')}>🔑</button>
+                                                                        )}
+                                                                        <button onClick={() => setDeleteChildId(child.childId)} className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors" title={t('deleteChildAccount')}>🗑</button>
+                                                                    </div>
+                                                                </div>
                                                             )}
-                                                            <button
-                                                                onClick={() => setDeleteChildId(child.childId)}
-                                                                className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
-                                                                title={t('deleteChildAccount')}
-                                                            >
-                                                                🗑
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{t('noChildAccounts')}</p>
+                                            )}
+
+                                            <div className="space-y-2">
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    <button onClick={() => setShowCreateChildModal(true)} className="flex items-center justify-center gap-2 py-2 px-3 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-lg font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors text-sm">
+                                                        <span>➕</span> {t('addChildAccount')}
+                                                    </button>
+                                                    <button onClick={() => setShowChildQRModal(true)} className="flex items-center justify-center gap-2 py-2 px-3 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400 rounded-lg font-medium hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-colors text-sm">
+                                                        <span>📱</span> {t('generateChildQR')}
+                                                    </button>
+                                                </div>
+
+                                                {family.childAccounts?.length > 0 && (
+                                                    <div className="glass rounded-lg p-3 border-2 border-teal-200 dark:border-teal-800">
+                                                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 text-center">{t('sendChildLinkDesc')}</p>
+                                                        <div className="grid grid-cols-2 gap-2">
+                                                            <button onClick={copyChildLink} className="flex items-center justify-center gap-2 py-2 px-3 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 rounded-lg font-medium hover:bg-teal-200 dark:hover:bg-teal-900/50 transition-colors text-sm">
+                                                                {childLinkCopied ? <Check size={14} /> : <Link size={14} />}
+                                                                {childLinkCopied ? t('copied') : t('copyLink')}
+                                                            </button>
+                                                            <button onClick={shareChildLinkWhatsApp} className="flex items-center justify-center gap-2 py-2 px-3 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg font-medium hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors text-sm">
+                                                                <MessageCircle size={14} /> WhatsApp
                                                             </button>
                                                         </div>
                                                     </div>
                                                 )}
                                             </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{t('noChildAccounts')}</p>
-                                )}
+                                        </div>
+                                    )}
 
-                                {/* Add child account buttons */}
-                                <div className="space-y-2">
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <button
-                                            onClick={() => setShowCreateChildModal(true)}
-                                            className="flex items-center justify-center gap-2 py-2 px-3 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-lg font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors text-sm"
-                                        >
-                                            <span>➕</span>
-                                            {t('addChildAccount')}
-                                        </button>
-                                        <button
-                                            onClick={() => setShowChildQRModal(true)}
-                                            className="flex items-center justify-center gap-2 py-2 px-3 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400 rounded-lg font-medium hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-colors text-sm"
-                                        >
-                                            <span>📱</span>
-                                            {t('generateChildQR')}
-                                        </button>
+                                    {/* Leave / Delete Family */}
+                                    <div className="pt-2">
+                                        {isAdmin && (
+                                            !showDeleteFamilyConfirm ? (
+                                                <button onClick={() => setShowDeleteFamilyConfirm(true)} className="w-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 py-3 rounded-xl font-semibold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors">
+                                                    {'🗑 ' + t('deleteFamily')}
+                                                </button>
+                                            ) : (
+                                                <div className="glass rounded-xl p-4 border-2 border-red-300 dark:border-red-700">
+                                                    <p className="text-center text-red-600 dark:text-red-400 mb-2 font-bold text-lg">{t('deleteFamily')}</p>
+                                                    <p className="text-center text-red-500 dark:text-red-400 mb-4 text-sm">
+                                                        {family.members?.length > 1 ? t('deleteFamilyWarningMultiple').replace('{count}', family.members.length) : t('deleteFamilyWarningSingle')}
+                                                    </p>
+                                                    <div className="flex gap-2">
+                                                        <button onClick={handleDeleteFamily} className="flex-1 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700">{t('yes')}, {t('deleteFamily')}</button>
+                                                        <button onClick={() => setShowDeleteFamilyConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">{t('cancel')}</button>
+                                                    </div>
+                                                </div>
+                                            )
+                                        )}
+                                        {!isAdmin && (
+                                            !showLeaveConfirm ? (
+                                                <button onClick={() => setShowLeaveConfirm(true)} className="w-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 py-3 rounded-xl font-semibold hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors">
+                                                    <span className="inline-flex items-center gap-2"><LogOut size={18} /> {t('leaveFamily')}</span>
+                                                </button>
+                                            ) : (
+                                                <div className="glass rounded-xl p-4 border-2 border-orange-300 dark:border-orange-700">
+                                                    <p className="text-center text-orange-600 dark:text-orange-400 mb-4 font-medium">{t('leaveConfirm')}</p>
+                                                    <div className="flex gap-2">
+                                                        <button onClick={handleLeave} className="flex-1 bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-orange-600">{t('yes')}, {t('leaveFamily')}</button>
+                                                        <button onClick={() => setShowLeaveConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">{t('cancel')}</button>
+                                                    </div>
+                                                </div>
+                                            )
+                                        )}
                                     </div>
+                                </div>
+                            )}
 
-                                    {/* Send child join link */}
-                                    {family.childAccounts?.length > 0 && (
-                                        <div className="glass rounded-lg p-3 border-2 border-teal-200 dark:border-teal-800">
-                                            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 text-center">
-                                                {t('sendChildLinkDesc')}
-                                            </p>
-                                            <div className="grid grid-cols-2 gap-2">
-                                                <button
-                                                    onClick={copyChildLink}
-                                                    className="flex items-center justify-center gap-2 py-2 px-3 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 rounded-lg font-medium hover:bg-teal-200 dark:hover:bg-teal-900/50 transition-colors text-sm"
-                                                >
-                                                    {childLinkCopied ? <Check size={14} /> : <Link size={14} />}
-                                                    {childLinkCopied ? t('copied') : t('copyLink')}
-                                                </button>
-                                                <button
-                                                    onClick={shareChildLinkWhatsApp}
-                                                    className="flex items-center justify-center gap-2 py-2 px-3 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg font-medium hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors text-sm"
-                                                >
-                                                    <MessageCircle size={14} />
-                                                    WhatsApp
-                                                </button>
-                                            </div>
+                            {/* === PENDING TAB === */}
+                            {activeTab === 'pending' && (
+                                <div>
+                                    {pendingCount > 0 ? (
+                                        <div className="space-y-3">
+                                            {family.pendingMembers.map((pm, idx) => (
+                                                <div key={idx} className="glass rounded-xl p-4 border-2 border-amber-200 dark:border-amber-800">
+                                                    <div className="flex items-center gap-3 mb-3">
+                                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-2xl">
+                                                            {pm.familyRole === 'parent_father' ? '👨' : pm.familyRole === 'parent_mother' ? '👩' : pm.familyRole === 'teen' ? '🧑' : '👦'}
+                                                        </div>
+                                                        <div>
+                                                            <div className="font-semibold text-lg dark:text-white">{pm.displayName}</div>
+                                                            <div className="text-sm text-amber-600 dark:text-amber-400">
+                                                                {pm.familyRoleLabel} &bull; {t('requestedToJoin')}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex gap-3">
+                                                        <button
+                                                            onClick={() => approveMember(pm)}
+                                                            className="flex-1 py-2.5 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
+                                                        >
+                                                            <Check size={18} /> {t('approve')}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => rejectMember(pm)}
+                                                            className="flex-1 py-2.5 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
+                                                        >
+                                                            <Ban size={18} /> {t('reject')}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+                                            <div className="text-6xl mb-4">✅</div>
+                                            <p className="text-lg">{t('noPendingMembers')}</p>
                                         </div>
                                     )}
                                 </div>
-                            </div>
-                        )}
+                            )}
 
-                        {/* Delete Family - Admin only */}
-                        {isAdmin && (
-                            !showDeleteFamilyConfirm ? (
-                                <button
-                                    onClick={() => setShowDeleteFamilyConfirm(true)}
-                                    className="w-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 py-3 rounded-xl font-semibold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
-                                >
-                                    {'🗑 ' + t('deleteFamily')}
-                                </button>
-                            ) : (
-                                <div className="glass rounded-xl p-4 border-2 border-red-300 dark:border-red-700">
-                                    <p className="text-center text-red-600 dark:text-red-400 mb-2 font-bold text-lg">
-                                        {t('deleteFamily')}
-                                    </p>
-                                    <p className="text-center text-red-500 dark:text-red-400 mb-4 text-sm">
-                                        {family.members?.length > 1
-                                            ? t('deleteFamilyWarningMultiple').replace('{count}', family.members.length)
-                                            : t('deleteFamilyWarningSingle')}
-                                    </p>
-                                    <div className="flex gap-2">
-                                        <button onClick={handleDeleteFamily} className="flex-1 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700">
-                                            {t('yes')}, {t('deleteFamily')}
+                            {/* === INVITE TAB === */}
+                            {activeTab === 'invite' && (
+                                <div className="space-y-4">
+                                    {/* Invite Code */}
+                                    <div className="glass rounded-xl p-4">
+                                        <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-2">{t('inviteCode')}</h3>
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex-1 bg-indigo-100 dark:bg-indigo-900/50 px-4 py-3 rounded-lg text-center">
+                                                <span className="text-2xl font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-widest">{family.code}</span>
+                                            </div>
+                                            <button onClick={copyCode} className="btn-gradient text-white px-4 py-3 rounded-lg hover:scale-105 transition-all">
+                                                {copied ? <Check size={18} /> : <Copy size={18} />}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* QR Code */}
+                                    {qrCodeUrl && (
+                                        <div className="flex justify-center">
+                                            <div className="bg-white p-4 rounded-2xl shadow-lg">
+                                                <img src={qrCodeUrl} alt="QR Code" className="w-44 h-44" />
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Share Buttons */}
+                                    <div className="grid grid-cols-3 gap-3">
+                                        <button onClick={shareViaWhatsApp} className="flex flex-col items-center gap-2 p-4 glass rounded-xl hover:scale-105 transition-all">
+                                            <MessageCircle size={28} className="text-green-600" />
+                                            <span className="text-xs font-medium text-green-700 dark:text-green-400">WhatsApp</span>
                                         </button>
-                                        <button onClick={() => setShowDeleteFamilyConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">
-                                            {t('cancel')}
+                                        <button onClick={shareViaEmail} className="flex flex-col items-center gap-2 p-4 glass rounded-xl hover:scale-105 transition-all">
+                                            <span className="text-3xl">📧</span>
+                                            <span className="text-xs font-medium text-blue-700 dark:text-blue-400">{t('email')}</span>
+                                        </button>
+                                        <button onClick={copyLink} className="flex flex-col items-center gap-2 p-4 glass rounded-xl hover:scale-105 transition-all">
+                                            <Link size={28} className="text-purple-600" />
+                                            <span className="text-xs font-medium text-purple-700 dark:text-purple-400">{t('copyLink')}</span>
                                         </button>
                                     </div>
-                                </div>
-                            )
-                        )}
 
-                        {/* Leave Family - Non-admin members */}
-                        {!isAdmin && (
-                            !showLeaveConfirm ? (
-                                <button
-                                    onClick={() => setShowLeaveConfirm(true)}
-                                    className="w-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 py-3 rounded-xl font-semibold hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors"
-                                >
-                                    <span className="inline-flex items-center gap-2"><LogOut size={18} /> {t('leaveFamily')}</span>
-                                </button>
-                            ) : (
-                                <div className="glass rounded-xl p-4 border-2 border-orange-300 dark:border-orange-700">
-                                    <p className="text-center text-orange-600 dark:text-orange-400 mb-4 font-medium">
-                                        {t('leaveConfirm')}
-                                    </p>
-                                    <div className="flex gap-2">
-                                        <button onClick={handleLeave} className="flex-1 bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-orange-600">
-                                            {t('yes')}, {t('leaveFamily')}
-                                        </button>
-                                        <button onClick={() => setShowLeaveConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">
-                                            {t('cancel')}
-                                        </button>
-                                    </div>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 text-center">{t('scanQR')}</p>
                                 </div>
-                            )
-                        )}
+                            )}
+                        </div>
                     </div>
 
                     {/* Child Account Modals */}
                     {showCreateChildModal && (
-                        <CreateChildAccountModal
-                            onClose={() => setShowCreateChildModal(false)}
-                            onSuccess={() => {}}
-                        />
+                        <CreateChildAccountModal onClose={() => setShowCreateChildModal(false)} onSuccess={() => {}} />
                     )}
                     {showChildQRModal && (
-                        <GenerateChildQRModal
-                            onClose={() => setShowChildQRModal(false)}
-                        />
+                        <GenerateChildQRModal onClose={() => setShowChildQRModal(false)} />
                     )}
                     {showResetPinModal && (
-                        <ResetChildPinModal
-                            child={showResetPinModal}
-                            onClose={() => setShowResetPinModal(null)}
-                            onSuccess={() => {}}
-                        />
+                        <ResetChildPinModal child={showResetPinModal} onClose={() => setShowResetPinModal(null)} onSuccess={() => {}} />
                     )}
                 </div>
             );
@@ -6802,6 +7112,31 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         <span className="text-gray-700 dark:text-gray-200">{t('continueWithGoogle')}</span>
                     </button>
 
+                    <button
+                        type="button"
+                        disabled={loading}
+                        onClick={async () => {
+                            try {
+                                setLoading(true);
+                                setError('');
+                                const provider = new window.firebaseAuth.OAuthProvider('apple.com');
+                                provider.addScope('email');
+                                provider.addScope('name');
+                                await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                            } catch (err) {
+                                if (err.code !== 'auth/popup-closed-by-user') {
+                                    setError(getErrorMessage(err.code, t) || err.message);
+                                }
+                            } finally {
+                                setLoading(false);
+                            }
+                        }}
+                        className="w-full flex items-center justify-center gap-3 bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition-all disabled:opacity-50"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                        <span>{t('continueWithApple')}</span>
+                    </button>
+
                     <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
                         {t('haveAccount')}{' '}
                         <button type="button" onClick={onSwitchToLogin} className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
@@ -6934,6 +7269,31 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     >
                         <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#FBBC05" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
                         <span className="text-gray-700 dark:text-gray-200">{t('continueWithGoogle')}</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        disabled={loading}
+                        onClick={async () => {
+                            try {
+                                setLoading(true);
+                                setError('');
+                                const provider = new window.firebaseAuth.OAuthProvider('apple.com');
+                                provider.addScope('email');
+                                provider.addScope('name');
+                                await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                            } catch (err) {
+                                if (err.code !== 'auth/popup-closed-by-user') {
+                                    setError(getErrorMessage(err.code, t) || err.message);
+                                }
+                            } finally {
+                                setLoading(false);
+                            }
+                        }}
+                        className="w-full flex items-center justify-center gap-3 bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition-all disabled:opacity-50"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                        <span>{t('continueWithApple')}</span>
                     </button>
 
                     <button
@@ -7581,7 +7941,6 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         function ChildQRJoinScreen({ token, onBack }) {
             const { t, language } = useLanguage();
             const { loginChildWithToken } = useChildAuth();
-            const { validateChildInviteToken } = useFamily() || {};
             const [displayName, setDisplayName] = useState('');
             const [loading, setLoading] = useState(false);
             const [validating, setValidating] = useState(true);
@@ -7870,9 +8229,9 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             snacks: { name: 'חטיפים וממתקים', icon: '🍫', image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
             frozen: { name: 'קפואים', icon: '❄️', image: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג', 'גרם'] },
             health: { name: 'דיאטה וחלבון', icon: '🥗', image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            glutenFree: { name: 'ללא גלוטן', icon: '🌿', image: 'https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
-            hygiene: { name: 'היגיינה ורחצה', icon: '🛁', image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
-            cleaning: { name: 'ניקיון', icon: '✨', image: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ליטר'] },
+            glutenFree: { name: 'ללא גלוטן', icon: '🌿', image: '/gluten-free.jpeg', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
+            hygiene: { name: 'היגיינה ורחצה', icon: '🛁', image: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
+            cleaning: { name: 'ניקיון', icon: '✨', image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ליטר'] },
             candles: { name: 'נרות', icon: '🕯️', image: 'https://images.unsplash.com/photo-1602523961358-f9f03dd557db?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
             baby: { name: 'תינוקות וילדים', icon: '🍼', image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
             pets: { name: 'חיות מחמד', icon: '🐕', image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'ק"ג'] }
@@ -8149,7 +8508,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 'ממרח שוקולד השחר העולה 500 גרם', 'ממרח שוקולד השחר העולה 1 ק"ג'
             ],
 
-            baking: ['קמח', 'קמח לבן', 'קמח מלא', 'קמח תירס', 'קמח כוסמין', 'קמח שקדים', 'קמח קוקוס', 'קמח ללא גלוטן', 'קמח תופח', 'קמח לחלה', 'קמח ללחם', 'קמח לפיצה', 'קמח לפוקצ\'ה', 'קמח לבן מנופה', 'קורנפלור', 'עמילן', 'עמילן תירס', 'סוכר', 'סוכר לבן', 'סוכר חום', 'סוכר דמררה', 'סוכר וניל', 'סוכר אבקה', 'סוכרת', 'סטיביה', 'שמרים', 'שמרים יבשים', 'שמרים טריים', 'אבקת אפייה', 'סודה לשתייה', 'וניל', 'תמצית וניל', 'מקלות וניל', 'שוקולד צ\'יפס', 'שוקולד צ\'יפס מריר', 'שוקולד צ\'יפס לבן', 'שוקולד מריר לאפייה', 'שוקולד חלב לאפייה', 'שוקולד לבן לאפייה', 'קקאו', 'אבקת קקאו', 'קוקוס מגורד', 'קוקוס טחון', 'שקדים', 'שקדים טחונים', 'שקדים פרוסים', 'שקדים שלמים', 'אגוזי מלך', 'אגוזי מלך טחונים', 'פקאן', 'פקאן טחון', 'קשיו', 'פיסטוק', 'אגוזי לוז', 'צימוקים', 'חמוציות', 'תמרים', 'תמרים מג\'הול', 'פרג', 'שומשום', 'מרציפן', 'פונדנט', 'בצק סוכר', 'צבעי מאכל', 'סוכריות לקישוט', 'גליטר לאפייה', 'פירורי לחם', 'פירורי ביסקוויט', 'פודינג שוקולד', 'פודינג וניל'],
+            baking: ['קמח', 'קמח לבן', 'קמח מלא', 'קמח תירס', 'קמח כוסמין', 'קמח שקדים', 'קמח קוקוס', 'קמח ללא גלוטן', 'קמח תופח', 'קמח לחלה', 'קמח ללחם', 'קמח לפיצה', 'קמח לפוקצ\'ה', 'קמח לבן מנופה', 'קורנפלור', 'עמילן', 'עמילן תירס', 'סוכר לבן', 'סוכר חום', 'סוכר דמררה', 'סוכר וניל', 'סוכר אבקה', 'סוכרת', 'סטיביה', 'שמרים', 'שמרים יבשים', 'שמרים טריים', 'אבקת אפייה', 'סודה לשתייה', 'וניל', 'תמצית וניל', 'מקלות וניל', 'שוקולד צ\'יפס', 'שוקולד צ\'יפס מריר', 'שוקולד צ\'יפס לבן', 'שוקולד מריר לאפייה', 'שוקולד חלב לאפייה', 'שוקולד לבן לאפייה', 'קקאו', 'אבקת קקאו', 'קוקוס מגורד', 'קוקוס טחון', 'שקדים', 'שקדים טחונים', 'שקדים פרוסים', 'שקדים שלמים', 'אגוזי מלך', 'אגוזי מלך טחונים', 'פקאן', 'פקאן טחון', 'קשיו', 'פיסטוק', 'אגוזי לוז', 'צימוקים', 'חמוציות', 'תמרים', 'תמרים מג\'הול', 'פרג', 'שומשום', 'מרציפן', 'פונדנט', 'בצק סוכר', 'צבעי מאכל', 'סוכריות לקישוט', 'גליטר לאפייה', 'פירורי לחם', 'פירורי ביסקוויט', 'פודינג שוקולד', 'פודינג וניל'],
 
             freshMeat: [
                 'עוף שלם טרי', 'חזה עוף טרי', 'חזה עוף פרוס טרי',
@@ -8289,7 +8648,14 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 'אגוז מוסקט 50 גרם', 'ציפורן 50 גרם',
                 'כוסברה טחונה 100 גרם', 'קרדמון 50 גרם',
                 'עלי דפנה 20 גרם', 'הל 50 גרם',
-                'כוכב אניס 50 גרם', 'שומר זרעים 100 גרם'
+                'כוכב אניס 50 גרם', 'שומר זרעים 100 גרם',
+                // אבקות מרק
+                'אבקת מרק עוף', 'אבקת מרק עוף פרווה', 'אבקת מרק בטעם עוף',
+                'אבקת מרק עוף אמיתי', 'מרק עוף אמיתי',
+                'אבקת מרק פטריות', 'אבקת מרק בצל',
+                'אבקת מרק ירקות', 'אבקת מרק ירקות שורש',
+                'אבקת מרק בקר', 'מרק בקר אמיתי',
+                'שקדי מרק', 'שקדי מרק אסם'
             ],
 
             coffee: ['קפה נמס', 'קפה ג\'קובס', 'קפה טורקי', 'קפה שחור', 'קפה נספרסו', 'קפה נטול קפאין', 'קפסולות נספרסו', 'קפסולות דולצ\'ה', 'קפסולות לוואצה', 'קפסולות טאסימו', 'קפסולות לנדוור', 'קפה קלוי טחון', 'קפוצינו', 'לאטה', 'אייס קפה', 'תה שחור', 'תה ירוק', 'תה ירוק יסמין', 'תה צמחים', 'תה נענע', 'תה לואיזה', 'תה ליפטון', 'תה ויסוצקי', 'תה פוקימון', 'תה קמומיל', 'תה מרווה', 'תה ג\'ינג\'ר', 'תה לימון', 'תה ארל גריי', 'תה אנגלי', 'ליפטון תה קר', 'ליפטון ירוק', 'פיוז טי אפרסק', 'פיוז טי לימון', 'נסטי אפרסק', 'נסטי לימון', 'נסטי מנגו', 'חלב מרוכז', 'קקאו שוקו'],
@@ -8460,9 +8826,9 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             'גבינה צהובה 9%': 24.90, 'גבינה צהובה 9% 200 גרם': 24.90,
             'גבינה צהובה 22%': 28.90, 'גבינה צהובה 22% 200 גרם': 28.90,
             // קוטג׳ וגבינה לבנה
-            'קוטג׳ 5%': 8.90, 'קוטג׳ 3%': 8.50, 'קוטג׳ 5% 250 גרם': 8.90, 'קוטג׳ 3% 250 גרם': 8.50,
-            'קוטג׳ 1% 250 גרם': 6.90, 'קוטג׳ 9% 250 גרם': 8.90,
-            'קוטג׳ תנובה 5% 250 גרם': 8.90, 'קוטג׳ טרה 5% 250 גרם': 8.90,
+            'קוטג׳ 5%': 6.70, 'קוטג׳ 3%': 6.40, 'קוטג׳ 5% 250 גרם': 6.70, 'קוטג׳ 3% 250 גרם': 6.40,
+            'קוטג׳ 1% 250 גרם': 5.90, 'קוטג׳ 9% 250 גרם': 7.50,
+            'קוטג׳ תנובה 5% 250 גרם': 6.70, 'קוטג׳ טרה 5% 250 גרם': 6.90,
             'גבינה לבנה 5%': 5.81, 'גבינה לבנה 9%': 9.90, 'גבינה לבנה 3%': 5.50,
             'גבינה לבנה 5% 250 גרם': 5.81, 'גבינה לבנה 9% 250 גרם': 9.90, 'גבינה לבנה 3% 250 גרם': 5.50,
             'גבינה צהובה עמק 28% 200 גרם': 34.90, 'גבינה צהובה טילזיטר 200 גרם': 28.90,
@@ -8489,7 +8855,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             'ביצים אורגניות': 34.90, 'ביצים חופשיות': 32.90,
             'ביצים אורגניות 12 יח׳': 34.90, 'ביצים חופשיות 12 יח׳': 32.90,
             // חמאה ושמנת
-            'חמאה': 14.90, 'חמאה 200 גרם': 14.90, 'חמאה מלוחה': 15.90, 'חמאה מלוחה 200 גרם': 15.90,
+            'חמאה': 10.90, 'חמאה 200 גרם': 10.90, 'חמאה מלוחה': 11.90, 'חמאה מלוחה 200 גרם': 11.90,
             'שמנת': 7.56, 'שמנת מתוקה': 7.56, 'שמנת מתוקה 200 מ"ל': 7.56, 'שמנת מתוקה 500 מ"ל': 18.90, 'שמנת מתוקה 38%': 7.56,
             'שמנת חמוצה': 2.81, 'שמנת חמוצה 200 גרם': 2.81, 'שמנת לקצפת': 11.90, 'שמנת לקצפת 500 מ"ל': 11.90,
             'מרגרינה': 9.90, 'מרגרינה 250 גרם': 9.90, 'טופו': 18.90, 'טופו 300 גרם': 18.90,
@@ -8565,13 +8931,13 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             'סלמון טרי': 89.90, 'פילה סלמון טרי': 99.90, 'סלמון מעושן': 69.90,
             'פילה אמנון טרי': 54.90, 'דניס טרי': 69.90, 'לברק טרי': 79.90,
             'פילה בקלה': 49.90, 'פילה מושט': 44.90, 'שרימפס': 89.90,
-            'טונה': 12.90, 'טונה בשמן': 14.90, 'סרדינים': 9.90,
+            'טונה': 7.90, 'טונה במים': 7.50, 'טונה בשמן': 8.50, 'סרדינים': 9.90,
 
             // Pantry - מזווה (מעודכן פברואר 2026)
             'אורז': 10.40, 'אורז בסמטי': 14.90, 'אורז יסמין': 16.90, 'אורז מלא': 12.90,
             'פסטה': 5.90, 'פסטה ספגטי': 5.90, 'פסטה פנה': 6.90, 'פסטה פרפלה': 6.90,
             'נודלס': 9.90, 'קוסקוס': 8.90, 'בורגול': 10.90, 'קינואה': 26.90,
-            'שמן זית': 34.90, 'שמן קנולה': 16.90, 'שמן חמניות': 14.90,
+            'שמן זית': 34.90, 'שמן קנולה': 11.90, 'שמן חמניות': 10.90,
             'רוטב עגבניות': 8.90, 'רסק עגבניות': 5.90, 'עגבניות מרוסקות': 7.90,
             'חומוס': 12.90, 'חומוס מוכן': 9.90, 'חומוס ממרח 400 גרם': 12.90,
             // טחינה - לפי גודל
@@ -8603,7 +8969,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             'פסטו ירוק 190 גרם': 19.90, 'פסטו אדום 190 גרם': 19.90,
             'ממרח חציל 200 גרם': 12.90,
             'זיתים': 14.90, 'זיתים שחורים': 16.90, 'חמוצים': 9.90,
-            'קמח': 6.90, 'קמח מלא': 8.90, 'קמח תופח': 9.90, 'סוכר': 8.90, 'סוכר חום': 12.90,
+            'קמח': 6.90, 'קמח מלא': 8.90, 'קמח תופח': 9.90, 'סוכר': 5.50, 'סוכר לבן': 5.50, 'סוכר חום': 12.90,
             // תבלינים - לפי משקל
             'מלח': 2.09, 'מלח שולחן 500 גרם': 2.09, 'מלח שולחן 1 ק"ג': 5.90,
             'מלח ים 500 גרם': 6.90, 'מלח גס 1 ק"ג': 4.90,
@@ -8642,12 +9008,19 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             'כוכב אניס 50 גרם': 12.90, 'כוכב אניס 100 גרם': 19.90,
             'שומר זרעים 100 גרם': 10.90,
             'קימון': 9.90,
+            // אבקות מרק (400 גרם אריזה סטנדרטית)
+            'אבקת מרק עוף': 25.90, 'אבקת מרק עוף פרווה': 25.90, 'אבקת מרק בטעם עוף': 25.90,
+            'אבקת מרק עוף אמיתי': 27.90, 'מרק עוף אמיתי': 27.90,
+            'אבקת מרק פטריות': 27.90, 'אבקת מרק בצל': 29.90,
+            'אבקת מרק ירקות': 25.90, 'אבקת מרק ירקות שורש': 25.90,
+            'אבקת מרק בקר': 27.90, 'מרק בקר אמיתי': 27.90,
+            'שקדי מרק': 11.90, 'שקדי מרק אסם': 11.90,
             'אבקת אפייה': 5.90, 'שמרים': 6.90, 'וניל': 8.90, 'קקאו': 14.90,
             'שוקולד צ\'יפס': 12.90, 'קוקוס מגורד': 9.90, 'שקדים': 44.90, 'אגוזי מלך': 49.90,
             'צימוקים': 14.90, 'חמוציות': 19.90, 'תמרים': 24.90,
 
             // Snacks - חטיפים (expanded)
-            'במבה': 6.90, 'במבה נוגט': 7.90, 'ביסלי': 6.90, 'ביסלי גריל': 7.90,
+            'במבה': 5.50, 'במבה נוגט': 6.50, 'ביסלי': 5.50, 'ביסלי גריל': 6.50,
             'תפוצ\'יפס': 9.90, 'דוריטוס': 12.90, 'פרינגלס': 14.90, 'צ\'יטוס': 8.90,
             'בייגלה': 8.90, 'קרקר': 7.90, 'עוגיות אוראו': 12.90,
             'שוקולד': 8.90, 'שוקולד פרה': 9.90, 'שוקולד מריר': 12.90, 'שוקולד לבן': 9.90,
@@ -9116,6 +9489,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         console.log(`🏛️ Applied ${regApplied} regulated price caps from data.gov.il`);
                     }
 
+                    // Clear price cache since PRODUCT_PRICES changed
+                    Object.keys(_priceCache).forEach(k => delete _priceCache[k]);
                     pricesLoadedFromAPI = true;
                     console.log(`✅ Loaded ${accepted} real prices from Supabase (skipped ${skipped} outliers)`);
                 }
@@ -9199,8 +9574,16 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             return null;
         };
 
-        // Function to get estimated price for a product
+        // Function to get estimated price for a product (with cache)
+        const _priceCache = {};
         const getEstimatedPrice = (productName) => {
+            if (!productName) return null;
+            if (_priceCache[productName] !== undefined) return _priceCache[productName];
+            const result = _getEstimatedPriceUncached(productName);
+            _priceCache[productName] = result;
+            return result;
+        };
+        const _getEstimatedPriceUncached = (productName) => {
             if (!productName) return null;
 
             const nameLower = productName.toLowerCase().trim();
@@ -11386,7 +11769,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 setParticles(newParticles);
                 const timer = setTimeout(() => onComplete?.(), 600);
                 return () => clearTimeout(timer);
-            }, []);
+            }, [onComplete]);
 
             return (
                 <div style={{ position: 'absolute', left: x, top: y, pointerEvents: 'none', zIndex: 50 }}>
@@ -11431,21 +11814,21 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             };
 
             const handleTouchEnd = () => {
+                const isRTL = document.documentElement.dir === 'rtl';
                 if (Math.abs(touchDelta) > THRESHOLD) {
-                    // RTL adjustment: negative delta means swiping toward the left side of screen (which is "right" in RTL)
                     if (touchDelta < -THRESHOLD) {
-                        // Swiped left on screen = "right" action in RTL = bought
-                        setCompleting('right');
+                        // Swiped left on screen
+                        setCompleting(isRTL ? 'right' : 'left');
                         setTimeout(() => {
-                            onSwipeRight?.();
+                            if (isRTL) { onSwipeRight?.(); } else { onSwipeLeft?.(); }
                             setCompleting(null);
                             setTouchDelta(0);
                         }, 300);
                     } else if (touchDelta > THRESHOLD) {
-                        // Swiped right on screen = "left" action in RTL = postpone
-                        setCompleting('left');
+                        // Swiped right on screen
+                        setCompleting(isRTL ? 'left' : 'right');
                         setTimeout(() => {
-                            onSwipeLeft?.();
+                            if (isRTL) { onSwipeLeft?.(); } else { onSwipeRight?.(); }
                             setCompleting(null);
                             setTouchDelta(0);
                         }, 300);
@@ -11457,10 +11840,15 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 setIsSwiping(false);
             };
 
-            const showRightIndicator = touchDelta < -30;
-            const showLeftIndicator = touchDelta > 30;
-            const rightProgress = Math.min(Math.abs(Math.min(touchDelta, 0)) / THRESHOLD, 1);
-            const leftProgress = Math.min(Math.max(touchDelta, 0) / THRESHOLD, 1);
+            const isRTLLayout = document.documentElement.dir === 'rtl';
+            const showRightIndicator = isRTLLayout ? touchDelta < -30 : touchDelta > 30;
+            const showLeftIndicator = isRTLLayout ? touchDelta > 30 : touchDelta < -30;
+            const rightProgress = isRTLLayout
+                ? Math.min(Math.abs(Math.min(touchDelta, 0)) / THRESHOLD, 1)
+                : Math.min(Math.max(touchDelta, 0) / THRESHOLD, 1);
+            const leftProgress = isRTLLayout
+                ? Math.min(Math.max(touchDelta, 0) / THRESHOLD, 1)
+                : Math.min(Math.abs(Math.min(touchDelta, 0)) / THRESHOLD, 1);
 
             return (
                 <div className={`swipe-container ${className || ''}`}>
@@ -11509,7 +11897,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         function ShoppingList() {
             const { user } = useAuth();
             const { childUser } = useChildAuth();
-            const { family, lists, currentList, setCurrentList, logActivity } = useFamily();
+            const { family, lists, currentList, setCurrentList, logActivity, leaveFamily, deleteList, isAdmin, canManageLists } = useFamily();
             const { language, changeLanguage, t } = useLanguage();
             // Expose changeLanguage to window for accessibility modal buttons
             window.changeAppLanguage = changeLanguage;
@@ -11575,6 +11963,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [showDeleteAllConfirm, setShowDeleteAllConfirm] = useState(false);
             const [showFamilySettings, setShowFamilySettings] = useState(false);
             const [showCreateList, setShowCreateList] = useState(false);
+            const [deleteListConfirmId, setDeleteListConfirmId] = useState(null);
             const [editingNote, setEditingNote] = useState(null);
             const [editingItemId, setEditingItemId] = useState(null);
             const [editingItemName, setEditingItemName] = useState('');
@@ -11613,7 +12002,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [showQuantitySelector, setShowQuantitySelector] = useState(false);
             const [selectedProduct, setSelectedProduct] = useState(null);
             const [selectedQuantity, setSelectedQuantity] = useState(1);
-            const [selectedUnit, setSelectedUnit] = useState('יח\'');
+            const [selectedUnit, setSelectedUnit] = useState('');
             const [selectedNote, setSelectedNote] = useState('');
             // Calendar view
             const [calendarMonth, setCalendarMonth] = useState(new Date());
@@ -11850,9 +12239,9 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                 window.firestore.where('endpoint', '==', pushSubscription.endpoint)
                             );
                             const snapshot = await window.firestore.getDocs(q);
-                            snapshot.forEach(async (doc) => {
-                                await window.firestore.deleteDoc(doc.ref);
-                            });
+                            for (const d of snapshot.docs) {
+                                await window.firestore.deleteDoc(d.ref);
+                            }
                         }
                         setPushSubscription(null);
                     }
@@ -11920,7 +12309,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 showReminderModal, showCreateList, showFamilySettings, showDeleteAllConfirm, showHistory,
                 showFinishShopping, showSavedLists, showImportWhatsApp, showQuantitySelector]);
 
-            // Back button handler placeholder - to be added later
+            // Back button handler - removed, causes app crash
 
             // English to Hebrew grocery translations
             const ENGLISH_TO_HEBREW = {
@@ -12186,7 +12575,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 const currentItems = items.filter(i => !i.purchased).map(i => ({ name: i.name, category: i.category, quantity: i.quantity, unit: i.unit }));
                 if (currentItems.length === 0) return;
 
-                const listName = `רשימה ${new Date().toLocaleDateString('he-IL')}`;
+                const locale = language === 'he' ? 'he-IL' : language === 'ar' ? 'ar-SA' : language === 'ru' ? 'ru-RU' : 'en-US';
+                const listName = `${t('myList')} ${new Date().toLocaleDateString(locale)}`;
                 const newList = { id: Date.now(), name: listName, items: currentItems, createdAt: new Date() };
                 const updated = [newList, ...savedLists.slice(0, 9)]; // Keep max 10
                 setSavedLists(updated);
@@ -13345,17 +13735,73 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             };
 
             const parsePromoDescription = (description) => {
-                if (!description) return { product: '', deal: '', original: '' };
+                if (!description) return { product: '', deal: '', price: '', dealType: '', original: '' };
                 const d = description.trim();
-                const dashIdx = d.indexOf(' - ');
-                if (dashIdx > 0) {
-                    return { product: d.substring(0, dashIdx).trim(), deal: d.substring(dashIdx + 3).trim(), original: d };
+
+                // 1. Dash format: "חלב תנובה - 2 ב-12.90₪"
+                const dashMatch = d.match(/^(.+?)\s*[-–]\s*(.+)$/);
+                if (dashMatch && /\d/.test(dashMatch[2])) {
+                    const deal = dashMatch[2].trim();
+                    const priceMatch = deal.match(/(\d+(?:\.\d+)?)/);
+                    const dealType = /1\+1|מתנה/.test(deal) ? '1+1' : /\d\s*ב/.test(deal) ? 'multi' : 'price';
+                    return { product: dashMatch[1].trim(), deal, price: priceMatch ? priceMatch[1] : '', dealType, original: d };
                 }
-                const emIdx = d.indexOf(' – ');
-                if (emIdx > 0) {
-                    return { product: d.substring(0, emIdx).trim(), deal: d.substring(emIdx + 3).trim(), original: d };
+
+                // 2. Shufersal format: "2ב42 אבקת אפיה" or "3ב100 חטיפים"
+                const shufersalMatch = d.match(/^(\d+)\s*ב[\-–]?\s*(\d+(?:\.\d+)?)\s+(.+)$/);
+                if (shufersalMatch) {
+                    const qty = shufersalMatch[1];
+                    const price = shufersalMatch[2];
+                    const product = shufersalMatch[3].trim();
+                    return { product, deal: `${qty} ב-${price}₪`, price, dealType: 'multi', original: d };
                 }
-                return { product: d, deal: '', original: d };
+
+                // 3. Trailing "XבY" format: "חטיפי דגנים נסטלה 2ב25"
+                const trailingMultiMatch = d.match(/^(.+?)\s+(\d+)\s*ב[\-–]?\s*(\d+(?:\.\d+)?)\s*₪?\s*$/);
+                if (trailingMultiMatch) {
+                    const product = trailingMultiMatch[1].trim();
+                    const qty = trailingMultiMatch[2];
+                    const price = trailingMultiMatch[3];
+                    return { product, deal: `${qty} ב-${price}₪`, price, dealType: 'multi', original: d };
+                }
+
+                // 4. Trailing "בY" format: "פדים להסרת כתמים בלונס ב15.90"
+                const trailingPriceMatch = d.match(/^(.+?)\s+ב[\-–]?\s*(\d+(?:\.\d+)?)\s*₪?\s*$/);
+                if (trailingPriceMatch) {
+                    const product = trailingPriceMatch[1].trim();
+                    const price = trailingPriceMatch[2];
+                    return { product, deal: `ב-${price}₪`, price, dealType: 'price', original: d };
+                }
+
+                // 5. Trailing price (Rami Levy): "מלח הימלאיה 250 ג 9.90"
+                const trailingNumberMatch = d.match(/^(.+?)\s+(\d+\.\d{2})\s*₪?\s*$/);
+                if (trailingNumberMatch) {
+                    const product = trailingNumberMatch[1].trim();
+                    const price = trailingNumberMatch[2];
+                    return { product, deal: `${price}₪`, price, dealType: 'price', original: d };
+                }
+
+                // 6. 1+1 / מתנה anywhere in text
+                if (/1\+1|מתנה|קנה.*קבל/.test(d)) {
+                    const dealType = '1+1';
+                    const deal = d.match(/(1\+1|[^\s]*מתנה[^\s]*|קנה.*קבל.*)/)?.[0] || '1+1';
+                    return { product: d.replace(deal, '').trim() || d, deal, price: '', dealType, original: d };
+                }
+
+                // 7. Percentage discount
+                const pctMatch = d.match(/(\d+%)/);
+                if (pctMatch) {
+                    return { product: d.replace(pctMatch[0], '').trim() || d, deal: `${pctMatch[1]} הנחה`, price: '', dealType: 'percent', original: d };
+                }
+
+                // 8. Any embedded price number (last resort before fallback)
+                const anyPriceMatch = d.match(/(\d+(?:\.\d+)?)\s*₪/);
+                if (anyPriceMatch) {
+                    return { product: d.replace(anyPriceMatch[0], '').trim() || d, deal: anyPriceMatch[0], price: anyPriceMatch[1], dealType: 'price', original: d };
+                }
+
+                // 9. Fallback - no deal parsed
+                return { product: d, deal: '', price: '', dealType: '', original: d };
             };
 
             // Get holiday recommendations
@@ -15642,6 +16088,29 @@ END:VCALENDAR`;
                 }
             };
 
+            // Pre-compute expensive per-item data (prices, promotions, translations)
+            // so they don't re-run on every render for every item
+            const itemComputedData = React.useMemo(() => {
+                const map = new Map();
+                items.forEach(item => {
+                    map.set(item.id, {
+                        price: calculateItemPrice(item),
+                        chains: getProductChains(item.name),
+                        regulatedPrice: getRegulatedPrice(item.name),
+                        promotions: !item.purchased ? getItemPromotions(item.name) : [],
+                        translation: getProductTranslation(item.name, language)
+                    });
+                });
+                return map;
+            }, [items, language, productPromotions, promotionsData]);
+
+            const groupedItems = React.useMemo(() => filteredItems.reduce((acc, item) => {
+                const cat = resolveCategory(item.category);
+                if (!acc[cat]) acc[cat] = [];
+                acc[cat].push(item);
+                return acc;
+            }, {}), [filteredItems]);
+
             if (loading) {
                 return (
                     <div className="min-h-screen gradient-bg flex items-center justify-center">
@@ -15655,13 +16124,6 @@ END:VCALENDAR`;
                     </div>
                 );
             }
-
-            const groupedItems = filteredItems.reduce((acc, item) => {
-                const cat = resolveCategory(item.category);
-                if (!acc[cat]) acc[cat] = [];
-                acc[cat].push(item);
-                return acc;
-            }, {});
 
             const totalItems = items.length;
             const purchasedCount = items.filter(item => item.purchased).length;
@@ -16662,7 +17124,7 @@ END:VCALENDAR`;
                                         <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{t('hotDeals')}</h2>
                                         <p className="text-sm text-white/80 mt-0.5">{t('promoChainsDesc')}</p>
                                     </div>
-                                    <button onClick={() => { setShowPromotions(false); setSelectedPromoChain(null); }} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
+                                    <button onClick={() => { setShowPromotions(false); setSelectedPromoChain(null); }} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label={t('close')}>
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </button>
                                 </div>
@@ -16690,12 +17152,24 @@ END:VCALENDAR`;
                                                 <div className="space-y-2">
                                                     {itemsWithPromos.map(({ item, promos }, idx) => (
                                                         <div key={idx} className="bg-white/70 dark:bg-gray-800/70 rounded-lg p-3">
-                                                            <div className="text-gray-900 dark:text-white font-medium">{item.name}</div>
+                                                            <div className="text-gray-900 dark:text-white font-bold text-sm">{item.name}</div>
                                                             {promos.slice(0, 2).map((promo, pIdx) => {
                                                                 const parsed = parsePromoDescription(promo.description);
+                                                                const tagColor = parsed.dealType === '1+1' ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300'
+                                                                    : parsed.dealType === 'multi' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
+                                                                    : parsed.dealType === 'percent' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'
+                                                                    : 'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300';
                                                                 return (
-                                                                    <div key={pIdx} className="text-teal-600 dark:text-teal-300 text-sm mt-1">
-                                                                        <span className="font-medium">{promo.chain}:</span> {parsed.deal || parsed.original}
+                                                                    <div key={pIdx} className="flex items-center gap-2 mt-1.5">
+                                                                        <span className="text-gray-500 dark:text-gray-400 text-xs font-medium">{promo.chain}</span>
+                                                                        {parsed.price && (
+                                                                            <span className="text-teal-600 dark:text-teal-300 font-extrabold text-sm">{parsed.price}₪</span>
+                                                                        )}
+                                                                        {parsed.deal && (
+                                                                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${tagColor}`}>
+                                                                                {parsed.deal}
+                                                                            </span>
+                                                                        )}
                                                                     </div>
                                                                 );
                                                             })}
@@ -16723,7 +17197,7 @@ END:VCALENDAR`;
                                                     </div>
                                                     {/* Chain name */}
                                                     <div className="absolute bottom-0 left-0 right-0 p-2">
-                                                        <div className="text-white text-xs font-bold leading-tight drop-shadow-md text-center">{chain.chain_name_he}</div>
+                                                        <div className="text-white text-base font-bold leading-tight drop-shadow-md text-center">{chain.chain_name_he}</div>
                                                     </div>
                                                     {/* Promo count badge */}
                                                     <div className="absolute top-1.5 left-1.5 bg-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg min-w-[20px] text-center">
@@ -16779,7 +17253,7 @@ END:VCALENDAR`;
                                         <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{selectedPromoChain.chain_name_he}</h2>
                                         <p className="text-sm text-white/80 mt-0.5">{selectedPromoChain.promotions.length} {t('promoCount')}</p>
                                     </div>
-                                    <button onClick={() => { setShowPromotions(false); setSelectedPromoChain(null); }} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
+                                    <button onClick={() => { setShowPromotions(false); setSelectedPromoChain(null); }} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label={t('close')}>
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </button>
                                 </div>
@@ -16801,43 +17275,61 @@ END:VCALENDAR`;
                                         return diff >= 0 && diff <= 3;
                                     })();
                                     const hasMatch = matchedDescriptions.has(promo.description);
-                                    const dealBadgeColor = (() => {
-                                        const d = parsed.deal || parsed.original;
-                                        if (/1\+1|מתנה/.test(d)) return 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300';
-                                        if (/₪/.test(d)) return 'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300';
-                                        if (/%|הנחה/.test(d)) return 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300';
-                                        return 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300';
+                                    const dealTypeTag = (() => {
+                                        const dt = parsed.dealType;
+                                        if (dt === '1+1') return { label: '1+1', color: 'bg-green-500 text-white' };
+                                        if (dt === 'multi') return { label: 'מבצע כמות', color: 'bg-blue-500 text-white' };
+                                        if (dt === 'percent') return { label: '% הנחה', color: 'bg-amber-500 text-white' };
+                                        if (dt === 'price') return { label: 'מחיר מבצע', color: 'bg-teal-500 text-white' };
+                                        return null;
                                     })();
                                     return (
-                                        <div key={pIdx} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-3 shadow-sm">
-                                            {/* Top row: product name + match indicator */}
-                                            <div className="flex items-start justify-between gap-2">
-                                                <div className="font-bold text-gray-900 dark:text-white text-sm flex-1">{parsed.product || parsed.original}</div>
-                                                {hasMatch && <Star size={14} className="text-amber-500 flex-shrink-0 mt-0.5" />}
-                                            </div>
-                                            {/* Deal badge */}
-                                            {parsed.deal && (
-                                                <div className="mt-2">
-                                                    <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full ${dealBadgeColor}`}>
-                                                        {parsed.deal}
-                                                    </span>
-                                                </div>
-                                            )}
-                                            {/* End date */}
-                                            {promo.end_date && (
-                                                <div className="flex items-center gap-1.5 mt-2">
-                                                    <Calendar size={12} className="text-gray-400" />
-                                                    <span className="text-gray-500 dark:text-gray-400 text-xs">{t('validUntil')}: {promo.end_date}</span>
-                                                    {isEndingSoon && (
-                                                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300 mr-1">
-                                                            {t('promoEndsSoon')}
-                                                        </span>
+                                        <div key={pIdx} className={`bg-white dark:bg-gray-800 rounded-xl border ${hasMatch ? 'border-amber-300 dark:border-amber-600 ring-1 ring-amber-200 dark:ring-amber-700' : 'border-gray-200 dark:border-gray-700'} p-4 mb-3 shadow-sm`}>
+                                            <div className="flex items-start gap-3">
+                                                {/* Price circle */}
+                                                {parsed.price ? (
+                                                    <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-teal-500 to-teal-600 dark:from-teal-600 dark:to-teal-700 flex flex-col items-center justify-center shadow-md">
+                                                        <span className="text-white font-extrabold text-lg leading-none">{parsed.price.length > 5 ? parsed.price.slice(0, 5) : parsed.price}</span>
+                                                        <span className="text-white/80 text-[10px] font-medium">₪</span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 flex items-center justify-center shadow-md">
+                                                        <Tag size={20} className="text-gray-500 dark:text-gray-300" />
+                                                    </div>
+                                                )}
+                                                {/* Content */}
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex items-start justify-between gap-2">
+                                                        <div className="font-bold text-gray-900 dark:text-white text-sm leading-snug flex-1">{parsed.product || parsed.original}</div>
+                                                        {hasMatch && <Star size={14} className="text-amber-500 fill-amber-500 flex-shrink-0 mt-0.5" />}
+                                                    </div>
+                                                    {/* Deal + type tag row */}
+                                                    <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                                        {dealTypeTag && (
+                                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${dealTypeTag.color}`}>
+                                                                {dealTypeTag.label}
+                                                            </span>
+                                                        )}
+                                                        {parsed.deal && (
+                                                            <span className="text-xs font-semibold text-teal-600 dark:text-teal-300">
+                                                                {parsed.deal}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    {/* End date */}
+                                                    {promo.end_date && (
+                                                        <div className="flex items-center gap-1.5 mt-2">
+                                                            <Calendar size={11} className="text-gray-400 flex-shrink-0" />
+                                                            <span className="text-gray-500 dark:text-gray-400 text-[11px]">{promo.end_date}</span>
+                                                            {isEndingSoon && (
+                                                                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300">
+                                                                    {t('promoEndsSoon')}
+                                                                </span>
+                                                            )}
+                                                        </div>
                                                     )}
                                                 </div>
-                                            )}
-                                            {pIdx < selectedPromoChain.promotions.length - 1 && (
-                                                <div className="border-b border-gray-100 dark:border-gray-700 mt-3"></div>
-                                            )}
+                                            </div>
                                         </div>
                                     );
                                 });
@@ -18024,9 +18516,17 @@ END:VCALENDAR`;
                                                     <Users size={14} /> {family?.name}
                                                 </span>
                                             ) : (
-                                                <button onClick={() => setShowFamilySettings(true)} className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 dark:from-indigo-900/50 dark:to-purple-900/50 dark:text-indigo-300 hover:scale-105 transition-transform cursor-pointer inline-flex items-center gap-1">
-                                                    <Users size={14} /> {family?.name}
-                                                </button>
+                                                <span className="relative inline-flex">
+                                                    <button onClick={() => setShowFamilySettings(true)} className="px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-indigo-600 hover:to-purple-600 hover:scale-105 transition-all cursor-pointer inline-flex items-center gap-2 shadow-md">
+                                                        <Users size={16} /> {family?.name}
+                                                        <Settings size={14} className="opacity-70" />
+                                                    </button>
+                                                    {family?.pendingMembers?.length > 0 && (
+                                                        <span className="absolute -top-2 -right-2 min-w-[20px] h-[20px] flex items-center justify-center bg-red-500 text-white text-[11px] font-bold rounded-full animate-pulse shadow-sm">
+                                                            {family.pendingMembers.length}
+                                                        </span>
+                                                    )}
+                                                </span>
                                             )}
                                             <span className="px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 inline-flex items-center gap-1">
                                                 <User size={14} /> {childUser?.displayName || user?.displayName || user?.email || t('anonymous')}
@@ -18169,19 +18669,36 @@ END:VCALENDAR`;
                             {/* List Selector - Wrapping Grid */}
                             <div className="flex flex-wrap gap-1.5 mb-2">
                                 {lists.map(list => (
-                                    <button
-                                        key={list.id}
-                                        onClick={() => setCurrentList(list)}
-                                        className={`flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all text-sm ${
-                                            currentList?.id === list.id
-                                                ? 'btn-gradient text-white shadow-lg'
-                                                : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200'
-                                        }`}
-                                    >
-                                        <span>{list.icon}</span>
-                                        <span className="font-medium">{list.name}</span>
-                                        {list.isDefault && <span className="text-xs">⭐</span>}
-                                    </button>
+                                    <div key={list.id} className="relative inline-flex">
+                                        {deleteListConfirmId === list.id ? (
+                                            <div className="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-red-100 dark:bg-red-900/50 border-2 border-red-300 dark:border-red-700 text-sm">
+                                                <span className="text-red-600 dark:text-red-400 text-xs font-medium px-1">{t('deleteListConfirm').replace('{name}', list.name)}</span>
+                                                <button onClick={async () => { await deleteList(list.id); setDeleteListConfirmId(null); }} className="bg-red-500 text-white px-2 py-0.5 rounded-lg text-xs font-bold">{t('yes')}</button>
+                                                <button onClick={() => setDeleteListConfirmId(null)} className="bg-gray-200 dark:bg-gray-600 px-2 py-0.5 rounded-lg text-xs font-bold">{t('no')}</button>
+                                            </div>
+                                        ) : (
+                                            <button
+                                                onClick={() => setCurrentList(list)}
+                                                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all text-sm ${
+                                                    currentList?.id === list.id
+                                                        ? 'btn-gradient text-white shadow-lg'
+                                                        : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200'
+                                                }`}
+                                            >
+                                                <span>{list.icon}</span>
+                                                <span className="font-medium">{list.name}</span>
+                                                {list.isDefault && <span className="text-xs">⭐</span>}
+                                            </button>
+                                        )}
+                                        {!list.isDefault && deleteListConfirmId !== list.id && (isAdmin || canManageLists) && (
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); setDeleteListConfirmId(list.id); }}
+                                                className="absolute -top-1.5 -right-1.5 w-5 h-5 flex items-center justify-center bg-red-500 text-white text-[10px] font-bold rounded-full hover:bg-red-600 transition-colors shadow-sm"
+                                            >
+                                                &times;
+                                            </button>
+                                        )}
+                                    </div>
                                 ))}
                                 <button
                                     onClick={() => setShowCreateList(true)}
@@ -18617,7 +19134,7 @@ END:VCALENDAR`;
                                             >
                                                 <div className={`product-card ${animatingItems.has(item.id) ? 'success-glow' : ''} ${item.purchased ? 'purchased' : ''}`}>
                                                     {/* Clean single-row layout */}
-                                                    <div className="item-row" role="group" aria-label={`פריט: ${item.name}`}>
+                                                    <div className="item-row" role="group" aria-label={`${t('itemLabel')}: ${item.name}`}>
                                                         {/* Checkbox */}
                                                         <button
                                                             onTouchStart={(e) => e.stopPropagation()}
@@ -18635,17 +19152,20 @@ END:VCALENDAR`;
 
                                                         {/* Product Name & Details */}
                                                         <div className="flex-1 min-w-0">
+                                                            {(() => {
+                                                                const computed = itemComputedData.get(item.id) || {};
+                                                                const itemPrice = computed.price || 0;
+                                                                const chains = computed.chains || [];
+                                                                const regulatedPrice = computed.regulatedPrice;
+                                                                const promos = computed.promotions || [];
+                                                                return (<>
                                                             <div className={`item-name ${item.purchased ? 'purchased' : ''}`}>
-                                                                {getProductTranslation(item.name, language)}
+                                                                {computed.translation || item.name}
                                                             </div>
                                                             {/* Price + Quantity row */}
                                                             <div className="flex items-center gap-2 mt-1 flex-wrap">
                                                                 {/* Price display (read-only, calculated based on quantity) */}
-                                                                {(() => {
-                                                                    const itemPrice = calculateItemPrice(item);
-                                                                    const chains = getProductChains(item.name);
-                                                                    const regulatedPrice = getRegulatedPrice(item.name);
-                                                                    return itemPrice > 0 ? (
+                                                                {itemPrice > 0 ? (
                                                                         <div className="flex items-center gap-1">
                                                                             <span className="text-sm text-emerald-600 dark:text-emerald-400 font-bold tabular-nums">
                                                                                 ₪{itemPrice.toFixed(2)}{regulatedPrice ? '' : '*'}
@@ -18676,12 +19196,12 @@ END:VCALENDAR`;
                                                                                 </button>
                                                                             ) : null}
                                                                         </div>
-                                                                    ) : null;
-                                                                })()}
+                                                                    ) : null}
                                                                 {/* Subtle promotion indicator */}
-                                                                {!item.purchased && getItemPromotions(item.name).length > 0 && (() => {
-                                                                    const promo = getItemPromotions(item.name)[0];
-                                                                    const promoCount = getItemPromotions(item.name).length;
+                                                                {!item.purchased && promos.length > 0 && (() => {
+                                                                    const promo = promos[0];
+                                                                    const promoCount = promos.length;
+                                                                    const inlineParsed = parsePromoDescription(promo.description);
                                                                     return (
                                                                         <div
                                                                             className="flex items-center gap-1 text-amber-600 dark:text-amber-400 text-[10px] cursor-pointer hover:text-amber-700 dark:hover:text-amber-300 transition-colors bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded-md"
@@ -18690,6 +19210,8 @@ END:VCALENDAR`;
                                                                         >
                                                                             <span className="text-xs">✨</span>
                                                                             <span className="font-medium">{promo.chain}</span>
+                                                                            {inlineParsed.price && <span className="font-extrabold text-teal-600 dark:text-teal-400">{inlineParsed.price}₪</span>}
+                                                                            {!inlineParsed.price && inlineParsed.deal && <span className="font-bold">{inlineParsed.deal}</span>}
                                                                             {promoCount > 1 && <span className="opacity-70">+{promoCount - 1}</span>}
                                                                         </div>
                                                                     );
@@ -18704,7 +19226,7 @@ END:VCALENDAR`;
                                                                     <button
                                                                         onClick={() => updateQuantity(item.id, getQuantityNumber(item.quantity) - 1)}
                                                                         className="qty-btn"
-                                                                        aria-label="הפחת"
+                                                                        aria-label={t('decreaseQty')}
                                                                         style={{ touchAction: 'manipulation' }}
                                                                     >−</button>
                                                                     <span className="qty-value">{getQuantityNumber(item.quantity)}</span>
@@ -18739,6 +19261,8 @@ END:VCALENDAR`;
                                                                     </span>
                                                                 )}
                                                             </div>
+                                                        </>);
+                                                            })()}
                                                         </div>
 
                                                         {/* Menu button */}
@@ -18969,7 +19493,7 @@ END:VCALENDAR`;
                                         <h2 className="text-2xl font-extrabold text-white drop-shadow-lg">{t('selectCategory')}</h2>
                                         <p className="text-sm text-white/80 mt-0.5">{Object.keys(CATEGORIES).length} {t('selectCategory').includes('קטגוריה') ? 'קטגוריות' : 'categories'}</p>
                                     </div>
-                                    <button onClick={() => { setCategorySearch(''); setShowCategories(false); }} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
+                                    <button onClick={() => { setCategorySearch(''); setShowCategories(false); }} className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label={t('close')}>
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </button>
                                 </div>
@@ -18982,7 +19506,6 @@ END:VCALENDAR`;
                                     onChange={e => setCategorySearch(e.target.value)}
                                     placeholder={`🔍 ${t('searchProduct')}...`}
                                     className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:focus:ring-teal-900/30 transition-all text-sm font-medium placeholder:text-gray-400"
-                                    autoFocus
                                 />
                             </div>
                             {/* Categories Grid - Scrollable */}
@@ -19019,7 +19542,7 @@ END:VCALENDAR`;
                                             )}
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                                             <div className="absolute bottom-0 left-0 right-0 p-2">
-                                                <div className="text-white text-xs font-bold leading-tight drop-shadow-md text-center">{getCategoryName(key)}</div>
+                                                <div className="text-white text-base font-bold leading-tight drop-shadow-md text-center">{getCategoryName(key)}</div>
                                             </div>
                                             {count > 0 && (
                                                 <div className="absolute top-1.5 left-1.5 bg-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg min-w-[20px] text-center">
@@ -19064,7 +19587,7 @@ END:VCALENDAR`;
                                         <p className="text-sm text-white/80 mt-0.5">{SUBCATEGORIES[selectedParentCategory].children.length} {t('selectCategory').includes('קטגוריה') ? 'תתי-קטגוריות' : 'subcategories'}</p>
                                     </div>
                                     <button onClick={() => { setSelectedParentCategory(null); }}
-                                        className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
+                                        className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label={t('close')}>
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </button>
                                 </div>
@@ -19088,7 +19611,7 @@ END:VCALENDAR`;
                                                 )}
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                                                 <div className="absolute bottom-0 left-0 right-0 p-2">
-                                                    <div className="text-white text-xs font-bold leading-tight drop-shadow-md text-center">{getCategoryName(childKey)}</div>
+                                                    <div className="text-white text-base font-bold leading-tight drop-shadow-md text-center">{getCategoryName(childKey)}</div>
                                                 </div>
                                                 {count > 0 && (
                                                     <div className="absolute top-1.5 left-1.5 bg-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-lg min-w-[20px] text-center">
@@ -19141,7 +19664,7 @@ END:VCALENDAR`;
                                         <p className="text-sm text-white/80 mt-0.5">{PRODUCTS[selectedCategory]?.length || 0} {t('selectCategory').includes('קטגוריה') ? 'מוצרים' : 'products'}</p>
                                     </div>
                                     <button onClick={() => { setSelectedCategory(null); setSelectedParentCategory(null); }}
-                                        className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label="סגור">
+                                        className="bg-white/20 backdrop-blur-sm rounded-full w-9 h-9 flex items-center justify-center text-white hover:bg-white/30 transition-colors" aria-label={t('close')}>
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </button>
                                 </div>
@@ -19874,24 +20397,56 @@ END:VCALENDAR`;
                 }
             }, []);
 
-            // Load family data
+            // Load family data - ensure anonymous auth for Firestore access
             useEffect(() => {
                 if (!childUser?.familyId) {
                     setLoading(false);
                     return;
                 }
 
-                const unsubscribe = window.firestore.onSnapshot(
-                    window.firestore.doc(window.db, 'families', childUser.familyId),
-                    (doc) => {
-                        if (doc.exists()) {
-                            setFamily({ id: doc.id, ...doc.data() });
-                        }
-                        setLoading(false);
-                    }
-                );
+                let unsubscribe = null;
 
-                return () => unsubscribe();
+                const setupListeners = async () => {
+                    // Ensure Firebase Auth user exists for Firestore rules
+                    if (!window.auth.currentUser) {
+                        try {
+                            await window.firebaseAuth.signInAnonymously(window.auth);
+                        } catch (e) {
+                            console.warn('Anonymous sign-in failed for child:', e);
+                        }
+                    }
+
+                    // Ensure this anonymous UID is in memberIds for Firestore access
+                    const currentUid = window.auth.currentUser?.uid;
+                    if (currentUid) {
+                        try {
+                            await window.firestore.updateDoc(
+                                window.firestore.doc(window.db, 'families', childUser.familyId),
+                                { memberIds: window.firestore.arrayUnion(currentUid) }
+                            );
+                        } catch (e) {
+                            console.warn('Could not register child UID:', e);
+                        }
+                    }
+
+                    unsubscribe = window.firestore.onSnapshot(
+                        window.firestore.doc(window.db, 'families', childUser.familyId),
+                        (doc) => {
+                            if (doc.exists()) {
+                                setFamily({ id: doc.id, ...doc.data() });
+                            }
+                            setLoading(false);
+                        },
+                        (err) => {
+                            console.error('Child family listener error:', err);
+                            setLoading(false);
+                        }
+                    );
+                };
+
+                setupListeners();
+
+                return () => { if (unsubscribe) unsubscribe(); };
             }, [childUser?.familyId]);
 
             // Load lists

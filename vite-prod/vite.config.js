@@ -6,7 +6,8 @@ export default defineConfig({
   esbuild: {
     logOverride: {
       'duplicate-object-key': 'silent'
-    }
+    },
+    drop: ['console', 'debugger']
   },
   build: {
     outDir: 'dist',
