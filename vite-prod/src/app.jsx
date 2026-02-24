@@ -9942,6 +9942,9 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 }
                 // Larger quantity = grams, calculate proportionally
                 return pricePerKg * (quantity / 1000);
+            } else if (item.unit === 'גרם' && quantity > 10) {
+                // Unit says grams but product not in WEIGHT_BASED_PRICES — use priceToUse as per-kg
+                return priceToUse * (quantity / 1000);
             } else {
                 // Unit-based product: multiply price by quantity
                 return priceToUse * quantity;
@@ -14442,9 +14445,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             // === FEATURE: Weekly Budget ===
             const estimatedListTotal = React.useMemo(() => {
                 return items.filter(i => !i.purchased).reduce((sum, item) => {
-                    const price = item.estimatedPrice || getEstimatedPrice(item.name) || 0;
-                    const qty = parseFloat(item.quantity) || 1;
-                    return sum + (price * qty);
+                    return sum + calculateItemPrice(item);
                 }, 0);
             }, [items]);
 
@@ -16684,7 +16685,10 @@ END:VCALENDAR`;
                         }).catch(() => {});
                         // Budget alert
                         if (weeklyBudget > 0) {
-                            const newTotal = estimatedListTotal + (estimatedPrice || 0) * (parseFloat(selectedQuantity) || 1);
+                            const addedPrice = (selectedUnit === 'גרם' && parseFloat(selectedQuantity) > 10)
+                                ? (estimatedPrice || 0) * (parseFloat(selectedQuantity) / 1000)
+                                : (estimatedPrice || 0) * (parseFloat(selectedQuantity) || 1);
+                            const newTotal = estimatedListTotal + addedPrice;
                             const pct = Math.round((newTotal / weeklyBudget) * 100);
                             if (pct >= 100) {
                                 showToast(`🚨 ${t('budgetAlertExceeded')}`, 'error');
