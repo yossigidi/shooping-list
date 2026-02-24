@@ -1284,6 +1284,28 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 finishAndSave: 'סיים ושמור',
                 searchTab: 'חיפוש',
                 barcodeTab: 'ברקוד',
+                visionTab: 'זיהוי מוצר',
+                receiptTab: 'קבלה',
+                visionScanInstruction: 'כוון את המצלמה למוצר וצלם',
+                visionAnalyzing: '🤖 מזהה מוצר...',
+                visionCapture: 'צלם וזהה',
+                visionTip: 'כוון את המצלמה ישירות למוצר לתוצאות טובות יותר',
+                visionNoProduct: 'לא זוהה מוצר בתמונה',
+                visionTimeout: 'הזיהוי לקח יותר מדי זמן, נסה שוב',
+                visionError: 'שגיאה בזיהוי המוצר',
+                receiptScanInstruction: 'כוון את המצלמה לקבלה או רשימת קניות',
+                receiptAnalyzing: '🤖 מנתח קבלה...',
+                receiptCapture: 'צלם ונתח',
+                receiptTip: 'וודא שהקבלה מוארת היטב ושהטקסט קריא',
+                receiptNoItems: 'לא זוהו מוצרים בקבלה',
+                receiptTimeout: 'הניתוח לקח יותר מדי זמן, נסה שוב',
+                receiptError: 'שגיאה בניתוח הקבלה',
+                scanAnother: 'סרוק מוצר נוסף',
+                categoryLabel: 'קטגוריה',
+                estimatedPriceLabel: 'מחיר משוער',
+                confidenceLabel: 'רמת ביטחון',
+                productAdded: 'המוצר נוסף לרשימה!',
+                itemsAddedCount: '{count} מוצרים נוספו לרשימה!',
                 ocrTab: 'צילום טקסט',
                 startBarcodeScanner: 'הפעל סורק ברקוד',
                 stopScanning: 'עצור סריקה',
@@ -1344,6 +1366,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 shoppingDayReminderText: 'היום יום קניות! 🛒 אל תשכחו לבדוק את הרשימה',
                 shoppingDayPushEnabled: 'התראות יום קניות מופעלות',
                 shoppingDayPushDisabled: 'הפעל התראות יום קניות',
+                itemAddPushEnabled: 'התראות הוספת מוצרים מופעלות',
+                itemAddPushMuted: 'התראות הוספת מוצרים מושתקות',
                 sunday: 'א׳',
                 monday: 'ב׳',
                 tuesday: 'ג׳',
@@ -2384,7 +2408,29 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 generalStats: 'General Statistics', monthlyStatsTitle: 'Monthly Statistics',
                 achievementsTitle: 'Achievements This Month',
                 editingNow: 'Editing now', receiptAttachedLabel: 'Receipt attached', finishAndSave: 'Finish & save',
-                searchTab: 'Search', barcodeTab: 'Barcode', ocrTab: 'Text Photo',
+                searchTab: 'Search', barcodeTab: 'Barcode',
+                visionTab: 'Product ID', receiptTab: 'Receipt',
+                visionScanInstruction: 'Point camera at product and capture',
+                visionAnalyzing: '🤖 Identifying product...',
+                visionCapture: 'Capture & Identify',
+                visionTip: 'Point camera directly at the product for best results',
+                visionNoProduct: 'No product identified in image',
+                visionTimeout: 'Identification took too long, try again',
+                visionError: 'Error identifying product',
+                receiptScanInstruction: 'Point camera at receipt or shopping list',
+                receiptAnalyzing: '🤖 Analyzing receipt...',
+                receiptCapture: 'Capture & Analyze',
+                receiptTip: 'Make sure the receipt is well lit and text is readable',
+                receiptNoItems: 'No items found on receipt',
+                receiptTimeout: 'Analysis took too long, try again',
+                receiptError: 'Error analyzing receipt',
+                scanAnother: 'Scan Another',
+                categoryLabel: 'Category',
+                estimatedPriceLabel: 'Est. Price',
+                confidenceLabel: 'Confidence',
+                productAdded: 'Product added to list!',
+                itemsAddedCount: '{count} items added to list!',
+                ocrTab: 'Text Photo',
                 startBarcodeScanner: 'Start Barcode Scanner', stopScanning: 'Stop Scanning',
                 newSearch: 'New Search', openAllSimultaneously: 'Open All at Once',
                 byChainTab: 'By Chain',
@@ -2420,6 +2466,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 shoppingDayReminderText: "It's shopping day! 🛒 Don't forget to check the list",
                 shoppingDayPushEnabled: 'Shopping day notifications enabled',
                 shoppingDayPushDisabled: 'Enable shopping day notifications',
+                itemAddPushEnabled: 'Item add notifications enabled',
+                itemAddPushMuted: 'Item add notifications muted',
                 sunday: 'Sun',
                 monday: 'Mon',
                 tuesday: 'Tue',
@@ -3370,7 +3418,29 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 generalStats: 'Общая статистика', monthlyStatsTitle: 'Месячная статистика',
                 achievementsTitle: 'Достижения за месяц',
                 editingNow: 'Редактирует сейчас', receiptAttachedLabel: 'Чек прикреплён', finishAndSave: 'Завершить и сохранить',
-                searchTab: 'Поиск', barcodeTab: 'Штрих-код', ocrTab: 'Фото текста',
+                searchTab: 'Поиск', barcodeTab: 'Штрих-код',
+                visionTab: 'Распознать', receiptTab: 'Чек',
+                visionScanInstruction: 'Наведите камеру на продукт и сфотографируйте',
+                visionAnalyzing: '🤖 Распознаю продукт...',
+                visionCapture: 'Сфотографировать',
+                visionTip: 'Направьте камеру прямо на продукт для лучших результатов',
+                visionNoProduct: 'Продукт не распознан',
+                visionTimeout: 'Распознавание заняло слишком много времени',
+                visionError: 'Ошибка распознавания продукта',
+                receiptScanInstruction: 'Наведите камеру на чек или список покупок',
+                receiptAnalyzing: '🤖 Анализирую чек...',
+                receiptCapture: 'Сфотографировать',
+                receiptTip: 'Убедитесь что чек хорошо освещён и текст читаем',
+                receiptNoItems: 'Товары на чеке не найдены',
+                receiptTimeout: 'Анализ занял слишком много времени',
+                receiptError: 'Ошибка анализа чека',
+                scanAnother: 'Сканировать ещё',
+                categoryLabel: 'Категория',
+                estimatedPriceLabel: 'Прим. цена',
+                confidenceLabel: 'Уверенность',
+                productAdded: 'Продукт добавлен в список!',
+                itemsAddedCount: '{count} товаров добавлено в список!',
+                ocrTab: 'Фото текста',
                 startBarcodeScanner: 'Запустить сканер', stopScanning: 'Остановить сканирование',
                 newSearch: 'Новый поиск', openAllSimultaneously: 'Открыть всё сразу',
                 byChainTab: 'По сети', serverUnavailableMsg: 'Сервер временно недоступен. Нажмите на сеть для поиска товаров.',
@@ -3404,6 +3474,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 shoppingDayReminderText: 'Сегодня день покупок! 🛒 Не забудьте проверить список',
                 shoppingDayPushEnabled: 'Уведомления о дне покупок включены',
                 shoppingDayPushDisabled: 'Включить уведомления о дне покупок',
+                itemAddPushEnabled: 'Уведомления о добавлении товаров включены',
+                itemAddPushMuted: 'Уведомления о добавлении товаров отключены',
                 sunday: 'Вс',
                 monday: 'Пн',
                 tuesday: 'Вт',
@@ -4358,7 +4430,29 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 generalStats: 'إحصائيات عامة', monthlyStatsTitle: 'إحصائيات شهرية',
                 achievementsTitle: 'إنجازات هذا الشهر',
                 editingNow: 'يحرر الآن', receiptAttachedLabel: 'إيصال مرفق', finishAndSave: 'إنهاء وحفظ',
-                searchTab: 'بحث', barcodeTab: 'باركود', ocrTab: 'صورة نص',
+                searchTab: 'بحث', barcodeTab: 'باركود',
+                visionTab: 'تعرّف منتج', receiptTab: 'إيصال',
+                visionScanInstruction: 'وجّه الكاميرا نحو المنتج والتقط صورة',
+                visionAnalyzing: '🤖 جاري التعرف على المنتج...',
+                visionCapture: 'التقط وتعرّف',
+                visionTip: 'وجّه الكاميرا مباشرة نحو المنتج للحصول على أفضل النتائج',
+                visionNoProduct: 'لم يتم التعرف على منتج في الصورة',
+                visionTimeout: 'استغرق التعرف وقتًا طويلاً، حاول مرة أخرى',
+                visionError: 'خطأ في التعرف على المنتج',
+                receiptScanInstruction: 'وجّه الكاميرا نحو الإيصال أو قائمة التسوق',
+                receiptAnalyzing: '🤖 جاري تحليل الإيصال...',
+                receiptCapture: 'التقط وحلّل',
+                receiptTip: 'تأكد أن الإيصال مضاء جيدًا والنص مقروء',
+                receiptNoItems: 'لم يتم العثور على منتجات في الإيصال',
+                receiptTimeout: 'استغرق التحليل وقتًا طويلاً، حاول مرة أخرى',
+                receiptError: 'خطأ في تحليل الإيصال',
+                scanAnother: 'مسح آخر',
+                categoryLabel: 'فئة',
+                estimatedPriceLabel: 'السعر التقديري',
+                confidenceLabel: 'مستوى الثقة',
+                productAdded: 'تمت إضافة المنتج إلى القائمة!',
+                itemsAddedCount: 'تمت إضافة {count} منتجات إلى القائمة!',
+                ocrTab: 'صورة نص',
                 startBarcodeScanner: 'تشغيل ماسح الباركود', stopScanning: 'إيقاف المسح',
                 newSearch: 'بحث جديد', openAllSimultaneously: 'فتح الكل مرة واحدة',
                 byChainTab: 'حسب السلسلة', serverUnavailableMsg: 'الخادم غير متاح حاليًا. انقر على أي سلسلة للبحث عن منتجاتك.',
@@ -4392,6 +4486,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 shoppingDayReminderText: 'اليوم يوم التسوق! 🛒 لا تنسَ مراجعة القائمة',
                 shoppingDayPushEnabled: 'إشعارات يوم التسوق مفعلة',
                 shoppingDayPushDisabled: 'تفعيل إشعارات يوم التسوق',
+                itemAddPushEnabled: 'إشعارات إضافة المنتجات مفعلة',
+                itemAddPushMuted: 'إشعارات إضافة المنتجات مكتومة',
                 sunday: 'أحد',
                 monday: 'اثنين',
                 tuesday: 'ثلاثاء',
@@ -9132,7 +9228,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             'פסטו ירוק 190 גרם': 19.90, 'פסטו אדום 190 גרם': 19.90,
             'ממרח חציל 200 גרם': 12.90,
             'זיתים': 14.90, 'זיתים שחורים': 16.90, 'חמוצים': 9.90,
-            'קמח': 6.90, 'קמח מלא': 8.90, 'קמח תופח': 9.90, 'סוכר': 5.50, 'סוכר לבן': 5.50, 'סוכר חום': 12.90,
+            'קמח': 6.90, 'קמח לבן': 6.90, 'קמח לבן מנופה': 7.90, 'קמח מלא': 8.90, 'קמח תופח': 9.90, 'סוכר': 5.50, 'סוכר לבן': 5.50, 'סוכר חום': 12.90,
             // תבלינים - לפי משקל
             'מלח': 2.09, 'מלח שולחן 500 גרם': 2.09, 'מלח שולחן 1 ק"ג': 5.90,
             'מלח ים 500 גרם': 6.90, 'מלח גס 1 ק"ג': 4.90,
@@ -12202,6 +12298,14 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [barcodeResult, setBarcodeResult] = useState(null);
             const [barcodeError, setBarcodeError] = useState(null);
             const barcodeVideoRef = React.useRef(null);
+            // Vision / Receipt scanner
+            const [visionScanning, setVisionScanning] = useState(false);
+            const [visionResult, setVisionResult] = useState(null);
+            const [receiptScanning, setReceiptScanning] = useState(false);
+            const [receiptResults, setReceiptResults] = useState(null);
+            const visionVideoRef = React.useRef(null);
+            const visionCanvasRef = React.useRef(null);
+            const visionStreamRef = React.useRef(null);
             // Full list price comparison
             const [showListComparison, setShowListComparison] = useState(false);
             const [listComparisonLoading, setListComparisonLoading] = useState(false);
@@ -12331,6 +12435,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             });
             const [pushSubscription, setPushSubscription] = useState(null);
             const [showPushPrompt, setShowPushPrompt] = useState(false);
+            const [muteItemAddPush, setMuteItemAddPush] = useState(false);
             // Toast notification system (replaces alert())
             const [toasts, setToasts] = useState([]);
             const toastIdRef = React.useRef(0);
@@ -12459,6 +12564,40 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         setPushSubscription(null);
                     }
                 } catch (e) { console.error('Push unsubscribe error:', e); }
+            };
+
+            // Load muteItemAdd state from Firestore
+            useEffect(() => {
+                if (!pushSubscription || !user) return;
+                const q = window.firestore.query(
+                    window.firestore.collection(window.db, 'push-subscriptions'),
+                    window.firestore.where('userId', '==', user.uid),
+                    window.firestore.where('endpoint', '==', pushSubscription.endpoint)
+                );
+                window.firestore.getDocs(q).then(snapshot => {
+                    if (!snapshot.empty) {
+                        const data = snapshot.docs[0].data();
+                        setMuteItemAddPush(data.muteItemAdd === true);
+                    }
+                }).catch(() => {});
+            }, [pushSubscription, user]);
+
+            // Toggle mute item add push notifications
+            const toggleMuteItemAddPush = async () => {
+                if (!pushSubscription || !user) return;
+                const newVal = !muteItemAddPush;
+                setMuteItemAddPush(newVal);
+                try {
+                    const q = window.firestore.query(
+                        window.firestore.collection(window.db, 'push-subscriptions'),
+                        window.firestore.where('userId', '==', user.uid),
+                        window.firestore.where('endpoint', '==', pushSubscription.endpoint)
+                    );
+                    const snapshot = await window.firestore.getDocs(q);
+                    for (const d of snapshot.docs) {
+                        await window.firestore.updateDoc(d.ref, { muteItemAdd: newVal });
+                    }
+                } catch (e) { console.error('Error toggling muteItemAdd:', e); }
             };
 
             // Handle shopping day change
@@ -13081,19 +13220,20 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             // Price comparison scanner functions
             const startPriceScanner = async () => {
                 setShowPriceScanner(true);
+                setScanMode('search');
                 setScannedProductName('');
                 setPriceCompareResults(null);
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
-                    });
-                    if (priceVideoRef.current) {
-                        priceVideoRef.current.srcObject = stream;
-                    }
-                } catch (err) {
-                    console.error('Camera error:', err);
-                    showToast(t('cameraAccessDenied'), 'error');
-                    setShowPriceScanner(false);
+                setVisionResult(null);
+                setReceiptResults(null);
+            };
+
+            const stopVisionCamera = () => {
+                if (visionStreamRef.current) {
+                    visionStreamRef.current.getTracks().forEach(track => { track.stop(); track.enabled = false; });
+                    visionStreamRef.current = null;
+                }
+                if (visionVideoRef.current?.srcObject) {
+                    visionVideoRef.current.srcObject = null;
                 }
             };
 
@@ -13108,8 +13248,127 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 }
                 setShowPriceScanner(false);
                 setScanningPrice(false);
-                // Also stop barcode scanner if running
+                // Also stop barcode and vision cameras
                 stopBarcodeScanner();
+                stopVisionCamera();
+                setVisionScanning(false);
+                setVisionResult(null);
+                setReceiptScanning(false);
+                setReceiptResults(null);
+            };
+
+            // Capture and compress image from video
+            const captureAndCompressImage = (videoRef, canvasRef) => {
+                const video = videoRef.current;
+                const canvas = canvasRef.current;
+                if (!video || !canvas) return null;
+
+                const maxDim = 800;
+                let w = video.videoWidth;
+                let h = video.videoHeight;
+                if (w > maxDim || h > maxDim) {
+                    const ratio = Math.min(maxDim / w, maxDim / h);
+                    w = Math.round(w * ratio);
+                    h = Math.round(h * ratio);
+                }
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, w, h);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                return dataUrl.split(',')[1]; // pure base64
+            };
+
+            // Start vision camera
+            const startVisionCamera = async () => {
+                stopVisionCamera();
+                setVisionResult(null);
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
+                    });
+                    visionStreamRef.current = stream;
+                    if (visionVideoRef.current) {
+                        visionVideoRef.current.srcObject = stream;
+                    }
+                } catch (err) {
+                    console.error('Vision camera error:', err);
+                    showToast(t('cameraAccessDenied'), 'error');
+                }
+            };
+
+            // Capture and scan product with AI vision
+            const captureAndScanVision = async () => {
+                const base64 = captureAndCompressImage(visionVideoRef, visionCanvasRef);
+                if (!base64) return;
+
+                setVisionScanning(true);
+                setVisionResult(null);
+
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 15000);
+
+                try {
+                    const resp = await fetch('/api/ai', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'vision', image: base64 }),
+                        signal: controller.signal
+                    });
+                    clearTimeout(timeout);
+                    const data = await resp.json();
+                    if (data.success && data.name) {
+                        setVisionResult(data);
+                    } else {
+                        showToast(t('visionNoProduct'), 'warning');
+                    }
+                } catch (err) {
+                    clearTimeout(timeout);
+                    if (err.name === 'AbortError') {
+                        showToast(t('visionTimeout'), 'error');
+                    } else {
+                        showToast(t('visionError'), 'error');
+                    }
+                } finally {
+                    setVisionScanning(false);
+                }
+            };
+
+            // Capture and scan receipt with AI
+            const captureAndScanReceipt = async () => {
+                const base64 = captureAndCompressImage(visionVideoRef, visionCanvasRef);
+                if (!base64) return;
+
+                setReceiptScanning(true);
+                setReceiptResults(null);
+
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 15000);
+
+                try {
+                    const resp = await fetch('/api/ai', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'receipt', image: base64 }),
+                        signal: controller.signal
+                    });
+                    clearTimeout(timeout);
+                    const data = await resp.json();
+                    if (data.success && data.items && data.items.length > 0) {
+                        setReceiptResults(data.items);
+                    } else {
+                        showToast(t('receiptNoItems'), 'warning');
+                    }
+                } catch (err) {
+                    clearTimeout(timeout);
+                    if (err.name === 'AbortError') {
+                        showToast(t('receiptTimeout'), 'error');
+                    } else {
+                        showToast(t('receiptError'), 'error');
+                    }
+                } finally {
+                    setReceiptScanning(false);
+                }
             };
 
             // Start barcode scanner
@@ -15920,19 +16179,17 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 if (!file) return;
 
                 setUploadingReceipt(true);
+                setReceiptResults(null);
                 try {
-                    // Compress and convert to base64
                     const reader = new FileReader();
                     reader.onload = async (event) => {
                         const img = new Image();
-                        img.onload = () => {
-                            // Create canvas for compression
+                        img.onload = async () => {
                             const canvas = document.createElement('canvas');
                             const maxSize = 800;
                             let width = img.width;
                             let height = img.height;
 
-                            // Scale down if too large
                             if (width > height && width > maxSize) {
                                 height = (height * maxSize) / width;
                                 width = maxSize;
@@ -15946,10 +16203,35 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                             const ctx = canvas.getContext('2d');
                             ctx.drawImage(img, 0, 0, width, height);
 
-                            // Get compressed base64
                             const compressedData = canvas.toDataURL('image/jpeg', 0.7);
                             setReceiptPhoto(compressedData);
                             setUploadingReceipt(false);
+
+                            // AI receipt analysis
+                            setReceiptScanning(true);
+                            try {
+                                const base64 = compressedData.split(',')[1];
+                                const controller = new AbortController();
+                                const timeout = setTimeout(() => controller.abort(), 15000);
+                                const resp = await fetch('/api/ai', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ action: 'receipt', image: base64 }),
+                                    signal: controller.signal
+                                });
+                                clearTimeout(timeout);
+                                const data = await resp.json();
+                                if (data.success && data.items && data.items.length > 0) {
+                                    setReceiptResults(data.items);
+                                    // Auto-calculate total from receipt
+                                    const total = data.items.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+                                    if (total > 0) setTotalAmount(String(Math.round(total * 100) / 100));
+                                }
+                            } catch (err) {
+                                console.error('Receipt AI analysis error:', err);
+                            } finally {
+                                setReceiptScanning(false);
+                            }
                         };
                         img.src = event.target.result;
                     };
@@ -15960,7 +16242,6 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     showToast(t('imageProcessError'), 'error');
                 }
 
-                // Clear the input
                 e.target.value = '';
             };
 
@@ -16393,6 +16674,14 @@ END:VCALENDAR`;
                         // Replace temp item with real item ID
                         setItems(prev => prev.map(i => i.id === tempId ? { ...i, id: docRef.id, _isTemp: false } : i));
                         await logActivity('item_added', { itemName: product });
+                        // Push notification to family members
+                        const senderUid = childUser?.childId || user?.uid || 'anonymous';
+                        const senderName = childUser?.displayName || user?.displayName || user?.email || t('anonymous');
+                        fetch(`${API_BASE}/api/item-add-push`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ familyId: family.id, senderUid, senderName, itemNames: product })
+                        }).catch(() => {});
                         // Budget alert
                         if (weeklyBudget > 0) {
                             const newTotal = estimatedListTotal + (estimatedPrice || 0) * (parseFloat(selectedQuantity) || 1);
@@ -16535,6 +16824,18 @@ END:VCALENDAR`;
                     } else {
                         queueOperation({ type: 'add', name: item.name, category, quantity: item.quantity, unit: item.unit || t('unitPieces'), note: '', price: estimatedPrice });
                     }
+                }
+
+                // Push notification to family members
+                if (itemsToAdd.length > 0 && family) {
+                    const senderUid = childUser?.childId || user?.uid || 'anonymous';
+                    const senderName = childUser?.displayName || user?.displayName || user?.email || t('anonymous');
+                    const names = itemsToAdd.map(i => i.name).join(', ');
+                    fetch(`${API_BASE}/api/item-add-push`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ familyId: family.id, senderUid, senderName, itemNames: names })
+                    }).catch(() => {});
                 }
 
                 // Close modal and reset
@@ -17329,22 +17630,22 @@ END:VCALENDAR`;
                             <div className="px-4 pb-2">
                                 <div className="flex bg-white/10 rounded-xl p-1">
                                     <button
-                                        onClick={() => { setScanMode('search'); stopBarcodeScanner(); }}
-                                        className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'search' ? 'bg-white text-gray-800' : 'text-white/70'}`}
+                                        onClick={() => { setScanMode('search'); stopBarcodeScanner(); stopVisionCamera(); }}
+                                        className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all ${scanMode === 'search' ? 'bg-white text-gray-800' : 'text-white/70'}`}
                                     >
                                         <span className="inline-flex items-center gap-1"><Search size={14} /> {t('searchTab')}</span>
                                     </button>
                                     <button
-                                        onClick={() => { setScanMode('barcode'); startBarcodeScanner(); }}
-                                        className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'barcode' ? 'bg-white text-gray-800' : 'text-white/70'}`}
+                                        onClick={() => { setScanMode('barcode'); stopVisionCamera(); startBarcodeScanner(); }}
+                                        className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all ${scanMode === 'barcode' ? 'bg-white text-gray-800' : 'text-white/70'}`}
                                     >
                                         <span className="inline-flex items-center gap-1"><BarChart3 size={14} /> {t('barcodeTab')}</span>
                                     </button>
                                     <button
-                                        onClick={() => { setScanMode('ocr'); stopBarcodeScanner(); }}
-                                        className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${scanMode === 'ocr' ? 'bg-white text-gray-800' : 'text-white/70'}`}
+                                        onClick={() => { setScanMode('vision'); stopBarcodeScanner(); startVisionCamera(); setVisionResult(null); }}
+                                        className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all ${scanMode === 'vision' ? 'bg-white text-gray-800' : 'text-white/70'}`}
                                     >
-                                        <span className="inline-flex items-center gap-1"><Camera size={14} /> {t('ocrTab')}</span>
+                                        <span className="inline-flex items-center gap-1">📸 {t('visionTab')}</span>
                                     </button>
                                 </div>
                             </div>
@@ -17494,41 +17795,80 @@ END:VCALENDAR`;
                                     </div>
                                 )}
 
-                                {/* OCR Camera Scan Mode */}
-                                {scanMode === 'ocr' && !priceCompareResults && (
-                                    <div className="mb-4 p-4 bg-white/10 rounded-xl border border-cyan-400/30">
-                                        <div className="text-white text-sm mb-3 text-center font-medium">{t('captureProductName')}</div>
-                                        <div className="relative aspect-video bg-black rounded-xl overflow-hidden mb-4">
-                                            <video ref={priceVideoRef} autoPlay playsInline className="w-full h-full object-cover" />
-                                            <canvas ref={priceCanvasRef} className="hidden" />
-                                            {scanningPrice && (
-                                                <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
-                                                    <div className="text-center">
-                                                        <div className="text-3xl mb-2 animate-spin">⏳</div>
-                                                        <div className="text-white text-sm">{t('analyzingImage')}</div>
-                                                    </div>
+                                {/* Vision - Product Identification Mode */}
+                                {scanMode === 'vision' && !priceCompareResults && (
+                                    <div className="mb-4 p-4 bg-white/10 rounded-xl border border-purple-400/30">
+                                        {!visionResult ? (
+                                            <>
+                                                <div className="text-white text-sm mb-3 text-center font-medium">{t('visionScanInstruction')}</div>
+                                                <div className="relative aspect-video bg-black rounded-xl overflow-hidden mb-4">
+                                                    <video ref={(el) => { visionVideoRef.current = el; if (el && visionStreamRef.current && !el.srcObject) { el.srcObject = visionStreamRef.current; } }} autoPlay playsInline className="w-full h-full object-cover" />
+                                                    <canvas ref={visionCanvasRef} className="hidden" />
+                                                    {visionScanning && (
+                                                        <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
+                                                            <div className="text-center">
+                                                                <div className="text-3xl mb-2 animate-pulse">🤖</div>
+                                                                <div className="text-white text-sm">{t('visionAnalyzing')}</div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    {!visionScanning && (
+                                                        <button
+                                                            onClick={captureAndScanVision}
+                                                            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-white border-4 border-purple-400 shadow-lg flex items-center justify-center hover:scale-110 transition-all"
+                                                        >
+                                                            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                                                                <span className="text-2xl">📸</span>
+                                                            </div>
+                                                        </button>
+                                                    )}
                                                 </div>
-                                            )}
-                                            {/* Big Capture Button Overlay */}
-                                            {!scanningPrice && (
                                                 <button
-                                                    onClick={captureAndScanPrice}
-                                                    className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-white border-4 border-cyan-400 shadow-lg flex items-center justify-center hover:scale-110 transition-all"
+                                                    onClick={captureAndScanVision}
+                                                    disabled={visionScanning}
+                                                    className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold text-lg shadow-lg disabled:opacity-50 hover:shadow-xl hover:scale-[1.02] transition-all"
                                                 >
-                                                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
-                                                        <span className="text-2xl">📸</span>
-                                                    </div>
+                                                    {visionScanning ? t('visionAnalyzing') : t('visionCapture')}
                                                 </button>
-                                            )}
-                                        </div>
-                                        <button
-                                            onClick={captureAndScanPrice}
-                                            disabled={scanningPrice}
-                                            className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-bold text-lg shadow-lg disabled:opacity-50 hover:shadow-xl hover:scale-[1.02] transition-all"
-                                        >
-                                            {scanningPrice ? t('scanAnalyzing') : t('tapToCapture')}
-                                        </button>
-                                        <p className="text-gray-400 text-xs text-center mt-2">{t('cameraTip')}</p>
+                                                <p className="text-gray-400 text-xs text-center mt-2">{t('visionTip')}</p>
+                                            </>
+                                        ) : (
+                                            <div className="space-y-3">
+                                                <div className="bg-white/10 rounded-xl p-4 border border-purple-400/30">
+                                                    <div className="flex items-center gap-3 mb-3">
+                                                        <span className="text-3xl">
+                                                            {{'fruits':'🍎','vegetables':'🥬','dairy':'🧀','meat':'🥩','fish':'🐟','bread':'🍞','pantry':'🏪','drinks':'🥤','frozen':'🧊','snacks':'🍿','cleaning':'🧹','baby':'👶'}[visionResult.category] || '📦'}
+                                                        </span>
+                                                        <div className="flex-1">
+                                                            <div className="text-white font-bold text-lg">{visionResult.name}</div>
+                                                            <div className="text-gray-400 text-sm">{t('categoryLabel')}: {visionResult.category}</div>
+                                                        </div>
+                                                    </div>
+                                                    {visionResult.estimatedPrice && (
+                                                        <div className="text-green-400 text-sm mb-1">{t('estimatedPriceLabel')}: ₪{visionResult.estimatedPrice}</div>
+                                                    )}
+                                                    <div className="text-gray-400 text-xs">{t('confidenceLabel')}: {Math.round((visionResult.confidence || 0) * 100)}%</div>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={() => {
+                                                            addSmartItems([{ name: visionResult.name, quantity: 1, unit: 'יח\'', category: visionResult.category }]);
+                                                            showToast(t('productAdded'), 'success');
+                                                            setVisionResult(null);
+                                                        }}
+                                                        className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold shadow-lg hover:scale-[1.02] transition-all"
+                                                    >
+                                                        {t('addToListBtn').replace('{name}', visionResult.name)}
+                                                    </button>
+                                                </div>
+                                                <button
+                                                    onClick={() => { setVisionResult(null); startVisionCamera(); }}
+                                                    className="w-full py-2 bg-white/10 text-white rounded-xl text-sm hover:bg-white/20 transition-all"
+                                                >
+                                                    {t('scanAnother')}
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
 
@@ -18202,7 +18542,7 @@ END:VCALENDAR`;
 
                     {/* AI Smart Add Modal */}
                     {showSmartAdd && (
-                        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex flex-col z-50">
+                        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex flex-col z-50" style={{ overscrollBehavior: 'contain' }} onTouchMove={e => e.stopPropagation()}>
                             {/* Header */}
                             <div className="p-4 flex items-center justify-between border-b border-white/10">
                                 <button
@@ -18392,7 +18732,7 @@ END:VCALENDAR`;
                                                 className="w-full h-32 object-cover rounded-xl border-2 border-green-300"
                                             />
                                             <button
-                                                onClick={() => setReceiptPhoto(null)}
+                                                onClick={() => { setReceiptPhoto(null); setReceiptResults(null); }}
                                                 className="absolute top-2 left-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg"
                                             >
                                                 ✕
@@ -18400,6 +18740,37 @@ END:VCALENDAR`;
                                             <div className="absolute bottom-2 right-2 bg-green-500 text-white px-2 py-1 rounded-lg text-xs flex items-center gap-1">
                                                 <span>✓</span> {t('receiptAttachedLabel')}
                                             </div>
+                                        </div>
+                                    )}
+
+                                    {/* AI Receipt Analysis */}
+                                    {receiptScanning && (
+                                        <div className="mt-3 p-3 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-200 dark:border-orange-700 flex items-center gap-3">
+                                            <div className="text-2xl animate-pulse">🤖</div>
+                                            <span className="text-sm text-orange-700 dark:text-orange-300">{t('receiptAnalyzing')}</span>
+                                        </div>
+                                    )}
+                                    {receiptResults && receiptResults.length > 0 && (
+                                        <div className="mt-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-700">
+                                            <div className="text-sm font-medium text-green-700 dark:text-green-300 mb-2">{t('identifiedProducts').replace('{count}', receiptResults.length)}</div>
+                                            <div className="max-h-40 overflow-y-auto space-y-1">
+                                                {receiptResults.map((item, idx) => (
+                                                    <div key={idx} className="flex items-center justify-between text-sm py-1 border-b border-green-100 dark:border-green-800 last:border-0">
+                                                        <span className="text-gray-800 dark:text-gray-200">{item.name}{item.quantity > 1 ? ` ×${item.quantity}` : ''}</span>
+                                                        {item.price ? <span className="text-green-600 dark:text-green-400 font-medium">₪{item.price}</span> : null}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <button
+                                                onClick={() => {
+                                                    addSmartItems(receiptResults);
+                                                    showToast(t('itemsAddedCount').replace('{count}', receiptResults.length), 'success');
+                                                    setReceiptResults(null);
+                                                }}
+                                                className="mt-2 w-full py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg text-sm font-semibold hover:shadow-md transition-all"
+                                            >
+                                                {t('addAllToList')} ({receiptResults.length})
+                                            </button>
                                         </div>
                                     )}
                                 </div>
@@ -18410,7 +18781,7 @@ END:VCALENDAR`;
                                         className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed">
                                         ✓ {t('finishAndSave')}
                                     </button>
-                                    <button onClick={() => { setShowFinishShopping(false); setTotalAmount(''); setReceiptPhoto(null); }}
+                                    <button onClick={() => { setShowFinishShopping(false); setTotalAmount(''); setReceiptPhoto(null); setReceiptResults(null); }}
                                         className="px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105 transition-all">
                                         {t('cancel')}
                                     </button>
@@ -18530,7 +18901,7 @@ END:VCALENDAR`;
 
                     {/* Forgotten Stats Modal */}
                     {showForgottenStats && (
-                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" style={{ overscrollBehavior: 'contain' }} onTouchMove={e => e.stopPropagation()}>
                             <div className="glass rounded-3xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-thin">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-2xl font-bold flex items-center gap-3">
@@ -19468,6 +19839,19 @@ END:VCALENDAR`;
                                                                 {pushSubscription ? <Bell size={14} /> : <BellOff size={14} />}
                                                                 {pushSubscription ? t('shoppingDayPushEnabled') : t('shoppingDayPushDisabled')}
                                                             </button>
+                                                            {pushSubscription && (
+                                                                <button
+                                                                    onClick={toggleMuteItemAddPush}
+                                                                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                                                                        muteItemAddPush
+                                                                            ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                                            : 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                                                                    }`}
+                                                                >
+                                                                    {muteItemAddPush ? <BellOff size={14} /> : <Bell size={14} />}
+                                                                    {muteItemAddPush ? t('itemAddPushMuted') : t('itemAddPushEnabled')}
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     )}
                                                     <button

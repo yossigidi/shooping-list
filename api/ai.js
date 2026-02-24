@@ -223,6 +223,94 @@ async function callGroqAPI(text) {
     return null;
 }
 
+// Call Groq Vision API for image-based tasks
+async function callGroqVision(base64Image, action) {
+    const GROQ_API_KEY = process.env.GROQ_API_KEY;
+    if (!GROQ_API_KEY) return null;
+
+    const prompts = {
+        vision: {
+            system: `You are a product identification assistant for an Israeli grocery shopping app.
+Analyze the image and identify the single main grocery product shown.
+Return ONLY valid JSON, no markdown:
+{"name": "product name in Hebrew", "category": "one of: fruits, vegetables, dairy, meat, fish, bread, pantry, drinks, frozen, snacks, cleaning, baby", "estimatedPrice": estimated price in ILS as number, "confidence": confidence 0-1}
+If no product is identifiable, return: {"name": null}`,
+            max_tokens: 500
+        },
+        receipt: {
+            system: `You are a receipt/shopping list parser for an Israeli grocery app.
+Analyze the image of a receipt or shopping list and extract all items.
+Return ONLY valid JSON, no markdown:
+{"items": [{"name": "product name in Hebrew", "quantity": 1, "price": price as number or null, "unit": "יח'"}]}
+If no items found, return: {"items": []}`,
+            max_tokens: 2000
+        }
+    };
+
+    const config = prompts[action];
+    if (!config) return null;
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${GROQ_API_KEY}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+            messages: [
+                { role: 'system', content: config.system },
+                {
+                    role: 'user',
+                    content: [
+                        { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${base64Image}` } },
+                        { type: 'text', text: action === 'vision' ? 'Identify this product' : 'Extract items from this receipt/list' }
+                    ]
+                }
+            ],
+            temperature: 0.1,
+            max_tokens: config.max_tokens
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error(`Groq Vision API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) return null;
+
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) return null;
+
+    const parsed = JSON.parse(jsonMatch[0]);
+
+    if (action === 'vision') {
+        if (!parsed.name) return { name: null };
+        return {
+            name: normalizeProductName(parsed.name),
+            category: parsed.category || detectCategory(parsed.name),
+            estimatedPrice: parsed.estimatedPrice || null,
+            confidence: parsed.confidence || 0.5
+        };
+    }
+
+    if (action === 'receipt' && parsed.items && Array.isArray(parsed.items)) {
+        return {
+            items: parsed.items.map(item => ({
+                name: normalizeProductName(item.name || ''),
+                quantity: parseInt(item.quantity) || 1,
+                price: item.price || null,
+                unit: item.unit || 'יח\'',
+                category: detectCategory(item.name || '')
+            })).filter(item => item.name)
+        };
+    }
+
+    return null;
+}
+
 // Allowed origins for CORS
 const ALLOWED_ORIGINS = [
     'https://shooping-list.vercel.app',
@@ -253,7 +341,24 @@ module.exports = async (req, res) => {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { text, action = 'parse' } = req.body;
+    const { text, image, action = 'parse' } = req.body;
+
+    // Handle vision/receipt actions (image-based)
+    if (action === 'vision' || action === 'receipt') {
+        if (!image || typeof image !== 'string') {
+            return res.status(400).json({ error: 'Missing or invalid image parameter' });
+        }
+        try {
+            const result = await callGroqVision(image, action);
+            if (!result) {
+                return res.json({ success: false, error: action === 'vision' ? 'No product identified' : 'No items found' });
+            }
+            return res.json({ success: true, ...result });
+        } catch (error) {
+            console.error(`Vision ${action} error:`, error);
+            return res.status(500).json({ success: false, error: error.message });
+        }
+    }
 
     if (!text || typeof text !== 'string') {
         return res.status(400).json({ error: 'Missing or invalid text parameter' });
