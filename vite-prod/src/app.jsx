@@ -20478,32 +20478,41 @@ END:VCALENDAR`;
                                                                     </button>
                                                                 ))}
                                                             </div>
-                                                            <button
-                                                                onClick={() => pushSubscription ? unsubscribeFromPush() : subscribeToPush()}
-                                                                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
-                                                                    pushSubscription
-                                                                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                                                                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                                                                }`}
-                                                            >
-                                                                {pushSubscription ? <Bell size={14} /> : <BellOff size={14} />}
-                                                                {pushSubscription ? t('shoppingDayPushEnabled') : t('shoppingDayPushDisabled')}
-                                                            </button>
-                                                            {pushSubscription && (
-                                                                <button
-                                                                    onClick={toggleMuteItemAddPush}
-                                                                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
-                                                                        muteItemAddPush
-                                                                            ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                                                                            : 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                                                                    }`}
-                                                                >
-                                                                    {muteItemAddPush ? <BellOff size={14} /> : <Bell size={14} />}
-                                                                    {muteItemAddPush ? t('itemAddPushMuted') : t('itemAddPushEnabled')}
-                                                                </button>
-                                                            )}
                                                         </div>
                                                     )}
+                                                    {/* Notifications Section - always visible */}
+                                                    <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 space-y-1.5">
+                                                        <button
+                                                            onClick={() => pushSubscription ? unsubscribeFromPush() : subscribeToPush()}
+                                                            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                                                                pushSubscription
+                                                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                                                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                            }`}
+                                                        >
+                                                            {pushSubscription ? <Bell size={16} /> : <BellOff size={16} />}
+                                                            {pushSubscription ? t('shoppingDayPushEnabled') : t('shoppingDayPushDisabled')}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                if (!pushSubscription) {
+                                                                    subscribeToPush().then(() => {
+                                                                        if (muteItemAddPush) toggleMuteItemAddPush();
+                                                                    });
+                                                                } else {
+                                                                    toggleMuteItemAddPush();
+                                                                }
+                                                            }}
+                                                            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                                                                pushSubscription && !muteItemAddPush
+                                                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                                                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                            }`}
+                                                        >
+                                                            {pushSubscription && !muteItemAddPush ? <Bell size={16} /> : <BellOff size={16} />}
+                                                            {pushSubscription && !muteItemAddPush ? t('itemAddPushEnabled') : t('itemAddPushMuted')}
+                                                        </button>
+                                                    </div>
                                                     <button
                                                         onClick={() => { setShowHelp(true); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
