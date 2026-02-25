@@ -745,6 +745,34 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 updateBudget: 'עדכן תקציב',
                 noBudgetSet: 'לא הוגדר תקציב',
                 budgetPerMember: 'תקציב לפי חבר',
+                budgetPlanner: 'מתכנן תקציב',
+                budgetPlannerDesc: 'בואו נתכנן את התקציב לאירוע',
+                howManyPeople: 'כמה אנשים?',
+                people: 'אנשים',
+                whatEvent: 'איזה סוג אירוע?',
+                whatQuality: 'איזו רמה?',
+                eventBBQ: 'על האש',
+                eventRegularMeal: 'ארוחה רגילה',
+                eventShabbatDinner: 'ארוחת שבת',
+                eventBirthday: 'מסיבת יום הולדת',
+                eventPicnic: 'פיקניק',
+                qualityBasic: 'פשוט',
+                qualityStandard: 'בינוני',
+                qualityPremium: 'מובחר',
+                qualityBasicDesc: 'מוצרים במחיר שפוי',
+                qualityStandardDesc: 'איזון בין מחיר לאיכות',
+                qualityPremiumDesc: 'הכי טוב שיש',
+                suggestedBudget: 'תקציב מוצע',
+                perPerson: 'לאדם',
+                totalFor: 'סה"כ ל-{count} אנשים',
+                suggestedItems: 'פריטים מוצעים',
+                setAsGroupBudget: 'הגדר כתקציב החבורה',
+                addItemsToList: 'הוסף פריטים לרשימה',
+                budgetPlannerNext: 'הבא',
+                budgetPlannerBack: 'חזור',
+                skipPlanner: 'דלג והגדר ידנית',
+                budgetSetSuccess: 'התקציב הוגדר!',
+                estimatedCost: 'עלות משוערת',
                 groupJoinedDirectly: 'הצטרפת לחבורה בהצלחה!',
                 groupChat: 'צ\'אט חבורה',
                 inviteToGroup: 'הזמן לחבורה',
@@ -1995,6 +2023,34 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 updateBudget: 'Update Budget',
                 noBudgetSet: 'No budget set',
                 budgetPerMember: 'Budget per member',
+                budgetPlanner: 'Budget Planner',
+                budgetPlannerDesc: 'Let\'s plan the budget',
+                howManyPeople: 'How many people?',
+                people: 'people',
+                whatEvent: 'What type of event?',
+                whatQuality: 'What quality level?',
+                eventBBQ: 'BBQ',
+                eventRegularMeal: 'Regular Meal',
+                eventShabbatDinner: 'Shabbat Dinner',
+                eventBirthday: 'Birthday Party',
+                eventPicnic: 'Picnic',
+                qualityBasic: 'Basic',
+                qualityStandard: 'Standard',
+                qualityPremium: 'Premium',
+                qualityBasicDesc: 'Budget-friendly',
+                qualityStandardDesc: 'Price & quality balance',
+                qualityPremiumDesc: 'The best of the best',
+                suggestedBudget: 'Suggested Budget',
+                perPerson: 'per person',
+                totalFor: 'Total for {count} people',
+                suggestedItems: 'Suggested Items',
+                setAsGroupBudget: 'Set as Group Budget',
+                addItemsToList: 'Add Items to List',
+                budgetPlannerNext: 'Next',
+                budgetPlannerBack: 'Back',
+                skipPlanner: 'Skip & set manually',
+                budgetSetSuccess: 'Budget set!',
+                estimatedCost: 'Estimated cost',
                 groupJoinedDirectly: 'Joined group successfully!',
                 groupChat: 'Group Chat',
                 inviteToGroup: 'Invite',
@@ -3058,6 +3114,34 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 updateBudget: 'Обновить бюджет',
                 noBudgetSet: 'Бюджет не установлен',
                 budgetPerMember: 'Бюджет по участникам',
+                budgetPlanner: 'Планировщик бюджета',
+                budgetPlannerDesc: 'Давайте спланируем бюджет',
+                howManyPeople: 'Сколько человек?',
+                people: 'человек',
+                whatEvent: 'Какой тип мероприятия?',
+                whatQuality: 'Какой уровень качества?',
+                eventBBQ: 'Барбекю',
+                eventRegularMeal: 'Обычная еда',
+                eventShabbatDinner: 'Шаббат ужин',
+                eventBirthday: 'День рождения',
+                eventPicnic: 'Пикник',
+                qualityBasic: 'Базовый',
+                qualityStandard: 'Стандарт',
+                qualityPremium: 'Премиум',
+                qualityBasicDesc: 'Бюджетные продукты',
+                qualityStandardDesc: 'Баланс цены и качества',
+                qualityPremiumDesc: 'Лучшее из лучшего',
+                suggestedBudget: 'Рекомендуемый бюджет',
+                perPerson: 'на человека',
+                totalFor: 'Итого на {count} человек',
+                suggestedItems: 'Рекомендуемые товары',
+                setAsGroupBudget: 'Установить как бюджет',
+                addItemsToList: 'Добавить товары в список',
+                budgetPlannerNext: 'Далее',
+                budgetPlannerBack: 'Назад',
+                skipPlanner: 'Пропустить',
+                budgetSetSuccess: 'Бюджет установлен!',
+                estimatedCost: 'Ориентировочная стоимость',
                 groupJoinedDirectly: 'Вы успешно присоединились к группе!',
                 groupChat: 'Чат группы',
                 inviteToGroup: 'Пригласить',
@@ -4108,6 +4192,34 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 updateBudget: 'تحديث الميزانية',
                 noBudgetSet: 'لم يتم تعيين ميزانية',
                 budgetPerMember: 'الميزانية حسب العضو',
+                budgetPlanner: 'مخطط الميزانية',
+                budgetPlannerDesc: 'لنخطط الميزانية',
+                howManyPeople: 'كم شخص؟',
+                people: 'أشخاص',
+                whatEvent: 'ما نوع الحدث؟',
+                whatQuality: 'ما مستوى الجودة؟',
+                eventBBQ: 'شواء',
+                eventRegularMeal: 'وجبة عادية',
+                eventShabbatDinner: 'عشاء شبات',
+                eventBirthday: 'حفلة عيد ميلاد',
+                eventPicnic: 'نزهة',
+                qualityBasic: 'أساسي',
+                qualityStandard: 'عادي',
+                qualityPremium: 'ممتاز',
+                qualityBasicDesc: 'منتجات اقتصادية',
+                qualityStandardDesc: 'توازن بين السعر والجودة',
+                qualityPremiumDesc: 'الأفضل على الإطلاق',
+                suggestedBudget: 'الميزانية المقترحة',
+                perPerson: 'للشخص',
+                totalFor: 'المجموع لـ {count} أشخاص',
+                suggestedItems: 'عناصر مقترحة',
+                setAsGroupBudget: 'تعيين كميزانية المجموعة',
+                addItemsToList: 'إضافة العناصر للقائمة',
+                budgetPlannerNext: 'التالي',
+                budgetPlannerBack: 'رجوع',
+                skipPlanner: 'تخطي والتعيين يدوياً',
+                budgetSetSuccess: 'تم تعيين الميزانية!',
+                estimatedCost: 'التكلفة التقديرية',
                 groupJoinedDirectly: 'تم الانضمام للمجموعة بنجاح!',
                 groupChat: 'محادثة المجموعة',
                 inviteToGroup: 'دعوة للمجموعة',
@@ -13031,6 +13143,12 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [showGroupSettings, setShowGroupSettings] = useState(false);
             const [showGroupBudgetModal, setShowGroupBudgetModal] = useState(false);
             const [groupBudgetInput, setGroupBudgetInput] = useState('');
+            const [showBudgetPlanner, setShowBudgetPlanner] = useState(false);
+            const [budgetPlannerStep, setBudgetPlannerStep] = useState(1);
+            const [plannerPeopleCount, setPlannerPeopleCount] = useState(2);
+            const [plannerEventType, setPlannerEventType] = useState(null);
+            const [plannerQuality, setPlannerQuality] = useState(null);
+            const [plannerResult, setPlannerResult] = useState(null);
             const [showCreateList, setShowCreateList] = useState(false);
             const [deleteListConfirmId, setDeleteListConfirmId] = useState(null);
             const [editingNote, setEditingNote] = useState(null);
@@ -13498,6 +13616,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         if (showChat) { setShowChat(false); return; }
                         if (showReminderModal) { setShowReminderModal(false); return; }
                         if (showCreateGroup) { setShowCreateGroup(false); return; }
+                        if (showBudgetPlanner) { budgetPlannerStep > 1 ? setBudgetPlannerStep(s => s - 1) : setShowBudgetPlanner(false); return; }
                         if (showGroupBudgetModal) { setShowGroupBudgetModal(false); return; }
                         if (showGroupSettings) { setShowGroupSettings(false); return; }
                         if (showContextSwitcher) { setShowContextSwitcher(false); return; }
@@ -15343,6 +15462,21 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
             const groupBudgetExceeded = isGroup && groupBudgetTotal > 0 && estimatedListTotal > groupBudgetTotal;
 
+            // === Budget Planner UI Logic ===
+            const openGroupBudgetUI = () => {
+                if (groupBudgetTotal <= 0 && myGroupBudget <= 0) {
+                    setPlannerPeopleCount(family?.members?.length || 2);
+                    setBudgetPlannerStep(1);
+                    setPlannerEventType(null);
+                    setPlannerQuality(null);
+                    setPlannerResult(null);
+                    setShowBudgetPlanner(true);
+                } else {
+                    setGroupBudgetInput(myGroupBudget > 0 ? myGroupBudget.toString() : '');
+                    setShowGroupBudgetModal(true);
+                }
+            };
+
             const getCategoryBreakdown = React.useMemo(() => {
                 const breakdown = {};
                 items.filter(i => !i.purchased).forEach(item => {
@@ -15636,6 +15770,73 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 }, 800);
             };
 
+            // === Budget Planner calculations ===
+            const generateBudgetPlannerSuggestions = (eventType, quality, peopleCount) => {
+                const data = BUDGET_PLANNER_DATA.suggestions[eventType]?.[quality];
+                if (!data) return null;
+                const scaledItems = data.items.map(item => {
+                    const totalQty = Math.ceil(item.qty * peopleCount * 10) / 10;
+                    const estimatedPrice = getEstimatedPrice(item.name);
+                    const itemTotal = Math.round(totalQty * (estimatedPrice || item.pricePerUnit));
+                    return { ...item, totalQty, itemTotal, estimatedPrice: estimatedPrice || item.pricePerUnit };
+                });
+                const totalBudget = scaledItems.reduce((sum, item) => sum + item.itemTotal, 0);
+                const perPerson = Math.round(totalBudget / peopleCount);
+                return { items: scaledItems, totalBudget, perPerson };
+            };
+
+            const addPlannerItemsToList = async (plannerItems) => {
+                let addedCount = 0;
+                for (const item of plannerItems) {
+                    const productName = item.name;
+                    const category = detectCategory(productName);
+                    const existing = items.find(i => i.name.toLowerCase() === productName.toLowerCase() && !i.purchased);
+                    if (existing) continue;
+                    const tempId = `temp_${Date.now()}_${addedCount}`;
+                    const estimatedPrice = getEstimatedPrice(productName);
+                    const newItem = {
+                        id: tempId,
+                        name: productName,
+                        category,
+                        quantity: item.totalQty,
+                        unit: item.unit,
+                        purchased: false,
+                        familyId: family.id,
+                        listId: currentList.id,
+                        addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                        addedByUid: childUser?.childId || user?.uid,
+                        note: '',
+                        price: estimatedPrice || item.estimatedPrice || null,
+                        priceSource: estimatedPrice ? 'estimated' : 'planner',
+                        createdAt: { toDate: () => new Date() },
+                        _isTemp: true
+                    };
+                    setItems(prev => [newItem, ...prev]);
+                    addedCount++;
+                    if (isOnline) {
+                        try {
+                            const docRef = await window.firestore.addDoc(window.firestore.collection(window.db, 'shopping-items'), {
+                                name: productName, category, quantity: item.totalQty, unit: item.unit, purchased: false,
+                                familyId: family.id, listId: currentList.id,
+                                addedBy: childUser?.displayName || user?.displayName || user?.email || t('anonymous'),
+                                addedByUid: childUser?.childId || user?.uid,
+                                note: '',
+                                price: estimatedPrice || item.estimatedPrice || null,
+                                priceSource: estimatedPrice ? 'estimated' : 'planner',
+                                createdAt: new Date()
+                            });
+                            setItems(prev => prev.map(i => i.id === tempId ? { ...i, id: docRef.id, _isTemp: false } : i));
+                        } catch (error) {
+                            console.error('Error adding planner item:', error);
+                            queueOperation({ type: 'add', name: productName, category, quantity: item.totalQty, unit: item.unit, price: estimatedPrice || item.estimatedPrice });
+                        }
+                    } else {
+                        queueOperation({ type: 'add', name: productName, category, quantity: item.totalQty, unit: item.unit, price: estimatedPrice || item.estimatedPrice });
+                    }
+                }
+                showToast(`${addedCount} ${t('suggestedItems')} ✓`, 'success');
+            };
+
             // === FEATURE: Share List via Link ===
             const shareListViaLink = async () => {
                 const listText = items.filter(i => !i.purchased).map(i => {
@@ -15777,6 +15978,176 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         { name: 'מלח', qty: 1, unit: 'כפית' }, { name: 'פפריקה', qty: 0.5, unit: 'כפית' }, { name: 'קטשופ', qty: 1, unit: 'יח׳' }
                     ]}
                 ]
+            };
+
+            // === BUDGET PLANNER DATA ===
+            const BUDGET_PLANNER_DATA = {
+                eventTypes: [
+                    { id: 'bbq', emoji: '🔥', key: 'eventBBQ' },
+                    { id: 'regular', emoji: '🍽️', key: 'eventRegularMeal' },
+                    { id: 'shabbat', emoji: '🕯️', key: 'eventShabbatDinner' },
+                    { id: 'birthday', emoji: '🎂', key: 'eventBirthday' },
+                    { id: 'picnic', emoji: '🧺', key: 'eventPicnic' },
+                ],
+                qualityLevels: [
+                    { id: 'basic', emoji: '⭐', key: 'qualityBasic', descKey: 'qualityBasicDesc', color: 'from-green-400 to-emerald-500' },
+                    { id: 'standard', emoji: '⭐⭐', key: 'qualityStandard', descKey: 'qualityStandardDesc', color: 'from-blue-400 to-indigo-500' },
+                    { id: 'premium', emoji: '⭐⭐⭐', key: 'qualityPremium', descKey: 'qualityPremiumDesc', color: 'from-amber-400 to-orange-500' },
+                ],
+                suggestions: {
+                    bbq: {
+                        basic: { perPerson: 35, items: [
+                            { name: 'כנפיים עוף', qty: 0.3, unit: 'kg', pricePerUnit: 30 },
+                            { name: 'נקניקיות', qty: 0.2, unit: 'kg', pricePerUnit: 40 },
+                            { name: 'המבורגר', qty: 2, unit: 'יח', pricePerUnit: 5 },
+                            { name: 'לחמניות', qty: 2, unit: 'יח', pricePerUnit: 2 },
+                            { name: 'קטשופ', qty: 0.1, unit: 'יח', pricePerUnit: 15 },
+                            { name: 'חרדל', qty: 0.1, unit: 'יח', pricePerUnit: 12 },
+                            { name: 'בצל', qty: 0.15, unit: 'kg', pricePerUnit: 5 },
+                            { name: 'שתייה קלה', qty: 1, unit: 'יח', pricePerUnit: 5 },
+                            { name: 'פחם', qty: 0.2, unit: 'שק', pricePerUnit: 30 },
+                        ]},
+                        standard: { perPerson: 65, items: [
+                            { name: 'אנטריקוט', qty: 0.25, unit: 'kg', pricePerUnit: 120 },
+                            { name: 'שיפודי עוף', qty: 0.2, unit: 'kg', pricePerUnit: 60 },
+                            { name: 'קבב', qty: 0.15, unit: 'kg', pricePerUnit: 70 },
+                            { name: 'סלט ירקות', qty: 0.15, unit: 'kg', pricePerUnit: 15 },
+                            { name: 'חומוס', qty: 0.15, unit: 'יח', pricePerUnit: 15 },
+                            { name: 'טחינה', qty: 0.1, unit: 'יח', pricePerUnit: 18 },
+                            { name: 'פיתות', qty: 2, unit: 'יח', pricePerUnit: 3 },
+                            { name: 'שתייה קלה', qty: 1, unit: 'יח', pricePerUnit: 5 },
+                            { name: 'פחם', qty: 0.2, unit: 'שק', pricePerUnit: 30 },
+                        ]},
+                        premium: { perPerson: 120, items: [
+                            { name: 'צלעות טלה', qty: 0.3, unit: 'kg', pricePerUnit: 180 },
+                            { name: 'אנטריקוט מיושן', qty: 0.25, unit: 'kg', pricePerUnit: 200 },
+                            { name: 'שיפודי פרגית מתובלים', qty: 0.2, unit: 'kg', pricePerUnit: 70 },
+                            { name: 'סלט יווני', qty: 0.15, unit: 'kg', pricePerUnit: 25 },
+                            { name: 'חצילים', qty: 0.15, unit: 'kg', pricePerUnit: 10 },
+                            { name: 'מטבוחה', qty: 0.1, unit: 'יח', pricePerUnit: 20 },
+                            { name: 'יין אדום', qty: 0.15, unit: 'בקבוק', pricePerUnit: 80 },
+                            { name: 'לחם שאור', qty: 0.3, unit: 'יח', pricePerUnit: 25 },
+                            { name: 'פחם פרימיום', qty: 0.2, unit: 'שק', pricePerUnit: 50 },
+                        ]},
+                    },
+                    regular: {
+                        basic: { perPerson: 25, items: [
+                            { name: 'אורז', qty: 0.1, unit: 'kg', pricePerUnit: 10 },
+                            { name: 'חזה עוף', qty: 0.2, unit: 'kg', pricePerUnit: 35 },
+                            { name: 'ירקות לסלט', qty: 0.15, unit: 'kg', pricePerUnit: 10 },
+                            { name: 'שמן זית', qty: 0.05, unit: 'בקבוק', pricePerUnit: 30 },
+                            { name: 'לחם', qty: 1, unit: 'יח', pricePerUnit: 7 },
+                            { name: 'מים מינרליים', qty: 1, unit: 'בקבוק', pricePerUnit: 5 },
+                        ]},
+                        standard: { perPerson: 45, items: [
+                            { name: 'פסטה', qty: 0.12, unit: 'kg', pricePerUnit: 12 },
+                            { name: 'שניצל עוף', qty: 0.2, unit: 'kg', pricePerUnit: 40 },
+                            { name: 'רוטב עגבניות', qty: 0.15, unit: 'יח', pricePerUnit: 15 },
+                            { name: 'גבינה צהובה', qty: 0.05, unit: 'kg', pricePerUnit: 60 },
+                            { name: 'סלט ירקות', qty: 0.15, unit: 'kg', pricePerUnit: 15 },
+                            { name: 'לחם שום', qty: 1, unit: 'יח', pricePerUnit: 12 },
+                            { name: 'שתייה קלה', qty: 1, unit: 'יח', pricePerUnit: 5 },
+                        ]},
+                        premium: { perPerson: 80, items: [
+                            { name: 'סטייק אנטריקוט', qty: 0.25, unit: 'kg', pricePerUnit: 130 },
+                            { name: 'תפוחי אדמה', qty: 0.2, unit: 'kg', pricePerUnit: 8 },
+                            { name: 'אספרגוס', qty: 0.1, unit: 'kg', pricePerUnit: 60 },
+                            { name: 'יין אדום', qty: 0.15, unit: 'בקבוק', pricePerUnit: 80 },
+                            { name: 'גבינת פרמזן', qty: 0.03, unit: 'kg', pricePerUnit: 120 },
+                            { name: 'סלט קיסר', qty: 0.15, unit: 'kg', pricePerUnit: 20 },
+                            { name: 'לחם מחמצת', qty: 0.3, unit: 'יח', pricePerUnit: 25 },
+                        ]},
+                    },
+                    shabbat: {
+                        basic: { perPerson: 30, items: [
+                            { name: 'עוף שלם', qty: 0.25, unit: 'kg', pricePerUnit: 25 },
+                            { name: 'אורז', qty: 0.1, unit: 'kg', pricePerUnit: 10 },
+                            { name: 'חלות', qty: 0.5, unit: 'יח', pricePerUnit: 12 },
+                            { name: 'יין לקידוש', qty: 0.1, unit: 'בקבוק', pricePerUnit: 25 },
+                            { name: 'ירקות לסלט', qty: 0.15, unit: 'kg', pricePerUnit: 10 },
+                            { name: 'חומוס', qty: 0.15, unit: 'יח', pricePerUnit: 15 },
+                            { name: 'נרות שבת', qty: 0.3, unit: 'חבילה', pricePerUnit: 10 },
+                        ]},
+                        standard: { perPerson: 55, items: [
+                            { name: 'עוף בתנור', qty: 0.3, unit: 'kg', pricePerUnit: 30 },
+                            { name: 'קוסקוס', qty: 0.1, unit: 'kg', pricePerUnit: 15 },
+                            { name: 'חלות מיוחדות', qty: 0.5, unit: 'יח', pricePerUnit: 20 },
+                            { name: 'יין', qty: 0.15, unit: 'בקבוק', pricePerUnit: 50 },
+                            { name: 'סלט מרוקאי', qty: 0.15, unit: 'kg', pricePerUnit: 20 },
+                            { name: 'מרק כדורי בשר', qty: 0.3, unit: 'ליטר', pricePerUnit: 15 },
+                            { name: 'טחינה', qty: 0.1, unit: 'יח', pricePerUnit: 18 },
+                            { name: 'עוגה לשבת', qty: 0.15, unit: 'יח', pricePerUnit: 40 },
+                        ]},
+                        premium: { perPerson: 100, items: [
+                            { name: 'צלי בקר', qty: 0.25, unit: 'kg', pricePerUnit: 150 },
+                            { name: 'מרק עוף עם קניידלך', qty: 0.3, unit: 'ליטר', pricePerUnit: 25 },
+                            { name: 'חלות במילוי', qty: 0.5, unit: 'יח', pricePerUnit: 30 },
+                            { name: 'יין איכותי', qty: 0.15, unit: 'בקבוק', pricePerUnit: 100 },
+                            { name: 'סלט קינואה', qty: 0.15, unit: 'kg', pricePerUnit: 30 },
+                            { name: 'דג סלמון', qty: 0.15, unit: 'kg', pricePerUnit: 110 },
+                            { name: 'עוגת שוקולד', qty: 0.15, unit: 'יח', pricePerUnit: 60 },
+                            { name: 'סודה סטרים', qty: 0.3, unit: 'בקבוק', pricePerUnit: 20 },
+                        ]},
+                    },
+                    birthday: {
+                        basic: { perPerson: 30, items: [
+                            { name: 'עוגת יום הולדת', qty: 0.1, unit: 'יח', pricePerUnit: 80 },
+                            { name: 'חטיפים', qty: 0.15, unit: 'kg', pricePerUnit: 30 },
+                            { name: 'שתייה קלה', qty: 1, unit: 'יח', pricePerUnit: 5 },
+                            { name: 'נרות', qty: 0.1, unit: 'חבילה', pricePerUnit: 15 },
+                            { name: 'צלחות חד פעמי', qty: 1, unit: 'יח', pricePerUnit: 2 },
+                            { name: 'כוסות', qty: 1, unit: 'יח', pricePerUnit: 1 },
+                            { name: 'מפיות', qty: 1, unit: 'יח', pricePerUnit: 1 },
+                            { name: 'בלונים', qty: 0.5, unit: 'יח', pricePerUnit: 5 },
+                        ]},
+                        standard: { perPerson: 55, items: [
+                            { name: 'עוגת שכבות', qty: 0.1, unit: 'יח', pricePerUnit: 150 },
+                            { name: 'פיצה', qty: 0.5, unit: 'יח', pricePerUnit: 40 },
+                            { name: 'חטיפים מגוונים', qty: 0.15, unit: 'kg', pricePerUnit: 40 },
+                            { name: 'שתייה קלה', qty: 1.5, unit: 'יח', pricePerUnit: 5 },
+                            { name: 'סוכריות', qty: 0.1, unit: 'kg', pricePerUnit: 30 },
+                            { name: 'כלים חד פעמיים', qty: 1, unit: 'סט', pricePerUnit: 5 },
+                            { name: 'קישוטים', qty: 0.2, unit: 'סט', pricePerUnit: 30 },
+                            { name: 'בלונים', qty: 1, unit: 'יח', pricePerUnit: 5 },
+                        ]},
+                        premium: { perPerson: 90, items: [
+                            { name: 'עוגה מעוצבת', qty: 0.1, unit: 'יח', pricePerUnit: 300 },
+                            { name: 'סושי', qty: 3, unit: 'יח', pricePerUnit: 8 },
+                            { name: 'קינוחים מגוונים', qty: 0.2, unit: 'kg', pricePerUnit: 60 },
+                            { name: 'שתייה', qty: 1.5, unit: 'יח', pricePerUnit: 8 },
+                            { name: 'פירות מעוצבים', qty: 0.15, unit: 'kg', pricePerUnit: 30 },
+                            { name: 'קישוטים מפוארים', qty: 0.3, unit: 'סט', pricePerUnit: 50 },
+                            { name: 'מתנות קטנות', qty: 0.5, unit: 'יח', pricePerUnit: 15 },
+                        ]},
+                    },
+                    picnic: {
+                        basic: { perPerson: 20, items: [
+                            { name: 'סנדוויצ\'ים', qty: 2, unit: 'יח', pricePerUnit: 5 },
+                            { name: 'פירות', qty: 0.2, unit: 'kg', pricePerUnit: 12 },
+                            { name: 'מים', qty: 1, unit: 'בקבוק', pricePerUnit: 4 },
+                            { name: 'חטיפים', qty: 0.1, unit: 'kg', pricePerUnit: 25 },
+                            { name: 'מפיות', qty: 1, unit: 'יח', pricePerUnit: 1 },
+                        ]},
+                        standard: { perPerson: 40, items: [
+                            { name: 'טורטיות', qty: 1, unit: 'חבילה', pricePerUnit: 15 },
+                            { name: 'חומוס', qty: 0.2, unit: 'יח', pricePerUnit: 15 },
+                            { name: 'ירקות חתוכים', qty: 0.15, unit: 'kg', pricePerUnit: 12 },
+                            { name: 'גבינות', qty: 0.1, unit: 'kg', pricePerUnit: 50 },
+                            { name: 'פירות', qty: 0.2, unit: 'kg', pricePerUnit: 15 },
+                            { name: 'מיץ טבעי', qty: 0.5, unit: 'בקבוק', pricePerUnit: 15 },
+                            { name: 'עוגיות', qty: 0.1, unit: 'kg', pricePerUnit: 30 },
+                        ]},
+                        premium: { perPerson: 65, items: [
+                            { name: 'קרואסונים', qty: 1, unit: 'יח', pricePerUnit: 12 },
+                            { name: 'סלט ניסואז', qty: 0.2, unit: 'kg', pricePerUnit: 25 },
+                            { name: 'גבינות מובחרות', qty: 0.1, unit: 'kg', pricePerUnit: 80 },
+                            { name: 'יין לבן', qty: 0.15, unit: 'בקבוק', pricePerUnit: 70 },
+                            { name: 'פירות טריים', qty: 0.2, unit: 'kg', pricePerUnit: 20 },
+                            { name: 'פטיפורים', qty: 0.15, unit: 'kg', pricePerUnit: 50 },
+                            { name: 'לחם בגט', qty: 0.5, unit: 'יח', pricePerUnit: 15 },
+                        ]},
+                    },
+                },
             };
 
             // AI Assistant - Smart Shopping Suggestions
@@ -20992,7 +21363,7 @@ END:VCALENDAR`;
                                 <button onClick={() => setShowChat(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-blue-200/60 dark:border-blue-700/60 hover:shadow-md transition-all">
                                     <span>💬</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('groupChat')}</span>
                                 </button>
-                                <button onClick={() => { setGroupBudgetInput(myGroupBudget > 0 ? myGroupBudget.toString() : ''); setShowGroupBudgetModal(true); }} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
+                                <button onClick={openGroupBudgetUI} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
                                     <span>💰</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('groupBudget')}</span>
                                 </button>
                                 <button onClick={() => setShowCalendar(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-green-200/60 dark:border-green-700/60 hover:shadow-md transition-all">
@@ -21045,7 +21416,7 @@ END:VCALENDAR`;
                                 if (groupBudgetTotal <= 0 && myGroupBudget <= 0) {
                                     return (
                                         <div className="mt-2 glass rounded-xl p-3 border border-orange-200/60 dark:border-orange-700/60 cursor-pointer hover:shadow-md transition-all"
-                                            onClick={() => { setGroupBudgetInput(myGroupBudget > 0 ? myGroupBudget.toString() : ''); setShowGroupBudgetModal(true); }}>
+                                            onClick={openGroupBudgetUI}>
                                             <div className="flex items-center justify-center gap-2 text-sm text-orange-600 dark:text-orange-400 font-medium">
                                                 <span>💰</span> {t('setBudget')}
                                             </div>
@@ -21057,7 +21428,7 @@ END:VCALENDAR`;
                                 const borderColor = rawPercent >= 100 ? 'border-red-300 dark:border-red-700' : rawPercent >= 80 ? 'border-orange-300 dark:border-orange-700' : 'border-green-300 dark:border-green-700';
                                 return (
                                     <div className={`mt-2 glass rounded-xl p-3 border ${borderColor} cursor-pointer hover:shadow-md transition-all`}
-                                        onClick={() => { setGroupBudgetInput(myGroupBudget > 0 ? myGroupBudget.toString() : ''); setShowGroupBudgetModal(true); }}>
+                                        onClick={openGroupBudgetUI}>
                                         <div className="flex justify-between items-center text-xs mb-1.5">
                                             <span className="font-bold text-gray-700 dark:text-gray-300">💰 {t('groupBudget')}: ₪{groupBudgetTotal}</span>
                                             <span className={`font-bold ${groupBudgetExceeded ? 'text-red-500' : 'text-green-500'}`}>
@@ -21137,6 +21508,144 @@ END:VCALENDAR`;
                                         <button onClick={() => setShowGroupBudgetModal(false)} className="w-full text-gray-500 dark:text-gray-400 text-sm hover:underline mt-2">
                                             {t('cancel')}
                                         </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Budget Planner Wizard */}
+                            {showBudgetPlanner && (
+                                <div className="fixed inset-0 z-50 flex items-center justify-center p-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowBudgetPlanner(false)}></div>
+                                    <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 max-h-[85vh] overflow-y-auto">
+                                        {/* Header */}
+                                        <div className="text-center mb-5">
+                                            <div className="text-3xl mb-2">🧮</div>
+                                            <h3 className="text-lg font-bold text-gray-800 dark:text-white">{t('budgetPlanner')}</h3>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('budgetPlannerDesc')}</p>
+                                            {/* Step indicator */}
+                                            <div className="flex justify-center gap-1.5 mt-3">
+                                                {[1,2,3,4].map(s => (
+                                                    <div key={s} className={`h-1.5 rounded-full transition-all ${s === budgetPlannerStep ? 'w-6 bg-orange-500' : s < budgetPlannerStep ? 'w-4 bg-orange-300' : 'w-4 bg-gray-200 dark:bg-gray-600'}`}></div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Step 1: How many people */}
+                                        {budgetPlannerStep === 1 && (
+                                            <div className="space-y-5">
+                                                <h4 className="text-center text-lg font-semibold text-gray-700 dark:text-gray-200">{t('howManyPeople')}</h4>
+                                                <div className="flex items-center justify-center gap-4">
+                                                    <button onClick={() => setPlannerPeopleCount(Math.max(1, plannerPeopleCount - 1))} className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 text-2xl font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">{'\u2212'}</button>
+                                                    <div className="text-center">
+                                                        <span className="text-5xl font-bold text-orange-500">{plannerPeopleCount}</span>
+                                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('people')}</p>
+                                                    </div>
+                                                    <button onClick={() => setPlannerPeopleCount(Math.min(50, plannerPeopleCount + 1))} className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 text-2xl font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">+</button>
+                                                </div>
+                                                <button onClick={() => setBudgetPlannerStep(2)} className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+                                                    {t('budgetPlannerNext')} {'\u2192'}
+                                                </button>
+                                                <button onClick={() => { setShowBudgetPlanner(false); setGroupBudgetInput(''); setShowGroupBudgetModal(true); }} className="w-full text-gray-400 text-sm hover:underline">
+                                                    {t('skipPlanner')}
+                                                </button>
+                                            </div>
+                                        )}
+
+                                        {/* Step 2: Event type */}
+                                        {budgetPlannerStep === 2 && (
+                                            <div className="space-y-4">
+                                                <button onClick={() => setBudgetPlannerStep(1)} className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">{'\u2190'} {t('budgetPlannerBack')}</button>
+                                                <h4 className="text-center text-lg font-semibold text-gray-700 dark:text-gray-200">{t('whatEvent')}</h4>
+                                                <div className="grid grid-cols-2 gap-3">
+                                                    {BUDGET_PLANNER_DATA.eventTypes.map(ev => (
+                                                        <button key={ev.id} onClick={() => { setPlannerEventType(ev.id); setBudgetPlannerStep(3); }}
+                                                            className={`p-4 rounded-2xl border-2 text-center transition-all hover:shadow-md ${plannerEventType === ev.id ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/30' : 'border-gray-200 dark:border-gray-600 hover:border-orange-300'}`}>
+                                                            <div className="text-3xl mb-2">{ev.emoji}</div>
+                                                            <div className="text-sm font-semibold text-gray-700 dark:text-gray-200">{t(ev.key)}</div>
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Step 3: Quality level */}
+                                        {budgetPlannerStep === 3 && (
+                                            <div className="space-y-4">
+                                                <button onClick={() => setBudgetPlannerStep(2)} className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">{'\u2190'} {t('budgetPlannerBack')}</button>
+                                                <h4 className="text-center text-lg font-semibold text-gray-700 dark:text-gray-200">{t('whatQuality')}</h4>
+                                                <div className="space-y-3">
+                                                    {BUDGET_PLANNER_DATA.qualityLevels.map(q => (
+                                                        <button key={q.id} onClick={() => {
+                                                            setPlannerQuality(q.id);
+                                                            const result = generateBudgetPlannerSuggestions(plannerEventType, q.id, plannerPeopleCount);
+                                                            setPlannerResult(result);
+                                                            setBudgetPlannerStep(4);
+                                                        }}
+                                                            className={`w-full p-4 rounded-2xl border-2 text-${isRTL ? 'right' : 'left'} transition-all hover:shadow-md ${plannerQuality === q.id ? 'border-orange-500' : 'border-gray-200 dark:border-gray-600 hover:border-orange-300'}`}>
+                                                            <div className="flex items-center gap-3">
+                                                                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${q.color} flex items-center justify-center text-white text-lg`}>{q.emoji}</div>
+                                                                <div>
+                                                                    <div className="font-bold text-gray-800 dark:text-white">{t(q.key)}</div>
+                                                                    <div className="text-sm text-gray-500 dark:text-gray-400">{t(q.descKey)}</div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Step 4: Results */}
+                                        {budgetPlannerStep === 4 && plannerResult && (
+                                            <div className="space-y-4">
+                                                <button onClick={() => setBudgetPlannerStep(3)} className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">{'\u2190'} {t('budgetPlannerBack')}</button>
+
+                                                {/* Budget summary */}
+                                                <div className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/30 dark:to-red-900/30 rounded-2xl p-4 text-center border border-orange-200 dark:border-orange-700">
+                                                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">{t('suggestedBudget')}</p>
+                                                    <p className="text-4xl font-bold text-orange-600 dark:text-orange-400">{'\u20AA'}{plannerResult.perPerson}</p>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('perPerson')}</p>
+                                                    <div className="mt-2 pt-2 border-t border-orange-200 dark:border-orange-700">
+                                                        <p className="text-lg font-bold text-gray-800 dark:text-white">{'\u20AA'}{plannerResult.totalBudget}</p>
+                                                        <p className="text-xs text-gray-500 dark:text-gray-400">{t('totalFor').replace('{count}', plannerPeopleCount)}</p>
+                                                    </div>
+                                                </div>
+
+                                                {/* Suggested items */}
+                                                <div>
+                                                    <h5 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">{t('suggestedItems')}</h5>
+                                                    <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                                                        {plannerResult.items.map((item, idx) => (
+                                                            <div key={idx} className="flex justify-between items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700/50 text-sm">
+                                                                <span className="text-gray-700 dark:text-gray-200">{item.name}</span>
+                                                                <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                                                                    <span>{item.totalQty} {item.unit}</span>
+                                                                    <span className="font-semibold text-orange-600 dark:text-orange-400">{'\u20AA'}{item.itemTotal}</span>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                {/* Action buttons */}
+                                                <button onClick={async () => {
+                                                    await updateGroupBudget(plannerResult.perPerson);
+                                                    setShowBudgetPlanner(false);
+                                                    showToast(`${t('budgetSetSuccess')} ${'\u20AA'}${plannerResult.perPerson} ${t('perPerson')}`, 'success');
+                                                }} className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+                                                    {t('setAsGroupBudget')}
+                                                </button>
+                                                <button onClick={async () => {
+                                                    await addPlannerItemsToList(plannerResult.items);
+                                                    setShowBudgetPlanner(false);
+                                                }} className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition-all text-sm">
+                                                    {t('addItemsToList')}
+                                                </button>
+                                                <button onClick={() => setShowBudgetPlanner(false)} className="w-full text-gray-500 dark:text-gray-400 text-sm hover:underline">
+                                                    {t('cancel')}
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             )}
