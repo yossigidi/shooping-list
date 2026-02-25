@@ -59,6 +59,11 @@ service cloud.firestore {
 
       // Only admin can delete family
       allow delete: if isFamilyAdmin(familyId);
+
+      // Presence sub-collection - family members can read/write
+      match /presence/{presenceId} {
+        allow read, write: if isFamilyMember(familyId);
+      }
     }
 
     // Shopping items - only family members can access

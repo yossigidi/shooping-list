@@ -5547,6 +5547,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             };
 
             const isGroup = family?.type === 'group';
+            const isTempGroup = isGroup && family?.expiresAt;
 
             const value = {
                 family,
@@ -5568,6 +5569,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 createGroup,
                 updateGroupBudget,
                 isGroup,
+                isTempGroup,
                 // Permission flags
                 isAdmin: family?.adminId === user?.uid,
                 isTeen: family?.members?.find(m => m.userId === user?.uid)?.isTeen || false,
@@ -12950,7 +12952,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         function ShoppingList() {
             const { user } = useAuth();
             const { childUser } = useChildAuth();
-            const { family, allMemberships, lists, currentList, setCurrentList, logActivity, leaveFamily, deleteList, isAdmin, isGroup, canManageLists, switchContext, updateGroupBudget } = useFamily();
+            const { family, allMemberships, lists, currentList, setCurrentList, logActivity, leaveFamily, deleteList, isAdmin, isGroup, isTempGroup, canManageLists, switchContext, updateGroupBudget } = useFamily();
             const { language, changeLanguage, t } = useLanguage();
             // Expose changeLanguage to window for accessibility modal buttons
             window.changeAppLanguage = changeLanguage;
@@ -15925,11 +15927,13 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 const presenceRef = window.firestore.doc(window.db, 'families', family.id, 'presence', user?.uid);
 
                 const updatePresence = () => {
-                    window.firestore.setDoc(presenceRef, {
-                        name: user?.displayName || user?.email || t('anonymous'),
-                        lastSeen: new Date(),
-                        isActive: true
-                    }, { merge: true });
+                    try {
+                        window.firestore.setDoc(presenceRef, {
+                            name: user?.displayName || user?.email || t('anonymous'),
+                            lastSeen: new Date(),
+                            isActive: true
+                        }, { merge: true }).catch(() => {});
+                    } catch (e) {}
                 };
 
                 updatePresence();
@@ -15951,13 +15955,14 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                             }
                         });
                         setActiveEditors(editors);
-                    }
+                    },
+                    () => {} // Silently handle permission errors
                 );
 
                 return () => {
                     clearInterval(interval);
                     unsubscribe();
-                    window.firestore.updateDoc(presenceRef, { isActive: false });
+                    window.firestore.updateDoc(presenceRef, { isActive: false }).catch(() => {});
                 };
             }, [family?.id, user]);
 
@@ -16255,6 +16260,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                             setItems(cached);
                             console.log('🔄 Loaded', cached.length, 'items from fallback cache');
                         }
+                        setLoading(false);
+                    },
+                    (error) => {
+                        console.error('Shopping items listener error:', error);
                         setLoading(false);
                     }
                 );
@@ -20922,8 +20931,8 @@ END:VCALENDAR`;
                                 );
                             })()}
 
-                            {/* AI Assistant + What Did You Forget - Compact Row (hidden in groups) */}
-                            {!isGroup && (
+                            {/* AI Assistant + What Did You Forget - Compact Row (hidden in temp groups) */}
+                            {!isTempGroup && (
                             <div className="flex gap-2 mt-3">
                                 <button
                                     onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
@@ -20946,8 +20955,8 @@ END:VCALENDAR`;
                             </div>
                             )}
 
-                            {/* Feature Buttons Row (hidden in groups, groups only get chat + calendar) */}
-                            {!isGroup ? (
+                            {/* Feature Buttons Row (simplified for temp groups) */}
+                            {!isTempGroup ? (
                             <div className="flex gap-2 mt-2 overflow-x-auto pb-1" style={{scrollbarWidth:'none'}}>
                                 <button onClick={() => setShowMealPlanner(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
                                     <span>🍽️</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('mealPlan')}</span>
@@ -20983,8 +20992,8 @@ END:VCALENDAR`;
                             </div>
                             )}
 
-                            {/* Budget Bar (hidden in groups - groups have their own budget bar) */}
-                            {!isGroup && weeklyBudget > 0 && (() => {
+                            {/* Budget Bar (hidden in temp groups) */}
+                            {!isTempGroup && weeklyBudget > 0 && (() => {
                                 const rawPercent = Math.round((estimatedListTotal / weeklyBudget) * 100);
                                 const statusEmoji = rawPercent < 50 ? '💚' : rawPercent < 80 ? '💛' : rawPercent < 100 ? '🟠' : '🔴';
                                 const barColor = rawPercent >= 100 ? 'from-red-500 to-red-600' : rawPercent >= 80 ? 'from-yellow-400 to-orange-500' : rawPercent >= 50 ? 'from-yellow-400 to-yellow-500' : 'from-green-400 to-emerald-500';
@@ -21112,8 +21121,8 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
-                            {/* Gamification Badges (hidden in groups) */}
-                            {!isGroup && gamificationBadges.length > 0 && (
+                            {/* Gamification Badges (hidden in temp groups) */}
+                            {!isTempGroup && gamificationBadges.length > 0 && (
                                 <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1" style={{scrollbarWidth:'none'}}>
                                     {gamificationBadges.map(badge => (
                                         <div key={badge.id} className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 rounded-lg border border-amber-200 dark:border-amber-700 text-xs">
@@ -21124,15 +21133,15 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
-                            {/* Aisle Order Indicator (hidden in groups) */}
-                            {!isGroup && aisleOrderEnabled && Object.keys(learnedAisleOrder).length > 0 && (
+                            {/* Aisle Order Indicator (hidden in temp groups) */}
+                            {!isTempGroup && aisleOrderEnabled && Object.keys(learnedAisleOrder).length > 0 && (
                                 <div className="mt-1.5 text-center">
                                     <span className="text-[10px] text-teal-500 dark:text-teal-400">🛒 {t('aisleOrderDesc')} · {t('learnedFromHistory')}</span>
                                 </div>
                             )}
 
-                            {/* Add Regulars Button (hidden in groups) */}
-                            {!isGroup && regularItems.length > 0 && (
+                            {/* Add Regulars Button (hidden in temp groups) */}
+                            {!isTempGroup && regularItems.length > 0 && (
                                 <div className="mt-1.5">
                                     <button onClick={() => setShowRegulars(true)}
                                         className="w-full bg-gradient-to-r from-teal-400 to-teal-500 text-white px-4 py-3 rounded-lg hover:from-teal-500 hover:to-teal-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
@@ -21193,8 +21202,8 @@ END:VCALENDAR`;
                             </div>
                         )}
 
-                        {/* Promotions Banner - Always at top (hidden in groups) */}
-                        {!isGroup && !selectedCategory && !searchTerm && (
+                        {/* Promotions Banner (hidden in temp groups) */}
+                        {!isTempGroup && !selectedCategory && !searchTerm && (
                             <div className="mb-2">
                                 <button
                                     onClick={() => { setShowPromotions(true); fetchPromotions(); }}
