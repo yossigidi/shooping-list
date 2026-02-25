@@ -15463,18 +15463,13 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const groupBudgetExceeded = isGroup && groupBudgetTotal > 0 && estimatedListTotal > groupBudgetTotal;
 
             // === Budget Planner UI Logic ===
-            const openGroupBudgetUI = () => {
-                if (groupBudgetTotal <= 0 && myGroupBudget <= 0) {
-                    setPlannerPeopleCount(family?.members?.length || 2);
-                    setBudgetPlannerStep(1);
-                    setPlannerEventType(null);
-                    setPlannerQuality(null);
-                    setPlannerResult(null);
-                    setShowBudgetPlanner(true);
-                } else {
-                    setGroupBudgetInput(myGroupBudget > 0 ? myGroupBudget.toString() : '');
-                    setShowGroupBudgetModal(true);
-                }
+            const openBudgetPlanner = () => {
+                setPlannerPeopleCount(family?.members?.length || 2);
+                setBudgetPlannerStep(1);
+                setPlannerEventType(null);
+                setPlannerQuality(null);
+                setPlannerResult(null);
+                setShowBudgetPlanner(true);
             };
 
             const getCategoryBreakdown = React.useMemo(() => {
@@ -21363,8 +21358,8 @@ END:VCALENDAR`;
                                 <button onClick={() => setShowChat(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-blue-200/60 dark:border-blue-700/60 hover:shadow-md transition-all">
                                     <span>💬</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('groupChat')}</span>
                                 </button>
-                                <button onClick={openGroupBudgetUI} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
-                                    <span>💰</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('groupBudget')}</span>
+                                <button onClick={openBudgetPlanner} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
+                                    <span>🧮</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('budgetPlanner')}</span>
                                 </button>
                                 <button onClick={() => setShowCalendar(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-green-200/60 dark:border-green-700/60 hover:shadow-md transition-all">
                                     <span>📅</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('calendar')}</span>
@@ -21416,7 +21411,7 @@ END:VCALENDAR`;
                                 if (groupBudgetTotal <= 0 && myGroupBudget <= 0) {
                                     return (
                                         <div className="mt-2 glass rounded-xl p-3 border border-orange-200/60 dark:border-orange-700/60 cursor-pointer hover:shadow-md transition-all"
-                                            onClick={openGroupBudgetUI}>
+                                            onClick={() => { setGroupBudgetInput(''); setShowGroupBudgetModal(true); }}>
                                             <div className="flex items-center justify-center gap-2 text-sm text-orange-600 dark:text-orange-400 font-medium">
                                                 <span>💰</span> {t('setBudget')}
                                             </div>
@@ -21428,7 +21423,7 @@ END:VCALENDAR`;
                                 const borderColor = rawPercent >= 100 ? 'border-red-300 dark:border-red-700' : rawPercent >= 80 ? 'border-orange-300 dark:border-orange-700' : 'border-green-300 dark:border-green-700';
                                 return (
                                     <div className={`mt-2 glass rounded-xl p-3 border ${borderColor} cursor-pointer hover:shadow-md transition-all`}
-                                        onClick={openGroupBudgetUI}>
+                                        onClick={() => { setGroupBudgetInput(myGroupBudget > 0 ? myGroupBudget.toString() : ''); setShowGroupBudgetModal(true); }}>
                                         <div className="flex justify-between items-center text-xs mb-1.5">
                                             <span className="font-bold text-gray-700 dark:text-gray-300">💰 {t('groupBudget')}: ₪{groupBudgetTotal}</span>
                                             <span className={`font-bold ${groupBudgetExceeded ? 'text-red-500' : 'text-green-500'}`}>
