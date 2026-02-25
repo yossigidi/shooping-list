@@ -20900,7 +20900,8 @@ END:VCALENDAR`;
                                 );
                             })()}
 
-                            {/* AI Assistant + What Did You Forget - Compact Row */}
+                            {/* AI Assistant + What Did You Forget - Compact Row (hidden in groups) */}
+                            {!isGroup && (
                             <div className="flex gap-2 mt-3">
                                 <button
                                     onClick={() => { setShowAIAssistant(true); generateAISuggestions(); }}
@@ -20921,8 +20922,10 @@ END:VCALENDAR`;
                                     <span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('whatForgot')}</span>
                                 </button>
                             </div>
+                            )}
 
-                            {/* Feature Buttons Row */}
+                            {/* Feature Buttons Row (hidden in groups, groups only get chat + calendar) */}
+                            {!isGroup ? (
                             <div className="flex gap-2 mt-2 overflow-x-auto pb-1" style={{scrollbarWidth:'none'}}>
                                 <button onClick={() => setShowMealPlanner(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
                                     <span>🍽️</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('mealPlan')}</span>
@@ -20944,9 +20947,22 @@ END:VCALENDAR`;
                                     <span>🔗</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('shareListLink')}</span>
                                 </button>
                             </div>
+                            ) : (
+                            <div className="flex gap-2 mt-2 overflow-x-auto pb-1" style={{scrollbarWidth:'none'}}>
+                                <button onClick={() => setShowChat(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-blue-200/60 dark:border-blue-700/60 hover:shadow-md transition-all">
+                                    <span>💬</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('groupChat')}</span>
+                                </button>
+                                <button onClick={() => { setGroupBudgetInput(myGroupBudget > 0 ? myGroupBudget.toString() : ''); setShowGroupBudgetModal(true); }} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
+                                    <span>💰</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('groupBudget')}</span>
+                                </button>
+                                <button onClick={() => setShowCalendar(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-green-200/60 dark:border-green-700/60 hover:shadow-md transition-all">
+                                    <span>📅</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('calendar')}</span>
+                                </button>
+                            </div>
+                            )}
 
-                            {/* Budget Bar */}
-                            {weeklyBudget > 0 && (() => {
+                            {/* Budget Bar (hidden in groups - groups have their own budget bar) */}
+                            {!isGroup && weeklyBudget > 0 && (() => {
                                 const rawPercent = Math.round((estimatedListTotal / weeklyBudget) * 100);
                                 const statusEmoji = rawPercent < 50 ? '💚' : rawPercent < 80 ? '💛' : rawPercent < 100 ? '🟠' : '🔴';
                                 const barColor = rawPercent >= 100 ? 'from-red-500 to-red-600' : rawPercent >= 80 ? 'from-yellow-400 to-orange-500' : rawPercent >= 50 ? 'from-yellow-400 to-yellow-500' : 'from-green-400 to-emerald-500';
@@ -21074,8 +21090,8 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
-                            {/* Gamification Badges */}
-                            {gamificationBadges.length > 0 && (
+                            {/* Gamification Badges (hidden in groups) */}
+                            {!isGroup && gamificationBadges.length > 0 && (
                                 <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1" style={{scrollbarWidth:'none'}}>
                                     {gamificationBadges.map(badge => (
                                         <div key={badge.id} className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1.5 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 rounded-lg border border-amber-200 dark:border-amber-700 text-xs">
@@ -21086,15 +21102,15 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
-                            {/* Aisle Order Indicator */}
-                            {aisleOrderEnabled && Object.keys(learnedAisleOrder).length > 0 && (
+                            {/* Aisle Order Indicator (hidden in groups) */}
+                            {!isGroup && aisleOrderEnabled && Object.keys(learnedAisleOrder).length > 0 && (
                                 <div className="mt-1.5 text-center">
                                     <span className="text-[10px] text-teal-500 dark:text-teal-400">🛒 {t('aisleOrderDesc')} · {t('learnedFromHistory')}</span>
                                 </div>
                             )}
 
-                            {/* Add Regulars Button */}
-                            {regularItems.length > 0 && (
+                            {/* Add Regulars Button (hidden in groups) */}
+                            {!isGroup && regularItems.length > 0 && (
                                 <div className="mt-1.5">
                                     <button onClick={() => setShowRegulars(true)}
                                         className="w-full bg-gradient-to-r from-teal-400 to-teal-500 text-white px-4 py-3 rounded-lg hover:from-teal-500 hover:to-teal-600 transition-all font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] flex items-center justify-center gap-2">
@@ -21155,8 +21171,8 @@ END:VCALENDAR`;
                             </div>
                         )}
 
-                        {/* Promotions Banner - Always at top */}
-                        {!selectedCategory && !searchTerm && (
+                        {/* Promotions Banner - Always at top (hidden in groups) */}
+                        {!isGroup && !selectedCategory && !searchTerm && (
                             <div className="mb-2">
                                 <button
                                     onClick={() => { setShowPromotions(true); fetchPromotions(); }}
