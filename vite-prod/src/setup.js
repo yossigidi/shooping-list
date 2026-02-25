@@ -20,7 +20,8 @@ import {
   arrayUnion,
   arrayRemove,
   getDoc,
-  setDoc
+  setDoc,
+  writeBatch
 } from 'firebase/firestore';
 import {
   getAuth,
@@ -72,7 +73,7 @@ setPersistence(window.auth, indexedDBLocalPersistence).then(() => {
 window.firestore = {
   collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot,
   query, getDocs, where, serverTimestamp,
-  arrayUnion, arrayRemove, getDoc, setDoc
+  arrayUnion, arrayRemove, getDoc, setDoc, writeBatch
 };
 
 window.firebaseAuth = {

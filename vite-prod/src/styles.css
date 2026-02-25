@@ -639,6 +639,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     text-align: center;
 }
 
+/* Drag & Drop */
+.drag-handle { touch-action: none; cursor: grab; }
+.drag-handle:active { cursor: grabbing; }
+
 /* Onboarding styles */
 .onboarding-highlight {
     position: relative;
