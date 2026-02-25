@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import { ShoppingCart, Settings, Users, User, Search, Smartphone,
   Sun, Moon, RefreshCw, HelpCircle, LogOut, Trash2,
@@ -21507,9 +21508,9 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
-                            {/* Budget Planner Wizard - Full Screen */}
-                            {showBudgetPlanner && (
-                                <div className="fixed inset-0 z-50 bg-white dark:bg-gray-900 overflow-y-auto" dir={isRTL ? 'rtl' : 'ltr'}>
+                            {/* Budget Planner Wizard - Full Screen (Portal) */}
+                            {showBudgetPlanner && ReactDOM.createPortal(
+                                <div className="fixed inset-0 bg-white dark:bg-gray-900 overflow-y-auto" dir={isRTL ? 'rtl' : 'ltr'} style={{zIndex: 99999}}>
                                     {/* Top bar */}
                                     <div className="sticky top-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
                                         <button onClick={() => budgetPlannerStep > 1 ? setBudgetPlannerStep(s => s - 1) : setShowBudgetPlanner(false)} className="flex items-center gap-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
@@ -21645,7 +21646,7 @@ END:VCALENDAR`;
                                         )}
                                     </div>
                                 </div>
-                            )}
+                            , document.body)}
 
                             {/* Gamification Badges (hidden in temp groups) */}
                             {!isTempGroup && gamificationBadges.length > 0 && (
