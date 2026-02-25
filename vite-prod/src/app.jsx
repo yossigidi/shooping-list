@@ -7949,8 +7949,12 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         }
 
         // Error message helper (accepts t function for translations)
-        function getErrorMessage(errorCode, t) {
+        function getErrorMessage(error, t) {
             const translate = t || ((key) => TRANSLATIONS['he']?.[key] || key);
+            // Support both error code string and error object
+            const errorCode = typeof error === 'string' ? error : (error?.code || '');
+            // Also try to extract code from message like "Firebase: Error (auth/email-already-in-use)"
+            const extractedCode = errorCode || (typeof error === 'object' && error?.message?.match(/\(([^)]+)\)/)?.[1]) || '';
             const messages = {
                 'auth/email-already-in-use': translate('emailAlreadyInUse'),
                 'auth/invalid-email': translate('invalidEmail'),
@@ -7964,9 +7968,12 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 'auth/missing-password': translate('missingPassword'),
                 'auth/missing-email': translate('missingEmail'),
                 'auth/network-request-failed': translate('networkError'),
-                'auth/internal-error': translate('internalError')
+                'auth/internal-error': translate('internalError'),
+                'auth/account-exists-with-different-credential': translate('emailAlreadyInUse'),
+                'auth/credential-already-in-use': translate('emailAlreadyInUse'),
+                'auth/popup-blocked': translate('networkError')
             };
-            return messages[errorCode] || `${translate('error')}: ${errorCode || translate('unknown')}`;
+            return messages[extractedCode] || messages[errorCode] || `${translate('error')}: ${extractedCode || translate('unknown')}`;
         }
 
         // Sign Up Form
@@ -8005,7 +8012,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         displayName: displayName.trim()
                     });
                 } catch (err) {
-                    setError(getErrorMessage(err.code, t));
+                    setError(getErrorMessage(err, t));
                 } finally {
                     setLoading(false);
                 }
@@ -8135,7 +8142,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                 await window.firebaseAuth.signInWithPopup(window.auth, provider);
                             } catch (err) {
                                 if (err.code !== 'auth/popup-closed-by-user') {
-                                    setError(getErrorMessage(err.code, t) || err.message);
+                                    setError(getErrorMessage(err, t) || err.message);
                                 }
                             } finally {
                                 setLoading(false);
@@ -8160,7 +8167,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                 await window.firebaseAuth.signInWithPopup(window.auth, provider);
                             } catch (err) {
                                 if (err.code !== 'auth/popup-closed-by-user') {
-                                    setError(getErrorMessage(err.code, t) || err.message);
+                                    setError(getErrorMessage(err, t) || err.message);
                                 }
                             } finally {
                                 setLoading(false);
@@ -8207,7 +8214,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     if (err.message === 'Firebase not initialized') {
                         setError(t('refreshAndTryAgain'));
                     } else {
-                        setError(getErrorMessage(err.code, t) || err.message || t('error'));
+                        setError(getErrorMessage(err, t) || err.message || t('error'));
                     }
                 } finally {
                     setLoading(false);
@@ -8294,7 +8301,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                 await window.firebaseAuth.signInWithPopup(window.auth, provider);
                             } catch (err) {
                                 if (err.code !== 'auth/popup-closed-by-user') {
-                                    setError(getErrorMessage(err.code, t) || err.message);
+                                    setError(getErrorMessage(err, t) || err.message);
                                 }
                             } finally {
                                 setLoading(false);
@@ -8319,7 +8326,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                 await window.firebaseAuth.signInWithPopup(window.auth, provider);
                             } catch (err) {
                                 if (err.code !== 'auth/popup-closed-by-user') {
-                                    setError(getErrorMessage(err.code, t) || err.message);
+                                    setError(getErrorMessage(err, t) || err.message);
                                 }
                             } finally {
                                 setLoading(false);
@@ -8370,7 +8377,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     setSuccess(true);
                 } catch (err) {
                     console.error('Password reset error:', err.code, err.message);
-                    setError(getErrorMessage(err.code, t));
+                    setError(getErrorMessage(err, t));
                 } finally {
                     setLoading(false);
                 }
@@ -8493,7 +8500,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     } else if (err.code === 'auth/weak-password') {
                         setError(t('passwordMinLength'));
                     } else {
-                        setError(getErrorMessage(err.code, t));
+                        setError(getErrorMessage(err, t));
                     }
                 } finally {
                     setLoading(false);
@@ -13306,12 +13313,21 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             // Subscribe to push notifications
             const subscribeToPush = async () => {
                 try {
-                    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+                    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+                        showToast(t('networkError'), 'error');
+                        return false;
+                    }
                     if (Notification.permission === 'default') {
                         const perm = await Notification.requestPermission();
-                        if (perm !== 'granted') return;
+                        if (perm !== 'granted') {
+                            showToast(t('shoppingDayPushDisabled'), 'warning');
+                            return false;
+                        }
                     }
-                    if (Notification.permission !== 'granted') return;
+                    if (Notification.permission !== 'granted') {
+                        showToast(t('shoppingDayPushDisabled'), 'warning');
+                        return false;
+                    }
                     const reg = await navigator.serviceWorker.ready;
                     const sub = await reg.pushManager.subscribe({
                         userVisibleOnly: true,
@@ -13334,7 +13350,13 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                             }
                         );
                     }
-                } catch (e) { console.error('Push subscribe error:', e); }
+                    showToast(t('shoppingDayPushEnabled'), 'success');
+                    return true;
+                } catch (e) {
+                    console.error('Push subscribe error:', e);
+                    showToast(t('networkError'), 'error');
+                    return false;
+                }
             };
 
             // Unsubscribe from push notifications
