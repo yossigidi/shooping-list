@@ -13011,6 +13011,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [showContextSwitcher, setShowContextSwitcher] = useState(false);
             const [showCreateGroup, setShowCreateGroup] = useState(false);
             const [showGroupSettings, setShowGroupSettings] = useState(false);
+            const [showGroupBudgetModal, setShowGroupBudgetModal] = useState(false);
+            const [groupBudgetInput, setGroupBudgetInput] = useState('');
             const [showCreateList, setShowCreateList] = useState(false);
             const [deleteListConfirmId, setDeleteListConfirmId] = useState(null);
             const [editingNote, setEditingNote] = useState(null);
@@ -15307,9 +15309,6 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             }, [isGroup, family?.budgets, user]);
 
             const groupBudgetExceeded = isGroup && groupBudgetTotal > 0 && estimatedListTotal > groupBudgetTotal;
-
-            const [showGroupBudgetModal, setShowGroupBudgetModal] = useState(false);
-            const [groupBudgetInput, setGroupBudgetInput] = useState('');
 
             const getCategoryBreakdown = React.useMemo(() => {
                 const breakdown = {};
