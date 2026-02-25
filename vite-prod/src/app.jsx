@@ -714,6 +714,26 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 childAccountsHelpDesc1: 'ילד צעיר - התחברות עם PIN ללא צורך במייל',
                 childAccountsHelpDesc2: 'נער בוגר - נרשם עם מייל ויכול להזמין חברים',
                 childAccountsHelpDesc3: 'QR להצטרפות - סריקה מהירה ללא PIN',
+                // Groups (חבורות)
+                createGroup: 'צור חבורה',
+                groupName: 'שם החבורה',
+                groupNamePlaceholder: 'לדוגמה: מפגש על האש',
+                group: 'חבורה',
+                groups: 'חבורות',
+                switchContext: 'החלף קבוצה',
+                leaveGroup: 'עזוב חבורה',
+                deleteGroup: 'מחק חבורה',
+                groupMembers: 'חברי החבורה',
+                groupInviteLink: 'קישור הזמנה לחבורה',
+                createNewGroup: 'צור חבורה חדשה',
+                groupExpiresAt: 'תאריך סיום (אופציונלי)',
+                groupExpired: 'חבורה זו פגה תוקף',
+                extendGroup: 'הארך',
+                noExpiry: 'ללא תפוגה',
+                groupJoinedDirectly: 'הצטרפת לחבורה בהצלחה!',
+                groupChat: 'צ\'אט חבורה',
+                deleteGroupConfirm: 'למחוק את החבורה? כל הנתונים יימחקו.',
+                leaveGroupConfirm: 'לעזוב את החבורה?',
                 // AI & Features
                 smartAssistant: 'עוזר קניות חכם',
                 hotDeals: 'מבצעי השבוע',
@@ -840,6 +860,11 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 helpChildrenLimited: 'ילדים - יכולים להוסיף ולסמן מוצרים בלבד',
                 helpNotifications: 'קבל התראות כשמישהו מוסיף מוצר',
                 helpChat: 'צ\'אט מובנה לתיאום הקניות',
+                helpGroupsTitle: '🔥 חבורות',
+                helpGroupsDesc1: 'צור חבורה לקניות עם חברים — נפרדת מהמשפחה',
+                helpGroupsDesc2: 'הזמן חברים בלינק — הם מצטרפים ישירות בלי אישור',
+                helpGroupsDesc3: 'כל חבורה מנהלת רשימת קניות וצ\'אט עצמאיים',
+                helpGroupsDesc4: 'החלף בין משפחה וחבורות בלחיצה בכותרת',
                 helpScanRecipe: 'סרוק מתכון להוספת מרכיבים אוטומטית',
                 helpScanProduct: 'צלם מוצר לזיהוי והשוואת מחירים',
                 helpLanguages: 'תמיכה בעברית, אנגלית, רוסית וערבית',
@@ -1922,6 +1947,26 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 childAccountsHelpDesc1: 'Young child - PIN login without email',
                 childAccountsHelpDesc2: 'Older teen - registers with email, can invite members',
                 childAccountsHelpDesc3: 'QR join - quick scan without PIN',
+                // Groups
+                createGroup: 'Create Group',
+                groupName: 'Group Name',
+                groupNamePlaceholder: 'e.g. BBQ Meetup',
+                group: 'Group',
+                groups: 'Groups',
+                switchContext: 'Switch Group',
+                leaveGroup: 'Leave Group',
+                deleteGroup: 'Delete Group',
+                groupMembers: 'Group Members',
+                groupInviteLink: 'Group Invite Link',
+                createNewGroup: 'Create New Group',
+                groupExpiresAt: 'End Date (optional)',
+                groupExpired: 'This group has expired',
+                extendGroup: 'Extend',
+                noExpiry: 'No expiry',
+                groupJoinedDirectly: 'Joined group successfully!',
+                groupChat: 'Group Chat',
+                deleteGroupConfirm: 'Delete this group? All data will be deleted.',
+                leaveGroupConfirm: 'Leave this group?',
                 // AI & Features
                 smartAssistant: 'Smart Shopping Assistant',
                 hotDeals: 'Weekly Deals',
@@ -2047,6 +2092,11 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 helpChildrenLimited: 'Children - can only add and mark products',
                 helpNotifications: 'Get notifications when someone adds a product',
                 helpChat: 'Built-in chat for shopping coordination',
+                helpGroupsTitle: '🔥 Groups',
+                helpGroupsDesc1: 'Create a group for shopping with friends — separate from family',
+                helpGroupsDesc2: 'Invite friends via link — they join directly without approval',
+                helpGroupsDesc3: 'Each group has its own shopping list and chat',
+                helpGroupsDesc4: 'Switch between family and groups from the header',
                 helpScanRecipe: 'Scan a recipe to auto-add ingredients',
                 helpScanProduct: 'Scan a product for identification and price comparison',
                 helpLanguages: 'Support for Hebrew, English, Russian and Arabic',
@@ -2943,6 +2993,26 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 childAccountsHelpDesc1: 'Маленький ребёнок - вход по PIN без email',
                 childAccountsHelpDesc2: 'Подросток - регистрируется с email, может приглашать',
                 childAccountsHelpDesc3: 'QR для присоединения - быстрое сканирование без PIN',
+                // Groups
+                createGroup: 'Создать группу',
+                groupName: 'Название группы',
+                groupNamePlaceholder: 'напр. Встреча на природе',
+                group: 'Группа',
+                groups: 'Группы',
+                switchContext: 'Сменить группу',
+                leaveGroup: 'Покинуть группу',
+                deleteGroup: 'Удалить группу',
+                groupMembers: 'Участники группы',
+                groupInviteLink: 'Ссылка-приглашение',
+                createNewGroup: 'Создать новую группу',
+                groupExpiresAt: 'Дата окончания (необязательно)',
+                groupExpired: 'Срок этой группы истёк',
+                extendGroup: 'Продлить',
+                noExpiry: 'Без срока',
+                groupJoinedDirectly: 'Вы успешно присоединились к группе!',
+                groupChat: 'Чат группы',
+                deleteGroupConfirm: 'Удалить группу? Все данные будут удалены.',
+                leaveGroupConfirm: 'Покинуть эту группу?',
                 // AI & Features
                 smartAssistant: 'Умный помощник покупок',
                 hotDeals: 'Акции недели',
@@ -3066,6 +3136,11 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 helpChildrenLimited: 'Дети - могут только добавлять и отмечать',
                 helpNotifications: 'Получайте уведомления при добавлении',
                 helpChat: 'Встроенный чат для координации',
+                helpGroupsTitle: '🔥 Группы',
+                helpGroupsDesc1: 'Создайте группу для покупок с друзьями — отдельно от семьи',
+                helpGroupsDesc2: 'Пригласите друзей по ссылке — они присоединяются без одобрения',
+                helpGroupsDesc3: 'У каждой группы свой список покупок и чат',
+                helpGroupsDesc4: 'Переключайтесь между семьёй и группами в заголовке',
                 helpScanRecipe: 'Сканируйте рецепт для автодобавления',
                 helpScanProduct: 'Сканируйте продукт для сравнения цен',
                 helpLanguages: 'Поддержка иврита, английского, русского и арабского',
@@ -3951,6 +4026,26 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 childAccountsHelpDesc1: 'طفل صغير - تسجيل دخول برمز PIN بدون بريد إلكتروني',
                 childAccountsHelpDesc2: 'مراهق - يسجل ببريد إلكتروني، يمكنه الدعوة',
                 childAccountsHelpDesc3: 'انضمام بـ QR - مسح سريع بدون PIN',
+                // Groups
+                createGroup: 'إنشاء مجموعة',
+                groupName: 'اسم المجموعة',
+                groupNamePlaceholder: 'مثلاً: لقاء الشواء',
+                group: 'مجموعة',
+                groups: 'مجموعات',
+                switchContext: 'تبديل المجموعة',
+                leaveGroup: 'مغادرة المجموعة',
+                deleteGroup: 'حذف المجموعة',
+                groupMembers: 'أعضاء المجموعة',
+                groupInviteLink: 'رابط دعوة المجموعة',
+                createNewGroup: 'إنشاء مجموعة جديدة',
+                groupExpiresAt: 'تاريخ الانتهاء (اختياري)',
+                groupExpired: 'انتهت صلاحية هذه المجموعة',
+                extendGroup: 'تمديد',
+                noExpiry: 'بدون انتهاء',
+                groupJoinedDirectly: 'تم الانضمام للمجموعة بنجاح!',
+                groupChat: 'محادثة المجموعة',
+                deleteGroupConfirm: 'حذف المجموعة؟ سيتم حذف جميع البيانات.',
+                leaveGroupConfirm: 'مغادرة هذه المجموعة؟',
                 // AI & Features
                 smartAssistant: 'مساعد التسوق الذكي',
                 hotDeals: 'عروض الأسبوع',
@@ -4077,6 +4172,11 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 helpChildrenLimited: 'الأطفال - يمكنهم الإضافة والتعليم فقط',
                 helpNotifications: 'احصل على إشعارات عند إضافة منتج',
                 helpChat: 'دردشة مدمجة لتنسيق التسوق',
+                helpGroupsTitle: '🔥 مجموعات',
+                helpGroupsDesc1: 'أنشئ مجموعة للتسوق مع الأصدقاء — منفصلة عن العائلة',
+                helpGroupsDesc2: 'ادعُ أصدقاء عبر رابط — ينضمون مباشرة بدون موافقة',
+                helpGroupsDesc3: 'لكل مجموعة قائمة تسوق ودردشة خاصة',
+                helpGroupsDesc4: 'بدّل بين العائلة والمجموعات من العنوان',
                 helpScanRecipe: 'امسح وصفة لإضافة المكونات تلقائياً',
                 helpScanProduct: 'صوّر منتج للتعرف ومقارنة الأسعار',
                 helpLanguages: 'دعم العبرية والإنجليزية والروسية والعربية',
@@ -4608,6 +4708,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const { user } = useAuth();
             const { t } = useLanguage();
             const [family, setFamily] = useState(null);
+            const [allMemberships, setAllMemberships] = useState([]);
             const [lists, setLists] = useState([]);
             const [currentList, setCurrentList] = useState(null);
             const [loading, setLoading] = useState(true);
@@ -4642,15 +4743,20 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 );
 
                 const unsubscribe = window.firestore.onSnapshot(q, async (snapshot) => {
-                    let userFamily = null;
                     console.log('FamilyProvider: Snapshot received, found', snapshot.size, 'families for user:', user?.uid);
+                    const all = [];
                     snapshot.forEach((doc) => {
                         const data = doc.data();
-                        userFamily = { id: doc.id, ...data };
+                        // Filter out expired groups
+                        if (data.type === 'group' && data.expiresAt) {
+                            const expDate = data.expiresAt.toDate ? data.expiresAt.toDate() : new Date(data.expiresAt);
+                            if (expDate < new Date()) return; // skip expired groups
+                        }
+                        all.push({ id: doc.id, ...data });
                     });
 
-                    // If no family found via memberIds, check old families that only have members array (migration)
-                    if (!userFamily) {
+                    // If no memberships found via memberIds, check old families (migration)
+                    if (all.length === 0) {
                         try {
                             const allFamiliesSnapshot = await window.firestore.getDocs(
                                 window.firestore.collection(window.db, 'families')
@@ -4658,17 +4764,18 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                             allFamiliesSnapshot.forEach((doc) => {
                                 const data = doc.data();
                                 if (!data.memberIds && data.members?.some(m => m.userId === user.uid)) {
-                                    userFamily = { id: doc.id, ...data };
+                                    all.push({ id: doc.id, ...data });
                                 }
                             });
                             // Migrate old family to include memberIds
-                            if (userFamily) {
-                                const memberIds = userFamily.members?.map(m => m.userId).filter(Boolean) || [];
+                            if (all.length > 0) {
+                                const oldFamily = all[0];
+                                const memberIds = oldFamily.members?.map(m => m.userId).filter(Boolean) || [];
                                 await window.firestore.updateDoc(
-                                    window.firestore.doc(window.db, 'families', userFamily.id),
+                                    window.firestore.doc(window.db, 'families', oldFamily.id),
                                     { memberIds: memberIds }
                                 );
-                                userFamily.memberIds = memberIds;
+                                oldFamily.memberIds = memberIds;
                                 console.log('Migrated old family to include memberIds');
                             }
                         } catch (e) {
@@ -4676,7 +4783,16 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         }
                     }
 
-                    setFamily(userFamily);
+                    setAllMemberships(all);
+
+                    // Choose active context: localStorage > current family (if still valid) > first family > first group
+                    const savedId = localStorage.getItem('activeContextId');
+                    const currentFamilyStillExists = family && all.find(m => m.id === family.id);
+                    const preferred = (savedId && all.find(m => m.id === savedId))
+                        || currentFamilyStillExists
+                        || all.find(m => m.type !== 'group')
+                        || all[0] || null;
+                    setFamily(preferred);
                     setLoading(false);
                 }, (error) => {
                     console.error('FamilyProvider: Snapshot error:', error);
@@ -4745,6 +4861,21 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 return () => unsubscribe();
             }, [family]);
 
+            // Fallback: if active context was deleted/left, switch to another
+            useEffect(() => {
+                if (!family || allMemberships.length === 0) return;
+                const stillExists = allMemberships.find(m => m.id === family.id);
+                if (!stillExists) {
+                    const fallback = allMemberships.find(m => m.type !== 'group') || allMemberships[0] || null;
+                    if (fallback) {
+                        localStorage.setItem('activeContextId', fallback.id);
+                    } else {
+                        localStorage.removeItem('activeContextId');
+                    }
+                    setFamily(fallback);
+                }
+            }, [allMemberships, family]);
+
             // Create a new family
             const createFamily = async (familyName, userRole = 'parent_father') => {
                 if (!user) return null;
@@ -4754,6 +4885,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 const newFamily = {
                     name: familyName,
                     code: code,
+                    type: 'family',
                     adminId: user?.uid,
                     memberIds: [user?.uid],
                     members: [{
@@ -4828,6 +4960,36 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     if (familyData.pendingMembers?.some(m => m.userId === user?.uid)) {
                         console.log('joinFamily: User already pending');
                         return { success: false, error: t('alreadyPending') };
+                    }
+
+                    // Groups: direct join (no pending approval needed)
+                    if (familyData.type === 'group') {
+                        const groupMember = {
+                            userId: user?.uid,
+                            email: user?.email,
+                            displayName: user?.displayName || user?.email || t('anonymous'),
+                            joinedAt: new Date(),
+                            role: 'member',
+                            familyRole: 'member',
+                            familyRoleLabel: t('group'),
+                            isParent: false
+                        };
+
+                        await window.firestore.updateDoc(
+                            window.firestore.doc(window.db, 'families', familyDoc.id),
+                            {
+                                members: window.firestore.arrayUnion(groupMember),
+                                memberIds: window.firestore.arrayUnion(user?.uid)
+                            }
+                        );
+
+                        localStorage.setItem('activeContextId', familyDoc.id);
+                        try {
+                            await logActivity('member_joined', { memberName: user?.displayName || user?.email || t('anonymous') }, familyDoc.id);
+                        } catch (e) { console.warn('Failed to log group join activity:', e); }
+
+                        console.log('joinFamily: Joined group directly');
+                        return { success: true, pending: false, familyId: familyDoc.id, familyName: familyData.name };
                     }
 
                     const isParent = userRole.startsWith('parent');
@@ -5253,8 +5415,70 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 }
             };
 
+            // Switch active context (family or group)
+            const switchContext = (id) => {
+                const target = allMemberships.find(m => m.id === id);
+                if (target) {
+                    localStorage.setItem('activeContextId', id);
+                    setFamily(target);
+                    setCurrentList(null);
+                }
+            };
+
+            // Create a new group
+            const createGroup = async (name, expiresAt) => {
+                if (!user) return null;
+                const code = generateCode();
+                const newGroup = {
+                    name: name,
+                    code: code,
+                    type: 'group',
+                    adminId: user?.uid,
+                    memberIds: [user?.uid],
+                    members: [{
+                        userId: user?.uid,
+                        email: user?.email,
+                        displayName: user?.displayName || user?.email || t('anonymous'),
+                        joinedAt: new Date(),
+                        role: 'admin',
+                        familyRole: 'member',
+                        familyRoleLabel: t('admin'),
+                        isParent: false
+                    }],
+                    createdAt: new Date(),
+                    ...(expiresAt ? { expiresAt: expiresAt } : {})
+                };
+
+                const groupRef = await window.firestore.addDoc(
+                    window.firestore.collection(window.db, 'families'),
+                    newGroup
+                );
+
+                // Create default list for group
+                await window.firestore.addDoc(
+                    window.firestore.collection(window.db, 'lists'),
+                    {
+                        familyId: groupRef.id,
+                        name: name,
+                        icon: '🔥',
+                        createdBy: user?.uid,
+                        createdAt: new Date(),
+                        isDefault: true
+                    }
+                );
+
+                await logActivity('member_joined', { memberName: user?.displayName || user?.email || t('anonymous') }, groupRef.id);
+
+                // Switch to new group
+                localStorage.setItem('activeContextId', groupRef.id);
+                return { id: groupRef.id, ...newGroup };
+            };
+
+            const isGroup = family?.type === 'group';
+
             const value = {
                 family,
+                allMemberships,
                 lists,
                 currentList,
                 setCurrentList,
@@ -5268,10 +5492,13 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 createList,
                 deleteList,
                 logActivity,
+                switchContext,
+                createGroup,
+                isGroup,
                 // Permission flags
                 isAdmin: family?.adminId === user?.uid,
                 isTeen: family?.members?.find(m => m.userId === user?.uid)?.isTeen || false,
-                canInvite: family?.adminId === user?.uid || family?.members?.find(m => m.userId === user?.uid)?.isTeen || false,
+                canInvite: family?.adminId === user?.uid || family?.members?.find(m => m.userId === user?.uid)?.isTeen || family?.type === 'group' || false,
                 canManageLists: family?.adminId === user?.uid || family?.members?.find(m => m.userId === user?.uid)?.isTeen || false,
                 currentUserRole: family?.members?.find(m => m.userId === user?.uid)?.role || 'member',
                 // Child account methods
@@ -5293,6 +5520,326 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             return useContext(FamilyContext);
         }
 
+        // Context Switcher Modal (bottom sheet for switching between family and groups)
+        function ContextSwitcherModal({ onClose, onCreateGroup, onOpenSettings }) {
+            const { family, allMemberships, switchContext } = useFamily();
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+
+            return (
+                <div className="fixed inset-0 z-50 flex items-end justify-center" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
+                    <div className="relative w-full max-w-lg bg-white dark:bg-gray-800 rounded-t-3xl shadow-2xl p-6 pb-8 safe-area-bottom animate-slide-up max-h-[70vh] flex flex-col">
+                        <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-4"></div>
+                        <h2 className="text-lg font-bold text-gray-800 dark:text-white mb-4 text-center">{t('switchContext')}</h2>
+
+                        <div className="flex-1 overflow-y-auto space-y-2 mb-4">
+                            {allMemberships.map(m => (
+                                <button
+                                    key={m.id}
+                                    onClick={() => { switchContext(m.id); onClose(); }}
+                                    className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+                                        family?.id === m.id
+                                            ? 'bg-indigo-100 dark:bg-indigo-900/40 border-2 border-indigo-400'
+                                            : 'glass hover:bg-gray-50 dark:hover:bg-gray-700 border-2 border-transparent'
+                                    }`}
+                                >
+                                    <span className="text-2xl">{m.type === 'group' ? '🔥' : '👨‍👩‍👧‍👦'}</span>
+                                    <div className="flex-1 text-right">
+                                        <div className="font-semibold text-gray-800 dark:text-white">{m.name}</div>
+                                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                                            {m.type === 'group' ? t('group') : t('family')} • {m.members?.length || 0} {t('familyMembers').split(' ').pop()}
+                                        </div>
+                                    </div>
+                                    {family?.id === m.id && <span className="text-indigo-500 text-lg">✓</span>}
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); onOpenSettings(m); onClose(); }}
+                                        className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                                    >
+                                        <Settings size={16} className="text-gray-500" />
+                                    </button>
+                                </button>
+                            ))}
+                        </div>
+
+                        <button
+                            onClick={() => { onCreateGroup(); onClose(); }}
+                            className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                        >
+                            <span>🔥</span> {t('createNewGroup')}
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // Create Group Modal
+        function CreateGroupModal({ onClose }) {
+            const { createGroup } = useFamily();
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [name, setName] = useState('');
+            const [expiresAt, setExpiresAt] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                if (!name.trim()) { setError(t('enterFamilyName')); return; }
+                setLoading(true);
+                setError('');
+                try {
+                    const expDate = expiresAt ? new Date(expiresAt) : null;
+                    await createGroup(name.trim(), expDate);
+                    onClose();
+                } catch (err) {
+                    setError(err.message || t('error'));
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
+                    <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-red-500"></div>
+                        <div className="text-center mb-6">
+                            <span className="text-5xl">🔥</span>
+                            <h2 className="text-xl font-bold text-gray-800 dark:text-white mt-2">{t('createGroup')}</h2>
+                        </div>
+
+                        {error && (
+                            <div className="bg-red-100 dark:bg-red-900/30 border-2 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm mb-4">
+                                {error}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('groupName')}</label>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                    placeholder={t('groupNamePlaceholder')}
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-orange-500"
+                                    autoFocus
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('groupExpiresAt')}</label>
+                                <input
+                                    type="date"
+                                    value={expiresAt}
+                                    onChange={e => setExpiresAt(e.target.value)}
+                                    min={new Date().toISOString().split('T')[0]}
+                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-orange-500"
+                                    dir="ltr"
+                                />
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('noExpiry')}</p>
+                            </div>
+
+                            <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold disabled:opacity-50 hover:shadow-lg transition-all">
+                                {loading ? t('loading') : t('createGroup')}
+                            </button>
+
+                            <button type="button" onClick={onClose} className="w-full text-gray-500 dark:text-gray-400 text-sm hover:underline">
+                                {t('cancel')}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        // Group Settings Modal (simplified version of FamilySettingsModal)
+        function GroupSettingsModal({ onClose }) {
+            const { family, leaveFamily, deleteEntireFamily, removeMember, isAdmin, canInvite } = useFamily();
+            const { user } = useAuth();
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [activeTab, setActiveTab] = useState('members');
+            const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+            const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+            const [copied, setCopied] = useState(false);
+            const [qrCodeUrl, setQrCodeUrl] = useState('');
+
+            const inviteLink = `https://listnest.co.il/?join=${family?.code}`;
+
+            const copyLink = () => {
+                navigator.clipboard.writeText(inviteLink);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            };
+
+            const copyCode = () => {
+                navigator.clipboard.writeText(family.code);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            };
+
+            const generateQRCode = () => {
+                try {
+                    const qr = qrcode(0, 'M');
+                    qr.addData(inviteLink);
+                    qr.make();
+                    setQrCodeUrl(qr.createDataURL(6, 0));
+                } catch (e) { console.error('QR generation error:', e); }
+            };
+
+            useEffect(() => { if (activeTab === 'invite' && !qrCodeUrl) generateQRCode(); }, [activeTab]);
+
+            const shareViaWhatsApp = () => {
+                const text = encodeURIComponent(t('whatsappFamilyShareMsg').replace('{familyName}', family.name).replace('{code}', family.code).replace('{link}', inviteLink));
+                window.open(`https://wa.me/?text=${text}`, '_blank');
+            };
+
+            const handleLeave = async () => { await leaveFamily(); onClose(); };
+            const handleDelete = async () => { await deleteEntireFamily(); onClose(); };
+
+            const tabs = [
+                { id: 'members', label: t('tabMembers'), icon: '👥' },
+                { id: 'invite', label: t('tabInvite'), icon: '📨' }
+            ];
+
+            return (
+                <div className="fixed inset-0 z-50 gradient-bg dark:bg-gray-900 flex flex-col" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="flex flex-col h-full">
+                        <div className="glass border-b border-gray-200 dark:border-gray-700 px-4 pt-4 pb-0 safe-area-top">
+                            <div className="flex justify-between items-center mb-3">
+                                <h2 className="text-2xl font-bold flex items-center gap-3">
+                                    <span className="text-3xl">🔥</span>
+                                    <span className="text-gradient">{family.name}</span>
+                                </h2>
+                                <button onClick={onClose} className="w-10 h-10 flex items-center justify-center glass rounded-full text-gray-500 hover:text-red-500 text-2xl hover:scale-110 hover:rotate-90 transition-all">&times;</button>
+                            </div>
+
+                            <div className="flex gap-1 bg-gray-100 dark:bg-gray-800 rounded-xl p-1 mb-3">
+                                {tabs.map(tab => (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`flex-1 py-2.5 px-3 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5 ${
+                                            activeTab === tab.id
+                                                ? 'bg-white dark:bg-gray-700 text-orange-600 dark:text-orange-400 shadow-sm'
+                                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                                        }`}
+                                    >
+                                        <span>{tab.icon}</span> {tab.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto px-4 py-4">
+                            {activeTab === 'members' && (
+                                <div className="space-y-4">
+                                    <div>
+                                        <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3">{t('groupMembers')} ({family.members?.length})</h3>
+                                        <div className="space-y-2">
+                                            {family.members?.map((member, idx) => (
+                                                <div key={idx} className="glass rounded-lg p-3 flex items-center justify-between">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white text-xl">
+                                                            {member.displayName?.charAt(0)?.toUpperCase() || '?'}
+                                                        </div>
+                                                        <div>
+                                                            <div className="font-medium dark:text-white">{member.displayName}</div>
+                                                            <div className="text-xs text-gray-500 dark:text-gray-400">
+                                                                {member.userId === family.adminId && <span className="text-orange-600">👑 {t('admin')}</span>}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {isAdmin && member.userId !== user?.uid && (
+                                                        <button
+                                                            onClick={() => removeMember(member.userId)}
+                                                            className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors"
+                                                            title={t('removeMember')}
+                                                        >
+                                                            🗑
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="pt-2">
+                                        {isAdmin ? (
+                                            !showDeleteConfirm ? (
+                                                <button onClick={() => setShowDeleteConfirm(true)} className="w-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 py-3 rounded-xl font-semibold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors">
+                                                    {'🗑 ' + t('deleteGroup')}
+                                                </button>
+                                            ) : (
+                                                <div className="glass rounded-xl p-4 border-2 border-red-300 dark:border-red-700">
+                                                    <p className="text-center text-red-600 dark:text-red-400 mb-4 text-sm">{t('deleteGroupConfirm')}</p>
+                                                    <div className="flex gap-2">
+                                                        <button onClick={handleDelete} className="flex-1 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700">{t('yes')}</button>
+                                                        <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">{t('cancel')}</button>
+                                                    </div>
+                                                </div>
+                                            )
+                                        ) : (
+                                            !showLeaveConfirm ? (
+                                                <button onClick={() => setShowLeaveConfirm(true)} className="w-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 py-3 rounded-xl font-semibold hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors">
+                                                    <span className="inline-flex items-center gap-2"><LogOut size={18} /> {t('leaveGroup')}</span>
+                                                </button>
+                                            ) : (
+                                                <div className="glass rounded-xl p-4 border-2 border-orange-300 dark:border-orange-700">
+                                                    <p className="text-center text-orange-600 dark:text-orange-400 mb-4 text-sm">{t('leaveGroupConfirm')}</p>
+                                                    <div className="flex gap-2">
+                                                        <button onClick={handleLeave} className="flex-1 bg-orange-600 text-white py-2 rounded-lg font-semibold hover:bg-orange-700">{t('yes')}</button>
+                                                        <button onClick={() => setShowLeaveConfirm(false)} className="flex-1 glass py-2 rounded-lg font-semibold">{t('cancel')}</button>
+                                                    </div>
+                                                </div>
+                                            )
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeTab === 'invite' && (
+                                <div className="space-y-4">
+                                    <div className="glass rounded-xl p-4 text-center">
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{t('groupInviteLink')}</p>
+                                        <div className="bg-indigo-100 dark:bg-indigo-900/50 px-4 py-3 rounded-xl mb-3">
+                                            <span className="text-2xl font-mono font-bold tracking-widest text-indigo-700 dark:text-indigo-300" dir="ltr">{family.code}</span>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <button onClick={copyCode} className="flex items-center justify-center gap-2 py-2 px-3 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 rounded-lg font-medium hover:bg-indigo-200 dark:hover:bg-indigo-900/50 transition-colors text-sm">
+                                                {copied ? <Check size={14} /> : <Copy size={14} />}
+                                                {copied ? t('copied') : t('copyCode')}
+                                            </button>
+                                            <button onClick={copyLink} className="flex items-center justify-center gap-2 py-2 px-3 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-lg font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors text-sm">
+                                                <Link size={14} />
+                                                {t('copyLink')}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 gap-2">
+                                        <button onClick={shareViaWhatsApp} className="flex items-center justify-center gap-2 py-3 px-4 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-xl font-medium hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors">
+                                            <MessageCircle size={18} /> WhatsApp
+                                        </button>
+                                    </div>
+
+                                    {qrCodeUrl && (
+                                        <div className="glass rounded-xl p-4 text-center">
+                                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{t('scanQR')}</p>
+                                            <img src={qrCodeUrl} alt="QR Code" className="mx-auto w-48 h-48 rounded-lg" />
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         // No Family Screen
         function NoFamilyScreen() {
             const [mode, setMode] = useState('choose'); // choose, create, join
@@ -5306,7 +5853,9 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [pendingRequest, setPendingRequest] = useState(null); // { familyId, familyName }
             const [pendingStatus, setPendingStatus] = useState(null); // 'waiting' | 'rejected'
             const [cancellingRequest, setCancellingRequest] = useState(false);
-            const { createFamily, joinFamily, cancelJoinRequest } = useFamily();
+            const [groupNameInput, setGroupNameInput] = useState('');
+            const [groupExpiresAt, setGroupExpiresAt] = useState('');
+            const { createFamily, joinFamily, cancelJoinRequest, createGroup } = useFamily();
             const { user } = useAuth();
             const { t, language } = useLanguage();
             const [darkMode, setDarkMode] = useState(false);
@@ -5452,6 +6001,24 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 }
             };
 
+            const handleCreateGroup = async (e) => {
+                e.preventDefault();
+                if (!groupNameInput.trim()) {
+                    setError(t('enterFamilyName'));
+                    return;
+                }
+                setLoading(true);
+                setError('');
+                try {
+                    const expiresAt = groupExpiresAt ? new Date(groupExpiresAt) : null;
+                    await createGroup(groupNameInput.trim(), expiresAt);
+                } catch (err) {
+                    setError(err.message || t('error'));
+                } finally {
+                    setLoading(false);
+                }
+            };
+
             const handleLogout = async () => {
                 await window.firebaseAuth.signOut(window.auth);
             };
@@ -5492,6 +6059,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                 <button onClick={() => setMode('join')} className="w-full glass border-2 border-indigo-300 dark:border-indigo-600 py-4 rounded-xl font-semibold hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all flex items-center justify-center gap-3 text-gray-700 dark:text-gray-200">
                                     <Link size={24} className="text-indigo-500" />
                                     {t('joinExistingFamily')}
+                                </button>
+                                <button onClick={() => setMode('createGroup')} className="w-full glass border-2 border-orange-300 dark:border-orange-600 py-4 rounded-xl font-semibold hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-all flex items-center justify-center gap-3 text-gray-700 dark:text-gray-200">
+                                    <span className="text-2xl">🔥</span>
+                                    {t('createNewGroup')}
                                 </button>
                             </div>
                         )}
@@ -5662,6 +6233,51 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                             </form>
                         )}
 
+                        {mode === 'createGroup' && (
+                            <form onSubmit={handleCreateGroup} className="space-y-4">
+                                <h2 className="text-xl font-bold text-center text-gray-800 dark:text-white mb-4">{t('createGroup')}</h2>
+
+                                {error && (
+                                    <div className="bg-red-100 dark:bg-red-900/30 border-2 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm">
+                                        {error}
+                                    </div>
+                                )}
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('groupName')}</label>
+                                    <input
+                                        type="text"
+                                        value={groupNameInput}
+                                        onChange={e => setGroupNameInput(e.target.value)}
+                                        placeholder={t('groupNamePlaceholder')}
+                                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-orange-500"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('groupExpiresAt')}</label>
+                                    <input
+                                        type="date"
+                                        value={groupExpiresAt}
+                                        onChange={e => setGroupExpiresAt(e.target.value)}
+                                        min={new Date().toISOString().split('T')[0]}
+                                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-orange-500"
+                                        dir="ltr"
+                                    />
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('noExpiry')}</p>
+                                </div>
+
+                                <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold disabled:opacity-50 hover:shadow-lg transition-all">
+                                    {loading ? t('loading') : t('createGroup')}
+                                </button>
+
+                                <button type="button" onClick={() => { setMode('choose'); setError(''); setGroupNameInput(''); setGroupExpiresAt(''); }} className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline">
+                                    {t('back')}
+                                </button>
+                            </form>
+                        )}
+
                         {mode === 'created' && (
                             <div className="text-center space-y-4">
                                 <div className="text-6xl mb-4">🎉</div>
@@ -5821,7 +6437,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
         // Family Settings Modal - Tabbed Layout
         function FamilySettingsModal({ onClose }) {
-            const { family, leaveFamily, deleteEntireFamily, removeMember, isAdmin, canInvite, isTeen, deleteChildAccount, approveMember, rejectMember } = useFamily();
+            const { family, leaveFamily, deleteEntireFamily, removeMember, isAdmin, isGroup, canInvite, isTeen, deleteChildAccount, approveMember, rejectMember } = useFamily();
             const { user } = useAuth();
             const { t, language } = useLanguage();
             const isParentUser = isAdmin || family.members?.find(m => m.userId === user?.uid)?.isParent;
@@ -5894,7 +6510,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
             const tabs = [
                 { id: 'members', label: t('tabMembers'), icon: '👥' },
-                ...(isParentUser ? [{ id: 'pending', label: t('tabPending'), icon: '⏳', badge: pendingCount }] : []),
+                ...(!isGroup && isParentUser ? [{ id: 'pending', label: t('tabPending'), icon: '⏳', badge: pendingCount }] : []),
                 { id: 'invite', label: t('tabInvite'), icon: '📨' }
             ];
 
@@ -5972,8 +6588,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                         </div>
                                     </div>
 
-                                    {/* Child Accounts Section - Admin Only */}
-                                    {isAdmin && (
+                                    {/* Child Accounts Section - Admin Only (not for groups) */}
+                                    {isAdmin && !isGroup && (
                                         <div>
                                             <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
                                                 <span>👦</span>
@@ -12167,7 +12783,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         function ShoppingList() {
             const { user } = useAuth();
             const { childUser } = useChildAuth();
-            const { family, lists, currentList, setCurrentList, logActivity, leaveFamily, deleteList, isAdmin, canManageLists } = useFamily();
+            const { family, allMemberships, lists, currentList, setCurrentList, logActivity, leaveFamily, deleteList, isAdmin, isGroup, canManageLists, switchContext } = useFamily();
             const { language, changeLanguage, t } = useLanguage();
             // Expose changeLanguage to window for accessibility modal buttons
             window.changeAppLanguage = changeLanguage;
@@ -12232,6 +12848,9 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [openItemMenu, setOpenItemMenu] = useState(null);
             const [showDeleteAllConfirm, setShowDeleteAllConfirm] = useState(false);
             const [showFamilySettings, setShowFamilySettings] = useState(false);
+            const [showContextSwitcher, setShowContextSwitcher] = useState(false);
+            const [showCreateGroup, setShowCreateGroup] = useState(false);
+            const [showGroupSettings, setShowGroupSettings] = useState(false);
             const [showCreateList, setShowCreateList] = useState(false);
             const [deleteListConfirmId, setDeleteListConfirmId] = useState(null);
             const [editingNote, setEditingNote] = useState(null);
@@ -12653,6 +13272,9 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         if (showSettings) { setShowSettings(false); return; }
                         if (showChat) { setShowChat(false); return; }
                         if (showReminderModal) { setShowReminderModal(false); return; }
+                        if (showCreateGroup) { setShowCreateGroup(false); return; }
+                        if (showGroupSettings) { setShowGroupSettings(false); return; }
+                        if (showContextSwitcher) { setShowContextSwitcher(false); return; }
                         if (showCreateList) { setShowCreateList(false); return; }
                         if (showFamilySettings) { setShowFamilySettings(false); return; }
                         if (showDeleteAllConfirm) { setShowDeleteAllConfirm(false); return; }
@@ -12669,7 +13291,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             }, [showExternalLinkPopup, showFeedback, showHelp, showOnboarding, showAIAssistant, showSaveTemplate, showTemplates,
                 showAccessibility, showPromotions, selectedPromoChain, showSmartAdd, showListComparison, showPriceScanner,
                 showCalendar, showRegulars, showForgottenStats, showCamera, showSettings, showChat,
-                showReminderModal, showCreateList, showFamilySettings, showDeleteAllConfirm, showHistory,
+                showReminderModal, showCreateList, showCreateGroup, showGroupSettings, showContextSwitcher,
+                showFamilySettings, showDeleteAllConfirm, showHistory,
                 showFinishShopping, showSavedLists, showImportWhatsApp, showQuantitySelector]);
 
             // Back button handler - removed, causes app crash
@@ -19014,6 +19637,13 @@ END:VCALENDAR`;
                     )}
 
                     {showFamilySettings && <FamilySettingsModal onClose={() => setShowFamilySettings(false)} />}
+                    {showGroupSettings && <GroupSettingsModal onClose={() => setShowGroupSettings(false)} />}
+                    {showContextSwitcher && <ContextSwitcherModal
+                        onClose={() => setShowContextSwitcher(false)}
+                        onCreateGroup={() => setShowCreateGroup(true)}
+                        onOpenSettings={(m) => { if (m.type === 'group') { switchContext(m.id); setShowGroupSettings(true); } else { switchContext(m.id); setShowFamilySettings(true); } }}
+                    />}
+                    {showCreateGroup && <CreateGroupModal onClose={() => setShowCreateGroup(false)} />}
                     {showCreateList && <CreateListModal onClose={() => setShowCreateList(false)} />}
                     {showReminderModal && <ReminderModal onClose={() => setShowReminderModal(false)} family={family} onSendReminder={sendReminder} />}
                     {editingNote && <ItemNoteModal item={editingNote} onClose={() => setEditingNote(null)} onSave={(note) => updateItemNote(editingNote.id, note)} />}
@@ -19739,12 +20369,20 @@ END:VCALENDAR`;
                                                     <Users size={14} /> {family?.name}
                                                 </span>
                                             ) : (
-                                                <span className="relative inline-flex">
-                                                    <button onClick={() => setShowFamilySettings(true)} className="px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-indigo-600 hover:to-purple-600 hover:scale-105 transition-all cursor-pointer inline-flex items-center gap-2 shadow-md">
+                                                <span className="relative inline-flex gap-1">
+                                                    <button onClick={() => isGroup ? setShowGroupSettings(true) : setShowFamilySettings(true)} className={`px-4 py-2 rounded-xl text-sm font-bold text-white hover:scale-105 transition-all cursor-pointer inline-flex items-center gap-2 shadow-md ${
+                                                        isGroup ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600' : 'bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600'
+                                                    }`}>
+                                                        <span className="text-sm">{isGroup ? '🔥' : ''}</span>
                                                         <Users size={16} /> {family?.name}
                                                         <Settings size={14} className="opacity-70" />
                                                     </button>
-                                                    {family?.pendingMembers?.length > 0 && (
+                                                    {allMemberships.length > 1 && (
+                                                        <button onClick={() => setShowContextSwitcher(true)} className="px-2 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:scale-105 transition-all cursor-pointer inline-flex items-center shadow-md">
+                                                            <ChevronDown size={16} />
+                                                        </button>
+                                                    )}
+                                                    {!isGroup && family?.pendingMembers?.length > 0 && (
                                                         <span className="absolute -top-2 -right-2 min-w-[20px] h-[20px] flex items-center justify-center bg-red-500 text-white text-[11px] font-bold rounded-full animate-pulse shadow-sm">
                                                             {family.pendingMembers.length}
                                                         </span>
@@ -21696,6 +22334,15 @@ END:VCALENDAR`;
                                             <li><strong>{t('helpChildrenLimited')}</strong></li>
                                             <li>{t('helpNotifications')}</li>
                                             <li>{t('helpChat')}</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-orange-50 dark:bg-orange-900/30 rounded-xl p-4">
+                                        <h3 className="font-bold text-orange-800 dark:text-orange-200 mb-2">{t('helpGroupsTitle')}</h3>
+                                        <ul className="text-sm text-orange-700 dark:text-orange-300 space-y-2 list-disc list-inside">
+                                            <li>{t('helpGroupsDesc1')}</li>
+                                            <li>{t('helpGroupsDesc2')}</li>
+                                            <li>{t('helpGroupsDesc3')}</li>
+                                            <li>{t('helpGroupsDesc4')}</li>
                                         </ul>
                                     </div>
                                     <div className="bg-amber-50 dark:bg-amber-900/30 rounded-xl p-4">
