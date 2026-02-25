@@ -20377,11 +20377,9 @@ END:VCALENDAR`;
                                                         <Users size={16} /> {family?.name}
                                                         <Settings size={14} className="opacity-70" />
                                                     </button>
-                                                    {allMemberships.length > 1 && (
-                                                        <button onClick={() => setShowContextSwitcher(true)} className="px-2 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:scale-105 transition-all cursor-pointer inline-flex items-center shadow-md">
-                                                            <ChevronDown size={16} />
-                                                        </button>
-                                                    )}
+                                                    <button onClick={() => setShowContextSwitcher(true)} className="px-2 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:scale-105 transition-all cursor-pointer inline-flex items-center shadow-md">
+                                                        <ChevronDown size={16} />
+                                                    </button>
                                                     {!isGroup && family?.pendingMembers?.length > 0 && (
                                                         <span className="absolute -top-2 -right-2 min-w-[20px] h-[20px] flex items-center justify-center bg-red-500 text-white text-[11px] font-bold rounded-full animate-pulse shadow-sm">
                                                             {family.pendingMembers.length}
