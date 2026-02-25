@@ -5527,18 +5527,17 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const isRTL = language === 'he' || language === 'ar';
 
             return (
-                <div className="fixed inset-0 z-50 flex items-end justify-center" dir={isRTL ? 'rtl' : 'ltr'}>
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4" dir={isRTL ? 'rtl' : 'ltr'}>
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
-                    <div className="relative w-full max-w-lg bg-white dark:bg-gray-800 rounded-t-3xl shadow-2xl animate-slide-up flex flex-col" style={{ maxHeight: '85vh', paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 1rem))' }}>
-                        <div className="px-6 pt-4 pb-2 flex-shrink-0">
-                            <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-3"></div>
-                            <div className="flex items-center justify-between mb-3">
+                    <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden">
+                        <div className="p-5 border-b border-gray-100 dark:border-gray-700">
+                            <div className="flex items-center justify-between">
                                 <h2 className="text-lg font-bold text-gray-800 dark:text-white">{t('switchContext')}</h2>
-                                <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 text-lg">&times;</button>
+                                <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 text-lg hover:text-red-500 transition-colors">&times;</button>
                             </div>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto px-6 space-y-2" style={{ WebkitOverflowScrolling: 'touch' }}>
+                        <div className="p-4 space-y-2 max-h-[50vh] overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
                             {allMemberships.map(m => (
                                 <div
                                     key={m.id}
@@ -5565,12 +5564,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                     </button>
                                 </div>
                             ))}
-                        </div>
 
-                        <div className="px-6 pt-3 flex-shrink-0">
                             <button
                                 onClick={() => { onCreateGroup(); onClose(); }}
-                                className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                                className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2 mt-3"
                             >
                                 <span>🔥</span> {t('createNewGroup')}
                             </button>
@@ -13073,6 +13070,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [pushSubscription, setPushSubscription] = useState(null);
             const [showPushPrompt, setShowPushPrompt] = useState(false);
             const [muteItemAddPush, setMuteItemAddPush] = useState(false);
+            const [muteShoppingDayPush, setMuteShoppingDayPush] = useState(false);
             // Toast notification system (replaces alert())
             const [toasts, setToasts] = useState([]);
             const toastIdRef = React.useRef(0);
@@ -13203,7 +13201,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 } catch (e) { console.error('Push unsubscribe error:', e); }
             };
 
-            // Load muteItemAdd state from Firestore
+            // Load mute states from Firestore
             useEffect(() => {
                 if (!pushSubscription || !user) return;
                 const q = window.firestore.query(
@@ -13215,13 +13213,19 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     if (!snapshot.empty) {
                         const data = snapshot.docs[0].data();
                         setMuteItemAddPush(data.muteItemAdd === true);
+                        setMuteShoppingDayPush(data.muteShoppingDay === true);
                     }
                 }).catch(() => {});
             }, [pushSubscription, user]);
 
             // Toggle mute item add push notifications
             const toggleMuteItemAddPush = async () => {
-                if (!pushSubscription || !user) return;
+                if (!user) return;
+                // If not subscribed, subscribe first then enable item-add
+                if (!pushSubscription) {
+                    await subscribeToPush();
+                    return; // muteItemAdd defaults to false (enabled) on new subscription
+                }
                 const newVal = !muteItemAddPush;
                 setMuteItemAddPush(newVal);
                 try {
@@ -13235,6 +13239,29 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         await window.firestore.updateDoc(d.ref, { muteItemAdd: newVal });
                     }
                 } catch (e) { console.error('Error toggling muteItemAdd:', e); }
+            };
+
+            // Toggle mute shopping day push notifications
+            const toggleMuteShoppingDayPush = async () => {
+                if (!user) return;
+                // If not subscribed, subscribe first then enable shopping day
+                if (!pushSubscription) {
+                    await subscribeToPush();
+                    return; // muteShoppingDay defaults to false (enabled) on new subscription
+                }
+                const newVal = !muteShoppingDayPush;
+                setMuteShoppingDayPush(newVal);
+                try {
+                    const q = window.firestore.query(
+                        window.firestore.collection(window.db, 'push-subscriptions'),
+                        window.firestore.where('userId', '==', user.uid),
+                        window.firestore.where('endpoint', '==', pushSubscription.endpoint)
+                    );
+                    const snapshot = await window.firestore.getDocs(q);
+                    for (const d of snapshot.docs) {
+                        await window.firestore.updateDoc(d.ref, { muteShoppingDay: newVal });
+                    }
+                } catch (e) { console.error('Error toggling muteShoppingDay:', e); }
             };
 
             // Handle shopping day change
@@ -20482,29 +20509,21 @@ END:VCALENDAR`;
                                                             </div>
                                                         </div>
                                                     )}
-                                                    {/* Notifications Section - always visible */}
+                                                    {/* Notifications Section - always visible, independent toggles */}
                                                     <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 space-y-1.5">
                                                         <button
-                                                            onClick={() => pushSubscription ? unsubscribeFromPush() : subscribeToPush()}
+                                                            onClick={toggleMuteShoppingDayPush}
                                                             className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                                                                pushSubscription
+                                                                pushSubscription && !muteShoppingDayPush
                                                                     ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
                                                                     : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                                                             }`}
                                                         >
-                                                            {pushSubscription ? <Bell size={16} /> : <BellOff size={16} />}
-                                                            {pushSubscription ? t('shoppingDayPushEnabled') : t('shoppingDayPushDisabled')}
+                                                            {pushSubscription && !muteShoppingDayPush ? <Bell size={16} /> : <BellOff size={16} />}
+                                                            {pushSubscription && !muteShoppingDayPush ? t('shoppingDayPushEnabled') : t('shoppingDayPushDisabled')}
                                                         </button>
                                                         <button
-                                                            onClick={() => {
-                                                                if (!pushSubscription) {
-                                                                    subscribeToPush().then(() => {
-                                                                        if (muteItemAddPush) toggleMuteItemAddPush();
-                                                                    });
-                                                                } else {
-                                                                    toggleMuteItemAddPush();
-                                                                }
-                                                            }}
+                                                            onClick={toggleMuteItemAddPush}
                                                             className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                                                                 pushSubscription && !muteItemAddPush
                                                                     ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
