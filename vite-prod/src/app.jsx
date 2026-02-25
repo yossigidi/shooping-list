@@ -726,10 +726,25 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 groupMembers: 'חברי החבורה',
                 groupInviteLink: 'קישור הזמנה לחבורה',
                 createNewGroup: 'צור חבורה חדשה',
-                groupExpiresAt: 'תאריך סיום (אופציונלי)',
+                groupExpiresAt: 'תאריך סיום',
                 groupExpired: 'חבורה זו פגה תוקף',
                 extendGroup: 'הארך',
                 noExpiry: 'ללא תפוגה',
+                withEndDate: 'עם תאריך סיום',
+                selectEndDate: 'בחר תאריך',
+                groupBudget: 'תקציב חבורה',
+                myBudget: 'התקציב שלי',
+                totalBudget: 'תקציב כולל',
+                spent: 'הוצאות',
+                remaining: 'נותר',
+                budgetExceeded: 'חריגה מהתקציב!',
+                budgetWarning: 'שימו לב — חריגה מתקציב החבורה',
+                enterAmount: 'הזן סכום',
+                currency: '₪',
+                setBudget: 'הגדר תקציב',
+                updateBudget: 'עדכן תקציב',
+                noBudgetSet: 'לא הוגדר תקציב',
+                budgetPerMember: 'תקציב לפי חבר',
                 groupJoinedDirectly: 'הצטרפת לחבורה בהצלחה!',
                 groupChat: 'צ\'אט חבורה',
                 deleteGroupConfirm: 'למחוק את החבורה? כל הנתונים יימחקו.',
@@ -1959,10 +1974,25 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 groupMembers: 'Group Members',
                 groupInviteLink: 'Group Invite Link',
                 createNewGroup: 'Create New Group',
-                groupExpiresAt: 'End Date (optional)',
+                groupExpiresAt: 'End Date',
                 groupExpired: 'This group has expired',
                 extendGroup: 'Extend',
                 noExpiry: 'No expiry',
+                withEndDate: 'With end date',
+                selectEndDate: 'Select date',
+                groupBudget: 'Group Budget',
+                myBudget: 'My Budget',
+                totalBudget: 'Total Budget',
+                spent: 'Spent',
+                remaining: 'Remaining',
+                budgetExceeded: 'Budget exceeded!',
+                budgetWarning: 'Warning — group budget exceeded',
+                enterAmount: 'Enter amount',
+                currency: '₪',
+                setBudget: 'Set Budget',
+                updateBudget: 'Update Budget',
+                noBudgetSet: 'No budget set',
+                budgetPerMember: 'Budget per member',
                 groupJoinedDirectly: 'Joined group successfully!',
                 groupChat: 'Group Chat',
                 deleteGroupConfirm: 'Delete this group? All data will be deleted.',
@@ -3005,10 +3035,25 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 groupMembers: 'Участники группы',
                 groupInviteLink: 'Ссылка-приглашение',
                 createNewGroup: 'Создать новую группу',
-                groupExpiresAt: 'Дата окончания (необязательно)',
+                groupExpiresAt: 'Дата окончания',
                 groupExpired: 'Срок этой группы истёк',
                 extendGroup: 'Продлить',
                 noExpiry: 'Без срока',
+                withEndDate: 'С датой окончания',
+                selectEndDate: 'Выберите дату',
+                groupBudget: 'Бюджет группы',
+                myBudget: 'Мой бюджет',
+                totalBudget: 'Общий бюджет',
+                spent: 'Потрачено',
+                remaining: 'Осталось',
+                budgetExceeded: 'Бюджет превышен!',
+                budgetWarning: 'Внимание — бюджет группы превышен',
+                enterAmount: 'Введите сумму',
+                currency: '₪',
+                setBudget: 'Установить бюджет',
+                updateBudget: 'Обновить бюджет',
+                noBudgetSet: 'Бюджет не установлен',
+                budgetPerMember: 'Бюджет по участникам',
                 groupJoinedDirectly: 'Вы успешно присоединились к группе!',
                 groupChat: 'Чат группы',
                 deleteGroupConfirm: 'Удалить группу? Все данные будут удалены.',
@@ -4038,10 +4083,25 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 groupMembers: 'أعضاء المجموعة',
                 groupInviteLink: 'رابط دعوة المجموعة',
                 createNewGroup: 'إنشاء مجموعة جديدة',
-                groupExpiresAt: 'تاريخ الانتهاء (اختياري)',
+                groupExpiresAt: 'تاريخ الانتهاء',
                 groupExpired: 'انتهت صلاحية هذه المجموعة',
                 extendGroup: 'تمديد',
                 noExpiry: 'بدون انتهاء',
+                withEndDate: 'مع تاريخ انتهاء',
+                selectEndDate: 'اختر تاريخ',
+                groupBudget: 'ميزانية المجموعة',
+                myBudget: 'ميزانيتي',
+                totalBudget: 'الميزانية الإجمالية',
+                spent: 'المصروفات',
+                remaining: 'المتبقي',
+                budgetExceeded: 'تجاوز الميزانية!',
+                budgetWarning: 'تنبيه — تم تجاوز ميزانية المجموعة',
+                enterAmount: 'أدخل المبلغ',
+                currency: '₪',
+                setBudget: 'تعيين الميزانية',
+                updateBudget: 'تحديث الميزانية',
+                noBudgetSet: 'لم يتم تعيين ميزانية',
+                budgetPerMember: 'الميزانية حسب العضو',
                 groupJoinedDirectly: 'تم الانضمام للمجموعة بنجاح!',
                 groupChat: 'محادثة المجموعة',
                 deleteGroupConfirm: 'حذف المجموعة؟ سيتم حذف جميع البيانات.',
@@ -5446,6 +5506,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         isParent: false
                     }],
                     createdAt: new Date(),
+                    budgets: {},
                     ...(expiresAt ? { expiresAt: expiresAt } : {})
                 };
 
@@ -5474,6 +5535,17 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 return { id: groupRef.id, ...newGroup };
             };
 
+            // Update budget for current user in the group
+            const updateGroupBudget = async (amount) => {
+                if (!family || !user || family.type !== 'group') return;
+                try {
+                    await window.firestore.updateDoc(
+                        window.firestore.doc(window.db, 'families', family.id),
+                        { [`budgets.${user.uid}`]: Number(amount) || 0 }
+                    );
+                } catch (e) { console.error('Error updating budget:', e); }
+            };
+
             const isGroup = family?.type === 'group';
 
             const value = {
@@ -5494,6 +5566,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 logActivity,
                 switchContext,
                 createGroup,
+                updateGroupBudget,
                 isGroup,
                 // Permission flags
                 isAdmin: family?.adminId === user?.uid,
@@ -5583,6 +5656,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const { t, language } = useLanguage();
             const isRTL = language === 'he' || language === 'ar';
             const [name, setName] = useState('');
+            const [expiryMode, setExpiryMode] = useState('none'); // 'none' or 'date'
             const [expiresAt, setExpiresAt] = useState('');
             const [loading, setLoading] = useState(false);
             const [error, setError] = useState('');
@@ -5593,7 +5667,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 setLoading(true);
                 setError('');
                 try {
-                    const expDate = expiresAt ? new Date(expiresAt) : null;
+                    const expDate = expiryMode === 'date' && expiresAt ? new Date(expiresAt) : null;
                     await createGroup(name.trim(), expDate);
                     onClose();
                 } catch (err) {
@@ -5606,7 +5680,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             return (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4" dir={isRTL ? 'rtl' : 'ltr'}>
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
-                    <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 overflow-hidden">
+                    <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 overflow-hidden max-h-[85vh] overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-red-500"></div>
                         <div className="text-center mb-6">
                             <span className="text-5xl">🔥</span>
@@ -5633,17 +5707,58 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                 />
                             </div>
 
+                            {/* Expiry selection - two radio options */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('groupExpiresAt')}</label>
-                                <input
-                                    type="date"
-                                    value={expiresAt}
-                                    onChange={e => setExpiresAt(e.target.value)}
-                                    min={new Date().toISOString().split('T')[0]}
-                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-orange-500"
-                                    dir="ltr"
-                                />
-                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('noExpiry')}</p>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('groupExpiresAt')}</label>
+                                <div className="space-y-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => { setExpiryMode('none'); setExpiresAt(''); }}
+                                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
+                                            expiryMode === 'none'
+                                                ? 'border-orange-400 bg-orange-50 dark:bg-orange-900/20'
+                                                : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                                        }`}
+                                    >
+                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                                            expiryMode === 'none' ? 'border-orange-500' : 'border-gray-300 dark:border-gray-500'
+                                        }`}>
+                                            {expiryMode === 'none' && <div className="w-2.5 h-2.5 rounded-full bg-orange-500"></div>}
+                                        </div>
+                                        <span className={`text-sm font-medium ${expiryMode === 'none' ? 'text-orange-700 dark:text-orange-300' : 'text-gray-600 dark:text-gray-300'}`}>
+                                            {t('noExpiry')}
+                                        </span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setExpiryMode('date')}
+                                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
+                                            expiryMode === 'date'
+                                                ? 'border-orange-400 bg-orange-50 dark:bg-orange-900/20'
+                                                : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                                        }`}
+                                    >
+                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                                            expiryMode === 'date' ? 'border-orange-500' : 'border-gray-300 dark:border-gray-500'
+                                        }`}>
+                                            {expiryMode === 'date' && <div className="w-2.5 h-2.5 rounded-full bg-orange-500"></div>}
+                                        </div>
+                                        <span className={`text-sm font-medium ${expiryMode === 'date' ? 'text-orange-700 dark:text-orange-300' : 'text-gray-600 dark:text-gray-300'}`}>
+                                            {t('withEndDate')}
+                                        </span>
+                                    </button>
+                                    {expiryMode === 'date' && (
+                                        <input
+                                            type="date"
+                                            value={expiresAt}
+                                            onChange={e => setExpiresAt(e.target.value)}
+                                            min={new Date().toISOString().split('T')[0]}
+                                            className="w-full px-4 py-3 border-2 border-orange-300 dark:border-orange-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-orange-500 mt-1"
+                                            dir="ltr"
+                                            autoFocus
+                                        />
+                                    )}
+                                </div>
                             </div>
 
                             <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold disabled:opacity-50 hover:shadow-lg transition-all">
@@ -5858,6 +5973,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [pendingStatus, setPendingStatus] = useState(null); // 'waiting' | 'rejected'
             const [cancellingRequest, setCancellingRequest] = useState(false);
             const [groupNameInput, setGroupNameInput] = useState('');
+            const [groupExpiryMode, setGroupExpiryMode] = useState('none');
             const [groupExpiresAt, setGroupExpiresAt] = useState('');
             const { createFamily, joinFamily, cancelJoinRequest, createGroup } = useFamily();
             const { user } = useAuth();
@@ -6014,7 +6130,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 setLoading(true);
                 setError('');
                 try {
-                    const expiresAt = groupExpiresAt ? new Date(groupExpiresAt) : null;
+                    const expiresAt = groupExpiryMode === 'date' && groupExpiresAt ? new Date(groupExpiresAt) : null;
                     await createGroup(groupNameInput.trim(), expiresAt);
                 } catch (err) {
                     setError(err.message || t('error'));
@@ -6260,23 +6376,63 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('groupExpiresAt')}</label>
-                                    <input
-                                        type="date"
-                                        value={groupExpiresAt}
-                                        onChange={e => setGroupExpiresAt(e.target.value)}
-                                        min={new Date().toISOString().split('T')[0]}
-                                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-orange-500"
-                                        dir="ltr"
-                                    />
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('noExpiry')}</p>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('groupExpiresAt')}</label>
+                                    <div className="space-y-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => { setGroupExpiryMode('none'); setGroupExpiresAt(''); }}
+                                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
+                                                groupExpiryMode === 'none'
+                                                    ? 'border-orange-400 bg-orange-50 dark:bg-orange-900/20'
+                                                    : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                                            }`}
+                                        >
+                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                                                groupExpiryMode === 'none' ? 'border-orange-500' : 'border-gray-300 dark:border-gray-500'
+                                            }`}>
+                                                {groupExpiryMode === 'none' && <div className="w-2.5 h-2.5 rounded-full bg-orange-500"></div>}
+                                            </div>
+                                            <span className={`text-sm font-medium ${groupExpiryMode === 'none' ? 'text-orange-700 dark:text-orange-300' : 'text-gray-600 dark:text-gray-300'}`}>
+                                                {t('noExpiry')}
+                                            </span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setGroupExpiryMode('date')}
+                                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
+                                                groupExpiryMode === 'date'
+                                                    ? 'border-orange-400 bg-orange-50 dark:bg-orange-900/20'
+                                                    : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                                            }`}
+                                        >
+                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                                                groupExpiryMode === 'date' ? 'border-orange-500' : 'border-gray-300 dark:border-gray-500'
+                                            }`}>
+                                                {groupExpiryMode === 'date' && <div className="w-2.5 h-2.5 rounded-full bg-orange-500"></div>}
+                                            </div>
+                                            <span className={`text-sm font-medium ${groupExpiryMode === 'date' ? 'text-orange-700 dark:text-orange-300' : 'text-gray-600 dark:text-gray-300'}`}>
+                                                {t('withEndDate')}
+                                            </span>
+                                        </button>
+                                        {groupExpiryMode === 'date' && (
+                                            <input
+                                                type="date"
+                                                value={groupExpiresAt}
+                                                onChange={e => setGroupExpiresAt(e.target.value)}
+                                                min={new Date().toISOString().split('T')[0]}
+                                                className="w-full px-4 py-3 border-2 border-orange-300 dark:border-orange-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-orange-500 mt-1"
+                                                dir="ltr"
+                                                autoFocus
+                                            />
+                                        )}
+                                    </div>
                                 </div>
 
                                 <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold disabled:opacity-50 hover:shadow-lg transition-all">
                                     {loading ? t('loading') : t('createGroup')}
                                 </button>
 
-                                <button type="button" onClick={() => { setMode('choose'); setError(''); setGroupNameInput(''); setGroupExpiresAt(''); }} className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline">
+                                <button type="button" onClick={() => { setMode('choose'); setError(''); setGroupNameInput(''); setGroupExpiryMode('none'); setGroupExpiresAt(''); }} className="w-full text-indigo-600 dark:text-indigo-400 text-sm hover:underline">
                                     {t('back')}
                                 </button>
                             </form>
@@ -12787,7 +12943,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         function ShoppingList() {
             const { user } = useAuth();
             const { childUser } = useChildAuth();
-            const { family, allMemberships, lists, currentList, setCurrentList, logActivity, leaveFamily, deleteList, isAdmin, isGroup, canManageLists, switchContext } = useFamily();
+            const { family, allMemberships, lists, currentList, setCurrentList, logActivity, leaveFamily, deleteList, isAdmin, isGroup, canManageLists, switchContext, updateGroupBudget } = useFamily();
             const { language, changeLanguage, t } = useLanguage();
             // Expose changeLanguage to window for accessibility modal buttons
             window.changeAppLanguage = changeLanguage;
@@ -13307,6 +13463,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         if (showChat) { setShowChat(false); return; }
                         if (showReminderModal) { setShowReminderModal(false); return; }
                         if (showCreateGroup) { setShowCreateGroup(false); return; }
+                        if (showGroupBudgetModal) { setShowGroupBudgetModal(false); return; }
                         if (showGroupSettings) { setShowGroupSettings(false); return; }
                         if (showContextSwitcher) { setShowContextSwitcher(false); return; }
                         if (showCreateList) { setShowCreateList(false); return; }
@@ -13325,7 +13482,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             }, [showExternalLinkPopup, showFeedback, showHelp, showOnboarding, showAIAssistant, showSaveTemplate, showTemplates,
                 showAccessibility, showPromotions, selectedPromoChain, showSmartAdd, showListComparison, showPriceScanner,
                 showCalendar, showRegulars, showForgottenStats, showCamera, showSettings, showChat,
-                showReminderModal, showCreateList, showCreateGroup, showGroupSettings, showContextSwitcher,
+                showReminderModal, showCreateList, showCreateGroup, showGroupBudgetModal, showGroupSettings, showContextSwitcher,
                 showFamilySettings, showDeleteAllConfirm, showHistory,
                 showFinishShopping, showSavedLists, showImportWhatsApp, showQuantitySelector]);
 
@@ -15137,6 +15294,22 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 setBudgetHistory(updated);
                 localStorage.setItem('budgetHistory', JSON.stringify(updated));
             };
+
+            // Group budget calculations
+            const groupBudgetTotal = React.useMemo(() => {
+                if (!isGroup || !family?.budgets) return 0;
+                return Object.values(family.budgets).reduce((sum, v) => sum + (Number(v) || 0), 0);
+            }, [isGroup, family?.budgets]);
+
+            const myGroupBudget = React.useMemo(() => {
+                if (!isGroup || !family?.budgets || !user) return 0;
+                return Number(family.budgets[user.uid]) || 0;
+            }, [isGroup, family?.budgets, user]);
+
+            const groupBudgetExceeded = isGroup && groupBudgetTotal > 0 && estimatedListTotal > groupBudgetTotal;
+
+            const [showGroupBudgetModal, setShowGroupBudgetModal] = useState(false);
+            const [groupBudgetInput, setGroupBudgetInput] = useState('');
 
             const getCategoryBreakdown = React.useMemo(() => {
                 const breakdown = {};
@@ -17359,6 +17532,14 @@ END:VCALENDAR`;
                                 showToast(`🚨 ${t('budgetAlertExceeded')}`, 'error');
                             } else if (pct >= 80) {
                                 showToast(`⚠️ ${t('budgetAlert80')} (${pct}%)`, 'warning');
+                            }
+                        }
+                        // Group budget alert
+                        if (isGroup && groupBudgetTotal > 0) {
+                            const addedPrice = (estimatedPrice || 0) * (parseFloat(selectedQuantity) || 1);
+                            const newTotal = estimatedListTotal + addedPrice;
+                            if (newTotal > groupBudgetTotal && estimatedListTotal <= groupBudgetTotal) {
+                                showToast(`🚨 ${t('budgetWarning')}`, 'error');
                             }
                         }
                     }
@@ -20791,6 +20972,108 @@ END:VCALENDAR`;
                                 </div>
                                 );
                             })()}
+
+                            {/* Group Budget Bar */}
+                            {isGroup && (() => {
+                                const spent = Math.round(estimatedListTotal);
+                                if (groupBudgetTotal <= 0 && myGroupBudget <= 0) {
+                                    return (
+                                        <div className="mt-2 glass rounded-xl p-3 border border-orange-200/60 dark:border-orange-700/60 cursor-pointer hover:shadow-md transition-all"
+                                            onClick={() => { setGroupBudgetInput(myGroupBudget > 0 ? myGroupBudget.toString() : ''); setShowGroupBudgetModal(true); }}>
+                                            <div className="flex items-center justify-center gap-2 text-sm text-orange-600 dark:text-orange-400 font-medium">
+                                                <span>💰</span> {t('setBudget')}
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                                const rawPercent = groupBudgetTotal > 0 ? Math.round((spent / groupBudgetTotal) * 100) : 0;
+                                const barColor = rawPercent >= 100 ? 'from-red-500 to-red-600' : rawPercent >= 80 ? 'from-yellow-400 to-orange-500' : 'from-green-400 to-emerald-500';
+                                const borderColor = rawPercent >= 100 ? 'border-red-300 dark:border-red-700' : rawPercent >= 80 ? 'border-orange-300 dark:border-orange-700' : 'border-green-300 dark:border-green-700';
+                                return (
+                                    <div className={`mt-2 glass rounded-xl p-3 border ${borderColor} cursor-pointer hover:shadow-md transition-all`}
+                                        onClick={() => { setGroupBudgetInput(myGroupBudget > 0 ? myGroupBudget.toString() : ''); setShowGroupBudgetModal(true); }}>
+                                        <div className="flex justify-between items-center text-xs mb-1.5">
+                                            <span className="font-bold text-gray-700 dark:text-gray-300">💰 {t('groupBudget')}: ₪{groupBudgetTotal}</span>
+                                            <span className={`font-bold ${groupBudgetExceeded ? 'text-red-500' : 'text-green-500'}`}>
+                                                {groupBudgetExceeded
+                                                    ? `${t('budgetExceeded')} -₪${spent - groupBudgetTotal}`
+                                                    : `${t('remaining')}: ₪${groupBudgetTotal - spent}`}
+                                            </span>
+                                        </div>
+                                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+                                            <div className={`h-2.5 rounded-full bg-gradient-to-r ${barColor} transition-all duration-700 ease-out`} style={{width: `${Math.min(rawPercent, 100)}%`}}></div>
+                                        </div>
+                                        <div className="text-[10px] text-gray-400 mt-1 text-center">
+                                            {t('spent')}: ₪{spent} · {t('myBudget')}: ₪{myGroupBudget}
+                                        </div>
+                                    </div>
+                                );
+                            })()}
+
+                            {/* Group Budget Modal */}
+                            {showGroupBudgetModal && (
+                                <div className="fixed inset-0 z-50 flex items-center justify-center p-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowGroupBudgetModal(false)}></div>
+                                    <div className="relative w-full max-w-sm bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6">
+                                        <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 text-center">💰 {t('groupBudget')}</h3>
+
+                                        {/* Member budgets breakdown */}
+                                        {family?.members?.length > 0 && (
+                                            <div className="mb-4 space-y-2">
+                                                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">{t('budgetPerMember')}</p>
+                                                {family.members.map(m => {
+                                                    const memberBudget = Number(family.budgets?.[m.userId]) || 0;
+                                                    return (
+                                                        <div key={m.userId} className="flex items-center justify-between px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700/50">
+                                                            <span className="text-sm text-gray-700 dark:text-gray-300 truncate">{m.displayName || m.email}</span>
+                                                            <span className={`text-sm font-bold ${memberBudget > 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-400'}`}>
+                                                                {memberBudget > 0 ? `₪${memberBudget}` : '—'}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                })}
+                                                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700">
+                                                    <span className="text-sm font-bold text-orange-700 dark:text-orange-300">{t('totalBudget')}</span>
+                                                    <span className="text-sm font-bold text-orange-700 dark:text-orange-300">₪{groupBudgetTotal}</span>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* My budget input */}
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('myBudget')}</label>
+                                            <div className="relative">
+                                                <input
+                                                    type="number"
+                                                    value={groupBudgetInput}
+                                                    onChange={e => setGroupBudgetInput(e.target.value)}
+                                                    placeholder={t('enterAmount')}
+                                                    className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl dark:bg-gray-700 dark:text-white focus:border-orange-500 text-lg"
+                                                    dir="ltr"
+                                                    min="0"
+                                                    step="1"
+                                                    autoFocus
+                                                />
+                                                <span className="absolute top-1/2 -translate-y-1/2 text-gray-400 text-lg" style={{ [isRTL ? 'left' : 'right']: '12px' }}>{t('currency')}</span>
+                                            </div>
+                                        </div>
+
+                                        <button
+                                            onClick={async () => {
+                                                await updateGroupBudget(groupBudgetInput);
+                                                setShowGroupBudgetModal(false);
+                                                showToast(`${t('myBudget')}: ₪${groupBudgetInput || 0}`, 'success');
+                                            }}
+                                            className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
+                                        >
+                                            {myGroupBudget > 0 ? t('updateBudget') : t('setBudget')}
+                                        </button>
+                                        <button onClick={() => setShowGroupBudgetModal(false)} className="w-full text-gray-500 dark:text-gray-400 text-sm hover:underline mt-2">
+                                            {t('cancel')}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Gamification Badges */}
                             {gamificationBadges.length > 0 && (
