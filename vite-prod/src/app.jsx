@@ -1551,7 +1551,108 @@ import { CSS } from '@dnd-kit/utilities';
                 askAI: 'שאל את העוזר החכם',
                 aiPlaceholder: 'למשל: "תכין לי רשימה לשבת ל-6 אנשים"',
                 aiThinking: 'חושב...',
-                aiResponse: 'תשובת העוזר'
+                aiResponse: 'תשובת העוזר',
+                // === SpeakEasy Kids ===
+                kidsLearn: 'לימוד אנגלית',
+                kidsHome: 'בית',
+                kidsGames: 'משחקים',
+                kidsLetters: 'אותיות',
+                kidsNumbers: 'ספרות',
+                kidsColors: 'צבעים',
+                kidsTests: 'מבחנים',
+                kidsWelcome: 'שלום {name}!',
+                kidsDailyMission: 'משימה יומית',
+                kidsProgress: 'התקדמות',
+                kidsStreak: 'רצף',
+                kidsDays: 'ימים',
+                kidsXP: 'ניקוד',
+                kidsLevel: 'שלב',
+                kidsStartLearning: 'בוא נתחיל!',
+                kidsListenAndRepeat: 'הקשב וחזור',
+                kidsChooseCorrect: 'בחר את התשובה הנכונה',
+                kidsWhatLetterIs: 'איזו אות זו?',
+                kidsWordStartsWith: 'איזו מילה מתחילה ב...',
+                kidsWhatNumberIs: 'מה המספר הזה?',
+                kidsWhatColorIs: 'מה הצבע הזה?',
+                kidsListenAndChoose: 'הקשב ובחר',
+                kidsCorrect: 'נכון! כל הכבוד!',
+                kidsWrong: 'לא נכון, נסה שוב',
+                kidsTestScore: 'ציון המבחן',
+                kidsPassedTest: 'עברת! מעולה!',
+                kidsFailedTest: 'צריך לתרגל עוד קצת',
+                kidsNextLevel: 'לשלב הבא',
+                kidsRetry: 'נסה שוב',
+                kidsTotalLetters: 'אותיות שנלמדו',
+                kidsTotalNumbers: 'ספרות שנלמדו',
+                kidsTotalColors: 'צבעים שנלמדו',
+                kidsQuizMe: 'תבחן אותי!',
+                kidsPlayGame: 'שחק',
+                kidsSelectAvatar: 'בחר אווטר',
+                kidsChooseAvatar: 'בחר את הדמות שלך',
+                kidsMinutesToday: 'דקות היום',
+                kidsWeeklyAvg: 'ממוצע שבועי',
+                kidsLastLogin: 'התחברות אחרונה',
+                kidsNotLoggedToday: 'לא נכנס/ה היום',
+                kidsHoursAgo: 'לפני {n} שעות',
+                kidsMinutesAgo: 'לפני {n} דקות',
+                kidsTestResults: 'תוצאות מבחנים',
+                kidsLetterProgress: 'התקדמות אותיות',
+                kidsActivityGraph: 'גרף פעילות שבועי',
+                kidsNoActivity: 'אין פעילות עדיין',
+                kidsSun: 'א׳',
+                kidsMon: 'ב׳',
+                kidsTue: 'ג׳',
+                kidsWed: 'ד׳',
+                kidsThu: 'ה׳',
+                kidsFri: 'ו׳',
+                kidsSat: 'ש׳',
+                kidsMatchGame: 'משחק התאמה',
+                kidsMemoryGame: 'משחק זיכרון',
+                kidsSpellingGame: 'איות',
+                kidsLocked: 'נעול - עבור מבחן לפתוח',
+                kidsCompleted: 'הושלם',
+                // === SpeakEasy Adults ===
+                learnEnglish: 'לימוד אנגלית',
+                learnHome: 'דף הבית',
+                learnVocabulary: 'אוצר מילים',
+                learnPhrases: 'ביטויים',
+                learnAlphabet: 'אותיות',
+                learnNumbers: 'מספרים',
+                learnColors: 'צבעים',
+                learnGrammar: 'דקדוק',
+                learnVideos: 'סרטונים',
+                learnTests: 'מבחנים',
+                learnProgress: 'התקדמות',
+                learnStreak: 'רצף',
+                learnFood: 'אוכל',
+                learnTravel: 'נסיעות',
+                learnShopping: 'קניות',
+                learnDaily: 'יומיומי',
+                learnBusiness: 'עסקים',
+                learnCorrect: 'נכון!',
+                learnWrong: 'לא נכון',
+                learnNextQuestion: 'שאלה הבאה',
+                learnScore: 'ציון',
+                learnWordsLearned: 'מילים שנלמדו',
+                learnPhrasesLearned: 'ביטויים שנלמדו',
+                learnListenAndRepeat: 'הקשב וחזור',
+                learnTapToHear: 'לחץ לשמוע',
+                learnExample: 'דוגמה',
+                learnTranslation: 'תרגום',
+                learnCategory: 'קטגוריה',
+                learnGreetings: 'ברכות',
+                learnRestaurant: 'מסעדה',
+                learnEmergency: 'חירום',
+                learnTestScore: 'ציון המבחן',
+                learnPassedTest: 'עברת! מצוין!',
+                learnFailedTest: 'צריך לתרגל עוד',
+                learnRetry: 'נסה שוב',
+                learnStartTest: 'התחל מבחן',
+                learnQuestion: 'שאלה',
+                learnOf: 'מתוך',
+                learnXP: 'ניקוד',
+                learnDays: 'ימים',
+                learnBack: 'חזור'
             },
             en: {
                 // App name & general
@@ -2645,7 +2746,108 @@ import { CSS } from '@dnd-kit/utilities';
                 servings: 'Servings', peopleCount: '{count} people', chooseMealType: 'Choose meal type', chooseRecipe: 'Choose a meal', customMeal: 'Custom meal', addMealAndIngredients: 'Add meal + ingredients', suggestedMeals: 'Suggested meals', shabbatMeal: 'Shabbat meal', howManyPeople: 'How many people?', back: 'Back',
                 importRecipe: 'Import recipe', pasteRecipeUrl: 'Paste recipe URL', importingRecipe: 'Importing recipe...', recipeImported: 'Recipe imported successfully', recipeTitle: 'Recipe name', ingredients: 'Ingredients', addIngredients: 'Add ingredients to list',
                 shareListLink: 'Share list via link', shareListDesc: 'Anyone with the link can view the list', linkCopied: 'Link copied!', viewSharedList: 'View shared list',
-                aiAssistant: 'AI Assistant', askAI: 'Ask the smart assistant', aiPlaceholder: 'e.g. "Make me a list for Shabbat for 6 people"', aiThinking: 'Thinking...', aiResponse: 'Assistant response'
+                aiAssistant: 'AI Assistant', askAI: 'Ask the smart assistant', aiPlaceholder: 'e.g. "Make me a list for Shabbat for 6 people"', aiThinking: 'Thinking...', aiResponse: 'Assistant response',
+                // === SpeakEasy Kids ===
+                kidsLearn: 'Learn English',
+                kidsHome: 'Home',
+                kidsGames: 'Games',
+                kidsLetters: 'Letters',
+                kidsNumbers: 'Numbers',
+                kidsColors: 'Colors',
+                kidsTests: 'Tests',
+                kidsWelcome: 'Hello {name}!',
+                kidsDailyMission: 'Daily Mission',
+                kidsProgress: 'Progress',
+                kidsStreak: 'Streak',
+                kidsDays: 'days',
+                kidsXP: 'XP',
+                kidsLevel: 'Level',
+                kidsStartLearning: 'Let\'s start!',
+                kidsListenAndRepeat: 'Listen and repeat',
+                kidsChooseCorrect: 'Choose the correct answer',
+                kidsWhatLetterIs: 'What letter is this?',
+                kidsWordStartsWith: 'Which word starts with...',
+                kidsWhatNumberIs: 'What number is this?',
+                kidsWhatColorIs: 'What color is this?',
+                kidsListenAndChoose: 'Listen and choose',
+                kidsCorrect: 'Correct! Great job!',
+                kidsWrong: 'Not right, try again',
+                kidsTestScore: 'Test Score',
+                kidsPassedTest: 'You passed! Amazing!',
+                kidsFailedTest: 'Need more practice',
+                kidsNextLevel: 'Next Level',
+                kidsRetry: 'Try Again',
+                kidsTotalLetters: 'Letters learned',
+                kidsTotalNumbers: 'Numbers learned',
+                kidsTotalColors: 'Colors learned',
+                kidsQuizMe: 'Quiz me!',
+                kidsPlayGame: 'Play',
+                kidsSelectAvatar: 'Select Avatar',
+                kidsChooseAvatar: 'Choose your character',
+                kidsMinutesToday: 'Minutes today',
+                kidsWeeklyAvg: 'Weekly average',
+                kidsLastLogin: 'Last login',
+                kidsNotLoggedToday: 'Not logged in today',
+                kidsHoursAgo: '{n} hours ago',
+                kidsMinutesAgo: '{n} minutes ago',
+                kidsTestResults: 'Test Results',
+                kidsLetterProgress: 'Letter Progress',
+                kidsActivityGraph: 'Weekly Activity',
+                kidsNoActivity: 'No activity yet',
+                kidsSun: 'Sun',
+                kidsMon: 'Mon',
+                kidsTue: 'Tue',
+                kidsWed: 'Wed',
+                kidsThu: 'Thu',
+                kidsFri: 'Fri',
+                kidsSat: 'Sat',
+                kidsMatchGame: 'Match Game',
+                kidsMemoryGame: 'Memory Game',
+                kidsSpellingGame: 'Spelling',
+                kidsLocked: 'Locked - pass test to unlock',
+                kidsCompleted: 'Completed',
+                // === SpeakEasy Adults ===
+                learnEnglish: 'Learn English',
+                learnHome: 'Home',
+                learnVocabulary: 'Vocabulary',
+                learnPhrases: 'Phrases',
+                learnAlphabet: 'Alphabet',
+                learnNumbers: 'Numbers',
+                learnColors: 'Colors',
+                learnGrammar: 'Grammar',
+                learnVideos: 'Videos',
+                learnTests: 'Tests',
+                learnProgress: 'Progress',
+                learnStreak: 'Streak',
+                learnFood: 'Food',
+                learnTravel: 'Travel',
+                learnShopping: 'Shopping',
+                learnDaily: 'Daily Life',
+                learnBusiness: 'Business',
+                learnCorrect: 'Correct!',
+                learnWrong: 'Wrong',
+                learnNextQuestion: 'Next Question',
+                learnScore: 'Score',
+                learnWordsLearned: 'Words Learned',
+                learnPhrasesLearned: 'Phrases Learned',
+                learnListenAndRepeat: 'Listen & Repeat',
+                learnTapToHear: 'Tap to hear',
+                learnExample: 'Example',
+                learnTranslation: 'Translation',
+                learnCategory: 'Category',
+                learnGreetings: 'Greetings',
+                learnRestaurant: 'Restaurant',
+                learnEmergency: 'Emergency',
+                learnTestScore: 'Test Score',
+                learnPassedTest: 'You passed! Excellent!',
+                learnFailedTest: 'Keep practicing',
+                learnRetry: 'Try Again',
+                learnStartTest: 'Start Test',
+                learnQuestion: 'Question',
+                learnOf: 'of',
+                learnXP: 'XP',
+                learnDays: 'days',
+                learnBack: 'Back'
             },
             ru: {
                 // App name & general
@@ -3726,7 +3928,108 @@ import { CSS } from '@dnd-kit/utilities';
                 servings: 'Порции', peopleCount: '{count} человек', chooseMealType: 'Выберите тип блюда', chooseRecipe: 'Выберите блюдо', customMeal: 'Своё блюдо', addMealAndIngredients: 'Добавить блюдо + ингредиенты', suggestedMeals: 'Рекомендуемые блюда', shabbatMeal: 'Шаббатнее блюдо', howManyPeople: 'На сколько человек?', back: 'Назад',
                 importRecipe: 'Импорт рецепта', pasteRecipeUrl: 'Вставьте ссылку на рецепт', importingRecipe: 'Импорт рецепта...', recipeImported: 'Рецепт успешно импортирован', recipeTitle: 'Название рецепта', ingredients: 'Ингредиенты', addIngredients: 'Добавить ингредиенты в список',
                 shareListLink: 'Поделиться списком по ссылке', shareListDesc: 'Любой с ссылкой сможет увидеть список', linkCopied: 'Ссылка скопирована!', viewSharedList: 'Посмотреть общий список',
-                aiAssistant: 'ИИ-помощник', askAI: 'Спросить умного помощника', aiPlaceholder: 'Например: "Составь мне список на шаббат для 6 человек"', aiThinking: 'Думаю...', aiResponse: 'Ответ помощника'
+                aiAssistant: 'ИИ-помощник', askAI: 'Спросить умного помощника', aiPlaceholder: 'Например: "Составь мне список на шаббат для 6 человек"', aiThinking: 'Думаю...', aiResponse: 'Ответ помощника',
+                // === SpeakEasy Kids ===
+                kidsLearn: 'Учить английский',
+                kidsHome: 'Главная',
+                kidsGames: 'Игры',
+                kidsLetters: 'Буквы',
+                kidsNumbers: 'Цифры',
+                kidsColors: 'Цвета',
+                kidsTests: 'Тесты',
+                kidsWelcome: 'Привет {name}!',
+                kidsDailyMission: 'Ежедневное задание',
+                kidsProgress: 'Прогресс',
+                kidsStreak: 'Серия',
+                kidsDays: 'дней',
+                kidsXP: 'Очки',
+                kidsLevel: 'Уровень',
+                kidsStartLearning: 'Начнём!',
+                kidsListenAndRepeat: 'Слушай и повторяй',
+                kidsChooseCorrect: 'Выбери правильный ответ',
+                kidsWhatLetterIs: 'Какая это буква?',
+                kidsWordStartsWith: 'Какое слово начинается на...',
+                kidsWhatNumberIs: 'Какое это число?',
+                kidsWhatColorIs: 'Какой это цвет?',
+                kidsListenAndChoose: 'Слушай и выбирай',
+                kidsCorrect: 'Правильно! Молодец!',
+                kidsWrong: 'Неправильно, попробуй ещё',
+                kidsTestScore: 'Результат теста',
+                kidsPassedTest: 'Сдал! Отлично!',
+                kidsFailedTest: 'Нужно больше практики',
+                kidsNextLevel: 'Следующий уровень',
+                kidsRetry: 'Попробовать снова',
+                kidsTotalLetters: 'Выучено букв',
+                kidsTotalNumbers: 'Выучено цифр',
+                kidsTotalColors: 'Выучено цветов',
+                kidsQuizMe: 'Проверь меня!',
+                kidsPlayGame: 'Играть',
+                kidsSelectAvatar: 'Выбрать аватар',
+                kidsChooseAvatar: 'Выбери персонажа',
+                kidsMinutesToday: 'Минут сегодня',
+                kidsWeeklyAvg: 'Средний за неделю',
+                kidsLastLogin: 'Последний вход',
+                kidsNotLoggedToday: 'Не входил(а) сегодня',
+                kidsHoursAgo: '{n} часов назад',
+                kidsMinutesAgo: '{n} минут назад',
+                kidsTestResults: 'Результаты тестов',
+                kidsLetterProgress: 'Прогресс букв',
+                kidsActivityGraph: 'Активность за неделю',
+                kidsNoActivity: 'Пока нет активности',
+                kidsSun: 'Вс',
+                kidsMon: 'Пн',
+                kidsTue: 'Вт',
+                kidsWed: 'Ср',
+                kidsThu: 'Чт',
+                kidsFri: 'Пт',
+                kidsSat: 'Сб',
+                kidsMatchGame: 'Найди пару',
+                kidsMemoryGame: 'Игра на память',
+                kidsSpellingGame: 'Правописание',
+                kidsLocked: 'Заблокировано - сдайте тест',
+                kidsCompleted: 'Завершено',
+                // === SpeakEasy Adults ===
+                learnEnglish: 'Учить английский',
+                learnHome: 'Главная',
+                learnVocabulary: 'Словарь',
+                learnPhrases: 'Фразы',
+                learnAlphabet: 'Алфавит',
+                learnNumbers: 'Числа',
+                learnColors: 'Цвета',
+                learnGrammar: 'Грамматика',
+                learnVideos: 'Видео',
+                learnTests: 'Тесты',
+                learnProgress: 'Прогресс',
+                learnStreak: 'Серия',
+                learnFood: 'Еда',
+                learnTravel: 'Путешествия',
+                learnShopping: 'Покупки',
+                learnDaily: 'Повседневное',
+                learnBusiness: 'Бизнес',
+                learnCorrect: 'Правильно!',
+                learnWrong: 'Неправильно',
+                learnNextQuestion: 'Следующий вопрос',
+                learnScore: 'Счёт',
+                learnWordsLearned: 'Слов выучено',
+                learnPhrasesLearned: 'Фраз выучено',
+                learnListenAndRepeat: 'Слушай и повторяй',
+                learnTapToHear: 'Нажмите, чтобы услышать',
+                learnExample: 'Пример',
+                learnTranslation: 'Перевод',
+                learnCategory: 'Категория',
+                learnGreetings: 'Приветствия',
+                learnRestaurant: 'Ресторан',
+                learnEmergency: 'Экстренное',
+                learnTestScore: 'Результат теста',
+                learnPassedTest: 'Сдал! Отлично!',
+                learnFailedTest: 'Нужно больше практики',
+                learnRetry: 'Попробовать снова',
+                learnStartTest: 'Начать тест',
+                learnQuestion: 'Вопрос',
+                learnOf: 'из',
+                learnXP: 'Очки',
+                learnDays: 'дней',
+                learnBack: 'Назад'
             },
             ar: {
                 // App name & general
@@ -4811,7 +5114,108 @@ import { CSS } from '@dnd-kit/utilities';
                 servings: 'حصص', peopleCount: '{count} أشخاص', chooseMealType: 'اختر نوع الوجبة', chooseRecipe: 'اختر وجبة', customMeal: 'وجبة مخصصة', addMealAndIngredients: 'أضف وجبة + مكونات', suggestedMeals: 'وجبات مقترحة', shabbatMeal: 'وجبة سبت', howManyPeople: 'لكم شخص؟', back: 'رجوع',
                 importRecipe: 'استيراد وصفة', pasteRecipeUrl: 'الصق رابط الوصفة', importingRecipe: 'جاري استيراد الوصفة...', recipeImported: 'تم استيراد الوصفة بنجاح', recipeTitle: 'اسم الوصفة', ingredients: 'المكونات', addIngredients: 'أضف المكونات للقائمة',
                 shareListLink: 'مشاركة القائمة برابط', shareListDesc: 'أي شخص لديه الرابط يمكنه رؤية القائمة', linkCopied: 'تم نسخ الرابط!', viewSharedList: 'عرض القائمة المشتركة',
-                aiAssistant: 'مساعد ذكي', askAI: 'اسأل المساعد الذكي', aiPlaceholder: 'مثال: "اصنع لي قائمة لعشاء 6 أشخاص"', aiThinking: 'جاري التفكير...', aiResponse: 'رد المساعد'
+                aiAssistant: 'مساعد ذكي', askAI: 'اسأل المساعد الذكي', aiPlaceholder: 'مثال: "اصنع لي قائمة لعشاء 6 أشخاص"', aiThinking: 'جاري التفكير...', aiResponse: 'رد المساعد',
+                // === SpeakEasy Kids ===
+                kidsLearn: 'تعلم الإنجليزية',
+                kidsHome: 'الرئيسية',
+                kidsGames: 'ألعاب',
+                kidsLetters: 'حروف',
+                kidsNumbers: 'أرقام',
+                kidsColors: 'ألوان',
+                kidsTests: 'اختبارات',
+                kidsWelcome: 'مرحبا {name}!',
+                kidsDailyMission: 'مهمة يومية',
+                kidsProgress: 'تقدم',
+                kidsStreak: 'سلسلة',
+                kidsDays: 'أيام',
+                kidsXP: 'نقاط',
+                kidsLevel: 'مستوى',
+                kidsStartLearning: 'هيا نبدأ!',
+                kidsListenAndRepeat: 'استمع وكرر',
+                kidsChooseCorrect: 'اختر الإجابة الصحيحة',
+                kidsWhatLetterIs: 'ما هذا الحرف؟',
+                kidsWordStartsWith: 'أي كلمة تبدأ بـ...',
+                kidsWhatNumberIs: 'ما هذا الرقم؟',
+                kidsWhatColorIs: 'ما هذا اللون؟',
+                kidsListenAndChoose: 'استمع واختر',
+                kidsCorrect: 'صحيح! أحسنت!',
+                kidsWrong: 'خطأ، حاول مرة أخرى',
+                kidsTestScore: 'نتيجة الاختبار',
+                kidsPassedTest: 'نجحت! رائع!',
+                kidsFailedTest: 'تحتاج المزيد من التدريب',
+                kidsNextLevel: 'المستوى التالي',
+                kidsRetry: 'حاول مجددا',
+                kidsTotalLetters: 'حروف تعلمتها',
+                kidsTotalNumbers: 'أرقام تعلمتها',
+                kidsTotalColors: 'ألوان تعلمتها',
+                kidsQuizMe: 'اختبرني!',
+                kidsPlayGame: 'العب',
+                kidsSelectAvatar: 'اختر صورة رمزية',
+                kidsChooseAvatar: 'اختر شخصيتك',
+                kidsMinutesToday: 'دقائق اليوم',
+                kidsWeeklyAvg: 'المعدل الأسبوعي',
+                kidsLastLogin: 'آخر دخول',
+                kidsNotLoggedToday: 'لم يدخل اليوم',
+                kidsHoursAgo: 'قبل {n} ساعات',
+                kidsMinutesAgo: 'قبل {n} دقائق',
+                kidsTestResults: 'نتائج الاختبارات',
+                kidsLetterProgress: 'تقدم الحروف',
+                kidsActivityGraph: 'نشاط أسبوعي',
+                kidsNoActivity: 'لا يوجد نشاط بعد',
+                kidsSun: 'أحد',
+                kidsMon: 'إثن',
+                kidsTue: 'ثلا',
+                kidsWed: 'أرب',
+                kidsThu: 'خمي',
+                kidsFri: 'جمع',
+                kidsSat: 'سبت',
+                kidsMatchGame: 'لعبة المطابقة',
+                kidsMemoryGame: 'لعبة الذاكرة',
+                kidsSpellingGame: 'إملاء',
+                kidsLocked: 'مغلق - اجتاز الاختبار',
+                kidsCompleted: 'مكتمل',
+                // === SpeakEasy Adults ===
+                learnEnglish: 'تعلم الإنجليزية',
+                learnHome: 'الرئيسية',
+                learnVocabulary: 'مفردات',
+                learnPhrases: 'عبارات',
+                learnAlphabet: 'أبجدية',
+                learnNumbers: 'أرقام',
+                learnColors: 'ألوان',
+                learnGrammar: 'قواعد',
+                learnVideos: 'فيديو',
+                learnTests: 'اختبارات',
+                learnProgress: 'تقدم',
+                learnStreak: 'سلسلة',
+                learnFood: 'طعام',
+                learnTravel: 'سفر',
+                learnShopping: 'تسوق',
+                learnDaily: 'يومي',
+                learnBusiness: 'أعمال',
+                learnCorrect: 'صحيح!',
+                learnWrong: 'خطأ',
+                learnNextQuestion: 'السؤال التالي',
+                learnScore: 'النتيجة',
+                learnWordsLearned: 'كلمات تعلمتها',
+                learnPhrasesLearned: 'عبارات تعلمتها',
+                learnListenAndRepeat: 'استمع وكرر',
+                learnTapToHear: 'اضغط للسماع',
+                learnExample: 'مثال',
+                learnTranslation: 'ترجمة',
+                learnCategory: 'فئة',
+                learnGreetings: 'تحيات',
+                learnRestaurant: 'مطعم',
+                learnEmergency: 'طوارئ',
+                learnTestScore: 'نتيجة الاختبار',
+                learnPassedTest: 'نجحت! ممتاز!',
+                learnFailedTest: 'تحتاج المزيد من التدريب',
+                learnRetry: 'حاول مجددا',
+                learnStartTest: 'ابدأ الاختبار',
+                learnQuestion: 'سؤال',
+                learnOf: 'من',
+                learnXP: 'نقاط',
+                learnDays: 'أيام',
+                learnBack: 'رجوع'
             }
         };
 
@@ -6750,7 +7154,54 @@ import { CSS } from '@dnd-kit/utilities';
             const [showChildQRModal, setShowChildQRModal] = useState(false);
             const [showResetPinModal, setShowResetPinModal] = useState(null);
             const [deleteChildId, setDeleteChildId] = useState(null);
+            const [expandedChild, setExpandedChild] = useState(null);
+            const [childDashboardData, setChildDashboardData] = useState({});
             const isRTL = language === 'he' || language === 'ar';
+
+            // Load child dashboard data when expanding
+            useEffect(() => {
+                if (!expandedChild || !family?.id) return;
+                const loadDashboard = async () => {
+                    try {
+                        // Load progress
+                        const progressDoc = await window.firestore.getDoc(
+                            window.firestore.doc(window.db, 'users', family.id, 'children', expandedChild, 'progress', 'current')
+                        );
+                        // Load recent sessions (last 7 days)
+                        const sessions = [];
+                        for (let i = 0; i < 7; i++) {
+                            const date = new Date(Date.now() - i * 86400000).toISOString().split('T')[0];
+                            try {
+                                const sDoc = await window.firestore.getDoc(
+                                    window.firestore.doc(window.db, 'users', family.id, 'children', expandedChild, 'sessions', date)
+                                );
+                                sessions.push({ date, minutes: sDoc.exists() ? sDoc.data().minutes || 0 : 0 });
+                            } catch { sessions.push({ date, minutes: 0 }); }
+                        }
+                        // Load recent tests
+                        const testsQuery = await window.firestore.getDocs(
+                            window.firestore.query(
+                                window.firestore.collection(window.db, 'users', family.id, 'children', expandedChild, 'tests')
+                            )
+                        );
+                        const tests = [];
+                        testsQuery.forEach(d => tests.push({ id: d.id, ...d.data() }));
+                        tests.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+                        setChildDashboardData(prev => ({
+                            ...prev,
+                            [expandedChild]: {
+                                progress: progressDoc.exists() ? progressDoc.data() : {},
+                                sessions: sessions.reverse(),
+                                tests: tests.slice(0, 5)
+                            }
+                        }));
+                    } catch (e) {
+                        console.warn('Dashboard load failed:', e);
+                    }
+                };
+                loadDashboard();
+            }, [expandedChild, family?.id]);
 
             const inviteLink = `https://listnest.co.il/?join=${family?.code}`;
             const childJoinLink = `${window.location.origin}${window.location.pathname}?childJoin=${family?.code}`;
@@ -6907,6 +7358,7 @@ import { CSS } from '@dnd-kit/utilities';
                                                                     </div>
                                                                 </div>
                                                             ) : (
+                                                                <>
                                                                 <div className="flex items-center justify-between">
                                                                     <div className="flex items-center gap-3">
                                                                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-xl">👦</div>
@@ -6921,12 +7373,99 @@ import { CSS } from '@dnd-kit/utilities';
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex gap-1">
+                                                                        <button onClick={() => setExpandedChild(expandedChild === child.childId ? null : child.childId)}
+                                                                            className="text-indigo-500 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 p-2 rounded-lg transition-colors" title={t('kidsProgress')}>📊</button>
                                                                         {child.pinHash && (
                                                                             <button onClick={() => setShowResetPinModal(child)} className="text-blue-500 hover:bg-blue-100 dark:hover:bg-blue-900/30 p-2 rounded-lg transition-colors" title={t('resetPin')}>🔑</button>
                                                                         )}
                                                                         <button onClick={() => setDeleteChildId(child.childId)} className="text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 p-2 rounded-lg transition-colors" title={t('deleteChildAccount')}>🗑</button>
                                                                     </div>
                                                                 </div>
+
+                                                                {/* Expanded Dashboard */}
+                                                                {expandedChild === child.childId && (
+                                                                    <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700 space-y-3">
+                                                                        {(() => {
+                                                                            const dash = childDashboardData[child.childId];
+                                                                            if (!dash) return <div className="text-center text-sm text-gray-500 dark:text-gray-400 py-2">{t('loading')}</div>;
+
+                                                                            const p = dash.progress || {};
+                                                                            const todayMinutes = dash.sessions?.[dash.sessions.length - 1]?.minutes || 0;
+                                                                            const weeklyAvg = dash.sessions?.length > 0
+                                                                                ? Math.round(dash.sessions.reduce((s, d) => s + d.minutes, 0) / dash.sessions.length)
+                                                                                : 0;
+
+                                                                            const dayNames = [t('kidsSun'), t('kidsMon'), t('kidsTue'), t('kidsWed'), t('kidsThu'), t('kidsFri'), t('kidsSat')];
+
+                                                                            return (
+                                                                                <>
+                                                                                    {/* Stats Row */}
+                                                                                    <div className="grid grid-cols-3 gap-2">
+                                                                                        <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-lg p-2 text-center">
+                                                                                            <div className="text-lg font-bold text-indigo-600 dark:text-indigo-400">{todayMinutes}</div>
+                                                                                            <div className="text-xs text-gray-500 dark:text-gray-400">{t('kidsMinutesToday')}</div>
+                                                                                        </div>
+                                                                                        <div className="bg-green-50 dark:bg-green-900/30 rounded-lg p-2 text-center">
+                                                                                            <div className="text-lg font-bold text-green-600 dark:text-green-400">{weeklyAvg}</div>
+                                                                                            <div className="text-xs text-gray-500 dark:text-gray-400">{t('kidsWeeklyAvg')}</div>
+                                                                                        </div>
+                                                                                        <div className="bg-amber-50 dark:bg-amber-900/30 rounded-lg p-2 text-center">
+                                                                                            <div className="text-lg font-bold text-amber-600 dark:text-amber-400">⭐ {p.xp || 0}</div>
+                                                                                            <div className="text-xs text-gray-500 dark:text-gray-400">{t('kidsXP')}</div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    {/* Weekly Activity Graph */}
+                                                                                    <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+                                                                                        <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">{t('kidsActivityGraph')}</div>
+                                                                                        <div className="flex items-end gap-1 h-16">
+                                                                                            {dash.sessions?.map((s, i) => {
+                                                                                                const maxMin = Math.max(...dash.sessions.map(ss => ss.minutes), 1);
+                                                                                                const height = Math.max((s.minutes / maxMin) * 100, 4);
+                                                                                                const dayIdx = new Date(s.date).getDay();
+                                                                                                return (
+                                                                                                    <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                                                                                                        <div className="w-full bg-indigo-400 dark:bg-indigo-500 rounded-t-sm transition-all" style={{ height: `${height}%` }} title={`${s.minutes} min`} />
+                                                                                                        <div className="text-[9px] text-gray-400">{dayNames[dayIdx] || ''}</div>
+                                                                                                    </div>
+                                                                                                );
+                                                                                            })}
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    {/* Letter Progress */}
+                                                                                    <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+                                                                                        <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">{t('kidsLetterProgress')}</div>
+                                                                                        <div className="flex flex-wrap gap-1">
+                                                                                            {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(letter => (
+                                                                                                <span key={letter} className={`w-6 h-6 rounded text-xs flex items-center justify-center font-bold ${
+                                                                                                    (p.lettersLearned || []).includes(letter)
+                                                                                                        ? 'bg-green-500 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-400 dark:text-gray-500'
+                                                                                                }`}>{letter}</span>
+                                                                                            ))}
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    {/* Test Results */}
+                                                                                    {dash.tests?.length > 0 && (
+                                                                                        <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+                                                                                            <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">{t('kidsTestResults')}</div>
+                                                                                            <div className="space-y-1">
+                                                                                                {dash.tests.map((test, i) => (
+                                                                                                    <div key={i} className="flex items-center justify-between text-xs">
+                                                                                                        <span className="text-gray-600 dark:text-gray-400">{test.date ? new Date(test.date).toLocaleDateString(language) : ''}</span>
+                                                                                                        <span className={`font-bold ${test.score >= 70 ? 'text-green-600' : 'text-red-500'}`}>{test.score}%</span>
+                                                                                                    </div>
+                                                                                                ))}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    )}
+                                                                                </>
+                                                                            );
+                                                                        })()}
+                                                                    </div>
+                                                                )}
+                                                                </>
                                                             )}
                                                         </div>
                                                     ))}
@@ -7115,6 +7654,7 @@ import { CSS } from '@dnd-kit/utilities';
             const [name, setName] = useState('');
             const [pin, setPin] = useState('');
             const [confirmPin, setConfirmPin] = useState('');
+            const [selectedAvatar, setSelectedAvatar] = useState('🦁');
             const [loading, setLoading] = useState(false);
             const [error, setError] = useState('');
             const [copied, setCopied] = useState(false);
@@ -7228,6 +7768,22 @@ import { CSS } from '@dnd-kit/utilities';
                                 )}
 
                                 <form onSubmit={handleSubmit} className="space-y-4">
+                                    {/* Avatar Selection */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('kidsSelectAvatar')}</label>
+                                        <div className="flex flex-wrap gap-2 justify-center mb-2">
+                                            {KIDS_AVATARS.slice(0, 16).map((av, idx) => (
+                                                <button key={idx} type="button" onClick={() => setSelectedAvatar(av.emoji)}
+                                                    className={`w-10 h-10 rounded-full flex items-center justify-center text-xl transition-all ${
+                                                        selectedAvatar === av.emoji ? 'bg-indigo-100 dark:bg-indigo-900 ring-3 ring-indigo-500 scale-110 shadow-lg animate-[bounceIn_0.3s]' : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                                                    }`}>
+                                                    {av.emoji}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <div className="text-center text-3xl mb-1">{selectedAvatar}</div>
+                                    </div>
+
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('childName')}</label>
                                         <input
@@ -13188,6 +13744,7 @@ import { CSS } from '@dnd-kit/utilities';
             const [chatContextMenu, setChatContextMenu] = useState(null); // { msgId, x, y }
             const [editingMessageId, setEditingMessageId] = useState(null);
             const [showCamera, setShowCamera] = useState(false);
+            const [showLearnEnglish, setShowLearnEnglish] = useState(false);
             const [capturedPhoto, setCapturedPhoto] = useState(null);
             const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
                 try { return localStorage.getItem('listnest_notifications') === 'true'; } catch { return false; }
@@ -21312,6 +21869,15 @@ END:VCALENDAR`;
                                                         </button>
                                                     </div>
                                                     <button
+                                                        onClick={() => { setShowLearnEnglish(true); setShowSettings(false); }}
+                                                        className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
+                                                    >
+                                                        <span className="text-xl">📚</span>
+                                                        <div className="flex-1">
+                                                            <div className="font-medium text-gray-800 dark:text-gray-200">{t('learnEnglish')}</div>
+                                                        </div>
+                                                    </button>
+                                                    <button
                                                         onClick={() => { setShowHelp(true); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
                                                     >
@@ -23863,6 +24429,8 @@ END:VCALENDAR`;
                         </div>
                     )}
 
+                    {showLearnEnglish && <AdultLearnOverlay onClose={() => setShowLearnEnglish(false)} user={user} />}
+
                     </main>
                 </div>
             );
@@ -23894,161 +24462,2036 @@ END:VCALENDAR`;
             return <ShoppingList />;
         }
 
-        // Child App Content - simplified version for child accounts
-        function ChildAppContent({ childUser }) {
-            const { logoutChild } = useChildAuth();
-            const { t, language } = useLanguage();
-            const [family, setFamily] = useState(null);
-            const [lists, setLists] = useState([]);
-            const [currentList, setCurrentList] = useState(null);
-            const [loading, setLoading] = useState(true);
-            const [darkMode, setDarkMode] = useState(false);
+        // ============================================================
+        // === SPEAKEASY KIDS LEARNING SECTION ===
+        // ============================================================
+
+        // Avatar data with Hebrew names
+        const KIDS_AVATARS = [
+            { emoji: '🦁', name: 'Lion', nameHe: 'אריה' },
+            { emoji: '🐱', name: 'Cat', nameHe: 'חתול' },
+            { emoji: '🐶', name: 'Dog', nameHe: 'כלב' },
+            { emoji: '🦊', name: 'Fox', nameHe: 'שועל' },
+            { emoji: '🐻', name: 'Bear', nameHe: 'דוב' },
+            { emoji: '🐼', name: 'Panda', nameHe: 'פנדה' },
+            { emoji: '🐨', name: 'Koala', nameHe: 'קואלה' },
+            { emoji: '🐸', name: 'Frog', nameHe: 'צפרדע' },
+            { emoji: '🦋', name: 'Butterfly', nameHe: 'פרפר' },
+            { emoji: '🦄', name: 'Unicorn', nameHe: 'חד קרן' },
+            { emoji: '🐬', name: 'Dolphin', nameHe: 'דולפין' },
+            { emoji: '🦈', name: 'Shark', nameHe: 'כריש' },
+            { emoji: '🐲', name: 'Dragon', nameHe: 'דרקון' },
+            { emoji: '🦩', name: 'Flamingo', nameHe: 'פלמינגו' },
+            { emoji: '🦜', name: 'Parrot', nameHe: 'תוכי' },
+            { emoji: '🦝', name: 'Raccoon', nameHe: 'דביבון' },
+            { emoji: '🐻‍❄️', name: 'Polar Bear', nameHe: 'דוב קוטב' },
+            { emoji: '🐙', name: 'Octopus', nameHe: 'תמנון' },
+            { emoji: '🦉', name: 'Owl', nameHe: 'ינשוף' },
+            { emoji: '🐯', name: 'Tiger', nameHe: 'נמר' },
+            { emoji: '🐰', name: 'Rabbit', nameHe: 'ארנב' },
+            { emoji: '🐨', name: 'Koala', nameHe: 'קואלה' },
+            { emoji: '🦒', name: 'Giraffe', nameHe: 'ג\'ירפה' },
+            { emoji: '🐵', name: 'Monkey', nameHe: 'קוף' }
+        ];
+
+        // Alphabet data
+        const ALPHABET_DATA = [
+            { letter: 'A', word: 'Apple', wordHe: 'תפוח', emoji: '🍎', color: 'from-red-400 to-red-600' },
+            { letter: 'B', word: 'Bear', wordHe: 'דוב', emoji: '🐻', color: 'from-amber-400 to-amber-600' },
+            { letter: 'C', word: 'Cat', wordHe: 'חתול', emoji: '🐱', color: 'from-yellow-400 to-yellow-600' },
+            { letter: 'D', word: 'Dog', wordHe: 'כלב', emoji: '🐶', color: 'from-blue-400 to-blue-600' },
+            { letter: 'E', word: 'Elephant', wordHe: 'פיל', emoji: '🐘', color: 'from-gray-400 to-gray-600' },
+            { letter: 'F', word: 'Fish', wordHe: 'דג', emoji: '🐟', color: 'from-cyan-400 to-cyan-600' },
+            { letter: 'G', word: 'Giraffe', wordHe: 'ג\'ירפה', emoji: '🦒', color: 'from-yellow-500 to-orange-500' },
+            { letter: 'H', word: 'Horse', wordHe: 'סוס', emoji: '🐴', color: 'from-amber-500 to-amber-700' },
+            { letter: 'I', word: 'Ice cream', wordHe: 'גלידה', emoji: '🍦', color: 'from-pink-400 to-pink-600' },
+            { letter: 'J', word: 'Juice', wordHe: 'מיץ', emoji: '🧃', color: 'from-orange-400 to-orange-600' },
+            { letter: 'K', word: 'Kite', wordHe: 'עפיפון', emoji: '🪁', color: 'from-sky-400 to-sky-600' },
+            { letter: 'L', word: 'Lion', wordHe: 'אריה', emoji: '🦁', color: 'from-amber-400 to-amber-600' },
+            { letter: 'M', word: 'Moon', wordHe: 'ירח', emoji: '🌙', color: 'from-indigo-400 to-indigo-600' },
+            { letter: 'N', word: 'Nest', wordHe: 'קן', emoji: '🪹', color: 'from-green-400 to-green-600' },
+            { letter: 'O', word: 'Orange', wordHe: 'תפוז', emoji: '🍊', color: 'from-orange-400 to-orange-600' },
+            { letter: 'P', word: 'Penguin', wordHe: 'פינגווין', emoji: '🐧', color: 'from-slate-400 to-slate-600' },
+            { letter: 'Q', word: 'Queen', wordHe: 'מלכה', emoji: '👑', color: 'from-purple-400 to-purple-600' },
+            { letter: 'R', word: 'Rainbow', wordHe: 'קשת', emoji: '🌈', color: 'from-red-400 to-violet-500' },
+            { letter: 'S', word: 'Star', wordHe: 'כוכב', emoji: '⭐', color: 'from-yellow-400 to-yellow-600' },
+            { letter: 'T', word: 'Tree', wordHe: 'עץ', emoji: '🌳', color: 'from-green-500 to-green-700' },
+            { letter: 'U', word: 'Umbrella', wordHe: 'מטריה', emoji: '☂️', color: 'from-blue-400 to-blue-600' },
+            { letter: 'V', word: 'Violin', wordHe: 'כינור', emoji: '🎻', color: 'from-amber-600 to-amber-800' },
+            { letter: 'W', word: 'Whale', wordHe: 'לוויתן', emoji: '🐋', color: 'from-blue-500 to-blue-700' },
+            { letter: 'X', word: 'Xylophone', wordHe: 'קסילופון', emoji: '🎵', color: 'from-pink-400 to-pink-600' },
+            { letter: 'Y', word: 'Yarn', wordHe: 'חוט', emoji: '🧶', color: 'from-red-400 to-red-600' },
+            { letter: 'Z', word: 'Zebra', wordHe: 'זברה', emoji: '🦓', color: 'from-gray-500 to-gray-700' }
+        ];
+
+        // Numbers data (inline for simplicity)
+        const NUMBERS_DATA = [
+            { level: 1, name: '1-10', numbers: [
+                { number: 1, word: 'One', wordHe: 'אחת', emoji: '1️⃣' },
+                { number: 2, word: 'Two', wordHe: 'שתיים', emoji: '2️⃣' },
+                { number: 3, word: 'Three', wordHe: 'שלוש', emoji: '3️⃣' },
+                { number: 4, word: 'Four', wordHe: 'ארבע', emoji: '4️⃣' },
+                { number: 5, word: 'Five', wordHe: 'חמש', emoji: '5️⃣' },
+                { number: 6, word: 'Six', wordHe: 'שש', emoji: '6️⃣' },
+                { number: 7, word: 'Seven', wordHe: 'שבע', emoji: '7️⃣' },
+                { number: 8, word: 'Eight', wordHe: 'שמונה', emoji: '8️⃣' },
+                { number: 9, word: 'Nine', wordHe: 'תשע', emoji: '9️⃣' },
+                { number: 10, word: 'Ten', wordHe: 'עשר', emoji: '🔟' }
+            ]},
+            { level: 2, name: '11-20', numbers: [
+                { number: 11, word: 'Eleven', wordHe: 'אחת עשרה', emoji: '1️⃣1️⃣' },
+                { number: 12, word: 'Twelve', wordHe: 'שתים עשרה', emoji: '1️⃣2️⃣' },
+                { number: 13, word: 'Thirteen', wordHe: 'שלוש עשרה', emoji: '1️⃣3️⃣' },
+                { number: 14, word: 'Fourteen', wordHe: 'ארבע עשרה', emoji: '1️⃣4️⃣' },
+                { number: 15, word: 'Fifteen', wordHe: 'חמש עשרה', emoji: '1️⃣5️⃣' },
+                { number: 16, word: 'Sixteen', wordHe: 'שש עשרה', emoji: '1️⃣6️⃣' },
+                { number: 17, word: 'Seventeen', wordHe: 'שבע עשרה', emoji: '1️⃣7️⃣' },
+                { number: 18, word: 'Eighteen', wordHe: 'שמונה עשרה', emoji: '1️⃣8️⃣' },
+                { number: 19, word: 'Nineteen', wordHe: 'תשע עשרה', emoji: '1️⃣9️⃣' },
+                { number: 20, word: 'Twenty', wordHe: 'עשרים', emoji: '2️⃣0️⃣' }
+            ]},
+            { level: 3, name: 'Tens', numbers: [
+                { number: 10, word: 'Ten', wordHe: 'עשר', emoji: '🔟' },
+                { number: 20, word: 'Twenty', wordHe: 'עשרים', emoji: '2️⃣0️⃣' },
+                { number: 30, word: 'Thirty', wordHe: 'שלושים', emoji: '3️⃣0️⃣' },
+                { number: 40, word: 'Forty', wordHe: 'ארבעים', emoji: '4️⃣0️⃣' },
+                { number: 50, word: 'Fifty', wordHe: 'חמישים', emoji: '5️⃣0️⃣' },
+                { number: 60, word: 'Sixty', wordHe: 'שישים', emoji: '6️⃣0️⃣' },
+                { number: 70, word: 'Seventy', wordHe: 'שבעים', emoji: '7️⃣0️⃣' },
+                { number: 80, word: 'Eighty', wordHe: 'שמונים', emoji: '8️⃣0️⃣' },
+                { number: 90, word: 'Ninety', wordHe: 'תשעים', emoji: '9️⃣0️⃣' },
+                { number: 100, word: 'One hundred', wordHe: 'מאה', emoji: '💯' }
+            ]}
+        ];
+
+        // Colors data
+        const COLORS_DATA = [
+            { id: 'red', name: 'Red', nameHe: 'אדום', hex: '#EF4444', gradient: 'from-red-400 to-red-600', emoji: '🔴' },
+            { id: 'blue', name: 'Blue', nameHe: 'כחול', hex: '#3B82F6', gradient: 'from-blue-400 to-blue-600', emoji: '🔵' },
+            { id: 'green', name: 'Green', nameHe: 'ירוק', hex: '#22C55E', gradient: 'from-green-400 to-green-600', emoji: '🟢' },
+            { id: 'yellow', name: 'Yellow', nameHe: 'צהוב', hex: '#EAB308', gradient: 'from-yellow-400 to-yellow-500', emoji: '🟡' },
+            { id: 'orange', name: 'Orange', nameHe: 'כתום', hex: '#F97316', gradient: 'from-orange-400 to-orange-600', emoji: '🟠' },
+            { id: 'purple', name: 'Purple', nameHe: 'סגול', hex: '#A855F7', gradient: 'from-purple-400 to-purple-600', emoji: '🟣' },
+            { id: 'pink', name: 'Pink', nameHe: 'ורוד', hex: '#EC4899', gradient: 'from-pink-400 to-pink-600', emoji: '💗' },
+            { id: 'black', name: 'Black', nameHe: 'שחור', hex: '#1F2937', gradient: 'from-gray-800 to-gray-900', emoji: '⬛' },
+            { id: 'white', name: 'White', nameHe: 'לבן', hex: '#F9FAFB', gradient: 'from-gray-100 to-white', emoji: '⬜' },
+            { id: 'brown', name: 'Brown', nameHe: 'חום', hex: '#92400E', gradient: 'from-amber-700 to-amber-900', emoji: '🟤' },
+            { id: 'gray', name: 'Gray', nameHe: 'אפור', hex: '#6B7280', gradient: 'from-gray-400 to-gray-600', emoji: '🩶' },
+            { id: 'gold', name: 'Gold', nameHe: 'זהב', hex: '#F59E0B', gradient: 'from-yellow-400 to-amber-500', emoji: '🌟' }
+        ];
+
+        // YouTube video data for kids
+        const KIDS_VIDEOS = [
+            { id: 'pWepfJ-8XU0', title: 'ABC Song', titleHe: 'שיר ה-ABC' },
+            { id: 'hq3yfQnllfQ', title: 'Phonics Song', titleHe: 'שיר פוניקס' },
+            { id: '75p-N9YKqNo', title: 'Colors Song', titleHe: 'שיר צבעים' },
+            { id: 'DR-cfDsHCGA', title: 'Numbers 1-10', titleHe: 'מספרים 1-10' },
+            { id: 'GvTcpfSnOMQ', title: 'Animals Song', titleHe: 'שיר חיות' },
+            { id: 'mXMofxtDPUQ', title: 'Shapes Song', titleHe: 'שיר צורות' }
+        ];
+
+        // Text-to-speech helper
+        const speakWord = (text, lang = 'en-US') => {
+            try {
+                if (!text || typeof text !== 'string') return;
+                if ('speechSynthesis' in window && window.speechSynthesis) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = lang;
+                    utterance.rate = 0.8;
+                    utterance.pitch = 1.1;
+                    utterance.onerror = (e) => { console.warn('Speech utterance error:', e); };
+                    window.speechSynthesis.speak(utterance);
+                }
+            } catch (e) { console.warn('Speech failed:', e); }
+        };
+
+        // Activity tracker hook
+        function useActivityTracker(childUser) {
+            const startTime = React.useRef(Date.now());
+            const intervalRef = React.useRef(null);
 
             useEffect(() => {
-                const savedDark = localStorage.getItem('darkMode') === 'true';
-                if (savedDark) {
-                    setDarkMode(true);
-                    document.documentElement.classList.add('dark');
+                if (!childUser?.familyId || !childUser?.childId) return;
+                if (!window.firestore || !window.db) return;
+
+                startTime.current = Date.now();
+
+                const saveSession = async () => {
+                    try {
+                        const minutes = Math.round((Date.now() - startTime.current) / 60000);
+                        if (minutes < 1) return;
+                        if (!window.firestore || !window.db) return;
+                        const today = new Date().toISOString().split('T')[0];
+                        const sessionRef = window.firestore.doc(window.db,
+                            'users', childUser.familyId, 'children', childUser.childId, 'sessions', today);
+                        const existing = await window.firestore.getDoc(sessionRef);
+                        const prevMinutes = existing.exists() ? (existing.data()?.minutes || 0) : 0;
+                        await window.firestore.setDoc(sessionRef, {
+                            minutes: prevMinutes + minutes,
+                            lastUpdated: new Date(),
+                            date: today
+                        }, { merge: true });
+                    } catch (e) {
+                        console.warn('Activity save failed:', e);
+                    }
+                };
+
+                intervalRef.current = setInterval(saveSession, 60000);
+
+                return () => {
+                    if (intervalRef.current) {
+                        clearInterval(intervalRef.current);
+                        intervalRef.current = null;
+                    }
+                    saveSession();
+                };
+            }, [childUser?.familyId, childUser?.childId]);
+        }
+
+        // --- Kids Home Page ---
+        function KidsHomePage({ childUser, progress, onNavigate, onSpeak }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const avatar = childUser.avatar || '🦁';
+            const streak = progress.streak || 0;
+            const xp = progress.xp || 0;
+            const lettersLearned = progress.lettersLearned?.length || 0;
+
+            const navItems = [
+                { id: 'home', icon: '🏠', label: t('kidsHome') },
+                { id: 'letters', icon: '🔤', label: t('kidsLetters') },
+                { id: 'numbers', icon: '🔢', label: t('kidsNumbers') },
+                { id: 'colors', icon: '🎨', label: t('kidsColors') },
+                { id: 'games', icon: '🎮', label: t('kidsGames') }
+            ];
+
+            const progressPercent = Math.round((lettersLearned / 26) * 100);
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 pb-24" dir={isRTL ? 'rtl' : 'ltr'}>
+                    {/* Header */}
+                    <div className="px-4 pt-6 pb-4">
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-4xl shadow-lg ring-4 ring-white/30 animate-[bounce_2s_infinite]">
+                                    {avatar}
+                                </div>
+                                <div>
+                                    <div className="text-white text-xl font-bold">{t('kidsWelcome').replace('{name}', childUser.displayName)}</div>
+                                    <div className="flex items-center gap-2 text-white/80 text-sm">
+                                        <span>🔥 {streak} {t('kidsDays')}</span>
+                                        <span>•</span>
+                                        <span>⭐ {xp} {t('kidsXP')}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Progress Ring */}
+                        <div className="flex justify-center mb-6">
+                            <div className="relative w-32 h-32">
+                                <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,0.2)" strokeWidth="10" fill="none" />
+                                    <circle cx="60" cy="60" r="52" stroke="white" strokeWidth="10" fill="none"
+                                        strokeDasharray={`${progressPercent * 3.27} 327`}
+                                        strokeLinecap="round" className="transition-all duration-1000" />
+                                </svg>
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+                                    <div className="text-2xl font-bold">{lettersLearned}/26</div>
+                                    <div className="text-xs opacity-80">{t('kidsLetters')}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Daily Mission */}
+                        <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 mb-6 border border-white/20">
+                            <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 rounded-xl bg-yellow-400 flex items-center justify-center text-2xl shadow-lg">🎯</div>
+                                <div className="flex-1">
+                                    <div className="text-white font-bold">{t('kidsDailyMission')}</div>
+                                    <div className="text-white/70 text-sm">{language === 'he' ? 'למד 3 אותיות חדשות' : 'Learn 3 new letters'}</div>
+                                </div>
+                                <button onClick={() => onNavigate('letters')}
+                                    className="px-4 py-2 bg-yellow-400 text-yellow-900 rounded-xl font-bold text-sm shadow-lg hover:scale-105 transition-transform">
+                                    {t('kidsStartLearning')}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Game Cards - 3D Style */}
+                        <div className="grid grid-cols-2 gap-4">
+                            {[
+                                { id: 'letters', icon: '🔤', label: t('kidsLetters'), bg: 'from-blue-400 to-blue-600', desc: `${lettersLearned}/26` },
+                                { id: 'numbers', icon: '🔢', label: t('kidsNumbers'), bg: 'from-green-400 to-green-600', desc: language === 'he' ? '1-100' : '1-100' },
+                                { id: 'colors', icon: '🎨', label: t('kidsColors'), bg: 'from-pink-400 to-pink-600', desc: '12' },
+                                { id: 'games', icon: '🎮', label: t('kidsGames'), bg: 'from-amber-400 to-amber-600', desc: language === 'he' ? 'משחקים' : 'Play' },
+                                { id: 'test', icon: '📝', label: t('kidsTests'), bg: 'from-purple-400 to-purple-600', desc: language === 'he' ? 'בחן אותי' : 'Quiz' },
+                                { id: 'videos', icon: '📺', label: language === 'he' ? 'סרטונים' : 'Videos', bg: 'from-red-400 to-red-600', desc: '6' }
+                            ].map(card => (
+                                <button key={card.id} onClick={() => onNavigate(card.id)}
+                                    className={`bg-gradient-to-br ${card.bg} rounded-2xl p-4 text-white shadow-xl hover:scale-105 transition-all duration-200`}
+                                    style={{ boxShadow: '0 8px 25px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3)' }}>
+                                    <div className="text-4xl mb-2">{card.icon}</div>
+                                    <div className="font-bold text-lg">{card.label}</div>
+                                    <div className="text-white/70 text-sm">{card.desc}</div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Bottom Nav */}
+                    <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700 px-2 py-2 z-50">
+                        <div className="flex justify-around max-w-md mx-auto">
+                            {navItems.map(item => (
+                                <button key={item.id} onClick={() => onNavigate(item.id)}
+                                    className="flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all hover:bg-gray-100 dark:hover:bg-gray-800">
+                                    <span className="text-xl">{item.icon}</span>
+                                    <span className="text-xs font-medium text-gray-600 dark:text-gray-400">{item.label}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Kids Alphabet Page ---
+        function KidsAlphabetPage({ progress, onBack, onUpdateProgress }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [selectedLetter, setSelectedLetter] = useState(null);
+            const [showAnimation, setShowAnimation] = useState(false);
+            const learned = progress.lettersLearned || [];
+
+            const handleLetterClick = (letterData) => {
+                setSelectedLetter(letterData);
+                setShowAnimation(true);
+                speakWord(letterData.word);
+                if (!learned.includes(letterData.letter)) {
+                    onUpdateProgress({
+                        lettersLearned: [...learned, letterData.letter],
+                        xp: (progress.xp || 0) + 10
+                    });
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-blue-500 to-indigo-600 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+                    {/* Header */}
+                    <div className="px-4 pt-4 pb-3 flex items-center gap-3">
+                        <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl hover:bg-white/30 transition-colors">
+                            {isRTL ? '→' : '←'}
+                        </button>
+                        <h1 className="text-2xl font-bold text-white flex-1">{t('kidsLetters')}</h1>
+                        <div className="bg-white/20 px-3 py-1 rounded-full text-white text-sm font-medium">
+                            {learned.length}/26
+                        </div>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="px-4 mb-4">
+                        <div className="w-full h-3 bg-white/20 rounded-full overflow-hidden">
+                            <div className="h-full bg-yellow-400 rounded-full transition-all duration-500"
+                                style={{ width: `${(learned.length / 26) * 100}%` }} />
+                        </div>
+                    </div>
+
+                    {/* Letter Grid */}
+                    <div className="px-4 grid grid-cols-4 gap-3">
+                        {ALPHABET_DATA.map((item, idx) => {
+                            const isLearned = learned.includes(item.letter);
+                            return (
+                                <button key={item.letter} onClick={() => handleLetterClick(item)}
+                                    className={`relative rounded-2xl p-3 text-center transition-all duration-300 hover:scale-110 ${
+                                        isLearned ? 'bg-white shadow-xl' : 'bg-white/20 backdrop-blur-sm'
+                                    }`}
+                                    style={{
+                                        animation: `fadeIn 0.3s ease-out ${idx * 0.03}s both`,
+                                        boxShadow: isLearned ? '0 8px 25px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.5)' : 'none'
+                                    }}>
+                                    <div className={`text-3xl font-bold ${isLearned ? 'text-indigo-600' : 'text-white'}`}>{item.letter}</div>
+                                    <div className="text-lg">{item.emoji}</div>
+                                    {isLearned && <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">✓</div>}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Letter Detail Modal */}
+                    {selectedLetter && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setSelectedLetter(null)}>
+                            <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center" onClick={e => e.stopPropagation()}
+                                style={{ animation: 'bounceIn 0.4s ease-out' }}>
+                                <div className={`w-24 h-24 rounded-2xl bg-gradient-to-br ${selectedLetter.color} flex items-center justify-center text-6xl font-bold text-white mx-auto mb-4 shadow-xl`}>
+                                    {selectedLetter.letter}
+                                </div>
+                                <div className="text-6xl mb-4">{selectedLetter.emoji}</div>
+                                <div className="text-3xl font-bold text-gray-800 dark:text-white mb-2">{selectedLetter.word}</div>
+                                <div className="text-lg text-gray-500 dark:text-gray-400 mb-4">{selectedLetter.wordHe}</div>
+                                <button onClick={() => speakWord(selectedLetter.word)}
+                                    className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold text-lg shadow-lg hover:scale-105 transition-transform mb-3">
+                                    🔊 {t('kidsListenAndRepeat')}
+                                </button>
+                                <button onClick={() => speakWord(selectedLetter.letter + '. ' + selectedLetter.word)}
+                                    className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold text-lg shadow-lg hover:scale-105 transition-transform">
+                                    🗣️ {selectedLetter.letter} for {selectedLetter.word}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // --- Kids Numbers Page ---
+        function KidsNumbersPage({ progress, onBack, onUpdateProgress }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [currentLevel, setCurrentLevel] = useState(0);
+            const [selectedNumber, setSelectedNumber] = useState(null);
+            const numbersLearned = progress.numbersLearned || [];
+            const levelData = NUMBERS_DATA[currentLevel];
+
+            const handleNumberClick = (numData) => {
+                setSelectedNumber(numData);
+                speakWord(numData.word);
+                if (!numbersLearned.includes(numData.number)) {
+                    onUpdateProgress({
+                        numbersLearned: [...numbersLearned, numData.number],
+                        xp: (progress.xp || 0) + 5
+                    });
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-green-500 to-teal-600 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="px-4 pt-4 pb-3 flex items-center gap-3">
+                        <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl hover:bg-white/30 transition-colors">
+                            {isRTL ? '→' : '←'}
+                        </button>
+                        <h1 className="text-2xl font-bold text-white flex-1">{t('kidsNumbers')}</h1>
+                        <div className="bg-white/20 px-3 py-1 rounded-full text-white text-sm font-medium">
+                            {numbersLearned.length}/30
+                        </div>
+                    </div>
+
+                    {/* Level tabs */}
+                    <div className="px-4 mb-4 flex gap-2">
+                        {NUMBERS_DATA.map((lvl, idx) => (
+                            <button key={idx} onClick={() => setCurrentLevel(idx)}
+                                className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${
+                                    currentLevel === idx ? 'bg-white text-green-600 shadow-lg' : 'bg-white/20 text-white'
+                                }`}>
+                                {lvl.name}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Number Grid */}
+                    <div className="px-4 grid grid-cols-5 gap-3">
+                        {levelData.numbers.map((num) => {
+                            const isLearned = numbersLearned.includes(num.number);
+                            return (
+                                <button key={num.number} onClick={() => handleNumberClick(num)}
+                                    className={`rounded-2xl p-3 text-center transition-all duration-200 hover:scale-110 ${
+                                        isLearned ? 'bg-white shadow-xl' : 'bg-white/20 backdrop-blur-sm'
+                                    }`}
+                                    style={{ boxShadow: isLearned ? '0 6px 20px rgba(0,0,0,0.15)' : 'none' }}>
+                                    <div className={`text-2xl font-bold ${isLearned ? 'text-green-600' : 'text-white'}`}>{num.number}</div>
+                                    <div className="text-xs mt-1 truncate ${isLearned ? 'text-gray-500' : 'text-white/70'}">{num.word}</div>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Number Detail Modal */}
+                    {selectedNumber && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setSelectedNumber(null)}>
+                            <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center" onClick={e => e.stopPropagation()}>
+                                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-green-400 to-teal-500 flex items-center justify-center text-5xl font-bold text-white mx-auto mb-4 shadow-xl">
+                                    {selectedNumber.number}
+                                </div>
+                                <div className="text-4xl font-bold text-gray-800 dark:text-white mb-2">{selectedNumber.word}</div>
+                                <div className="text-lg text-gray-500 dark:text-gray-400 mb-4">{selectedNumber.wordHe}</div>
+                                <button onClick={() => speakWord(selectedNumber.word)}
+                                    className="w-full py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-xl font-bold text-lg shadow-lg hover:scale-105 transition-transform">
+                                    🔊 {t('kidsListenAndRepeat')}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // --- Kids Colors Page ---
+        function KidsColorsPage({ progress, onBack, onUpdateProgress }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [selectedColor, setSelectedColor] = useState(null);
+            const colorsLearned = progress.colorsLearned || [];
+
+            const handleColorClick = (colorData) => {
+                setSelectedColor(colorData);
+                speakWord(colorData.name);
+                if (!colorsLearned.includes(colorData.id)) {
+                    onUpdateProgress({
+                        colorsLearned: [...colorsLearned, colorData.id],
+                        xp: (progress.xp || 0) + 8
+                    });
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-pink-500 to-purple-600 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="px-4 pt-4 pb-3 flex items-center gap-3">
+                        <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl hover:bg-white/30 transition-colors">
+                            {isRTL ? '→' : '←'}
+                        </button>
+                        <h1 className="text-2xl font-bold text-white flex-1">{t('kidsColors')}</h1>
+                        <div className="bg-white/20 px-3 py-1 rounded-full text-white text-sm font-medium">
+                            {colorsLearned.length}/12
+                        </div>
+                    </div>
+
+                    {/* Color Grid */}
+                    <div className="px-4 grid grid-cols-3 gap-4">
+                        {COLORS_DATA.map((color) => {
+                            const isLearned = colorsLearned.includes(color.id);
+                            return (
+                                <button key={color.id} onClick={() => handleColorClick(color)}
+                                    className="rounded-2xl p-4 text-center transition-all duration-200 hover:scale-110 relative overflow-hidden"
+                                    style={{
+                                        background: `linear-gradient(135deg, ${color.hex}dd, ${color.hex})`,
+                                        boxShadow: `0 8px 25px ${color.hex}66, inset 0 1px 0 rgba(255,255,255,0.3)`
+                                    }}>
+                                    <div className="text-3xl mb-1">{color.emoji}</div>
+                                    <div className={`font-bold text-sm ${color.id === 'white' || color.id === 'yellow' ? 'text-gray-800' : 'text-white'}`}>
+                                        {color.name}
+                                    </div>
+                                    <div className={`text-xs ${color.id === 'white' || color.id === 'yellow' ? 'text-gray-600' : 'text-white/70'}`}>
+                                        {color.nameHe}
+                                    </div>
+                                    {isLearned && <div className="absolute top-1 right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white text-xs shadow-lg">✓</div>}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Color Detail Modal */}
+                    {selectedColor && (
+                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setSelectedColor(null)}>
+                            <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center" onClick={e => e.stopPropagation()}>
+                                <div className="w-28 h-28 rounded-3xl mx-auto mb-4 shadow-xl"
+                                    style={{ background: selectedColor.hex }} />
+                                <div className="text-5xl mb-3">{selectedColor.emoji}</div>
+                                <div className="text-3xl font-bold text-gray-800 dark:text-white mb-2">{selectedColor.name}</div>
+                                <div className="text-lg text-gray-500 dark:text-gray-400 mb-4">{selectedColor.nameHe}</div>
+                                <button onClick={() => speakWord(selectedColor.name)}
+                                    className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl font-bold text-lg shadow-lg hover:scale-105 transition-transform">
+                                    🔊 {t('kidsListenAndRepeat')}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // --- Kids Games Page ---
+        function KidsGamesPage({ progress, onBack, onUpdateProgress }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [activeGame, setActiveGame] = useState(null);
+            const [gameCards, setGameCards] = useState([]);
+            const [flipped, setFlipped] = useState([]);
+            const [matched, setMatched] = useState([]);
+            const [matchQ, setMatchQ] = useState(null);
+            const [matchOptions, setMatchOptions] = useState([]);
+            const [matchFeedback, setMatchFeedback] = useState('');
+
+            // Memory Game
+            const startMemoryGame = () => {
+                const selected = ALPHABET_DATA.slice(0, 6);
+                const cards = [...selected.map((s, i) => ({ id: i * 2, type: 'letter', value: s.letter, match: i })),
+                    ...selected.map((s, i) => ({ id: i * 2 + 1, type: 'emoji', value: s.emoji, match: i }))];
+                cards.sort(() => Math.random() - 0.5);
+                setGameCards(cards);
+                setFlipped([]);
+                setMatched([]);
+                setActiveGame('memory');
+            };
+
+            const handleMemoryFlip = (cardId) => {
+                if (flipped.length === 2) return;
+                if (matched.includes(cardId) || flipped.includes(cardId)) return;
+                const newFlipped = [...flipped, cardId];
+                setFlipped(newFlipped);
+                if (newFlipped.length === 2) {
+                    const c1 = gameCards.find(c => c.id === newFlipped[0]);
+                    const c2 = gameCards.find(c => c.id === newFlipped[1]);
+                    if (c1.match === c2.match) {
+                        setMatched(prev => [...prev, newFlipped[0], newFlipped[1]]);
+                        setFlipped([]);
+                        if (matched.length + 2 === gameCards.length) {
+                            onUpdateProgress({ xp: (progress.xp || 0) + 25 });
+                        }
+                    } else {
+                        setTimeout(() => setFlipped([]), 800);
+                    }
+                }
+            };
+
+            // Match Game
+            const startMatchGame = () => {
+                generateMatchQuestion();
+                setActiveGame('match');
+            };
+
+            const generateMatchQuestion = () => {
+                const item = ALPHABET_DATA[Math.floor(Math.random() * ALPHABET_DATA.length)];
+                const wrong = ALPHABET_DATA.filter(a => a.letter !== item.letter).sort(() => Math.random() - 0.5).slice(0, 3);
+                const opts = [item, ...wrong].sort(() => Math.random() - 0.5);
+                setMatchQ(item);
+                setMatchOptions(opts);
+                setMatchFeedback('');
+            };
+
+            const handleMatchAnswer = (answer) => {
+                if (answer.letter === matchQ.letter) {
+                    setMatchFeedback('correct');
+                    onUpdateProgress({ xp: (progress.xp || 0) + 10 });
+                    setTimeout(generateMatchQuestion, 1200);
+                } else {
+                    setMatchFeedback('wrong');
+                    setTimeout(() => setMatchFeedback(''), 800);
+                }
+            };
+
+            if (activeGame === 'memory') {
+                return (
+                    <div className="min-h-screen bg-gradient-to-b from-amber-500 to-orange-600 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className="px-4 pt-4 pb-3 flex items-center gap-3">
+                            <button onClick={() => setActiveGame(null)} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl">
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 className="text-2xl font-bold text-white flex-1">{t('kidsMemoryGame')}</h1>
+                        </div>
+                        <div className="px-4 grid grid-cols-4 gap-3">
+                            {gameCards.map(card => (
+                                <button key={card.id} onClick={() => handleMemoryFlip(card.id)}
+                                    className={`aspect-square rounded-2xl text-3xl flex items-center justify-center font-bold transition-all duration-300 ${
+                                        flipped.includes(card.id) || matched.includes(card.id)
+                                            ? 'bg-white shadow-xl scale-95' : 'bg-white/20 hover:bg-white/30'
+                                    }`}>
+                                    {flipped.includes(card.id) || matched.includes(card.id)
+                                        ? <span className={matched.includes(card.id) ? 'text-green-500' : ''}>{card.value}</span>
+                                        : '❓'}
+                                </button>
+                            ))}
+                        </div>
+                        {matched.length === gameCards.length && gameCards.length > 0 && (
+                            <div className="px-4 mt-6 text-center">
+                                <div className="text-4xl mb-2">🎉</div>
+                                <div className="text-white text-xl font-bold mb-4">{t('kidsCorrect')}</div>
+                                <button onClick={startMemoryGame}
+                                    className="px-6 py-3 bg-white text-orange-600 rounded-xl font-bold shadow-lg hover:scale-105 transition-transform">
+                                    {t('kidsRetry')}
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                );
+            }
+
+            if (activeGame === 'match') {
+                return (
+                    <div className="min-h-screen bg-gradient-to-b from-purple-500 to-indigo-600 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className="px-4 pt-4 pb-3 flex items-center gap-3">
+                            <button onClick={() => setActiveGame(null)} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl">
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 className="text-2xl font-bold text-white flex-1">{t('kidsMatchGame')}</h1>
+                        </div>
+                        {matchQ && (
+                            <div className="px-4">
+                                <div className="text-center mb-6">
+                                    <div className="text-6xl mb-4">{matchQ.emoji}</div>
+                                    <div className="text-white text-xl font-medium">{t('kidsWhatLetterIs')}</div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    {matchOptions.map(opt => (
+                                        <button key={opt.letter} onClick={() => handleMatchAnswer(opt)}
+                                            className={`py-6 rounded-2xl text-3xl font-bold transition-all ${
+                                                matchFeedback === 'correct' && opt.letter === matchQ.letter
+                                                    ? 'bg-green-400 text-white scale-110 shadow-xl'
+                                                    : matchFeedback === 'wrong' && opt.letter === matchQ.letter
+                                                    ? 'bg-green-400 text-white'
+                                                    : 'bg-white/20 text-white hover:bg-white/30'
+                                            }`}>
+                                            {opt.letter}
+                                        </button>
+                                    ))}
+                                </div>
+                                {matchFeedback && (
+                                    <div className={`text-center mt-6 text-2xl font-bold ${matchFeedback === 'correct' ? 'text-green-300' : 'text-red-300'}`}>
+                                        {matchFeedback === 'correct' ? t('kidsCorrect') : t('kidsWrong')}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-amber-500 to-orange-600 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="px-4 pt-4 pb-3 flex items-center gap-3">
+                        <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl hover:bg-white/30 transition-colors">
+                            {isRTL ? '→' : '←'}
+                        </button>
+                        <h1 className="text-2xl font-bold text-white flex-1">{t('kidsGames')}</h1>
+                    </div>
+
+                    <div className="px-4 space-y-4">
+                        <button onClick={startMemoryGame}
+                            className="w-full bg-white/15 backdrop-blur-sm rounded-2xl p-5 flex items-center gap-4 border border-white/20 hover:bg-white/25 transition-all">
+                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-3xl shadow-lg">🧩</div>
+                            <div className="flex-1 text-right">
+                                <div className="text-white font-bold text-lg">{t('kidsMemoryGame')}</div>
+                                <div className="text-white/70 text-sm">{language === 'he' ? 'מצא זוגות של אותיות' : 'Find letter pairs'}</div>
+                            </div>
+                        </button>
+
+                        <button onClick={startMatchGame}
+                            className="w-full bg-white/15 backdrop-blur-sm rounded-2xl p-5 flex items-center gap-4 border border-white/20 hover:bg-white/25 transition-all">
+                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-3xl shadow-lg">🎯</div>
+                            <div className="flex-1 text-right">
+                                <div className="text-white font-bold text-lg">{t('kidsMatchGame')}</div>
+                                <div className="text-white/70 text-sm">{language === 'he' ? 'התאם אות לתמונה' : 'Match letter to picture'}</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Kids Test Page ---
+        function KidsTestPage({ progress, onBack, onUpdateProgress, childUser }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [questions, setQuestions] = useState([]);
+            const [currentQ, setCurrentQ] = useState(0);
+            const [score, setScore] = useState(0);
+            const [answered, setAnswered] = useState(false);
+            const [selectedAnswer, setSelectedAnswer] = useState(null);
+            const [testComplete, setTestComplete] = useState(false);
+            const [testStarted, setTestStarted] = useState(false);
+
+            const generateQuestions = () => {
+                const qs = [];
+                // Letter identification (4 questions)
+                for (let i = 0; i < 4; i++) {
+                    const correct = ALPHABET_DATA[Math.floor(Math.random() * ALPHABET_DATA.length)];
+                    const wrong = ALPHABET_DATA.filter(a => a.letter !== correct.letter).sort(() => Math.random() - 0.5).slice(0, 3);
+                    qs.push({
+                        type: 'letter',
+                        question: `${t('kidsWhatLetterIs')} ${correct.emoji}`,
+                        options: [correct, ...wrong].sort(() => Math.random() - 0.5).map(o => ({ label: o.letter, correct: o.letter === correct.letter })),
+                        speak: correct.word
+                    });
+                }
+                // Number identification (3 questions)
+                const nums = NUMBERS_DATA[0].numbers;
+                for (let i = 0; i < 3; i++) {
+                    const correct = nums[Math.floor(Math.random() * nums.length)];
+                    const wrong = nums.filter(n => n.number !== correct.number).sort(() => Math.random() - 0.5).slice(0, 3);
+                    qs.push({
+                        type: 'number',
+                        question: `${t('kidsWhatNumberIs')} ${correct.word}`,
+                        options: [correct, ...wrong].sort(() => Math.random() - 0.5).map(o => ({ label: String(o.number), correct: o.number === correct.number })),
+                        speak: correct.word
+                    });
+                }
+                // Color identification (3 questions)
+                for (let i = 0; i < 3; i++) {
+                    const correct = COLORS_DATA[Math.floor(Math.random() * COLORS_DATA.length)];
+                    const wrong = COLORS_DATA.filter(c => c.id !== correct.id).sort(() => Math.random() - 0.5).slice(0, 3);
+                    qs.push({
+                        type: 'color',
+                        question: `${t('kidsWhatColorIs')} ${correct.emoji}`,
+                        options: [correct, ...wrong].sort(() => Math.random() - 0.5).map(o => ({ label: o.name, correct: o.id === correct.id })),
+                        speak: correct.name
+                    });
+                }
+                qs.sort(() => Math.random() - 0.5);
+                setQuestions(qs);
+                setCurrentQ(0);
+                setScore(0);
+                setAnswered(false);
+                setSelectedAnswer(null);
+                setTestComplete(false);
+                setTestStarted(true);
+            };
+
+            const handleAnswer = (optIdx) => {
+                if (answered) return;
+                setSelectedAnswer(optIdx);
+                setAnswered(true);
+                const isCorrect = questions[currentQ].options[optIdx].correct;
+                if (isCorrect) setScore(s => s + 1);
+                setTimeout(() => {
+                    if (currentQ + 1 < questions.length) {
+                        setCurrentQ(q => q + 1);
+                        setAnswered(false);
+                        setSelectedAnswer(null);
+                    } else {
+                        const finalScore = isCorrect ? score + 1 : score;
+                        const percent = Math.round((finalScore / questions.length) * 100);
+                        setTestComplete(true);
+                        onUpdateProgress({ xp: (progress.xp || 0) + percent });
+                        // Save test result to Firestore
+                        try {
+                            if (childUser?.familyId && childUser?.childId) {
+                                const testId = 'test_' + Date.now();
+                                window.firestore.setDoc(
+                                    window.firestore.doc(window.db, 'users', childUser.familyId, 'children', childUser.childId, 'tests', testId),
+                                    { score: percent, total: questions.length, correct: finalScore, date: new Date().toISOString(), type: 'mixed' }
+                                );
+                            }
+                        } catch (e) { console.warn('Test save failed:', e); }
+                    }
+                }, 1200);
+            };
+
+            if (!testStarted) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-b from-purple-500 to-indigo-600 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className="px-4 pt-4 pb-3 flex items-center gap-3">
+                            <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl">
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 className="text-2xl font-bold text-white flex-1">{t('kidsTests')}</h1>
+                        </div>
+                        <div className="px-4 flex flex-col items-center justify-center" style={{ minHeight: '60vh' }}>
+                            <div className="text-8xl mb-6">📝</div>
+                            <h2 className="text-3xl font-bold text-white mb-4">{t('kidsQuizMe')}</h2>
+                            <p className="text-white/70 text-center mb-8">{language === 'he' ? '10 שאלות על אותיות, ספרות וצבעים' : '10 questions about letters, numbers and colors'}</p>
+                            <button onClick={generateQuestions}
+                                className="px-8 py-4 bg-white text-purple-600 rounded-2xl font-bold text-xl shadow-xl hover:scale-105 transition-transform">
+                                {t('kidsStartLearning')}
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (testComplete) {
+                const percent = Math.round((score / questions.length) * 100);
+                const passed = percent >= 70;
+                return (
+                    <div className="min-h-screen bg-gradient-to-b from-purple-500 to-indigo-600 pb-20 flex flex-col items-center justify-center px-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className={`text-8xl mb-4 ${passed ? 'animate-[bounce_1s_infinite]' : ''}`}>
+                            {passed ? '🏆' : '📚'}
+                        </div>
+                        <h2 className="text-3xl font-bold text-white mb-2">{t('kidsTestScore')}</h2>
+                        <div className="text-6xl font-bold text-white mb-4">{percent}%</div>
+                        <div className="text-xl text-white/80 mb-2">{score}/{questions.length}</div>
+                        <div className={`text-xl font-bold mb-8 ${passed ? 'text-green-300' : 'text-amber-300'}`}>
+                            {passed ? t('kidsPassedTest') : t('kidsFailedTest')}
+                        </div>
+                        <div className="flex gap-4">
+                            <button onClick={generateQuestions}
+                                className="px-6 py-3 bg-white text-purple-600 rounded-xl font-bold shadow-lg hover:scale-105 transition-transform">
+                                {t('kidsRetry')}
+                            </button>
+                            <button onClick={onBack}
+                                className="px-6 py-3 bg-white/20 text-white rounded-xl font-bold hover:bg-white/30 transition-colors">
+                                {t('back')}
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            const q = questions[currentQ];
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-purple-500 to-indigo-600 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="px-4 pt-4 pb-3 flex items-center gap-3">
+                        <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl">
+                            {isRTL ? '→' : '←'}
+                        </button>
+                        <div className="flex-1">
+                            <div className="w-full h-2 bg-white/20 rounded-full overflow-hidden">
+                                <div className="h-full bg-yellow-400 rounded-full transition-all duration-300"
+                                    style={{ width: `${((currentQ + 1) / questions.length) * 100}%` }} />
+                            </div>
+                        </div>
+                        <div className="text-white font-bold">{currentQ + 1}/{questions.length}</div>
+                    </div>
+
+                    <div className="px-4 mt-8">
+                        <div className="text-center mb-8">
+                            <div className="text-white text-2xl font-bold mb-4">{q.question}</div>
+                            <button onClick={() => speakWord(q.speak)}
+                                className="px-4 py-2 bg-white/20 rounded-full text-white">
+                                🔊 {t('kidsListenAndRepeat')}
+                            </button>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            {q.options.map((opt, idx) => (
+                                <button key={idx} onClick={() => handleAnswer(idx)}
+                                    disabled={answered}
+                                    className={`py-6 rounded-2xl text-2xl font-bold transition-all ${
+                                        answered && opt.correct ? 'bg-green-400 text-white scale-105 shadow-xl' :
+                                        answered && selectedAnswer === idx && !opt.correct ? 'bg-red-400 text-white' :
+                                        answered ? 'bg-white/10 text-white/50' :
+                                        'bg-white/20 text-white hover:bg-white/30'
+                                    }`}>
+                                    {opt.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Kids Videos Page ---
+        function KidsVideosPage({ onBack }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [selectedVideo, setSelectedVideo] = useState(null);
+            const [videoError, setVideoError] = useState({});
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-red-500 to-rose-600 pb-20" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="px-4 pt-4 pb-3 flex items-center gap-3">
+                        <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xl hover:bg-white/30 transition-colors">
+                            {isRTL ? '→' : '←'}
+                        </button>
+                        <h1 className="text-2xl font-bold text-white flex-1">{language === 'he' ? 'סרטונים' : 'Videos'}</h1>
+                    </div>
+
+                    {selectedVideo ? (
+                        <div className="px-4">
+                            <div className="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl mb-4">
+                                <iframe
+                                    src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
+                                    className="w-full h-full"
+                                    allow="autoplay; encrypted-media"
+                                    allowFullScreen
+                                    onError={() => setVideoError(prev => ({ ...prev, [selectedVideo.id]: true }))}
+                                />
+                            </div>
+                            <button onClick={() => setSelectedVideo(null)}
+                                className="w-full py-3 bg-white/20 text-white rounded-xl font-bold hover:bg-white/30 transition-colors">
+                                {t('back')}
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="px-4 space-y-3">
+                            {KIDS_VIDEOS.map(video => (
+                                <button key={video.id} onClick={() => setSelectedVideo(video)}
+                                    className="w-full bg-white/15 backdrop-blur-sm rounded-2xl p-4 flex items-center gap-4 border border-white/20 hover:bg-white/25 transition-all">
+                                    <div className="w-16 h-16 rounded-xl bg-red-600 flex items-center justify-center text-3xl shadow-lg relative overflow-hidden">
+                                        <img src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
+                                            className="w-full h-full object-cover absolute inset-0"
+                                            onError={e => { e.target.style.display = 'none'; }}
+                                            alt="" />
+                                        <span className="relative z-10 text-white text-2xl">▶</span>
+                                    </div>
+                                    <div className="flex-1 text-right">
+                                        <div className="text-white font-bold">{language === 'he' ? video.titleHe : video.title}</div>
+                                        {videoError[video.id] && <div className="text-red-200 text-xs mt-1">{language === 'he' ? 'סרטון לא זמין' : 'Video unavailable'}</div>}
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // --- Kids Avatar Selector ---
+        function KidsAvatarSelector({ currentAvatar, onSelect, onClose }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [selected, setSelected] = useState(currentAvatar || '🦁');
+
+            return (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={onClose}>
+                    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 max-w-md w-full shadow-2xl max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()} dir={isRTL ? 'rtl' : 'ltr'}>
+                        <h2 className="text-xl font-bold text-center mb-4 dark:text-white">{t('kidsChooseAvatar')}</h2>
+                        <div className="grid grid-cols-6 gap-3 mb-6">
+                            {KIDS_AVATARS.map((av, idx) => (
+                                <button key={idx} onClick={() => setSelected(av.emoji)}
+                                    className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all ${
+                                        selected === av.emoji ? 'bg-indigo-100 dark:bg-indigo-900 ring-3 ring-indigo-500 scale-110 shadow-lg' : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                                    }`}
+                                    title={language === 'he' ? av.nameHe : av.name}>
+                                    {av.emoji}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="text-center mb-4">
+                            <div className="text-5xl mb-2 animate-[bounce_1s_infinite]">{selected}</div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                                {KIDS_AVATARS.find(a => a.emoji === selected)?.nameHe || ''}
+                            </div>
+                        </div>
+                        <button onClick={() => { onSelect(selected); onClose(); }}
+                            className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold shadow-lg hover:scale-105 transition-transform">
+                            {t('save')}
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- SVG Progress Chart Component ---
+        function ProgressChart({ data, width = 300, height = 150 }) {
+            if (!data || data.length === 0) return null;
+            const maxVal = Math.max(...data.map(d => d.value), 1);
+            const padding = 30;
+            const chartW = width - padding * 2;
+            const chartH = height - padding * 2;
+            const points = data.map((d, i) => ({
+                x: padding + (i / Math.max(data.length - 1, 1)) * chartW,
+                y: padding + chartH - (d.value / maxVal) * chartH
+            }));
+            const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+            const areaD = pathD + ` L ${points[points.length - 1].x} ${padding + chartH} L ${points[0].x} ${padding + chartH} Z`;
+
+            return (
+                <svg width={width} height={height} className="w-full" viewBox={`0 0 ${width} ${height}`}>
+                    <defs>
+                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#818CF8" stopOpacity="0.3" />
+                            <stop offset="100%" stopColor="#818CF8" stopOpacity="0" />
+                        </linearGradient>
+                    </defs>
+                    <path d={areaD} fill="url(#chartGrad)" />
+                    <path d={pathD} fill="none" stroke="#818CF8" strokeWidth="2" strokeLinecap="round" />
+                    {points.map((p, i) => (
+                        <g key={i}>
+                            <circle cx={p.x} cy={p.y} r="3" fill="#818CF8" />
+                            <text x={p.x} y={height - 5} textAnchor="middle" className="text-xs" fill="#9CA3AF">{data[i].label}</text>
+                        </g>
+                    ))}
+                </svg>
+            );
+        }
+
+        // ============================================================
+        // === SPEAKEASY ADULTS LEARNING SECTION ===
+        // ============================================================
+
+        const ADULT_VOCABULARY = {
+            food: [
+                { word: 'Bread', he: 'לחם', ru: 'Хлеб', ar: 'خبز', example: 'I need to buy bread.' },
+                { word: 'Milk', he: 'חלב', ru: 'Молоко', ar: 'حليب', example: 'A glass of milk, please.' },
+                { word: 'Cheese', he: 'גבינה', ru: 'Сыр', ar: 'جبنة', example: 'Do you have any cheese?' },
+                { word: 'Rice', he: 'אורז', ru: 'Рис', ar: 'أرز', example: 'I will cook rice for dinner.' },
+                { word: 'Chicken', he: 'עוף', ru: 'Курица', ar: 'دجاج', example: 'The chicken is very fresh.' },
+                { word: 'Fish', he: 'דג', ru: 'Рыба', ar: 'سمك', example: 'I prefer grilled fish.' },
+                { word: 'Egg', he: 'ביצה', ru: 'Яйцо', ar: 'بيضة', example: 'Two eggs for breakfast.' },
+                { word: 'Sugar', he: 'סוכר', ru: 'Сахар', ar: 'سكر', example: 'No sugar in my coffee.' },
+                { word: 'Salt', he: 'מלח', ru: 'Соль', ar: 'ملح', example: 'Pass the salt, please.' },
+                { word: 'Water', he: 'מים', ru: 'Вода', ar: 'ماء', example: 'Can I have some water?' },
+                { word: 'Coffee', he: 'קפה', ru: 'Кофе', ar: 'قهوة', example: 'I drink coffee every morning.' },
+                { word: 'Tea', he: 'תה', ru: 'Чай', ar: 'شاي', example: 'Would you like some tea?' },
+                { word: 'Fruit', he: 'פרי', ru: 'Фрукт', ar: 'فاكهة', example: 'Fresh fruit is healthy.' },
+                { word: 'Vegetable', he: 'ירק', ru: 'Овощ', ar: 'خضار', example: 'Eat more vegetables.' },
+                { word: 'Meat', he: 'בשר', ru: 'Мясо', ar: 'لحم', example: 'The meat is well cooked.' },
+                { word: 'Butter', he: 'חמאה', ru: 'Масло', ar: 'زبدة', example: 'Spread butter on the toast.' },
+                { word: 'Flour', he: 'קמח', ru: 'Мука', ar: 'طحين', example: 'We need flour for the cake.' },
+                { word: 'Oil', he: 'שמן', ru: 'Масло', ar: 'زيت', example: 'Use olive oil for cooking.' },
+                { word: 'Pepper', he: 'פלפל', ru: 'Перец', ar: 'فلفل', example: 'Add some black pepper.' },
+                { word: 'Soup', he: 'מרק', ru: 'Суп', ar: 'شوربة', example: 'Hot soup on a cold day.' }
+            ],
+            travel: [
+                { word: 'Airport', he: 'שדה תעופה', ru: 'Аэропорт', ar: 'مطار', example: 'The airport is far from here.' },
+                { word: 'Ticket', he: 'כרטיס', ru: 'Билет', ar: 'تذكرة', example: 'I booked a ticket online.' },
+                { word: 'Hotel', he: 'מלון', ru: 'Отель', ar: 'فندق', example: 'The hotel has a pool.' },
+                { word: 'Passport', he: 'דרכון', ru: 'Паспорт', ar: 'جواز سفر', example: 'Show your passport, please.' },
+                { word: 'Luggage', he: 'מזוודות', ru: 'Багаж', ar: 'أمتعة', example: 'My luggage is heavy.' },
+                { word: 'Flight', he: 'טיסה', ru: 'Рейс', ar: 'رحلة', example: 'The flight is delayed.' },
+                { word: 'Train', he: 'רכבת', ru: 'Поезд', ar: 'قطار', example: 'Take the train to the city.' },
+                { word: 'Bus', he: 'אוטובוס', ru: 'Автобус', ar: 'حافلة', example: 'The bus leaves at 9.' },
+                { word: 'Taxi', he: 'מונית', ru: 'Такси', ar: 'تاكسي', example: 'Call me a taxi, please.' },
+                { word: 'Map', he: 'מפה', ru: 'Карта', ar: 'خريطة', example: 'Do you have a map?' },
+                { word: 'Station', he: 'תחנה', ru: 'Станция', ar: 'محطة', example: 'Where is the train station?' },
+                { word: 'Border', he: 'גבול', ru: 'Граница', ar: 'حدود', example: 'We crossed the border.' },
+                { word: 'Visa', he: 'ויזה', ru: 'Виза', ar: 'تأشيرة', example: 'Do I need a visa?' },
+                { word: 'Guide', he: 'מדריך', ru: 'Гид', ar: 'مرشد', example: 'The guide speaks English.' },
+                { word: 'Beach', he: 'חוף', ru: 'Пляж', ar: 'شاطئ', example: 'Let\'s go to the beach.' },
+                { word: 'Museum', he: 'מוזיאון', ru: 'Музей', ar: 'متحف', example: 'Visit the national museum.' },
+                { word: 'Restaurant', he: 'מסעדה', ru: 'Ресторан', ar: 'مطعم', example: 'A nice restaurant nearby.' },
+                { word: 'Currency', he: 'מטבע', ru: 'Валюта', ar: 'عملة', example: 'What currency do you accept?' },
+                { word: 'Reservation', he: 'הזמנה', ru: 'Бронь', ar: 'حجز', example: 'I have a reservation.' },
+                { word: 'Destination', he: 'יעד', ru: 'Пункт назначения', ar: 'وجهة', example: 'What is your destination?' }
+            ],
+            shopping: [
+                { word: 'Price', he: 'מחיר', ru: 'Цена', ar: 'سعر', example: 'What is the price?' },
+                { word: 'Discount', he: 'הנחה', ru: 'Скидка', ar: 'خصم', example: 'Is there a discount?' },
+                { word: 'Receipt', he: 'קבלה', ru: 'Чек', ar: 'إيصال', example: 'Can I have a receipt?' },
+                { word: 'Cash', he: 'מזומן', ru: 'Наличные', ar: 'نقد', example: 'I will pay with cash.' },
+                { word: 'Card', he: 'כרטיס', ru: 'Карта', ar: 'بطاقة', example: 'Do you accept credit cards?' },
+                { word: 'Size', he: 'מידה', ru: 'Размер', ar: 'مقاس', example: 'What size do you need?' },
+                { word: 'Color', he: 'צבע', ru: 'Цвет', ar: 'لون', example: 'Do you have it in blue?' },
+                { word: 'Store', he: 'חנות', ru: 'Магазин', ar: 'متجر', example: 'The store closes at 9.' },
+                { word: 'Sale', he: 'מבצע', ru: 'Распродажа', ar: 'تخفيضات', example: 'Everything is on sale.' },
+                { word: 'Change', he: 'עודף', ru: 'Сдача', ar: 'باقي', example: 'Here is your change.' },
+                { word: 'Bag', he: 'שקית', ru: 'Пакет', ar: 'كيس', example: 'Do you need a bag?' },
+                { word: 'Market', he: 'שוק', ru: 'Рынок', ar: 'سوق', example: 'Let\'s go to the market.' },
+                { word: 'Brand', he: 'מותג', ru: 'Бренд', ar: 'علامة تجارية', example: 'Which brand do you prefer?' },
+                { word: 'Quality', he: 'איכות', ru: 'Качество', ar: 'جودة', example: 'High quality products.' },
+                { word: 'Return', he: 'החזרה', ru: 'Возврат', ar: 'إرجاع', example: 'Can I return this?' },
+                { word: 'Exchange', he: 'החלפה', ru: 'Обмен', ar: 'استبدال', example: 'I want to exchange this.' },
+                { word: 'Warranty', he: 'אחריות', ru: 'Гарантия', ar: 'ضمان', example: 'Does it have a warranty?' },
+                { word: 'Expensive', he: 'יקר', ru: 'Дорого', ar: 'غالي', example: 'This is too expensive.' },
+                { word: 'Cheap', he: 'זול', ru: 'Дешево', ar: 'رخيص', example: 'It\'s very cheap here.' },
+                { word: 'Total', he: 'סה"כ', ru: 'Итого', ar: 'المجموع', example: 'The total is 50 dollars.' }
+            ],
+            daily: [
+                { word: 'Morning', he: 'בוקר', ru: 'Утро', ar: 'صباح', example: 'Good morning!' },
+                { word: 'Evening', he: 'ערב', ru: 'Вечер', ar: 'مساء', example: 'Good evening!' },
+                { word: 'Work', he: 'עבודה', ru: 'Работа', ar: 'عمل', example: 'I go to work at 8.' },
+                { word: 'Home', he: 'בית', ru: 'Дом', ar: 'بيت', example: 'I am going home.' },
+                { word: 'Family', he: 'משפחה', ru: 'Семья', ar: 'عائلة', example: 'My family is big.' },
+                { word: 'Friend', he: 'חבר', ru: 'Друг', ar: 'صديق', example: 'He is my best friend.' },
+                { word: 'School', he: 'בית ספר', ru: 'Школа', ar: 'مدرسة', example: 'The kids are at school.' },
+                { word: 'Doctor', he: 'רופא', ru: 'Врач', ar: 'طبيب', example: 'I need to see a doctor.' },
+                { word: 'Weather', he: 'מזג אוויר', ru: 'Погода', ar: 'طقس', example: 'The weather is nice today.' },
+                { word: 'Time', he: 'זמן', ru: 'Время', ar: 'وقت', example: 'What time is it?' },
+                { word: 'Today', he: 'היום', ru: 'Сегодня', ar: 'اليوم', example: 'Today is a good day.' },
+                { word: 'Tomorrow', he: 'מחר', ru: 'Завтра', ar: 'غدا', example: 'See you tomorrow.' },
+                { word: 'Yesterday', he: 'אתמול', ru: 'Вчера', ar: 'أمس', example: 'I was busy yesterday.' },
+                { word: 'Week', he: 'שבוע', ru: 'Неделя', ar: 'أسبوع', example: 'See you next week.' },
+                { word: 'Month', he: 'חודש', ru: 'Месяц', ar: 'شهر', example: 'This month is busy.' },
+                { word: 'Year', he: 'שנה', ru: 'Год', ar: 'سنة', example: 'Happy new year!' },
+                { word: 'Phone', he: 'טלפון', ru: 'Телефон', ar: 'هاتف', example: 'What is your phone number?' },
+                { word: 'Address', he: 'כתובת', ru: 'Адрес', ar: 'عنوان', example: 'What is your address?' },
+                { word: 'Street', he: 'רחוב', ru: 'Улица', ar: 'شارع', example: 'I live on Main Street.' },
+                { word: 'Park', he: 'פארק', ru: 'Парк', ar: 'حديقة', example: 'Let\'s walk in the park.' }
+            ],
+            business: [
+                { word: 'Meeting', he: 'פגישה', ru: 'Встреча', ar: 'اجتماع', example: 'The meeting is at 3 PM.' },
+                { word: 'Office', he: 'משרד', ru: 'Офис', ar: 'مكتب', example: 'I work in an office.' },
+                { word: 'Email', he: 'אימייל', ru: 'Электронная почта', ar: 'بريد إلكتروني', example: 'Send me an email.' },
+                { word: 'Deadline', he: 'דדליין', ru: 'Дедлайн', ar: 'موعد نهائي', example: 'The deadline is Friday.' },
+                { word: 'Project', he: 'פרויקט', ru: 'Проект', ar: 'مشروع', example: 'We started a new project.' },
+                { word: 'Report', he: 'דו"ח', ru: 'Отчёт', ar: 'تقرير', example: 'Please send the report.' },
+                { word: 'Budget', he: 'תקציב', ru: 'Бюджет', ar: 'ميزانية', example: 'The budget is approved.' },
+                { word: 'Contract', he: 'חוזה', ru: 'Контракт', ar: 'عقد', example: 'Sign the contract here.' },
+                { word: 'Client', he: 'לקוח', ru: 'Клиент', ar: 'عميل', example: 'The client is waiting.' },
+                { word: 'Manager', he: 'מנהל', ru: 'Менеджер', ar: 'مدير', example: 'Ask the manager.' },
+                { word: 'Salary', he: 'משכורת', ru: 'Зарплата', ar: 'راتب', example: 'Salary is paid monthly.' },
+                { word: 'Schedule', he: 'לו"ז', ru: 'Расписание', ar: 'جدول', example: 'Check the schedule.' },
+                { word: 'Interview', he: 'ראיון', ru: 'Интервью', ar: 'مقابلة', example: 'I have an interview tomorrow.' },
+                { word: 'Resume', he: 'קורות חיים', ru: 'Резюме', ar: 'سيرة ذاتية', example: 'Update your resume.' },
+                { word: 'Company', he: 'חברה', ru: 'Компания', ar: 'شركة', example: 'A large company.' },
+                { word: 'Profit', he: 'רווח', ru: 'Прибыль', ar: 'ربح', example: 'The profit increased.' },
+                { word: 'Invoice', he: 'חשבונית', ru: 'Счёт-фактура', ar: 'فاتورة', example: 'Send the invoice today.' },
+                { word: 'Payment', he: 'תשלום', ru: 'Оплата', ar: 'دفع', example: 'Payment is due Monday.' },
+                { word: 'Partner', he: 'שותף', ru: 'Партнёр', ar: 'شريك', example: 'He is my business partner.' },
+                { word: 'Goal', he: 'מטרה', ru: 'Цель', ar: 'هدف', example: 'Set clear goals.' }
+            ]
+        };
+
+        const ADULT_PHRASES = {
+            greetings: [
+                { phrase: 'Hello, how are you?', he: 'שלום, מה שלומך?', ru: 'Привет, как дела?', ar: 'مرحبا، كيف حالك؟' },
+                { phrase: 'Nice to meet you.', he: 'נעים להכיר.', ru: 'Приятно познакомиться.', ar: 'تشرفت بمعرفتك.' },
+                { phrase: 'Good morning!', he: 'בוקר טוב!', ru: 'Доброе утро!', ar: 'صباح الخير!' },
+                { phrase: 'Good evening!', he: 'ערב טוב!', ru: 'Добрый вечер!', ar: 'مساء الخير!' },
+                { phrase: 'How is your day going?', he: 'איך עובר עליך היום?', ru: 'Как проходит ваш день?', ar: 'كيف يومك؟' },
+                { phrase: 'See you later!', he: 'נתראה!', ru: 'Увидимся!', ar: 'أراك لاحقا!' },
+                { phrase: 'Have a great day!', he: 'שיהיה יום נפלא!', ru: 'Хорошего дня!', ar: 'يوم سعيد!' },
+                { phrase: 'What is your name?', he: 'מה שמך?', ru: 'Как вас зовут?', ar: 'ما اسمك؟' },
+                { phrase: 'My name is...', he: 'שמי...', ru: 'Меня зовут...', ar: 'اسمي...' },
+                { phrase: 'Where are you from?', he: 'מאיפה אתה?', ru: 'Откуда вы?', ar: 'من أين أنت؟' }
+            ],
+            shopping: [
+                { phrase: 'How much is this?', he: 'כמה זה עולה?', ru: 'Сколько это стоит?', ar: 'كم سعر هذا؟' },
+                { phrase: 'Can I pay by card?', he: 'אפשר לשלם בכרטיס?', ru: 'Можно оплатить картой?', ar: 'هل يمكنني الدفع بالبطاقة؟' },
+                { phrase: 'Do you have a smaller size?', he: 'יש לכם מידה קטנה יותר?', ru: 'Есть размер поменьше?', ar: 'هل لديكم مقاس أصغر؟' },
+                { phrase: 'I\'m just looking, thanks.', he: 'אני רק מסתכל, תודה.', ru: 'Я просто смотрю, спасибо.', ar: 'أنا فقط أتصفح، شكرا.' },
+                { phrase: 'Can I try this on?', he: 'אפשר למדוד?', ru: 'Можно примерить?', ar: 'هل يمكنني تجربة هذا؟' },
+                { phrase: 'Where is the fitting room?', he: 'איפה חדר ההלבשה?', ru: 'Где примерочная?', ar: 'أين غرفة القياس؟' },
+                { phrase: 'I\'d like to return this.', he: 'אני רוצה להחזיר את זה.', ru: 'Я хочу это вернуть.', ar: 'أريد إرجاع هذا.' },
+                { phrase: 'Is this on sale?', he: 'זה במבצע?', ru: 'Это со скидкой?', ar: 'هل هذا في التخفيضات؟' },
+                { phrase: 'Can you gift wrap this?', he: 'אפשר לעטוף למתנה?', ru: 'Можно упаковать как подарок?', ar: 'هل يمكنك تغليف هذا كهدية؟' },
+                { phrase: 'Where can I find...?', he: 'איפה אפשר למצוא...?', ru: 'Где можно найти...?', ar: 'أين يمكنني أن أجد...؟' }
+            ],
+            travel: [
+                { phrase: 'Where is the...?', he: 'איפה ה...?', ru: 'Где находится...?', ar: 'أين...؟' },
+                { phrase: 'I need a taxi.', he: 'אני צריך מונית.', ru: 'Мне нужно такси.', ar: 'أحتاج تاكسي.' },
+                { phrase: 'How do I get to...?', he: 'איך מגיעים ל...?', ru: 'Как добраться до...?', ar: 'كيف أصل إلى...؟' },
+                { phrase: 'Is it far from here?', he: 'זה רחוק מפה?', ru: 'Это далеко отсюда?', ar: 'هل هو بعيد من هنا؟' },
+                { phrase: 'I\'m lost.', he: 'אני הלכתי לאיבוד.', ru: 'Я заблудился.', ar: 'أنا ضائع.' },
+                { phrase: 'When does the bus leave?', he: 'מתי האוטובוס יוצא?', ru: 'Когда отходит автобус?', ar: 'متى يغادر الحافلة؟' },
+                { phrase: 'I have a reservation.', he: 'יש לי הזמנה.', ru: 'У меня есть бронь.', ar: 'لدي حجز.' },
+                { phrase: 'Can you recommend a good hotel?', he: 'אפשר להמליץ על מלון טוב?', ru: 'Можете порекомендовать хороший отель?', ar: 'هل يمكنك أن توصي بفندق جيد؟' },
+                { phrase: 'What time does it close?', he: 'באיזו שעה סוגרים?', ru: 'Во сколько закрывается?', ar: 'في أي وقت يغلق؟' },
+                { phrase: 'Can I have a map?', he: 'אפשר לקבל מפה?', ru: 'Можно карту?', ar: 'هل يمكنني الحصول على خريطة؟' }
+            ],
+            restaurant: [
+                { phrase: 'A table for two, please.', he: 'שולחן לשניים, בבקשה.', ru: 'Столик на двоих, пожалуйста.', ar: 'طاولة لشخصين، من فضلك.' },
+                { phrase: 'The check, please.', he: 'חשבון, בבקשה.', ru: 'Счёт, пожалуйста.', ar: 'الحساب، من فضلك.' },
+                { phrase: 'What do you recommend?', he: 'מה אתם ממליצים?', ru: 'Что вы рекомендуете?', ar: 'ماذا توصي؟' },
+                { phrase: 'I\'m allergic to...', he: 'יש לי אלרגיה ל...', ru: 'У меня аллергия на...', ar: 'لدي حساسية من...' },
+                { phrase: 'Can I see the menu?', he: 'אפשר לראות תפריט?', ru: 'Можно меню?', ar: 'هل يمكنني رؤية القائمة؟' },
+                { phrase: 'I\'d like to order...', he: 'אני רוצה להזמין...', ru: 'Я хочу заказать...', ar: 'أريد أن أطلب...' },
+                { phrase: 'Is this dish spicy?', he: 'המנה הזאת חריפה?', ru: 'Это блюдо острое?', ar: 'هل هذا الطبق حار؟' },
+                { phrase: 'Could I have some water?', he: 'אפשר לקבל מים?', ru: 'Можно воды?', ar: 'هل يمكنني الحصول على ماء؟' },
+                { phrase: 'The food was delicious!', he: 'האוכל היה מעולה!', ru: 'Еда была вкусная!', ar: 'الطعام كان لذيذا!' },
+                { phrase: 'Do you have vegetarian options?', he: 'יש אפשרויות צמחוניות?', ru: 'Есть вегетарианские блюда?', ar: 'هل لديكم خيارات نباتية؟' }
+            ],
+            emergency: [
+                { phrase: 'I need help!', he: 'אני צריך עזרה!', ru: 'Мне нужна помощь!', ar: 'أحتاج مساعدة!' },
+                { phrase: 'Call the police!', he: 'תקראו למשטרה!', ru: 'Вызовите полицию!', ar: 'اتصلوا بالشرطة!' },
+                { phrase: 'Call an ambulance!', he: 'תזמינו אמבולנס!', ru: 'Вызовите скорую!', ar: 'اتصلوا بالإسعاف!' },
+                { phrase: 'Where is the hospital?', he: 'איפה בית החולים?', ru: 'Где больница?', ar: 'أين المستشفى؟' },
+                { phrase: 'I don\'t feel well.', he: 'אני לא מרגיש טוב.', ru: 'Мне плохо.', ar: 'لا أشعر بحالة جيدة.' },
+                { phrase: 'I lost my passport.', he: 'איבדתי את הדרכון.', ru: 'Я потерял паспорт.', ar: 'فقدت جواز سفري.' },
+                { phrase: 'I need a pharmacy.', he: 'אני צריך בית מרקחת.', ru: 'Мне нужна аптека.', ar: 'أحتاج صيدلية.' },
+                { phrase: 'Is there a doctor nearby?', he: 'יש רופא בסביבה?', ru: 'Есть ли врач поблизости?', ar: 'هل يوجد طبيب قريب؟' },
+                { phrase: 'It\'s an emergency!', he: 'זה מקרה חירום!', ru: 'Это экстренный случай!', ar: 'إنها حالة طوارئ!' },
+                { phrase: 'Please help me.', he: 'בבקשה תעזרו לי.', ru: 'Помогите мне, пожалуйста.', ar: 'من فضلك ساعدني.' }
+            ]
+        };
+
+        const ADULT_VIDEOS = [
+            { id: 'juKd26qkNAw', title: 'English for Beginners', titleHe: 'אנגלית למתחילים' },
+            { id: 'yW0m6WAOQM0', title: 'Daily English Conversations', titleHe: 'שיחות יומיומיות באנגלית' },
+            { id: '5FGNTaxpmYI', title: 'English Vocabulary Builder', titleHe: 'בניית אוצר מילים' },
+            { id: 'Nco5JcVLC1o', title: 'Travel English', titleHe: 'אנגלית לנסיעות' },
+            { id: 'RYrJmHhGkVo', title: 'Business English', titleHe: 'אנגלית עסקית' },
+            { id: 'KMBBjlAjGRg', title: 'English Pronunciation', titleHe: 'הגייה באנגלית' }
+        ];
+
+        // --- Adult Learn Home Page ---
+        function AdultLearnHome({ progress, onNavigate, user }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const streak = progress.streak || 0;
+            const xp = progress.xp || 0;
+            const wordsLearned = progress.wordsLearned?.length || 0;
+            const phrasesLearned = progress.phrasesLearned?.length || 0;
+
+            const sections = [
+                { id: 'alphabet', icon: '🔤', label: t('learnAlphabet'), color: 'from-blue-500 to-blue-600' },
+                { id: 'vocabulary', icon: '📖', label: t('learnVocabulary'), color: 'from-emerald-500 to-emerald-600' },
+                { id: 'phrases', icon: '💬', label: t('learnPhrases'), color: 'from-purple-500 to-purple-600' },
+                { id: 'numbers', icon: '🔢', label: t('learnNumbers'), color: 'from-amber-500 to-amber-600' },
+                { id: 'colors', icon: '🎨', label: t('learnColors'), color: 'from-pink-500 to-pink-600' },
+                { id: 'videos', icon: '🎬', label: t('learnVideos'), color: 'from-red-500 to-red-600' },
+                { id: 'test', icon: '📝', label: t('learnTests'), color: 'from-indigo-500 to-indigo-600' }
+            ];
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 pb-8" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="max-w-lg mx-auto px-4 pt-6">
+                        {/* Stats Bar */}
+                        <div className="flex items-center justify-between mb-6 bg-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                            <div className="text-center">
+                                <div className="text-2xl font-bold text-amber-400">{streak}</div>
+                                <div className="text-xs text-slate-400">{t('learnStreak')}</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-2xl font-bold text-emerald-400">{xp}</div>
+                                <div className="text-xs text-slate-400">{t('learnXP')}</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-2xl font-bold text-blue-400">{wordsLearned}</div>
+                                <div className="text-xs text-slate-400">{t('learnWordsLearned')}</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-2xl font-bold text-purple-400">{phrasesLearned}</div>
+                                <div className="text-xs text-slate-400">{t('learnPhrasesLearned')}</div>
+                            </div>
+                        </div>
+
+                        {/* Section Cards */}
+                        <div className="grid grid-cols-2 gap-3">
+                            {sections.map(s => (
+                                <button
+                                    key={s.id}
+                                    onClick={() => onNavigate(s.id)}
+                                    className={`bg-gradient-to-br ${s.color} rounded-2xl p-5 text-white text-center hover:scale-105 active:scale-95 transition-transform shadow-lg`}
+                                >
+                                    <div className="text-3xl mb-2">{s.icon}</div>
+                                    <div className="text-sm font-semibold">{s.label}</div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Adult Vocabulary Page ---
+        function AdultVocabularyPage({ progress, onBack, onUpdateProgress }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [activeTab, setActiveTab] = useState('food');
+            const [expandedWord, setExpandedWord] = useState(null);
+
+            const tabs = [
+                { id: 'food', label: t('learnFood') },
+                { id: 'travel', label: t('learnTravel') },
+                { id: 'shopping', label: t('learnShopping') },
+                { id: 'daily', label: t('learnDaily') },
+                { id: 'business', label: t('learnBusiness') }
+            ];
+
+            const getTranslation = (item) => {
+                if (language === 'he') return item.he;
+                if (language === 'ru') return item.ru;
+                if (language === 'ar') return item.ar;
+                return item.he;
+            };
+
+            const handleLearnWord = (word) => {
+                if (!progress.wordsLearned?.includes(word)) {
+                    onUpdateProgress({
+                        wordsLearned: [...(progress.wordsLearned || []), word],
+                        xp: (progress.xp || 0) + 5
+                    });
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 pb-8" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="max-w-lg mx-auto px-4 pt-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 className="text-xl font-bold text-white">{t('learnVocabulary')}</h1>
+                        </div>
+
+                        {/* Tabs */}
+                        <div className="flex gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide">
+                            {tabs.map(tab => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                                        activeTab === tab.id
+                                            ? 'bg-emerald-500 text-white shadow-lg'
+                                            : 'bg-white/10 text-slate-300 hover:bg-white/20'
+                                    }`}
+                                >
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Word Cards */}
+                        <div className="space-y-2">
+                            {ADULT_VOCABULARY[activeTab]?.map((item, idx) => {
+                                const isLearned = progress.wordsLearned?.includes(item.word);
+                                const isExpanded = expandedWord === idx;
+                                return (
+                                    <div key={idx} className={`rounded-xl overflow-hidden transition-all ${isLearned ? 'bg-emerald-900/30 border border-emerald-700/50' : 'bg-white/5 border border-white/10'}`}>
+                                        <button
+                                            onClick={() => setExpandedWord(isExpanded ? null : idx)}
+                                            className="w-full flex items-center gap-3 p-4 text-start"
+                                        >
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); speakWord(item.word); }}
+                                                className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 hover:bg-blue-500/30 flex-shrink-0"
+                                            >
+                                                🔊
+                                            </button>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="text-white font-semibold">{item.word}</div>
+                                                <div className="text-slate-400 text-sm">{getTranslation(item)}</div>
+                                            </div>
+                                            {isLearned && <span className="text-emerald-400 text-lg">✓</span>}
+                                        </button>
+                                        {isExpanded && (
+                                            <div className="px-4 pb-4 border-t border-white/5 pt-3">
+                                                <div className="text-slate-400 text-sm mb-2">
+                                                    <span className="text-slate-500">{t('learnExample')}:</span> {item.example}
+                                                </div>
+                                                <button
+                                                    onClick={() => { speakWord(item.example); handleLearnWord(item.word); }}
+                                                    className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg text-sm hover:bg-blue-500/30 transition-colors"
+                                                >
+                                                    {t('learnListenAndRepeat')} 🔊
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Adult Phrases Page ---
+        function AdultPhrasesPage({ progress, onBack, onUpdateProgress }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [activeTab, setActiveTab] = useState('greetings');
+
+            const tabs = [
+                { id: 'greetings', label: t('learnGreetings') },
+                { id: 'shopping', label: t('learnShopping') },
+                { id: 'travel', label: t('learnTravel') },
+                { id: 'restaurant', label: t('learnRestaurant') },
+                { id: 'emergency', label: t('learnEmergency') }
+            ];
+
+            const getTranslation = (item) => {
+                if (language === 'he') return item.he;
+                if (language === 'ru') return item.ru;
+                if (language === 'ar') return item.ar;
+                return item.he;
+            };
+
+            const handleLearnPhrase = (phrase) => {
+                if (!progress.phrasesLearned?.includes(phrase)) {
+                    onUpdateProgress({
+                        phrasesLearned: [...(progress.phrasesLearned || []), phrase],
+                        xp: (progress.xp || 0) + 10
+                    });
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 pb-8" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="max-w-lg mx-auto px-4 pt-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 className="text-xl font-bold text-white">{t('learnPhrases')}</h1>
+                        </div>
+
+                        <div className="flex gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide">
+                            {tabs.map(tab => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                                        activeTab === tab.id
+                                            ? 'bg-purple-500 text-white shadow-lg'
+                                            : 'bg-white/10 text-slate-300 hover:bg-white/20'
+                                    }`}
+                                >
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="space-y-3">
+                            {ADULT_PHRASES[activeTab]?.map((item, idx) => {
+                                const isLearned = progress.phrasesLearned?.includes(item.phrase);
+                                return (
+                                    <div key={idx} className={`rounded-xl p-4 ${isLearned ? 'bg-purple-900/30 border border-purple-700/50' : 'bg-white/5 border border-white/10'}`}>
+                                        <div className="flex items-start gap-3">
+                                            <button
+                                                onClick={() => { speakWord(item.phrase); handleLearnPhrase(item.phrase); }}
+                                                className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 hover:bg-purple-500/30 flex-shrink-0 mt-1"
+                                            >
+                                                🔊
+                                            </button>
+                                            <div className="flex-1">
+                                                <div className="text-white font-medium mb-1">{item.phrase}</div>
+                                                <div className="text-slate-400 text-sm">{getTranslation(item)}</div>
+                                            </div>
+                                            {isLearned && <span className="text-purple-400 text-lg">✓</span>}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Adult Alphabet Page (reuses ALPHABET_DATA) ---
+        function AdultAlphabetPage({ progress, onBack, onUpdateProgress }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+
+            const handleLearnLetter = (letter) => {
+                if (!progress.lettersLearned?.includes(letter)) {
+                    onUpdateProgress({
+                        lettersLearned: [...(progress.lettersLearned || []), letter],
+                        xp: (progress.xp || 0) + 3
+                    });
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 pb-8" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="max-w-lg mx-auto px-4 pt-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 className="text-xl font-bold text-white">{t('learnAlphabet')}</h1>
+                        </div>
+
+                        <div className="grid grid-cols-4 gap-3">
+                            {ALPHABET_DATA.map((item) => {
+                                const isLearned = progress.lettersLearned?.includes(item.letter);
+                                return (
+                                    <button
+                                        key={item.letter}
+                                        onClick={() => { speakWord(item.letter + ', ' + item.word); handleLearnLetter(item.letter); }}
+                                        className={`rounded-xl p-3 text-center transition-all hover:scale-105 active:scale-95 ${
+                                            isLearned ? 'bg-blue-600/30 border-2 border-blue-500/50' : 'bg-white/5 border border-white/10'
+                                        }`}
+                                    >
+                                        <div className="text-2xl font-bold text-white mb-1">{item.letter}</div>
+                                        <div className="text-xs text-slate-400">{item.word}</div>
+                                        {isLearned && <div className="text-blue-400 text-xs mt-1">✓</div>}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Adult Numbers Page (reuses NUMBERS_DATA) ---
+        function AdultNumbersPage({ progress, onBack, onUpdateProgress }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [activeLevel, setActiveLevel] = useState(0);
+
+            const handleLearnNumber = (num) => {
+                const numStr = String(num);
+                if (!progress.numbersLearned?.includes(numStr)) {
+                    onUpdateProgress({
+                        numbersLearned: [...(progress.numbersLearned || []), numStr],
+                        xp: (progress.xp || 0) + 3
+                    });
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 pb-8" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="max-w-lg mx-auto px-4 pt-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 className="text-xl font-bold text-white">{t('learnNumbers')}</h1>
+                        </div>
+
+                        <div className="flex gap-2 mb-4">
+                            {NUMBERS_DATA.map((level, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => setActiveLevel(idx)}
+                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                                        activeLevel === idx
+                                            ? 'bg-amber-500 text-white shadow-lg'
+                                            : 'bg-white/10 text-slate-300 hover:bg-white/20'
+                                    }`}
+                                >
+                                    {level.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="grid grid-cols-5 gap-3">
+                            {NUMBERS_DATA[activeLevel]?.numbers.map((item) => {
+                                const isLearned = progress.numbersLearned?.includes(String(item.num));
+                                return (
+                                    <button
+                                        key={item.num}
+                                        onClick={() => { speakWord(item.word); handleLearnNumber(item.num); }}
+                                        className={`rounded-xl p-3 text-center transition-all hover:scale-105 active:scale-95 ${
+                                            isLearned ? 'bg-amber-600/30 border-2 border-amber-500/50' : 'bg-white/5 border border-white/10'
+                                        }`}
+                                    >
+                                        <div className="text-xl font-bold text-white">{item.num}</div>
+                                        <div className="text-xs text-slate-400">{item.word}</div>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Adult Colors Page (reuses COLORS_DATA) ---
+        function AdultColorsPage({ progress, onBack, onUpdateProgress }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+
+            const handleLearnColor = (color) => {
+                if (!progress.colorsLearned?.includes(color)) {
+                    onUpdateProgress({
+                        colorsLearned: [...(progress.colorsLearned || []), color],
+                        xp: (progress.xp || 0) + 3
+                    });
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 pb-8" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="max-w-lg mx-auto px-4 pt-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 className="text-xl font-bold text-white">{t('learnColors')}</h1>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-3">
+                            {COLORS_DATA.map((item) => {
+                                const isLearned = progress.colorsLearned?.includes(item.name);
+                                return (
+                                    <button
+                                        key={item.name}
+                                        onClick={() => { speakWord(item.name); handleLearnColor(item.name); }}
+                                        className={`rounded-xl p-4 text-center transition-all hover:scale-105 active:scale-95 ${
+                                            isLearned ? 'ring-2 ring-emerald-400' : ''
+                                        }`}
+                                        style={{ backgroundColor: item.hex + '33', borderColor: item.hex }}
+                                    >
+                                        <div className="w-10 h-10 rounded-full mx-auto mb-2 shadow-lg" style={{ backgroundColor: item.hex }}></div>
+                                        <div className="text-white font-semibold text-sm">{item.name}</div>
+                                        <div className="text-slate-400 text-xs">{item.nameHe}</div>
+                                        {isLearned && <div className="text-emerald-400 text-xs mt-1">✓</div>}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Adult Test Page ---
+        function AdultTestPage({ progress, onBack, onUpdateProgress, user }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [currentQ, setCurrentQ] = useState(0);
+            const [score, setScore] = useState(0);
+            const [selected, setSelected] = useState(null);
+            const [showResult, setShowResult] = useState(false);
+            const [testDone, setTestDone] = useState(false);
+            const [questions, setQuestions] = useState([]);
+
+            const getTranslation = (item) => {
+                if (language === 'he') return item.he;
+                if (language === 'ru') return item.ru;
+                if (language === 'ar') return item.ar;
+                return item.he;
+            };
+
+            useEffect(() => {
+                const qs = [];
+                // Vocabulary questions
+                const allWords = Object.values(ADULT_VOCABULARY).flat();
+                for (let i = 0; i < 5; i++) {
+                    const word = allWords[Math.floor(Math.random() * allWords.length)];
+                    const wrongWords = allWords.filter(w => w.word !== word.word).sort(() => Math.random() - 0.5).slice(0, 3);
+                    const options = [{ text: getTranslation(word), correct: true }, ...wrongWords.map(w => ({ text: getTranslation(w), correct: false }))].sort(() => Math.random() - 0.5);
+                    qs.push({ question: `"${word.word}" = ?`, options, type: 'vocab' });
+                }
+                // Phrase questions
+                const allPhrases = Object.values(ADULT_PHRASES).flat();
+                for (let i = 0; i < 5; i++) {
+                    const phrase = allPhrases[Math.floor(Math.random() * allPhrases.length)];
+                    const wrongPhrases = allPhrases.filter(p => p.phrase !== phrase.phrase).sort(() => Math.random() - 0.5).slice(0, 3);
+                    const options = [{ text: getTranslation(phrase), correct: true }, ...wrongPhrases.map(p => ({ text: getTranslation(p), correct: false }))].sort(() => Math.random() - 0.5);
+                    qs.push({ question: `"${phrase.phrase}" = ?`, options, type: 'phrase' });
+                }
+                // Letter questions
+                for (let i = 0; i < 3; i++) {
+                    const letter = ALPHABET_DATA[Math.floor(Math.random() * ALPHABET_DATA.length)];
+                    const wrongLetters = ALPHABET_DATA.filter(l => l.letter !== letter.letter).sort(() => Math.random() - 0.5).slice(0, 3);
+                    const options = [{ text: letter.word, correct: true }, ...wrongLetters.map(l => ({ text: l.word, correct: false }))].sort(() => Math.random() - 0.5);
+                    qs.push({ question: `"${letter.letter}" → ?`, options, type: 'letter' });
+                }
+                // Number questions
+                const allNums = NUMBERS_DATA.flatMap(l => l.numbers);
+                for (let i = 0; i < 2; i++) {
+                    const num = allNums[Math.floor(Math.random() * allNums.length)];
+                    const wrongNums = allNums.filter(n => n.num !== num.num).sort(() => Math.random() - 0.5).slice(0, 3);
+                    const options = [{ text: num.word, correct: true }, ...wrongNums.map(n => ({ text: n.word, correct: false }))].sort(() => Math.random() - 0.5);
+                    qs.push({ question: `${num.num} = ?`, options, type: 'number' });
+                }
+                setQuestions(qs.sort(() => Math.random() - 0.5));
+            }, []);
+
+            const handleAnswer = (option) => {
+                if (selected !== null) return;
+                setSelected(option);
+                if (option.correct) setScore(s => s + 1);
+                setShowResult(true);
+                setTimeout(() => {
+                    if (currentQ < questions.length - 1) {
+                        setCurrentQ(q => q + 1);
+                        setSelected(null);
+                        setShowResult(false);
+                    } else {
+                        setTestDone(true);
+                        const finalScore = score + (option.correct ? 1 : 0);
+                        onUpdateProgress({ xp: (progress.xp || 0) + finalScore * 5 });
+                        try {
+                            const key = `learn_test_${user?.uid || 'anon'}`;
+                            const prev = JSON.parse(localStorage.getItem(key) || '[]');
+                            prev.push({ score: finalScore, total: questions.length, date: new Date().toISOString() });
+                            localStorage.setItem(key, JSON.stringify(prev.slice(-20)));
+                        } catch (e) { /* ignore */ }
+                    }
+                }, 1500);
+            };
+
+            if (questions.length === 0) return <div className="min-h-screen bg-slate-900 flex items-center justify-center"><div className="text-white">Loading...</div></div>;
+
+            if (testDone) {
+                const passed = score >= Math.ceil(questions.length * 0.6);
+                return (
+                    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-sm w-full text-center">
+                            <div className="text-5xl mb-4">{passed ? '🎉' : '📚'}</div>
+                            <h2 className="text-2xl font-bold text-white mb-2">{t('learnTestScore')}</h2>
+                            <div className="text-4xl font-bold text-amber-400 mb-2">{score}/{questions.length}</div>
+                            <div className={`text-lg font-medium mb-6 ${passed ? 'text-emerald-400' : 'text-orange-400'}`}>
+                                {passed ? t('learnPassedTest') : t('learnFailedTest')}
+                            </div>
+                            <div className="space-y-3">
+                                <button onClick={onBack} className="w-full py-3 px-6 bg-white/10 text-white rounded-xl font-semibold hover:bg-white/20 transition-colors">
+                                    {t('learnBack')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            const q = questions[currentQ];
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 pb-8" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="max-w-lg mx-auto px-4 pt-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 className="text-xl font-bold text-white">{t('learnTests')}</h1>
+                            <div className="ml-auto text-slate-400 text-sm">{currentQ + 1}/{questions.length}</div>
+                        </div>
+
+                        {/* Progress bar */}
+                        <div className="w-full bg-white/10 rounded-full h-2 mb-6">
+                            <div className="bg-indigo-500 h-2 rounded-full transition-all" style={{ width: `${((currentQ + 1) / questions.length) * 100}%` }}></div>
+                        </div>
+
+                        <div className="bg-white/5 rounded-2xl p-6 mb-6">
+                            <div className="text-lg font-semibold text-white text-center">{q.question}</div>
+                        </div>
+
+                        <div className="space-y-3">
+                            {q.options.map((option, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => handleAnswer(option)}
+                                    disabled={selected !== null}
+                                    className={`w-full p-4 rounded-xl text-start font-medium transition-all ${
+                                        selected === null
+                                            ? 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
+                                            : option.correct
+                                                ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500'
+                                                : selected === option
+                                                    ? 'bg-red-500/30 text-red-300 border border-red-500'
+                                                    : 'bg-white/5 text-slate-500 border border-white/5'
+                                    }`}
+                                >
+                                    {option.text}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="mt-4 text-center text-slate-400 text-sm">
+                            {t('learnScore')}: {score}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Adult Videos Page ---
+        function AdultVideosPage({ onBack }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [activeVideo, setActiveVideo] = useState(null);
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 pb-8" dir={isRTL ? 'rtl' : 'ltr'}>
+                    <div className="max-w-lg mx-auto px-4 pt-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <button onClick={onBack} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 className="text-xl font-bold text-white">{t('learnVideos')}</h1>
+                        </div>
+
+                        {activeVideo && (
+                            <div className="mb-4 rounded-2xl overflow-hidden bg-black aspect-video">
+                                <iframe
+                                    width="100%" height="100%"
+                                    src={`https://www.youtube.com/embed/${activeVideo}`}
+                                    frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+                                    title="YouTube video"
+                                ></iframe>
+                            </div>
+                        )}
+
+                        <div className="space-y-3">
+                            {ADULT_VIDEOS.map((video) => (
+                                <button
+                                    key={video.id}
+                                    onClick={() => setActiveVideo(video.id === activeVideo ? null : video.id)}
+                                    className={`w-full flex items-center gap-4 p-4 rounded-xl transition-all ${
+                                        activeVideo === video.id ? 'bg-red-500/20 border border-red-500/50' : 'bg-white/5 border border-white/10 hover:bg-white/10'
+                                    }`}
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center text-red-400 text-2xl flex-shrink-0">
+                                        ▶
+                                    </div>
+                                    <div className="text-start">
+                                        <div className="text-white font-medium">{video.title}</div>
+                                        <div className="text-slate-400 text-sm">{video.titleHe}</div>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Adult Learn Overlay (main wrapper) ---
+        function AdultLearnOverlay({ onClose, user }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [currentPage, setCurrentPage] = useState('home');
+
+            const [progress, setProgress] = useState(() => {
+                try {
+                    const key = `learn_progress_${user?.uid || 'anon'}`;
+                    const saved = localStorage.getItem(key);
+                    return saved ? JSON.parse(saved) : {
+                        xp: 0, streak: 0, lastLoginDate: null,
+                        wordsLearned: [], phrasesLearned: [], lettersLearned: [],
+                        numbersLearned: [], colorsLearned: []
+                    };
+                } catch {
+                    return { xp: 0, streak: 0, lastLoginDate: null, wordsLearned: [], phrasesLearned: [], lettersLearned: [], numbersLearned: [], colorsLearned: [] };
+                }
+            });
+
+            // Track streak on load
+            useEffect(() => {
+                const today = new Date().toISOString().split('T')[0];
+                if (progress.lastLoginDate !== today) {
+                    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+                    const newStreak = progress.lastLoginDate === yesterday ? (progress.streak || 0) + 1 : 1;
+                    updateProgress({ streak: newStreak, lastLoginDate: today });
                 }
             }, []);
 
-            // Load family data - ensure anonymous auth for Firestore access
-            useEffect(() => {
-                if (!childUser?.familyId) {
-                    setLoading(false);
-                    return;
-                }
-
-                let unsubscribe = null;
-
-                const setupListeners = async () => {
-                    // Ensure Firebase Auth user exists for Firestore rules
-                    if (!window.auth.currentUser) {
+            const updateProgress = (updates) => {
+                setProgress(prev => {
+                    const next = { ...prev, ...updates };
+                    try {
+                        const key = `learn_progress_${user?.uid || 'anon'}`;
+                        localStorage.setItem(key, JSON.stringify(next));
+                    } catch (e) { /* ignore */ }
+                    // Sync to Firestore
+                    if (user?.uid && window.firestore && window.db) {
                         try {
-                            await window.firebaseAuth.signInAnonymously(window.auth);
-                        } catch (e) {
-                            console.warn('Anonymous sign-in failed for child:', e);
-                        }
+                            window.firestore.setDoc(
+                                window.firestore.doc(window.db, 'users', user.uid, 'learnProgress', 'current'),
+                                next, { merge: true }
+                            ).catch(() => {});
+                        } catch (e) { /* ignore */ }
                     }
+                    return next;
+                });
+            };
 
-                    // Ensure this anonymous UID is in memberIds for Firestore access
-                    const currentUid = window.auth.currentUser?.uid;
-                    if (currentUid) {
+            return (
+                <div className="fixed inset-0 z-[9999] bg-slate-900">
+                    {/* Header */}
+                    <div className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-sm border-b border-white/10" dir={isRTL ? 'rtl' : 'ltr'}>
+                        <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
+                            <h1 className="text-lg font-bold text-white">{t('learnEnglish')}</h1>
+                            <button
+                                onClick={onClose}
+                                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Pages */}
+                    <div className="overflow-y-auto" style={{ height: 'calc(100vh - 56px)' }}>
+                        {currentPage === 'home' && <AdultLearnHome progress={progress} onNavigate={setCurrentPage} user={user} />}
+                        {currentPage === 'vocabulary' && <AdultVocabularyPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} />}
+                        {currentPage === 'phrases' && <AdultPhrasesPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} />}
+                        {currentPage === 'alphabet' && <AdultAlphabetPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} />}
+                        {currentPage === 'numbers' && <AdultNumbersPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} />}
+                        {currentPage === 'colors' && <AdultColorsPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} />}
+                        {currentPage === 'test' && <AdultTestPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} user={user} />}
+                        {currentPage === 'videos' && <AdultVideosPage onBack={() => setCurrentPage('home')} />}
+                    </div>
+                </div>
+            );
+        }
+
+        // Child App Content - SpeakEasy Kids Learning Platform
+        function ChildAppContent({ childUser }) {
+            const { logoutChild } = useChildAuth();
+            const { t, language } = useLanguage();
+            const [loading, setLoading] = useState(true);
+            const [currentPage, setCurrentPage] = useState('home');
+            const [showAvatarSelector, setShowAvatarSelector] = useState(false);
+
+            // Progress state persisted in localStorage
+            const [progress, setProgress] = useState(() => {
+                try {
+                    const saved = localStorage.getItem(`kids_progress_${childUser.childId}`);
+                    return saved ? JSON.parse(saved) : { xp: 0, streak: 0, lettersLearned: [], numbersLearned: [], colorsLearned: [], lastLoginDate: null };
+                } catch { return { xp: 0, streak: 0, lettersLearned: [], numbersLearned: [], colorsLearned: [], lastLoginDate: null }; }
+            });
+
+            // Avatar state
+            const [avatar, setAvatar] = useState(() => {
+                return localStorage.getItem(`kids_avatar_${childUser.childId}`) || '🦁';
+            });
+
+            // Ensure anonymous auth for Firestore access
+            useEffect(() => {
+                const setup = async () => {
+                    if (!window.auth.currentUser) {
+                        try { await window.firebaseAuth.signInAnonymously(window.auth); } catch (e) { console.warn('Anon auth failed:', e); }
+                    }
+                    if (childUser?.familyId && window.auth.currentUser?.uid) {
                         try {
                             await window.firestore.updateDoc(
                                 window.firestore.doc(window.db, 'families', childUser.familyId),
-                                { memberIds: window.firestore.arrayUnion(currentUid) }
+                                { memberIds: window.firestore.arrayUnion(window.auth.currentUser.uid) }
                             );
-                        } catch (e) {
-                            console.warn('Could not register child UID:', e);
-                        }
+                        } catch (e) { console.warn('Register UID failed:', e); }
                     }
-
-                    unsubscribe = window.firestore.onSnapshot(
-                        window.firestore.doc(window.db, 'families', childUser.familyId),
-                        (doc) => {
-                            if (doc.exists()) {
-                                setFamily({ id: doc.id, ...doc.data() });
-                            }
-                            setLoading(false);
-                        },
-                        (err) => {
-                            console.error('Child family listener error:', err);
-                            setLoading(false);
-                        }
-                    );
+                    setLoading(false);
                 };
-
-                setupListeners();
-
-                return () => { if (unsubscribe) unsubscribe(); };
+                setup();
             }, [childUser?.familyId]);
 
-            // Load lists
+            // Track streak
             useEffect(() => {
-                if (!childUser?.familyId) return;
+                const today = new Date().toISOString().split('T')[0];
+                if (progress.lastLoginDate !== today) {
+                    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+                    const newStreak = progress.lastLoginDate === yesterday ? (progress.streak || 0) + 1 : 1;
+                    updateProgress({ streak: newStreak, lastLoginDate: today });
+                }
+            }, []);
 
-                const q = window.firestore.query(
-                    window.firestore.collection(window.db, 'lists'),
-                    window.firestore.where('familyId', '==', childUser.familyId)
-                );
+            // Activity tracker
+            useActivityTracker(childUser);
 
-                const unsubscribe = window.firestore.onSnapshot(q, (snapshot) => {
-                    const listsData = [];
-                    snapshot.forEach((doc) => {
-                        listsData.push({ id: doc.id, ...doc.data() });
-                    });
-                    listsData.sort((a, b) => (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0));
-                    setLists(listsData);
-
-                    if (!currentList || !listsData.find(l => l.id === currentList.id)) {
-                        const defaultList = listsData.find(l => l.isDefault) || listsData[0];
-                        setCurrentList(defaultList);
-                    }
+            // Save progress
+            const updateProgress = (updates) => {
+                setProgress(prev => {
+                    const next = { ...prev, ...updates };
+                    localStorage.setItem(`kids_progress_${childUser.childId}`, JSON.stringify(next));
+                    // Also save to Firestore for parent dashboard
+                    try {
+                        if (childUser?.familyId && childUser?.childId) {
+                            window.firestore.setDoc(
+                                window.firestore.doc(window.db, 'users', childUser.familyId, 'children', childUser.childId, 'progress', 'current'),
+                                { ...next, updatedAt: new Date() },
+                                { merge: true }
+                            );
+                        }
+                    } catch (e) { console.warn('Progress sync failed:', e); }
+                    return next;
                 });
-
-                return () => unsubscribe();
-            }, [childUser?.familyId]);
-
-            const toggleDarkMode = () => {
-                const newMode = !darkMode;
-                setDarkMode(newMode);
-                localStorage.setItem('darkMode', String(newMode));
-                document.documentElement.classList.toggle('dark');
             };
+
+            const handleAvatarSelect = (newAvatar) => {
+                setAvatar(newAvatar);
+                localStorage.setItem(`kids_avatar_${childUser.childId}`, newAvatar);
+                // Save to Firestore too
+                try {
+                    if (childUser?.familyId && childUser?.childId) {
+                        window.firestore.setDoc(
+                            window.firestore.doc(window.db, 'users', childUser.familyId, 'children', childUser.childId, 'profile', 'avatar'),
+                            { avatar: newAvatar, updatedAt: new Date() },
+                            { merge: true }
+                        );
+                    }
+                } catch (e) { console.warn('Avatar sync failed:', e); }
+            };
+
+            const childWithAvatar = { ...childUser, avatar };
 
             if (loading) {
                 return (
-                    <div className="min-h-screen gradient-bg flex items-center justify-center">
+                    <div className="min-h-screen bg-gradient-to-b from-indigo-500 to-purple-600 flex items-center justify-center">
                         <div className="text-center">
-                            <div className="text-6xl mb-4 float">👦</div>
+                            <div className="text-6xl mb-4 animate-[bounce_1s_infinite]">🦁</div>
                             <div className="text-xl text-white font-medium">{t('loading')}</div>
                         </div>
                     </div>
                 );
             }
 
-            // Create a minimal family context for child
-            const childFamilyContext = {
-                family,
-                lists,
-                currentList,
-                setCurrentList,
-                activities: [],
-                loading: false,
-                isAdmin: false,
-                isChildAccount: true,
-                logActivity: async () => {} // Children don't log activity
-            };
-
             return (
-                <FamilyContext.Provider value={childFamilyContext}>
-                    <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
-                        {/* Child mode banner */}
-                        <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center py-2 px-4 text-sm font-medium flex items-center justify-between">
-                            <span className="flex items-center gap-2">
-                                <span>👦</span>
-                                <span>{t('welcomeChild').replace('{name}', childUser.displayName)}</span>
-                            </span>
-                            <button
-                                onClick={logoutChild}
-                                className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg text-xs transition-colors"
-                            >
-                                {t('logoutChild')}
+                <div className="min-h-screen">
+                    {/* Top bar with logout */}
+                    <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 px-4 text-sm font-medium flex items-center justify-between z-40 relative">
+                        <button onClick={() => setShowAvatarSelector(true)} className="flex items-center gap-2 hover:bg-white/10 rounded-lg px-2 py-1 transition-colors">
+                            <span className="text-xl">{avatar}</span>
+                            <span>{childUser.displayName}</span>
+                        </button>
+                        <div className="flex items-center gap-3">
+                            <span className="text-yellow-300">⭐ {progress.xp || 0}</span>
+                            <span className="text-orange-300">🔥 {progress.streak || 0}</span>
+                            <button onClick={logoutChild}
+                                className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg text-xs transition-colors">
+                                {t('logout')}
                             </button>
                         </div>
-                        {family && currentList ? (
-                            <ShoppingList />
-                        ) : (
-                            <div className="min-h-screen gradient-bg flex items-center justify-center p-4">
-                                <div className="text-center text-white">
-                                    <div className="text-6xl mb-4">👨‍👩‍👧‍👦</div>
-                                    <p>{t('loading')}</p>
-                                </div>
-                            </div>
-                        )}
                     </div>
-                </FamilyContext.Provider>
+
+                    {/* Page Router */}
+                    {currentPage === 'home' && <KidsHomePage childUser={childWithAvatar} progress={progress} onNavigate={setCurrentPage} />}
+                    {currentPage === 'letters' && <KidsAlphabetPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} />}
+                    {currentPage === 'numbers' && <KidsNumbersPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} />}
+                    {currentPage === 'colors' && <KidsColorsPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} />}
+                    {currentPage === 'games' && <KidsGamesPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} />}
+                    {currentPage === 'test' && <KidsTestPage progress={progress} onBack={() => setCurrentPage('home')} onUpdateProgress={updateProgress} childUser={childUser} />}
+                    {currentPage === 'videos' && <KidsVideosPage onBack={() => setCurrentPage('home')} />}
+
+                    {/* Avatar Selector Modal */}
+                    {showAvatarSelector && <KidsAvatarSelector currentAvatar={avatar} onSelect={handleAvatarSelect} onClose={() => setShowAvatarSelector(false)} />}
+                </div>
             );
         }
 
@@ -24137,7 +26580,11 @@ END:VCALENDAR`;
 
             // If child is logged in (without Firebase user), show child app content
             if (childUser && !user) {
-                return <ChildAppContent childUser={childUser} />;
+                return (
+                    <ErrorBoundary errorTitle="Oops!" errorDesc="Something went wrong. Please refresh." refreshLabel="Refresh" retryLabel="Try again">
+                        <ChildAppContent childUser={childUser} />
+                    </ErrorBoundary>
+                );
             }
 
             return (

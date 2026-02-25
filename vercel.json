@@ -37,6 +37,10 @@
     {
       "path": "/api/shopping-day-push",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/daily-reminder",
+      "schedule": "0 16 * * *"
     }
   ],
   "rewrites": [
