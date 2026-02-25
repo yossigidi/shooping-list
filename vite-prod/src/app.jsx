@@ -5529,45 +5529,52 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             return (
                 <div className="fixed inset-0 z-50 flex items-end justify-center" dir={isRTL ? 'rtl' : 'ltr'}>
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
-                    <div className="relative w-full max-w-lg bg-white dark:bg-gray-800 rounded-t-3xl shadow-2xl p-6 pb-8 safe-area-bottom animate-slide-up max-h-[70vh] flex flex-col">
-                        <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-4"></div>
-                        <h2 className="text-lg font-bold text-gray-800 dark:text-white mb-4 text-center">{t('switchContext')}</h2>
+                    <div className="relative w-full max-w-lg bg-white dark:bg-gray-800 rounded-t-3xl shadow-2xl animate-slide-up flex flex-col" style={{ maxHeight: '85vh', paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 1rem))' }}>
+                        <div className="px-6 pt-4 pb-2 flex-shrink-0">
+                            <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-3"></div>
+                            <div className="flex items-center justify-between mb-3">
+                                <h2 className="text-lg font-bold text-gray-800 dark:text-white">{t('switchContext')}</h2>
+                                <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 text-lg">&times;</button>
+                            </div>
+                        </div>
 
-                        <div className="flex-1 overflow-y-auto space-y-2 mb-4">
+                        <div className="flex-1 overflow-y-auto px-6 space-y-2" style={{ WebkitOverflowScrolling: 'touch' }}>
                             {allMemberships.map(m => (
-                                <button
+                                <div
                                     key={m.id}
                                     onClick={() => { switchContext(m.id); onClose(); }}
-                                    className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+                                    className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
                                         family?.id === m.id
                                             ? 'bg-indigo-100 dark:bg-indigo-900/40 border-2 border-indigo-400'
-                                            : 'glass hover:bg-gray-50 dark:hover:bg-gray-700 border-2 border-transparent'
+                                            : 'bg-gray-50 dark:bg-gray-750 hover:bg-gray-100 dark:hover:bg-gray-700 border-2 border-transparent'
                                     }`}
                                 >
-                                    <span className="text-2xl">{m.type === 'group' ? '🔥' : '👨‍👩‍👧‍👦'}</span>
-                                    <div className="flex-1 text-right">
-                                        <div className="font-semibold text-gray-800 dark:text-white">{m.name}</div>
+                                    <span className="text-2xl flex-shrink-0">{m.type === 'group' ? '🔥' : '👨‍👩‍👧‍👦'}</span>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="font-semibold text-gray-800 dark:text-white truncate">{m.name}</div>
                                         <div className="text-xs text-gray-500 dark:text-gray-400">
                                             {m.type === 'group' ? t('group') : t('family')} • {m.members?.length || 0} {t('familyMembers').split(' ').pop()}
                                         </div>
                                     </div>
-                                    {family?.id === m.id && <span className="text-indigo-500 text-lg">✓</span>}
+                                    {family?.id === m.id && <span className="text-indigo-500 text-lg flex-shrink-0">✓</span>}
                                     <button
                                         onClick={(e) => { e.stopPropagation(); onOpenSettings(m); onClose(); }}
-                                        className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                                        className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex-shrink-0"
                                     >
-                                        <Settings size={16} className="text-gray-500" />
+                                        <Settings size={16} className="text-gray-400" />
                                     </button>
-                                </button>
+                                </div>
                             ))}
                         </div>
 
-                        <button
-                            onClick={() => { onCreateGroup(); onClose(); }}
-                            className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
-                        >
-                            <span>🔥</span> {t('createNewGroup')}
-                        </button>
+                        <div className="px-6 pt-3 flex-shrink-0">
+                            <button
+                                onClick={() => { onCreateGroup(); onClose(); }}
+                                className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                            >
+                                <span>🔥</span> {t('createNewGroup')}
+                            </button>
+                        </div>
                     </div>
                 </div>
             );
@@ -20369,16 +20376,13 @@ END:VCALENDAR`;
                                                     <Users size={14} /> {family?.name}
                                                 </span>
                                             ) : (
-                                                <span className="relative inline-flex gap-1">
-                                                    <button onClick={() => isGroup ? setShowGroupSettings(true) : setShowFamilySettings(true)} className={`px-4 py-2 rounded-xl text-sm font-bold text-white hover:scale-105 transition-all cursor-pointer inline-flex items-center gap-2 shadow-md ${
+                                                <span className="relative inline-flex">
+                                                    <button onClick={() => setShowContextSwitcher(true)} className={`px-3 py-1.5 rounded-xl text-sm font-bold text-white hover:scale-105 transition-all cursor-pointer inline-flex items-center gap-1.5 shadow-md ${
                                                         isGroup ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600' : 'bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600'
                                                     }`}>
-                                                        <span className="text-sm">{isGroup ? '🔥' : ''}</span>
-                                                        <Users size={16} /> {family?.name}
-                                                        <Settings size={14} className="opacity-70" />
-                                                    </button>
-                                                    <button onClick={() => setShowContextSwitcher(true)} className="px-2 py-2 rounded-xl text-sm font-bold bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:scale-105 transition-all cursor-pointer inline-flex items-center shadow-md">
-                                                        <ChevronDown size={16} />
+                                                        {isGroup ? <span className="text-sm">🔥</span> : <Users size={14} />}
+                                                        <span className="max-w-[120px] truncate">{family?.name}</span>
+                                                        <ChevronDown size={12} className="opacity-70" />
                                                     </button>
                                                     {!isGroup && family?.pendingMembers?.length > 0 && (
                                                         <span className="absolute -top-2 -right-2 min-w-[20px] h-[20px] flex items-center justify-center bg-red-500 text-white text-[11px] font-bold rounded-full animate-pulse shadow-sm">
