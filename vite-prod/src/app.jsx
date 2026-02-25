@@ -21507,38 +21507,45 @@ END:VCALENDAR`;
                                 </div>
                             )}
 
-                            {/* Budget Planner Wizard */}
+                            {/* Budget Planner Wizard - Full Screen */}
                             {showBudgetPlanner && (
-                                <div className="fixed inset-0 z-50 flex items-center justify-center p-4" dir={isRTL ? 'rtl' : 'ltr'}>
-                                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowBudgetPlanner(false)}></div>
-                                    <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 max-h-[85vh] overflow-y-auto">
-                                        {/* Header */}
-                                        <div className="text-center mb-5">
-                                            <div className="text-3xl mb-2">🧮</div>
-                                            <h3 className="text-lg font-bold text-gray-800 dark:text-white">{t('budgetPlanner')}</h3>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('budgetPlannerDesc')}</p>
-                                            {/* Step indicator */}
-                                            <div className="flex justify-center gap-1.5 mt-3">
-                                                {[1,2,3,4].map(s => (
-                                                    <div key={s} className={`h-1.5 rounded-full transition-all ${s === budgetPlannerStep ? 'w-6 bg-orange-500' : s < budgetPlannerStep ? 'w-4 bg-orange-300' : 'w-4 bg-gray-200 dark:bg-gray-600'}`}></div>
-                                                ))}
-                                            </div>
+                                <div className="fixed inset-0 z-50 bg-white dark:bg-gray-900 overflow-y-auto" dir={isRTL ? 'rtl' : 'ltr'}>
+                                    {/* Top bar */}
+                                    <div className="sticky top-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
+                                        <button onClick={() => budgetPlannerStep > 1 ? setBudgetPlannerStep(s => s - 1) : setShowBudgetPlanner(false)} className="flex items-center gap-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                                            <span className="text-lg">{isRTL ? '\u2192' : '\u2190'}</span> {budgetPlannerStep > 1 ? t('budgetPlannerBack') : t('cancel')}
+                                        </button>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-lg">🧮</span>
+                                            <span className="font-bold text-gray-800 dark:text-white">{t('budgetPlanner')}</span>
                                         </div>
+                                        <button onClick={() => setShowBudgetPlanner(false)} className="text-2xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">&times;</button>
+                                    </div>
+
+                                    <div className="max-w-lg mx-auto px-5 py-6">
+                                        {/* Step indicator */}
+                                        <div className="flex justify-center gap-2 mb-6">
+                                            {[1,2,3,4].map(s => (
+                                                <div key={s} className={`h-2 rounded-full transition-all ${s === budgetPlannerStep ? 'w-8 bg-orange-500' : s < budgetPlannerStep ? 'w-5 bg-orange-300' : 'w-5 bg-gray-200 dark:bg-gray-700'}`}></div>
+                                            ))}
+                                        </div>
+
+                                        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">{t('budgetPlannerDesc')}</p>
 
                                         {/* Step 1: How many people */}
                                         {budgetPlannerStep === 1 && (
-                                            <div className="space-y-5">
-                                                <h4 className="text-center text-lg font-semibold text-gray-700 dark:text-gray-200">{t('howManyPeople')}</h4>
-                                                <div className="flex items-center justify-center gap-4">
-                                                    <button onClick={() => setPlannerPeopleCount(Math.max(1, plannerPeopleCount - 1))} className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 text-2xl font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">{'\u2212'}</button>
+                                            <div className="space-y-8">
+                                                <h4 className="text-center text-2xl font-bold text-gray-800 dark:text-white">{t('howManyPeople')}</h4>
+                                                <div className="flex items-center justify-center gap-6">
+                                                    <button onClick={() => setPlannerPeopleCount(Math.max(1, plannerPeopleCount - 1))} className="w-14 h-14 rounded-full bg-gray-100 dark:bg-gray-700 text-2xl font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all active:scale-95">{'\u2212'}</button>
                                                     <div className="text-center">
-                                                        <span className="text-5xl font-bold text-orange-500">{plannerPeopleCount}</span>
-                                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('people')}</p>
+                                                        <span className="text-7xl font-bold text-orange-500">{plannerPeopleCount}</span>
+                                                        <p className="text-base text-gray-500 dark:text-gray-400 mt-2">{t('people')}</p>
                                                     </div>
-                                                    <button onClick={() => setPlannerPeopleCount(Math.min(50, plannerPeopleCount + 1))} className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 text-2xl font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">+</button>
+                                                    <button onClick={() => setPlannerPeopleCount(Math.min(50, plannerPeopleCount + 1))} className="w-14 h-14 rounded-full bg-gray-100 dark:bg-gray-700 text-2xl font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all active:scale-95">+</button>
                                                 </div>
-                                                <button onClick={() => setBudgetPlannerStep(2)} className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
-                                                    {t('budgetPlannerNext')} {'\u2192'}
+                                                <button onClick={() => setBudgetPlannerStep(2)} className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-2xl font-bold text-lg hover:shadow-lg transition-all active:scale-[0.98]">
+                                                    {t('budgetPlannerNext')} {isRTL ? '\u2190' : '\u2192'}
                                                 </button>
                                                 <button onClick={() => { setShowBudgetPlanner(false); setGroupBudgetInput(''); setShowGroupBudgetModal(true); }} className="w-full text-gray-400 text-sm hover:underline">
                                                     {t('skipPlanner')}
@@ -21548,15 +21555,14 @@ END:VCALENDAR`;
 
                                         {/* Step 2: Event type */}
                                         {budgetPlannerStep === 2 && (
-                                            <div className="space-y-4">
-                                                <button onClick={() => setBudgetPlannerStep(1)} className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">{'\u2190'} {t('budgetPlannerBack')}</button>
-                                                <h4 className="text-center text-lg font-semibold text-gray-700 dark:text-gray-200">{t('whatEvent')}</h4>
-                                                <div className="grid grid-cols-2 gap-3">
+                                            <div className="space-y-5">
+                                                <h4 className="text-center text-2xl font-bold text-gray-800 dark:text-white">{t('whatEvent')}</h4>
+                                                <div className="grid grid-cols-2 gap-4">
                                                     {BUDGET_PLANNER_DATA.eventTypes.map(ev => (
                                                         <button key={ev.id} onClick={() => { setPlannerEventType(ev.id); setBudgetPlannerStep(3); }}
-                                                            className={`p-4 rounded-2xl border-2 text-center transition-all hover:shadow-md ${plannerEventType === ev.id ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/30' : 'border-gray-200 dark:border-gray-600 hover:border-orange-300'}`}>
-                                                            <div className="text-3xl mb-2">{ev.emoji}</div>
-                                                            <div className="text-sm font-semibold text-gray-700 dark:text-gray-200">{t(ev.key)}</div>
+                                                            className={`p-5 rounded-2xl border-2 text-center transition-all hover:shadow-lg active:scale-95 ${plannerEventType === ev.id ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/30' : 'border-gray-200 dark:border-gray-700 hover:border-orange-300'}`}>
+                                                            <div className="text-4xl mb-3">{ev.emoji}</div>
+                                                            <div className="text-base font-semibold text-gray-700 dark:text-gray-200">{t(ev.key)}</div>
                                                         </button>
                                                     ))}
                                                 </div>
@@ -21565,10 +21571,9 @@ END:VCALENDAR`;
 
                                         {/* Step 3: Quality level */}
                                         {budgetPlannerStep === 3 && (
-                                            <div className="space-y-4">
-                                                <button onClick={() => setBudgetPlannerStep(2)} className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">{'\u2190'} {t('budgetPlannerBack')}</button>
-                                                <h4 className="text-center text-lg font-semibold text-gray-700 dark:text-gray-200">{t('whatQuality')}</h4>
-                                                <div className="space-y-3">
+                                            <div className="space-y-5">
+                                                <h4 className="text-center text-2xl font-bold text-gray-800 dark:text-white">{t('whatQuality')}</h4>
+                                                <div className="space-y-4">
                                                     {BUDGET_PLANNER_DATA.qualityLevels.map(q => (
                                                         <button key={q.id} onClick={() => {
                                                             setPlannerQuality(q.id);
@@ -21576,11 +21581,11 @@ END:VCALENDAR`;
                                                             setPlannerResult(result);
                                                             setBudgetPlannerStep(4);
                                                         }}
-                                                            className={`w-full p-4 rounded-2xl border-2 text-${isRTL ? 'right' : 'left'} transition-all hover:shadow-md ${plannerQuality === q.id ? 'border-orange-500' : 'border-gray-200 dark:border-gray-600 hover:border-orange-300'}`}>
-                                                            <div className="flex items-center gap-3">
-                                                                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${q.color} flex items-center justify-center text-white text-lg`}>{q.emoji}</div>
+                                                            className={`w-full p-5 rounded-2xl border-2 text-${isRTL ? 'right' : 'left'} transition-all hover:shadow-lg active:scale-[0.98] ${plannerQuality === q.id ? 'border-orange-500' : 'border-gray-200 dark:border-gray-700 hover:border-orange-300'}`}>
+                                                            <div className="flex items-center gap-4">
+                                                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${q.color} flex items-center justify-center text-white text-xl`}>{q.emoji}</div>
                                                                 <div>
-                                                                    <div className="font-bold text-gray-800 dark:text-white">{t(q.key)}</div>
+                                                                    <div className="text-lg font-bold text-gray-800 dark:text-white">{t(q.key)}</div>
                                                                     <div className="text-sm text-gray-500 dark:text-gray-400">{t(q.descKey)}</div>
                                                                 </div>
                                                             </div>
@@ -21592,30 +21597,28 @@ END:VCALENDAR`;
 
                                         {/* Step 4: Results */}
                                         {budgetPlannerStep === 4 && plannerResult && (
-                                            <div className="space-y-4">
-                                                <button onClick={() => setBudgetPlannerStep(3)} className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">{'\u2190'} {t('budgetPlannerBack')}</button>
-
+                                            <div className="space-y-5">
                                                 {/* Budget summary */}
-                                                <div className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/30 dark:to-red-900/30 rounded-2xl p-4 text-center border border-orange-200 dark:border-orange-700">
-                                                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">{t('suggestedBudget')}</p>
-                                                    <p className="text-4xl font-bold text-orange-600 dark:text-orange-400">{'\u20AA'}{plannerResult.perPerson}</p>
-                                                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('perPerson')}</p>
-                                                    <div className="mt-2 pt-2 border-t border-orange-200 dark:border-orange-700">
-                                                        <p className="text-lg font-bold text-gray-800 dark:text-white">{'\u20AA'}{plannerResult.totalBudget}</p>
-                                                        <p className="text-xs text-gray-500 dark:text-gray-400">{t('totalFor').replace('{count}', plannerPeopleCount)}</p>
+                                                <div className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/30 dark:to-red-900/30 rounded-2xl p-6 text-center border border-orange-200 dark:border-orange-700">
+                                                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{t('suggestedBudget')}</p>
+                                                    <p className="text-5xl font-bold text-orange-600 dark:text-orange-400">{'\u20AA'}{plannerResult.perPerson}</p>
+                                                    <p className="text-base text-gray-500 dark:text-gray-400 mt-1">{t('perPerson')}</p>
+                                                    <div className="mt-3 pt-3 border-t border-orange-200 dark:border-orange-700">
+                                                        <p className="text-2xl font-bold text-gray-800 dark:text-white">{'\u20AA'}{plannerResult.totalBudget}</p>
+                                                        <p className="text-sm text-gray-500 dark:text-gray-400">{t('totalFor').replace('{count}', plannerPeopleCount)}</p>
                                                     </div>
                                                 </div>
 
                                                 {/* Suggested items */}
                                                 <div>
-                                                    <h5 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">{t('suggestedItems')}</h5>
-                                                    <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                                                    <h5 className="font-bold text-gray-700 dark:text-gray-200 mb-3 text-lg">{t('suggestedItems')}</h5>
+                                                    <div className="space-y-2">
                                                         {plannerResult.items.map((item, idx) => (
-                                                            <div key={idx} className="flex justify-between items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700/50 text-sm">
-                                                                <span className="text-gray-700 dark:text-gray-200">{item.name}</span>
-                                                                <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-                                                                    <span>{item.totalQty} {item.unit}</span>
-                                                                    <span className="font-semibold text-orange-600 dark:text-orange-400">{'\u20AA'}{item.itemTotal}</span>
+                                                            <div key={idx} className="flex justify-between items-center px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+                                                                <span className="font-medium text-gray-700 dark:text-gray-200">{item.name}</span>
+                                                                <div className="flex items-center gap-3 text-gray-500 dark:text-gray-400">
+                                                                    <span className="text-sm">{item.totalQty} {item.unit}</span>
+                                                                    <span className="font-bold text-orange-600 dark:text-orange-400">{'\u20AA'}{item.itemTotal}</span>
                                                                 </div>
                                                             </div>
                                                         ))}
@@ -21623,22 +21626,21 @@ END:VCALENDAR`;
                                                 </div>
 
                                                 {/* Action buttons */}
-                                                <button onClick={async () => {
-                                                    await updateGroupBudget(plannerResult.perPerson);
-                                                    setShowBudgetPlanner(false);
-                                                    showToast(`${t('budgetSetSuccess')} ${'\u20AA'}${plannerResult.perPerson} ${t('perPerson')}`, 'success');
-                                                }} className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
-                                                    {t('setAsGroupBudget')}
-                                                </button>
-                                                <button onClick={async () => {
-                                                    await addPlannerItemsToList(plannerResult.items);
-                                                    setShowBudgetPlanner(false);
-                                                }} className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition-all text-sm">
-                                                    {t('addItemsToList')}
-                                                </button>
-                                                <button onClick={() => setShowBudgetPlanner(false)} className="w-full text-gray-500 dark:text-gray-400 text-sm hover:underline">
-                                                    {t('cancel')}
-                                                </button>
+                                                <div className="space-y-3 pt-2">
+                                                    <button onClick={async () => {
+                                                        await updateGroupBudget(plannerResult.perPerson);
+                                                        setShowBudgetPlanner(false);
+                                                        showToast(`${t('budgetSetSuccess')} ${'\u20AA'}${plannerResult.perPerson} ${t('perPerson')}`, 'success');
+                                                    }} className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-2xl font-bold text-lg hover:shadow-lg transition-all active:scale-[0.98]">
+                                                        {t('setAsGroupBudget')}
+                                                    </button>
+                                                    <button onClick={async () => {
+                                                        await addPlannerItemsToList(plannerResult.items);
+                                                        setShowBudgetPlanner(false);
+                                                    }} className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3.5 rounded-2xl font-bold hover:shadow-lg transition-all active:scale-[0.98]">
+                                                        {t('addItemsToList')}
+                                                    </button>
+                                                </div>
                                             </div>
                                         )}
                                     </div>
