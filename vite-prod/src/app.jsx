@@ -747,6 +747,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 budgetPerMember: 'תקציב לפי חבר',
                 groupJoinedDirectly: 'הצטרפת לחבורה בהצלחה!',
                 groupChat: 'צ\'אט חבורה',
+                inviteToGroup: 'הזמן לחבורה',
+                joinGroupInvite: 'בואו להצטרף לחבורה {name} ב-ListNest!',
                 deleteGroupConfirm: 'למחוק את החבורה? כל הנתונים יימחקו.',
                 leaveGroupConfirm: 'לעזוב את החבורה?',
                 // AI & Features
@@ -1995,6 +1997,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 budgetPerMember: 'Budget per member',
                 groupJoinedDirectly: 'Joined group successfully!',
                 groupChat: 'Group Chat',
+                inviteToGroup: 'Invite',
+                joinGroupInvite: 'Join the group {name} on ListNest!',
                 deleteGroupConfirm: 'Delete this group? All data will be deleted.',
                 leaveGroupConfirm: 'Leave this group?',
                 // AI & Features
@@ -3056,6 +3060,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 budgetPerMember: 'Бюджет по участникам',
                 groupJoinedDirectly: 'Вы успешно присоединились к группе!',
                 groupChat: 'Чат группы',
+                inviteToGroup: 'Пригласить',
+                joinGroupInvite: 'Присоединяйтесь к группе {name} в ListNest!',
                 deleteGroupConfirm: 'Удалить группу? Все данные будут удалены.',
                 leaveGroupConfirm: 'Покинуть эту группу?',
                 // AI & Features
@@ -4104,6 +4110,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 budgetPerMember: 'الميزانية حسب العضو',
                 groupJoinedDirectly: 'تم الانضمام للمجموعة بنجاح!',
                 groupChat: 'محادثة المجموعة',
+                inviteToGroup: 'دعوة للمجموعة',
+                joinGroupInvite: 'انضموا لمجموعة {name} في ListNest!',
                 deleteGroupConfirm: 'حذف المجموعة؟ سيتم حذف جميع البيانات.',
                 leaveGroupConfirm: 'مغادرة هذه المجموعة؟',
                 // AI & Features
@@ -12954,6 +12962,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const { childUser } = useChildAuth();
             const { family, allMemberships, lists, currentList, setCurrentList, logActivity, leaveFamily, deleteList, isAdmin, isGroup, isTempGroup, canManageLists, switchContext, updateGroupBudget } = useFamily();
             const { language, changeLanguage, t } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
             // Expose changeLanguage to window for accessibility modal buttons
             window.changeAppLanguage = changeLanguage;
 
@@ -20988,6 +20997,17 @@ END:VCALENDAR`;
                                 </button>
                                 <button onClick={() => setShowCalendar(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-green-200/60 dark:border-green-700/60 hover:shadow-md transition-all">
                                     <span>📅</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('calendar')}</span>
+                                </button>
+                                <button onClick={() => {
+                                    const link = `https://listnest.co.il/?join=${family?.code}`;
+                                    if (navigator.share) {
+                                        navigator.share({ title: family?.name, text: t('joinGroupInvite')?.replace('{name}', family?.name) || `Join ${family?.name}`, url: link }).catch(() => {});
+                                    } else {
+                                        navigator.clipboard.writeText(link);
+                                        showToast(t('copied') || 'Copied!', 'success');
+                                    }
+                                }} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-purple-200/60 dark:border-purple-700/60 hover:shadow-md transition-all">
+                                    <span>🔗</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('inviteToGroup')}</span>
                                 </button>
                             </div>
                             )}
