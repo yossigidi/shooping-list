@@ -21591,9 +21591,6 @@ END:VCALENDAR`;
                                 <button onClick={() => { setAisleOrderEnabled(prev => { const val = !prev; localStorage.setItem('aisleOrderEnabled', val.toString()); showToast(val ? t('aisleOrderEnabled') : t('aisleOrderDisabled'), 'success'); return val; }); }} className={`flex items-center gap-1.5 px-3 py-2 rounded-xl glass border transition-all ${aisleOrderEnabled ? 'border-teal-400 dark:border-teal-500 bg-teal-50 dark:bg-teal-900/30' : 'border-gray-200/60 dark:border-gray-700/60'}`}>
                                     <span>🛒</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('aisleOrder')}</span>
                                 </button>
-                                <button onClick={shareListViaLink} className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-blue-200/60 dark:border-blue-700/60 hover:shadow-md transition-all">
-                                    <span>🔗</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('shareListLink')}</span>
-                                </button>
                             </div>
                             ) : (
                             <div className="flex gap-2 mt-2 overflow-x-auto pb-1" style={{scrollbarWidth:'none'}}>
