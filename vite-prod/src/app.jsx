@@ -1551,7 +1551,43 @@ import { CSS } from '@dnd-kit/utilities';
                 askAI: 'שאל את העוזר החכם',
                 aiPlaceholder: 'למשל: "תכין לי רשימה לשבת ל-6 אנשים"',
                 aiThinking: 'חושב...',
-                aiResponse: 'תשובת העוזר'
+                aiResponse: 'תשובת העוזר',
+                // Kids Virtual Teacher
+                teacherTime: 'שיעור עם המורה!',
+                teacherTimeDesc: 'למד עם המורה הווירטואלית',
+                teacherGreeting: 'שלום! בואו נלמד ביחד!',
+                preparingLesson: 'מכינה שיעור...',
+                todayWeLearn: 'היום נלמד על',
+                ready: 'מוכנים?',
+                letsStart: '!בואו נתחיל',
+                exerciseOf: 'תרגיל {n} מתוך {total}',
+                correct: 'נכון!',
+                amazing: 'מדהים!',
+                threeInRow: 'שלושה ברצף!',
+                fiveInRow: 'חמישה ברצף!',
+                youAreAStar: 'אתה כוכב!',
+                itsOkay: 'לא נורא, טעויות זה חלק מללמוד',
+                letsRetry: 'ננסה שוב!',
+                lastExercise: 'תרגיל אחרון!',
+                perfectScore: 'מושלם! בלי אף טעות!',
+                lessonComplete: 'כל הכבוד!',
+                wordsLearned: 'מילים שלמדנו',
+                anotherLesson: 'שיעור נוסף',
+                backToHome: 'חזרה הביתה',
+                newWords: 'מילים חדשות',
+                review: 'חזרה',
+                storyTime: 'סיפור',
+                quickQuiz: 'חידון מהיר',
+                listenAndPick: 'שמע ובחר',
+                pickTheEmoji: 'בחר את הסמיילי',
+                translateToHebrew: 'תרגם לעברית',
+                fillMissingLetter: 'השלם את האות',
+                sayTheWord: 'אמור את המילה',
+                tapToSpeak: 'לחץ כדי לדבר',
+                listening: 'מקשיב...',
+                speakNow: 'דבר עכשיו!',
+                weakWordsCount: '{count} מילים לתרגול',
+                topicMastered: 'הושלם'
             },
             en: {
                 // App name & general
@@ -2645,7 +2681,8 @@ import { CSS } from '@dnd-kit/utilities';
                 servings: 'Servings', peopleCount: '{count} people', chooseMealType: 'Choose meal type', chooseRecipe: 'Choose a meal', customMeal: 'Custom meal', addMealAndIngredients: 'Add meal + ingredients', suggestedMeals: 'Suggested meals', shabbatMeal: 'Shabbat meal', howManyPeople: 'How many people?', back: 'Back',
                 importRecipe: 'Import recipe', pasteRecipeUrl: 'Paste recipe URL', importingRecipe: 'Importing recipe...', recipeImported: 'Recipe imported successfully', recipeTitle: 'Recipe name', ingredients: 'Ingredients', addIngredients: 'Add ingredients to list',
                 shareListLink: 'Share list via link', shareListDesc: 'Anyone with the link can view the list', linkCopied: 'Link copied!', viewSharedList: 'View shared list',
-                aiAssistant: 'AI Assistant', askAI: 'Ask the smart assistant', aiPlaceholder: 'e.g. "Make me a list for Shabbat for 6 people"', aiThinking: 'Thinking...', aiResponse: 'Assistant response'
+                aiAssistant: 'AI Assistant', askAI: 'Ask the smart assistant', aiPlaceholder: 'e.g. "Make me a list for Shabbat for 6 people"', aiThinking: 'Thinking...', aiResponse: 'Assistant response',
+                teacherTime: 'Teacher Time!', teacherTimeDesc: 'Learn with the virtual teacher', teacherGreeting: 'Hello! Let\'s learn together!', preparingLesson: 'Preparing lesson...', todayWeLearn: 'Today we\'ll learn about', ready: 'Ready?', letsStart: 'Let\'s start!', exerciseOf: 'Exercise {n} of {total}', correct: 'Correct!', amazing: 'Amazing!', threeInRow: 'Three in a row!', fiveInRow: 'Five in a row!', youAreAStar: 'You\'re a star!', itsOkay: 'It\'s okay, mistakes help us learn', letsRetry: 'Let\'s try again!', lastExercise: 'Last exercise!', perfectScore: 'Perfect! No mistakes!', lessonComplete: 'Great job!', wordsLearned: 'Words we learned', anotherLesson: 'Another lesson', backToHome: 'Back home', newWords: 'New Words', review: 'Review', storyTime: 'Story', quickQuiz: 'Quick Quiz', listenAndPick: 'Listen and pick', pickTheEmoji: 'Pick the emoji', translateToHebrew: 'Translate to Hebrew', fillMissingLetter: 'Fill the missing letter', sayTheWord: 'Say the word', tapToSpeak: 'Tap to speak', listening: 'Listening...', speakNow: 'Speak now!', weakWordsCount: '{count} words to practice', topicMastered: 'Mastered'
             },
             ru: {
                 // App name & general
@@ -3726,7 +3763,8 @@ import { CSS } from '@dnd-kit/utilities';
                 servings: 'Порции', peopleCount: '{count} человек', chooseMealType: 'Выберите тип блюда', chooseRecipe: 'Выберите блюдо', customMeal: 'Своё блюдо', addMealAndIngredients: 'Добавить блюдо + ингредиенты', suggestedMeals: 'Рекомендуемые блюда', shabbatMeal: 'Шаббатнее блюдо', howManyPeople: 'На сколько человек?', back: 'Назад',
                 importRecipe: 'Импорт рецепта', pasteRecipeUrl: 'Вставьте ссылку на рецепт', importingRecipe: 'Импорт рецепта...', recipeImported: 'Рецепт успешно импортирован', recipeTitle: 'Название рецепта', ingredients: 'Ингредиенты', addIngredients: 'Добавить ингредиенты в список',
                 shareListLink: 'Поделиться списком по ссылке', shareListDesc: 'Любой с ссылкой сможет увидеть список', linkCopied: 'Ссылка скопирована!', viewSharedList: 'Посмотреть общий список',
-                aiAssistant: 'ИИ-помощник', askAI: 'Спросить умного помощника', aiPlaceholder: 'Например: "Составь мне список на шаббат для 6 человек"', aiThinking: 'Думаю...', aiResponse: 'Ответ помощника'
+                aiAssistant: 'ИИ-помощник', askAI: 'Спросить умного помощника', aiPlaceholder: 'Например: "Составь мне список на шаббат для 6 человек"', aiThinking: 'Думаю...', aiResponse: 'Ответ помощника',
+                teacherTime: 'Урок с учителем!', teacherTimeDesc: 'Учись с виртуальным учителем', teacherGreeting: 'Привет! Давай учиться вместе!', preparingLesson: 'Готовлю урок...', todayWeLearn: 'Сегодня мы изучим', ready: 'Готовы?', letsStart: 'Начнём!', exerciseOf: 'Упражнение {n} из {total}', correct: 'Правильно!', amazing: 'Потрясающе!', threeInRow: 'Три подряд!', fiveInRow: 'Пять подряд!', youAreAStar: 'Ты звезда!', itsOkay: 'Ничего, ошибки помогают учиться', letsRetry: 'Попробуем ещё!', lastExercise: 'Последнее упражнение!', perfectScore: 'Идеально! Без ошибок!', lessonComplete: 'Молодец!', wordsLearned: 'Выученные слова', anotherLesson: 'Ещё урок', backToHome: 'Домой', newWords: 'Новые слова', review: 'Повторение', storyTime: 'Рассказ', quickQuiz: 'Быстрая викторина', listenAndPick: 'Слушай и выбери', pickTheEmoji: 'Выбери эмодзи', translateToHebrew: 'Переведи на иврит', fillMissingLetter: 'Вставь букву', sayTheWord: 'Скажи слово', tapToSpeak: 'Нажми чтобы говорить', listening: 'Слушаю...', speakNow: 'Говори!', weakWordsCount: '{count} слов для практики', topicMastered: 'Изучено'
             },
             ar: {
                 // App name & general
@@ -4811,7 +4849,8 @@ import { CSS } from '@dnd-kit/utilities';
                 servings: 'حصص', peopleCount: '{count} أشخاص', chooseMealType: 'اختر نوع الوجبة', chooseRecipe: 'اختر وجبة', customMeal: 'وجبة مخصصة', addMealAndIngredients: 'أضف وجبة + مكونات', suggestedMeals: 'وجبات مقترحة', shabbatMeal: 'وجبة سبت', howManyPeople: 'لكم شخص؟', back: 'رجوع',
                 importRecipe: 'استيراد وصفة', pasteRecipeUrl: 'الصق رابط الوصفة', importingRecipe: 'جاري استيراد الوصفة...', recipeImported: 'تم استيراد الوصفة بنجاح', recipeTitle: 'اسم الوصفة', ingredients: 'المكونات', addIngredients: 'أضف المكونات للقائمة',
                 shareListLink: 'مشاركة القائمة برابط', shareListDesc: 'أي شخص لديه الرابط يمكنه رؤية القائمة', linkCopied: 'تم نسخ الرابط!', viewSharedList: 'عرض القائمة المشتركة',
-                aiAssistant: 'مساعد ذكي', askAI: 'اسأل المساعد الذكي', aiPlaceholder: 'مثال: "اصنع لي قائمة لعشاء 6 أشخاص"', aiThinking: 'جاري التفكير...', aiResponse: 'رد المساعد'
+                aiAssistant: 'مساعد ذكي', askAI: 'اسأل المساعد الذكي', aiPlaceholder: 'مثال: "اصنع لي قائمة لعشاء 6 أشخاص"', aiThinking: 'جاري التفكير...', aiResponse: 'رد المساعد',
+                teacherTime: 'وقت المعلم!', teacherTimeDesc: 'تعلم مع المعلم الافتراضي', teacherGreeting: 'مرحبا! هيا نتعلم معاً!', preparingLesson: 'أحضر الدرس...', todayWeLearn: 'اليوم سنتعلم عن', ready: 'مستعدون؟', letsStart: 'هيا نبدأ!', exerciseOf: 'تمرين {n} من {total}', correct: 'صحيح!', amazing: 'رائع!', threeInRow: 'ثلاثة متتالية!', fiveInRow: 'خمسة متتالية!', youAreAStar: 'أنت نجم!', itsOkay: 'لا بأس، الأخطاء تساعدنا على التعلم', letsRetry: 'لنحاول مرة أخرى!', lastExercise: 'التمرين الأخير!', perfectScore: 'ممتاز! بدون أخطاء!', lessonComplete: 'أحسنت!', wordsLearned: 'الكلمات التي تعلمناها', anotherLesson: 'درس آخر', backToHome: 'العودة', newWords: 'كلمات جديدة', review: 'مراجعة', storyTime: 'قصة', quickQuiz: 'اختبار سريع', listenAndPick: 'اسمع واختر', pickTheEmoji: 'اختر الرمز', translateToHebrew: 'ترجم للعبرية', fillMissingLetter: 'أكمل الحرف', sayTheWord: 'قل الكلمة', tapToSpeak: 'اضغط للتحدث', listening: 'أستمع...', speakNow: 'تكلم الآن!', weakWordsCount: '{count} كلمات للتمرين', topicMastered: 'تم الإتقان'
             }
         };
 
@@ -13183,6 +13222,7 @@ import { CSS } from '@dnd-kit/utilities';
             const [showChat, setShowChat] = useState(false);
             const [showSettings, setShowSettings] = useState(false);
             const [shoppingDayExpanded, setShoppingDayExpanded] = useState(false);
+            const [notificationsExpanded, setNotificationsExpanded] = useState(false);
             const [chatMessages, setChatMessages] = useState([]);
             const [chatInput, setChatInput] = useState('');
             const [chatContextMenu, setChatContextMenu] = useState(null); // { msgId, x, y }
@@ -21222,8 +21262,8 @@ END:VCALENDAR`;
                                         </button>
                                         {showSettings && (
                                             <>
-                                                <div className="fixed inset-0 z-40" onClick={() => setShowSettings(false)}></div>
-                                                <div className="absolute left-0 top-full mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 max-h-[calc(100vh-120px)] overflow-y-auto">
+                                                <div className="fixed inset-0 z-40" onClick={() => setShowSettings(false)} style={{ touchAction: 'none' }}></div>
+                                                <div className="absolute left-0 top-full mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 max-h-[calc(100vh-120px)] overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y' }}>
                                                     <button
                                                         onClick={() => { toggleShoppingMode(); setShowSettings(false); }}
                                                         className={`w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
@@ -21262,8 +21302,7 @@ END:VCALENDAR`;
                                                     >
                                                         <Calendar size={20} className="text-orange-500" />
                                                         <div className="flex-1">
-                                                            <div className="font-medium text-gray-800 dark:text-gray-200">{t('shoppingDayTitle')}</div>
-                                                            <div className="text-xs text-gray-500 dark:text-gray-400">{[t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday')][shoppingDay]}</div>
+                                                            <div className="font-medium text-gray-800 dark:text-gray-200">{t('shoppingDayTitle')} <span className="text-xs text-gray-500 dark:text-gray-400 font-normal">({[t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday')][shoppingDay]})</span></div>
                                                         </div>
                                                         <ChevronDown size={16} className={`text-gray-400 transition-transform ${shoppingDayExpanded ? 'rotate-180' : ''}`} />
                                                     </button>
@@ -21286,31 +21325,43 @@ END:VCALENDAR`;
                                                             </div>
                                                         </div>
                                                     )}
-                                                    {/* Notifications Section - always visible, independent toggles */}
-                                                    <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 space-y-1.5">
-                                                        <button
-                                                            onClick={toggleMuteShoppingDayPush}
-                                                            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                                                                pushSubscription && !muteShoppingDayPush
-                                                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                                                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                                                            }`}
-                                                        >
-                                                            {pushSubscription && !muteShoppingDayPush ? <Bell size={16} /> : <BellOff size={16} />}
-                                                            {pushSubscription && !muteShoppingDayPush ? t('shoppingDayPushEnabled') : t('shoppingDayPushDisabled')}
-                                                        </button>
-                                                        <button
-                                                            onClick={toggleMuteItemAddPush}
-                                                            className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                                                                pushSubscription && !muteItemAddPush
-                                                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                                                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                                                            }`}
-                                                        >
-                                                            {pushSubscription && !muteItemAddPush ? <Bell size={16} /> : <BellOff size={16} />}
-                                                            {pushSubscription && !muteItemAddPush ? t('itemAddPushEnabled') : t('itemAddPushMuted')}
-                                                        </button>
-                                                    </div>
+                                                    {/* Notifications Section - Collapsible */}
+                                                    <button
+                                                        onClick={() => setNotificationsExpanded(!notificationsExpanded)}
+                                                        className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
+                                                    >
+                                                        <Bell size={20} className="text-purple-500" />
+                                                        <div className="flex-1">
+                                                            <div className="font-medium text-gray-800 dark:text-gray-200">{t('notifications')}</div>
+                                                        </div>
+                                                        <ChevronDown size={16} className={`text-gray-400 transition-transform ${notificationsExpanded ? 'rotate-180' : ''}`} />
+                                                    </button>
+                                                    {notificationsExpanded && (
+                                                        <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-750 space-y-1.5">
+                                                            <button
+                                                                onClick={toggleMuteShoppingDayPush}
+                                                                className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                                                                    pushSubscription && !muteShoppingDayPush
+                                                                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                                                                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                                }`}
+                                                            >
+                                                                {pushSubscription && !muteShoppingDayPush ? <Bell size={16} /> : <BellOff size={16} />}
+                                                                {pushSubscription && !muteShoppingDayPush ? t('shoppingDayPushEnabled') : t('shoppingDayPushDisabled')}
+                                                            </button>
+                                                            <button
+                                                                onClick={toggleMuteItemAddPush}
+                                                                className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                                                                    pushSubscription && !muteItemAddPush
+                                                                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                                                                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                                                }`}
+                                                            >
+                                                                {pushSubscription && !muteItemAddPush ? <Bell size={16} /> : <BellOff size={16} />}
+                                                                {pushSubscription && !muteItemAddPush ? t('itemAddPushEnabled') : t('itemAddPushMuted')}
+                                                            </button>
+                                                        </div>
+                                                    )}
                                                     <button
                                                         onClick={() => { setShowHelp(true); setShowSettings(false); }}
                                                         className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
@@ -23868,6 +23919,985 @@ END:VCALENDAR`;
             );
         }
 
+        // ==========================================
+        // KIDS VIRTUAL TEACHER - SpeakEasy
+        // ==========================================
+
+        const TEACHER_TOPICS = [
+            // Level 1
+            { id: 'colors', emoji: '🎨', titleHe: 'צבעים', titleEn: 'Colors', level: 1, gradient: 'linear-gradient(135deg, #FF6B6B, #FFE66D)' },
+            { id: 'animals', emoji: '🐾', titleHe: 'חיות', titleEn: 'Animals', level: 1, gradient: 'linear-gradient(135deg, #4ECDC4, #44CF6C)' },
+            { id: 'numbers', emoji: '🔢', titleHe: 'מספרים', titleEn: 'Numbers', level: 1, gradient: 'linear-gradient(135deg, #A78BFA, #818CF8)' },
+            { id: 'fruits', emoji: '🍎', titleHe: 'פירות', titleEn: 'Fruits', level: 1, gradient: 'linear-gradient(135deg, #F472B6, #FB923C)' },
+            { id: 'greetings', emoji: '👋', titleHe: 'ברכות', titleEn: 'Greetings', level: 1, gradient: 'linear-gradient(135deg, #60A5FA, #34D399)' },
+            // Level 2
+            { id: 'family', emoji: '👨‍👩‍👧‍👦', titleHe: 'משפחה', titleEn: 'Family', level: 2, gradient: 'linear-gradient(135deg, #F59E0B, #EF4444)' },
+            { id: 'body', emoji: '🦶', titleHe: 'גוף', titleEn: 'Body', level: 2, gradient: 'linear-gradient(135deg, #EC4899, #8B5CF6)' },
+            { id: 'classroom', emoji: '🏫', titleHe: 'כיתה', titleEn: 'Classroom', level: 2, gradient: 'linear-gradient(135deg, #14B8A6, #3B82F6)' },
+            { id: 'sizes', emoji: '📏', titleHe: 'גדלים', titleEn: 'Sizes', level: 2, gradient: 'linear-gradient(135deg, #6366F1, #EC4899)' },
+            { id: 'food', emoji: '🍔', titleHe: 'אוכל', titleEn: 'Food', level: 2, gradient: 'linear-gradient(135deg, #F97316, #FACC15)' },
+            // Level 3
+            { id: 'weather', emoji: '🌤️', titleHe: 'מזג אוויר', titleEn: 'Weather', level: 3, gradient: 'linear-gradient(135deg, #38BDF8, #818CF8)' },
+            { id: 'home', emoji: '🏠', titleHe: 'הבית', titleEn: 'Home', level: 3, gradient: 'linear-gradient(135deg, #A78BFA, #F472B6)' },
+            { id: 'clothes', emoji: '👕', titleHe: 'בגדים', titleEn: 'Clothes', level: 3, gradient: 'linear-gradient(135deg, #FB7185, #FBBF24)' },
+            { id: 'transport', emoji: '🚗', titleHe: 'תחבורה', titleEn: 'Transport', level: 3, gradient: 'linear-gradient(135deg, #2DD4BF, #3B82F6)' },
+            { id: 'nature', emoji: '🌳', titleHe: 'טבע', titleEn: 'Nature', level: 3, gradient: 'linear-gradient(135deg, #22C55E, #14B8A6)' },
+            // Level 4
+            { id: 'daily_routine', emoji: '⏰', titleHe: 'שגרה יומית', titleEn: 'Daily Routine', level: 4, gradient: 'linear-gradient(135deg, #F59E0B, #EC4899)' },
+            { id: 'store', emoji: '🛍️', titleHe: 'חנות', titleEn: 'Store', level: 4, gradient: 'linear-gradient(135deg, #8B5CF6, #06B6D4)' },
+            { id: 'hobbies', emoji: '🎯', titleHe: 'תחביבים', titleEn: 'Hobbies', level: 4, gradient: 'linear-gradient(135deg, #EF4444, #F97316)' },
+            { id: 'verbs', emoji: '🏃', titleHe: 'פעלים', titleEn: 'Verbs', level: 4, gradient: 'linear-gradient(135deg, #6366F1, #22C55E)' }
+        ];
+
+        const TEACHER_VOCABULARY = {
+            colors: [
+                { word: 'Red', emoji: '🔴', translation: 'אדום' },
+                { word: 'Blue', emoji: '🔵', translation: 'כחול' },
+                { word: 'Green', emoji: '🟢', translation: 'ירוק' },
+                { word: 'Yellow', emoji: '🟡', translation: 'צהוב' },
+                { word: 'Purple', emoji: '🟣', translation: 'סגול' },
+                { word: 'Orange', emoji: '🟠', translation: 'כתום' },
+                { word: 'Pink', emoji: '🩷', translation: 'ורוד' },
+                { word: 'White', emoji: '⬜', translation: 'לבן' },
+                { word: 'Black', emoji: '⬛', translation: 'שחור' },
+                { word: 'Brown', emoji: '🟤', translation: 'חום' }
+            ],
+            animals: [
+                { word: 'Dog', emoji: '🐕', translation: 'כלב' },
+                { word: 'Cat', emoji: '🐈', translation: 'חתול' },
+                { word: 'Bird', emoji: '🐦', translation: 'ציפור' },
+                { word: 'Fish', emoji: '🐟', translation: 'דג' },
+                { word: 'Horse', emoji: '🐴', translation: 'סוס' },
+                { word: 'Cow', emoji: '🐄', translation: 'פרה' },
+                { word: 'Lion', emoji: '🦁', translation: 'אריה' },
+                { word: 'Elephant', emoji: '🐘', translation: 'פיל' },
+                { word: 'Rabbit', emoji: '🐰', translation: 'ארנב' },
+                { word: 'Bear', emoji: '🐻', translation: 'דוב' }
+            ],
+            numbers: [
+                { word: 'One', emoji: '1️⃣', translation: 'אחד' },
+                { word: 'Two', emoji: '2️⃣', translation: 'שניים' },
+                { word: 'Three', emoji: '3️⃣', translation: 'שלושה' },
+                { word: 'Four', emoji: '4️⃣', translation: 'ארבעה' },
+                { word: 'Five', emoji: '5️⃣', translation: 'חמישה' },
+                { word: 'Six', emoji: '6️⃣', translation: 'שישה' },
+                { word: 'Seven', emoji: '7️⃣', translation: 'שבעה' },
+                { word: 'Eight', emoji: '8️⃣', translation: 'שמונה' },
+                { word: 'Nine', emoji: '9️⃣', translation: 'תשעה' },
+                { word: 'Ten', emoji: '🔟', translation: 'עשרה' }
+            ],
+            fruits: [
+                { word: 'Apple', emoji: '🍎', translation: 'תפוח' },
+                { word: 'Banana', emoji: '🍌', translation: 'בננה' },
+                { word: 'Orange', emoji: '🍊', translation: 'תפוז' },
+                { word: 'Grape', emoji: '🍇', translation: 'ענב' },
+                { word: 'Strawberry', emoji: '🍓', translation: 'תות' },
+                { word: 'Watermelon', emoji: '🍉', translation: 'אבטיח' },
+                { word: 'Pineapple', emoji: '🍍', translation: 'אננס' },
+                { word: 'Cherry', emoji: '🍒', translation: 'דובדבן' },
+                { word: 'Peach', emoji: '🍑', translation: 'אפרסק' },
+                { word: 'Lemon', emoji: '🍋', translation: 'לימון' }
+            ],
+            greetings: [
+                { word: 'Hello', emoji: '👋', translation: 'שלום' },
+                { word: 'Goodbye', emoji: '👋', translation: 'להתראות' },
+                { word: 'Thank you', emoji: '🙏', translation: 'תודה' },
+                { word: 'Please', emoji: '🤲', translation: 'בבקשה' },
+                { word: 'Yes', emoji: '✅', translation: 'כן' },
+                { word: 'No', emoji: '❌', translation: 'לא' },
+                { word: 'Good morning', emoji: '🌅', translation: 'בוקר טוב' },
+                { word: 'Good night', emoji: '🌙', translation: 'לילה טוב' },
+                { word: 'How are you?', emoji: '😊', translation: 'מה שלומך?' },
+                { word: 'My name is', emoji: '🏷️', translation: 'קוראים לי' }
+            ],
+            family: [
+                { word: 'Mother', emoji: '👩', translation: 'אמא' },
+                { word: 'Father', emoji: '👨', translation: 'אבא' },
+                { word: 'Brother', emoji: '👦', translation: 'אח' },
+                { word: 'Sister', emoji: '👧', translation: 'אחות' },
+                { word: 'Baby', emoji: '👶', translation: 'תינוק' },
+                { word: 'Grandmother', emoji: '👵', translation: 'סבתא' },
+                { word: 'Grandfather', emoji: '👴', translation: 'סבא' },
+                { word: 'Family', emoji: '👨‍👩‍👧‍👦', translation: 'משפחה' },
+                { word: 'Uncle', emoji: '👨', translation: 'דוד' },
+                { word: 'Aunt', emoji: '👩', translation: 'דודה' }
+            ],
+            body: [
+                { word: 'Head', emoji: '😀', translation: 'ראש' },
+                { word: 'Hand', emoji: '✋', translation: 'יד' },
+                { word: 'Eye', emoji: '👁️', translation: 'עין' },
+                { word: 'Nose', emoji: '👃', translation: 'אף' },
+                { word: 'Mouth', emoji: '👄', translation: 'פה' },
+                { word: 'Ear', emoji: '👂', translation: 'אוזן' },
+                { word: 'Foot', emoji: '🦶', translation: 'רגל' },
+                { word: 'Hair', emoji: '💇', translation: 'שיער' },
+                { word: 'Heart', emoji: '❤️', translation: 'לב' },
+                { word: 'Teeth', emoji: '🦷', translation: 'שיניים' }
+            ],
+            classroom: [
+                { word: 'Book', emoji: '📖', translation: 'ספר' },
+                { word: 'Pencil', emoji: '✏️', translation: 'עיפרון' },
+                { word: 'Teacher', emoji: '👩‍🏫', translation: 'מורה' },
+                { word: 'School', emoji: '🏫', translation: 'בית ספר' },
+                { word: 'Table', emoji: '🪑', translation: 'שולחן' },
+                { word: 'Chair', emoji: '💺', translation: 'כיסא' },
+                { word: 'Bag', emoji: '🎒', translation: 'תיק' },
+                { word: 'Clock', emoji: '🕐', translation: 'שעון' },
+                { word: 'Paper', emoji: '📄', translation: 'נייר' },
+                { word: 'Color', emoji: '🎨', translation: 'צבע' }
+            ],
+            sizes: [
+                { word: 'Big', emoji: '🐘', translation: 'גדול' },
+                { word: 'Small', emoji: '🐜', translation: 'קטן' },
+                { word: 'Tall', emoji: '🦒', translation: 'גבוה' },
+                { word: 'Short', emoji: '🐁', translation: 'נמוך' },
+                { word: 'Long', emoji: '🐍', translation: 'ארוך' },
+                { word: 'Fast', emoji: '🐆', translation: 'מהיר' },
+                { word: 'Slow', emoji: '🐢', translation: 'איטי' },
+                { word: 'Heavy', emoji: '🏋️', translation: 'כבד' },
+                { word: 'Light', emoji: '🪶', translation: 'קל' },
+                { word: 'Wide', emoji: '↔️', translation: 'רחב' }
+            ],
+            food: [
+                { word: 'Bread', emoji: '🍞', translation: 'לחם' },
+                { word: 'Milk', emoji: '🥛', translation: 'חלב' },
+                { word: 'Egg', emoji: '🥚', translation: 'ביצה' },
+                { word: 'Rice', emoji: '🍚', translation: 'אורז' },
+                { word: 'Pizza', emoji: '🍕', translation: 'פיצה' },
+                { word: 'Ice cream', emoji: '🍦', translation: 'גלידה' },
+                { word: 'Cake', emoji: '🎂', translation: 'עוגה' },
+                { word: 'Water', emoji: '💧', translation: 'מים' },
+                { word: 'Juice', emoji: '🧃', translation: 'מיץ' },
+                { word: 'Cookie', emoji: '🍪', translation: 'עוגיה' }
+            ],
+            weather: [
+                { word: 'Sun', emoji: '☀️', translation: 'שמש' },
+                { word: 'Rain', emoji: '🌧️', translation: 'גשם' },
+                { word: 'Cloud', emoji: '☁️', translation: 'ענן' },
+                { word: 'Snow', emoji: '❄️', translation: 'שלג' },
+                { word: 'Wind', emoji: '💨', translation: 'רוח' },
+                { word: 'Hot', emoji: '🔥', translation: 'חם' },
+                { word: 'Cold', emoji: '🥶', translation: 'קר' },
+                { word: 'Rainbow', emoji: '🌈', translation: 'קשת' },
+                { word: 'Star', emoji: '⭐', translation: 'כוכב' },
+                { word: 'Moon', emoji: '🌙', translation: 'ירח' }
+            ],
+            home: [
+                { word: 'House', emoji: '🏠', translation: 'בית' },
+                { word: 'Door', emoji: '🚪', translation: 'דלת' },
+                { word: 'Window', emoji: '🪟', translation: 'חלון' },
+                { word: 'Bed', emoji: '🛏️', translation: 'מיטה' },
+                { word: 'Kitchen', emoji: '🍳', translation: 'מטבח' },
+                { word: 'Bathroom', emoji: '🚿', translation: 'חדר אמבטיה' },
+                { word: 'Garden', emoji: '🌳', translation: 'גינה' },
+                { word: 'Key', emoji: '🔑', translation: 'מפתח' },
+                { word: 'Light', emoji: '💡', translation: 'אור' },
+                { word: 'Television', emoji: '📺', translation: 'טלוויזיה' }
+            ],
+            clothes: [
+                { word: 'Shirt', emoji: '👕', translation: 'חולצה' },
+                { word: 'Pants', emoji: '👖', translation: 'מכנסיים' },
+                { word: 'Shoes', emoji: '👟', translation: 'נעליים' },
+                { word: 'Hat', emoji: '🧢', translation: 'כובע' },
+                { word: 'Dress', emoji: '👗', translation: 'שמלה' },
+                { word: 'Socks', emoji: '🧦', translation: 'גרביים' },
+                { word: 'Jacket', emoji: '🧥', translation: "ז'קט" },
+                { word: 'Scarf', emoji: '🧣', translation: 'צעיף' },
+                { word: 'Glasses', emoji: '👓', translation: 'משקפיים' },
+                { word: 'Watch', emoji: '⌚', translation: 'שעון יד' }
+            ],
+            transport: [
+                { word: 'Car', emoji: '🚗', translation: 'מכונית' },
+                { word: 'Bus', emoji: '🚌', translation: 'אוטובוס' },
+                { word: 'Train', emoji: '🚂', translation: 'רכבת' },
+                { word: 'Airplane', emoji: '✈️', translation: 'מטוס' },
+                { word: 'Bicycle', emoji: '🚲', translation: 'אופניים' },
+                { word: 'Ship', emoji: '🚢', translation: 'ספינה' },
+                { word: 'Helicopter', emoji: '🚁', translation: 'מסוק' },
+                { word: 'Truck', emoji: '🚛', translation: 'משאית' },
+                { word: 'Motorcycle', emoji: '🏍️', translation: 'אופנוע' },
+                { word: 'Taxi', emoji: '🚕', translation: 'מונית' }
+            ],
+            nature: [
+                { word: 'Tree', emoji: '🌳', translation: 'עץ' },
+                { word: 'Flower', emoji: '🌸', translation: 'פרח' },
+                { word: 'Mountain', emoji: '🏔️', translation: 'הר' },
+                { word: 'Sea', emoji: '🌊', translation: 'ים' },
+                { word: 'River', emoji: '🏞️', translation: 'נהר' },
+                { word: 'Forest', emoji: '🌲', translation: 'יער' },
+                { word: 'Desert', emoji: '🏜️', translation: 'מדבר' },
+                { word: 'Lake', emoji: '🏞️', translation: 'אגם' },
+                { word: 'Sky', emoji: '🌤️', translation: 'שמיים' },
+                { word: 'Rock', emoji: '🪨', translation: 'סלע' }
+            ],
+            daily_routine: [
+                { word: 'Wake up', emoji: '⏰', translation: 'להתעורר' },
+                { word: 'Eat', emoji: '🍽️', translation: 'לאכול' },
+                { word: 'Drink', emoji: '🥤', translation: 'לשתות' },
+                { word: 'Sleep', emoji: '😴', translation: 'לישון' },
+                { word: 'Play', emoji: '🎮', translation: 'לשחק' },
+                { word: 'Read', emoji: '📖', translation: 'לקרוא' },
+                { word: 'Write', emoji: '✍️', translation: 'לכתוב' },
+                { word: 'Run', emoji: '🏃', translation: 'לרוץ' },
+                { word: 'Walk', emoji: '🚶', translation: 'ללכת' },
+                { word: 'Sing', emoji: '🎤', translation: 'לשיר' }
+            ],
+            store: [
+                { word: 'Money', emoji: '💰', translation: 'כסף' },
+                { word: 'Price', emoji: '🏷️', translation: 'מחיר' },
+                { word: 'Buy', emoji: '🛒', translation: 'לקנות' },
+                { word: 'Sell', emoji: '💵', translation: 'למכור' },
+                { word: 'Shop', emoji: '🏪', translation: 'חנות' },
+                { word: 'Bag', emoji: '🛍️', translation: 'שקית' },
+                { word: 'Gift', emoji: '🎁', translation: 'מתנה' },
+                { word: 'Toy', emoji: '🧸', translation: 'צעצוע' },
+                { word: 'Candy', emoji: '🍬', translation: 'סוכרייה' },
+                { word: 'Chocolate', emoji: '🍫', translation: 'שוקולד' }
+            ],
+            hobbies: [
+                { word: 'Draw', emoji: '🎨', translation: 'לצייר' },
+                { word: 'Dance', emoji: '💃', translation: 'לרקוד' },
+                { word: 'Swim', emoji: '🏊', translation: 'לשחות' },
+                { word: 'Cook', emoji: '👨‍🍳', translation: 'לבשל' },
+                { word: 'Music', emoji: '🎵', translation: 'מוזיקה' },
+                { word: 'Soccer', emoji: '⚽', translation: 'כדורגל' },
+                { word: 'Basketball', emoji: '🏀', translation: 'כדורסל' },
+                { word: 'Tennis', emoji: '🎾', translation: 'טניס' },
+                { word: 'Photo', emoji: '📸', translation: 'צילום' },
+                { word: 'Game', emoji: '🎲', translation: 'משחק' }
+            ],
+            verbs: [
+                { word: 'Go', emoji: '🚶', translation: 'ללכת' },
+                { word: 'Come', emoji: '🏃', translation: 'לבוא' },
+                { word: 'See', emoji: '👀', translation: 'לראות' },
+                { word: 'Hear', emoji: '👂', translation: 'לשמוע' },
+                { word: 'Talk', emoji: '🗣️', translation: 'לדבר' },
+                { word: 'Think', emoji: '🤔', translation: 'לחשוב' },
+                { word: 'Love', emoji: '❤️', translation: 'לאהוב' },
+                { word: 'Want', emoji: '🤞', translation: 'לרצות' },
+                { word: 'Know', emoji: '🧠', translation: 'לדעת' },
+                { word: 'Make', emoji: '🔨', translation: 'לעשות' }
+            ]
+        };
+
+        // Helper: shuffle array
+        function teacherShuffleArray(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        // Helper: TTS speak using Web Speech API
+        function teacherSpeak(text, lang = 'en-US') {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
+            utterance.rate = 0.85;
+            utterance.pitch = 1.1;
+            try { window.speechSynthesis.speak(utterance); } catch(e) { /* ignore */ }
+        }
+
+        // Helper: play sound effect
+        function teacherPlaySound(type) {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                gain.gain.value = 0.15;
+                if (type === 'correct') {
+                    osc.frequency.value = 523;
+                    osc.type = 'sine';
+                    osc.start();
+                    setTimeout(() => { osc.frequency.value = 659; }, 100);
+                    setTimeout(() => { osc.frequency.value = 784; }, 200);
+                    setTimeout(() => { osc.stop(); audioCtx.close(); }, 400);
+                } else if (type === 'wrong') {
+                    osc.frequency.value = 200;
+                    osc.type = 'sawtooth';
+                    gain.gain.value = 0.08;
+                    osc.start();
+                    setTimeout(() => { osc.stop(); audioCtx.close(); }, 300);
+                } else if (type === 'complete') {
+                    osc.frequency.value = 523;
+                    osc.type = 'sine';
+                    osc.start();
+                    setTimeout(() => { osc.frequency.value = 659; }, 150);
+                    setTimeout(() => { osc.frequency.value = 784; }, 300);
+                    setTimeout(() => { osc.frequency.value = 1047; }, 450);
+                    setTimeout(() => { osc.stop(); audioCtx.close(); }, 700);
+                } else if (type === 'star') {
+                    osc.frequency.value = 880;
+                    osc.type = 'sine';
+                    gain.gain.value = 0.1;
+                    osc.start();
+                    setTimeout(() => { osc.stop(); audioCtx.close(); }, 200);
+                }
+            } catch(e) { /* audio not available */ }
+        }
+
+        // Generate exercises locally from vocabulary
+        function generateLocalExercises(topicId) {
+            const words = TEACHER_VOCABULARY[topicId] || TEACHER_VOCABULARY.colors;
+            const exercises = [];
+            const shuffledWords = teacherShuffleArray(words);
+            const types = teacherShuffleArray([
+                'emoji-pick', 'word-to-hebrew', 'listen-pick', 'fill-letter',
+                'emoji-pick', 'word-to-hebrew', 'speak-word', 'listen-pick'
+            ]);
+            for (let i = 0; i < 8; i++) {
+                const target = shuffledWords[i % shuffledWords.length];
+                const distractors = teacherShuffleArray(words.filter(w => w.word !== target.word)).slice(0, 3);
+                const type = types[i];
+                if (type === 'emoji-pick') {
+                    exercises.push({
+                        type: 'emoji-pick', question: target.word, correctAnswer: target.emoji,
+                        options: teacherShuffleArray([target, ...distractors]).map(w => ({ emoji: w.emoji, word: w.word })),
+                        wordData: target
+                    });
+                } else if (type === 'word-to-hebrew') {
+                    exercises.push({
+                        type: 'word-to-hebrew', question: target.word, correctAnswer: target.translation,
+                        options: teacherShuffleArray([target, ...distractors]).map(w => w.translation),
+                        wordData: target
+                    });
+                } else if (type === 'listen-pick') {
+                    exercises.push({
+                        type: 'listen-pick', question: target.word, correctAnswer: target.word,
+                        options: teacherShuffleArray([target, ...distractors]).map(w => w.word),
+                        wordData: target
+                    });
+                } else if (type === 'fill-letter') {
+                    const wordStr = target.word;
+                    const idx = Math.floor(Math.random() * wordStr.length);
+                    const hidden = wordStr[idx];
+                    const display = wordStr.substring(0, idx) + '_' + wordStr.substring(idx + 1);
+                    const letters = teacherShuffleArray([hidden.toLowerCase(), ...teacherShuffleArray('abcdefghijklmnopqrstuvwxyz'.split('').filter(l => l !== hidden.toLowerCase())).slice(0, 3)]);
+                    exercises.push({
+                        type: 'fill-letter', question: display, fullWord: target.word, correctAnswer: hidden.toLowerCase(),
+                        options: letters, emoji: target.emoji, wordData: target
+                    });
+                } else if (type === 'speak-word') {
+                    exercises.push({
+                        type: 'speak-word', question: target.word, emoji: target.emoji,
+                        correctAnswer: target.word.toLowerCase(), wordData: target
+                    });
+                } else {
+                    exercises.push({
+                        type: 'emoji-pick', question: target.word, correctAnswer: target.emoji,
+                        options: teacherShuffleArray([target, ...distractors]).map(w => ({ emoji: w.emoji, word: w.word })),
+                        wordData: target
+                    });
+                }
+            }
+            return exercises;
+        }
+
+        // TeacherCharacter - Animated SVG character
+        function TeacherCharacter({ state = 'idle', size = 'normal' }) {
+            const [blink, setBlink] = React.useState(false);
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    setBlink(true);
+                    setTimeout(() => setBlink(false), 200);
+                }, 3000 + Math.random() * 2000);
+                return () => clearInterval(interval);
+            }, []);
+            const s = size === 'small' ? 80 : 140;
+            const bodyAnim = state === 'celebrating' ? 'teacher-jelly 0.5s ease infinite' : state === 'idle' ? 'teacher-float 3s ease-in-out infinite' : 'none';
+            const eyeScale = blink ? 'scaleY(0.1)' : 'scaleY(1)';
+            const mouthPath = state === 'happy' || state === 'celebrating' ? 'M 35,75 Q 50,90 65,75' : state === 'talking' ? 'M 38,75 Q 50,82 62,75 Q 50,85 38,75' : state === 'thinking' ? 'M 45,78 A 3,3 0 1,1 55,78' : 'M 38,75 Q 50,82 62,75';
+            const eyeX = state === 'thinking' ? 3 : 0;
+            const eyeY = state === 'thinking' ? -3 : 0;
+            return (
+                <div className="teacher-character" style={{ width: s, height: s + 30, animation: bodyAnim, position: 'relative' }}>
+                    <svg viewBox="0 0 100 120" width={s} height={s + 30}>
+                        {/* Body */}
+                        <rect x="25" y="85" width="50" height="35" rx="12" fill="url(#teacherShirt)" />
+                        {/* Arms */}
+                        <rect x="10" y="90" width="18" height="8" rx="4" fill="#E8B4B8" style={{ animation: state === 'celebrating' ? 'teacher-wave-left 0.4s ease infinite alternate' : 'none', transformOrigin: '25px 94px' }} />
+                        <rect x="72" y="90" width="18" height="8" rx="4" fill="#E8B4B8" style={{ animation: state === 'celebrating' ? 'teacher-wave-right 0.4s ease infinite alternate' : 'none', transformOrigin: '75px 94px' }} />
+                        {/* Head */}
+                        <circle cx="50" cy="45" r="30" fill="#FDDCB5" />
+                        {/* Hair */}
+                        <path d="M 20,40 Q 20,10 50,12 Q 80,10 80,40 Q 75,25 50,22 Q 25,25 20,40" fill="#6B4226" />
+                        {/* Glasses */}
+                        <circle cx="39" cy="45" r="10" fill="none" stroke="#555" strokeWidth="1.5" />
+                        <circle cx="61" cy="45" r="10" fill="none" stroke="#555" strokeWidth="1.5" />
+                        <line x1="49" y1="45" x2="51" y2="45" stroke="#555" strokeWidth="1.5" />
+                        {/* Eyes */}
+                        <g transform={`translate(${eyeX}, ${eyeY})`}>
+                            <ellipse cx="39" cy="45" rx="3.5" ry="4" fill="#333" style={{ transform: eyeScale, transformOrigin: '39px 45px', transition: 'transform 0.1s' }} />
+                            <ellipse cx="61" cy="45" rx="3.5" ry="4" fill="#333" style={{ transform: eyeScale, transformOrigin: '61px 45px', transition: 'transform 0.1s' }} />
+                            {/* Eye shine */}
+                            <circle cx="40.5" cy="43.5" r="1.5" fill="white" />
+                            <circle cx="62.5" cy="43.5" r="1.5" fill="white" />
+                        </g>
+                        {/* Mouth */}
+                        <path d={mouthPath} fill={state === 'happy' || state === 'celebrating' ? '#FF6B6B' : 'none'} stroke="#D4726A" strokeWidth="2" strokeLinecap="round">
+                            {state === 'talking' && <animate attributeName="d" values="M 38,75 Q 50,82 62,75 Q 50,85 38,75;M 38,75 Q 50,78 62,75 Q 50,80 38,75;M 38,75 Q 50,82 62,75 Q 50,85 38,75" dur="0.3s" repeatCount="indefinite" />}
+                        </path>
+                        {/* Sparkles for happy/celebrating */}
+                        {(state === 'happy' || state === 'celebrating') && <>
+                            <text x="15" y="20" fontSize="10" style={{ animation: 'teacher-sparkle 0.6s ease infinite' }}>✨</text>
+                            <text x="75" y="25" fontSize="10" style={{ animation: 'teacher-sparkle 0.6s ease 0.2s infinite' }}>✨</text>
+                            <text x="10" y="65" fontSize="8" style={{ animation: 'teacher-sparkle 0.6s ease 0.4s infinite' }}>⭐</text>
+                        </>}
+                        {/* Encouraging heart */}
+                        {state === 'encouraging' && <text x="75" y="35" fontSize="12" style={{ animation: 'teacher-sparkle 1s ease infinite' }}>💜</text>}
+                        {/* Thinking dots */}
+                        {state === 'thinking' && <>
+                            <circle cx="78" cy="30" r="3" fill="#DDD" style={{ animation: 'teacher-think-dot 1s ease infinite' }} />
+                            <circle cx="85" cy="22" r="4" fill="#DDD" style={{ animation: 'teacher-think-dot 1s ease 0.3s infinite' }} />
+                            <circle cx="90" cy="12" r="5" fill="#DDD" style={{ animation: 'teacher-think-dot 1s ease 0.6s infinite' }} />
+                        </>}
+                        <defs>
+                            <linearGradient id="teacherShirt" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stopColor="#8B5CF6" />
+                                <stop offset="100%" stopColor="#7C3AED" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+            );
+        }
+
+        // SpeechBubble - Animated speech bubble
+        function SpeechBubble({ text, direction = 'rtl', visible = true }) {
+            if (!visible || !text) return null;
+            return (
+                <div className="teacher-speech-bubble" style={{
+                    direction: direction, animation: 'teacher-bubble-in 0.3s ease',
+                    background: 'white', borderRadius: 16, padding: '10px 16px', maxWidth: 220,
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)', position: 'relative',
+                    fontSize: 15, fontWeight: 500, lineHeight: 1.4, textAlign: direction === 'rtl' ? 'right' : 'left'
+                }}>
+                    {text}
+                    <div style={{
+                        position: 'absolute', bottom: -8, left: direction === 'rtl' ? 'auto' : 20, right: direction === 'rtl' ? 20 : 'auto',
+                        width: 0, height: 0, borderLeft: '8px solid transparent', borderRight: '8px solid transparent', borderTop: '10px solid white'
+                    }} />
+                </div>
+            );
+        }
+
+        // ExerciseRenderer - Renders different exercise types
+        function ExerciseRenderer({ exercise, onAnswer, t, language }) {
+            const [selected, setSelected] = React.useState(null);
+            const [showResult, setShowResult] = React.useState(false);
+            const isRTL = language === 'he' || language === 'ar';
+
+            const handleSelect = (answer, isCorrect) => {
+                if (selected !== null) return;
+                setSelected(answer);
+                setShowResult(true);
+                setTimeout(() => {
+                    onAnswer(isCorrect, exercise.wordData);
+                    setSelected(null);
+                    setShowResult(false);
+                }, 1200);
+            };
+
+            if (exercise.type === 'emoji-pick') {
+                return (
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: 18, fontWeight: 600, color: '#1F2937', marginBottom: 8 }}>{t('pickTheEmoji')}</div>
+                        <div style={{ fontSize: 22, fontWeight: 700, color: '#7C3AED', marginBottom: 20 }}>{exercise.question}</div>
+                        <button onClick={() => teacherSpeak(exercise.question, 'en-US')} style={{ background: '#EDE9FE', border: 'none', borderRadius: 12, padding: '8px 16px', cursor: 'pointer', marginBottom: 16, fontSize: 16 }}>🔊 {t('listenAndPick')}</button>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, maxWidth: 280, margin: '0 auto' }}>
+                            {exercise.options.map((opt, i) => {
+                                const isCorrect = opt.emoji === exercise.correctAnswer;
+                                const isThis = selected === opt.emoji;
+                                let bg = 'white';
+                                if (showResult && isThis) bg = isCorrect ? '#D1FAE5' : '#FEE2E2';
+                                if (showResult && isCorrect && !isThis) bg = '#D1FAE5';
+                                return (
+                                    <button key={i} onClick={() => handleSelect(opt.emoji, isCorrect)} disabled={selected !== null}
+                                        style={{
+                                            fontSize: 44, padding: 16, borderRadius: 16, border: `3px solid ${showResult && isCorrect ? '#10B981' : showResult && isThis ? '#EF4444' : '#E5E7EB'}`,
+                                            background: bg, cursor: selected ? 'default' : 'pointer', transition: 'all 0.2s',
+                                            transform: isThis ? 'scale(0.95)' : 'scale(1)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                                        }}>
+                                        {opt.emoji}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                );
+            }
+
+            if (exercise.type === 'word-to-hebrew') {
+                return (
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: 18, fontWeight: 600, color: '#1F2937', marginBottom: 8 }}>{t('translateToHebrew')}</div>
+                        <div style={{ fontSize: 36, marginBottom: 4 }}>{exercise.wordData?.emoji}</div>
+                        <div style={{ fontSize: 22, fontWeight: 700, color: '#7C3AED', marginBottom: 20 }}>{exercise.question}</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 300, margin: '0 auto' }}>
+                            {exercise.options.map((opt, i) => {
+                                const isCorrect = opt === exercise.correctAnswer;
+                                const isThis = selected === opt;
+                                let bg = 'white';
+                                if (showResult && isThis) bg = isCorrect ? '#D1FAE5' : '#FEE2E2';
+                                if (showResult && isCorrect && !isThis) bg = '#D1FAE5';
+                                return (
+                                    <button key={i} onClick={() => handleSelect(opt, isCorrect)} disabled={selected !== null}
+                                        style={{
+                                            fontSize: 18, padding: '12px 20px', borderRadius: 14, fontWeight: 600,
+                                            border: `3px solid ${showResult && isCorrect ? '#10B981' : showResult && isThis ? '#EF4444' : '#E5E7EB'}`,
+                                            background: bg, cursor: selected ? 'default' : 'pointer', transition: 'all 0.2s',
+                                            direction: 'rtl', boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                                        }}>
+                                        {opt}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                );
+            }
+
+            if (exercise.type === 'listen-pick') {
+                return (
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: 18, fontWeight: 600, color: '#1F2937', marginBottom: 16 }}>{t('listenAndPick')}</div>
+                        <button onClick={() => teacherSpeak(exercise.question, 'en-US')} style={{ background: 'linear-gradient(135deg, #8B5CF6, #7C3AED)', color: 'white', border: 'none', borderRadius: 20, padding: '16px 32px', cursor: 'pointer', marginBottom: 20, fontSize: 24, boxShadow: '0 4px 15px rgba(124,58,237,0.3)' }}>🔊</button>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 300, margin: '0 auto' }}>
+                            {exercise.options.map((opt, i) => {
+                                const isCorrect = opt === exercise.correctAnswer;
+                                const isThis = selected === opt;
+                                let bg = 'white';
+                                if (showResult && isThis) bg = isCorrect ? '#D1FAE5' : '#FEE2E2';
+                                if (showResult && isCorrect && !isThis) bg = '#D1FAE5';
+                                return (
+                                    <button key={i} onClick={() => handleSelect(opt, isCorrect)} disabled={selected !== null}
+                                        style={{
+                                            fontSize: 18, padding: '12px 20px', borderRadius: 14, fontWeight: 600,
+                                            border: `3px solid ${showResult && isCorrect ? '#10B981' : showResult && isThis ? '#EF4444' : '#E5E7EB'}`,
+                                            background: bg, cursor: selected ? 'default' : 'pointer', transition: 'all 0.2s',
+                                            boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                                        }}>
+                                        {opt}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                );
+            }
+
+            if (exercise.type === 'fill-letter') {
+                return (
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: 18, fontWeight: 600, color: '#1F2937', marginBottom: 8 }}>{t('fillMissingLetter')}</div>
+                        <div style={{ fontSize: 36, marginBottom: 4 }}>{exercise.emoji}</div>
+                        <div style={{ fontSize: 28, fontWeight: 700, color: '#7C3AED', marginBottom: 20, letterSpacing: 4, fontFamily: 'monospace' }}>{exercise.question}</div>
+                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                            {exercise.options.map((letter, i) => {
+                                const isCorrect = letter === exercise.correctAnswer;
+                                const isThis = selected === letter;
+                                let bg = 'white';
+                                if (showResult && isThis) bg = isCorrect ? '#D1FAE5' : '#FEE2E2';
+                                if (showResult && isCorrect && !isThis) bg = '#D1FAE5';
+                                return (
+                                    <button key={i} onClick={() => handleSelect(letter, isCorrect)} disabled={selected !== null}
+                                        style={{
+                                            width: 56, height: 56, fontSize: 22, fontWeight: 700, borderRadius: '50%',
+                                            border: `3px solid ${showResult && isCorrect ? '#10B981' : showResult && isThis ? '#EF4444' : '#E5E7EB'}`,
+                                            background: bg, cursor: selected ? 'default' : 'pointer', transition: 'all 0.2s',
+                                            textTransform: 'lowercase', boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                                        }}>
+                                        {letter}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                );
+            }
+
+            if (exercise.type === 'speak-word') {
+                const [listening, setListening] = React.useState(false);
+                const [result, setResult] = React.useState(null);
+
+                const startListening = () => {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    if (!SpeechRecognition) {
+                        // Fallback: auto-pass if no speech recognition
+                        handleSelect(exercise.correctAnswer, true);
+                        return;
+                    }
+                    setListening(true);
+                    const recognition = new SpeechRecognition();
+                    recognition.lang = 'en-US';
+                    recognition.interimResults = false;
+                    recognition.maxAlternatives = 3;
+                    recognition.onresult = (event) => {
+                        const spoken = Array.from(event.results[0]).map(r => r.transcript.toLowerCase().trim());
+                        const correct = spoken.some(s => s.includes(exercise.correctAnswer.toLowerCase()) || exercise.correctAnswer.toLowerCase().includes(s));
+                        setListening(false);
+                        setResult(correct ? 'correct' : 'wrong');
+                        setTimeout(() => {
+                            onAnswer(correct, exercise.wordData);
+                            setResult(null);
+                        }, 1200);
+                    };
+                    recognition.onerror = () => {
+                        setListening(false);
+                        // On error, pass through
+                        handleSelect(exercise.correctAnswer, true);
+                    };
+                    recognition.onend = () => setListening(false);
+                    recognition.start();
+                };
+
+                return (
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: 18, fontWeight: 600, color: '#1F2937', marginBottom: 8 }}>{t('sayTheWord')}</div>
+                        <div style={{ fontSize: 64, marginBottom: 8 }}>{exercise.emoji}</div>
+                        <div style={{ fontSize: 28, fontWeight: 700, color: '#7C3AED', marginBottom: 24 }}>{exercise.question}</div>
+                        <button onClick={() => teacherSpeak(exercise.question, 'en-US')} style={{ background: '#EDE9FE', border: 'none', borderRadius: 12, padding: '8px 20px', cursor: 'pointer', marginBottom: 16, fontSize: 16 }}>🔊</button>
+                        <br />
+                        <button onClick={startListening} disabled={listening || result !== null}
+                            style={{
+                                width: 80, height: 80, borderRadius: '50%', border: 'none', fontSize: 32,
+                                background: listening ? 'linear-gradient(135deg, #EF4444, #F97316)' : result === 'correct' ? '#10B981' : result === 'wrong' ? '#EF4444' : 'linear-gradient(135deg, #8B5CF6, #7C3AED)',
+                                color: 'white', cursor: listening ? 'default' : 'pointer', transition: 'all 0.3s',
+                                boxShadow: '0 4px 20px rgba(124,58,237,0.3)',
+                                animation: listening ? 'teacher-pulse 1s ease infinite' : 'none'
+                            }}>
+                            {listening ? '👂' : result === 'correct' ? '✅' : result === 'wrong' ? '❌' : '🎤'}
+                        </button>
+                        <div style={{ marginTop: 12, fontSize: 14, color: '#6B7280' }}>
+                            {listening ? t('listening') : result ? '' : t('tapToSpeak')}
+                        </div>
+                    </div>
+                );
+            }
+
+            // Default fallback
+            return <div style={{ textAlign: 'center', color: '#6B7280' }}>Exercise type: {exercise.type}</div>;
+        }
+
+        // KidsTeacherPage - Main Virtual Teacher Page
+        function KidsTeacherPage({ onBack, childUser }) {
+            const { t, language } = useLanguage();
+            const isRTL = language === 'he' || language === 'ar';
+            const [phase, setPhase] = React.useState('topic-select'); // topic-select, loading, intro, exercise, complete
+            const [selectedTopic, setSelectedTopic] = React.useState(null);
+            const [exercises, setExercises] = React.useState([]);
+            const [currentExIndex, setCurrentExIndex] = React.useState(0);
+            const [correctWords, setCorrectWords] = React.useState([]);
+            const [wrongWords, setWrongWords] = React.useState([]);
+            const [streak, setStreak] = React.useState(0);
+            const [teacherState, setTeacherState] = React.useState('idle');
+            const [speechText, setSpeechText] = React.useState('');
+            const [confettiPieces, setConfettiPieces] = React.useState([]);
+            const [showSpeech, setShowSpeech] = React.useState(true);
+
+            // Greeting on mount
+            useEffect(() => {
+                setSpeechText(t('teacherGreeting'));
+                setShowSpeech(true);
+                teacherSpeak(language === 'he' ? 'שלום! בואו נלמד ביחד!' : 'Hello! Let\'s learn together!', language === 'he' ? 'he-IL' : 'en-US');
+            }, []);
+
+            const handleTopicSelect = async (topic) => {
+                setSelectedTopic(topic);
+                setPhase('loading');
+                setTeacherState('thinking');
+                setSpeechText(t('preparingLesson'));
+
+                // Try API first, fallback to local
+                let fetchedExercises = null;
+                try {
+                    const resp = await fetch(`${API_BASE}/api/generate-kids-lesson`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ topicId: topic.id, mode: 'new', words: TEACHER_VOCABULARY[topic.id] })
+                    });
+                    const data = await resp.json();
+                    if (data.success && data.exercises?.length >= 4) {
+                        fetchedExercises = data.exercises;
+                    }
+                } catch (e) { /* ignore, use fallback */ }
+
+                if (!fetchedExercises) {
+                    fetchedExercises = generateLocalExercises(topic.id);
+                }
+
+                setExercises(fetchedExercises);
+                setPhase('intro');
+                setTeacherState('talking');
+                const topicName = isRTL ? topic.titleHe : topic.titleEn;
+                setSpeechText(`${t('todayWeLearn')} ${topicName}! ${t('ready')}`);
+                teacherSpeak(`Today we will learn about ${topic.titleEn}! Ready?`, 'en-US');
+            };
+
+            const startExercises = () => {
+                setPhase('exercise');
+                setCurrentExIndex(0);
+                setCorrectWords([]);
+                setWrongWords([]);
+                setStreak(0);
+                setTeacherState('idle');
+                setSpeechText('');
+                setShowSpeech(false);
+            };
+
+            const handleAnswer = (isCorrect, wordData) => {
+                if (isCorrect) {
+                    setCorrectWords(prev => [...prev, wordData]);
+                    const newStreak = streak + 1;
+                    setStreak(newStreak);
+                    setTeacherState('happy');
+                    teacherPlaySound('correct');
+                    if (newStreak >= 5) {
+                        setSpeechText(t('youAreAStar'));
+                        setShowSpeech(true);
+                    } else if (newStreak >= 3) {
+                        setSpeechText(t('threeInRow'));
+                        setShowSpeech(true);
+                    } else {
+                        setSpeechText(t('correct'));
+                        setShowSpeech(true);
+                    }
+                } else {
+                    setWrongWords(prev => [...prev, wordData]);
+                    setStreak(0);
+                    setTeacherState('encouraging');
+                    teacherPlaySound('wrong');
+                    setSpeechText(t('itsOkay'));
+                    setShowSpeech(true);
+                }
+
+                setTimeout(() => {
+                    const nextIdx = currentExIndex + 1;
+                    if (nextIdx >= exercises.length) {
+                        // Lesson complete
+                        setPhase('complete');
+                        setTeacherState('celebrating');
+                        teacherPlaySound('complete');
+                        const score = correctWords.length + (isCorrect ? 1 : 0);
+                        if (score === exercises.length) {
+                            setSpeechText(t('perfectScore'));
+                        } else {
+                            setSpeechText(t('lessonComplete'));
+                        }
+                        setShowSpeech(true);
+                        // Generate confetti
+                        const pieces = [];
+                        const colors = ['#FF6B6B', '#FFE66D', '#4ECDC4', '#A78BFA', '#F472B6', '#60A5FA', '#34D399'];
+                        for (let i = 0; i < 40; i++) {
+                            pieces.push({
+                                id: i, color: colors[i % colors.length],
+                                left: Math.random() * 100, delay: Math.random() * 0.5,
+                                rotation: Math.random() * 360, size: 6 + Math.random() * 6
+                            });
+                        }
+                        setConfettiPieces(pieces);
+                    } else {
+                        setCurrentExIndex(nextIdx);
+                        setTeacherState('idle');
+                        setShowSpeech(false);
+                        if (nextIdx === exercises.length - 1) {
+                            setTimeout(() => {
+                                setSpeechText(t('lastExercise'));
+                                setShowSpeech(true);
+                            }, 300);
+                        }
+                    }
+                }, 1300);
+            };
+
+            const totalCorrect = correctWords.length;
+            const starCount = Math.min(4, Math.floor((totalCorrect / Math.max(exercises.length, 1)) * 4) + (totalCorrect === exercises.length ? 0 : 0));
+
+            // RENDER: Topic Select
+            if (phase === 'topic-select') {
+                return (
+                    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #EDE9FE 0%, #FCE7F3 50%, #DBEAFE 100%)', padding: 16 }}>
+                        {/* Header */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16, direction: isRTL ? 'rtl' : 'ltr' }}>
+                            <button onClick={onBack} style={{ background: 'white', border: 'none', borderRadius: 12, width: 40, height: 40, fontSize: 20, cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                {isRTL ? '→' : '←'}
+                            </button>
+                            <h1 style={{ fontSize: 22, fontWeight: 700, color: '#1F2937', margin: 0 }}>{t('teacherTime')}</h1>
+                        </div>
+                        {/* Teacher + Speech */}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
+                            <TeacherCharacter state={teacherState} size="normal" />
+                            <SpeechBubble text={speechText} direction={isRTL ? 'rtl' : 'ltr'} visible={showSpeech} />
+                        </div>
+                        {/* Topic Grid */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 }}>
+                            {TEACHER_TOPICS.map(topic => (
+                                <button key={topic.id} onClick={() => handleTopicSelect(topic)}
+                                    style={{
+                                        background: topic.gradient, border: 'none', borderRadius: 16, padding: 16,
+                                        cursor: 'pointer', transition: 'transform 0.2s', boxShadow: '0 4px 15px rgba(0,0,0,0.12)',
+                                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6
+                                    }}
+                                    onMouseDown={e => e.currentTarget.style.transform = 'scale(0.95)'}
+                                    onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'}
+                                    onTouchStart={e => e.currentTarget.style.transform = 'scale(0.95)'}
+                                    onTouchEnd={e => e.currentTarget.style.transform = 'scale(1)'}>
+                                    <div style={{ fontSize: 36 }}>{topic.emoji}</div>
+                                    <div style={{ fontSize: 14, fontWeight: 700, color: 'white', textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                                        {isRTL ? topic.titleHe : topic.titleEn}
+                                    </div>
+                                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>
+                                        Level {topic.level}
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                );
+            }
+
+            // RENDER: Loading
+            if (phase === 'loading') {
+                return (
+                    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #EDE9FE, #FCE7F3)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                        <TeacherCharacter state="thinking" size="normal" />
+                        <SpeechBubble text={speechText} direction={isRTL ? 'rtl' : 'ltr'} />
+                        <div style={{ marginTop: 20, width: 120, height: 4, background: '#E5E7EB', borderRadius: 4, overflow: 'hidden' }}>
+                            <div style={{ width: '60%', height: '100%', background: 'linear-gradient(90deg, #8B5CF6, #A78BFA)', borderRadius: 4, animation: 'teacher-loading-bar 1.5s ease infinite' }} />
+                        </div>
+                    </div>
+                );
+            }
+
+            // RENDER: Intro
+            if (phase === 'intro') {
+                return (
+                    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #EDE9FE, #FCE7F3)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+                        <TeacherCharacter state="talking" size="normal" />
+                        <SpeechBubble text={speechText} direction={isRTL ? 'rtl' : 'ltr'} />
+                        <div style={{ marginTop: 30, background: selectedTopic.gradient, borderRadius: 24, padding: '24px 40px', textAlign: 'center', animation: 'teacher-bubble-in 0.5s ease', boxShadow: '0 8px 30px rgba(0,0,0,0.15)' }}>
+                            <div style={{ fontSize: 56 }}>{selectedTopic.emoji}</div>
+                            <div style={{ fontSize: 22, fontWeight: 700, color: 'white', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+                                {isRTL ? selectedTopic.titleHe : selectedTopic.titleEn}
+                            </div>
+                        </div>
+                        <button onClick={startExercises}
+                            style={{
+                                marginTop: 30, background: 'linear-gradient(135deg, #8B5CF6, #7C3AED)', color: 'white',
+                                border: 'none', borderRadius: 16, padding: '14px 40px', fontSize: 18, fontWeight: 700,
+                                cursor: 'pointer', boxShadow: '0 4px 20px rgba(124,58,237,0.4)', transition: 'transform 0.2s'
+                            }}>
+                            {t('letsStart')}
+                        </button>
+                    </div>
+                );
+            }
+
+            // RENDER: Exercise
+            if (phase === 'exercise') {
+                const currentExercise = exercises[currentExIndex];
+                if (!currentExercise) return null;
+                const progress = ((currentExIndex) / exercises.length) * 100;
+
+                return (
+                    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #F5F3FF, #FCE7F3, #EFF6FF)', padding: 16 }}>
+                        {/* Top bar */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, direction: isRTL ? 'rtl' : 'ltr' }}>
+                            <button onClick={() => { window.speechSynthesis?.cancel(); onBack(); }} style={{ background: 'white', border: 'none', borderRadius: 10, width: 36, height: 36, fontSize: 18, cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.08)' }}>✕</button>
+                            {/* Progress bar */}
+                            <div style={{ flex: 1, height: 10, background: '#E5E7EB', borderRadius: 8, overflow: 'hidden' }}>
+                                <div style={{ width: `${progress}%`, height: '100%', background: 'linear-gradient(90deg, #8B5CF6, #EC4899)', borderRadius: 8, transition: 'width 0.5s ease' }} />
+                            </div>
+                            <span style={{ fontSize: 13, fontWeight: 600, color: '#6B7280' }}>{currentExIndex + 1}/{exercises.length}</span>
+                            {streak >= 3 && <span style={{ fontSize: 18, animation: 'teacher-jelly 0.5s ease' }}>🔥{streak}</span>}
+                        </div>
+                        {/* Teacher small */}
+                        <div style={{ display: 'flex', justifyContent: isRTL ? 'flex-start' : 'flex-end', alignItems: 'flex-start', gap: 8, marginBottom: 8 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <TeacherCharacter state={teacherState} size="small" />
+                                {showSpeech && speechText && <div style={{ background: 'white', borderRadius: 10, padding: '4px 10px', fontSize: 12, fontWeight: 600, color: '#7C3AED', boxShadow: '0 2px 6px rgba(0,0,0,0.08)', maxWidth: 140, textAlign: 'center', marginTop: -4 }}>{speechText}</div>}
+                            </div>
+                        </div>
+                        {/* Exercise */}
+                        <div style={{ background: 'white', borderRadius: 24, padding: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.06)', marginTop: 8 }}>
+                            <ExerciseRenderer key={currentExIndex} exercise={currentExercise} onAnswer={handleAnswer} t={t} language={language} />
+                        </div>
+                    </div>
+                );
+            }
+
+            // RENDER: Complete
+            if (phase === 'complete') {
+                const totalAnswered = correctWords.length + wrongWords.length;
+                const stars = Math.min(4, Math.ceil((correctWords.length / Math.max(totalAnswered, 1)) * 4));
+
+                return (
+                    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #EDE9FE, #FCE7F3, #DBEAFE)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 20, position: 'relative', overflow: 'hidden' }}>
+                        {/* Confetti */}
+                        {confettiPieces.map(p => (
+                            <div key={p.id} style={{
+                                position: 'absolute', top: -20, left: `${p.left}%`, width: p.size, height: p.size,
+                                background: p.color, borderRadius: p.size > 8 ? '50%' : 2,
+                                animation: `teacher-confetti-fall 2s ease ${p.delay}s forwards`,
+                                transform: `rotate(${p.rotation}deg)`
+                            }} />
+                        ))}
+                        <TeacherCharacter state="celebrating" size="normal" />
+                        <SpeechBubble text={speechText} direction={isRTL ? 'rtl' : 'ltr'} />
+                        {/* Stars */}
+                        <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
+                            {[1, 2, 3, 4].map(i => (
+                                <span key={i} style={{ fontSize: 36, filter: i <= stars ? 'none' : 'grayscale(1) opacity(0.3)', animation: i <= stars ? `teacher-star-pop 0.3s ease ${i * 0.15}s both` : 'none' }}>⭐</span>
+                            ))}
+                        </div>
+                        <div style={{ fontSize: 16, fontWeight: 600, color: '#6B7280', marginTop: 8 }}>
+                            {correctWords.length}/{totalAnswered} {t('correct')}
+                        </div>
+                        {/* Words summary */}
+                        <div style={{ background: 'white', borderRadius: 20, padding: 16, marginTop: 16, width: '100%', maxWidth: 320, boxShadow: '0 4px 15px rgba(0,0,0,0.08)' }}>
+                            <div style={{ fontSize: 15, fontWeight: 700, color: '#1F2937', marginBottom: 10, direction: isRTL ? 'rtl' : 'ltr' }}>{t('wordsLearned')}</div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                                {[...correctWords, ...wrongWords].map((w, i) => {
+                                    const isCorrectWord = correctWords.includes(w);
+                                    return (
+                                        <div key={i} style={{
+                                            background: isCorrectWord ? '#D1FAE5' : '#FEE2E2', borderRadius: 10,
+                                            padding: '4px 10px', fontSize: 13, fontWeight: 600,
+                                            color: isCorrectWord ? '#065F46' : '#991B1B', display: 'flex', alignItems: 'center', gap: 4
+                                        }}>
+                                            {w.emoji} {w.word} {isCorrectWord ? '✅' : '❌'}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                        {/* Action buttons */}
+                        <div style={{ display: 'flex', gap: 12, marginTop: 20, direction: isRTL ? 'rtl' : 'ltr' }}>
+                            <button onClick={() => { setPhase('topic-select'); setTeacherState('idle'); setSpeechText(t('teacherGreeting')); setShowSpeech(true); setConfettiPieces([]); }}
+                                style={{ background: 'linear-gradient(135deg, #8B5CF6, #7C3AED)', color: 'white', border: 'none', borderRadius: 14, padding: '12px 24px', fontSize: 15, fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 15px rgba(124,58,237,0.3)' }}>
+                                {t('anotherLesson')}
+                            </button>
+                            <button onClick={() => { window.speechSynthesis?.cancel(); onBack(); }}
+                                style={{ background: 'white', color: '#6B7280', border: '2px solid #E5E7EB', borderRadius: 14, padding: '12px 24px', fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
+                                {t('backToHome')}
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            return null;
+        }
+
+        // ==========================================
+        // END KIDS VIRTUAL TEACHER
+        // ==========================================
+
         // Main App Content (inside FamilyProvider)
         function AppContent() {
             const { t } = useLanguage();
@@ -23903,6 +24933,7 @@ END:VCALENDAR`;
             const [currentList, setCurrentList] = useState(null);
             const [loading, setLoading] = useState(true);
             const [darkMode, setDarkMode] = useState(false);
+            const [showTeacher, setShowTeacher] = useState(false);
 
             useEffect(() => {
                 const savedDark = localStorage.getItem('darkMode') === 'true';
@@ -24021,6 +25052,11 @@ END:VCALENDAR`;
                 logActivity: async () => {} // Children don't log activity
             };
 
+            // Show teacher page full-screen
+            if (showTeacher) {
+                return <KidsTeacherPage onBack={() => { setShowTeacher(false); window.speechSynthesis?.cancel(); }} childUser={childUser} />;
+            }
+
             return (
                 <FamilyContext.Provider value={childFamilyContext}>
                     <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
@@ -24030,12 +25066,22 @@ END:VCALENDAR`;
                                 <span>👦</span>
                                 <span>{t('welcomeChild').replace('{name}', childUser.displayName)}</span>
                             </span>
-                            <button
-                                onClick={logoutChild}
-                                className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg text-xs transition-colors"
-                            >
-                                {t('logoutChild')}
-                            </button>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => setShowTeacher(true)}
+                                    className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg text-xs transition-colors"
+                                    style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+                                >
+                                    <span>👩‍🏫</span>
+                                    <span>{t('teacherTime')}</span>
+                                </button>
+                                <button
+                                    onClick={logoutChild}
+                                    className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg text-xs transition-colors"
+                                >
+                                    {t('logoutChild')}
+                                </button>
+                            </div>
                         </div>
                         {family && currentList ? (
                             <ShoppingList />
