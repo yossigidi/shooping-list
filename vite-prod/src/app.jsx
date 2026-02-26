@@ -24191,24 +24191,14 @@ END:VCALENDAR`;
         }
 
         // Helper: TTS speak using Web Speech API
-        function teacherSpeak(text, lang = 'en-US', onDone) {
-            if (!window.speechSynthesis) { if (onDone) onDone(); return; }
+        function teacherSpeak(text, lang = 'en-US') {
+            if (!window.speechSynthesis) return;
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = lang;
-            utterance.rate = 1.0;
+            utterance.rate = 0.85;
             utterance.pitch = 1.1;
-            if (onDone) utterance.onend = onDone;
-            try { window.speechSynthesis.speak(utterance); } catch(e) { if (onDone) onDone(); }
-        }
-
-        // Helper: speak English word then Hebrew translation with short gap
-        function teacherSpeakWordAndTranslation(word, translation) {
-            teacherSpeak(word, 'en-US', () => {
-                setTimeout(() => {
-                    teacherSpeak(translation, 'he-IL');
-                }, 400);
-            });
+            try { window.speechSynthesis.speak(utterance); } catch(e) { /* ignore */ }
         }
 
         // Helper: play sound effect
@@ -24410,7 +24400,7 @@ END:VCALENDAR`;
                     onAnswer(isCorrect, exercise.wordData);
                     setSelected(null);
                     setShowResult(false);
-                }, 800);
+                }, 1200);
             };
 
             if (exercise.type === 'emoji-pick') {
@@ -24722,7 +24712,7 @@ END:VCALENDAR`;
                             }, 300);
                         }
                     }
-                }, 900);
+                }, 1300);
             };
 
             const totalCorrect = correctWords.length;
@@ -24875,13 +24865,13 @@ END:VCALENDAR`;
                                 {[...correctWords, ...wrongWords].map((w, i) => {
                                     const isCorrectWord = correctWords.includes(w);
                                     return (
-                                        <button key={i} onClick={() => teacherSpeakWordAndTranslation(w.word, w.translation)} style={{
+                                        <div key={i} style={{
                                             background: isCorrectWord ? '#D1FAE5' : '#FEE2E2', borderRadius: 10,
-                                            padding: '4px 10px', fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer',
+                                            padding: '4px 10px', fontSize: 13, fontWeight: 600,
                                             color: isCorrectWord ? '#065F46' : '#991B1B', display: 'flex', alignItems: 'center', gap: 4
                                         }}>
-                                            🔊 {w.emoji} {w.word} {isCorrectWord ? '✅' : '❌'}
-                                        </button>
+                                            {w.emoji} {w.word} {isCorrectWord ? '✅' : '❌'}
+                                        </div>
                                     );
                                 })}
                             </div>
@@ -25092,23 +25082,6 @@ END:VCALENDAR`;
                                     {t('logoutChild')}
                                 </button>
                             </div>
-                        </div>
-                        {/* Teacher card - prominent entry point */}
-                        <div style={{ padding: '12px 16px 0' }}>
-                            <button onClick={() => setShowTeacher(true)} style={{
-                                width: '100%', display: 'flex', alignItems: 'center', gap: 14,
-                                background: 'linear-gradient(135deg, #8B5CF6, #7C3AED, #6D28D9)',
-                                border: 'none', borderRadius: 18, padding: '14px 18px', cursor: 'pointer',
-                                boxShadow: '0 4px 20px rgba(124,58,237,0.35)', transition: 'transform 0.2s',
-                                direction: language === 'he' || language === 'ar' ? 'rtl' : 'ltr'
-                            }}>
-                                <span style={{ fontSize: 40 }}>👩‍🏫</span>
-                                <div style={{ textAlign: language === 'he' || language === 'ar' ? 'right' : 'left' }}>
-                                    <div style={{ fontSize: 17, fontWeight: 700, color: 'white' }}>{t('teacherTime')}</div>
-                                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>{t('teacherTimeDesc')}</div>
-                                </div>
-                                <span style={{ marginInlineStart: 'auto', fontSize: 22, color: 'rgba(255,255,255,0.7)' }}>{language === 'he' || language === 'ar' ? '←' : '→'}</span>
-                            </button>
                         </div>
                         {family && currentList ? (
                             <ShoppingList />
