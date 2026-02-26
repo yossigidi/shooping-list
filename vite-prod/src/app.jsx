@@ -21574,24 +21574,24 @@ END:VCALENDAR`;
 
                             {/* Feature Buttons Row (simplified for temp groups) */}
                             {!isTempGroup ? (
-                            <div className="flex gap-2 mt-2 overflow-x-auto pb-1" style={{scrollbarWidth:'none'}}>
-                                <button onClick={() => setShowMealPlanner(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
+                            <div className="flex flex-wrap gap-2 mt-2">
+                                <button onClick={() => setShowMealPlanner(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
                                     <span>🍽️</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('mealPlan')}</span>
                                 </button>
-                                <button onClick={() => setShowPantry(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-green-200/60 dark:border-green-700/60 hover:shadow-md transition-all">
+                                <button onClick={() => setShowPantry(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-green-200/60 dark:border-green-700/60 hover:shadow-md transition-all">
                                     <span>🏪</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('pantry')}</span>
                                     {pantryExpiringItems.length > 0 && <span className="bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">{pantryExpiringItems.length}</span>}
                                 </button>
-                                <button onClick={() => setShowBudgetModal(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-yellow-200/60 dark:border-yellow-700/60 hover:shadow-md transition-all">
+                                <button onClick={() => setShowBudgetModal(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-yellow-200/60 dark:border-yellow-700/60 hover:shadow-md transition-all">
                                     <span>💰</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('weeklyBudget')}</span>
                                 </button>
-                                <button onClick={() => setShowAIChat(true)} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-purple-200/60 dark:border-purple-700/60 hover:shadow-md transition-all">
+                                <button onClick={() => setShowAIChat(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-purple-200/60 dark:border-purple-700/60 hover:shadow-md transition-all">
                                     <span>🤖</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('aiAssistant')}</span>
                                 </button>
-                                <button onClick={() => { setAisleOrderEnabled(prev => { const val = !prev; localStorage.setItem('aisleOrderEnabled', val.toString()); showToast(val ? t('aisleOrderEnabled') : t('aisleOrderDisabled'), 'success'); return val; }); }} className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border transition-all ${aisleOrderEnabled ? 'border-teal-400 dark:border-teal-500 bg-teal-50 dark:bg-teal-900/30' : 'border-gray-200/60 dark:border-gray-700/60'}`}>
+                                <button onClick={() => { setAisleOrderEnabled(prev => { const val = !prev; localStorage.setItem('aisleOrderEnabled', val.toString()); showToast(val ? t('aisleOrderEnabled') : t('aisleOrderDisabled'), 'success'); return val; }); }} className={`flex items-center gap-1.5 px-3 py-2 rounded-xl glass border transition-all ${aisleOrderEnabled ? 'border-teal-400 dark:border-teal-500 bg-teal-50 dark:bg-teal-900/30' : 'border-gray-200/60 dark:border-gray-700/60'}`}>
                                     <span>🛒</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('aisleOrder')}</span>
                                 </button>
-                                <button onClick={shareListViaLink} className="flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-blue-200/60 dark:border-blue-700/60 hover:shadow-md transition-all">
+                                <button onClick={shareListViaLink} className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-blue-200/60 dark:border-blue-700/60 hover:shadow-md transition-all">
                                     <span>🔗</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('shareListLink')}</span>
                                 </button>
                             </div>
