@@ -9,11 +9,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
   Bell, BellOff, Pencil, MessageCircle, Clock, ArrowDownAZ,
   FolderOpen, CircleCheckBig, CircleCheck, ClipboardList,
   Clipboard, Copy, Bot, AlertTriangle, Share2, Link,
-  Star, Send, Check, ChevronLeft, ChevronDown, GripVertical
+  Star, Send, Check, ChevronLeft, ChevronDown
 } from 'lucide-react';
-import { DndContext, closestCenter, PointerSensor, TouchSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
-import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
         const { useState, useEffect, createContext, useContext } = React;
 
         // API base URL — Vercel hosts the serverless functions, so when running
@@ -1188,9 +1185,6 @@ import { CSS } from '@dnd-kit/utilities';
                 sortByName: 'מיון לפי שם',
                 sortByCategory: 'מיון לפי קטגוריה',
                 sortByPurchased: 'מיון לפי נקנה',
-                sortByCustom: 'סידור ידני',
-                reorderMode: 'מצב סידור',
-                dragToReorder: 'גרור לסידור',
                 // Chat features
                 deleteMessage: 'מחק הודעה',
                 editMessage: 'ערוך הודעה',
@@ -2482,9 +2476,6 @@ import { CSS } from '@dnd-kit/utilities';
                 sortByName: 'Sort by name',
                 sortByCategory: 'Sort by category',
                 sortByPurchased: 'Sort by purchased',
-                sortByCustom: 'Custom order',
-                reorderMode: 'Reorder mode',
-                dragToReorder: 'Drag to reorder',
                 deleteMessage: 'Delete message',
                 editMessage: 'Edit message',
                 edited: 'Edited',
@@ -3574,9 +3565,6 @@ import { CSS } from '@dnd-kit/utilities';
                 sortByName: 'Сортировка по имени',
                 sortByCategory: 'Сортировка по категории',
                 sortByPurchased: 'Сортировка по купленным',
-                sortByCustom: 'Ручной порядок',
-                reorderMode: 'Режим сортировки',
-                dragToReorder: 'Перетащите для сортировки',
                 deleteMessage: 'Удалить сообщение',
                 editMessage: 'Редактировать сообщение',
                 edited: 'Изменено',
@@ -4660,9 +4648,6 @@ import { CSS } from '@dnd-kit/utilities';
                 sortByName: 'ترتيب حسب الاسم',
                 sortByCategory: 'ترتيب حسب الفئة',
                 sortByPurchased: 'ترتيب حسب المشتراة',
-                sortByCustom: 'ترتيب يدوي',
-                reorderMode: 'وضع الترتيب',
-                dragToReorder: 'اسحب لإعادة الترتيب',
                 deleteMessage: 'حذف الرسالة',
                 editMessage: 'تعديل الرسالة',
                 edited: 'معدّل',
@@ -6897,6 +6882,18 @@ import { CSS } from '@dnd-kit/utilities';
                             {/* === MEMBERS TAB === */}
                             {activeTab === 'members' && (
                                 <div className="space-y-4">
+                                    {/* Family Code */}
+                                    <div className="glass rounded-xl p-3">
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 text-center">{t('familyCode')}</p>
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex-1 bg-indigo-100 dark:bg-indigo-900/50 px-3 py-2 rounded-lg text-center">
+                                                <span className="text-lg font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-widest">{family.code}</span>
+                                            </div>
+                                            <button onClick={copyCode} className="btn-gradient text-white px-3 py-2 rounded-lg hover:scale-105 transition-all">
+                                                {copied ? <Check size={16} /> : <Copy size={16} />}
+                                            </button>
+                                        </div>
+                                    </div>
                                     {/* Members List */}
                                     <div>
                                         <h3 className="font-bold text-gray-700 dark:text-gray-300 mb-3">{t('familyMembers')} ({family.members?.length})</h3>
@@ -13218,10 +13215,7 @@ import { CSS } from '@dnd-kit/utilities';
             const [categorySearch, setCategorySearch] = useState('');
 
             const [searchTerm, setSearchTerm] = useState('');
-            const [sortBy, setSortBy] = useState('newest'); // newest, name, category, purchased, custom
-            const [isReorderMode, setIsReorderMode] = useState(false);
-            const [activeDragId, setActiveDragId] = useState(null);
-            const [dragType, setDragType] = useState(null); // 'item' | 'category'
+            const [sortBy, setSortBy] = useState('newest'); // newest, name, category, purchased
             const [loading, setLoading] = useState(true);
             const [darkMode, setDarkMode] = useState(false);
             const [showFinishShopping, setShowFinishShopping] = useState(false);
@@ -13690,8 +13684,6 @@ import { CSS } from '@dnd-kit/utilities';
             useEffect(() => {
                 const handleEscapeKey = (event) => {
                     if (event.key === 'Escape') {
-                        // Exit reorder mode first
-                        if (isReorderMode) { setIsReorderMode(false); setSortBy('newest'); return; }
                         // Close modals in order of priority (most recently opened first)
                         if (showExternalLinkPopup) { cancelExternalLink(); return; }
                         if (showFeedback) { setShowFeedback(false); return; }
@@ -13733,7 +13725,7 @@ import { CSS } from '@dnd-kit/utilities';
 
                 document.addEventListener('keydown', handleEscapeKey);
                 return () => document.removeEventListener('keydown', handleEscapeKey);
-            }, [isReorderMode, showExternalLinkPopup, showFeedback, showHelp, showOnboarding, showAIAssistant, showSaveTemplate, showTemplates,
+            }, [showExternalLinkPopup, showFeedback, showHelp, showOnboarding, showAIAssistant, showSaveTemplate, showTemplates,
                 showAccessibility, showPromotions, selectedPromoChain, showSmartAdd, showListComparison, showPriceScanner,
                 showCalendar, showRegulars, showForgottenStats, showCamera, showSettings, showChat,
                 showReminderModal, showCreateList, showCreateGroup, showGroupBudgetModal, showGroupSettings, showContextSwitcher,
@@ -14289,16 +14281,6 @@ import { CSS } from '@dnd-kit/utilities';
                         break;
                     case 'purchased':
                         sorted.sort((a, b) => (a.purchased ? 1 : 0) - (b.purchased ? 1 : 0));
-                        break;
-                    case 'custom':
-                        sorted.sort((a, b) => {
-                            const orderA = a.order ?? 0;
-                            const orderB = b.order ?? 0;
-                            if (orderA !== orderB) return orderA - orderB;
-                            const dateA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt instanceof Date ? a.createdAt.getTime() : 0);
-                            const dateB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt instanceof Date ? b.createdAt.getTime() : 0);
-                            return dateB - dateA;
-                        });
                         break;
                     case 'newest':
                     default:
@@ -15522,16 +15504,6 @@ import { CSS } from '@dnd-kit/utilities';
 
             const getAisleSortedCategories = (groupedObj) => {
                 const entries = Object.entries(groupedObj);
-                // Custom category order from list document
-                if (sortBy === 'custom' && currentList?.categoryOrder?.length > 0) {
-                    const orderMap = {};
-                    currentList.categoryOrder.forEach((cat, idx) => { orderMap[cat] = idx; });
-                    return entries.sort((a, b) => {
-                        const orderA = orderMap[a[0]] ?? 999;
-                        const orderB = orderMap[b[0]] ?? 999;
-                        return orderA - orderB;
-                    });
-                }
                 if (!aisleOrderEnabled || Object.keys(learnedAisleOrder).length === 0) return entries;
                 return entries.sort((a, b) => {
                     const orderA = learnedAisleOrder[a[0]] ?? 999;
@@ -18657,122 +18629,6 @@ END:VCALENDAR`;
                 acc[cat].push(item);
                 return acc;
             }, {}), [filteredItems]);
-
-            // === DRAG & DROP ===
-            const dndSensors = useSensors(
-                useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } }),
-                useSensor(PointerSensor, { activationConstraint: { delay: 150, tolerance: 5 } })
-            );
-
-            const handleItemDragEnd = React.useCallback(async (event, category, categoryItems) => {
-                const { active, over } = event;
-                setActiveDragId(null);
-                setDragType(null);
-                if (!over || active.id === over.id) return;
-                const oldIndex = categoryItems.findIndex(i => i.id === active.id);
-                const newIndex = categoryItems.findIndex(i => i.id === over.id);
-                if (oldIndex === -1 || newIndex === -1) return;
-                const reordered = arrayMove(categoryItems, oldIndex, newIndex);
-                // Optimistic UI update
-                setItems(prev => {
-                    const otherItems = prev.filter(i => resolveCategory(i.category) !== category);
-                    const updated = reordered.map((item, idx) => ({ ...item, order: idx }));
-                    return [...otherItems, ...updated];
-                });
-                // Persist to Firestore
-                try {
-                    const batch = window.firestore.writeBatch(window.db);
-                    reordered.forEach((item, idx) => {
-                        if (!item._isTemp) {
-                            const ref = window.firestore.doc(window.db, 'shopping-items', item.id);
-                            batch.update(ref, { order: idx });
-                        }
-                    });
-                    await batch.commit();
-                } catch (err) {
-                    console.error('Error saving item order:', err);
-                }
-            }, [items, resolveCategory]);
-
-            const sortedCategoryKeys = React.useMemo(() => {
-                return getAisleSortedCategories(groupedItems).map(([cat]) => cat);
-            }, [groupedItems, sortBy, currentList?.categoryOrder, aisleOrderEnabled, learnedAisleOrder]);
-
-            const handleCategoryDragEnd = React.useCallback(async (event) => {
-                const { active, over } = event;
-                setActiveDragId(null);
-                setDragType(null);
-                if (!over || active.id === over.id) return;
-                const oldIndex = sortedCategoryKeys.indexOf(active.id);
-                const newIndex = sortedCategoryKeys.indexOf(over.id);
-                if (oldIndex === -1 || newIndex === -1) return;
-                const newOrder = arrayMove(sortedCategoryKeys, oldIndex, newIndex);
-                // Save to list document
-                try {
-                    if (currentList?.id) {
-                        await window.firestore.updateDoc(
-                            window.firestore.doc(window.db, 'lists', currentList.id),
-                            { categoryOrder: newOrder }
-                        );
-                    }
-                } catch (err) {
-                    console.error('Error saving category order:', err);
-                }
-            }, [sortedCategoryKeys, currentList]);
-
-            // SortableItem wrapper component
-            const SortableItemWrapper = React.memo(function SortableItemWrapper({ id, children }) {
-                const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
-                const style = {
-                    transform: CSS.Transform.toString(transform),
-                    transition,
-                    opacity: isDragging ? 0.5 : 1,
-                    position: 'relative',
-                    zIndex: isDragging ? 50 : 'auto',
-                };
-                return (
-                    <div ref={setNodeRef} style={style} {...attributes}>
-                        <div className="flex items-center gap-1">
-                            <button type="button" className="drag-handle flex-shrink-0 p-1 text-gray-400 dark:text-gray-500 cursor-grab active:cursor-grabbing" {...listeners}
-                                onTouchStart={(e) => e.stopPropagation()}>
-                                <GripVertical size={18} />
-                            </button>
-                            <div className="flex-1 min-w-0">{children}</div>
-                        </div>
-                    </div>
-                );
-            });
-
-            // SortableCategory wrapper component
-            const SortableCategoryWrapper = React.memo(function SortableCategoryWrapper({ id, children, categoryName, categoryItems: catItems, icon, image }) {
-                const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
-                const style = {
-                    transform: CSS.Transform.toString(transform),
-                    transition,
-                    opacity: isDragging ? 0.5 : 1,
-                    zIndex: isDragging ? 50 : 'auto',
-                };
-                return (
-                    <div ref={setNodeRef} style={style} {...attributes} className="category-box mb-6">
-                        <h3 className="category-box-header">
-                            <button type="button" className="drag-handle flex-shrink-0 p-0.5 text-white/70 cursor-grab active:cursor-grabbing" {...listeners}
-                                onTouchStart={(e) => e.stopPropagation()}>
-                                <GripVertical size={18} />
-                            </button>
-                            {image ? (
-                                <img src={image} alt="" className="w-9 h-9 rounded-xl object-cover ring-2 ring-white/60 shadow-sm" loading="lazy" />
-                            ) : (
-                                <span className="text-xl">{icon}</span>
-                            )}
-                            <span className="font-bold text-sm text-white">{categoryName}</span>
-                            <span className="text-xs bg-white/25 text-white px-2 py-0.5 rounded-full font-bold">{catItems.length}</span>
-                        </h3>
-                        <div className="category-box-body">
-                            {children}
-                        </div>
-                    </div>
-                );
-            });
 
             if (loading) {
                 return (
@@ -22074,13 +21930,9 @@ END:VCALENDAR`;
                                             { key: 'newest', icon: <Clock size={16} /> },
                                             { key: 'name', icon: <ArrowDownAZ size={16} /> },
                                             { key: 'category', icon: <FolderOpen size={16} /> },
-                                            { key: 'purchased', icon: <CircleCheckBig size={16} /> },
-                                            { key: 'custom', icon: <GripVertical size={16} /> }
+                                            { key: 'purchased', icon: <CircleCheckBig size={16} /> }
                                         ].map(s => (
-                                            <button key={s.key} onClick={() => {
-                                                setSortBy(s.key);
-                                                if (s.key === 'custom') { setIsReorderMode(true); } else { setIsReorderMode(false); }
-                                            }}
+                                            <button key={s.key} onClick={() => setSortBy(s.key)}
                                                 className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-all ${sortBy === s.key ? 'bg-indigo-500 text-white shadow-md scale-110' : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'}`}
                                                 title={t('sortBy' + s.key.charAt(0).toUpperCase() + s.key.slice(1))}
                                             >
@@ -22219,7 +22071,7 @@ END:VCALENDAR`;
                                     </div>
                                 )}
 
-                                {/* Category & Item rendering — with optional DnD in reorder mode */}
+                                {/* Category & Item rendering */}
                                 {(() => {
                                     const renderItemContent = (item) => (
                                                 <div className={`product-card ${animatingItems.has(item.id) ? 'success-glow' : ''} ${item.purchased ? 'purchased' : ''}`}>
@@ -22325,21 +22177,6 @@ END:VCALENDAR`;
                                     );
 
                                     const renderItems = (categoryItems, category) => {
-                                        if (isReorderMode) {
-                                            return (
-                                                <DndContext sensors={dndSensors} collisionDetection={closestCenter}
-                                                    onDragStart={({ active }) => { setActiveDragId(active.id); setDragType('item'); }}
-                                                    onDragEnd={(event) => handleItemDragEnd(event, category, categoryItems)}>
-                                                    <SortableContext items={categoryItems.map(i => i.id)} strategy={verticalListSortingStrategy}>
-                                                        {categoryItems.map(item => (
-                                                            <SortableItemWrapper key={item.id} id={item.id}>
-                                                                {renderItemContent(item)}
-                                                            </SortableItemWrapper>
-                                                        ))}
-                                                    </SortableContext>
-                                                </DndContext>
-                                            );
-                                        }
                                         return categoryItems.map(item => (
                                             <SwipeableItem key={item.id}
                                                 className={`mb-2 ${exitingItems.has(item.id) ? 'item-exit' : 'item-enter'}`}
@@ -22352,26 +22189,6 @@ END:VCALENDAR`;
                                     };
 
                                     const sortedCategories = getAisleSortedCategories(groupedItems);
-
-                                    if (isReorderMode) {
-                                        return (
-                                            <DndContext sensors={dndSensors} collisionDetection={closestCenter}
-                                                onDragStart={({ active }) => { setActiveDragId(active.id); setDragType('category'); }}
-                                                onDragEnd={(event) => handleCategoryDragEnd(event)}>
-                                                <SortableContext items={sortedCategories.map(([cat]) => cat)} strategy={verticalListSortingStrategy}>
-                                                    {sortedCategories.map(([category, categoryItems]) => (
-                                                        <SortableCategoryWrapper key={category} id={category}
-                                                            categoryName={t(CATEGORY_TO_TRANSLATION[category]) || CATEGORIES[category]?.name}
-                                                            categoryItems={categoryItems}
-                                                            icon={CATEGORIES[category]?.icon}
-                                                            image={CATEGORIES[category]?.image}>
-                                                            {renderItems(categoryItems, category)}
-                                                        </SortableCategoryWrapper>
-                                                    ))}
-                                                </SortableContext>
-                                            </DndContext>
-                                        );
-                                    }
 
                                     return sortedCategories.map(([category, categoryItems]) => (
                                         <div key={category} className="category-box mb-6">
