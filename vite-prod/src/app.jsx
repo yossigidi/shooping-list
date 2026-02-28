@@ -28,8 +28,12 @@ import { CSS } from '@dnd-kit/utilities';
             const [loading, setLoading] = useState(true);
 
             useEffect(() => {
-                // Handle redirect result from Google sign-in on mobile
-                window.firebaseAuth.getRedirectResult(window.auth).catch(() => {});
+                // Handle redirect result from Google/Apple sign-in on mobile
+                window.firebaseAuth.getRedirectResult(window.auth).then((result) => {
+                    if (result?.user) console.log('Redirect sign-in successful');
+                }).catch((err) => {
+                    console.warn('Redirect sign-in error:', err.code || err.message);
+                });
 
                 const unsubscribe = window.firebaseAuth.onAuthStateChanged(window.auth, (user) => {
                     // Ignore anonymous users - they're only used for child login Firestore access
@@ -8316,7 +8320,15 @@ import { CSS } from '@dnd-kit/utilities';
                                 setLoading(true);
                                 setError('');
                                 const provider = new window.firebaseAuth.GoogleAuthProvider();
-                                await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                                try {
+                                    await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                                } catch (popupErr) {
+                                    if (popupErr.code === 'auth/popup-blocked' || popupErr.code === 'auth/cancelled-popup-request' || popupErr.code === 'auth/operation-not-supported-in-this-environment') {
+                                        await window.firebaseAuth.signInWithRedirect(window.auth, provider);
+                                        return;
+                                    }
+                                    throw popupErr;
+                                }
                             } catch (err) {
                                 if (err.code !== 'auth/popup-closed-by-user') {
                                     setError(getErrorMessage(err, t) || err.message);
@@ -8341,7 +8353,15 @@ import { CSS } from '@dnd-kit/utilities';
                                 const provider = new window.firebaseAuth.OAuthProvider('apple.com');
                                 provider.addScope('email');
                                 provider.addScope('name');
-                                await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                                try {
+                                    await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                                } catch (popupErr) {
+                                    if (popupErr.code === 'auth/popup-blocked' || popupErr.code === 'auth/cancelled-popup-request' || popupErr.code === 'auth/operation-not-supported-in-this-environment') {
+                                        await window.firebaseAuth.signInWithRedirect(window.auth, provider);
+                                        return;
+                                    }
+                                    throw popupErr;
+                                }
                             } catch (err) {
                                 if (err.code !== 'auth/popup-closed-by-user') {
                                     setError(getErrorMessage(err, t) || err.message);
@@ -8475,7 +8495,15 @@ import { CSS } from '@dnd-kit/utilities';
                                 setLoading(true);
                                 setError('');
                                 const provider = new window.firebaseAuth.GoogleAuthProvider();
-                                await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                                try {
+                                    await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                                } catch (popupErr) {
+                                    if (popupErr.code === 'auth/popup-blocked' || popupErr.code === 'auth/cancelled-popup-request' || popupErr.code === 'auth/operation-not-supported-in-this-environment') {
+                                        await window.firebaseAuth.signInWithRedirect(window.auth, provider);
+                                        return;
+                                    }
+                                    throw popupErr;
+                                }
                             } catch (err) {
                                 if (err.code !== 'auth/popup-closed-by-user') {
                                     setError(getErrorMessage(err, t) || err.message);
@@ -8500,7 +8528,15 @@ import { CSS } from '@dnd-kit/utilities';
                                 const provider = new window.firebaseAuth.OAuthProvider('apple.com');
                                 provider.addScope('email');
                                 provider.addScope('name');
-                                await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                                try {
+                                    await window.firebaseAuth.signInWithPopup(window.auth, provider);
+                                } catch (popupErr) {
+                                    if (popupErr.code === 'auth/popup-blocked' || popupErr.code === 'auth/cancelled-popup-request' || popupErr.code === 'auth/operation-not-supported-in-this-environment') {
+                                        await window.firebaseAuth.signInWithRedirect(window.auth, provider);
+                                        return;
+                                    }
+                                    throw popupErr;
+                                }
                             } catch (err) {
                                 if (err.code !== 'auth/popup-closed-by-user') {
                                     setError(getErrorMessage(err, t) || err.message);
