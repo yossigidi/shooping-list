@@ -21470,18 +21470,11 @@ END:VCALENDAR`;
                                 <button onClick={() => setShowMealPlanner(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-orange-200/60 dark:border-orange-700/60 hover:shadow-md transition-all">
                                     <span>🍽️</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('mealPlan')}</span>
                                 </button>
-                                <button onClick={() => setShowPantry(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-green-200/60 dark:border-green-700/60 hover:shadow-md transition-all">
-                                    <span>🏪</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('pantry')}</span>
-                                    {pantryExpiringItems.length > 0 && <span className="bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">{pantryExpiringItems.length}</span>}
-                                </button>
                                 <button onClick={() => setShowBudgetModal(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-yellow-200/60 dark:border-yellow-700/60 hover:shadow-md transition-all">
                                     <span>💰</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('weeklyBudget')}</span>
                                 </button>
                                 <button onClick={() => setShowAIChat(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl glass border border-purple-200/60 dark:border-purple-700/60 hover:shadow-md transition-all">
                                     <span>🤖</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('aiAssistant')}</span>
-                                </button>
-                                <button onClick={() => { setAisleOrderEnabled(prev => { const val = !prev; localStorage.setItem('aisleOrderEnabled', val.toString()); showToast(val ? t('aisleOrderEnabled') : t('aisleOrderDisabled'), 'success'); return val; }); }} className={`flex items-center gap-1.5 px-3 py-2 rounded-xl glass border transition-all ${aisleOrderEnabled ? 'border-teal-400 dark:border-teal-500 bg-teal-50 dark:bg-teal-900/30' : 'border-gray-200/60 dark:border-gray-700/60'}`}>
-                                    <span>🛒</span><span className="text-xs font-bold text-gray-800 dark:text-gray-100">{t('aisleOrder')}</span>
                                 </button>
                             </div>
                             ) : (
@@ -21787,13 +21780,6 @@ END:VCALENDAR`;
                                             <span className="font-medium text-amber-700 dark:text-amber-300">{badge.name}</span>
                                         </div>
                                     ))}
-                                </div>
-                            )}
-
-                            {/* Aisle Order Indicator (hidden in temp groups) */}
-                            {!isTempGroup && aisleOrderEnabled && Object.keys(learnedAisleOrder).length > 0 && (
-                                <div className="mt-1.5 text-center">
-                                    <span className="text-[10px] text-teal-500 dark:text-teal-400">🛒 {t('aisleOrderDesc')} · {t('learnedFromHistory')}</span>
                                 </div>
                             )}
 
@@ -22565,77 +22551,6 @@ END:VCALENDAR`;
                                             })}
                                         </div>
                                         <p className="text-xs text-center text-teal-500 mt-2 font-medium">{t('weeklyAverage')}: ₪{Math.round(budgetHistory.reduce((s, h) => s + h.spent, 0) / budgetHistory.length)}</p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Pantry Modal */}
-                    {showPantry && (
-                        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-[9999] flex flex-col animate-fadeIn">
-                            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-                                <h2 className="text-xl font-bold dark:text-white flex items-center gap-2">🏪 {t('pantryTracker')}</h2>
-                                <button onClick={() => setShowPantry(false)} className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center"><span className="text-lg">✕</span></button>
-                            </div>
-                            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                                <div className="flex gap-2">
-                                    <input type="text" value={pantryInput} onChange={e => setPantryInput(e.target.value)} placeholder={t('addToPantry') + '...'} className="flex-1 px-3 py-2.5 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white text-sm" />
-                                    <input type="date" value={pantryExpiryInput} onChange={e => setPantryExpiryInput(e.target.value)} className="px-2 py-2.5 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white text-xs" />
-                                    <button onClick={() => { if (pantryInput.trim()) { addToPantry(pantryInput.trim(), pantryExpiryInput || null); setPantryInput(''); setPantryExpiryInput(''); } }} className="px-4 py-2.5 bg-green-500 text-white rounded-xl font-bold text-sm">+</button>
-                                </div>
-                                {/* Add purchased items to pantry */}
-                                {items.filter(i => i.purchased).length > 0 && (
-                                    <button onClick={() => { items.filter(i => i.purchased).forEach(i => { if (!pantryItems.some(p => p.name.toLowerCase() === i.name.toLowerCase())) addToPantry(i.name, null); }); }}
-                                        className="mt-2 w-full py-2 text-xs font-bold text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-700 rounded-xl hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-all">
-                                        📥 {t('addFromList')} ({items.filter(i => i.purchased).length})
-                                    </button>
-                                )}
-                            </div>
-                            <div className="flex-1 overflow-y-auto p-4">
-                                {pantryExpiringItems.length > 0 && (
-                                    <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-200 dark:border-red-700">
-                                        <p className="text-sm font-bold text-red-600 dark:text-red-400 mb-2">⚠️ {t('expiringSoon')}</p>
-                                        {pantryExpiringItems.map(item => (
-                                            <div key={item.id} className="flex items-center justify-between text-sm py-1">
-                                                <span className="dark:text-gray-200">{item.name}</span>
-                                                <span className="text-red-500 text-xs">{t('expiresIn').replace('{days}', Math.ceil((new Date(item.expiryDate).getTime() - Date.now()) / (1000*60*60*24)))}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                                {pantryItems.length === 0 ? (
-                                    <div className="text-center py-12">
-                                        <span className="text-4xl">🏪</span>
-                                        <p className="text-gray-400 mt-3">{t('pantryEmpty')}</p>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-2">
-                                        {pantryItems.map(item => {
-                                            const daysLeft = item.expiryDate ? Math.ceil((new Date(item.expiryDate).getTime() - Date.now()) / (1000*60*60*24)) : null;
-                                            const isExpired = daysLeft !== null && daysLeft <= 0;
-                                            return (
-                                                <div key={item.id} className={`flex items-center justify-between p-3 rounded-xl border ${isExpired ? 'border-red-300 bg-red-50 dark:bg-red-900/20 dark:border-red-700' : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'}`}>
-                                                    <div>
-                                                        <span className="font-medium dark:text-white text-sm">{item.name}</span>
-                                                        {daysLeft !== null && (
-                                                            <span className={`text-[10px] mr-2 ml-2 ${isExpired ? 'text-red-500 font-bold' : daysLeft <= 3 ? 'text-orange-500' : 'text-gray-400'}`}>
-                                                                {isExpired ? t('expired') : t('expiresIn').replace('{days}', daysLeft)}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                    <div className="flex items-center gap-1.5">
-                                                        <select value={item.status} onChange={e => updatePantryStatus(item.id, e.target.value)}
-                                                            className="text-[10px] px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
-                                                            <option value="inStock">{t('inStock')}</option>
-                                                            <option value="runningLow">{t('runningLow')}</option>
-                                                            <option value="outOfStock">{t('outOfStock')}</option>
-                                                        </select>
-                                                        <button onClick={() => removeFromPantry(item.id)} className="text-red-400 hover:text-red-600 text-sm">✕</button>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
                                     </div>
                                 )}
                             </div>
