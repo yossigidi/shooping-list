@@ -945,6 +945,12 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 // Shopping summary
                 itemsFoundCount: '{found}/{total} פריטים נמצאו',
                 savingsDisplay: 'חוסך ₪{amount}',
+                priceDiffMainlyFrom: 'הפרש המחיר נובע בעיקר מ:',
+                lessThSecond: 'פחות מהמקום השני',
+                savingsPercent: 'חיסכון',
+                moreExpensive: 'יותר מהזול ביותר',
+                orderFrom: 'הזמן מ-',
+                reliability: 'מוצרים נמצאו',
                 purchaseItemsSummary: '🛒 {count} פריטים • ממוצע: ₪{avg} לפריט',
                 // Achievement descriptions
                 achievementZeroForgets: '0 פעמים שכחת {item} החודש',
@@ -2258,6 +2264,12 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 scanAnalyzing: '⏳ Analyzing...',
                 itemsFoundCount: '{found}/{total} items found',
                 savingsDisplay: 'Save ₪{amount}',
+                priceDiffMainlyFrom: 'Price difference mainly from:',
+                lessThSecond: 'less than 2nd place',
+                savingsPercent: 'Savings',
+                moreExpensive: 'more than cheapest',
+                orderFrom: 'Order from ',
+                reliability: 'items found',
                 purchaseItemsSummary: '🛒 {count} items • Average: ₪{avg} per item',
                 achievementZeroForgets: '0 times you forgot {item} this month',
                 achievementStreakDesc: '{count} purchases in a row without forgetting!',
@@ -3355,6 +3367,12 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 scanAnalyzing: '⏳ Анализ...',
                 itemsFoundCount: '{found}/{total} товаров найдено',
                 savingsDisplay: 'Экономия ₪{amount}',
+                priceDiffMainlyFrom: 'Разница в цене в основном из-за:',
+                lessThSecond: 'меньше 2-го места',
+                savingsPercent: 'Экономия',
+                moreExpensive: 'дороже самого дешёвого',
+                orderFrom: 'Заказать из ',
+                reliability: 'товаров найдено',
                 purchaseItemsSummary: '🛒 {count} товаров • Среднее: ₪{avg} за товар',
                 achievementZeroForgets: '0 раз забыли {item} в этом месяце',
                 achievementStreakDesc: '{count} покупок подряд без забываний!',
@@ -4444,6 +4462,12 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 scanAnalyzing: '⏳ جاري التحليل...',
                 itemsFoundCount: '{found}/{total} منتجات تم العثور عليها',
                 savingsDisplay: 'توفير ₪{amount}',
+                priceDiffMainlyFrom: 'فرق السعر بشكل أساسي من:',
+                lessThSecond: 'أقل من المركز الثاني',
+                savingsPercent: 'توفير',
+                moreExpensive: 'أكثر من الأرخص',
+                orderFrom: 'اطلب من ',
+                reliability: 'منتجات وُجدت',
                 purchaseItemsSummary: '🛒 {count} منتجات • المتوسط: ₪{avg} لكل منتج',
                 achievementZeroForgets: '0 مرات نسيت {item} هذا الشهر',
                 achievementStreakDesc: '{count} مشتريات متتالية بدون نسيان!',
@@ -15419,6 +15443,40 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 return colors[chainName] || 'bg-gray-500';
             };
 
+            const getChainBorderColor = (chainName) => {
+                const colors = {
+                    'שופרסל': 'border-r-red-500',
+                    'רמי לוי': 'border-r-blue-500',
+                    'ויקטורי': 'border-r-teal-500',
+                    'יינות ביתן': 'border-r-purple-500',
+                    'חצי חינם': 'border-r-green-500',
+                    'קארפור': 'border-r-sky-500',
+                    'מגה': 'border-r-cyan-500',
+                    'אושר עד': 'border-r-teal-500',
+                    'טיב טעם': 'border-r-amber-500',
+                    'יוחננוף': 'border-r-indigo-500',
+                    'סופר פארם': 'border-r-pink-500',
+                    'מחסני השוק': 'border-r-amber-500'
+                };
+                return colors[chainName] || 'border-r-gray-500';
+            };
+
+            const getTopSavingsProducts = (cheapestChain, allChains) => {
+                if (!cheapestChain.items) return [];
+                return cheapestChain.items
+                    .map(item => {
+                        const otherPrices = allChains
+                            .filter(c => !c.is_cheapest)
+                            .map(c => c.items?.find(i => i.name === item.name)?.price)
+                            .filter(Boolean);
+                        const avgOther = otherPrices.length > 0 ? otherPrices.reduce((a, b) => a + b, 0) / otherPrices.length : 0;
+                        return { name: item.name, diff: (avgOther - item.price) * item.quantity };
+                    })
+                    .filter(p => p.diff > 0)
+                    .sort((a, b) => b.diff - a.diff)
+                    .slice(0, 3);
+            };
+
             const parsePromoDescription = (description) => {
                 if (!description) return { product: '', deal: '', price: '', dealType: '', original: '' };
                 const d = description.trim();
@@ -19309,8 +19367,11 @@ END:VCALENDAR`;
                                                 <div className="divide-y divide-white/5">
                                                     {sorted.map((result, idx) => {
                                                         const isCheapest = idx === 0;
+                                                        const isExpensive = idx === sorted.length - 1 && sorted.length > 1;
                                                         return (
-                                                            <div key={result.chain_id || idx} className={`px-4 py-3 flex items-center gap-3 ${isCheapest ? 'bg-green-500/10' : ''}`}>
+                                                            <div key={result.chain_id || idx} className={`px-4 py-3 flex items-center gap-3 ${
+                                                                isCheapest ? 'bg-green-500/15 border-r-4 border-r-green-400' : 'bg-white/5'
+                                                            }`}>
                                                                 {CHAIN_COLORS[result.chain_id] ? (
                                                                     <span className={`w-7 h-7 ${CHAIN_COLORS[result.chain_id].bg} rounded-lg flex items-center justify-center text-white font-bold text-xs shadow`}>
                                                                         {CHAIN_COLORS[result.chain_id].text}
@@ -19325,13 +19386,13 @@ END:VCALENDAR`;
                                                                         {result.chain_name}
                                                                     </div>
                                                                     {isCheapest && (
-                                                                        <span className="text-green-400 text-xs font-bold">{t('barcodeCheapest')}</span>
+                                                                        <span className="bg-yellow-400 text-yellow-900 text-xs px-2 py-0.5 rounded-full font-bold">🏆 {t('barcodeCheapest')}</span>
                                                                     )}
                                                                     {!isCheapest && (
-                                                                        <span className="text-gray-500 text-xs">+₪{(result.price - cheapestPrice).toFixed(2)}</span>
+                                                                        <span className="text-gray-500 text-xs">+₪{(result.price - cheapestPrice).toFixed(2)} (+{((result.price - cheapestPrice) / cheapestPrice * 100).toFixed(1)}%)</span>
                                                                     )}
                                                                 </div>
-                                                                <div className={`font-bold text-lg ${isCheapest ? 'text-green-400' : 'text-white'}`}>
+                                                                <div className={`font-bold text-lg ${isCheapest ? 'text-green-400' : isExpensive ? 'text-red-400/50' : 'text-white'}`}>
                                                                     ₪{result.price.toFixed(2)}
                                                                 </div>
                                                                 {userLocation && (
@@ -19666,19 +19727,27 @@ END:VCALENDAR`;
 
                                         {/* Chain List - Expandable */}
                                         <div className="space-y-3">
-                                            {listComparisonData.comparison?.sort((a, b) => a.total - b.total).map((chain, idx) => (
+                                            {listComparisonData.comparison?.sort((a, b) => a.total - b.total).map((chain, idx, sortedArr) => {
+                                                const isLast = idx === sortedArr.length - 1 && sortedArr.length > 1;
+                                                const secondPlace = sortedArr.length > 1 ? sortedArr[1] : null;
+                                                const cheapestChain = sortedArr[0];
+                                                return (
                                                 <div
                                                     key={idx}
-                                                    className={`rounded-xl overflow-hidden border ${
+                                                    className={`rounded-xl overflow-hidden ${
                                                         chain.is_cheapest
-                                                            ? 'border-green-500/60'
-                                                            : 'border-white/10'
+                                                            ? 'border-2 border-green-400 ring-2 ring-green-400/20'
+                                                            : isLast ? 'border border-red-500/30' : 'border border-white/10'
                                                     }`}
                                                 >
                                                     {/* Chain Name Header - Clickable */}
                                                     <button
                                                         onClick={() => setExpandedChain(expandedChain === chain.chain_id ? null : chain.chain_id)}
-                                                        className={`w-full px-4 py-2 flex items-center gap-3 ${getChainColor(chain.chain_name_he || chain.chain_name)} hover:opacity-90 transition-all`}
+                                                        className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
+                                                            chain.is_cheapest
+                                                                ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:opacity-90'
+                                                                : `bg-gray-800/80 border-r-4 ${getChainBorderColor(chain.chain_name_he || chain.chain_name)} hover:bg-gray-700/80`
+                                                        }`}
                                                     >
                                                         {chain.is_cheapest && <Trophy size={18} className="text-yellow-300" />}
                                                         {CHAIN_LOGOS[chain.chain_id] ? (
@@ -19689,29 +19758,44 @@ END:VCALENDAR`;
                                                             </span>
                                                         )}
                                                         <span className="text-white font-bold text-lg">{chain.chain_name_he || chain.chain_name}</span>
-                                                        {chain.is_cheapest && <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full">{t('cheapestBadge')}</span>}
+                                                        {chain.is_cheapest && <span className="bg-yellow-400 text-yellow-900 text-sm px-3 py-1 rounded-full font-bold animate-pulse">🏆 {t('cheapestBadge')}</span>}
                                                         <span className="mr-auto text-white/70 text-xl transition-transform duration-200" style={{ transform: expandedChain === chain.chain_id ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                                                             ▼
                                                         </span>
                                                     </button>
                                                     {/* Price Info */}
-                                                    <div className={`p-4 ${chain.is_cheapest ? 'bg-green-500/10' : 'bg-white/5'}`}>
+                                                    <div className={`p-4 ${chain.is_cheapest ? 'bg-gradient-to-br from-green-500/25 to-emerald-600/15' : 'bg-white/5'}`}>
                                                         <div className="flex items-center justify-between">
-                                                            <div className="text-gray-400 text-sm">
-                                                                {t('itemsFoundCount').replace('{found}', chain.items_found).replace('{total}', listComparisonData.items_analyzed)}
+                                                            <div>
+                                                                {(() => {
+                                                                    const foundPercent = Math.round((chain.items_found / listComparisonData.items_analyzed) * 100);
+                                                                    const reliabilityColor = foundPercent >= 90 ? 'text-green-400' : foundPercent >= 70 ? 'text-yellow-400' : 'text-red-400';
+                                                                    const reliabilityIcon = foundPercent >= 90 ? '✅' : foundPercent >= 70 ? '⚠️' : '❌';
+                                                                    return (
+                                                                        <div className={`${reliabilityColor} text-sm`}>
+                                                                            {reliabilityIcon} {chain.items_found}/{listComparisonData.items_analyzed} {t('reliability')} ({foundPercent}%)
+                                                                        </div>
+                                                                    );
+                                                                })()}
                                                             </div>
                                                             <div className="text-left">
-                                                                <div className={`font-bold text-2xl ${chain.is_cheapest ? 'text-green-400' : 'text-white'}`}>
+                                                                <div className={`font-extrabold ${chain.is_cheapest ? 'text-3xl text-green-400' : isLast ? 'text-2xl text-red-400/60' : 'text-2xl text-white'}`}>
                                                                     ₪{chain.total?.toFixed(2)}
                                                                 </div>
-                                                                {chain.savings_vs_expensive > 0 && (
+                                                                {chain.is_cheapest && secondPlace && (
                                                                     <div className="text-green-400 text-sm font-medium">
-                                                                        {t('savingsDisplay').replace('{amount}', chain.savings_vs_expensive.toFixed(2))}
+                                                                        ⬇ ₪{(secondPlace.total - chain.total).toFixed(2)} {t('lessThSecond')} • {t('savingsPercent')} {((secondPlace.total - chain.total) / secondPlace.total * 100).toFixed(1)}%
+                                                                    </div>
+                                                                )}
+                                                                {!chain.is_cheapest && cheapestChain && (
+                                                                    <div className="text-red-400/70 text-sm font-medium">
+                                                                        +₪{(chain.total - cheapestChain.total).toFixed(2)} {t('moreExpensive')}
                                                                     </div>
                                                                 )}
                                                             </div>
                                                         </div>
-                                                        {/* Action Buttons */}
+                                                        {/* Action Buttons - Only on cheapest OR when expanded */}
+                                                        {(chain.is_cheapest || expandedChain === chain.chain_id) && (
                                                         <div className="mt-3 flex gap-2">
                                                             <button
                                                                 onClick={(e) => {
@@ -19731,14 +19815,14 @@ END:VCALENDAR`;
                                                                     const chainName = chain.chain_name_he || chain.chain_name;
                                                                     openExternalLink(chainUrls[chainName] || 'https://www.google.com/search?q=' + encodeURIComponent(chainName + ' קניות אונליין'), chainName);
                                                                 }}
-                                                                className={`flex-1 py-2.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] ${
+                                                                className={`flex-1 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] ${
                                                                     chain.is_cheapest
-                                                                        ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
-                                                                        : 'bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700'
+                                                                        ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-lg py-3'
+                                                                        : 'bg-white/10 text-sm py-2.5'
                                                                 }`}
                                                             >
                                                                 <ShoppingCart size={16} />
-                                                                <span>{t('order')}</span>
+                                                                <span>{chain.is_cheapest ? `🛒 ${t('orderFrom')}${chain.chain_name_he}` : t('order')}</span>
                                                             </button>
                                                             {CHAIN_BRANCH_URLS[chain.chain_id] && (
                                                                 <button
@@ -19753,6 +19837,7 @@ END:VCALENDAR`;
                                                                 </button>
                                                             )}
                                                         </div>
+                                                        )}
                                                     </div>
 
                                                     {/* Expanded Product List */}
@@ -19780,6 +19865,24 @@ END:VCALENDAR`;
                                                                     ))}
                                                                 </div>
                                                             </div>
+                                                            {/* Top Savings Products - only on cheapest chain */}
+                                                            {chain.is_cheapest && (() => {
+                                                                const topSavings = getTopSavingsProducts(chain, sortedArr);
+                                                                return topSavings.length > 0 ? (
+                                                                    <div className="px-4 py-3 bg-green-500/5 border-t border-green-500/20">
+                                                                        <div className="text-green-300 text-xs font-medium mb-2">
+                                                                            💡 {t('priceDiffMainlyFrom')}
+                                                                        </div>
+                                                                        <div className="flex flex-wrap gap-2">
+                                                                            {topSavings.map((p, pi) => (
+                                                                                <span key={pi} className="bg-green-500/15 text-green-300 text-xs px-2 py-1 rounded-full">
+                                                                                    {p.name} (₪{p.diff.toFixed(2)}-)
+                                                                                </span>
+                                                                            ))}
+                                                                        </div>
+                                                                    </div>
+                                                                ) : null;
+                                                            })()}
                                                         </div>
                                                     )}
 
@@ -19792,7 +19895,8 @@ END:VCALENDAR`;
                                                         </div>
                                                     )}
                                                 </div>
-                                            ))}
+                                            );
+                                            })}
                                         </div>
                                     </div>
                                 ) : listComparisonData?.optimization && comparisonViewMode === 'optimal' ? (
@@ -19887,12 +19991,12 @@ END:VCALENDAR`;
 
                             {/* Footer with action buttons */}
                             {!listComparisonLoading && listComparisonData && !listComparisonData.error && (
-                                <div className="p-4 border-t border-white/10 flex gap-3">
+                                <div className="p-4 border-t border-white/10 bg-gray-900/95 backdrop-blur shadow-2xl flex gap-3">
                                     <button
                                         onClick={compareFullShoppingList}
-                                        className="flex-1 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-all"
+                                        className="py-3 px-4 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-all"
                                     >
-                                        {t('refreshLabel')}
+                                        🔄
                                     </button>
                                     <button
                                         onClick={() => {
@@ -19910,9 +20014,13 @@ END:VCALENDAR`;
                                                 openExternalLink(urls[name] || 'https://www.shufersal.co.il', name);
                                             }
                                         }}
-                                        className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold hover:opacity-90 transition-all"
+                                        className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold hover:opacity-90 transition-all flex items-center justify-center gap-2"
                                     >
-                                        {t('orderFromChain')} {listComparisonData.cheapest_chain?.chain_name_he || t('theChain')}
+                                        {listComparisonData.cheapest_chain && CHAIN_LOGOS[listComparisonData.cheapest_chain.chain_id] && (
+                                            <img src={CHAIN_LOGOS[listComparisonData.cheapest_chain.chain_id]} alt="" className="w-6 h-6 rounded object-contain bg-white" />
+                                        )}
+                                        <span>🛒 {t('orderFrom')}{listComparisonData.cheapest_chain?.chain_name_he || t('theChain')}</span>
+                                        <span className="text-green-200 text-sm">₪{listComparisonData.cheapest_chain?.total?.toFixed(2)}</span>
                                     </button>
                                 </div>
                             )}
