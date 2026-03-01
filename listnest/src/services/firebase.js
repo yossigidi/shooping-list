@@ -182,9 +182,16 @@ export const PriceComparisonAPI = {
 
   _fallbackListComparison(items) {
     const chains = [
-      { id: 1, name: 'Shufersal', color: '#dc2626', url: 'https://www.shufersal.co.il' },
-      { id: 2, name: 'Rami Levy', color: '#2563eb', url: 'https://www.rami-levy.co.il' },
-      { id: 3, name: 'Victory', color: '#ea580c', url: 'https://www.victoryonline.co.il' }
+      { id: 'shufersal', name: 'שופרסל', color: '#dc2626', url: 'https://www.shufersal.co.il' },
+      { id: 'rami_levy', name: 'רמי לוי', color: '#2563eb', url: 'https://www.rami-levy.co.il' },
+      { id: 'victory', name: 'ויקטורי', color: '#ea580c', url: 'https://www.victoryonline.co.il' },
+      { id: 'ybitan', name: 'יינות ביתן', color: '#7c3aed', url: 'https://www.ybitan.co.il' },
+      { id: 'hatzi_hinam', name: 'חצי חינם', color: '#16a34a', url: 'https://shop.hazi-hinam.co.il' },
+      { id: 'carrefour', name: 'קארפור', color: '#0066cc', url: 'https://www.carrefour.co.il' },
+      { id: 'yochananof', name: 'יוחננוף', color: '#f59e0b', url: 'https://yochananof.co.il' },
+      { id: 'tiv_taam', name: 'טיב טעם', color: '#10b981', url: 'https://www.tivtaam.co.il' },
+      { id: 'osher_ad', name: 'אושר עד', color: '#6366f1', url: 'https://osherad.co.il' },
+      { id: 'machsanei_hashuk', name: 'מחסני השוק', color: '#f97316', url: 'https://www.mahsanei-hashuk.co.il' }
     ];
     return {
       fallback: true,

@@ -14893,38 +14893,47 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             };
 
             // Chain promotion page URLs (verified February 2026)
-            // IDs: 1=shufersal, 2=rami_levy, 3=victory, 5=hatzi_hinam, 6=carrefour
             const CHAIN_PROMO_URLS = {
-                1: 'https://www.shufersal.co.il/online/he/promo/A',
-                2: 'https://www.rami-levy.co.il/he/online/feed',
-                3: 'https://victory.co.il/%D7%9E%D7%91%D7%A6%D7%A2%D7%99-%D7%94%D7%A9%D7%91%D7%95%D7%A2/',
-                5: 'https://shop.hazi-hinam.co.il/promotions/%D7%A2%D7%9C%D7%95%D7%9F-%D7%9E%D7%91%D7%A6%D7%A2%D7%99%D7%9D',
-                6: 'https://www.carrefour.co.il/specials',
-                7: 'https://yochananof.co.il/specials'
+                shufersal: 'https://www.shufersal.co.il/online/he/promo/A',
+                rami_levy: 'https://www.rami-levy.co.il/he/online/feed',
+                victory: 'https://victory.co.il/%D7%9E%D7%91%D7%A6%D7%A2%D7%99-%D7%94%D7%A9%D7%91%D7%95%D7%A2/',
+                ybitan: 'https://www.ybitan.co.il/specials',
+                hatzi_hinam: 'https://shop.hazi-hinam.co.il/promotions/%D7%A2%D7%9C%D7%95%D7%9F-%D7%9E%D7%91%D7%A6%D7%A2%D7%99%D7%9D',
+                carrefour: 'https://www.carrefour.co.il/specials',
+                yochananof: 'https://yochananof.co.il/specials',
+                tiv_taam: 'https://www.tivtaam.co.il/specials',
+                osher_ad: 'https://osherad.co.il/specials',
+                machsanei_hashuk: 'https://www.mahsanei-hashuk.co.il/specials'
             };
 
             // Chain branch finder URLs (verified February 2026)
-            // IDs: 1=shufersal, 2=rami_levy, 3=victory, 5=hatzi_hinam, 6=carrefour
             const CHAIN_BRANCH_URLS = {
-                1: 'https://www.shufersal.co.il/corp/%D7%90%D7%99%D7%AA%D7%95%D7%A8-%D7%A1%D7%A0%D7%99%D7%A4%D7%99%D7%9D',
-                2: 'https://www.rami-levy.co.il/he/stores',
-                3: 'https://victory.co.il/branches/',
-                5: 'https://shop.hazi-hinam.co.il/branches',
-                6: 'https://brand.carrefour.co.il/branches',
-                7: 'https://yochananof.co.il/branches'
+                shufersal: 'https://www.shufersal.co.il/corp/%D7%90%D7%99%D7%AA%D7%95%D7%A8-%D7%A1%D7%A0%D7%99%D7%A4%D7%99%D7%9D',
+                rami_levy: 'https://www.rami-levy.co.il/he/stores',
+                victory: 'https://victory.co.il/branches/',
+                ybitan: 'https://www.ybitan.co.il/branches',
+                hatzi_hinam: 'https://shop.hazi-hinam.co.il/branches',
+                carrefour: 'https://brand.carrefour.co.il/branches',
+                yochananof: 'https://yochananof.co.il/branches',
+                tiv_taam: 'https://www.tivtaam.co.il/branches',
+                osher_ad: 'https://osherad.co.il/branches',
+                machsanei_hashuk: 'https://www.mahsanei-hashuk.co.il/branches'
             };
 
             // Chain colors for styled badges (using colored letter badges instead of logos)
-            // IDs match database: 1=shufersal, 2=rami_levy, 3=victory, 5=hatzi_hinam, 6=carrefour
             const CHAIN_LOGOS = {}; // Empty - using colored badges instead
 
             const CHAIN_COLORS = {
-                1: { bg: 'bg-red-600', text: 'ש' },      // שופרסל - אדום
-                2: { bg: 'bg-blue-600', text: 'ר' },     // רמי לוי - כחול
-                3: { bg: 'bg-orange-600', text: 'ו' },   // ויקטורי - כתום
-                5: { bg: 'bg-green-600', text: 'ח' },    // חצי חינם - ירוק
-                6: { bg: 'bg-sky-600', text: 'ק' },      // קארפור - תכלת
-                7: { bg: 'bg-purple-600', text: 'י' }     // יוחננוף - סגול
+                shufersal: { bg: 'bg-red-600', text: 'ש' },
+                rami_levy: { bg: 'bg-blue-600', text: 'ר' },
+                victory: { bg: 'bg-orange-600', text: 'ו' },
+                ybitan: { bg: 'bg-purple-600', text: 'י' },
+                hatzi_hinam: { bg: 'bg-green-600', text: 'ח' },
+                carrefour: { bg: 'bg-sky-600', text: 'ק' },
+                yochananof: { bg: 'bg-yellow-600', text: 'י' },
+                tiv_taam: { bg: 'bg-emerald-600', text: 'ט' },
+                osher_ad: { bg: 'bg-indigo-600', text: 'א' },
+                machsanei_hashuk: { bg: 'bg-amber-600', text: 'מ' }
             };
 
             // Sample promotions data (fallback when API unavailable)
@@ -14934,8 +14943,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 total: 30,
                 byChain: [
                     {
-                        chain_id: 1, chain_name: 'Shufersal', chain_name_he: 'שופרסל',
-                        promo_url: CHAIN_PROMO_URLS[1],
+                        chain_id: 'shufersal', chain_name: 'Shufersal', chain_name_he: 'שופרסל',
+                        promo_url: CHAIN_PROMO_URLS.shufersal,
                         promotions: [
                             { description: 'חלב תנובה 3% - 2 ב-12.90₪', end_date: '2026-02-28', keywords: ['חלב תנובה'] },
                             { description: 'קורנפלקס קלוגס - 1+1 מתנה', end_date: '2026-02-20', keywords: ['קורנפלקס קלוגס'] },
@@ -14947,8 +14956,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         ]
                     },
                     {
-                        chain_id: 2, chain_name: 'Rami Levy', chain_name_he: 'רמי לוי',
-                        promo_url: CHAIN_PROMO_URLS[2],
+                        chain_id: 'rami_levy', chain_name: 'Rami Levy', chain_name_he: 'רמי לוי',
+                        promo_url: CHAIN_PROMO_URLS.rami_levy,
                         promotions: [
                             { description: 'עוף שלם טרי - 19.90₪ לק"ג', end_date: '2026-02-15', keywords: ['עוף', 'עוף שלם'] },
                             { description: 'קוקה קולה 6 פחיות - 24.90₪', end_date: '2026-02-28', keywords: ['קוקה קולה', 'קולה'] },
@@ -14960,8 +14969,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         ]
                     },
                     {
-                        chain_id: 3, chain_name: 'Yeinot Bitan', chain_name_he: 'יינות ביתן',
-                        promo_url: CHAIN_PROMO_URLS[3],
+                        chain_id: 'ybitan', chain_name: 'Yeinot Bitan', chain_name_he: 'יינות ביתן',
+                        promo_url: CHAIN_PROMO_URLS.ybitan,
                         promotions: [
                             { description: 'יין אדום יקבי כרמל - 29.90₪', end_date: '2026-02-28', keywords: ['יין', 'יין אדום'] },
                             { description: 'גבינות איטלקיות - 30% הנחה', end_date: '2026-02-20', keywords: ['מוצרלה', 'פרמזן', 'גבינה איטלקית'] },
@@ -14971,8 +14980,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         ]
                     },
                     {
-                        chain_id: 4, chain_name: 'Victory', chain_name_he: 'ויקטורי',
-                        promo_url: CHAIN_PROMO_URLS[4],
+                        chain_id: 'victory', chain_name: 'Victory', chain_name_he: 'ויקטורי',
+                        promo_url: CHAIN_PROMO_URLS.victory,
                         promotions: [
                             { description: 'מוצרי חלב שטראוס - קנה 3 שלם 2', end_date: '2026-02-22', keywords: ['שטראוס'] },
                             { description: 'שימורי טונה - 4 ב-25₪', end_date: '2026-02-28', keywords: ['טונה'] },
@@ -14982,8 +14991,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         ]
                     },
                     {
-                        chain_id: 5, chain_name: 'Hatzi Hinam', chain_name_he: 'חצי חינם',
-                        promo_url: CHAIN_PROMO_URLS[5],
+                        chain_id: 'hatzi_hinam', chain_name: 'Hatzi Hinam', chain_name_he: 'חצי חינם',
+                        promo_url: CHAIN_PROMO_URLS.hatzi_hinam,
                         promotions: [
                             { description: 'כל מוצרי הניקיון - 1+1', end_date: '2026-02-20', keywords: ['נייר טואלט', 'אקונומיקה', 'סבון'] },
                             { description: 'פירות וירקות טריים - 50% הנחה על השני', end_date: '2026-02-15', keywords: ['תפוח', 'עגבניה', 'מלפפון', 'גזר'] },
@@ -14992,8 +15001,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         ]
                     },
                     {
-                        chain_id: 6, chain_name: 'Carrefour', chain_name_he: 'קארפור',
-                        promo_url: CHAIN_PROMO_URLS[6],
+                        chain_id: 'carrefour', chain_name: 'Carrefour', chain_name_he: 'קארפור',
+                        promo_url: CHAIN_PROMO_URLS.carrefour,
                         promotions: [
                             { description: 'מוצרי חלב טרה - 25% הנחה', end_date: '2026-02-25', keywords: ['טרה'] },
                             { description: 'פסטה ברילה 500 גרם - 2 ב-15₪', end_date: '2026-02-28', keywords: ['פסטה'] },
@@ -15278,7 +15287,8 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     'אושר עד': 'bg-teal-500',
                     'טיב טעם': 'bg-amber-500',
                     'יוחננוף': 'bg-indigo-500',
-                    'סופר פארם': 'bg-pink-500'
+                    'סופר פארם': 'bg-pink-500',
+                    'מחסני השוק': 'bg-amber-500'
                 };
                 return colors[chainName] || 'bg-gray-500';
             };
@@ -19479,7 +19489,10 @@ END:VCALENDAR`;
                                                                         'יינות ביתן': 'https://www.ybitan.co.il/',
                                                                         'חצי חינם': 'https://shop.hazi-hinam.co.il/',
                                                                         'קארפור': 'https://www.carrefour.co.il/',
-                                                                        'יוחננוף': 'https://yochananof.co.il/'
+                                                                        'יוחננוף': 'https://yochananof.co.il/',
+                                                                        'טיב טעם': 'https://www.tivtaam.co.il/',
+                                                                        'אושר עד': 'https://osherad.co.il/',
+                                                                        'מחסני השוק': 'https://www.mahsanei-hashuk.co.il/'
                                                                     };
                                                                     const chainName = chain.chain_name_he || chain.chain_name;
                                                                     openExternalLink(chainUrls[chainName] || 'https://www.google.com/search?q=' + encodeURIComponent(chainName + ' קניות אונליין'), chainName);
