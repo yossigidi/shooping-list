@@ -14500,12 +14500,14 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             };
 
             // Start barcode scanner
+            let barcodeDetected = false; // Debounce flag
             const startBarcodeScanner = async () => {
                 setBarcodeScanning(true);
                 setBarcodeError(null);
                 setBarcodeResult(null);
                 setBarcodePriceResults(null);
                 setBarcodePriceLoading(false);
+                barcodeDetected = false;
 
                 // Request location in background (non-blocking)
                 if (!userLocation) {
@@ -14523,16 +14525,17 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                         await window.loadQuagga();
                     }
 
-                    // Start camera for barcode
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
-                    });
-
-                    if (barcodeVideoRef.current) {
-                        barcodeVideoRef.current.srcObject = stream;
+                    // Wait for video ref to be available
+                    if (!barcodeVideoRef.current) {
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                    if (!barcodeVideoRef.current) {
+                        setBarcodeError(t('barcodeScannerError'));
+                        setBarcodeScanning(false);
+                        return;
                     }
 
-                    // Initialize Quagga
+                    // Initialize Quagga — let it handle camera access (no manual getUserMedia)
                     Quagga.init({
                         inputStream: {
                             type: 'LiveStream',
@@ -14544,107 +14547,145 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                             }
                         },
                         decoder: {
-                            readers: ['ean_reader', 'ean_8_reader', 'upc_reader', 'upc_e_reader']
+                            readers: ['ean_reader', 'ean_8_reader', 'upc_reader', 'upc_e_reader'],
+                            multiple: false
                         },
                         locate: true,
                         locator: {
                             halfSample: true,
                             patchSize: 'medium'
-                        }
+                        },
+                        frequency: 10
                     }, (err) => {
                         if (err) {
                             console.error('Quagga init error:', err);
-                            setBarcodeError(t('barcodeScannerError'));
+                            if (err.name === 'NotAllowedError') {
+                                setBarcodeError(t('cameraAccessDenied'));
+                            } else {
+                                setBarcodeError(t('barcodeScannerError'));
+                            }
                             setBarcodeScanning(false);
                             return;
                         }
                         Quagga.start();
                     });
 
-                    // Listen for barcode detection
+                    // Listen for barcode detection (with debounce)
+                    Quagga.offDetected(); // Remove any previous listeners
                     Quagga.onDetected(async (result) => {
-                        if (result && result.codeResult && result.codeResult.code) {
-                            const barcode = result.codeResult.code;
-                            console.log('Barcode detected:', barcode);
+                        if (barcodeDetected) return; // Prevent multiple fires
+                        if (!result?.codeResult?.code) return;
 
-                            // Stop scanning
-                            Quagga.stop();
-                            setBarcodeScanning(false);
+                        const barcode = result.codeResult.code;
+                        // Validate barcode format (EAN/UPC: 8 or 12-13 digits)
+                        if (!/^\d{8,13}$/.test(barcode)) return;
 
-                            // Vibrate for feedback
-                            if (navigator.vibrate) navigator.vibrate(100);
+                        barcodeDetected = true; // Lock to prevent re-entry
+                        console.log('Barcode detected:', barcode);
 
-                            // Lookup product
-                            setBarcodeResult({ barcode, loading: true });
-                            const productInfo = await window.fetchProductByBarcode(barcode);
+                        // Stop scanning immediately
+                        try { Quagga.offDetected(); Quagga.stop(); } catch(e) {}
+                        setBarcodeScanning(false);
 
-                            if (productInfo.found && productInfo.name) {
-                                setBarcodeResult({
-                                    barcode,
-                                    loading: false,
-                                    found: true,
-                                    name: productInfo.name,
-                                    brand: productInfo.brand,
-                                    image: productInfo.image
-                                });
-                                setScannedProductName(productInfo.name);
+                        // Vibrate for feedback
+                        if (navigator.vibrate) navigator.vibrate(100);
 
-                                // Auto-fetch price comparison
-                                setBarcodePriceLoading(true);
-                                try {
-                                    const response = await fetch(`/api/compare?action=search&q=${encodeURIComponent(productInfo.name)}`);
-                                    if (response.ok) {
-                                        const priceData = await response.json();
-                                        if (priceData.found && priceData.prices?.length > 0) {
-                                            setBarcodePriceResults(priceData.prices);
+                        // Stop camera
+                        if (barcodeVideoRef.current?.srcObject) {
+                            barcodeVideoRef.current.srcObject.getTracks().forEach(track => track.stop());
+                        }
+
+                        // Lookup product
+                        setBarcodeResult({ barcode, loading: true });
+                        const productInfo = await window.fetchProductByBarcode(barcode);
+
+                        if (productInfo.found && productInfo.name) {
+                            const productName = productInfo.name.trim();
+                            setBarcodeResult({
+                                barcode,
+                                loading: false,
+                                found: true,
+                                name: productName,
+                                brand: productInfo.brand,
+                                image: productInfo.image
+                            });
+                            setScannedProductName(productName);
+
+                            // Auto-fetch price comparison
+                            setBarcodePriceLoading(true);
+                            try {
+                                // Try Hebrew name first, then brand, then generic name
+                                let searchName = productName.substring(0, 100);
+                                const response = await fetch(`/api/compare?action=search&q=${encodeURIComponent(searchName)}`);
+                                if (response.ok) {
+                                    const priceData = await response.json();
+                                    if (priceData.found && priceData.prices?.length > 0) {
+                                        setBarcodePriceResults(priceData.prices);
+                                    } else if (productInfo.brand) {
+                                        // Fallback: search by brand name
+                                        const brandResponse = await fetch(`/api/compare?action=search&q=${encodeURIComponent(productInfo.brand)}`);
+                                        if (brandResponse.ok) {
+                                            const brandData = await brandResponse.json();
+                                            if (brandData.found && brandData.prices?.length > 0) {
+                                                setBarcodePriceResults(brandData.prices);
+                                            } else {
+                                                setBarcodePriceResults([]);
+                                            }
                                         } else {
                                             setBarcodePriceResults([]);
                                         }
                                     } else {
                                         setBarcodePriceResults([]);
                                     }
-                                } catch (err) {
+                                } else {
                                     setBarcodePriceResults([]);
-                                } finally {
-                                    setBarcodePriceLoading(false);
                                 }
-                            } else {
-                                setBarcodeResult({
-                                    barcode,
-                                    loading: false,
-                                    found: false
-                                });
-                                setBarcodeError(t('productNotFoundInDB'));
+                            } catch (err) {
+                                console.warn('Price comparison error:', err);
+                                setBarcodePriceResults([]);
+                            } finally {
+                                setBarcodePriceLoading(false);
                             }
-
-                            // Stop camera
-                            if (barcodeVideoRef.current?.srcObject) {
-                                barcodeVideoRef.current.srcObject.getTracks().forEach(t => t.stop());
-                            }
+                        } else {
+                            setBarcodeResult({
+                                barcode,
+                                loading: false,
+                                found: false
+                            });
+                            setBarcodeError(t('productNotFoundInDB'));
                         }
                     });
                 } catch (err) {
                     console.error('Barcode scanner error:', err);
-                    setBarcodeError(t('cameraAccessDenied'));
+                    if (err.name === 'NotAllowedError') {
+                        setBarcodeError(t('cameraAccessDenied'));
+                    } else if (err.name === 'NotFoundError') {
+                        setBarcodeError(t('barcodeScannerError'));
+                    } else {
+                        setBarcodeError(t('cameraAccessDenied'));
+                    }
                     setBarcodeScanning(false);
                 }
             };
 
             // Stop barcode scanner
             const stopBarcodeScanner = () => {
+                barcodeDetected = true; // Prevent any pending detections
                 try {
                     if (window.Quagga) {
-                        Quagga.offDetected(); // Remove listener to prevent memory leaks
+                        Quagga.offDetected();
                         Quagga.stop();
                     }
+                } catch (e) { console.warn('Quagga stop error:', e); }
+                try {
                     if (barcodeVideoRef.current?.srcObject) {
-                        barcodeVideoRef.current.srcObject.getTracks().forEach(t => {
-                            t.enabled = false;
-                            t.stop();
+                        barcodeVideoRef.current.srcObject.getTracks().forEach(track => {
+                            track.enabled = false;
+                            track.stop();
                         });
                         barcodeVideoRef.current.srcObject = null;
                     }
-                } catch (e) {}
+                } catch (e) { console.warn('Camera stop error:', e); }
                 setBarcodeScanning(false);
                 setBarcodeResult(null);
                 setBarcodeError(null);
@@ -19252,23 +19293,31 @@ END:VCALENDAR`;
                                             </div>
                                         )}
 
-                                        {barcodePriceResults && barcodePriceResults.length > 0 && (
+                                        {barcodePriceResults && barcodePriceResults.length > 0 && (() => {
+                                            const sorted = [...barcodePriceResults].sort((a, b) => a.price - b.price);
+                                            const cheapestPrice = sorted[0].price;
+                                            const expensivePrice = sorted[sorted.length - 1].price;
+                                            const totalSavings = (expensivePrice - cheapestPrice).toFixed(2);
+                                            return (
                                             <div className="bg-white/10 border border-teal-400/30 rounded-xl overflow-hidden mb-3">
                                                 <div className="px-4 py-2 bg-teal-500/20 border-b border-teal-400/20">
                                                     <div className="text-teal-300 font-bold text-sm flex items-center gap-2">
                                                         <ShoppingCart size={14} />
-                                                        {t('comparingPrices').replace('...', '')} ({barcodePriceResults.length} {t('chains') || 'רשתות'})
+                                                        {t('comparingPrices').replace('...', '')} ({sorted.length} {t('chains') || 'רשתות'})
                                                     </div>
                                                 </div>
                                                 <div className="divide-y divide-white/5">
-                                                    {barcodePriceResults.sort((a, b) => a.price - b.price).map((result, idx) => {
+                                                    {sorted.map((result, idx) => {
                                                         const isCheapest = idx === 0;
-                                                        const savings = idx > 0 ? (result.price - barcodePriceResults.sort((a, b) => a.price - b.price)[0].price).toFixed(2) : null;
                                                         return (
-                                                            <div key={idx} className={`px-4 py-3 flex items-center gap-3 ${isCheapest ? 'bg-green-500/10' : ''}`}>
-                                                                {CHAIN_COLORS[result.chain_id] && (
+                                                            <div key={result.chain_id || idx} className={`px-4 py-3 flex items-center gap-3 ${isCheapest ? 'bg-green-500/10' : ''}`}>
+                                                                {CHAIN_COLORS[result.chain_id] ? (
                                                                     <span className={`w-7 h-7 ${CHAIN_COLORS[result.chain_id].bg} rounded-lg flex items-center justify-center text-white font-bold text-xs shadow`}>
                                                                         {CHAIN_COLORS[result.chain_id].text}
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="w-7 h-7 bg-gray-600 rounded-lg flex items-center justify-center text-white font-bold text-xs shadow">
+                                                                        {(result.chain_name || '?').charAt(0)}
                                                                     </span>
                                                                 )}
                                                                 <div className="flex-1 min-w-0">
@@ -19278,6 +19327,9 @@ END:VCALENDAR`;
                                                                     {isCheapest && (
                                                                         <span className="text-green-400 text-xs font-bold">{t('barcodeCheapest')}</span>
                                                                     )}
+                                                                    {!isCheapest && (
+                                                                        <span className="text-gray-500 text-xs">+₪{(result.price - cheapestPrice).toFixed(2)}</span>
+                                                                    )}
                                                                 </div>
                                                                 <div className={`font-bold text-lg ${isCheapest ? 'text-green-400' : 'text-white'}`}>
                                                                     ₪{result.price.toFixed(2)}
@@ -19285,8 +19337,7 @@ END:VCALENDAR`;
                                                                 {userLocation && (
                                                                     <button
                                                                         onClick={() => {
-                                                                            const chainName = result.chain_name;
-                                                                            const mapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(chainName)}/@${userLocation.lat},${userLocation.lng},14z`;
+                                                                            const mapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(result.chain_name)}/@${userLocation.lat},${userLocation.lng},14z`;
                                                                             window.open(mapsUrl, '_blank');
                                                                         }}
                                                                         className="w-8 h-8 bg-blue-500/20 hover:bg-blue-500/40 rounded-lg flex items-center justify-center transition-all"
@@ -19299,15 +19350,16 @@ END:VCALENDAR`;
                                                         );
                                                     })}
                                                 </div>
-                                                {barcodePriceResults.length > 1 && (
-                                                    <div className="px-4 py-2 bg-teal-500/10 border-t border-teal-400/20 text-center">
-                                                        <span className="text-teal-300 text-xs">
-                                                            {t('barcodeSavings')}: ₪{(barcodePriceResults.sort((a, b) => a.price - b.price).slice(-1)[0].price - barcodePriceResults.sort((a, b) => a.price - b.price)[0].price).toFixed(2)}
+                                                {sorted.length > 1 && Number(totalSavings) > 0 && (
+                                                    <div className="px-4 py-2 bg-green-500/10 border-t border-teal-400/20 text-center">
+                                                        <span className="text-green-400 text-sm font-medium">
+                                                            {t('barcodeSavings')}: ₪{totalSavings}
                                                         </span>
                                                     </div>
                                                 )}
                                             </div>
-                                        )}
+                                            );
+                                        })()}
 
                                         {barcodePriceResults && barcodePriceResults.length === 0 && (
                                             <div className="bg-yellow-500/10 border border-yellow-400/30 rounded-xl p-3 mb-3 text-center">
@@ -22504,7 +22556,7 @@ END:VCALENDAR`;
                             )}
                             {/* Barcode Scan Button */}
                             <button
-                                onClick={() => { startPriceScanner(); setScanMode('barcode'); setTimeout(() => startBarcodeScanner(), 300); }}
+                                onClick={() => { startPriceScanner(); setScanMode('barcode'); setTimeout(() => { if (barcodeVideoRef.current) startBarcodeScanner(); }, 600); }}
                                 className="w-12 h-12 rounded-xl flex items-center justify-center transition-all touch-target bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl hover:scale-105"
                                 aria-label={t('scanProductBtn')}
                                 title={t('scanProductBtn')}
