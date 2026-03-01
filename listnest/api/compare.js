@@ -859,7 +859,10 @@ function optimizeBasket(items, maxChains = 2, strategy = 'optimal') {
             shopping_plan: [{
                 chain_id: bestChain[0],
                 chain_name: CHAINS[bestChain[0]].name,
+                chain_name_he: CHAINS[bestChain[0]].name,
+                color: CHAINS[bestChain[0]].color,
                 items: itemPrices.map(i => ({ name: i.name, quantity: i.quantity, price: i.pricesByChain[bestChain[0]] })),
+                item_count: itemPrices.length,
                 subtotal: Math.round(bestChain[1] * 100) / 100
             }]
         };
@@ -881,10 +884,12 @@ function optimizeBasket(items, maxChains = 2, strategy = 'optimal') {
         totalPrice += item.cheapestPrice;
     }
 
-    const singleStorePrices = Object.keys(CHAINS).map(chainId =>
-        itemPrices.reduce((sum, item) => sum + (item.pricesByChain[chainId] || 0), 0)
-    );
-    const bestSingleStore = Math.min(...singleStorePrices);
+    const singleStoreTotals = Object.keys(CHAINS).map(chainId => ({
+        chainId,
+        total: itemPrices.reduce((sum, item) => sum + (item.pricesByChain[chainId] || 0), 0)
+    }));
+    singleStoreTotals.sort((a, b) => a.total - b.total);
+    const bestSingleStore = singleStoreTotals[0].total;
     const savings = bestSingleStore - totalPrice;
 
     return {
@@ -895,10 +900,16 @@ function optimizeBasket(items, maxChains = 2, strategy = 'optimal') {
         shopping_plan: Object.entries(shoppingPlan).map(([chainId, data]) => ({
             chain_id: chainId,
             chain_name: CHAINS[chainId].name,
+            chain_name_he: CHAINS[chainId].name,
             color: CHAINS[chainId].color,
             items: data.items,
+            item_count: data.items.length,
             subtotal: Math.round(data.subtotal * 100) / 100
-        })).sort((a, b) => b.subtotal - a.subtotal)
+        })).sort((a, b) => b.subtotal - a.subtotal),
+        single_chain_comparison: {
+            cheapest: CHAINS[singleStoreTotals[0].chainId].name,
+            total: Math.round(bestSingleStore * 100) / 100
+        }
     };
 }
 
