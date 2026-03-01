@@ -9,7 +9,7 @@ import VoiceInput from '../common/VoiceInput';
 import { CATEGORIES, PRODUCTS, CATEGORY_TO_TRANSLATION } from '../../data/categories';
 import { ISRAELI_HOLIDAYS, getUpcomingHolidays, getHolidayRecommendations } from '../../data/holidays';
 import { db, firestore, firebaseAuth, PriceComparisonAPI, loadTesseract, loadQuagga, fetchProductByBarcode } from '../../services/firebase';
-import { getEstimatedPrice, calculateItemPrice, getPriceSearchSuggestions } from '../../utils/priceUtils';
+import { getEstimatedPrice, calculateItemPrice, getPriceSearchSuggestions, comparePrices } from '../../utils/priceUtils';
 import {
   PriceComparisonModal,
   PromotionsModal,
@@ -169,6 +169,28 @@ function ShoppingList() {
 
   // Supabase product suggestions
   const [supabaseSuggestions, setSupabaseSuggestions] = useState([]);
+
+  // Barcode scanner state
+  const [barcodeScanning, setBarcodeScanning] = useState(false);
+  const [barcodeResult, setBarcodeResult] = useState(null);
+  const [scannedProductName, setScannedProductName] = useState(null);
+  const [barcodePriceResults, setBarcodePriceResults] = useState(null);
+  const [barcodePriceLoading, setBarcodePriceLoading] = useState(false);
+  const [barcodeProductLoading, setBarcodeProductLoading] = useState(false);
+  const barcodeVideoRef = useRef(null);
+  const barcodeStreamRef = useRef(null);
+  const barcodeScanIntervalRef = useRef(null);
+  const barcodeLastDetectedRef = useRef(null);
+  const barcodeIsMountedRef = useRef(true);
+  const [userLocation, setUserLocation] = useState(() => {
+    try {
+      const cached = JSON.parse(localStorage.getItem('lastUserLocation'));
+      if (cached && Date.now() - cached.timestamp < 30 * 60 * 1000) {
+        return { lat: cached.lat, lng: cached.lng };
+      }
+    } catch {}
+    return null;
+  });
 
   // ====================
   // Effects
@@ -573,6 +595,193 @@ function ShoppingList() {
 
     return 'canned'; // Default fallback
   }, []);
+
+  // ====================
+  // Barcode Scanner Operations
+  // ====================
+
+  // Track mounted for barcode async
+  useEffect(() => {
+    barcodeIsMountedRef.current = true;
+    return () => { barcodeIsMountedRef.current = false; };
+  }, []);
+
+  const stopBarcodeScanner = useCallback((clearResults = true) => {
+    if (barcodeScanIntervalRef.current) {
+      clearInterval(barcodeScanIntervalRef.current);
+      barcodeScanIntervalRef.current = null;
+    }
+    if (barcodeStreamRef.current) {
+      barcodeStreamRef.current.getTracks().forEach(track => track.stop());
+      barcodeStreamRef.current = null;
+    }
+    if (barcodeVideoRef.current) {
+      barcodeVideoRef.current.srcObject = null;
+    }
+    setBarcodeScanning(false);
+    if (clearResults) {
+      setBarcodeResult(null);
+      setScannedProductName(null);
+      setBarcodePriceResults(null);
+      setBarcodePriceLoading(false);
+      setBarcodeProductLoading(false);
+    }
+  }, []);
+
+  const handleBarcodeDetected = useCallback(async (barcode) => {
+    stopBarcodeScanner(false);
+    try { navigator.vibrate?.(100); } catch {}
+    if (!barcodeIsMountedRef.current) return;
+    setBarcodeProductLoading(true);
+
+    try {
+      const productInfo = await fetchProductByBarcode(barcode);
+      if (!barcodeIsMountedRef.current) return;
+
+      if (productInfo.found && productInfo.name) {
+        setBarcodeResult({ ...productInfo, barcode });
+        setScannedProductName(productInfo.name);
+        setBarcodeProductLoading(false);
+        // Auto-fetch prices
+        setBarcodePriceLoading(true);
+        try {
+          const prices = await comparePrices(productInfo.name);
+          if (!barcodeIsMountedRef.current) return;
+          setBarcodePriceResults(prices.sort((a, b) => a.price - b.price));
+        } catch (err) {
+          console.warn('Barcode price fetch failed:', err);
+          if (barcodeIsMountedRef.current) setBarcodePriceResults([]);
+        } finally {
+          if (barcodeIsMountedRef.current) setBarcodePriceLoading(false);
+        }
+      } else {
+        setBarcodeResult({ found: false, barcode });
+        setBarcodeProductLoading(false);
+      }
+    } catch (err) {
+      console.warn('Barcode product lookup failed:', err);
+      if (barcodeIsMountedRef.current) {
+        setBarcodeResult({ found: false, barcode });
+        setBarcodeProductLoading(false);
+      }
+    }
+  }, [stopBarcodeScanner]);
+
+  const startBarcodeScanner = useCallback(async () => {
+    setBarcodeResult(null);
+    setScannedProductName(null);
+    setBarcodePriceResults(null);
+    setBarcodePriceLoading(false);
+    setBarcodeProductLoading(false);
+    barcodeLastDetectedRef.current = null;
+
+    // Request location in parallel (non-blocking)
+    if (!userLocation && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          setUserLocation(loc);
+          try { localStorage.setItem('lastUserLocation', JSON.stringify({ ...loc, timestamp: Date.now() })); } catch {}
+        },
+        () => {},
+        { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+      );
+    }
+
+    let stream = null;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment', width: { ideal: 1280, max: 1920 }, height: { ideal: 720, max: 1080 } }
+      });
+      if (!barcodeIsMountedRef.current) { stream.getTracks().forEach(t => t.stop()); return; }
+      barcodeStreamRef.current = stream;
+
+      // Wait for video element to be rendered
+      setBarcodeScanning(true);
+      await new Promise(r => setTimeout(r, 100));
+
+      if (barcodeVideoRef.current) {
+        barcodeVideoRef.current.srcObject = stream;
+        await barcodeVideoRef.current.play();
+      }
+
+      // Try native BarcodeDetector (Chrome/Edge, not Safari)
+      if ('BarcodeDetector' in window) {
+        try {
+          const detector = new window.BarcodeDetector({
+            formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128', 'code_39']
+          });
+          if (barcodeScanIntervalRef.current) clearInterval(barcodeScanIntervalRef.current);
+          barcodeScanIntervalRef.current = setInterval(async () => {
+            if (!barcodeVideoRef.current || barcodeVideoRef.current.readyState < 2) return;
+            try {
+              const barcodes = await detector.detect(barcodeVideoRef.current);
+              if (barcodes.length > 0) {
+                const code = barcodes[0].rawValue;
+                if (code && code !== barcodeLastDetectedRef.current) {
+                  barcodeLastDetectedRef.current = code;
+                  handleBarcodeDetected(code);
+                }
+              }
+            } catch {}
+          }, 300);
+        } catch (e) {
+          console.warn('BarcodeDetector init failed:', e);
+        }
+      } else {
+        // Try Quagga fallback for Safari/iOS
+        try {
+          const Quagga = await loadQuagga();
+          if (!barcodeIsMountedRef.current || !barcodeVideoRef.current) return;
+          Quagga.init({
+            inputStream: {
+              type: 'LiveStream',
+              target: barcodeVideoRef.current.parentElement,
+              constraints: { facingMode: 'environment' },
+            },
+            decoder: {
+              readers: ['ean_reader', 'ean_8_reader', 'upc_reader', 'code_128_reader']
+            },
+            locate: true,
+          }, (err) => {
+            if (err) {
+              console.warn('Quagga init failed:', err);
+              return;
+            }
+            Quagga.start();
+            Quagga.onDetected((result) => {
+              const code = result?.codeResult?.code;
+              if (code && code !== barcodeLastDetectedRef.current) {
+                barcodeLastDetectedRef.current = code;
+                Quagga.stop();
+                handleBarcodeDetected(code);
+              }
+            });
+          });
+        } catch (e) {
+          console.warn('Quagga load failed:', e);
+        }
+      }
+    } catch (err) {
+      console.error('Camera error:', err);
+      if (stream) stream.getTracks().forEach(t => t.stop());
+      setBarcodeScanning(false);
+    }
+  }, [userLocation, handleBarcodeDetected]);
+
+  // Cleanup barcode scanner on unmount
+  useEffect(() => {
+    return () => {
+      if (barcodeScanIntervalRef.current) clearInterval(barcodeScanIntervalRef.current);
+      if (barcodeStreamRef.current) barcodeStreamRef.current.getTracks().forEach(t => t.stop());
+    };
+  }, []);
+
+  const navigateToStore = useCallback((chainName) => {
+    if (!userLocation) return;
+    const url = `https://www.google.com/maps/search/${encodeURIComponent(chainName)}/@${userLocation.lat},${userLocation.lng},14z`;
+    window.open(url, '_blank');
+  }, [userLocation]);
 
   // ====================
   // Product Operations
@@ -1161,6 +1370,18 @@ function ShoppingList() {
                 🎤
               </button>
             )}
+            {/* Barcode Scanner Button */}
+            <button
+              onClick={() => barcodeScanning ? stopBarcodeScanner() : startBarcodeScanner()}
+              className={`px-4 py-3 rounded-xl transition-all ${
+                barcodeScanning
+                  ? 'bg-teal-500 text-white animate-pulse'
+                  : 'bg-teal-100 dark:bg-teal-900/50 text-teal-600 dark:text-teal-300 hover:bg-teal-200 dark:hover:bg-teal-900'
+              }`}
+              title={t('barcodeTab')}
+            >
+              📷
+            </button>
           </div>
 
           {/* Product Suggestions */}
@@ -1181,6 +1402,178 @@ function ShoppingList() {
             </div>
           )}
         </div>
+
+        {/* Barcode Scanner Area */}
+        {barcodeScanning && (
+          <div className="glass rounded-2xl overflow-hidden mb-6 shadow-lg">
+            <div style={{ position: 'relative', paddingBottom: '56.25%', background: '#000' }}>
+              <video
+                ref={barcodeVideoRef}
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                playsInline muted autoPlay
+              />
+              {/* Scan overlay */}
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: '70%', height: '50%', border: '3px solid rgba(16,185,129,0.8)', borderRadius: 12, boxShadow: '0 0 0 9999px rgba(0,0,0,0.4)', position: 'relative' }}>
+                  <div style={{ position: 'absolute', left: 4, right: 4, height: 2, background: 'linear-gradient(90deg, transparent, #10b981, transparent)', animation: 'barcodeScanLine 2s ease-in-out infinite', top: '50%' }} />
+                </div>
+                <p style={{ color: 'white', marginTop: 12, fontSize: 13, textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+                  {t('scanBarcodeInstruction')}
+                </p>
+              </div>
+              {/* Close button */}
+              <button
+                onClick={() => stopBarcodeScanner()}
+                style={{ position: 'absolute', top: 10, right: 10, width: 44, height: 44, borderRadius: '50%', background: 'rgba(0,0,0,0.5)', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}
+              >
+                ✕
+              </button>
+            </div>
+            {/* iOS/Safari fallback notice */}
+            {!('BarcodeDetector' in window) && (
+              <div className="p-3 bg-amber-50 dark:bg-amber-900/30 text-center text-sm text-amber-700 dark:text-amber-300">
+                {t('barcodeTip')}
+              </div>
+            )}
+            {/* Manual entry while scanning */}
+            <div className="p-3 flex gap-2">
+              <input
+                type="text" inputMode="numeric" pattern="[0-9]*"
+                placeholder={t('barcodeLabel') + '...'}
+                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 dark:text-white text-sm"
+                style={{ direction: 'ltr' }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && /^\d{8,14}$/.test(e.target.value.trim())) {
+                    handleBarcodeDetected(e.target.value.trim());
+                    e.target.value = '';
+                  }
+                }}
+              />
+            </div>
+            <style>{`@keyframes barcodeScanLine { 0%,100% { top: 10%; opacity: .5; } 50% { top: 90%; opacity: 1; } }`}</style>
+          </div>
+        )}
+
+        {/* Barcode Product Loading */}
+        {barcodeProductLoading && (
+          <div className="glass rounded-2xl p-6 mb-6 text-center shadow-lg">
+            <div className="inline-block w-8 h-8 border-3 border-gray-200 border-t-teal-500 rounded-full animate-spin mb-3" />
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('searchingInDB')}</p>
+          </div>
+        )}
+
+        {/* Barcode Product Result */}
+        {barcodeResult?.found && (
+          <div className="glass rounded-2xl p-4 mb-4 shadow-lg border-2 border-emerald-300 dark:border-emerald-700 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30">
+            <div className="flex items-center gap-3">
+              {barcodeResult.image && (
+                <img src={barcodeResult.image} alt={barcodeResult.name} className="w-16 h-16 rounded-xl object-cover bg-white border border-gray-200" />
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mb-0.5">{t('productFoundFromBarcode')}</p>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white truncate">{barcodeResult.name}</h3>
+                {barcodeResult.brand && <p className="text-xs text-gray-500">{barcodeResult.brand}</p>}
+              </div>
+            </div>
+            <div className="flex gap-2 mt-3">
+              <button
+                onClick={() => { addProduct(scannedProductName); stopBarcodeScanner(); }}
+                className="flex-1 py-3 min-h-[44px] rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold text-sm flex items-center justify-center gap-1.5"
+              >
+                ➕ {t('addToList')}
+              </button>
+              <button
+                onClick={() => { stopBarcodeScanner(); }}
+                className="py-3 px-4 min-h-[44px] rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-semibold text-sm"
+              >
+                {t('newSearch')}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Barcode Product Not Found */}
+        {barcodeResult && !barcodeResult.found && (
+          <div className="glass rounded-2xl p-4 mb-4 shadow-lg border border-amber-300 bg-amber-50 dark:bg-amber-950/30 text-center">
+            <p className="text-sm text-amber-700 dark:text-amber-300 font-semibold mb-1">{t('productNotFound')}</p>
+            <p className="text-xs text-amber-600 dark:text-amber-400" dir="ltr">{barcodeResult.barcode}</p>
+            <button
+              onClick={() => { stopBarcodeScanner(); }}
+              className="mt-3 py-3 px-4 min-h-[44px] rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm font-semibold"
+            >
+              {t('newSearch')}
+            </button>
+          </div>
+        )}
+
+        {/* Barcode Price Loading */}
+        {barcodePriceLoading && (
+          <div className="glass rounded-2xl p-6 mb-4 text-center shadow-lg">
+            <div className="inline-block w-8 h-8 border-3 border-gray-200 border-t-teal-500 rounded-full animate-spin mb-3" />
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('comparingPrices')}</p>
+          </div>
+        )}
+
+        {/* Barcode Price Results */}
+        {barcodePriceResults && barcodePriceResults.length > 0 && (
+          <div className="glass rounded-2xl p-4 mb-6 shadow-lg">
+            <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-3">💰 {t('priceComparison')}</h3>
+            <div className="space-y-2">
+              {barcodePriceResults.map((item, idx) => (
+                <div
+                  key={idx}
+                  className={`flex items-center justify-between p-3 rounded-xl ${
+                    idx === 0 ? 'bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-300 dark:border-emerald-700' : 'bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700'
+                  }`}
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="font-semibold text-sm text-gray-900 dark:text-white">{item.chain}</span>
+                      {idx === 0 && (
+                        <span className="bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{t('cheapestBadge')}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className={`text-lg font-bold ${idx === 0 ? 'text-emerald-600' : 'text-gray-700 dark:text-gray-300'}`} dir="ltr">
+                      ₪{item.price?.toFixed(2) || '?'}
+                    </span>
+                    {userLocation && !item.isEstimate && (
+                      <button
+                        onClick={() => navigateToStore(item.chain)}
+                        className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0"
+                        title={t('navigateToStore')}
+                      >
+                        📍
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Savings */}
+            {barcodePriceResults.length >= 2 && (barcodePriceResults[barcodePriceResults.length - 1].price - barcodePriceResults[0].price) > 0 && (
+              <div className="mt-3 p-2.5 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg text-center">
+                <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                  {t('possibleSavings')}: ₪{(barcodePriceResults[barcodePriceResults.length - 1].price - barcodePriceResults[0].price).toFixed(2)}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Barcode No Prices */}
+        {barcodePriceResults && barcodePriceResults.length === 0 && barcodeResult?.found && (
+          <div className="glass rounded-2xl p-4 mb-6 text-center shadow-lg">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{t('noDataFound')}</p>
+            <button
+              onClick={() => { setPriceCompareProduct(scannedProductName); setShowPriceComparison(true); }}
+              className="py-3 px-4 min-h-[44px] rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm font-semibold border border-blue-200 dark:border-blue-800"
+            >
+              🔍 {t('newSearch')}
+            </button>
+          </div>
+        )}
 
         {/* Category Filter */}
         {showCategories && (

@@ -464,6 +464,7 @@ export const TRANSLATIONS = {
     recommendedPlan: 'Recommended shopping plan:',
     comparedToSingle: 'Compared to cheapest single store:',
     noDataFound: 'No data found',
+    navigateToStore: 'Navigate to store',
     // Promotions
     loadingPromos: 'Loading promotions...',
     totalActivePromos: 'Total active promotions',
@@ -701,6 +702,12 @@ export const TRANSLATIONS = {
     newSearch: 'חיפוש חדש',
     scanBarcodeInstruction: '📊 סרוק את הברקוד על המוצר',
     // Price comparison
+    priceComparison: 'השוואת מחירים',
+    comparingPrices: 'משווה מחירים...',
+    cheapestBadge: 'הכי זול!',
+    possibleSavings: 'חיסכון אפשרי',
+    navigateToStore: 'נווט לסניף',
+    noDataFound: 'לא נמצאו נתונים',
     openAllSimultaneously: 'פתח הכל במקביל',
     cheapestStore: 'החנות הזולה ביותר',
     priceRange: 'טווח מחירים',
@@ -982,6 +989,11 @@ export const TRANSLATIONS = {
     startBarcodeScanner: 'Запустить сканер',
     stopScanning: 'Остановить сканирование',
     newSearch: 'Новый поиск',
+    comparingPrices: 'Сравнение цен...',
+    cheapestBadge: 'Самый дешёвый!',
+    possibleSavings: 'Возможная экономия',
+    navigateToStore: 'Навигация',
+    priceComparison: 'Сравнение цен',
     // Units
     unitPieces: 'шт',
     // Join family
@@ -1048,6 +1060,11 @@ export const TRANSLATIONS = {
     startBarcodeScanner: 'تشغيل ماسح الباركود',
     stopScanning: 'إيقاف المسح',
     newSearch: 'بحث جديد',
+    comparingPrices: 'مقارنة الأسعار...',
+    cheapestBadge: 'الأرخص!',
+    possibleSavings: 'توفير ممكن',
+    navigateToStore: 'انتقل للفرع',
+    priceComparison: 'مقارنة الأسعار',
     // Units
     unitPieces: 'قطعة',
     // Join family
