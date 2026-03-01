@@ -22502,6 +22502,15 @@ END:VCALENDAR`;
                                     <span aria-hidden="true">{isListening ? '⏹️' : '🎤'}</span>
                                 </button>
                             )}
+                            {/* Barcode Scan Button */}
+                            <button
+                                onClick={() => { startPriceScanner(); setScanMode('barcode'); setTimeout(() => startBarcodeScanner(), 300); }}
+                                className="w-12 h-12 rounded-xl flex items-center justify-center transition-all touch-target bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl hover:scale-105"
+                                aria-label={t('scanProductBtn')}
+                                title={t('scanProductBtn')}
+                            >
+                                <Camera size={22} />
+                            </button>
                             {/* AI Smart Add Button */}
                             <button
                                 onClick={() => setShowSmartAdd(true)}
