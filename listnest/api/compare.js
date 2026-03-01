@@ -702,15 +702,34 @@ function findProduct(name) {
     const searchLower = searchName.toLowerCase();
     const searchWords = searchLower.split(/\s+/).filter(w => w.length > 1);
 
+    // 0. Synonym expansion — translate English/alternative names to Hebrew
+    const expandedSearchWords = new Set(searchWords);
+    for (const word of searchWords) {
+        for (const syn of getSynonyms(word)) {
+            expandedSearchWords.add(syn);
+        }
+    }
+    // Also try the full search term as a synonym key
+    for (const syn of getSynonyms(searchLower)) {
+        expandedSearchWords.add(syn);
+    }
+
     // 1. Exact match
     if (PRICE_DATABASE[searchName]) {
         return { name: searchName, prices: PRICE_DATABASE[searchName] };
     }
 
-    // 2. Case-insensitive exact match
+    // 2. Case-insensitive exact match (including synonyms)
     for (const [productName, prices] of Object.entries(PRICE_DATABASE)) {
-        if (productName.toLowerCase() === searchLower) {
+        const productLower = productName.toLowerCase();
+        if (productLower === searchLower) {
             return { name: productName, prices };
+        }
+        // Check if any synonym matches the product name exactly
+        for (const syn of expandedSearchWords) {
+            if (productLower === syn || productLower.startsWith(syn + ' ')) {
+                return { name: productName, prices };
+            }
         }
     }
 
@@ -724,8 +743,8 @@ function findProduct(name) {
         const productWords = productLower.split(/\s+/);
         let score = 0;
 
-        // Exact word matches (highest priority)
-        for (const searchWord of searchWords) {
+        // Exact word matches including synonyms (highest priority)
+        for (const searchWord of expandedSearchWords) {
             if (productWords.includes(searchWord)) {
                 score += 30;
             }
@@ -733,26 +752,23 @@ function findProduct(name) {
 
         // First word match (important for product identification)
         if (searchWords.length > 0 && productWords.length > 0) {
-            if (searchWords[0] === productWords[0]) {
-                score += 50; // Strong bonus for matching first word
+            const firstWordSynonyms = getSynonyms(searchWords[0]);
+            if (firstWordSynonyms.includes(productWords[0])) {
+                score += 50;
             }
         }
 
-        // Penalize partial word matches to avoid "חלבי" matching "חלב"
-        // Only allow contains match if it's a WHOLE word match
-        for (const searchWord of searchWords) {
+        // Partial word matches
+        for (const searchWord of expandedSearchWords) {
             for (const productWord of productWords) {
-                // Skip if words are too different in length (avoid חלבי->חלב)
                 if (Math.abs(searchWord.length - productWord.length) > 2) {
                     continue;
                 }
-                // Exact word match already counted above
                 if (searchWord === productWord) continue;
-                // Starts-with match for similar length words
-                if (searchWord.startsWith(productWord) && productWord.length >= 4) {
+                if (searchWord.startsWith(productWord) && productWord.length >= 3) {
                     score += 10;
                 }
-                if (productWord.startsWith(searchWord) && searchWord.length >= 4) {
+                if (productWord.startsWith(searchWord) && searchWord.length >= 3) {
                     score += 10;
                 }
             }
