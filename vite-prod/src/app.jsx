@@ -10698,24 +10698,28 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
                 if (data.success && data.prices) {
                     // Smart merge: only override local prices when API price is reasonable
-                    // This prevents per-kg deli prices from overwriting per-unit packaged prices
+                    // This prevents specialty/gluten-free products from overwriting basic staple prices
                     let accepted = 0, skipped = 0;
                     for (const [name, apiPrice] of Object.entries(data.prices)) {
                         const localPrice = PRODUCT_PRICES[name];
                         if (localPrice) {
-                            // Local price exists - only override if API price is within 0.3x-4x range
+                            // Local price exists - check if names match exactly (not partial Supabase match)
+                            // Use tighter ratio 0.5x-2x for staple products under 30₪
                             const ratio = apiPrice / localPrice;
-                            if (ratio >= 0.3 && ratio <= 4) {
+                            const isCheapStaple = localPrice < 30;
+                            const maxRatio = isCheapStaple ? 2 : 3;
+                            const minRatio = isCheapStaple ? 0.5 : 0.3;
+                            if (ratio >= minRatio && ratio <= maxRatio) {
                                 PRODUCT_PRICES[name] = apiPrice;
                                 accepted++;
                             } else {
                                 skipped++;
                             }
                         } else {
-                            // No local price - accept if under 100₪ (skip per-kg deli outliers)
+                            // No local price - accept if under 60₪ (skip specialty/per-kg outliers)
                             // Allow expensive items: meat cuts, fish, formula, pet food
                             const isExpensiveCategory = /אנטריקוט|סטייק|סינטה|פילה בקר|סלמון|לברק|דניס|סימילאק|מטרנה|נוטרילון|מזון.*כלב|מזון.*חתול/.test(name);
-                            if (apiPrice <= 100 || isExpensiveCategory) {
+                            if (apiPrice <= 60 || isExpensiveCategory) {
                                 PRODUCT_PRICES[name] = apiPrice;
                                 accepted++;
                             } else {

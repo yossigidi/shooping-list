@@ -162,10 +162,17 @@ export async function fetchPromotions() {
 // Compare prices across chains for a product
 export async function comparePrices(productName) {
   try {
-    const response = await fetch(`/api/compare?product=${encodeURIComponent(productName)}`);
+    const response = await fetch(`/api/compare?action=search&q=${encodeURIComponent(productName)}`);
     if (response.ok) {
       const data = await response.json();
-      return data.prices || [];
+      if (data.found && data.prices) {
+        // Normalize: API returns {chain_id, chain_name, price} → ensure {chain, price}
+        return data.prices.map(p => ({
+          chain: p.chain_name || p.chain || p.chain_id,
+          price: p.price,
+          chain_id: p.chain_id
+        }));
+      }
     }
   } catch (error) {
     console.warn('Failed to compare prices:', error);
