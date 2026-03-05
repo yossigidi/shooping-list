@@ -119,6 +119,15 @@ function ShoppingList() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
+  // Toast notification state
+  const [toastMessage, setToastMessage] = useState('');
+  const toastTimerRef = useRef(null);
+  const showToast = useCallback((msg) => {
+    setToastMessage(msg);
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = setTimeout(() => setToastMessage(''), 2500);
+  }, []);
+
   // Quantity selector state
   const [showQuantitySelector, setShowQuantitySelector] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -843,6 +852,7 @@ function ShoppingList() {
       setItems(prev => [newItem, ...prev]);
     }
 
+    const addedProductName = product;
     setSearchTerm('');
     setShowQuantitySelector(false);
     setSelectedNote('');
@@ -855,6 +865,7 @@ function ShoppingList() {
       } else {
         queueOperation({ type: 'add', name: product, category, quantity: selectedQuantity, unit: selectedUnit, note: selectedNote, price: estimatedPrice });
       }
+      showToast(`${addedProductName} ${t('productAdded')}`);
       return;
     }
 
@@ -890,8 +901,10 @@ function ShoppingList() {
         setItems(prev => prev.map(i => i.id === tempId ? { ...i, id: docRef.id, _isTemp: false } : i));
         await logActivity?.('item_added', { itemName: product });
       }
+      showToast(`✓ ${addedProductName} ${t('productAdded')}`);
     } catch (error) {
       console.error('Error adding product:', error);
+      showToast(`✗ שגיאה בהוספת ${addedProductName}`);
       if (!navigator.onLine) {
         if (existing) {
           queueOperation({ type: 'update', id: existing.id, data: { quantity: newItem.quantity } });
@@ -900,7 +913,7 @@ function ShoppingList() {
         }
       }
     }
-  }, [selectedProduct, items, family, currentList, childUser, user, selectedQuantity, selectedUnit, selectedNote, isOnline, queueOperation, logActivity]);
+  }, [selectedProduct, items, family, currentList, childUser, user, selectedQuantity, selectedUnit, selectedNote, isOnline, queueOperation, logActivity, showToast]);
 
   const togglePurchased = useCallback(async (id, currentStatus) => {
     const item = items.find(i => i.id === id);
@@ -1247,6 +1260,13 @@ function ShoppingList() {
 
   return (
     <div className="min-h-screen gradient-bg p-4 pb-4" role="application" aria-label="ListNest - רשימת קניות">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] px-5 py-3 rounded-2xl bg-gray-800 text-white text-sm font-medium shadow-xl animate-fade-in">
+          {toastMessage}
+        </div>
+      )}
+
       {/* Confetti Animation */}
       {confetti && <ConfettiBurst x={confetti.x} y={confetti.y} />}
 
