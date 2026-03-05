@@ -803,7 +803,18 @@ function compareList(items) {
 
     for (const item of items) {
         const product = findProduct(item.name);
-        const quantity = item.quantity || 1;
+        let quantity = item.quantity || 1;
+        const unit = (item.unit || '').trim();
+
+        // Convert gram/ml quantities to units (e.g. 200 grams = 1 unit if product is sold per package)
+        if (unit === 'גרם' || unit === 'גר׳' || unit === 'gr') {
+            quantity = Math.max(1, Math.round(quantity / 200)) || 1;
+        } else if (unit === 'מ"ל' || unit === 'מ״ל' || unit === 'ml') {
+            quantity = Math.max(1, Math.round(quantity / 500)) || 1;
+        } else if (unit === 'ק"ג' || unit === 'ק״ג' || unit === 'kg') {
+            // kg is fine as-is for per-kg items, but for packaged items treat as units
+            quantity = quantity || 1;
+        }
 
         if (product) {
             for (const [chainId, price] of Object.entries(product.prices)) {
@@ -864,7 +875,13 @@ function optimizeBasket(items, maxChains = 2, strategy = 'optimal') {
     for (const item of items) {
         const product = findProduct(item.name);
         if (product) {
-            const quantity = item.quantity || 1;
+            let quantity = item.quantity || 1;
+            const unit = (item.unit || '').trim();
+            if (unit === 'גרם' || unit === 'גר׳' || unit === 'gr') {
+                quantity = Math.max(1, Math.round(quantity / 200)) || 1;
+            } else if (unit === 'מ"ל' || unit === 'מ״ל' || unit === 'ml') {
+                quantity = Math.max(1, Math.round(quantity / 500)) || 1;
+            }
             const pricesByChain = {};
             let cheapestChain = null;
             let cheapestPrice = Infinity;

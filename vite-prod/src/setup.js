@@ -162,7 +162,7 @@ window.PriceComparisonAPI = {
       const response = await fetch(`${this.BASE_URL}?action=compare`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: items.map(i => ({ name: i.name, quantity: i.quantity || 1 })) })
+        body: JSON.stringify({ items: items.map(i => ({ name: i.name, quantity: i.quantity || 1, unit: i.unit || '' })) })
       });
       if (!response.ok) throw new Error('API Error');
       return await response.json();
@@ -173,7 +173,7 @@ window.PriceComparisonAPI = {
       const response = await fetch(`${this.BASE_URL}?action=optimize`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: items.map(i => ({ name: i.name, quantity: i.quantity || 1 })), max_chains: maxChains, strategy })
+        body: JSON.stringify({ items: items.map(i => ({ name: i.name, quantity: i.quantity || 1, unit: i.unit || '' })), max_chains: maxChains, strategy })
       });
       if (!response.ok) throw new Error('API Error');
       return await response.json();
