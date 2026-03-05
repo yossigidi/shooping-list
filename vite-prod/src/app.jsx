@@ -18217,6 +18217,7 @@ END:VCALENDAR`;
                             window.firestore.doc(window.db, 'shopping-items', existing.id),
                             updateData
                         );
+                        showToast(`✓ ${product} ${t('productAdded')}`);
                         await logActivity('quantity_changed', { itemName: product });
                     } else {
                         // Add new item
@@ -18238,6 +18239,7 @@ END:VCALENDAR`;
                         });
                         // Replace temp item with real item ID
                         setItems(prev => prev.map(i => i.id === tempId ? { ...i, id: docRef.id, _isTemp: false } : i));
+                        showToast(`✓ ${product} ${t('productAdded')}`);
                         await logActivity('item_added', { itemName: product });
                         // Push notification to family members
                         const senderUid = childUser?.childId || user?.uid || 'anonymous';
