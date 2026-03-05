@@ -1,4 +1,7 @@
 {
+  "buildCommand": "cd listnest && npm install && npm run build",
+  "outputDirectory": "listnest/dist",
+  "framework": null,
   "functions": {
     "api/compare.js": {
       "memory": 1024,
