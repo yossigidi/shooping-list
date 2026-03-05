@@ -10974,28 +10974,40 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         // Calculate item price based on quantity and whether it's sold by weight
         const calculateItemPrice = (item) => {
             const quantity = parseInt(item.quantity) || 1;
+            const unit = (item.unit || '').trim();
+            const isGrams = unit === 'גרם' || unit === 'גר׳' || unit === 'gr';
+            const isMl = unit === 'מ"ל' || unit === 'מ״ל' || unit === 'ml';
+            const isKg = unit === 'ק"ג' || unit === 'ק״ג' || unit === 'kg';
 
             // Always recalculate the price from current PRODUCT_PRICES (not stored item.price)
-            // This ensures prices are always up-to-date even if item was added with wrong price
             const currentPrice = getEstimatedPrice(item.name);
             const priceToUse = currentPrice || item.price;
 
             if (!priceToUse) return 0;
 
+            // If unit is grams/ml and quantity looks like weight (> 10), convert to package units
+            if ((isGrams || isMl) && quantity > 10) {
+                // Check weight-based price first (per kg)
+                const pricePerKg = WEIGHT_BASED_PRICES[item.name];
+                if (pricePerKg) {
+                    return pricePerKg * (quantity / 1000);
+                }
+                // Otherwise treat as 1 package (200g of walnuts = 1 bag)
+                return priceToUse;
+            }
+
             // Check if this product is sold by weight
             const pricePerKg = getWeightBasedPrice(item.name);
 
             if (pricePerKg) {
-                // Weight-based product: quantity is in grams, price is per kg
-                // If quantity is small (1-10), treat as units of 100g packages
                 if (quantity <= 10) {
-                    return priceToUse * quantity; // Small quantity = number of packages
+                    return priceToUse * quantity;
                 }
-                // Larger quantity = grams, calculate proportionally
                 return pricePerKg * (quantity / 1000);
-            } else if (item.unit === 'גרם' && quantity > 10) {
-                // Unit says grams but product not in WEIGHT_BASED_PRICES — use priceToUse as per-kg
-                return priceToUse * (quantity / 1000);
+            } else if (isKg) {
+                // kg quantity - use weight-based price if available, otherwise priceToUse per kg
+                const wbp = WEIGHT_BASED_PRICES[item.name];
+                return (wbp || priceToUse) * quantity;
             } else {
                 // Unit-based product: multiply price by quantity
                 return priceToUse * quantity;
