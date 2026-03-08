@@ -9519,7 +9519,6 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         const CATEGORIES = {
             fruits: { name: 'פירות וירקות', icon: '🍎', image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&h=200&fit=crop', unit: 'ק"ג', unitOptions: ['ק"ג', 'יח\'', 'גרם'] },
             dairy: { name: 'מוצרי חלב וביצים', icon: '🧀', image: 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם', 'מ"ל', 'ליטר'], isParent: true },
-            dairyMilkCheese: { name: 'חלב וגבינות', icon: '🥛', image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם', 'מ"ל', 'ליטר'] },
             dairyCheese: { name: 'גבינות רכות וקשות', icon: '🧀', image: 'https://images.unsplash.com/photo-1452195100486-9cc805987862?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'גרם'] },
             dairyDrinks: { name: 'משקאות חלב', icon: '🥛', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\'', 'מ"ל', 'ליטר'] },
             eggs: { name: 'ביצים', icon: '🥚', image: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=200&h=200&fit=crop', unit: 'יח\'', unitOptions: ['יח\''] },
@@ -9555,7 +9554,6 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         const CATEGORY_TO_TRANSLATION = {
             fruits: 'fruitsVeg',
             dairy: 'dairyProducts',
-            dairyMilkCheese: 'dairyMilkCheese',
             dairyCheese: 'dairyCheese',
             dairyDrinks: 'dairyDrinks',
             eggs: 'eggs',
@@ -9590,7 +9588,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
         // Subcategory system - parent-child hierarchy
         const SUBCATEGORIES = {
-            dairy: { children: ['dairyMilkCheese', 'dairyCheese', 'dairyDrinks', 'eggs', 'desserts'] },
+            dairy: { children: ['dairyCheese', 'dairyDrinks', 'eggs', 'desserts'] },
             meatFish: { children: ['freshMeat', 'frozenMeat', 'fish'] },
             drinksAlcohol: { children: ['drinks', 'wine'] }
         };
@@ -9598,7 +9596,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         Object.entries(SUBCATEGORIES).forEach(([parent, config]) => {
             config.children.forEach(child => { CHILD_TO_PARENT[child] = parent; });
         });
-        const LEGACY_CATEGORY_MAP = { dairy: 'dairyMilkCheese', meat: 'freshMeat' };
+        const LEGACY_CATEGORY_MAP = { dairy: 'dairyCheese', dairyMilkCheese: 'dairyCheese', meat: 'freshMeat' };
         const resolveCategory = (key) => CATEGORIES[key] ? key : (LEGACY_CATEGORY_MAP[key] || key);
 
         // Israeli holidays for calendar reminders (2025-2030)
@@ -9736,17 +9734,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
         };
 
         const PRODUCTS = {
-            dairyMilkCheese: [
-                // חמאה ושמנת
-                'חמאה 200 גרם', 'חמאה מלוחה 200 גרם',
-                'שמנת מתוקה 200 מ"ל', 'שמנת מתוקה 500 מ"ל', 'שמנת מתוקה 38%', 'שמנת להקצפה 30%',
-                'שמנת חמוצה 200 גרם', 'שמנת לקצפת 500 מ"ל',
-                // לבן
-                'לבן 500 גרם', 'לבן 200 גרם',
-                // אחרים
-                'מרגרינה 250 גרם', 'טופו 300 גרם'
-            ],
             dairyCheese: [
+                // חמאה ומרגרינה וטופו
+                'חמאה 200 גרם', 'חמאה מלוחה 200 גרם',
+                'מרגרינה 250 גרם', 'טופו 300 גרם',
                 // קוטג׳ וגבינה לבנה
                 'קוטג׳ 5% 250 גרם', 'קוטג׳ 3% 250 גרם', 'קוטג 0%',
                 'קוטג׳ 1% 250 גרם', 'קוטג׳ 9% 250 גרם',
@@ -9864,6 +9855,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             fish: ['סלמון טרי', 'סלמון קפוא', 'סלמון מעושן', 'פילה סלמון טרי', 'פילה סלמון קפוא', 'פילה אמנון טרי', 'פילה אמנון קפוא', 'דג אמנון קפוא', 'פילה בורי טרי', 'פילה בורי קפוא', 'פילה דניס טרי', 'פילה דניס קפוא', 'טונה טרייה', 'דג שלם טרי', 'דג שלם קפוא', 'נסיכי ים', 'שרימפס קפוא', 'קלמארי קפוא', 'מולים', 'סרדינים', 'דג מעושן'],
 
             desserts: [
+                // שמנת ולבן
+                'שמנת מתוקה 200 מ"ל', 'שמנת מתוקה 500 מ"ל', 'שמנת מתוקה 38%', 'שמנת להקצפה 30%',
+                'שמנת חמוצה 200 גרם', 'שמנת לקצפת 500 מ"ל',
+                'לבן 500 גרם', 'לבן 200 גרם',
                 // יוגורט
                 'יוגורט', 'יוגורט יווני', 'יוגורט פירות',
                 'יוגורט 150 גרם', 'יוגורט יווני 150 גרם', 'יוגורט יווני 0% 150 גרם',
@@ -18023,10 +18018,9 @@ END:VCALENDAR`;
                     freshMeat: ['בשר', 'עוף', 'חזה', 'שניצל', 'כרעיים', 'כנפיים', 'קציצ', 'המבורגר', 'נקניק', 'אנטריקוט', 'צלעות', 'טחון', 'כבד', 'הודו', 'פרגית', 'גולש', 'אסאדו', 'שפונדרה', 'סינטה', 'קבב'],
                     fish: ['סלמון', 'דג', 'טונה טרי', 'פילה דג', 'אמנון', 'דניס', 'בורי', 'שרימפס', 'קלמארי'],
                     eggs: ['ביצ', 'ביצים'],
-                    dairyMilkCheese: ['שמנת', 'חמאה', 'לבן', 'מרגרינה', 'טופו'],
-                    dairyCheese: ['גבינ', 'קוטג', 'מוצרלה', 'צפתית', 'פרמזן', 'גאודה', 'אמנטל', 'ברי', 'קממבר', 'חלומי', 'פילדלפיה', 'ריקוטה', 'לאבנה', 'צ׳דר', 'פטה', 'קשקבל', 'מסקרפונה'],
+                    dairyCheese: ['גבינ', 'קוטג', 'מוצרלה', 'צפתית', 'פרמזן', 'גאודה', 'אמנטל', 'ברי', 'קממבר', 'חלומי', 'פילדלפיה', 'ריקוטה', 'לאבנה', 'צ׳דר', 'פטה', 'קשקבל', 'מסקרפונה', 'חמאה', 'מרגרינה', 'טופו'],
                     dairyDrinks: ['חלב', 'שוקו'],
-                    desserts: ['מילקי', 'גמדים', 'דנונה', 'מעדן', 'יופלה', 'דניאלה', 'יוגורט'],
+                    desserts: ['מילקי', 'גמדים', 'דנונה', 'מעדן', 'יופלה', 'דניאלה', 'יוגורט', 'שמנת', 'לבן'],
                     bakery: ['לחם', 'חלה', 'פיתה', 'לחמני', 'בגט', 'עוגי', 'קרואסון', 'מאפה', 'בורקס'],
                     drinks: ['מים', 'קולה', 'פפסי', 'מיץ', 'סודה', 'ספרייט', 'פאנטה', 'משקה'],
                     wine: ['יין', 'בירה', 'וודקה', 'וויסקי', 'ערק', 'שמפניה', 'אלכוהול'],
