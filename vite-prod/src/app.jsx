@@ -13281,6 +13281,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
             const [selectedParentCategory, setSelectedParentCategory] = useState(null);
             const [showCategories, setShowCategories] = useState(false);
             const [categorySearch, setCategorySearch] = useState('');
+            const [productFilter, setProductFilter] = useState('');
 
             const [searchTerm, setSearchTerm] = useState('');
             const [sortBy, setSortBy] = useState('newest'); // newest, name, category, purchased
@@ -23204,13 +23205,25 @@ END:VCALENDAR`;
                             </div>
                             {/* Category Search */}
                             <div className="px-4 pt-3 pb-1 flex-shrink-0">
-                                <input
-                                    type="text"
-                                    value={categorySearch}
-                                    onChange={e => setCategorySearch(e.target.value)}
-                                    placeholder={`🔍 ${t('searchProduct')}...`}
-                                    className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:focus:ring-teal-900/30 transition-all text-sm font-medium placeholder:text-gray-400"
-                                />
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        value={categorySearch}
+                                        onChange={e => setCategorySearch(e.target.value)}
+                                        placeholder={`🔍 ${t('addProductPlaceholder')}`}
+                                        className="w-full px-4 py-3 pr-10 border-2 border-teal-200 dark:border-teal-700 rounded-2xl bg-white dark:bg-gray-800 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:focus:ring-teal-900/30 transition-all text-base font-medium placeholder:text-gray-400 shadow-sm"
+                                        autoFocus
+                                    />
+                                    {categorySearch && (
+                                        <button
+                                            onClick={() => setCategorySearch('')}
+                                            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 text-lg"
+                                            aria-label={t('clearSearch')}
+                                        >
+                                            ✕
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                             {/* Categories Grid - Scrollable */}
                             <div className="flex-1 overflow-y-auto p-4">
@@ -23234,6 +23247,7 @@ END:VCALENDAR`;
                                                     setShowCategories(false);
                                                 } else {
                                                     setSelectedCategory(key);
+                                                    setProductFilter('');
                                                     setShowCategories(false);
                                                 }
                                             }}
@@ -23305,7 +23319,7 @@ END:VCALENDAR`;
                                         return (
                                             <button
                                                 key={childKey}
-                                                onClick={() => { setSelectedCategory(childKey); setShowCategories(false); }}
+                                                onClick={() => { setSelectedCategory(childKey); setProductFilter(''); setShowCategories(false); }}
                                                 className={`relative overflow-hidden rounded-xl h-24 transition-all active:scale-[0.95] hover:scale-[1.02] ${count > 0 ? 'ring-2 ring-teal-400 shadow-md shadow-teal-100 dark:shadow-teal-900/30' : 'shadow-sm border border-gray-100 dark:border-gray-700'}`}
                                             >
                                                 {childCat.image ? (
@@ -23373,10 +23387,32 @@ END:VCALENDAR`;
                                     </button>
                                 </div>
                             </div>
+                            {/* Product Search within Category */}
+                            <div className="px-4 pt-3 pb-1 flex-shrink-0">
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        value={productFilter}
+                                        onChange={e => setProductFilter(e.target.value)}
+                                        placeholder={`🔍 ${t('addProductPlaceholder')}`}
+                                        className="w-full px-4 py-3 pr-10 border-2 border-teal-200 dark:border-teal-700 rounded-2xl bg-white dark:bg-gray-800 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:focus:ring-teal-900/30 transition-all text-base font-medium placeholder:text-gray-400 shadow-sm"
+                                        autoFocus
+                                    />
+                                    {productFilter && (
+                                        <button
+                                            onClick={() => setProductFilter('')}
+                                            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 text-lg"
+                                            aria-label={t('clearSearch')}
+                                        >
+                                            ✕
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
                             {/* Products Grid - Scrollable */}
                             <div className="flex-1 overflow-y-auto p-4 pb-24">
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                                    {PRODUCTS[selectedCategory]?.map((product, idx) => {
+                                    {PRODUCTS[selectedCategory]?.filter(product => !productFilter || product.includes(productFilter) || getProductTranslation(product, language).toLowerCase().includes(productFilter.toLowerCase())).map((product, idx) => {
                                         const promos = getItemPromotions(product);
                                         const hasPromo = promos.length > 0;
                                         const inCart = items.find(item => item.name === product && !item.purchased);

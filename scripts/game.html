@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>לימוד אנגלית - משחק העננים</title>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: 'Arial', sans-serif; background: #87CEEB; text-align: center; }
+        canvas { display: block; background: linear-gradient(#87CEEB, #E0F6FF); }
+        #ui { position: absolute; top: 20px; width: 100%; pointer-events: none; }
+        .score { font-size: 24px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        #target { position: absolute; bottom: 30px; width: 100%; font-size: 40px; font-weight: bold; color: #2c3e50; }
+    </style>
+</head>
+<body>
+
+<div id="ui">
+    <div class="score">ניקוד: <span id="scoreVal">0</span></div>
+</div>
+<div id="target">תרגם: <span id="wordToFind">...</span></div>
+
+<canvas id="gameCanvas"></canvas>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const scoreElement = document.getElementById('scoreVal');
+const targetWordElement = document.getElementById('wordToFind');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// מאגר מילים לדוגמה
+const vocabulary = [
+    {en: "Apple", he: "תפוח"}, {en: "Dog", he: "כלב"},
+    {en: "House", he: "בית"}, {en: "Sun", he: "שמש"},
+    {en: "Water", he: "מים"}, {en: "Book", he: "ספר"}
+];
+
+let score = 0;
+let clouds = [];
+let currentTarget = {};
+
+function spawnCloud() {
+    const wordPair = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+    clouds.push({
+        x: Math.random() * (canvas.width - 100),
+        y: -50,
+        text: wordPair.en,
+        speed: 1 + Math.random() * 2,
+        width: 120,
+        height: 60
+    });
+}
+
+function setNewTarget() {
+    currentTarget = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+    targetWordElement.innerText = currentTarget.he;
+}
+
+function drawCloud(cloud) {
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(cloud.x, cloud.y, 30, 0, Math.PI * 2);
+    ctx.arc(cloud.x + 40, cloud.y, 40, 0, Math.PI * 2);
+    ctx.arc(cloud.x + 80, cloud.y, 30, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.fillStyle = "black";
+    ctx.font = "20px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(cloud.text, cloud.x + 40, cloud.y + 5);
+}
+
+function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    for (let i = clouds.length - 1; i >= 0; i--) {
+        let c = clouds[i];
+        c.y += c.speed;
+        drawCloud(c);
+
+        // הסרת עננים שיצאו מהמסך
+        if (c.y > canvas.height) clouds.splice(i, 1);
+    }
+
+    if (Math.random() < 0.02) spawnCloud();
+    requestAnimationFrame(update);
+}
+
+canvas.addEventListener('mousedown', (e) => {
+    for (let i = clouds.length - 1; i >= 0; i--) {
+        let c = clouds[i];
+        if (e.clientX > c.x && e.clientX < c.x + 80 && e.clientY > c.y - 30 && e.clientY < c.y + 30) {
+            if (c.text === currentTarget.en) {
+                score += 10;
+                scoreElement.innerText = score;
+                clouds.splice(i, 1);
+                setNewTarget();
+            }
+        }
+    }
+});
+
+setNewTarget();
+update();
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Speakli – אבטיפוס משחק אנגלית</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img class="logo" src="assets/speakli.png" alt="Speakli"/>
+        <div class="titles">
+          <div class="h1">Speakli</div>
+          <div class="sub">אבטיפוס משחק אנגלית מונפש • 3 רמות גיל</div>
+        </div>
+      </div>
+      <div class="pill" id="levelPill">בחר רמה</div>
+    </header>
+
+    <main class="main">
+      <section class="card" id="screenHome">
+        <div class="row">
+          <div class="avatarWrap">
+            <img class="avatar" src="assets/speakli.png" alt="Speakli"/>
+            <div class="bubble" id="bubbleText">היי! אני Speakli. בוא נלמד אנגלית 🎧</div>
+          </div>
+          <div class="homeControls">
+            <h2>בחר רמת גיל</h2>
+            <div class="levels">
+              <button class="btn" data-level="4-6">4–6</button>
+              <button class="btn" data-level="7-10">7–10</button>
+              <button class="btn" data-level="10-12">10–12</button>
+            </div>
+
+            <h2 style="margin-top:14px;">בחר מצב משחק</h2>
+            <div class="modes">
+              <button class="btn secondary" data-mode="mixed">Quest מעורב</button>
+              <button class="btn secondary" data-mode="find">מצא את המילה</button>
+              <button class="btn secondary" data-mode="build">בנה משפט</button>
+              <button class="btn secondary" data-mode="listen">שמע והקלד</button>
+            </div>
+
+            <div class="note">
+              טיפ: בכרום/אדג' המחשב יקריא באנגלית דרך הרמקולים (Speech Synthesis).
+            </div>
+
+            <button class="btn big" id="startBtn" disabled>התחל</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card hidden" id="screenGame">
+        <div class="gameTop">
+          <div class="progress">
+            <div class="bar"><div class="barFill" id="barFill"></div></div>
+            <div class="meta"><span id="roundText">סבב 1/5</span> • <span id="scoreText">ניקוד: 0</span></div>
+          </div>
+          <div class="actions">
+            <button class="btn ghost" id="sayBtn" title="הקראה">🔊</button>
+            <button class="btn ghost" id="hintBtn" title="רמז">💡</button>
+            <button class="btn danger" id="quitBtn">יציאה</button>
+          </div>
+        </div>
+
+        <div class="row gameRow">
+          <div class="avatarWrap small">
+            <img class="avatar" src="assets/speakli.png" alt="Speakli"/>
+            <div class="bubble" id="gameBubble">יאללה מתחילים!</div>
+          </div>
+
+          <div class="stage">
+            <div class="panel hidden" id="panelFind">
+              <h2>Find: <span class="en" id="findWord">apple</span></h2>
+              <div class="grid" id="findGrid"></div>
+            </div>
+
+            <div class="panel hidden" id="panelBuild">
+              <h2>Build the sentence</h2>
+              <div class="buildArea">
+                <div class="tokens" id="buildTokens"></div>
+                <div class="answer" id="buildAnswer"></div>
+              </div>
+              <div class="buildBtns">
+                <button class="btn secondary" id="buildUndo">בטל</button>
+                <button class="btn" id="buildCheck">בדוק</button>
+              </div>
+              <div class="smallHelp">לחץ על המילים לפי הסדר הנכון.</div>
+            </div>
+
+            <div class="panel hidden" id="panelListen">
+              <h2>Listen & Type</h2>
+              <div class="listenBox">
+                <div class="listenPrompt">לחץ על 🔊 ושמע. אחר כך הקלד באנגלית.</div>
+                <input id="listenInput" class="input" placeholder="type here..." autocomplete="off" spellcheck="false"/>
+                <div class="listenBtns">
+                  <button class="btn secondary" id="listenReplay">השמע שוב</button>
+                  <button class="btn" id="listenCheck">בדוק</button>
+                </div>
+                <div class="tiny">הבדיקה סובלנית: לא משנה רישיות/רווחים מיותרים.</div>
+              </div>
+            </div>
+
+            <div class="toast hidden" id="toast"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card hidden" id="screenDone">
+        <div class="done">
+          <img class="doneImg" src="assets/speakli.png" alt="Speakli"/>
+          <h2>סיימת את ה-Quest! 🎉</h2>
+          <div class="doneMeta" id="doneMeta"></div>
+          <div class="doneBtns">
+            <button class="btn" id="playAgain">שחק שוב</button>
+            <button class="btn secondary" id="backHome">חזרה לבית</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"><span>Speakli Prototype • Offline • HTML/JS</span></footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
