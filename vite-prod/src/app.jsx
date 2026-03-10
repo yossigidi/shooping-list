@@ -2841,7 +2841,7 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 noSavedLists: 'Нет сохранённых списков',
                 // Shopping mode
                 shoppingMode: 'Режим покупок',
-                shoppingModeActive: 'Режим покупок активен - экран не выключится',
+                shoppingModeActive: 'Активен — экран не выключится',
                 enableShoppingMode: 'Включить режим покупок',
                 // Finish shopping
                 finishShopping: 'Завершить покупки',
@@ -3769,10 +3769,10 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                 shoppingDayTitle: 'День покупок',
                 shoppingDayDesc: 'Выберите день, когда вы ходите за покупками',
                 shoppingDayReminderText: 'Сегодня день покупок! 🛒 Не забудьте проверить список',
-                shoppingDayPushEnabled: 'Уведомления о дне покупок включены',
-                shoppingDayPushDisabled: 'Включить уведомления о дне покупок',
-                itemAddPushEnabled: 'Уведомления о добавлении товаров включены',
-                itemAddPushMuted: 'Уведомления о добавлении товаров отключены',
+                shoppingDayPushEnabled: 'Напоминание о покупках вкл.',
+                shoppingDayPushDisabled: 'Напоминание о покупках',
+                itemAddPushEnabled: 'Уведомления о товарах вкл.',
+                itemAddPushMuted: 'Уведомления о товарах откл.',
                 sunday: 'Вс',
                 monday: 'Пн',
                 tuesday: 'Вт',
@@ -21543,8 +21543,8 @@ END:VCALENDAR`;
                                         </button>
                                         {showSettings && (
                                             <>
-                                                <div className="fixed inset-0 z-40" onClick={() => setShowSettings(false)} style={{ touchAction: 'none' }}></div>
-                                                <div className="absolute left-0 top-full mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 max-h-[calc(100vh-120px)] overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', touchAction: 'pan-y' }}>
+                                                <div className="fixed inset-0 z-40 bg-black/30" onClick={() => setShowSettings(false)}></div>
+                                                <div className="fixed left-4 right-4 top-20 z-50 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 max-h-[calc(100vh-120px)] overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' }}>
                                                     <button
                                                         onClick={() => { toggleShoppingMode(); setShowSettings(false); }}
                                                         className={`w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
@@ -21554,7 +21554,7 @@ END:VCALENDAR`;
                                                         <span className="text-xl">{shoppingMode ? <ShoppingCart size={20} className="text-teal-500" /> : <Smartphone size={20} className="text-blue-500" />}</span>
                                                         <div className="flex-1">
                                                             <div className="font-medium text-gray-800 dark:text-gray-200">{t('shoppingModeTitle')}</div>
-                                                            <div className="text-xs text-gray-500 dark:text-gray-400">{shoppingMode ? t('shoppingModeActive') : t('enableShoppingMode')}</div>
+                                                            <div className="text-xs text-gray-500 dark:text-gray-400 leading-snug">{shoppingMode ? t('shoppingModeActive') : t('enableShoppingMode')}</div>
                                                         </div>
                                                         {shoppingMode && <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>}
                                                     </button>
