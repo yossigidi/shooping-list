@@ -1,5 +1,5 @@
-const CACHE_NAME = 'listnest-v267';
-const STATIC_CACHE = 'listnest-static-v267';
+const CACHE_NAME = 'listnest-v268';
+const STATIC_CACHE = 'listnest-static-v268';
 
 // Core app files
 const urlsToCache = [
@@ -131,6 +131,7 @@ self.addEventListener('fetch', event => {
           if (event.request.mode === 'navigate') {
             return caches.match('/index.html');
           }
+          return new Response('', { status: 404, statusText: 'Not Found' });
         });
       })
   );
