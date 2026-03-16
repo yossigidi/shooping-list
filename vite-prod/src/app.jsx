@@ -20092,30 +20092,35 @@ END:VCALENDAR`;
                                         return <>
                                         {itemsWithPromos.length > 0 && (
                                             <div className="bg-gradient-to-r from-teal-50 to-amber-50 dark:from-teal-900/30 dark:to-amber-900/30 border border-teal-200 dark:border-teal-700 rounded-xl p-4 mb-4">
-                                                <div className="text-teal-700 dark:text-teal-300 font-medium mb-3 flex items-center gap-2">
-                                                    <Star size={16} className="text-amber-500" />
+                                                <div className="text-teal-700 dark:text-teal-300 font-bold mb-3 flex items-center gap-2 text-base">
+                                                    <Star size={18} className="text-amber-500 fill-amber-500" />
                                                     <span>{t('promotionsInYourList')}</span>
+                                                    <span className="bg-amber-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">{itemsWithPromos.length}</span>
                                                 </div>
-                                                <div className="space-y-2">
+                                                <div className="space-y-3">
                                                     {itemsWithPromos.map(({ item, promos }, idx) => (
-                                                        <div key={idx} className="bg-white/70 dark:bg-gray-800/70 rounded-lg p-3">
-                                                            <div className="text-gray-900 dark:text-white font-bold text-sm">{item.name}</div>
+                                                        <div key={idx} className="bg-white dark:bg-gray-800 rounded-xl p-3 shadow-sm border border-gray-100 dark:border-gray-700">
+                                                            <div className="text-gray-900 dark:text-white font-bold text-base mb-2">{item.name}</div>
                                                             {promos.slice(0, 2).map((promo, pIdx) => {
                                                                 const parsed = parsePromoDescription(promo.description);
-                                                                const tagColor = parsed.dealType === '1+1' ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300'
-                                                                    : parsed.dealType === 'multi' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
-                                                                    : parsed.dealType === 'percent' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'
-                                                                    : 'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300';
+                                                                const tagColor = parsed.dealType === '1+1' ? 'bg-green-500 text-white'
+                                                                    : parsed.dealType === 'multi' ? 'bg-blue-500 text-white'
+                                                                    : parsed.dealType === 'percent' ? 'bg-amber-500 text-white'
+                                                                    : 'bg-teal-500 text-white';
                                                                 return (
-                                                                    <div key={pIdx} className="flex items-center gap-2 mt-1.5">
-                                                                        <span className="text-gray-500 dark:text-gray-400 text-xs font-medium">{promo.chain}</span>
+                                                                    <div key={pIdx} className="flex items-center justify-between gap-2 py-2 border-t border-gray-100 dark:border-gray-700">
+                                                                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                                                                            <span className="text-gray-600 dark:text-gray-300 text-sm font-bold">{promo.chain}</span>
+                                                                            {parsed.deal && (
+                                                                                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${tagColor}`}>
+                                                                                    {parsed.deal}
+                                                                                </span>
+                                                                            )}
+                                                                        </div>
                                                                         {parsed.price && (
-                                                                            <span className="text-teal-600 dark:text-teal-300 font-extrabold text-sm">{parsed.price}₪</span>
-                                                                        )}
-                                                                        {parsed.deal && (
-                                                                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${tagColor}`}>
-                                                                                {parsed.deal}
-                                                                            </span>
+                                                                            <div className="flex-shrink-0 bg-teal-500 text-white font-extrabold text-sm px-3 py-1 rounded-full shadow-sm">
+                                                                                {parsed.price}₪
+                                                                            </div>
                                                                         )}
                                                                     </div>
                                                                 );
@@ -20231,52 +20236,44 @@ END:VCALENDAR`;
                                         return null;
                                     })();
                                     return (
-                                        <div key={pIdx} className={`bg-white dark:bg-gray-800 rounded-xl border ${hasMatch ? 'border-amber-300 dark:border-amber-600 ring-1 ring-amber-200 dark:ring-amber-700' : 'border-gray-200 dark:border-gray-700'} p-4 mb-3 shadow-sm`}>
-                                            <div className="flex items-start gap-3">
-                                                {/* Price circle */}
-                                                {parsed.price ? (
-                                                    <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-teal-500 to-teal-600 dark:from-teal-600 dark:to-teal-700 flex flex-col items-center justify-center shadow-md">
-                                                        <span className="text-white font-extrabold text-lg leading-none">{parsed.price.length > 5 ? parsed.price.slice(0, 5) : parsed.price}</span>
-                                                        <span className="text-white/80 text-[10px] font-medium">₪</span>
-                                                    </div>
-                                                ) : (
-                                                    <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 flex items-center justify-center shadow-md">
-                                                        <Tag size={20} className="text-gray-500 dark:text-gray-300" />
-                                                    </div>
-                                                )}
-                                                {/* Content */}
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="flex items-start justify-between gap-2">
-                                                        <div className="font-bold text-gray-900 dark:text-white text-sm leading-snug flex-1">{parsed.product || parsed.original}</div>
-                                                        {hasMatch && <Star size={14} className="text-amber-500 fill-amber-500 flex-shrink-0 mt-0.5" />}
-                                                    </div>
-                                                    {/* Deal + type tag row */}
-                                                    <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
-                                                        {dealTypeTag && (
-                                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${dealTypeTag.color}`}>
-                                                                {dealTypeTag.label}
-                                                            </span>
-                                                        )}
-                                                        {parsed.deal && (
-                                                            <span className="text-xs font-semibold text-teal-600 dark:text-teal-300">
-                                                                {parsed.deal}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                    {/* End date */}
-                                                    {promo.end_date && (
-                                                        <div className="flex items-center gap-1.5 mt-2">
-                                                            <Calendar size={11} className="text-gray-400 flex-shrink-0" />
-                                                            <span className="text-gray-500 dark:text-gray-400 text-[11px]">{promo.end_date}</span>
-                                                            {isEndingSoon && (
-                                                                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300">
-                                                                    {t('promoEndsSoon')}
-                                                                </span>
-                                                            )}
-                                                        </div>
+                                        <div key={pIdx} className={`bg-white dark:bg-gray-800 rounded-xl border-2 ${hasMatch ? 'border-amber-300 dark:border-amber-600 ring-2 ring-amber-200/50 dark:ring-amber-700/50' : 'border-gray-100 dark:border-gray-700'} p-4 mb-3 shadow-sm`}>
+                                            {/* Top row: product name + match star */}
+                                            <div className="flex items-start justify-between gap-2 mb-2">
+                                                <h3 className="font-extrabold text-gray-900 dark:text-white text-base leading-snug flex-1">{parsed.product || parsed.original}</h3>
+                                                {hasMatch && <Star size={16} className="text-amber-500 fill-amber-500 flex-shrink-0 mt-0.5" />}
+                                            </div>
+                                            {/* Deal description + price row */}
+                                            <div className="flex items-center justify-between gap-3">
+                                                <div className="flex flex-wrap items-center gap-2 flex-1 min-w-0">
+                                                    {dealTypeTag && (
+                                                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${dealTypeTag.color}`}>
+                                                            {dealTypeTag.label}
+                                                        </span>
+                                                    )}
+                                                    {parsed.deal && (
+                                                        <span className="text-sm font-bold text-teal-600 dark:text-teal-300">
+                                                            {parsed.deal}
+                                                        </span>
                                                     )}
                                                 </div>
+                                                {parsed.price && (
+                                                    <div className="flex-shrink-0 bg-gradient-to-br from-teal-500 to-teal-600 text-white font-extrabold text-lg px-4 py-1.5 rounded-full shadow-md">
+                                                        {parsed.price}₪
+                                                    </div>
+                                                )}
                                             </div>
+                                            {/* End date */}
+                                            {promo.end_date && (
+                                                <div className="flex items-center gap-1.5 mt-2.5 pt-2 border-t border-gray-100 dark:border-gray-700">
+                                                    <Calendar size={12} className="text-gray-400 flex-shrink-0" />
+                                                    <span className="text-gray-500 dark:text-gray-400 text-xs">{promo.end_date}</span>
+                                                    {isEndingSoon && (
+                                                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300">
+                                                            {t('promoEndsSoon')}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     );
                                 });
