@@ -15506,24 +15506,31 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
 
             const parsePromoDescription = (description) => {
                 if (!description) return { product: '', deal: '', price: '', dealType: '', original: '' };
-                const d = description.trim();
+                let d = description.trim();
+                const original = d;
 
-                // 1. Dash format: "חלב תנובה - 2 ב-12.90₪"
+                // Strip "ב." or "ב. " prefix (Shufersal format)
+                d = d.replace(/^ב\.\s*/, '');
+
+                // Units pattern - to avoid confusing weight with price
+                const unitPattern = /(?:גרם|גר'?|מ"ל|מל|ליטר|ל'|ק"ג|קג|יח'?|יחידות|מג)/i;
+
+                // 1. "XבY product" format: "2ב34 שום כתוש" or "3ב100 חטיפים"
+                const multiPrefixMatch = d.match(/^(\d+)\s*ב[\-–]?\s*(\d+(?:\.\d+)?)\s+(.+)$/);
+                if (multiPrefixMatch) {
+                    const qty = multiPrefixMatch[1];
+                    const price = multiPrefixMatch[2];
+                    const product = multiPrefixMatch[3].trim();
+                    return { product, deal: `${qty} ב-${price}₪`, price, dealType: 'multi', original };
+                }
+
+                // 2. Dash format: "חלב תנובה - 2 ב-12.90₪"
                 const dashMatch = d.match(/^(.+?)\s*[-–]\s*(.+)$/);
                 if (dashMatch && /\d/.test(dashMatch[2])) {
                     const deal = dashMatch[2].trim();
                     const priceMatch = deal.match(/(\d+(?:\.\d+)?)/);
                     const dealType = /1\+1|מתנה/.test(deal) ? '1+1' : /\d\s*ב/.test(deal) ? 'multi' : 'price';
-                    return { product: dashMatch[1].trim(), deal, price: priceMatch ? priceMatch[1] : '', dealType, original: d };
-                }
-
-                // 2. Shufersal format: "2ב42 אבקת אפיה" or "3ב100 חטיפים"
-                const shufersalMatch = d.match(/^(\d+)\s*ב[\-–]?\s*(\d+(?:\.\d+)?)\s+(.+)$/);
-                if (shufersalMatch) {
-                    const qty = shufersalMatch[1];
-                    const price = shufersalMatch[2];
-                    const product = shufersalMatch[3].trim();
-                    return { product, deal: `${qty} ב-${price}₪`, price, dealType: 'multi', original: d };
+                    return { product: dashMatch[1].trim(), deal, price: priceMatch ? priceMatch[1] : '', dealType, original };
                 }
 
                 // 3. Trailing "XבY" format: "חטיפי דגנים נסטלה 2ב25"
@@ -15532,57 +15539,56 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     const product = trailingMultiMatch[1].trim();
                     const qty = trailingMultiMatch[2];
                     const price = trailingMultiMatch[3];
-                    return { product, deal: `${qty} ב-${price}₪`, price, dealType: 'multi', original: d };
+                    return { product, deal: `${qty} ב-${price}₪`, price, dealType: 'multi', original };
                 }
 
-                // 4. Trailing "בY" format: "פדים להסרת כתמים בלונס ב15.90"
+                // 4. Trailing "בY" format: "פדים להסרת כתמים ב15.90"
                 const trailingPriceMatch = d.match(/^(.+?)\s+ב[\-–]?\s*(\d+(?:\.\d+)?)\s*₪?\s*$/);
                 if (trailingPriceMatch) {
                     const product = trailingPriceMatch[1].trim();
                     const price = trailingPriceMatch[2];
-                    return { product, deal: `ב-${price}₪`, price, dealType: 'price', original: d };
+                    return { product, deal: `ב-${price}₪`, price, dealType: 'price', original };
                 }
 
-                // 5. Trailing price (Rami Levy): "מלח הימלאיה 250 ג 9.90"
+                // 5. Trailing decimal price (Rami Levy): "מלח הימלאיה 250 ג 9.90"
+                // Make sure it's not a weight (check no unit after)
                 const trailingNumberMatch = d.match(/^(.+?)\s+(\d+\.\d{2})\s*₪?\s*$/);
-                if (trailingNumberMatch) {
+                if (trailingNumberMatch && !unitPattern.test(trailingNumberMatch[1].split(/\s+/).pop())) {
                     const product = trailingNumberMatch[1].trim();
                     const price = trailingNumberMatch[2];
-                    return { product, deal: `${price}₪`, price, dealType: 'price', original: d };
+                    return { product, deal: `${price}₪`, price, dealType: 'price', original };
                 }
 
                 // 6. 1+1 / מתנה anywhere in text
                 if (/1\+1|מתנה|קנה.*קבל/.test(d)) {
                     const dealType = '1+1';
                     const deal = d.match(/(1\+1|[^\s]*מתנה[^\s]*|קנה.*קבל.*)/)?.[0] || '1+1';
-                    return { product: d.replace(deal, '').trim() || d, deal, price: '', dealType, original: d };
+                    return { product: d.replace(deal, '').trim() || d, deal, price: '', dealType, original };
                 }
 
                 // 7. Percentage discount
                 const pctMatch = d.match(/(\d+%)/);
                 if (pctMatch) {
-                    return { product: d.replace(pctMatch[0], '').trim() || d, deal: `${pctMatch[1]} הנחה`, price: '', dealType: 'percent', original: d };
+                    return { product: d.replace(pctMatch[0], '').trim() || d, deal: `${pctMatch[1]} הנחה`, price: '', dealType: 'percent', original };
                 }
 
-                // 8. Any embedded price number (last resort before fallback)
+                // 8. Any price with ₪ sign
                 const anyPriceMatch = d.match(/(\d+(?:\.\d+)?)\s*₪/);
                 if (anyPriceMatch) {
-                    return { product: d.replace(anyPriceMatch[0], '').trim() || d, deal: anyPriceMatch[0], price: anyPriceMatch[1], dealType: 'price', original: d };
+                    return { product: d.replace(anyPriceMatch[0], '').trim() || d, deal: anyPriceMatch[0], price: anyPriceMatch[1], dealType: 'price', original };
                 }
 
-                // 9. Embedded decimal price without ₪ (e.g. "סלק 2.90 עד 3ק ג מעל 99")
+                // 9. Embedded decimal price not followed by units: "סלק 2.90 עד 3ק ג מעל 99"
                 const embeddedPriceMatch = d.match(/^(.+?)\s+(\d+\.\d{2})\s+(.+)$/);
                 if (embeddedPriceMatch) {
-                    return { product: embeddedPriceMatch[1].trim(), deal: embeddedPriceMatch[3].trim(), price: embeddedPriceMatch[2], dealType: 'price', original: d };
+                    const afterPrice = embeddedPriceMatch[3].trim();
+                    if (!unitPattern.test(afterPrice.split(/\s+/)[0])) {
+                        return { product: embeddedPriceMatch[1].trim(), deal: afterPrice, price: embeddedPriceMatch[2], dealType: 'price', original };
+                    }
                 }
 
-                // 10. Fallback - try to split product name from weight/brand info
-                const weightMatch = d.match(/^(.+?)\s+(\d+\s*(?:גרם|גר|מ"ל|מל|ליטר|ל'|ק"ג|קג|יח'?|יחידות).*)$/i);
-                if (weightMatch) {
-                    return { product: weightMatch[1].trim(), deal: weightMatch[2].trim(), price: '', dealType: '', original: d };
-                }
-
-                return { product: d, deal: '', price: '', dealType: '', original: d };
+                // 10. Fallback - no deal parsed, show product name cleanly
+                return { product: d, deal: '', price: '', dealType: '', original };
             };
 
             // Get holiday recommendations
