@@ -15570,7 +15570,18 @@ import { ShoppingCart, Settings, Users, User, Search, Smartphone,
                     return { product: d.replace(anyPriceMatch[0], '').trim() || d, deal: anyPriceMatch[0], price: anyPriceMatch[1], dealType: 'price', original: d };
                 }
 
-                // 9. Fallback - no deal parsed
+                // 9. Embedded decimal price without ₪ (e.g. "סלק 2.90 עד 3ק ג מעל 99")
+                const embeddedPriceMatch = d.match(/^(.+?)\s+(\d+\.\d{2})\s+(.+)$/);
+                if (embeddedPriceMatch) {
+                    return { product: embeddedPriceMatch[1].trim(), deal: embeddedPriceMatch[3].trim(), price: embeddedPriceMatch[2], dealType: 'price', original: d };
+                }
+
+                // 10. Fallback - try to split product name from weight/brand info
+                const weightMatch = d.match(/^(.+?)\s+(\d+\s*(?:גרם|גר|מ"ל|מל|ליטר|ל'|ק"ג|קג|יח'?|יחידות).*)$/i);
+                if (weightMatch) {
+                    return { product: weightMatch[1].trim(), deal: weightMatch[2].trim(), price: '', dealType: '', original: d };
+                }
+
                 return { product: d, deal: '', price: '', dealType: '', original: d };
             };
 
@@ -20229,51 +20240,58 @@ END:VCALENDAR`;
                                     const hasMatch = matchedDescriptions.has(promo.description);
                                     const dealTypeTag = (() => {
                                         const dt = parsed.dealType;
-                                        if (dt === '1+1') return { label: '1+1', color: 'bg-green-500 text-white' };
-                                        if (dt === 'multi') return { label: 'מבצע כמות', color: 'bg-blue-500 text-white' };
-                                        if (dt === 'percent') return { label: '% הנחה', color: 'bg-amber-500 text-white' };
-                                        if (dt === 'price') return { label: 'מחיר מבצע', color: 'bg-teal-500 text-white' };
-                                        return null;
+                                        if (dt === '1+1') return { label: '1+1', color: 'bg-green-500 text-white', accent: 'from-green-500 to-green-600' };
+                                        if (dt === 'multi') return { label: 'מבצע כמות', color: 'bg-blue-500 text-white', accent: 'from-blue-500 to-blue-600' };
+                                        if (dt === 'percent') return { label: '% הנחה', color: 'bg-amber-500 text-white', accent: 'from-amber-500 to-amber-600' };
+                                        if (dt === 'price') return { label: 'מחיר מבצע', color: 'bg-teal-500 text-white', accent: 'from-teal-500 to-teal-600' };
+                                        return { label: 'מבצע', color: 'bg-purple-500 text-white', accent: 'from-purple-500 to-purple-600' };
                                     })();
+                                    const chainColor = selectedPromoChain.color || '#14b8a6';
                                     return (
-                                        <div key={pIdx} className={`bg-white dark:bg-gray-800 rounded-xl border-2 ${hasMatch ? 'border-amber-300 dark:border-amber-600 ring-2 ring-amber-200/50 dark:ring-amber-700/50' : 'border-gray-100 dark:border-gray-700'} p-4 mb-3 shadow-sm`}>
-                                            {/* Top row: product name + match star */}
-                                            <div className="flex items-start justify-between gap-2 mb-2">
-                                                <h3 className="font-extrabold text-gray-900 dark:text-white text-base leading-snug flex-1">{parsed.product || parsed.original}</h3>
-                                                {hasMatch && <Star size={16} className="text-amber-500 fill-amber-500 flex-shrink-0 mt-0.5" />}
-                                            </div>
-                                            {/* Deal description + price row */}
-                                            <div className="flex items-center justify-between gap-3">
-                                                <div className="flex flex-wrap items-center gap-2 flex-1 min-w-0">
-                                                    {dealTypeTag && (
-                                                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${dealTypeTag.color}`}>
+                                        <div key={pIdx} className={`rounded-xl mb-3 shadow-sm overflow-hidden ${hasMatch ? 'ring-2 ring-amber-300 dark:ring-amber-600' : ''}`}>
+                                            <div className="flex">
+                                                {/* Colored accent bar */}
+                                                <div className="w-1.5 flex-shrink-0" style={{ background: `linear-gradient(to bottom, ${chainColor}, ${chainColor}cc)` }} />
+                                                <div className="flex-1 bg-white dark:bg-gray-800 p-3.5">
+                                                    {/* Top: tags row */}
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                        <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${dealTypeTag.color}`}>
                                                             {dealTypeTag.label}
                                                         </span>
-                                                    )}
-                                                    {parsed.deal && (
-                                                        <span className="text-sm font-bold text-teal-600 dark:text-teal-300">
-                                                            {parsed.deal}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                {parsed.price && (
-                                                    <div className="flex-shrink-0 bg-gradient-to-br from-teal-500 to-teal-600 text-white font-extrabold text-lg px-4 py-1.5 rounded-full shadow-md">
-                                                        {parsed.price}₪
+                                                        {hasMatch && (
+                                                            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 flex items-center gap-1">
+                                                                <Star size={10} className="fill-amber-500 text-amber-500" />
+                                                                ברשימה
+                                                            </span>
+                                                        )}
+                                                        {isEndingSoon && (
+                                                            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300">
+                                                                נגמר בקרוב
+                                                            </span>
+                                                        )}
                                                     </div>
-                                                )}
-                                            </div>
-                                            {/* End date */}
-                                            {promo.end_date && (
-                                                <div className="flex items-center gap-1.5 mt-2.5 pt-2 border-t border-gray-100 dark:border-gray-700">
-                                                    <Calendar size={12} className="text-gray-400 flex-shrink-0" />
-                                                    <span className="text-gray-500 dark:text-gray-400 text-xs">{promo.end_date}</span>
-                                                    {isEndingSoon && (
-                                                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300">
-                                                            {t('promoEndsSoon')}
-                                                        </span>
+                                                    {/* Product name */}
+                                                    <h3 className="font-bold text-gray-900 dark:text-white text-[15px] leading-snug mb-1.5">{parsed.product || parsed.original}</h3>
+                                                    {/* Deal + price row */}
+                                                    <div className="flex items-center justify-between gap-2">
+                                                        {parsed.deal ? (
+                                                            <span className="text-sm text-gray-600 dark:text-gray-300">{parsed.deal}</span>
+                                                        ) : <span />}
+                                                        {parsed.price ? (
+                                                            <div className="flex-shrink-0 font-extrabold text-lg px-3.5 py-1 rounded-full text-white shadow-sm" style={{ background: `linear-gradient(135deg, ${chainColor}, ${chainColor}dd)` }}>
+                                                                ₪{parsed.price}
+                                                            </div>
+                                                        ) : null}
+                                                    </div>
+                                                    {/* End date */}
+                                                    {promo.end_date && (
+                                                        <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+                                                            <Calendar size={11} className="text-gray-400 flex-shrink-0" />
+                                                            <span className="text-gray-400 dark:text-gray-500 text-[11px]">{promo.end_date}</span>
+                                                        </div>
                                                     )}
                                                 </div>
-                                            )}
+                                            </div>
                                         </div>
                                     );
                                 });
