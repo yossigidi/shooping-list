@@ -3,6 +3,9 @@
   "target": {
     "namespace": "android_app",
     "package_name": "il.co.listnest.twa",
-    "sha256_cert_fingerprints": ["36:44:AF:55:9B:B1:57:FD:84:7A:C4:20:CE:73:84:02:9A:2C:B1:E9:67:37:52:CE:FA:D6:D7:8E:A1:D6:F4:CB"]
+    "sha256_cert_fingerprints": [
+      "36:44:AF:55:9B:B1:57:FD:84:7A:C4:20:CE:73:84:02:9A:2C:B1:E9:67:37:52:CE:FA:D6:D7:8E:A1:D6:F4:CB",
+      "72:C0:C5:17:73:12:63:90:83:A0:CC:B1:8C:C0:C0:2D:1C:EF:4D:06:0F:B1:82:19:23:A3:E5:E6:DB:C4:DE:8F"
+    ]
   }
 }]
