@@ -1050,30 +1050,45 @@ function ShoppingList() {
   }, [family]);
 
   const finishShopping = useCallback(async () => {
-    if (!totalAmount || parseFloat(totalAmount) <= 0) {
-      alert('נא להזין סכום תקין');
-      return;
-    }
+    if (!family?.id || !currentList?.id) return;
 
     const purchasedItems = items.filter(item => item.purchased);
+    const missingItems = items.filter(item => !item.purchased);
+
     if (purchasedItems.length === 0) {
-      alert('לא נבחרו מוצרים שנקנו');
+      alert(t('noPurchasedItems'));
       return;
     }
 
     try {
       await firestore.addDoc(firestore.collection(db, 'shopping-history'), {
-        items: purchasedItems,
-        totalAmount: parseFloat(totalAmount),
+        items: purchasedItems.map(item => ({
+          name: item.name,
+          quantity: item.quantity,
+          unit: item.unit || '',
+          category: item.category,
+          price: item.price || null,
+          purchasedBy: item.purchasedBy || null,
+        })),
+        missingItems: missingItems.map(item => ({
+          name: item.name,
+          quantity: item.quantity,
+          unit: item.unit || '',
+          category: item.category,
+        })),
+        totalAmount: totalAmount ? parseFloat(totalAmount) : null,
+        purchasedCount: purchasedItems.length,
+        missingCount: missingItems.length,
         completedAt: new Date(),
         completedBy: user?.displayName || user?.email || t('anonymous'),
-        completedByUid: user?.uid,
+        completedByUid: user?.uid || null,
         familyId: family.id,
         listId: currentList.id,
         receiptPhoto: receiptPhoto || null
       });
 
-      for (const item of purchasedItems) {
+      // Delete all items from the list (purchased + missing)
+      for (const item of items) {
         await firestore.deleteDoc(firestore.doc(db, 'shopping-items', item.id));
       }
 
@@ -1083,9 +1098,21 @@ function ShoppingList() {
       loadHistory();
     } catch (error) {
       console.error('Error finishing shopping:', error);
-      alert('שגיאה בשמירת הקנייה. נסה שוב.');
+      alert(t('finishShoppingError'));
     }
-  }, [totalAmount, items, user, family, currentList, receiptPhoto, loadHistory]);
+  }, [totalAmount, items, user, family, currentList, receiptPhoto, loadHistory, t]);
+
+  const handleDeleteAll = useCallback(async () => {
+    try {
+      for (const item of items) {
+        await firestore.deleteDoc(firestore.doc(db, 'shopping-items', item.id));
+      }
+      setShowDeleteAllConfirm(false);
+    } catch (error) {
+      console.error('Error deleting all items:', error);
+      alert(t('deleteAllError'));
+    }
+  }, [items, t]);
 
   // ====================
   // Export Functions
@@ -1730,19 +1757,27 @@ function ShoppingList() {
 
         {/* Action Buttons */}
         {items.length > 0 && (
-          <div className="mt-6 grid grid-cols-2 gap-4">
+          <div className="mt-6 space-y-3">
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => setShowFinishShopping(true)}
+                disabled={purchasedCount === 0}
+                className="py-4 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                ✓ {t('finishShopping')}
+              </button>
+              <button
+                onClick={() => setShowDeleteAllConfirm(true)}
+                className="py-4 px-4 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+              >
+                🗑️ {t('deleteAll')}
+              </button>
+            </div>
             <button
               onClick={exportToWhatsApp}
-              className="py-4 px-6 bg-green-500 text-white rounded-2xl font-semibold shadow-lg hover:bg-green-600 hover:shadow-xl transition-all flex items-center justify-center gap-2"
+              className="w-full py-3 px-6 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-2xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center justify-center gap-2"
             >
               📤 {t('shareList')}
-            </button>
-            <button
-              onClick={() => setShowFinishShopping(true)}
-              disabled={purchasedCount === 0}
-              className="py-4 px-6 btn-gradient text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              ✓ {t('finishShopping')}
             </button>
           </div>
         )}
@@ -1900,13 +1935,24 @@ function ShoppingList() {
           <div className="glass rounded-3xl p-6 max-w-md w-full shadow-2xl">
             <div className="text-4xl text-center mb-3">🎉</div>
             <h2 className="text-2xl font-bold text-center text-gradient mb-4">{t('finishShopping')}</h2>
-            <p className="text-gray-500 dark:text-gray-400 text-center mb-6">
-              {purchasedCount} {t('itemsPurchased')}
-            </p>
+
+            {/* Summary */}
+            <div className="mb-4 space-y-2">
+              <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-xl">
+                <span className="text-green-700 dark:text-green-300 font-medium">✓ {t('purchasedItems')}</span>
+                <span className="text-green-700 dark:text-green-300 font-bold">{purchasedCount}</span>
+              </div>
+              {items.filter(i => !i.purchased).length > 0 && (
+                <div className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-900/20 rounded-xl">
+                  <span className="text-orange-700 dark:text-orange-300 font-medium">✗ {t('missingItems')}</span>
+                  <span className="text-orange-700 dark:text-orange-300 font-bold">{items.filter(i => !i.purchased).length}</span>
+                </div>
+              )}
+            </div>
 
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                {t('totalAmount')} (₪)
+                {t('totalAmount')} (₪) - {t('optional')}
               </label>
               <input
                 type="number"
@@ -1917,6 +1963,10 @@ function ShoppingList() {
               />
             </div>
 
+            <p className="text-xs text-gray-400 dark:text-gray-500 text-center mb-4">
+              {t('finishShoppingNote')}
+            </p>
+
             <div className="flex gap-3">
               <button
                 onClick={() => setShowFinishShopping(false)}
@@ -1926,9 +1976,36 @@ function ShoppingList() {
               </button>
               <button
                 onClick={finishShopping}
-                className="flex-1 py-3 px-4 btn-gradient text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+                className="flex-1 py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
               >
-                {t('save')}
+                ✓ {t('finishShopping')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete All Confirm Modal */}
+      {showDeleteAllConfirm && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+            <div className="text-5xl text-center mb-4">🗑️</div>
+            <h2 className="text-xl font-bold text-center text-gradient mb-2">{t('deleteAllTitle')}</h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">
+              {t('deleteAllWarning').replace('{count}', items.length)}
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleDeleteAll}
+                className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:scale-105 font-semibold transition-all"
+              >
+                {t('delete')}
+              </button>
+              <button
+                onClick={() => setShowDeleteAllConfirm(false)}
+                className="flex-1 px-6 py-3 glass border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 hover:scale-105 transition-all"
+              >
+                {t('cancel')}
               </button>
             </div>
           </div>
